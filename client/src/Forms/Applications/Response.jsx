@@ -1,0 +1,459 @@
+import React, { Component } from "react";
+import swal from "sweetalert";
+import Table from "./../../Table";
+import TableWrapper from "./../../TableWrapper";
+import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
+var dateFormat = require("dateformat");
+class Response extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ResponseDocuments: [],
+            ResponseDetails: [],
+            Response: [],
+            NewDeadLine: "",
+            Reason: "",
+            GroundResponse: "",
+            GroundNo: "",
+            selectedFile: "",
+            loaded: 0,
+            ResponseID: "",
+            grounddesc: "",
+            summary: false,
+            ApplicantPostalCode: "",
+            ApplicantPOBox: "",
+            ApplicantTown: "",
+            ApplicantDetails: "",
+            Applicantname: "",
+            ApplicantLocation: "",
+            ApplicantMobile: "",
+            ApplicantEmail: "",
+            ApplicantPIN: "",
+            ApplicantWebsite: "",
+            ApplicantID: "",
+            ApplicationNo: "",
+            Name: "",
+            ResponseDate: "",
+
+            ResponseType: "",
+            TenderNo: ""
+        };
+    }
+    fetchResponseDocuments = ResponseID => {
+        fetch("/api/PEResponse/Documents/" + ResponseID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ResponseDocuments => {
+                if (ResponseDocuments.length > 0) {
+                    this.setState({ ResponseDocuments: ResponseDocuments });
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
+    fetchResponseDetails = ResponseID => {
+        fetch("/api/PEResponse/Details/" + ResponseID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ResponseDetails => {
+                if (ResponseDetails.length > 0) {
+                    this.setState({ ResponseDetails: ResponseDetails });
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
+    fetchResponse = () => {
+        fetch("/api/PEResponse/", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(Response => {
+                if (Response.length > 0) {
+                    this.setState({ Response: [] });
+                    this.setState({ Response: Response });
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
+    componentDidMount() {
+        let token = localStorage.getItem("token");
+        if (token == null) {
+          
+            localStorage.clear();
+            return (window.location = "/#/Logout");
+        } else {
+            fetch("/api/ValidateTokenExpiry", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": localStorage.getItem("token")
+                }
+            })
+                .then(response =>
+                    response.json().then(data => {
+                        if (data.success) {
+                            this.fetchResponse();
+                        } else {
+                            localStorage.clear();
+                            return (window.location = "/#/Logout");
+                        }
+                    })
+                )
+                .catch(err => {
+                    localStorage.clear();
+                    return (window.location = "/#/Logout");
+                });
+        }
+        
+    }
+    fetchApplicantDetails = Applicant => {
+        fetch("/api/applicants/" + Applicant, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ApplicantDetails => {
+                if (ApplicantDetails.length > 0) {
+                    this.setState({
+                        ApplicantPostalCode: ApplicantDetails[0].PostalCode
+                    });
+                    this.setState({ ApplicantPOBox: ApplicantDetails[0].POBox });
+                    this.setState({ ApplicantTown: ApplicantDetails[0].Town });
+                    this.setState({ ApplicantDetails: ApplicantDetails });
+                    this.setState({ Applicantname: ApplicantDetails[0].Name });
+                    this.setState({ ApplicantLocation: ApplicantDetails[0].Location });
+                    this.setState({ ApplicantMobile: ApplicantDetails[0].Mobile });
+                    this.setState({ ApplicantEmail: ApplicantDetails[0].Email });
+                    this.setState({ ApplicantPIN: ApplicantDetails[0].PIN });
+                    this.setState({ ApplicantWebsite: ApplicantDetails[0].Website });
+                    this.setState({ ApplicantID: ApplicantDetails[0].ID });
+                } else {
+                    swal("", ApplicantDetails.message, "error");
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
+    handViewResponse = k => {
+        let ResponseID = k.ResponseID;
+
+        let data = {
+            ApplicationNo: k.ApplicationNo,
+            Name: k.Name,
+            ResponseDate: k.ResponseDate,
+            ResponseID: k.ResponseID,
+            ResponseType: k.ResponseType,
+            TenderNo: k.TenderNo,
+            TenderValue: k.TenderValue
+        };
+        this.setState(data);
+        this.setState({ ResponseDocuments: [] });
+        this.setState({ ResponseDetails: [] });
+        this.fetchResponseDocuments(ResponseID);
+        this.fetchResponseDetails(ResponseID);
+        this.fetchApplicantDetails(k.Applicantusername);
+        this.setState({ summary: true });
+    };
+    formatNumber = num => {
+        let newtot = Number(num).toFixed(2);
+        return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    };
+    GoBack = e => {
+        e.preventDefault();
+        this.setState({ summary: false });
+    };
+    ViewFile = (k, e) => {
+        let filepath = process.env.REACT_APP_BASE_URL + "/" + k.Path + "/" + k.Name;
+        window.open(filepath);
+    };
+
+    render() {
+        const ColumnData = [
+            {
+                label: "ApplicationNo",
+                field: "ApplicationNo",
+                sort: "asc",
+                width: 200
+            },
+            {
+                label: "ResponseType",
+                field: "ResponseType",
+                sort: "asc",
+                width: 200
+            },
+            {
+                label: "ResponseDate",
+                field: "ResponseDate"
+            },
+            {
+                label: "TenderNo",
+                field: "TenderNo"
+            },
+            {
+                label: "TenderName",
+                field: "TenderName"
+            },
+            {
+                label: "action",
+                field: "action",
+                sort: "asc",
+                width: 200
+            }
+        ];
+        let Rowdata1 = [];
+        const rows = [...this.state.Response];
+        if (rows.length > 0) {
+            rows.forEach(k => {
+                const Rowdata = {
+                    ApplicationNo: k.ApplicationNo,
+                    ResponseType: k.ResponseType,
+                    ResponseDate: dateFormat(
+                        new Date(k.ResponseDate).toLocaleDateString(),
+                        "isoDate"
+                    ),
+                    TenderNo: k.TenderNo,
+                    TenderName: k.Name,
+                    action: (
+                        <span>
+                            <a
+                                className="fa fa-edit"
+                                style={{ color: "#007bff" }}
+                                onClick={e => this.handViewResponse(k, e)}
+                            >
+                                View
+              </a>
+                        </span>
+                    )
+                };
+                Rowdata1.push(Rowdata);
+            });
+        }
+        let headingstyle = {
+            color: "#7094db"
+        };
+        let ViewFile = this.ViewFile;
+        if (this.state.summary) {
+            return (
+                <div>
+                    <div className="row wrapper border-bottom white-bg page-heading">
+                        <div className="col-lg-11">
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item">
+                                    <h2>Response</h2>
+                                </li>
+                            </ol>
+                        </div>
+                        <div className="col-lg-1">     
+                                              
+                                <button
+                                    type="button"
+                                    style={{ marginTop: 40 }}
+                                onClick={this.GoBack}
+                                    className="btn btn-warning"
+                                >
+                            &nbsp; Close
+                            </button>
+                           
+                            
+                        </div>
+                    </div>
+
+                    <br />
+                    <div className="border-bottom white-bg p-4">
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h3 style={headingstyle}> Applicantion Details</h3>
+                                <div className="col-lg-12 border border-success rounded">
+                                    <table className="table table-borderless table-sm">
+                                        <tr>
+                                            <td className="font-weight-bold"> APPLICATION:</td>
+                                            <td> {this.state.ApplicationNo}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> TENDER NO:</td>
+                                            <td> {this.state.TenderNo}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td className="font-weight-bold"> NAME:</td>
+
+                                            <td> {this.state.Name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> VALUE:</td>
+                                            <td> {this.formatNumber(this.state.TenderValue)} </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Date:</td>
+                                            <td className="font-weight-bold">
+                                                {dateFormat(
+                                                    new Date(
+                                                        this.state.ResponseDate
+                                                    ).toLocaleDateString(),
+                                                    "isoDate"
+                                                )}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Type:</td>
+                                            <td>{this.state.ResponseType}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h3 style={headingstyle}> Applicant Details</h3>
+                                <div className="col-lg-12 border border-success rounded">
+                                    <table className="table table-borderless table-sm">
+                                        <tr>
+                                            <td className="font-weight-bold"> NAME:</td>
+                                            <td> {this.state.Applicantname}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> EMAIL:</td>
+                                            <td> {this.state.ApplicantEmail}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td className="font-weight-bold"> Mobile:</td>
+
+                                            <td> {this.state.ApplicantMobile}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> POBOX:</td>
+                                            <td>
+                                                {" "}
+                                                {this.state.ApplicantPOBox}-
+                        {this.state.ApplicantPostalCode}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Town:</td>
+                                            <td> {this.state.ApplicantTown}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Website:</td>
+                                            <td> {this.state.ApplicantWebsite}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h3 style={headingstyle}> Response Details</h3>
+                                <div className="col-lg-12 border border-success rounded">
+                                    {this.state.ResponseDetails.map(function (k, i) {
+                                        return (
+                                            <div>
+                                                <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
+                                                <h3 style={headingstyle}>Response</h3>
+                                                {ReactHtmlParser(k.Response)}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h3 style={headingstyle}> Documents Attached</h3>
+                                <div className="col-lg-12 border border-success rounded">
+                                    <table className="table table-sm">
+                                        <th>#</th>
+                                        <th>Document Description</th>
+                                        <th>FileName</th>
+
+                                        {this.state.ResponseDocuments.map(function (k, i) {
+                                            return (
+                                                <tr>
+                                                    <td>{i + 1}</td>
+                                                    <td>{k.Description}</td>
+                                                    <td>{k.Name}</td>
+                                                    <td>
+                                                        <a
+                                                            onClick={e => ViewFile(k, e)}
+                                                            className="text-success"
+                                                        >
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>View
+                            </a>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <div>
+                        <div className="row wrapper border-bottom white-bg page-heading">
+                            <div className="col-lg-10">
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item">
+                                        <h2>Procuring Entities Response</h2>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div className="col-lg-2">
+                                <Link to="/">
+                                    <button
+                                        type="button"
+                                        style={{ marginTop: 40 }}
+                                        className="btn btn-warning"
+                                    >
+                                        &nbsp; Close
+                                </button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                  
+                        <TableWrapper>
+                            <Table Rows={Rowdata1} columns={ColumnData} />
+                        </TableWrapper>
+                  
+                </div>
+            );
+        }
+    }
+}
+
+export default Response;

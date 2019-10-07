@@ -1,0 +1,73 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.19.0",
+    "ckeditor4-react": "^1.0.0-beta.2",
+    "custom-error": "^0.2.1",
+    "dateformat": "^3.0.3",
+    "font-awesome": "^4.7.0",
+    "history": "^4.9.0",
+    "html2canvas": "^1.0.0-rc.3",
+    "html2pdf.js": "^0.9.1",
+    "jquery": "^3.4.1",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.2.2",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.15",
+    "mdbreact": "^4.16.0",
+    "moment": "^2.24.0",
+    "react": "^16.8.6",
+    "react-awesome-modal": "^2.0.5",
+    "react-big-calendar": "^0.22.0",
+    "react-bootstrap-sweetalert": "^4.4.1",
+    "react-chartjs-2": "^2.7.6",
+    "react-data-export": "^0.5.0",
+    "react-datepicker": "^2.8.0",
+    "react-dom": "^16.8.6",
+    "react-export-excel": "^0.5.3",
+    "react-file-viewer": "^1.1.0",
+    "react-file-viewer-extended": "^1.1.4",
+    "react-google-docs-viewer": "^1.0.1",
+    "react-html-parser": "^2.0.2",
+    "react-modal": "^3.10.1",
+    "react-moment": "^0.9.2",
+    "react-pdf": "^4.1.0",
+    "react-player": "^1.13.0",
+    "react-recaptcha-google": "^1.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-schedule-calendar": "^0.22.5",
+    "react-scripts": "3.0.1",
+    "react-select": "^3.0.4",
+    "react-tabs-navigation": "^0.4.4",
+    "react-toastify": "^5.3.1",
+    "reactjs-popup": "^1.4.1",
+    "reactstrap": "^8.0.1",
+    "sweetalert": "^2.1.2",
+    "tempa-xlsx": "0.0.1",
+    "xlsx": "^0.14.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:3001",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
