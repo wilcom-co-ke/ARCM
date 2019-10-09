@@ -8,7 +8,7 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import ReactHtmlParser from "react-html-parser";
-import { Redirect } from "react-router-dom";
+
 class PEResponse extends Component {
   constructor(props) {
     super(props);
@@ -229,6 +229,7 @@ class PEResponse extends Component {
         response.json().then(data => {
           if (data.success) {
             swal("", "Your Response has been added!", "success");
+            this.setState({ GroundResponse:" "})
           } else {
             swal("", data.message, "error");
           }
@@ -793,7 +794,7 @@ class PEResponse extends Component {
                               <div class="col-sm-12">
                                 <h3 style={headingstyle}>Your Response</h3>
                                 <br />
-                                <CKEditor onChange={this.onEditorChange} />
+                                <CKEditor data={this.state.GroundResponse} onChange={this.onEditorChange} />
                               </div>
                             </div>
                             <br />

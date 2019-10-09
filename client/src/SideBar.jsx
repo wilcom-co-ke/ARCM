@@ -190,8 +190,36 @@ class SideBar extends Component {
       });
   };
   componentDidMount() {
-    this.ProtectRoute();
-    this.fetchCompanyDetails();
+    let token = localStorage.getItem("token");
+    if (token == null) {
+
+      localStorage.clear();
+      return (window.location = "/#/Logout");
+    } else {
+      fetch("/api/ValidateTokenExpiry", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              this.ProtectRoute();
+              this.fetchCompanyDetails();
+            } else {
+              localStorage.clear();
+              return (window.location = "/#/Logout");
+            }
+          })
+        )
+        .catch(err => {
+          localStorage.clear();
+          return (window.location = "/#/Logout");
+        });
+    }
+  
   }
   validaterole = (rolename, action) => {
     let array = [...this.state.privilages];
@@ -368,84 +396,7 @@ const Reports = props => {
     return <div />;
   }
 };
-const Boardmanagement = props => {
-  if (props.validaterole("Board Management", "View")) {
-    return (
-      <li className="">
-        <li
-          onClick={e => props.showMenu("Board Management", e)}
-          style={props.MenuStyle}
-        >
-          <i className="fa fa-cogs" />{" "}
-          <span className="nav-label">Board Management</span>
-        </li>
-        {props.showmenuvalue ? (
-          <ul className="nav nav-second-level">
-            <li>
-              <Link to="/Boardmembers">
-                <i className="fa fa-user-plus" />
-                Board members
-              </Link>
-            </li>
-            <li>
-              <Link to="/Board">
-                <i className="fa fa-address-card" />
-                Board schedule
-              </Link>
-            </li>
-            <li>
-              <Link to="/Attendance">
-                <i className="fa fa-address-card" />
-                Attendance
-              </Link>
-            </li>
-          </ul>
-        ) : null}
-      </li>
-    );
-  } else {
-    return <div />;
-  }
-};
-const Decision = props => {
-  if (props.validaterole("Decision", "View")) {
-    return (
-      <li className="">
-        <li
-          onClick={e => props.showMenu("Decision", e)}
-          style={props.MenuStyle}
-        >
-          <i className="fa fa-cogs" />{" "}
-          <span className="nav-label">Decision</span>
-        </li>
-        {props.showmenuvalue ? (
-          <ul className="nav nav-second-level">
-            <li>
-              <Link to="/DecisionWriting">
-                <i className="fa fa-commenting" />
-                Decision Writing
-              </Link>
-            </li>
-            <li>
-              <Link to="/CaseReferral">
-                <i className="fa fa-exchange" />
-                Case Referral
-              </Link>
-            </li>
-            <li>
-              <Link to="/FollowUp">
-                <i className="fa fa-spinner" />
-                Follow Up
-              </Link>
-            </li>
-          </ul>
-        ) : null}
-      </li>
-    );
-  } else {
-    return <div />;
-  }
-};
+
 const CaseHearing = props => {
   if (props.validaterole("Case Hearing", "View")) {
     return (
@@ -465,6 +416,13 @@ const CaseHearing = props => {
                 Registration
               </Link>
             </li>
+            <li>
+              <Link to="/CloseRegistrations">
+                <i className="fa fa-address-card-o" aria-hidden="true" />
+                Close Registrations
+              </Link>
+            </li>
+            
 
             <li>
               <Link to="/HearingInprogress">
@@ -590,39 +548,7 @@ const CaseManagement = props => {
     return <div />;
   }
 };
-const FeesSettings = props => {
-  if (props.validaterole("Fees Settings", "View")) {
-    return (
-      <li className="">
-        <li
-          onClick={e => props.showMenu("Fees Settings", e)}
-          style={props.MenuStyle}
-        >
-          <i className="fa fa-cogs" />{" "}
-          <span className="nav-label">Fees Settings</span>
-        </li>
-        {props.showmenuvalue ? (
-          <ul className="nav nav-second-level">
-            <li>
-              <Link to="/Activities">
-                <i className="fa fa-money" />
-                Activities
-              </Link>
-            </li>
-            <li>
-              <Link to="/Charges">
-                <i className="fa fa-money" />
-                Charges
-              </Link>
-            </li>
-          </ul>
-        ) : null}
-      </li>
-    );
-  } else {
-    return <div />;
-  }
-};
+
 const SystemAdmin = props => {
   if (props.validaterole("System Administration", "View")) {
     return (

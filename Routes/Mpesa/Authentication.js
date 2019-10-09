@@ -20,7 +20,7 @@ Authentication.get("/", function(req, res) {
     function(error, response, body) {
       let oauth_token = JSON.parse(body).access_token;
       var url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl";
-      console.log("token", oauth_token);
+      // console.log("token", oauth_token);
       var auth = "Bearer " + oauth_token;
       request(
         {
@@ -30,15 +30,15 @@ Authentication.get("/", function(req, res) {
             Authorization: auth
           },
           json: {
-            ShortCode: "600000",
-            ResponseType: "json",
-            ConfirmationURL: "http://74.208.157.60:3001/api/confirmation",
-            ValidationURL: "http://74.208.157.60:3001/api/validation_url"
+            ShortCode: "601753",
+            ResponseType: "Completed",
+            ConfirmationURL: "http://f7c53716.ngrok.io/api/confirmation",
+            ValidationURL: "http://f7c53716.ngrok.io/api/validation_url"
           }
         },
         function(error, response, body) {
           //console.log(body);
-          console.log(response.body);
+          ///console.log(response.body);
           // TODO: Use the body object to extract the
           //   console.log(JSON.parse(body).ResponseDescription);
           //   res.json({

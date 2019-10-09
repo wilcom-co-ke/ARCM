@@ -713,9 +713,9 @@ class ApplicationsApprovals extends Component {
                             </div>
                             <div className="col-lg-7">
                                
-                                <button className="btn btn-primary" onClick={this.ShowAcceptModal} style={{ marginTop: 20 }}>Accept</button>
+                                <button className="btn btn-primary" onClick={this.ShowAcceptModal} style={{ marginTop: 20 }}>Approve</button>
                                   &nbsp;&nbsp;
-                                <button className="btn btn-danger " onClick={this.ShowRejectModal} style={{ marginTop: 20 }}>Reject</button>
+                                <button className="btn btn-danger " onClick={this.ShowRejectModal} style={{ marginTop: 20 }}>Decline</button>
                                 &nbsp;&nbsp;
                                 <button
                                     type="button"

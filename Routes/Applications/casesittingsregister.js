@@ -5,10 +5,7 @@ var config = require("../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("../../auth");
-casesittingsregister.get("/", auth.validateRole("Case Scheduling"), function(
-  req,
-  res
-) {
+casesittingsregister.get("/", function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -33,10 +30,7 @@ casesittingsregister.get("/", auth.validateRole("Case Scheduling"), function(
     }
   });
 });
-casesittingsregister.get("/:ID", auth.validateRole("Case Scheduling"), function(
-  req,
-  res
-) {
+casesittingsregister.get("/:ID", function(req, res) {
   const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {
@@ -64,10 +58,35 @@ casesittingsregister.get("/:ID", auth.validateRole("Case Scheduling"), function(
     }
   });
 });
-casesittingsregister.post("/", auth.validateRole("Case Scheduling"), function(
-  req,
-  res
-) {
+casesittingsregister.get("/:ID/:CheckIfOpen", function(req, res) {
+  const ID = req.params.ID;
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call CheckifregistrationIsOpen(?)";
+      connection.query(sp, [ID], function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            results: results[0]
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
+casesittingsregister.post("/", function(req, res) {
   const schema = Joi.object().keys({
     Date: Joi.date().required(),
     VenueID: Joi.number()
@@ -122,11 +141,12 @@ casesittingsregister.post("/", auth.validateRole("Case Scheduling"), function(
 });
 casesittingsregister.post(
   "/:ID",
-  auth.validateRole("Case Scheduling"),
+
   function(req, res) {
     const schema = Joi.object().keys({
-      IDNO: Joi.string()
-        .min(4)
+      IDNO: Joi.number()
+        .integer()
+        .min(1)
         .required(),
       RegisterID: Joi.number()
         .integer()
@@ -134,8 +154,9 @@ casesittingsregister.post(
       Name: Joi.string()
         .min(3)
         .required(),
-      Category: Joi.string()
-        .min(2)
+      Category: Joi.number()
+        .integer()
+        .min(1)
         .required(),
       Email: Joi.string().email({ minDomainAtoms: 2 }),
       MobileNo: Joi.string()
@@ -189,10 +210,7 @@ casesittingsregister.post(
     }
   }
 );
-casesittingsregister.put("/", auth.validateRole("Case Scheduling"), function(
-  req,
-  res
-) {
+casesittingsregister.put("/", function(req, res) {
   const schema = Joi.object().keys({
     Date: Joi.string()
       .min(3)
@@ -250,4 +268,38 @@ casesittingsregister.put("/", auth.validateRole("Case Scheduling"), function(
     });
   }
 });
+casesittingsregister.delete(
+  "/:ID",
+  auth.validateRole("Close Registrations"),
+  function(req, res) {
+    let data = [req.params.ID];
+
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call CloseRegistrations(?)";
+        connection.query(sp, data, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "Deleted Successfully"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 module.exports = casesittingsregister;

@@ -11,22 +11,21 @@ confirmation.get("/", (req, res) => {
   });
 });
 confirmation.post("/", (req, res) => {
-  console.log(req);
-  let data = {
-    TransactionType: req.body.TransactionType,
-    TransID: req.body.TransID,
-    TransTime: req.body.TransTime,
-    TransAmount: req.body.TransAmount,
-    BusinessShortCode: req.body.BusinessShortCode,
-    BillRefNumber: req.body.BillRefNumber,
-    InvoiceNumber: req.body.InvoiceNumber,
-    OrgAccountBalance: req.body.OrgAccountBalance,
-    ThirdPartyTransID: req.body.ThirdPartyTransID,
-    MSISDN: req.body.MSISDN,
-    FirstName: req.body.FirstName,
-    MiddleName: req.body.MiddleName,
-    LastName: req.body.LastName
-  };
+  let data = [
+    req.body.TransactionType,
+    req.body.TransID,
+    req.body.TransTime,
+    req.body.TransAmount,
+    req.body.BusinessShortCode,
+    req.body.BillRefNumber,
+    req.body.InvoiceNumber,
+    req.body.OrgAccountBalance,
+    req.body.ThirdPartyTransID,
+    req.body.MSISDN,
+    req.body.FirstName,
+    req.body.MiddleName,
+    req.body.LastName
+  ];
   con.getConnection(function(err, connection) {
     if (err) {
       // res.json({
@@ -37,7 +36,6 @@ confirmation.post("/", (req, res) => {
     else {
       let sp = "call SaveMpesaTransactions(?,?,?,?,?,?,?,?,?,?,?,?,?)";
       connection.query(sp, data, function(error, results, fields) {
-        console.log(data);
         if (error) {
           console.log(error.message);
           // res.json({

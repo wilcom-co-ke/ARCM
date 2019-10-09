@@ -4,8 +4,7 @@ import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
 import GoogleDocsViewer from "react-google-docs-viewer";
-import Popup from "reactjs-popup";
-import popup from "./../../Styles/popup.css";
+
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import ReactPlayer from 'react-player'
@@ -43,6 +42,7 @@ class HearingInprogress extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.HandlePrevieView = this.HandlePrevieView.bind(this)
+        this.handleVedioUploadClick = this.handleVedioUploadClick.bind(this)
     }
     openModal() {
         this.setState({ open: true });
@@ -241,29 +241,7 @@ class HearingInprogress extends Component {
         }
         return true;
     };
-    checkMimeType = event => {
-        let files = event.target.files;
-        let err = []; // create empty array
-        const types = [
-            "application/pdf",
-            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        ];
-        for (var x = 0; x < files.length; x++) {
-            if (types.every(type => files[x].type !== type)) {
-                err[x] = files[x].type + " is not a supported format\n";
-                // assign message to array
-            }
-        }
-        for (var z = 0; z < err.length; z++) {
-            // loop create toast massage
-            event.target.value = null;
-
-            toast.error(err[z]);
-        }
-        return true;
-    };
+   
         closeViewerModal = () => {
         this.setState({ openViewer: false });
         }   
@@ -480,7 +458,7 @@ handleViewPlayeAudio=(d)=>{
                 "audio/flac",
                 "audio/mpegurl",
                "audio/mpegurl",
-               "audio/mp4",
+               "audio/mp3",
                 "audio/mp4",
                 "audio/mpeg",
                 "audio/ogg",
@@ -558,6 +536,7 @@ handleViewPlayeAudio=(d)=>{
 
                     })
                     .catch(err => {
+                        alert(err)
                         toast.error("upload fail");
                     });
             }
@@ -1185,7 +1164,7 @@ handleViewPlayeAudio=(d)=>{
                                 <a style={{ float: "right", color: "red",margin:"10px" }} href="javascript:void(0);" onClick={() => this.closeViewerModal()}>Close</a>
                                 <GoogleDocsViewer
                                     width="100%"
-                                    height="540px"
+                                    height="440px"
                                     fileUrl={this.state.FileURL}
                                 />
                             </div>
@@ -1193,15 +1172,15 @@ handleViewPlayeAudio=(d)=>{
                         
                      
 
-                        <Modal visible={this.state.openPlayer} width="900" height="500" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
+                        <Modal visible={this.state.openPlayer} width="600" height="400" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
                             <div>
                                 
                                 <a style={{ float: "right", color: "red", margin: "10px"}} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
                                 <ReactPlayer
                                     className='react-player'
                                     url={this.state.MediaURL}
-                                    width='897'
-                                    height='498'
+                                    width='500'
+                                    height='300'
                                 />
                             </div>
                         </Modal>

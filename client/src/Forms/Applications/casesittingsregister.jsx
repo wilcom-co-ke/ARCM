@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import swal from "sweetalert";
 import Select from "react-select";
+import { Link } from "react-router-dom";
 var dateFormat = require("dateformat");
 //console.log(localStorage.getItem("CompanyData"))
 
@@ -19,8 +20,10 @@ class casesittingsregister extends Component {
       IdNO: "",
       Email: "",
       Category: "",
+
       summary: "Step 1",
       RegisterID: "",
+      registraionisOpen: false,
       Applications: []
     };
     this.handlePublicself = this.handlePublicself.bind(this);
@@ -153,6 +156,26 @@ class casesittingsregister extends Component {
         swal("", err.message, "error");
       });
   };
+  CheckIfOpen = Applicationno => {
+    fetch("/api/casesittingsregister/" + Applicationno + "/CheckifOpen", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(Applications => {
+        if (Applications.results.length > 0) {
+          return "true";
+        } else {
+          return false;
+        }
+      })
+      .catch(err => {
+        return false;
+      });
+  };
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({ [actionMeta.name]: UserGroup.value });
 
@@ -161,12 +184,32 @@ class casesittingsregister extends Component {
       const filtereddata = rows.filter(
         item => item.ApplicationNo == UserGroup.value
       );
-      this.setState({
-        Date: dateFormat(new Date().toLocaleDateString(), "isoDate")
-      });
-      this.setState({ VenueID: filtereddata[0].VenueID });
-      this.setState({ Venue: filtereddata[0].VenueName });
-      this.setState({ Branch: filtereddata[0].BranchName });
+
+      fetch("/api/casesittingsregister/" + UserGroup.value + "/CheckifOpen", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+        .then(res => res.json())
+        .then(Applications => {
+          if (Applications.results.length > 0) {
+            let data = {
+              Date: dateFormat(new Date().toLocaleDateString(), "isoDate"),
+              registraionisOpen: true,
+              VenueID: filtereddata[0].VenueID,
+              Venue: filtereddata[0].VenueName,
+              Branch: filtereddata[0].BranchName
+            };
+            this.setState(data);
+          } else {
+            swal("", "Registration for this siiting has been closed", "error");
+          }
+        })
+        .catch(err => {
+          swal("", "Registration for this siiting has been closed", "error");
+        });
     }
   };
   fetchCompanyDetails = () => {
@@ -192,36 +235,34 @@ class casesittingsregister extends Component {
       });
   };
   componentDidMount() {
-      let token = localStorage.getItem("token");
-        if (token == null) {
-           
-            localStorage.clear();
-            return (window.location = "/#/Logout");
-        } else {
-            fetch("/api/ValidateTokenExpiry", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": localStorage.getItem("token")
-                }
-            })
-                .then(response =>
-                    response.json().then(data => {
-                        if (data.success) {
-                          this.fetchApplications();
-                          this.fetchCompanyDetails();
-                        } else {
-                            localStorage.clear();
-                            return (window.location = "/#/Logout");
-                        }
-                    })
-                )
-                .catch(err => {
-                    localStorage.clear();
-                    return (window.location = "/#/Logout");
-                });
+    let token = localStorage.getItem("token");
+    if (token == null) {
+      localStorage.clear();
+      return (window.location = "/#/Logout");
+    } else {
+      fetch("/api/ValidateTokenExpiry", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
         }
-    
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              this.fetchApplications();
+              this.fetchCompanyDetails();
+            } else {
+              localStorage.clear();
+              return (window.location = "/#/Logout");
+            }
+          })
+        )
+        .catch(err => {
+          localStorage.clear();
+          return (window.location = "/#/Logout");
+        });
+    }
   }
   GoBack = e => {
     e.preventDefault();
@@ -292,12 +333,25 @@ class casesittingsregister extends Component {
       return (
         <div>
           <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-12">
+            <div className="col-lg-10">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   <h2>CASE SITTING REGISTRATION</h2>
                 </li>
               </ol>
+            </div>
+            <div className="col-lg-2">
+              <div className="row wrapper ">
+                <Link to="/">
+                  <button
+                    type="button"
+                    style={{ marginTop: 40 }}
+                    className="btn btn-primary float-left"
+                  >
+                    &nbsp; Back
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
           <br />
@@ -374,12 +428,14 @@ class casesittingsregister extends Component {
                   <div className="col-sm-2" />
                   <div className="col-sm-8" />
                   <div className="col-sm-2">
-                    <button
-                      type="submit"
-                      className="btn btn-primary float-right"
-                    >
-                      Continue
-                    </button>
+                    {this.state.registraionisOpen ? (
+                      <button
+                        type="submit"
+                        className="btn btn-primary float-right"
+                      >
+                        Continue
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               </form>
@@ -540,7 +596,7 @@ class casesittingsregister extends Component {
                       Mobile No
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       name="MobileNo"
                       value={this.state.MobileNo}
@@ -579,7 +635,7 @@ class casesittingsregister extends Component {
                   </div>
                   <div className="col-sm-4"></div>
                   <div className="col-sm-2">
-                    <br/>
+                    <br />
                     <button
                       type="submit"
                       className="btn btn-primary float-right"

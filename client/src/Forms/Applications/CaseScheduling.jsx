@@ -4,7 +4,7 @@ import Select from "react-select";
 import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
-import ToolTip from "./../../Styles/ToolTip.css";
+import Modal from 'react-awesome-modal';
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
 import GoogleDocsViewer from "react-google-docs-viewer";
@@ -43,7 +43,7 @@ class CaseScheduling extends Component {
             FromTime:"" ,  
             TOTime:"",   
             VenueDesc:"" ,
-             FilingDate:"",
+            FilingDate:"",
             PEServedOn: ""    ,
             showNoticvebtn:false       
         };
@@ -265,8 +265,7 @@ class CaseScheduling extends Component {
             .catch(err => {
                 //swal("Oops!", err.message, "error");
             });
-    };
-     
+    };     
     checkIfBooked = (Time, day)=>{
     
         var rows = [...this.state.Bookings];
@@ -301,10 +300,8 @@ class CaseScheduling extends Component {
             }else{
                 this.getDates(new Date(this.state.FromDate), new Date(this.state.ToDate))
                 // this.fetchVenuesPerBranch()
-            }
-          
-        }
-        
+            }          
+        }        
 
     }
  
@@ -453,8 +450,7 @@ class CaseScheduling extends Component {
         }
     }
 
-    BookRoom = (Time, day) => {
-      
+    BookRoom = (Time, day) => {      
         this.setState({ SelectedDate: day });
         this.setState({ FromTime: Time });     
         let time1array=Time.split(".");        
@@ -623,8 +619,7 @@ class CaseScheduling extends Component {
     }
     handleSubmit = event => {
         event.preventDefault();
-        if (this.ValidateTOTime()){
-        
+        if (this.ValidateTOTime()){        
         if (this.ValidateRoom()){
         let FromTime = this.state.FromTime;
         let TOTime = this.state.TOTime;
@@ -1359,13 +1354,7 @@ class CaseScheduling extends Component {
                                                     >
                                                         Check Availability  </button>
                                                         &nbsp;
-                                                        {this.state.showNoticvebtn ? (
-                                                    <button
-                                                        type="button"
-                                                        onClick={this.GenerateNotification}
-                                                        className="btn btn-success"
-                                                    >
-                                                        Notice </button>):null}
+                                                     
 
 
                                                 </td>
@@ -1476,7 +1465,19 @@ class CaseScheduling extends Component {
                                                 );
                                             }
                                         )}
+                                       
+                                        
+                                       
                                    </table>
+                                      
+                                            {this.state.showNoticvebtn ? (
+                                                <button style={{ float: "right" }}
+                                                    type="button"
+                                                    onClick={this.GenerateNotification}
+                                                    className="btn btn-success"
+                                                >
+                                                    Preview Notice </button>) : null}
+                                       
                                    </div>
                                 </div>
 
@@ -1484,44 +1485,42 @@ class CaseScheduling extends Component {
                             </div>
                         </div>
                     </div>
-                    <Popup
-                        open={this.state.openViewer}
-                        closeOnDocumentClick
-                        onClose={this.closeViewerModal}
-                    >
-                        <div className={popup.modal}>
-                            <a className="close" onClick={this.closeViewerModal}>
-                                &times;</a>
-                            <div className={popup.header} className="font-weight-bold">
-                                {" "}
-                                HEARING NOTICE{" "}
-                            </div>
 
-                            <div className="row">
-                                <div className="col col-sm-9">
+                    <Modal visible={this.state.openViewer} width="750" height="600" effect="fadeInUp" onClickAway={() => this.closeViewerModal()}>
+                        <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeViewerModal()}><i class="fa fa-close"></i></a>
+                        <div>
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Hearing Notice</h4>
+                            <div className="container-fluid">
+                                <div className="col-sm-12">
+                                    <div className="row">
+                                        <div className="col col-sm-8">
 
-                                </div>
-                                <div className="col col-sm-1">
-                                    <button className="btn btn-success" onClick={this.sendAttachment}>Email</button>&nbsp;
+                                        </div>
+                                        <div className="col col-sm-1">
+                                            <button className="btn btn-success" onClick={this.sendAttachment}>Email</button>
                                     </div>
-                                <div className="col col-sm-2">                                   
-                                    
-                                        <button type="button" onClick={this.Downloadfile} className="btn btn-primary" >Download</button>
-                                       
-   
-                                   
-                                </div>
-                                
-                            </div>
-                            <br/>
-                            <GoogleDocsViewer
-                                width="750px"
-                                height="400px"
-                                fileUrl={process.env.REACT_APP_BASE_URL + "/HearingNotices/"+this.state.ApplicationNo+".pdf"}
-                            />
+                                    &nbsp;
+                                        <div className="col col-sm-2">
+                                            <button type="button" onClick={this.Downloadfile} className="btn btn-primary" >Download</button>
+
+
+
+                                        </div>
+
+                                    </div>
+                                    <br />
+                                    <GoogleDocsViewer
+                                        width="690px"
+                                        height="500px"
+                                        fileUrl={process.env.REACT_APP_BASE_URL + "/HearingNotices/" + this.state.ApplicationNo + ".pdf"}
+                                    />
+                                     </div>
                             </div>
 
-                            </Popup>
+                        </div>
+                    </Modal>
+
+                 
                 </div>
             );
         } else {

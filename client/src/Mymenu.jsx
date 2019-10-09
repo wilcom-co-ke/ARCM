@@ -34,7 +34,33 @@ class Mymenu extends Component {
       });
   };
   componentDidMount() {
-    this.fetchCompanyDetails();
+    let token = localStorage.getItem("token");
+    if (token == null) {
+      localStorage.clear();
+      return (window.location = "/#/Logout");
+    } else {
+      fetch("/api/ValidateTokenExpiry", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              this.fetchCompanyDetails();
+            } else {
+              localStorage.clear();
+              return (window.location = "/#/Logout");
+            }
+          })
+        )
+        .catch(err => {
+          localStorage.clear();
+          return (window.location = "/#/Logout");
+        });
+    }
   }
   render() {
     let photostyle = {

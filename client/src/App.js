@@ -69,6 +69,7 @@ import RB1 from "./Forms/Reports/RB1";
 import Attendance from "./Forms/Reports/Attendance";
 import CaseSummary from "./Forms/Reports/CaseSummary";
 import Logout from "./Logout";
+import CloseRegistrations from "./Forms/Applications/CloseRegistrations"
 const checkAuth = () => {
   let token = localStorage.getItem("token");
   if (!token) {
@@ -159,6 +160,8 @@ function App() {
                 <Route exact path="/Venues" component={Venues} />
                 <Route exact path="/Panels" component={Panels} />
                 <Route exact path="/MyCases" component={MyCases} />
+                <Route exact path="/CloseRegistrations" component={CloseRegistrations} />
+                
                 <Route
                   exact
                   path="/CaseScheduling"
