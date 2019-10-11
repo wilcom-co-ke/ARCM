@@ -33,12 +33,14 @@ class CaseWithdrawalApproval extends Component {
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
         this.fetchApplicationtenderdetails = this.fetchApplicationtenderdetails.bind(this)
         this.openApprove = this.openApprove.bind(this)
+        this.fetchPendingRequests = this.fetchPendingRequests.bind(this)
     }
     closeModal = () => {
         this.setState({ open: false });
     };
 
     fetchPendingRequests = () => {
+       
         fetch("/api/CaseWithdrawal/" + localStorage.getItem("UserName"), {
             method: "GET",
             headers: {
@@ -48,8 +50,10 @@ class CaseWithdrawalApproval extends Component {
         })
             .then(res => res.json())
             .then(ApplicantDetails => {
-                if (ApplicantDetails.length > 0) {
-                    this.setState({ Applications: ApplicantDetails });
+               
+                if (ApplicantDetails.results.length > 0) {
+                    
+                    this.setState({ Applications: ApplicantDetails.results });
                 } else {
                     swal("", ApplicantDetails.message, "error");
                 }
@@ -395,6 +399,7 @@ class CaseWithdrawalApproval extends Component {
                 .then(response =>
                     response.json().then(data => {
                         if (data.success) {
+                            
                             this.fetchPendingRequests();  
                         } else {
                             localStorage.clear();
@@ -522,10 +527,10 @@ class CaseWithdrawalApproval extends Component {
         ];
         let Rowdata1 = [];
         const rows = [...this.state.Applications];
-
+       // console.log(this.state.Applications)
         if (rows.length > 0) {
             rows.map((k, i) => {
-               
+                
                     let Rowdata = {
                         ApplicationNo: (
                             <a onClick={e => this.handViewApplication(k, e)}>

@@ -38,4 +38,5 @@ TRUNCATE arcm.schedules;
 TRUNCATE arcm.tenderaddendums;
 Delete FROM arcm.tenders;
 TRUNCATE arcm.venuebookings;
+TRUNCATE arcm.applicationsequence;
 --- TRUNCATE arcm.venues;

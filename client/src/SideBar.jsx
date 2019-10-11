@@ -191,8 +191,8 @@ class SideBar extends Component {
   };
   componentDidMount() {
     let token = localStorage.getItem("token");
-    if (token == null) {
 
+    if (token == null) {
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -219,7 +219,6 @@ class SideBar extends Component {
           return (window.location = "/#/Logout");
         });
     }
-  
   }
   validaterole = (rolename, action) => {
     let array = [...this.state.privilages];
@@ -422,7 +421,6 @@ const CaseHearing = props => {
                 Close Registrations
               </Link>
             </li>
-            
 
             <li>
               <Link to="/HearingInprogress">

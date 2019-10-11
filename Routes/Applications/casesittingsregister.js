@@ -154,14 +154,13 @@ casesittingsregister.post(
       Name: Joi.string()
         .min(3)
         .required(),
-      Category: Joi.number()
-        .integer()
+      Category: Joi.string()
         .min(1)
         .required(),
       Email: Joi.string().email({ minDomainAtoms: 2 }),
-      MobileNo: Joi.string()
+      MobileNo: Joi.number()
+        .integer()
         .min(1)
-        .required()
     });
     const result = Joi.validate(req.body, schema);
     if (!result.error) {

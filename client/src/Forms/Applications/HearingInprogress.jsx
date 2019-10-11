@@ -4,11 +4,12 @@ import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
 import GoogleDocsViewer from "react-google-docs-viewer";
-
+import { Progress } from "reactstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import ReactPlayer from 'react-player'
 import Modal from 'react-awesome-modal';
+import VideoPlayer from 'react-video-markers';
 var _ = require("lodash");
 class HearingInprogress extends Component {
     constructor() {
@@ -35,7 +36,9 @@ class HearingInprogress extends Component {
             FileURL:"",
             MediaURL:"",
             openPlayer:false,
-           
+            loaded:0,
+              isPlaying: true,
+            volume: 0.7
          
         };
       
@@ -47,9 +50,7 @@ class HearingInprogress extends Component {
     openModal() {
         this.setState({ open: true });
         
-    }
-
-    
+    }    
 
     closeModal() {
         this.setState({ open: false });
@@ -638,6 +639,27 @@ handleViewPlayeAudio=(d)=>{
                 });
       
     }
+    handlePlay = () => {
+        this.setState({ isPlaying: true });
+    };
+
+    handlePause = () => {
+        this.setState({ isPlaying: false });
+    };
+
+
+ playVid() {
+    var vid = document.getElementById("myVideo");
+    vid.play();
+}
+
+ pauseVid() {
+     var vid = document.getElementById("myVideo");
+    vid.pause();
+} 
+    handleVolume = value => {
+        this.setState({ volume: value });
+    };
        render() {
         let FormStyle = {
             margin: "20px"
@@ -705,7 +727,7 @@ handleViewPlayeAudio=(d)=>{
             let childdiv = {
                 margin: "30px"
             };
-          
+            const { isPlaying, volume } = this.state;
             return (
                 <div>
                     <div className="row wrapper border-bottom white-bg page-heading">
@@ -886,7 +908,7 @@ handleViewPlayeAudio=(d)=>{
                                        
                                             </div>
                                         </nav>
-                                        <Modal visible={this.state.open} width="600" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                                        <Modal visible={this.state.open} width="600" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                                             <div>
 
                                                 <a style={{ float: "right",margin:"10px", color:"red"}} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
@@ -935,6 +957,15 @@ handleViewPlayeAudio=(d)=>{
                                                                                 multiple
                                                                             />
 
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <Progress
+                                                                                max="100"
+                                                                                color="success"
+                                                                                value={this.state.loaded}
+                                                                            >
+                                                                                {Math.round(this.state.loaded, 2)}%
+                                                                              </Progress>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1172,15 +1203,27 @@ handleViewPlayeAudio=(d)=>{
                         
                      
 
-                        <Modal visible={this.state.openPlayer} width="600" height="400" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
+                        <Modal visible={this.state.openPlayer} width="830" height="400" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
                             <div>
                                 
                                 <a style={{ float: "right", color: "red", margin: "10px"}} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
-                                <ReactPlayer
-                                    className='react-player'
+                                <br/>
+                            
+                               {/* <VideoPlayer
                                     url={this.state.MediaURL}
-                                    width='500'
-                                    height='300'
+                                    isPlaying={isPlaying}
+                                    volume={volume}
+                                    onPlay={this.handlePlay}
+                                    onPause={this.handlePause}
+                                    onVolume={this.handleVolume}
+                                />  */}
+                                                                   
+                                <ReactPlayer
+                                    url={this.state.MediaURL}
+                                    className='react-player'
+                                    playing
+                                    width='800px'
+                                    height='390px'
                                 />
                             </div>
                         </Modal>

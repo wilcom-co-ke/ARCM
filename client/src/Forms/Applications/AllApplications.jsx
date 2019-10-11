@@ -4,6 +4,7 @@ import Table from "./../../Table";
 import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import ReactHtmlParser from "react-html-parser";
+import Modal from 'react-awesome-modal';
 var dateFormat = require('dateformat');
 class AllApplications extends Component {
     constructor() {
@@ -11,6 +12,7 @@ class AllApplications extends Component {
         this.state = {
             Applications: [],
             PE: [],
+            ApplicationsProgress:[],
             stdtenderdocs: [],
             TenderNo: "",
             TenderID: "",
@@ -33,6 +35,7 @@ class AllApplications extends Component {
             DocumenttypeID: "",
             selectedFile: null,
             loaded: 0,
+            openTracking:false,
             DocumentDescription: "",
             AddedAdendums: [],
             AdendumStartDate: "",
@@ -106,11 +109,11 @@ class AllApplications extends Component {
                     this.setState({ ApplicantID: ApplicantDetails[0].ID });
                     
                 } else {
-                    swal("", ApplicantDetails.message, "error");
+                   // swal("", ApplicantDetails.message, "error");
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+              //  swal("", err.message, "error");
             });
     };
     fetchApplications = () => {
@@ -127,11 +130,11 @@ class AllApplications extends Component {
                     this.setState({ Applications: ApplicantDetails });
 
                 } else {
-                    swal("", ApplicantDetails.message, "error");
+                  //  swal("", ApplicantDetails.message, "error");
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+               // swal("", err.message, "error");
             });
     };
     fetchApplicationGrounds = (Applicationno) => {
@@ -152,7 +155,7 @@ class AllApplications extends Component {
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+               // swal("", err.message, "error");
             });
     };
     formatNumber = num => {
@@ -177,7 +180,7 @@ class AllApplications extends Component {
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+              //  swal("", err.message, "error");
             });
     };
     fetchApplicationDocuments = (Applicationno) => {
@@ -194,11 +197,11 @@ class AllApplications extends Component {
                     this.setState({ ApplicationDocuments: ApplicationDocuments });
 
                 } else {
-                    swal("", ApplicationDocuments.message, "error");
+                 //   swal("", ApplicationDocuments.message, "error");
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+               // swal("", err.message, "error");
             });
     };
 
@@ -299,11 +302,32 @@ class AllApplications extends Component {
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+               // swal("", err.message, "error");
             });
     };
-    handViewApplication = k => {
-        
+     fetchApplicationProgress = Applicationno => {
+       
+         fetch("/api/applications/" + Applicationno+"/1/1", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ApplicationsProgress => {
+             
+                if (ApplicationsProgress.length > 0) {
+                    this.setState({ ApplicationsProgress: ApplicationsProgress });
+                }
+            })
+            .catch(err => {
+               // swal("", err.message, "error");
+            });
+    };
+
+    handViewApplication = k => {        
+        this.setState({ ApplicationsProgress: [] });
         this.setState({ AddedAdendums: [] });
         this.setState({ ApplicationGrounds: [] });
         this.setState({ ApplicationDocuments: [] });
@@ -314,6 +338,7 @@ class AllApplications extends Component {
         this.fetchApplicationDocuments(k.ID)
         this.fetchTenderAdendums(k.TenderID);
         this.fetchApplicantDetails(k.Applicantusername)
+        this.fetchApplicationProgress(k.ApplicationNo)
         const data = {
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
@@ -346,9 +371,17 @@ class AllApplications extends Component {
         //this.setState({ openFileViewer: true });
     };
    
+    openModal=()=> {
+        this.setState({ openTracking: true });
 
+    }
+
+
+
+    closeModal=()=> {
+        this.setState({ openTracking: false });
+    }
     render() {
-
 
         const ColumnData = [
             {
@@ -426,7 +459,7 @@ class AllApplications extends Component {
             return (
                 <div>
                     <div className="row wrapper border-bottom white-bg page-heading">
-                        <div className="col-lg-10">
+                        <div className="col-lg-9">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
                                     <h2 className="font-weight-bold">
@@ -448,8 +481,19 @@ class AllApplications extends Component {
                                 </li>
                             </ol>
                         </div>
-                        <div className="col-lg-2">
+                        <div className="col-lg-3">
                             <div className="row wrapper ">
+                               
+                                     <button
+                                    type="button"
+                                    style={{ marginTop: 40 }}
+                                        onClick={this.openModal}
+                                    className="btn btn-success float-right"
+                                >
+                                    &nbsp; Track progress
+                             </button>
+                             
+                                &nbsp;
                                 <button
                                     type="button"
                                     style={{ marginTop: 40 }}
@@ -460,6 +504,7 @@ class AllApplications extends Component {
                   </button>
                             </div>
                         </div>
+                       
                     </div>
                     <p></p>
                     <div className="border-bottom white-bg p-4">
@@ -706,6 +751,41 @@ class AllApplications extends Component {
 
                        
                     </div>
+                    <Modal visible={this.state.openTracking} width="900" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <div>
+
+                            <a style={{ float: "right", margin: "10px", color: "red" }} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
+                            <br />
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}>APPLICATION {this.state.ApplicationNo}</h4>
+
+                            <div className="container-fluid">
+                                <table className="table  table-sm  table-striped">
+                                    <thead class="thead-light">
+                                    <th>Date</th>
+                                    <th>Action Performed</th>
+                                    <th>Action Expected</th>
+                                    <th>Status</th>
+</thead>
+                                    {this.state.ApplicationsProgress.map((r, i) => (
+                                        <tr>
+                                            <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
+
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                {r.Action}
+                                            </td>
+                                            <td className="font-weight-bold">
+                                                
+                                                {r.ExpectedAction}
+                                            </td>
+                                            <td className="font-weight-bold">{r.Status}</td>
+                                        </tr>
+                                    ))}
+                                </table>
+                             </div>
+
+                        </div>
+                    </Modal> 
                 </div>
             );
 
