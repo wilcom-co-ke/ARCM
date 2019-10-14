@@ -26,7 +26,10 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
-
+      Today: dateFormat(
+        new Date().toLocaleDateString(),
+        "isoDate"
+      ),
       TenderNo: "",
       TenderID: "",
       TenderValue: "",
@@ -450,11 +453,39 @@ class Applications extends Component {
   };
   SaveTenders = event => {
     event.preventDefault();
-    if (this.state.IsUpdate) {
-      this.UpdateTenderdetails();
+  
+
+    let awarddate = new Date(this.state.ClosingDate);
+    awarddate.setDate(awarddate.getDate() + 14);
+    //alert(awarddate)
+
+    if (this.state.Today > dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")) {
+      swal({
+        text: "You are only allowed to submit an appeal within 14 days from date of award.To continue with the application click OK.",
+        icon: "warning",
+        dangerMode: true,
+        buttons: true
+      }).then(willDelete => {
+        if (willDelete) {
+          if (this.state.IsUpdate) {
+            this.UpdateTenderdetails();
+          } else {
+            this.SaveTenderdetails();
+          }
+        }
+      });
+
+      
     } else {
-      this.SaveTenderdetails();
+      if (this.state.IsUpdate) {
+        this.UpdateTenderdetails();
+      } else {
+        this.SaveTenderdetails();
+      }
     }
+  
+    
+    
   };
 
   UpdateTenderdetails() {
@@ -2021,7 +2052,7 @@ class Applications extends Component {
                         <div class="row">
                           <div class="col-sm-2">
                             <label for="Town" className="font-weight-bold">
-                              Opening Date{" "}
+                              Tender Opening Date{" "}
                             </label>
                           </div>
                           <div class="col-sm-4">
@@ -2032,6 +2063,7 @@ class Applications extends Component {
                               defaultValue={this.state.StartDate}
                               className="form-control"
                               onChange={this.handleInputChange}
+                              max={this.state.Today}
                             />
                           </div>
                           <div class="col-sm-2">
@@ -2039,7 +2071,7 @@ class Applications extends Component {
                               for="ClosingDate"
                               className="font-weight-bold"
                             >
-                              Closing Date
+                              Date of Award
                             </label>
                           </div>
                           <div class="col-sm-4">
@@ -2050,6 +2082,7 @@ class Applications extends Component {
                               defaultValue={this.state.ClosingDate}
                               className="form-control"
                               onChange={this.handleInputChange}
+                              max={this.state.Today}
                             />
                           </div>
                         </div>
@@ -2124,6 +2157,7 @@ class Applications extends Component {
                                     defaultValue={this.state.AdendumStartDate}
                                     className="form-control"
                                     onChange={this.handleInputChange}
+                                    max={this.state.Today}
                                   />
                                 </div>
 
@@ -2141,6 +2175,7 @@ class Applications extends Component {
                                     defaultValue={this.state.AdendumClosingDate}
                                     className="form-control"
                                     onChange={this.handleInputChange}
+                                    max={this.state.Today}
                                   />
                                 </div>
                               </div>

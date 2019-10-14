@@ -454,7 +454,7 @@ class AllApplications extends Component {
         }
 
         let ViewFile = this.ViewFile;
-
+        
         if (this.state.summary) {
             return (
                 <div>
@@ -762,25 +762,36 @@ class AllApplications extends Component {
                                 <table className="table  table-sm  table-striped">
                                     <thead class="thead-light">
                                     <th>Date</th>
-                                    <th>Action Performed</th>
-                                    <th>Action Expected</th>
+                                    <th>Action</th>
+                                   
                                     <th>Status</th>
-</thead>
-                                    {this.state.ApplicationsProgress.map((r, i) => (
-                                        <tr>
-                                            <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
+                                </thead>
 
-                                            <td className="font-weight-bold">
-                                                {" "}
-                                                {r.Action}
-                                            </td>
-                                            <td className="font-weight-bold">
-                                                
-                                                {r.ExpectedAction}
-                                            </td>
-                                            <td className="font-weight-bold">{r.Status}</td>
-                                        </tr>
-                                    ))}
+                                    {this.state.ApplicationsProgress.map((r, i) => (
+                                         r.Status === "Pending" ? (
+                                            <tr>
+                                                <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
+
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    {r.ExpectedAction}
+                                                </td>
+
+                                                <td className="font-weight-bold">{r.Status}</td>
+                                            </tr>): (
+                                            <tr>
+                                                <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
+
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    {r.Action}
+                                                </td>
+
+                                                <td className="font-weight-bold">{r.Status}</td>
+                                            </tr>)
+                                              
+                                
+                            ))}
                                 </table>
                              </div>
 

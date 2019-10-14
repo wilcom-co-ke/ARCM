@@ -285,7 +285,8 @@ class Approvers extends Component {
             buttons: true,
         }).then(willDelete => {
             if (willDelete) {
-                return fetch("/api/Approvers/" + k, {
+               
+                return fetch("/api/Approvers/" + k.Username + "/" + k.ModuleCode, {
                     method: "Delete",
                     headers: {
                         "Content-Type": "application/json",
@@ -459,7 +460,7 @@ class Approvers extends Component {
                                 <a
                                     className="fa fa-trash"
                                     style={{ color: "#f44542" }}
-                                    onClick={e => this.handleDelete(k.Username, e)}
+                                    onClick={e => this.handleDelete(k, e)}
                                 >
                                     Delete                </a>
                             ) : (

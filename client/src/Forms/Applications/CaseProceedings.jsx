@@ -1143,15 +1143,17 @@ class CaseProceedings extends Component {
 
 
 
-                        <Modal visible={this.state.openPlayer} width="900" height="500" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
+                        <Modal visible={this.state.openPlayer} width="830" height="400" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
                             <div>
 
                                 <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
+                             
                                 <ReactPlayer
-                                    className='react-player'
                                     url={this.state.MediaURL}
-                                    width='897'
-                                    height='498'
+                                    className='react-player'
+                                    playing
+                                    width='800px'
+                                    height='390px'
                                 />
                             </div>
                         </Modal>

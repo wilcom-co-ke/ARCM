@@ -167,10 +167,14 @@ Approvers.put("/:ID", auth.validateRole("Approvers"), function(req, res) {
     });
   }
 });
-Approvers.delete("/:ID", auth.validateRole("Approvers"), function(req, res) {
+Approvers.delete("/:ID/:Module", auth.validateRole("Approvers"), function(
+  req,
+  res
+) {
   const ID = req.params.ID;
+  const Module = req.params.Module;
 
-  let data = [ID, res.locals.user];
+  let data = [ID, res.locals.user, Module];
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -179,7 +183,7 @@ Approvers.delete("/:ID", auth.validateRole("Approvers"), function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call DeleteApprover(?,?)";
+      let sp = "call DeleteApprover(?,?,?)";
       connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({

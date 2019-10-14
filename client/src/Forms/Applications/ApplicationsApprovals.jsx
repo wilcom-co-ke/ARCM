@@ -197,10 +197,10 @@ class ApplicationsApprovals extends Component {
         if (this.state.IsDecline) {
             this.Decline("/api/ApplicationsApprovals", data);
         }
-        this.GenerateRb1();
+     
         this.setState({ summary: false });
     };
-    GenerateRb1() {
+    GenerateRb1(ApplicationNo) {
         let Grounds=[];
         let Request=[]
         let rows = [...this.state.ApplicationGrounds]
@@ -216,7 +216,7 @@ class ApplicationsApprovals extends Component {
             Grounds: Grounds ,
             Request: Request,
             TenderNo: this.state.TenderNo,
-            Applicationno: this.state.ApplicationNo,
+            Applicationno: ApplicationNo,
             PEName: this.state.PEName,
             ApplicationDate: this.state.FilingDate,
             ReceivedDate: dateFormat(new Date().toLocaleDateString(), "isoDate"),
@@ -314,7 +314,8 @@ class ApplicationsApprovals extends Component {
                             let AproverEmail = data.results[0].Email;                            
                             let AproverMobile = data.results[0].Mobile;
                             let Name = data.results[0].Name;
-                            let ApplicationNo = this.state.ApplicationNo;
+                            let ApplicationNo = data.results[0].NewApplicationno;
+                            this.GenerateRb1(ApplicationNo);
                             this.SendSMS(
                                 AproverMobile,
                                 "New Application with ApplicationNo:" + ApplicationNo + " has been submited. You are required to Login to PPRA ARCMS respond to it before tha deadline given."
@@ -326,7 +327,7 @@ class ApplicationsApprovals extends Component {
                                 "REQUEST FOR APPLICATION RESPONSE",
                                 ApplicationNo
                             );
-                                this.NotifyCaseOfficer(this.state.ApplicationNo)
+                                this.NotifyCaseOfficer(ApplicationNo)
                         }                    
                       
                         swal("", "Application Approved", "success");

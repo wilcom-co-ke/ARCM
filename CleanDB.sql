@@ -1,4 +1,5 @@
-﻿TRUNCATE arcm.adjournment;
+﻿use arcm;
+TRUNCATE arcm.adjournment;
 TRUNCATE arcm.adjournmentdocuments;
 --- TRUNCATE arcm.applicants;
 TRUNCATE arcm.applicantshistory;
