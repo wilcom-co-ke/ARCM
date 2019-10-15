@@ -26,10 +26,7 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
-      Today: dateFormat(
-        new Date().toLocaleDateString(),
-        "isoDate"
-      ),
+      Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
       TenderValue: "",
@@ -70,13 +67,11 @@ class Applications extends Component {
       openView: false,
       DocumentsAvailable: false,
       GroundNO: "",
-
       ApplicantLocation: "",
       ApplicantMobile: "",
       ApplicantEmail: "",
       ApplicantPIN: "",
       ApplicantWebsite: "",
-
       PEPOBox: "",
       PEPostalCode: "",
       PETown: "",
@@ -453,15 +448,17 @@ class Applications extends Component {
   };
   SaveTenders = event => {
     event.preventDefault();
-  
-
     let awarddate = new Date(this.state.ClosingDate);
     awarddate.setDate(awarddate.getDate() + 14);
     //alert(awarddate)
 
-    if (this.state.Today > dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")) {
+    if (
+      this.state.Today >
+      dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")
+    ) {
       swal({
-        text: "You are only allowed to submit an appeal within 14 days from date of award.To continue with the application click OK.",
+        text:
+          "You are only allowed to submit an appeal within 14 days from date of award.To continue with the application click OK.",
         icon: "warning",
         dangerMode: true,
         buttons: true
@@ -474,8 +471,6 @@ class Applications extends Component {
           }
         }
       });
-
-      
     } else {
       if (this.state.IsUpdate) {
         this.UpdateTenderdetails();
@@ -483,9 +478,6 @@ class Applications extends Component {
         this.SaveTenderdetails();
       }
     }
-  
-    
-    
   };
 
   UpdateTenderdetails() {
@@ -522,8 +514,7 @@ class Applications extends Component {
     let data = {
       TenderID: this.state.TenderID,
       ApplicantID: this.state.ApplicantID,
-      PEID: this.state.PEID,
-      ApplicationREf: this.state.ApplicationREf
+      PEID: this.state.PEID
     };
     fetch("/api/applications/" + this.state.ApplicationNo, {
       method: "PUT",
@@ -747,18 +738,18 @@ class Applications extends Component {
     event.preventDefault();
     this.saveRequests("Requested Orders");
   };
-  Savefees(ApplicantID) {
+  Savefees(ApplicantID, ApplicationREf) {
     let data = {
       ApplicationID: ApplicantID,
       EntryType: "Application fee",
       AmountDue: 5000,
-      RefNo: this.state.ApplicationREf
+      RefNo: ApplicationREf
     };
     let data2 = {
       ApplicationID: ApplicantID,
-      EntryType: "10% On Tender Value",
+      EntryType: "10% Of Tender Value",
       AmountDue: 0.1 * this.state.TenderValue,
-      RefNo: this.state.ApplicationREf
+      RefNo: ApplicationREf
     };
 
     fetch("/api/applicationfees", {
@@ -804,8 +795,7 @@ class Applications extends Component {
     let data = {
       TenderID: _TenderID,
       ApplicantID: this.state.ApplicantID,
-      PEID: this.state.PEID,
-      ApplicationREf: this.state.ApplicationREf
+      PEID: this.state.PEID
     };
     fetch("/api/applications", {
       method: "POST",
@@ -820,8 +810,11 @@ class Applications extends Component {
           if (data.success) {
             this.setState({ ApplicationID: data.results[0].ApplicationID });
             this.setState({ ApplicationNo: data.results[0].ApplicationNo });
-
-            this.Savefees(data.results[0].ApplicationID);
+            this.setState({ ApplicationREf: data.results[0].ApplicationREf });
+            this.Savefees(
+              data.results[0].ApplicationID,
+              data.results[0].ApplicationREf
+            );
             toast.success("Tender details saved");
           } else {
             swal("", data.message, "error");
@@ -1015,7 +1008,6 @@ class Applications extends Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-    
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -1042,7 +1034,6 @@ class Applications extends Component {
           return (window.location = "/#/Logout");
         });
     }
-  
   }
   formatNumber = num => {
     let newtot = Number(num).toFixed(2);
@@ -1109,12 +1100,53 @@ class Applications extends Component {
     this.sendApproverNotification();
     if (this.state.profile === false) {
       this.setState({ profile: true });
-    }else{
+    } else {
       this.setState({ profile: false });
     }
     this.fetchMyApplications(this.state.ApplicantID);
   };
   sendApproverNotification = () => {
+    fetch("/api/NotifyApprover/" + this.state.ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.results) {
+            let ApproversPhone = data.results[0].ApproversPhone;
+            let ApproversMail = data.results[0].ApproversMail;
+            let applicantMsg =
+              "New request to approve application fees for Application with Reference No:" +
+              this.state.ApplicationREf +
+              " has been submited and is awaiting your review";
+            this.SendSMS(ApproversPhone, applicantMsg);
+            let ID1 = "Applicant";
+            let ID2 = "FeesApprover";
+            let subject1 = "PPARB APPLICATION ACKNOWLEDGEMENT";
+            let subject2 = "APPLICATION FEES APPROVAL REQUEST";
+            this.SendMail(
+              this.state.ApplicationREf,
+              ApproversMail,
+              ID2,
+              subject2
+            );
+            this.SendMail(
+              this.state.ApplicationREf,
+              this.state.ApplicantEmail,
+              ID1,
+              subject1
+            );
+          }
+        })
+      )
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  sendApproverNotification1 = () => {
     fetch("/api/NotifyApprover/" + this.state.ApplicationNo, {
       method: "GET",
       headers: {
@@ -1993,6 +2025,22 @@ class Applications extends Component {
                             />
                           </div>
                           <div class="col-sm-2">
+                            <label for="TenderNo" className="font-weight-bold">
+                              Tender Amount
+                            </label>
+                          </div>
+                          <div class="col-sm-4">
+                            <input
+                              type="number"
+                              class="form-control"
+                              name="TenderValue"
+                              onChange={this.handleInputChange}
+                              value={this.state.TenderValue}
+                              required
+                              min="1"
+                            />
+                          </div>
+                          {/* <div class="col-sm-2">
                             <label
                               for="ApplicationREf"
                               className="font-weight-bold"
@@ -2009,7 +2057,7 @@ class Applications extends Component {
                               value={this.state.ApplicationREf}
                               required
                             />
-                          </div>
+                          </div> */}
                         </div>
                         <br />
                         <div class="row">
@@ -2032,25 +2080,6 @@ class Applications extends Component {
                             />
                           </div>
                           <div class="col-sm-2">
-                            <label for="TenderNo" className="font-weight-bold">
-                              Tender Amount
-                            </label>
-                          </div>
-                          <div class="col-sm-4">
-                            <input
-                              type="number"
-                              class="form-control"
-                              name="TenderValue"
-                              onChange={this.handleInputChange}
-                              value={this.state.TenderValue}
-                              required
-                              min="1"
-                            />
-                          </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                          <div class="col-sm-2">
                             <label for="Town" className="font-weight-bold">
                               Tender Opening Date{" "}
                             </label>
@@ -2066,6 +2095,25 @@ class Applications extends Component {
                               max={this.state.Today}
                             />
                           </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                          {/* <div class="col-sm-2">
+                            <label for="Town" className="font-weight-bold">
+                              Tender Opening Date{" "}
+                            </label>
+                          </div>
+                          <div class="col-sm-4">
+                            <input
+                              type="date"
+                              name="StartDate"
+                              required
+                              defaultValue={this.state.StartDate}
+                              className="form-control"
+                              onChange={this.handleInputChange}
+                              max={this.state.Today}
+                            />
+                          </div> */}
                           <div class="col-sm-2">
                             <label
                               for="ClosingDate"
@@ -2399,7 +2447,7 @@ class Applications extends Component {
                                           <td>{r.GroundNO}</td>
                                           <td>
                                             {ReactHtmlParser(r.Description)}
-                                          {/* <CKEditor
+                                            {/* <CKEditor
                                             data={r.Description}
                                             onChange={this.onEditorChange}
                                           /> */}
@@ -2493,7 +2541,7 @@ class Applications extends Component {
                                         />
                                       </div>
                                     </div>
-                                   
+
                                     <br />
                                     <div className="row">
                                       <div class="col-sm-9"></div>

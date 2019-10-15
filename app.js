@@ -5,7 +5,7 @@ var usergroups = require("./Routes/SystemAdmin/usergroups");
 var Signup = require("./Routes/SystemAdmin/Signup");
 var Mailer = require("./Routes/SystemAdmin/Mailer");
 var auth = require("./auth");
-var ValidateTokenExpiry=require("./Routes/SystemAdmin/ValidateTokenExpiry")
+var ValidateTokenExpiry = require("./Routes/SystemAdmin/ValidateTokenExpiry");
 
 var Roles = require("./Routes/SystemAdmin/Roles");
 var Auditrails = require("./Routes/SystemAdmin/Auditrails");
@@ -70,6 +70,7 @@ var GenerateHearingNotice = require("./Routes/generatePdf/GenerateHearingNotice"
 var GeneratePanelList = require("./Routes/generatePdf/GeneratePanelList");
 var GenerateCaseSummary = require("./Routes/generatePdf/GenerateCaseSummary");
 var GenerateAttendanceregister = require("./Routes/generatePdf/GenerateAttendanceregister");
+var FeesApproval = require("./Routes/Applications/FeesApproval");
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -139,6 +140,7 @@ app.use("/api/PanelApproval", PanelApproval);
 app.use("/api/Branches", Branches);
 //applications
 app.use("/api/tenders", tenders);
+app.use("/api/FeesApproval", FeesApproval);
 app.use("/api/tenderaddendums", tenderaddendums);
 app.use("/api/applications", applications);
 app.use("/api/grounds", grounds);

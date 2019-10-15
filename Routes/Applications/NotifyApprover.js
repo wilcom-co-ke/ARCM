@@ -7,6 +7,70 @@ var con = mysql.createPool(config);
 
 NotifyApprover.post("/", function(req, res) {
   const ID = req.body.ID;
+
+  if (ID === "Fee Payment notification") {
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
+     Fees payable for application you submited to Public Procurement Administrative Review Board has been approved.You are required to login to the system 
+     to get payment details.
+    <br></br>
+    This is computer generated message.Please do not reply.`;
+    con.getConnection(function(err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
+
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output,
+            attachments: {
+              // use URL as an attachment
+              filename: req.body.AttachmentName,
+              path: req.body.Attachmentpath
+            }
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.json({
+                success: true,
+                message: "Not Sent"
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "Sent"
+              });
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
   if (ID === "PEresponseOthers") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
      New Procuring Entity response for Application: <b>${req.body.ApplicationNo}.</b> has been submited to PPARB.Login to ARCMS to vew the details.
@@ -1104,8 +1168,57 @@ and the process to refund the deposit has been initiated.<br></br>
       });
     });
   }
+
   if (ID == "Approver") {
     const output = `<p>New Application with APPLICATIONNO :<b>${req.body.ApplicationNo}</b> has been sent and its awaiting your review.</p>`;
+    con.getConnection(function(err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
+
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(sent);
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
+  if (ID == "FeesApprover") {
+    const output = `<p>New application fees approval request for application with ReferenceNo :<b>${req.body.ApplicationNo}</b> has been sent and its awaiting your review.</p>`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {

@@ -30,7 +30,10 @@ applications.get("/", auth.validateRole("Applications"), function(req, res) {
     }
   });
 });
-applications.get("/:ID/:Category", auth.validateRole("Applications"), function(req, res) {
+applications.get("/:ID/:Category", auth.validateRole("Applications"), function(
+  req,
+  res
+) {
   const ID = req.params.ID;
   const Category = req.params.Category;
   con.getConnection(function(err, connection) {
@@ -41,23 +44,9 @@ applications.get("/:ID/:Category", auth.validateRole("Applications"), function(r
       });
     } // not connected!
     else {
-      if (Category==="Applicant"){
-      let sp = "call getmyapplications(?)";
-      connection.query(sp, [ID], function(error, results, fields) {
-        if (error) {
-          res.json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.json(results[0]);
-        }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
-      });
-    }else{
-        let sp = "call GetApplicationsForEachPE(?)";
-        connection.query(sp, [ID], function (error, results, fields) {
+      if (Category === "Applicant") {
+        let sp = "call getmyapplications(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
           if (error) {
             res.json({
               success: false,
@@ -69,36 +58,54 @@ applications.get("/:ID/:Category", auth.validateRole("Applications"), function(r
           connection.release();
           // Don't use the connection here, it has been returned to the pool.
         });
-    }
-    }
-  });
-});
-applications.get("/:ID/:Category/:Value", auth.validateRole("Applications"), function (req, res) {
-  const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
-    if (err) {
-      res.json({
-        success: false,
-        message: err.message
-      });
-    } // not connected!
-    else {
-      let sp = "call TrackApplicationSequence(?)";
-      connection.query(sp, [ID],function (error, results, fields) {
-        if (error) {
-          res.json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.json(results[0]);
-        }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
-      });
+      } else {
+        let sp = "call GetApplicationsForEachPE(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
     }
   });
 });
+applications.get(
+  "/:ID/:Category/:Value",
+  auth.validateRole("Applications"),
+  function(req, res) {
+    const ID = req.params.ID;
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call TrackApplicationSequence(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 applications.post("/", auth.validateRole("Applications"), function(req, res) {
   const schema = Joi.object().keys({
     TenderID: Joi.number()
@@ -109,9 +116,6 @@ applications.post("/", auth.validateRole("Applications"), function(req, res) {
       .min(1),
     PEID: Joi.string()
       .min(1)
-      .required(),
-    ApplicationREf: Joi.string()
-      .min(3)
       .required()
   });
 
@@ -121,7 +125,7 @@ applications.post("/", auth.validateRole("Applications"), function(req, res) {
       req.body.TenderID,
       req.body.ApplicantID,
       req.body.PEID,
-      req.body.ApplicationREf,
+
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -132,7 +136,7 @@ applications.post("/", auth.validateRole("Applications"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveApplication(?,?,?,?,?)";
+        let sp = "call SaveApplication(?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -168,9 +172,6 @@ applications.put("/:ID", auth.validateRole("Applications"), function(req, res) {
       .min(1),
     PEID: Joi.string()
       .min(1)
-      .required(),
-    ApplicationREf: Joi.string()
-      .min(3)
       .required()
   });
   const result = Joi.validate(req.body, schema);
@@ -182,7 +183,7 @@ applications.put("/:ID", auth.validateRole("Applications"), function(req, res) {
       req.body.TenderID,
       req.body.ApplicantID,
       req.body.PEID,
-      req.body.ApplicationREf,
+
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -193,7 +194,7 @@ applications.put("/:ID", auth.validateRole("Applications"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call UpdateApplication(?,?,?,?,?,?)";
+        let sp = "call UpdateApplication(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

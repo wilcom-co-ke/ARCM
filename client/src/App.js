@@ -45,7 +45,7 @@ import PanelApproval from "./Forms/Applications/PanelApproval";
 import HearingInprogress from "./Forms/Applications/HearingInprogress";
 import CaseProceedings from "./Forms/Applications/CaseProceedings";
 //applications
-
+import FeesApproval from "./Forms/Applications/FeesApproval";
 import Applications from "./Forms/Applications/Applications";
 import CaseWithdrawalApproval from "./Forms/Applications/CaseWithdrawalApproval";
 import AdjournmentApproval from "./Forms/Applications/AdjournmentApproval";
@@ -69,7 +69,7 @@ import RB1 from "./Forms/Reports/RB1";
 import Attendance from "./Forms/Reports/Attendance";
 import CaseSummary from "./Forms/Reports/CaseSummary";
 import Logout from "./Logout";
-import CloseRegistrations from "./Forms/Applications/CloseRegistrations"
+import CloseRegistrations from "./Forms/Applications/CloseRegistrations";
 const checkAuth = () => {
   let token = localStorage.getItem("token");
   if (!token) {
@@ -119,6 +119,7 @@ function App() {
                 <Route exact path="/PanelList" component={PanelList} />
                 <Route exact path="/RB1" component={RB1} />
                 <Route exact path="/Attendance" component={Attendance} />
+                <Route exact path="/FeesApproval" component={FeesApproval} />
                 <Route
                   exact
                   path="/HearingInprogress"
@@ -160,8 +161,11 @@ function App() {
                 <Route exact path="/Venues" component={Venues} />
                 <Route exact path="/Panels" component={Panels} />
                 <Route exact path="/MyCases" component={MyCases} />
-                <Route exact path="/CloseRegistrations" component={CloseRegistrations} />
-                
+                <Route
+                  exact
+                  path="/CloseRegistrations"
+                  component={CloseRegistrations}
+                />
                 <Route
                   exact
                   path="/CaseScheduling"

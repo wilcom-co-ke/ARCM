@@ -463,6 +463,15 @@ const CaseManagement = props => {
                 </Link>
               </li>
             ) : null}
+            {props.validaterole("Fees Approval", "View") ? (
+              <li>
+                <Link to="/FeesApproval">
+                  <i className="fa fa-tasks" />
+                  Fees Approval
+                </Link>
+              </li>
+            ) : null}
+            
             {props.validaterole("Applications", "View") ? (
               <li>
                 <Link to="/AllApplications">
