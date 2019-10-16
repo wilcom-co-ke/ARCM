@@ -40,6 +40,7 @@
     "react-schedule-calendar": "^0.22.5",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
+    "react-sortable-tree": "^2.6.2",
     "react-tabs-navigation": "^0.4.4",
     "react-toastify": "^5.3.1",
     "react-video-markers": "^1.1.1",

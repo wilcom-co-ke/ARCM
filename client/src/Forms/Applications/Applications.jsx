@@ -1105,6 +1105,24 @@ class Applications extends Component {
     }
     this.fetchMyApplications(this.state.ApplicantID);
   };
+  sendBulkNtification = (ApproversPhone, ApproversMail) => {
+    let applicantMsg =
+      "New request to approve application fees for Application with Reference No:" +
+      this.state.ApplicationREf +
+      " has been submited and is awaiting your review";
+    this.SendSMS(ApproversPhone, applicantMsg);
+    let ID1 = "Applicant";
+    let ID2 = "FeesApprover";
+    let subject1 = "PPARB APPLICATION ACKNOWLEDGEMENT";
+    let subject2 = "APPLICATION FEES APPROVAL REQUEST";
+    this.SendMail(this.state.ApplicationREf, ApproversMail, ID2, subject2);
+    this.SendMail(
+      this.state.ApplicationREf,
+      this.state.ApplicantEmail,
+      ID1,
+      subject1
+    );
+  };
   sendApproverNotification = () => {
     fetch("/api/NotifyApprover/" + this.state.ApplicationNo, {
       method: "GET",
@@ -1116,28 +1134,8 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.results) {
-            let ApproversPhone = data.results[0].ApproversPhone;
-            let ApproversMail = data.results[0].ApproversMail;
-            let applicantMsg =
-              "New request to approve application fees for Application with Reference No:" +
-              this.state.ApplicationREf +
-              " has been submited and is awaiting your review";
-            this.SendSMS(ApproversPhone, applicantMsg);
-            let ID1 = "Applicant";
-            let ID2 = "FeesApprover";
-            let subject1 = "PPARB APPLICATION ACKNOWLEDGEMENT";
-            let subject2 = "APPLICATION FEES APPROVAL REQUEST";
-            this.SendMail(
-              this.state.ApplicationREf,
-              ApproversMail,
-              ID2,
-              subject2
-            );
-            this.SendMail(
-              this.state.ApplicationREf,
-              this.state.ApplicantEmail,
-              ID1,
-              subject1
+            data.results.map((item, key) =>
+              this.sendBulkNtification(item.ApproversPhone, item.ApproversMail)
             );
           }
         })

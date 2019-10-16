@@ -151,7 +151,12 @@ class SideBar extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        this.setState({ privilages: data });
+        if (data.length > 0) {
+          this.setState({ privilages: data });
+        } else {
+          localStorage.clear();
+          return (window.location = "/#/Logout");
+        }
       })
       .catch(err => {
         this.setState({ loading: false, redirect: true });
@@ -471,7 +476,7 @@ const CaseManagement = props => {
                 </Link>
               </li>
             ) : null}
-            
+
             {props.validaterole("Applications", "View") ? (
               <li>
                 <Link to="/AllApplications">

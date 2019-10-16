@@ -78,7 +78,7 @@ class FeesApproval extends Component {
     };
     fetchPendingRequests = () => {
         this.setState({ Requests: [] });
-        fetch("/api/FeesApproval/1" , {
+        fetch("/api/FeesApproval/" + localStorage.getItem("UserName") , {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

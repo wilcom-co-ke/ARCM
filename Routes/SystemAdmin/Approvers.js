@@ -64,9 +64,7 @@ Approvers.post("/", auth.validateRole("Approvers"), function(req, res) {
     ModuleCode: Joi.string()
       .min(2)
       .required(),
-    Level: Joi.number()
-      .integer()
-      .min(1),
+    isMandatory: Joi.boolean(),
     Active: Joi.boolean()
   });
   const result = Joi.validate(req.body, schema);
@@ -74,7 +72,57 @@ Approvers.post("/", auth.validateRole("Approvers"), function(req, res) {
     let data = [
       req.body.Username,
       req.body.ModuleCode,
-      req.body.Level,
+      req.body.isMandatory,
+      res.locals.user,
+      req.body.Active
+    ];
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call SaveApprover(?,?,?,?,?)";
+        connection.query(sp, data, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "saved"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  } else {
+    res.json({
+      success: false,
+      message: result.error.details[0].message
+    });
+  }
+});
+Approvers.post("/:ID", auth.validateRole("Approvers"), function(req, res) {
+  const schema = Joi.object().keys({
+    MaximumApprovers: Joi.number()
+      .min(1)
+      .required(),
+    ModuleCode: Joi.string()
+      .min(2)
+      .required()
+  });
+  const result = Joi.validate(req.body, schema);
+  if (!result.error) {
+    let data = [
+      req.body.MaximumApprovers,
+      req.body.ModuleCode,
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -85,7 +133,7 @@ Approvers.post("/", auth.validateRole("Approvers"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveApprover(?,?,?,?)";
+        let sp = "call SetMaxApproval(?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

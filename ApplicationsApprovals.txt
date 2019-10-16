@@ -1,0 +1,86 @@
+CREATE DEFINER = 'Arcm'@'localhost'
+PROCEDURE arcm.ApproveApplication(IN _Approver VARCHAR(50),IN _ApplicationNo varchar(50),IN _Remarks varchar(255))
+  NO SQL
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT(_Approver +' Approved Application: ',_ApplicationNo); 
+UPDATE applications_approval_workflow
+SET Status='Approved',Approved_At=now(),Remarks=_Remarks,Approver=_Approver
+WHERE  ApplicationNo=_ApplicationNo;
+select IFNULL( PeResponseDays,5) from configurations LIMIT 1 into @PEResponseTimeOut;
+select IFNULL( CaseClosingDate,21) from configurations LIMIT 1 into @CaseClosingDate;
+
+-- select Level from approvers  where ModuleCode ='APFRE' and Deleted=0 and Active=1 and Username=_Approver LIMIT 1 INTO @CurentLevel;
+select MaxApprovals from approvalmodules where ModuleCode ='APFRE' LIMIT 1 into @MaxApprovals;
+
+if(SELECT count(*)  from approvers where ModuleCode ='APFRE' and Deleted=0 and Active=1 and  Level=@CurentLevel + 1)>0 THEN
+BEGIN
+select Username from approvers  where ModuleCode ='APFRE' and Level=@CurentLevel+1 and Deleted=0 and Active=1 LIMIT 1 INTO @Approver2 ; 
+	INSERT INTO `applications_approval_workflow`( `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, 	`Approver`, `Created_By`, `Created_At`) 
+	SELECT
+	`TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`,'Pending Approval', @Approver2, _Approver, now() from  applications_approval_workflow where ApplicationNo=_ApplicationNo and Approver=_Approver;
+ 
+  call SaveNotification(@Approver2,'Applications Approval','Applications pending approval',DATE_ADD(NOW(), INTERVAL 3 DAY));
+
+END;
+ELSE
+	Begin
+		UPDATE applications_approval_workflow SET Status='Fully Approved',Approved_At=now(),Remarks=_Remarks
+		WHERE Approver=_Approver and ApplicationNo=_ApplicationNo; 
+    update applications set Status='APPROVED',ClosingDate=NOW() + INTERVAL @CaseClosingDate DAY where ApplicationNo=_ApplicationNo;
+	END;
+END IF;
+
+if(@CurentLevel=1) THEN
+Begin
+DECLARE _NewApplicationNo varchar(50);
+DECLARE _Year varchar(50);
+select IFNULL(Year,Year(now())) from configurations   INTO @Currentyear; 
+if(@Currentyear <> Year(now())) then
+Begin
+select Year(now()) into @curryr;
+update configurations set NextApplication=2,Year=@curryr;
+select IFNULL(NextApplication,1) from configurations   INTO @ApplicationNo; 
+set _NewApplicationNo=CONCAT('1 OF ',Year(now()));
+update applications set ApplicationNo=_NewApplicationNo where ApplicationNo=_ApplicationNo;
+update applicationsequence set ApplicationNo=_NewApplicationNo where ApplicationNo=_ApplicationNo;
+
+
+update applications set Status='APPROVED' where ApplicationNo=_NewApplicationNo;
+select PEID from applications where ApplicationNo=_NewApplicationNo limit 1 into @PEID;
+call SavePETimerResponse(@PEID,_NewApplicationNo,NOW() + INTERVAL @PEResponseTimeOut DAY);
+call AssignCaseOfficer(_NewApplicationNo, @PEID, _Approver);
+call Saveapplicationsequence(_NewApplicationNo,'Approved','Awaiting PE Response');
+call Resolveapplicationsequence(_NewApplicationNo,'Submited Application');
+select Email,Name,Mobile,_NewApplicationNo as NewApplicationno,'Notify PE' as msg from procuremententity where PEID=@PEID;
+
+End;
+else
+Begin
+select IFNULL(NextApplication,1) from configurations   INTO @ApplicationNo; 
+set _Year=CONCAT(' OF ',Year(now()));
+set _NewApplicationNo=CONCAT(@ApplicationNo,_Year);
+update applications set ApplicationNo=_NewApplicationNo where ApplicationNo=_ApplicationNo;
+update applicationsequence set ApplicationNo=_NewApplicationNo where ApplicationNo=_ApplicationNo;
+call Saveapplicationsequence(_NewApplicationNo,'Approved','Awaiting PE Response');
+call Resolveapplicationsequence(_NewApplicationNo,'Submited Application');
+update applications set Status='APPROVED' where ApplicationNo=_NewApplicationNo;
+select PEID from applications where ApplicationNo=_NewApplicationNo limit 1 into @PEID;
+call SavePETimerResponse(@PEID,_NewApplicationNo,NOW() + INTERVAL @PEResponseTimeOut DAY);
+call AssignCaseOfficer(_NewApplicationNo, @PEID, _Approver);
+update configurations set NextApplication=@ApplicationNo+1,Year=Year(now());
+select Email,Name,Mobile,_NewApplicationNo as NewApplicationno,'Notify PE' as msg from procuremententity where PEID=@PEID;
+End;
+End if;
+
+END;
+else
+Begin
+select 'Level 2' as msg;
+End;
+End IF;
+call ResolveMyNotification(_Approver,'Applications Approval');
+
+call Resolveapplicationsequence(_ApplicationNo,'Submited Application');
+call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
+END

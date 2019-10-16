@@ -10,6 +10,7 @@ import UserGroups from "./Forms/SystemAdmin/UserGroups";
 import Roles from "./Forms/SystemAdmin/Roles";
 import Users from "./Forms/SystemAdmin/Users";
 import Approvers from "./Forms/SystemAdmin/Approvers";
+import NewApprovers from "./Forms/SystemAdmin/NewApprovers";
 import caseofficers from "./Forms/SystemAdmin/caseofficers";
 import casedetails from "./Forms/Applications/casedetails";
 import CaseScheduling from "./Forms/Applications/CaseScheduling";
@@ -110,10 +111,11 @@ function App() {
                 <Route path="/Logout" exact component={Logout} />;
                 <Route exact path="/" component={DashBoard} />
                 <Route exact path="/Users" component={Users} />
+                <Route exact path="/Approvers" component={NewApprovers} />
                 <Route exact path="/Roles" component={Roles} />
                 <Route exct path="/Usergroups" component={UserGroups} />
                 <Route exact path="/Auditrails" component={Auditrails} />
-                <Route exact path="/Approvers" component={Approvers} />
+                {/* <Route exact path="/Approvers" component={Approvers} /> */}
                 <Route exact path="/casedetails" component={casedetails} />
                 <Route exact path="/Branches" component={Branches} />
                 <Route exact path="/PanelList" component={PanelList} />

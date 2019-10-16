@@ -35,6 +35,7 @@ FeesApproval.get("/:ID", auth.validateRole("Fees Approval"), function(
   req,
   res
 ) {
+  const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -43,8 +44,8 @@ FeesApproval.get("/:ID", auth.validateRole("Fees Approval"), function(
       });
     } // not connected!
     else {
-      let sp = "call GetPendingApplicationFees()";
-      connection.query(sp, function(error, results, fields) {
+      let sp = "call GetPendingApplicationFees(?)";
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
