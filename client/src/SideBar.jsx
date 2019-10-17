@@ -477,15 +477,14 @@ const CaseManagement = props => {
               </li>
             ) : null}
 
-            {props.validaterole("Applications", "View") ? (
+            {props.validaterole("Applications Approval", "View") ? (
               <li>
-                <Link to="/AllApplications">
+                <Link to="/PaymentConfirmation">
                   <i className="fa fa-tasks" />
-                  All Applications
+                  Payment Confirmation
                 </Link>
               </li>
             ) : null}
-
             {props.validaterole("Applications Approval", "View") ? (
               <li>
                 <Link to="/ApplicationsApprovals">
@@ -495,19 +494,20 @@ const CaseManagement = props => {
               </li>
             ) : null}
 
-            {props.validaterole("Deadline Extension Approval", "View") ? (
-              <li>
-                <Link to="/DeadlinerequestApproval">
-                  <i className="fa fa-tasks" />
-                  Deadline Extension
-                </Link>
-              </li>
-            ) : null}
+            
             {props.validaterole("Case Management", "View") ? (
               <li>
                 <Link to="/Response">
                   <i className="fa fa-tasks" />
                   PE Response
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Deadline Extension Approval", "View") ? (
+              <li>
+                <Link to="/DeadlinerequestApproval">
+                  <i className="fa fa-tasks" />
+                  Deadline Extension
                 </Link>
               </li>
             ) : null}
@@ -536,6 +536,15 @@ const CaseManagement = props => {
                 </Link>
               </li>
             ) : null}
+           
+            {props.validaterole("Case Adjournment", "View") ? (
+              <li>
+                <Link to="/AdjournmentApproval">
+                  <i className="fa fa-tasks" />
+                  Adjournment Approval
+                </Link>
+              </li>
+            ) : null}
             {props.validaterole("Case Withdrawal", "View") ? (
               <li>
                 <Link to="/CaseWithdrawalApproval">
@@ -544,11 +553,11 @@ const CaseManagement = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Case Adjournment", "View") ? (
+            {props.validaterole("Applications", "View") ? (
               <li>
-                <Link to="/AdjournmentApproval">
+                <Link to="/AllApplications">
                   <i className="fa fa-tasks" />
-                  Adjournment Approval
+                  All Applications
                 </Link>
               </li>
             ) : null}

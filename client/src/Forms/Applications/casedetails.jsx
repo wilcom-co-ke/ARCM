@@ -19,7 +19,8 @@ class casedetails extends Component {
             casedetails: [],
             privilages: [],
             UserName: "",
-           
+            CurrentOfficer:"",
+            CurrentApproveruserName:"",
             Users: [],
             Reason:"",
             ApplicantDetails: [],
@@ -275,7 +276,7 @@ class casedetails extends Component {
                         swal("", "Added successsfuly", "success");
                         this.fetchcasedetails();
                         let AproverEmail = data.results[0].Email;
-                        alert(AproverEmail)
+                      
                         let AproverMobile = data.results[0].Phone;
                         let Name = data.results[0].Name;
                       
@@ -369,7 +370,9 @@ class casedetails extends Component {
     ReasignOfficer = k => {
         const data = {
             ApplicationNo: k.ApplicationNo,
-            summary: true
+            summary: true,
+            CurrentOfficer:k.Name,
+            CurrentApproveruserName:k.UserName
         };
 
         this.setState(data);
@@ -391,8 +394,11 @@ class casedetails extends Component {
         let FormStyle = {
             margin: "20px"
         };
-
-        const Users = [...this.state.Users].map((k, i) => {
+        
+        const filtereddata = this.state.Users.filter(
+            item => item.Username !== this.state.CurrentApproveruserName
+        );
+        const Users = filtereddata.map((k, i) => {
             return {
                 value: k.Username,
                 label: k.Name
@@ -480,9 +486,7 @@ class casedetails extends Component {
                 Rowdata1.push(Rowdata);
             });
         }
-        console.log(this.state.Users)
-        //OngoingCases
-        //Name
+       
         const officeresss = [...this.state.Users]
         let Rowoff1 = [];
         if (officeresss.length > 0) {
@@ -669,73 +673,90 @@ class casedetails extends Component {
                             <div className="col-lg-1"></div>
                             <div className="col-lg-10 border border-success rounded">
                                 <form style={FormStyle} onSubmit={this.SubmitCaseOfficerReasignment} >
-                                  
-                                        <div className="row ">
-                                            <div class="col-sm-2">
-                                                <label
-                                                    for="TenderName"
-                                                    className="font-weight-bold"
-                                                >
-                                                    New Officer{" "}
-                                                </label>
+                                  <div className="row ">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label
+                                                        for="TenderName"
+                                                        className="font-weight-bold"
+                                                    >
+                                                       Current Officer
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input type="text" className="form-control" value={this.state.CurrentOfficer} disabled />
+                                                </div>
+                                            </div>                            
                                             </div>
-                                            <div class="col-sm-4">
-                                                <Select
-                                                    name="UserName"
-                                                    onChange={this.handleSelectChange}
-                                                    options={Users}
-                                                    required
-                                                />
-                                            </div>
-                                            {/* <div class="col-sm-5">
-                                            <p></p>
-                                            <input
-                                                className="checkbox"
-                                                id="IsActive"
-                                                type="checkbox"
-                                                name="IsActive"
-                                                defaultChecked={this.state.IsActive}
-                                                onChange={this.handleInputChange}
-                                            />{" "}
-                                            <label
-                                                htmlFor="Active"
-                                                className="font-weight-bold"
-                                            >
-                                                Primary officer
-                                  </label>
-                                            </div> */}
-                                           
-                                        </div>
-                                    <div className="row ">
-                                        <div class="col-sm-2">
-                                            <label
-                                                for="TenderName"
-                                                className="font-weight-bold"
-                                            >
-                                               Reason
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <textarea
-                                                onChange={this.handleInputChange}
-                                                value={this.state.Reason}
-                                                type="text"
-                                                required
-                                                name="Reason"
-                                                className="form-control"
-                                            
-                                            />
-                                        </div>
-                                        <br/>
-                                        <div class="col-sm-1">
+                                        <div class="col-sm-6">
+                                             <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label
+                                                        for="TenderName"
+                                                        className="font-weight-bold"
+                                                    >
+                                                        New Officer{" "}
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <Select
+                                                        name="UserName"
+                                                        onChange={this.handleSelectChange}
+                                                        options={Users}
+                                                        required
+                                                    />
+                                                </div>
+                                             </div>
                                           
-                                            <button
-                                                type="submit"
-                                                className="btn btn-primary float-right"
-                                            >
-                                                CONFIRM
-                                              </button>
                                         </div>
+                                      
+                                  </div>
+                                    <br/>
+                                    <div className="row ">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <label
+                                                        for="TenderName"
+                                                        className="font-weight-bold"
+                                                    >
+                                                        Reason
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    
+                                                    <textarea
+                                                        onChange={this.handleInputChange}
+                                                        value={this.state.Reason}
+                                                        type="text"
+                                                        required
+                                                        name="Reason"
+                                                        className="form-control"
+
+                                                    />
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                  
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <br />
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary float-right"
+                                                    >
+                                                        CONFIRM
+                                              </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        
+                                    
                                         </div>
                                   
 

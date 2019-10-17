@@ -18,17 +18,12 @@ Signup.post("/", function(req, res) {
       .integer()
       .min(1),
     Username: Joi.string()
-      .min(4)
+      .min(1)
       .required(),
     Category: Joi.string()
       .min(2)
       .required(),
-    IDnumber: Joi.number()
-      .integer()
-      .min(6),
-    Gender: Joi.string()
-      .min(4)
-      .required(),
+    IDnumber: Joi.string().min(1),
     DOB: Joi.date().required(),
     Password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
     Email: Joi.string().email({ minDomainAtoms: 2 })
@@ -53,7 +48,7 @@ Signup.post("/", function(req, res) {
         req.body.Category,
         activationCode,
         req.body.IDnumber,
-        req.body.Gender,
+
         req.body.DOB
       ];
       con.getConnection(function(err, connection) {
@@ -64,7 +59,7 @@ Signup.post("/", function(req, res) {
           });
         } // not connected!
         else {
-          let sp = "call Signup(?,?,?,?,?,?,?,?,?,?)";
+          let sp = "call Signup(?,?,?,?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({

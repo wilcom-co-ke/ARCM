@@ -553,12 +553,6 @@ class PanelApproval extends Component {
                 width: 200
             },
             {
-                label: "Responded On",
-                field: "Responsedate",
-                sort: "asc",
-                width: 200
-            },
-            {
                 label: "action",
                 field: "action",
                 sort: "asc",
@@ -573,9 +567,7 @@ class PanelApproval extends Component {
                 const Rowdata = {
                     Name: k.ApplicationNo,
                     ProcuringEntity: k.PEName,
-                    Responsedate: dateFormat(new Date(k.ResponseDate).toLocaleDateString(), "isoDate"),
-
-                    action: (
+                                       action: (
                         <span>
 
                             <a

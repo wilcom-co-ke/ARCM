@@ -26,11 +26,8 @@ class Panels extends Component {
             showAdd:false
            
 
-        };
-
-      
-     
-    
+        };     
+         
         this.FormPanel = this.FormPanel.bind(this)
         this.handleSelectChange = this.handleSelectChange.bind(this)
         this.fetchPanels = this.fetchPanels.bind(this)
@@ -249,6 +246,24 @@ class Panels extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
+    sendBulkNtification = (AproverEmail, AproverMobile, Name, ApplicationNo) => {
+        // let AproverEmail = data.results[0].Email;
+        // let AproverMobile = data.results[0].Phone;
+        // let Name = data.results[0].Name;
+        // let ApplicationNo = data.results[0].ApplicationNo;
+        this.SendSMS(
+            AproverMobile,
+            "New Panel List for ApplicationNo:" + ApplicationNo + " has been submited and it's awaiting your review."
+        );
+        this.SendMail(
+            Name,
+            AproverEmail,
+            "PanelApprover",
+            "PANEL LIST APPROVAL",
+            ApplicationNo
+        );
+
+    };
     subMitPanellist=()=>{
         
         fetch("/api/Panels/" + this.state.ApplicationNo, {
@@ -262,22 +277,10 @@ class Panels extends Component {
                 response.json().then(data => {
                     if (data.success) {
                         swal("", "Submited successsfuly", "success");
-                        let AproverEmail = data.results[0].Email;
-                        let AproverMobile = data.results[0].Phone;
-                        let Name = data.results[0].Name;
-                        let ApplicationNo = data.results[0].ApplicationNo;
-                        this.SendSMS(
-                            AproverMobile,
-                            "New Panel List for ApplicationNo:" + ApplicationNo + " has been submited and it's awaiting your review."
+                        data.results.map((item, key) =>
+                            this.sendBulkNtification(item.AproverEmail, item.AproverMobile, item.Name, item.ApplicationNo)
                         );
-                        this.SendMail(
-                            Name,
-                            AproverEmail,
-                            "PanelApprover",
-                            "PANEL LIST APPROVAL",
-                            ApplicationNo
-                        );
-                    
+                      
                         this.fetchRespondedApplications();
                         this.setState({ summary: false });
 
@@ -498,12 +501,7 @@ class Panels extends Component {
                 sort: "asc",
                 width: 200
             },
-            {
-                label: "Responded On",
-                field: "Responsedate",
-                sort: "asc",
-                width: 200
-            },
+            
             {
                 label: "action",
                 field: "action",
@@ -519,7 +517,7 @@ class Panels extends Component {
                 const Rowdata = {
                     Name: k.ApplicationNo,
                     ProcuringEntity: k.PEName,
-                    Responsedate: dateFormat(new Date(k.ResponseDate).toLocaleDateString(), "isoDate"), 
+                    
 
                     action: (
                         <span>

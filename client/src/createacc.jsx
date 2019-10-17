@@ -6,10 +6,12 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import Modal from 'react-awesome-modal';
 class createacc extends Component {
     constructor() {
         super();
         this.state = {
+            open: false,
             PE: [],
             Counties: [],
             privilages: [],
@@ -29,21 +31,20 @@ class createacc extends Component {
             Logo: "",
             isUpdate: false,
             selectedFile: null,
-            redirect: false,
-            LoginName:"",
-            LoginUsername:"",
-            LoginEmail:"",
-            LoginPhone:"",
-            LoginPassword:"",
-            LoginCategory:"",
-            IDnumber:"",
-            Gender:"",
-            DOB:"",
+            redirect: false,          
             Companyregistrationdate:"",
             Procuringentity:""
             
         };
               this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    openModal=()=> {
+        this.setState({ open: true });
+      
+    }
+    closeModal = () => {
+        this.setState({ open: false });
     }
     fetchPE = () => {
         fetch("/api/PE", {
@@ -70,12 +71,12 @@ class createacc extends Component {
             redirect: true
         });
     };
-    showApplicatntDiv() {        
-        document.getElementById("nav-home-tab").click();
-    }
-    handleSelectChange = (County, actionMeta) => {
-        this.setState({ [actionMeta.name]: County.value });
-
+   
+    handleSelectChange = (County, actionMeta) =>{
+        this.setState({ [actionMeta.name]: County.value });      
+        if (County.value ==="PE"){
+            this.setState({ open: true });
+        }
     };
     fetchCounties = () => {
         fetch("/api/counties", {
@@ -239,40 +240,24 @@ class createacc extends Component {
     }
     handleSubmit = event => {
         event.preventDefault();
-        const data = {
+         
+        const Logindata = {
             Name: this.state.Name,
-            Location: this.state.Location,
-            POBox: this.state.POBox,
-            PostalCode: this.state.PostalCode,
-            Town: this.state.Town,
-            Mobile: this.state.Mobile,
-            Telephone: this.state.Telephone,
+            Username: this.state.PIN,
             Email: this.state.Email,
-            Logo: this.state.Logo,
-            Website: this.state.Website,           
-            County: this.state.County,
-            UserName: this.state.LoginUsername,
-            Companyregistrationdate: this.state.Companyregistrationdate,
-            PIN: this.state.PIN,
-            RegistrationNo: this.state.RegistrationNo
-        };     
-               
-        if (this.state.LoginCategory ==="Applicant"){
-            this.postData("/api/applicants", data);  
-        }  else{
-            if (this.state.Procuringentity){
-                let data1 = {
-                    Procuringentity: this.state.Procuringentity,
-                    UserName: this.state.LoginUsername
-                }
-
-                this.postPEUsers("/api/PEUsers", data1); 
-            }else{
-
-                swal("", "Select Institution", "error");
-            }
-            
+            Phone: this.state.Mobile,
+            Password: this.state.LoginPassword,
+            Category: this.state.LoginCategory,
+            IDnumber: this.state.PIN,         
+            DOB: this.state.Companyregistrationdate,
+        };
+        if (this.state.LoginPassword == this.state.ConfirmPassword) {
+            this.postloginData("/api/Signup", Logindata);
+        } else {
+            swal("","Password and Confirm password do not match","error");
         }
+       
+     
     };
     postPEUsers(url = ``, data = {}) {
         fetch(url, {
@@ -313,41 +298,21 @@ class createacc extends Component {
             .then(response =>
                 response.json().then(data => {
                        if (data.success) {
-                        swal("Saved!", "Registration has been Successful! please check you email to get your verification code", "success");
+                        swal("", "Registration has been Successful! please check you email to get your verification code", "success");
                         setTimeout(function () {
                            
                         }, 7000);
                            this.setRedirect();
                        
                     } else {
-                        swal("Saved!", data.message, "error");
+                        swal("", data.message, "error");
                     }
                 })
             )
             .catch(err => {
                 swal("Oops!", err.message, "error");
             });
-    }
-    handleLoginSubmit = event => {
-        event.preventDefault();
-             const data = {
-            Name: this.state.LoginName,
-            Username: this.state.LoginUsername,
-            Email: this.state.LoginEmail,
-            Phone: this.state.LoginPhone,
-            Password: this.state.LoginPassword,
-            Category: this.state.LoginCategory,
-           IDnumber: this.state.IDnumber,
-           Gender: this.state.Gender,
-           DOB: this.state.DOB,
-        };
-        if (this.state.LoginPassword == this.state.ConfirmPassword) {
-            this.postloginData("/api/Signup", data);
-        } else {
-            this.setState({ msg: "Password and Confirm password do not match" });
-        }
-    };
-   
+    }   
     postloginData(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -359,12 +324,45 @@ class createacc extends Component {
             .then(response =>
                 response.json().then(data => {
                     if (data.success) {
-                        localStorage.setItem("Unverifiedusername", this.state.LoginUsername);                       
-                        this.showApplicatntDiv();
+                        const data = {
+
+                            Name: this.state.Name,
+                            Location: this.state.Location,
+                            POBox: this.state.POBox,
+                            PostalCode: this.state.PostalCode,
+                            Town: this.state.Town,
+                            Mobile: this.state.Mobile,
+                            Telephone: this.state.Telephone,
+                            Email: this.state.Email,
+                            Logo: this.state.Logo,
+                            Website: this.state.Website,
+                            County: this.state.County,
+                            UserName: this.state.LoginUsername,
+                            Companyregistrationdate: this.state.Companyregistrationdate,
+                            PIN: this.state.PIN,
+                            RegistrationNo: this.state.RegistrationNo,
+                            UserName: this.state.PIN
+                        }; 
+                        this.postData("/api/applicants", data);  
+                        localStorage.setItem("Unverifiedusername", this.state.PIN);                    
                         this.SendMail(data.activationCode);
                       
                     } else {
-                        swal("Saved!", data.message, "error");
+                        let resmsg = data.message;
+                        if (resmsg.match(/(^|\W)Duplicate($|\W)/)) {
+                            if (resmsg.match(/(^|\W)MobileNo($|\W)/)) {
+                                swal("", "MobileNo Already registered", "error");
+                            } else if (resmsg.match(/(^|\W)Username($|\W)/)) {
+                                swal("", "An account for this instituition already exist.Use reset password to get new password", "error");
+                            }
+                            else if (resmsg.match(/(^|\W)Email($|\W)/)) {
+                                swal("", "Email is already registered", "error");
+                            }
+                            
+                        }else{
+                            swal("","Registration failed", "error");
+                        }
+                        
                     }
                 })
             )
@@ -407,12 +405,7 @@ class createacc extends Component {
                 label: k.Name
             };
         });
-        let GenderCategories=[
-            {value:"Male",
-            label:"Male"},        
-            {value: "Female",
-            label: "Female"}      
-        ]
+       
         let Signstyle = {
             height: 100,
             width: 150
@@ -427,9 +420,7 @@ class createacc extends Component {
         let childdiv = {
             margin: "30px"
         };
-        let pstyle = {
-            color: "red"
-        };
+        
         let Categories = [
             { value: "Applicant", label: "Applicant" },
             {
@@ -454,214 +445,34 @@ class createacc extends Component {
                 
                     <div style={divconatinerstyle}>
                         <ToastContainer />
-                        <div style={rowstyle} className="row">
-                            <div class="col-sm-12">
-                                <nav>
-                                    <div class="nav nav-tabs " id="nav-tab" role="tablist">
-                                        <a
-                                            class="nav-item nav-link active font-weight-bold"
-                                            id="nav-login-tab"
-                                            data-toggle="tab"
-                                            href="#nav-login"
-                                            role="tab"
-                                            aria-controls="nav-login"
-                                            aria-selected="true"
-                                        >User Details</a>
-                                        <a
-                                            class="nav-item nav-link  font-weight-bold"
-                                            id="nav-home-tab"
-                                            data-toggle="tab"
-                                            href="#nav-home"
-                                            role="tab"
-                                            aria-controls="nav-home"
-                                            aria-selected="true"
-                                        >Organization Details</a>
-                           
-                                    </div>
-                                </nav>
-                                <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                                    <div class="tab-pane fade show active"
-                                        id="nav-login"
-                                        role="tabpanel"
-                                        aria-labelledby="nav-login-tab">
-                                        <form  onSubmit={this.handleLoginSubmit}>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="Name" className="font-weight-bold">
-                                                        FullName                  </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        name="LoginName"
-                                                        id="LoginName"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.LoginName}
-                                                    />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        Username                  </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        name="LoginUsername"
-                                                        id="LoginUsername"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.LoginUsername}
-                                                        
-                                                    />
-                                                </div>
-                                                </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="Name" className="font-weight-bold">
-                                                        Email                  </label>
-                                                    <input
-                                                        type="email"
-                                                        className="form-control"
-                                                        name="LoginEmail"
-                                                        id="LoginEmail"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.LoginEmail}
-                                                    />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label for="Name" className="font-weight-bold">
-                                                        Category                  </label>
-                                                    <Select
-                                                        name="LoginCategory"
-                                                        //value={this.state.LoginCategory}
-                                                        onChange={this.handleSelectChange}
-                                                        options={Categories}
-                                                        required
-                                                    />
-                                                </div>
-                                             
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        ID Number                  </label>
-                                                    <input
-                                                        type="number"
-                                                        className="form-control"
-                                                        name="IDnumber"
-                                                        id="IDnumber"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.IDnumber}
-                                                    />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        DOB                  </label>
-                                                    <input
-                                                        type="date"
-                                                        name="DOB"
-                                                        required
-                                                        
-                                                        className="form-control"
-                                                        onChange={this.handleInputChange}
-                                                        id="DOB"
-                                                      
-                                                    />
-                                                </div>
-                                             
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        Phone                  </label>
-                                                    <input
-                                                        type="number"
-                                                        className="form-control"
-                                                        name="LoginPhone"
-                                                        id="LoginPhone"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.LoginPhone}
-                                                    />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        Gender                  </label>
-                                                    <Select
-
-                                                        name="Gender"
-                                                        //value={this.state.LoginCategory}
-                                                        onChange={this.handleSelectChange}
-                                                        options={GenderCategories}
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="Name" className="font-weight-bold">
-                                                        Confirm password                  </label>
-                                                    <input
-                                                        type="password"
-                                                        className="form-control"
-                                                        name="ConfirmPassword"
-                                                        id="ConfirmPassword"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.ConfirmPassword}
-                                                    />
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label for="Username" className="font-weight-bold">
-                                                        Password                  </label>
-                                                    <input
-                                                        type="password"
-                                                        className="form-control"
-                                                        name="LoginPassword"
-                                                        id="LoginPassword"
-                                                        required
-                                                        onChange={this.handleInputChange}
-                                                        value={this.state.LoginPassword}
-                                                    />
-                                                </div>
-
-                                             
-                                               
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6"></div>
-                                                <div class="col-sm-6">
-                                                    <br />
-                                                    <button
-                                                        className="btn btn-lg btn-primary  text-uppercase float-right"
-                                                        type="submit"
-                                                    >  Next</button>
-                                                </div>
-                                            </div>
-                                          
-                                        </form>
-                                        <p></p>
-                                        <div className="row">
-                                            <div className="card-footer col-sm-12">
-                                                <div className="d-flex justify-content-center links">
-                                                   Already have an account?{" "}
-                                                    <Link to="/login">Login</Link>
-                                                </div>
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="tab-pane fade "
-                                        id="nav-home"
-                                        role="tabpanel"
-                                        aria-labelledby="nav-home-tab"
-                                        style={childdiv}
-                                    >
-                                        {this.state.LoginCategory === "Applicant" ? (
-                                            
+                        <div className="row">
+                            <div class="col-sm-12">                              
+                                <div style={rowstyle}> 
+                                    <div style={{
+                                        backgroundColor: " #e74c3c",marginTop:"10px"}}>
+                                        <br/>
+                                        <h2 style={{ "text-align": "center", color: "white",marginBottom:"20px" }}>ARCMS USER REGISTRATION</h2>
+                                        <hr />   
+                                    </div> 
+                                                              
+                                    <div style={childdiv}>
+                                        
                                         <form onSubmit={this.handleSubmit}>
+                                                <div class="row">
+                                                  
+                                                    <div class="col-sm-6">
+                                                        <label for="Name" className="font-weight-bold">
+                                                            Category                  </label>
+                                                        <Select
+                                                            name="LoginCategory"
+                                                            //value={this.state.LoginCategory}
+                                                            onChange={this.handleSelectChange}
+                                                            options={Categories}
+                                                            required
+                                                        />
+                                                    </div>
+
+                                                </div>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <label for="Name" className="font-weight-bold">
@@ -718,7 +529,7 @@ class createacc extends Component {
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-3">
                                                     <label for="PO BOXs" className="font-weight-bold">
                                                         PO BOX        </label>
 
@@ -757,6 +568,20 @@ class createacc extends Component {
                                                         required
                                                     />
                                                 </div>
+                                                    <div class="col-sm-3">
+                                                        <label for="Companyregistrationdate" className="font-weight-bold">
+                                                            Registration Date                  </label>
+                                                        <input
+                                                            type="date"
+                                                            name="Companyregistrationdate"
+                                                            required
+                                                            className="form-control"
+                                                            onChange={this.handleInputChange}
+                                                            id="Companyregistrationdate"
+
+                                                        />
+                                                    </div>
+
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -792,7 +617,7 @@ class createacc extends Component {
                                                         name="Website"
                                                         onChange={this.handleInputChange}
                                                         value={this.state.Website}
-                                                        required
+                                                        
                                                     />
                                                 </div>
                                             </div>
@@ -821,21 +646,35 @@ class createacc extends Component {
                                                         required
                                                     />
                                                 </div>
-                                               
-                                                <div class="col-sm-6">
-                                                    <label for="Companyregistrationdate" className="font-weight-bold">
-                                                        Registration Date                  </label>
+                                                <div class="col-sm-3">
+                                                    <label for="Username" className="font-weight-bold">
+                                                        Password                  </label>
                                                     <input
-                                                        type="date"
-                                                        name="Companyregistrationdate"
-                                                        required
+                                                        type="password"
                                                         className="form-control"
+                                                        name="LoginPassword"
+                                                        id="LoginPassword"
+                                                        required
                                                         onChange={this.handleInputChange}
-                                                        id="Companyregistrationdate"
-
+                                                        value={this.state.LoginPassword}
                                                     />
-                                                </div>
+                                                </div> 
+                                                    <div class="col-sm-3">
+                                                        <label for="Name" className="font-weight-bold">
+                                                            Confirm password                  </label>
+                                                        <input
+                                                            type="password"
+                                                            className="form-control"
+                                                            name="ConfirmPassword"
+                                                            id="ConfirmPassword"
+                                                            required
+                                                            onChange={this.handleInputChange}
+                                                            value={this.state.ConfirmPassword}
+                                                        />
+                                                    </div>
+                                                                                               
                                             </div>
+                                            
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <label for="Logo" className="font-weight-bold">
@@ -853,8 +692,7 @@ class createacc extends Component {
                                                             color="success"
                                                             value={this.state.loaded}
                                                         >
-                                                            {Math.round(this.state.loaded, 2)}%
-                            </Progress>
+                                                            {Math.round(this.state.loaded, 2)}%</Progress>
                                                     </div>
                                                     <button
                                                         type="button"
@@ -870,7 +708,7 @@ class createacc extends Component {
                                                         <img
                                                             alt=""
                                                             className=""
-                                                            src={"uploads/profilepics/" + this.state.Logo}
+                                                            src={process.env.REACT_APP_BASE_URL +"/profilepics/" + this.state.Logo}
                                                             style={Signstyle}
                                                         />
                                                     </div>
@@ -890,37 +728,9 @@ class createacc extends Component {
                                             </div>
                                         </form>
                                            
-                                        ) : <form onSubmit={this.handleSubmit}>
-                                                <div class="row">
-                                                   
-                                                    <div class="col-sm-6">
-                                                        <label for="Username" className="font-weight-bold">
-                                                            Select Institution </label>
-                                                        <Select
+                                           
+                                       
 
-                                                            name="Procuringentity"
-                                                            
-                                                            onChange={this.handleSelectChange}
-                                                            options={PE}
-                                                            required
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <br/>
-                                                <div className=" row">
-                                                    <div className="col-sm-1">
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-primary float-right"
-                                                        >
-                                                            Save
-                                                </button>
-                                                    </div>
-                                                    <div className="col-sm-3" />
-                                                    <div className="col-sm-8" />
-                                                   
-                                                </div>
-                                        </form>}
                                         <p></p>
                                         <div className="row">
                                             <div className="card-footer col-sm-12">
@@ -936,9 +746,54 @@ class createacc extends Component {
                                  
                                 </div>
                             </div>
-                        </div>
-                      
+                        </div>                      
                     </div>
+
+                    <Modal visible={this.state.open} width="600" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeModal()}><i class="fa fa-close"></i></a>
+                        <div>
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Procuring Entity</h4>
+                            <div className="container-fluid">
+                                <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                        <form onSubmit={this.handleSubmit}>
+                                            <div class="row">
+
+                                                <div class="col-sm-11">
+                                                    <label for="Username" className="font-weight-bold">
+                                                        Select Institution </label>
+                                                    <Select
+                                                        name="Procuringentity"
+
+                                                        onChange={this.handleSelectChange}
+                                                        options={PE}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div className=" row">
+                                                <div className="col-sm-11" />
+                                                <div className="col-sm-1">
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary float-right"
+                                                    >
+                                                        Select
+                                                </button>
+                                                </div>
+                                                
+                                                
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </Modal>
+
                 </div>
             );
         
