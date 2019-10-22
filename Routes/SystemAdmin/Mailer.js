@@ -152,8 +152,8 @@ Mailer.post("/:ID", function(req, res) {
   }
 
   if (ID == "CreatAccount") {
-    const output = `<p>Thank you <b>${req.body.name}</b> for creating an account with ARCMS</p>
-  <p>Your Activation Code is:<b>${req.body.activationCode}</b></p>`;
+    const output = `<p>Thank you <b>${req.body.name}</b> for creating an account with ARCMS.</p>
+        <p>Your UserName is:<b>${req.body.Username}</b> and Your Activation Code is:<b>${req.body.activationCode}</b>.</p>`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {

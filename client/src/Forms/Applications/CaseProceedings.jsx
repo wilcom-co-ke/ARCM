@@ -899,7 +899,7 @@ class CaseProceedings extends Component {
                                                     aria-controls="nav-Attachments"
                                                     aria-selected="false"
                                                 >
-                                                    Vedio
+                                                    Video
                                                  </a>
 
                                             </div>

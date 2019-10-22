@@ -903,7 +903,7 @@ handleViewPlayeAudio=(d)=>{
                                                     aria-controls="nav-Attachments"
                                                     aria-selected="false"
                                                 >
-                                                    Vedio
+                                                    Video
                     </a>
                                        
                                             </div>

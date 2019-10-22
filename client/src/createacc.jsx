@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import Modal from 'react-awesome-modal';
+var dateFormat = require("dateformat");
 class createacc extends Component {
     constructor() {
         super();
@@ -57,6 +58,7 @@ class createacc extends Component {
             .then(res => res.json())
             .then(PE => {
                 if (PE.length > 0) {
+                  
                     this.setState({ PE: PE });
                 } else {
                     swal("", PE.message, "error");
@@ -76,6 +78,33 @@ class createacc extends Component {
         this.setState({ [actionMeta.name]: County.value });      
         if (County.value ==="PE"){
             this.setState({ open: true });
+        }
+        if (actionMeta.name==="Procuringentity"){
+            let selectedPe = County.value ;
+            var rows = [...this.state.PE];
+            const filtereddata = rows.filter(
+                item => item.PEID == selectedPe
+            );
+            let newdetails={
+                PIN: filtereddata[0].PIN,
+                RegistrationNo: filtereddata[0].RegistrationNo,
+                Name: filtereddata[0].Name,
+                Location: filtereddata[0].Location,
+                County: filtereddata[0].CountyCode,
+                POBox: filtereddata[0].POBox,
+                PostalCode: filtereddata[0].PostalCode,
+                Town: filtereddata[0].Town,
+                Email: filtereddata[0].Email,
+                Website: filtereddata[0].Website,
+                Mobile: filtereddata[0].Mobile,
+                Telephone: filtereddata[0].Telephone,
+                Logo: filtereddata[0].Logo,
+           
+                Companyregistrationdate: dateFormat(new Date(filtereddata[0].RegistrationDate).toLocaleDateString(), "isoDate")
+                   
+            }
+            this.setState(newdetails);
+           
         }
     };
     fetchCounties = () => {
@@ -286,6 +315,33 @@ class createacc extends Component {
                 swal("Oops!", err.message, "error");
             });
     }
+    postPEData(url = ``, data = {}) {
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response =>
+                response.json().then(data => {
+                    if (data.success) {
+                        swal("", "Registration has been Successful! please check you email to get your verification code", "success");
+                        setTimeout(function () {
+
+                        }, 7000);
+                        this.setRedirect();
+
+                    } else {
+                        swal("", data.message, "error");
+                    }
+                })
+            )
+            .catch(err => {
+                swal("Oops!", "Error occured while creating account", "error");
+            });
+    }   
     postData(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -343,9 +399,21 @@ class createacc extends Component {
                             RegistrationNo: this.state.RegistrationNo,
                             UserName: this.state.PIN
                         }; 
-                        this.postData("/api/applicants", data);  
-                        localStorage.setItem("Unverifiedusername", this.state.PIN);                    
-                        this.SendMail(data.activationCode);
+                        if (this.state.LoginCategory==="PE"){
+                            let pedata={
+                                UserName: this.state.PIN, 
+                                Procuringentity: this.state.Procuringentity
+                            }
+                            localStorage.setItem("Unverifiedusername", this.state.PIN);
+                            this.SendMail(data.activationCode);
+                            this.postPEData("/api/PEUsers", pedata)
+                        }else{
+                            localStorage.setItem("Unverifiedusername", this.state.PIN);
+                            this.SendMail(data.activationCode);
+                            this.postData("/api/applicants", data);  
+                        }
+                        
+                     
                       
                     } else {
                         let resmsg = data.message;
@@ -357,7 +425,14 @@ class createacc extends Component {
                             }
                             else if (resmsg.match(/(^|\W)Email($|\W)/)) {
                                 swal("", "Email is already registered", "error");
+                            } else if (resmsg.match(/(^|\W)PRIMARY($|\W)/)) {
+                                swal("", "An account for this instituition already exist.Use reset password to get new password", "error");
+
+                            }else{
+                                swal("", "Registration failed", "error");
                             }
+
+                            
                             
                         }else{
                             swal("","Registration failed", "error");
@@ -372,9 +447,10 @@ class createacc extends Component {
     }
     SendMail(activationCode) {
         const emaildata = {
-            to: this.state.LoginEmail,
+            to: this.state.Email,
             subject: "EMAIL ACTIVATION",
             name: this.state.Name,
+            Username: this.state.PIN,
             activationCode: activationCode,
            category:"Registration"
         };
@@ -453,8 +529,7 @@ class createacc extends Component {
                                         <br/>
                                         <h2 style={{ "text-align": "center", color: "white",marginBottom:"20px" }}>ARCMS USER REGISTRATION</h2>
                                         <hr />   
-                                    </div> 
-                                                              
+                                    </div>                                                               
                                     <div style={childdiv}>
                                         
                                         <form onSubmit={this.handleSubmit}>
@@ -776,7 +851,8 @@ class createacc extends Component {
                                                 <div className="col-sm-11" />
                                                 <div className="col-sm-1">
                                                     <button
-                                                        type="submit"
+                                                        type="button"
+                                                        onClick={this.closeModal}
                                                         className="btn btn-primary float-right"
                                                     >
                                                         Select

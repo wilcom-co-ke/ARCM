@@ -23,7 +23,7 @@ var CaseScheduling = require("./Routes/Applications/CaseScheduling");
 var petypes = require("./Routes/SetUps/petypes");
 var committeetypes = require("./Routes/SetUps/committeetypes");
 var Branches = require("./Routes/SetUps/Branches");
-
+var interestedparties = require("./Routes/SetUps/interestedparties");
 var procurementmethods = require("./Routes/SetUps/procurementmethods");
 var stdtenderdocs = require("./Routes/SetUps/stdtenderdocs");
 var financialyear = require("./Routes/SetUps/financialyear");
@@ -138,6 +138,7 @@ app.use("/api/PEResponse", PEResponse);
 app.use("/api/Panels", Panels);
 app.use("/api/PanelApproval", PanelApproval);
 app.use("/api/Branches", Branches);
+app.use("/api/interestedparties", interestedparties);
 //applications
 app.use("/api/tenders", tenders);
 app.use("/api/FeesApproval", FeesApproval);

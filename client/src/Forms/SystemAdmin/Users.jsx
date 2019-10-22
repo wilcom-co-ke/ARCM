@@ -33,6 +33,7 @@ class Users extends Component {
       open: false,
       RolesPoup: false,
       IsActive: false,
+      Board:false,
       isUpdate: false,
       ShowMe: false,
       Roles: [],
@@ -55,6 +56,7 @@ class Users extends Component {
       { title: "Email", dataKey: "Email" },
       { title: "Phone", dataKey: "Phone" },
       { title: "IsActive", dataKey: "IsActive" },
+      { title: "Board", dataKey:"Board"},
       { title: "UserGroup", dataKey: "UserGroup" }
     ];
 
@@ -154,11 +156,11 @@ class Users extends Component {
             ReportsCategory: UserRoles[0].Reports
           });
         } else {
-          swal("Oops!", Roles.message, "error");
+          swal("", Roles.message, "error");
         }
       })
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   };
   Resetsate() {
@@ -219,14 +221,14 @@ class Users extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            swal("", "Record has been updated!", "success");
+            //swal("", "Record has been updated!", "success");
           } else {
             swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   }
   handleInputChange = event => {
@@ -258,11 +260,11 @@ class Users extends Component {
         if (UserGroups.length > 0) {
           this.setState({ UserGroups: UserGroups });
         } else {
-          swal("Oops!", UserGroups.message, "error");
+          swal("", UserGroups.message, "error");
         }
       })
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   };
   fetchUsers = () => {
@@ -278,11 +280,11 @@ class Users extends Component {
         if (Users.length > 0) {
           this.setState({ Users: Users });
         } else {
-          swal("Oops!", Users.message, "error");
+          swal("", Users.message, "error");
         }
       })
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   };
   componentDidMount() {
@@ -329,7 +331,8 @@ class Users extends Component {
       IsActive: this.state.IsActive,
       IDnumber: this.state.IDnumber,
       DOB: this.state.DOB,
-      Gender: this.state.Gender
+      Gender: this.state.Gender,
+      Board: this.state.Board
     };
 
     if (this.state.isUpdate) {
@@ -346,6 +349,7 @@ class Users extends Component {
       Phone: Users.Phone,
       UserGroup: Users.UserGroup,
       IsActive: !!+Users.IsActive,
+      Board: !! + Users.Board,
       Photo: Users.Photo,
       Signature: Users.Signature,
       UserGroupID: Users.UserGroupID,
@@ -386,7 +390,7 @@ class Users extends Component {
             })
           )
           .catch(err => {
-            swal("Oops!", err.message, "error");
+            swal("", err.message, "error");
           });
       }
     });
@@ -592,7 +596,7 @@ class Users extends Component {
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   };
   RemoveAllRoles = e => {
@@ -621,7 +625,7 @@ class Users extends Component {
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", err.message, "error");
       });
   };
   render() {
@@ -953,7 +957,7 @@ class Users extends Component {
                               </div>
                             </div>
                             <div className=" row">
-                              <div className="col-sm-6">
+                              <div className="col-sm-4">
                                 <div className="form-group">
                                   <label
                                     htmlFor="Datereceived"
@@ -971,6 +975,26 @@ class Users extends Component {
                                     options={UserGroupsOptions}
                                     required
                                   />
+                                </div>
+                              </div>
+                              <div className="col-sm-2">
+                                <div className="form-group">
+                                  <br />
+                                  <br />
+                                  <input
+                                    className="checkbox"
+                                    id="Board"
+                                    type="checkbox"
+                                    name="Board"
+                                    defaultChecked={this.state.Board}
+                                    onChange={this.handleInputChange}
+                                  />{" "}
+                                  <label
+                                    htmlFor="Board"
+                                    className="font-weight-bold"
+                                  >
+                                    Board 
+                                  </label>
                                 </div>
                               </div>
                               <div class="col-sm-4">

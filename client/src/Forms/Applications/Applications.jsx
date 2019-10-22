@@ -13,6 +13,8 @@ import popup from "./../../Styles/popup.css";
 import "./../../Styles/tablestyle.css";
 import CKEditor from "ckeditor4-react";
 import ReactHtmlParser from "react-html-parser";
+import Modal from "react-awesome-modal";
+import { deepStrictEqual } from "assert";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 var dateFormat = require("dateformat");
@@ -26,6 +28,7 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
+      interestedparties:[],
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
@@ -44,7 +47,7 @@ class Applications extends Component {
       profile: true,
       summary: false,
       IsUpdate: false,
-
+      TenderTypes:[],
       selectedFile: null,
       loaded: 0,
       DocumentDescription: "",
@@ -80,12 +83,29 @@ class Applications extends Component {
       PEEmail: "",
       PEWebsite: "",
       TotalAmountdue: "",
-
+      TenderType:"",
       ApplicantPostalCode: "",
       ApplicantPOBox: "",
       ApplicantTown: "",
+      AddInterestedParty: false,
+      alert: null,
 
-      alert: null
+      Unascertainable: false ,
+      Ascertainable: false ,
+      TenderCategory:"",
+      InterestedPartyContactName: "",
+      InterestedPartyName: "",
+      InterestedPartyEmail: "",
+      InterestedPartyTelePhone: "",
+      InterestedPartyMobile: "",
+      InterestedPartyPhysicalAddress:"",
+      InterestedPartyPOBox: "",
+      InterestedPartyPostalCode:"",
+      InterestedPartyTown:"",
+      InterestedPartyDesignation:""
+
+      
+
     };
     this.handViewApplication = this.handViewApplication.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
@@ -94,6 +114,10 @@ class Applications extends Component {
     this.SaveTenderdetails = this.SaveTenderdetails.bind(this);
     this.CompletedApplication = this.CompletedApplication.bind(this);
   }
+
+  closeAddInterestedParty = () => {
+    this.setState({ AddInterestedParty: false });
+  };
   closeModal = () => {
     this.setState({ open: false });
   };
@@ -328,6 +352,44 @@ class Applications extends Component {
                 this.setState({ ApplicationGrounds: filtereddata });
               } else {
                 swal("", "Remove Failed", "error");
+              }
+            })
+          )
+          .catch(err => {
+            swal("", "Remove Failed", "error");
+          });
+      }
+    });
+  };
+  handleDeleteInterestedparty = d => {
+   
+
+    swal({
+      text: "Are you sure that you want to remove this record?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/interestedparties/" + d.ID, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                this.fetchinterestedparties();
+                // var rows = [...this.state.ApplicationGrounds];
+                // const filtereddata = rows.filter(
+                //   item => item.Description !== d.Description
+                // );
+                // this.setState({ ApplicationGrounds: filtereddata });
+              } else {
+                toast.error("Remove Failed")
+                //swal("", "Remove Failed", "error");
               }
             })
           )
@@ -738,6 +800,68 @@ class Applications extends Component {
     event.preventDefault();
     this.saveRequests("Requested Orders");
   };
+  handleInterestedPartySubmit = event => {
+    event.preventDefault();
+    if (this.state.ApplicationID) {
+      let datatosave = {
+  
+
+        Name: this.state.InterestedPartyName,
+        ApplicationID: this.state.ApplicationID,
+        ContactName: this.state.InterestedPartyContactName,
+        Email: this.state.InterestedPartyEmail,
+        TelePhone: this.state.InterestedPartyTelePhone,
+        Mobile: this.state.InterestedPartyMobile,
+        PhysicalAddress: this.state.InterestedPartyPhysicalAddress,
+        PostalCode: this.state.InterestedPartyPostalCode,
+        Town: this.state.InterestedPartyTown,
+        POBox: this.state.InterestedPartyPOBox,
+        Designation: this.state.InterestedPartyDesignation
+      };
+      fetch("/api/interestedparties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(datatosave)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              // this.setState({ Grounds: datatosave });
+              var rows = this.state.interestedparties;
+              rows.push(datatosave);
+              this.setState({ interestedparties: rows });
+              let setstatedata = {
+                InterestedPartyContactName: "",
+                InterestedPartyName: "",
+                InterestedPartyEmail: "",
+                InterestedPartyTelePhone: "",
+                InterestedPartyMobile: "",
+                InterestedPartyPhysicalAddress: "",
+                InterestedPartyPOBox: "",
+                InterestedPartyPostalCode: "",
+                InterestedPartyTown: "",
+                InterestedPartyDesignation:"",
+                AddInterestedParty:false}
+              this.setState(setstatedata);
+            
+            } else {
+              toast.error(data.message)
+              //swal("", "Could not be added please try again", "error");
+            }
+          })
+        )
+        .catch(err => {
+          swal("", "Could not be added please try again", "error");
+        });
+    } else {
+      alert(
+        "Please ensure You have filled tender details before adding interested parties."
+      );
+    }
+  };
   Savefees(ApplicantID, ApplicationREf) {
     let data = {
       ApplicationID: ApplicantID,
@@ -853,6 +977,27 @@ class Applications extends Component {
   };
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({ [actionMeta.name]: UserGroup.value });
+    if (actionMeta.name ==="TenderType"){
+        if(UserGroup.value==="A"){
+          this.setState({ Ascertainable: true, Unascertainable: false, ShowSubcategory:false });
+      
+        }else{
+          this.setState({ Ascertainable: false, Unascertainable: true, ShowSubcategory: false  });
+        
+        }
+    }
+    if (actionMeta.name === "TenderCategory") {
+         if (UserGroup.value === "Unquantified Tenders") {
+        this.setState({  ShowSubcategory: true });
+
+      } else if (UserGroup.value === "Pre-qualification") {
+           this.setState({  ShowSubcategory: true });
+      } else {
+        this.setState({ ShowSubcategory: false });
+
+      }
+    }
+    
   };
   handleInputChange = event => {
     // event.preventDefault();
@@ -984,6 +1129,29 @@ class Applications extends Component {
       });
     }
   };
+  fetchinterestedparties=()=>{
+    this.setState({ interestedparties: [] });
+    fetch("/api/interestedparties", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(interestedparties => {
+        if (interestedparties.length > 0) {
+          this.setState({ interestedparties: interestedparties });
+        } else {
+          toast.error(interestedparties.message);
+         
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+       
+      });
+  };
   fetchPE = () => {
     fetch("/api/PE", {
       method: "GET",
@@ -1004,7 +1172,28 @@ class Applications extends Component {
         swal("", err.message, "error");
       });
   };
-
+  fetchTenderTypes = () => {
+    fetch("/api/tendertypes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(TenderTypes => {
+        if (TenderTypes.length > 0) {
+          this.setState({ TenderTypes: TenderTypes });
+        } else {
+          toast.err(TenderTypes.message)
+          
+        }
+      })
+      .catch(err => {
+        toast.err(err.message)
+       
+      });
+  };
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
@@ -1022,7 +1211,9 @@ class Applications extends Component {
           response.json().then(data => {
             if (data.success) {
               this.fetchPE();
+              this.fetchTenderTypes();
               this.fetchApplicantDetails();
+              this.fetchinterestedparties();
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -1090,6 +1281,9 @@ class Applications extends Component {
   openFeesTab() {
     document.getElementById("nav-Fees-tab").click();
   }
+  AddNewInterestedparty = () => {
+    this.setState({ AddInterestedParty: true });
+  };
   CompletedApplication = () => {
     swal("", "Your Application has been submited", "success");
     let applicantMsg =
@@ -1332,7 +1526,38 @@ class Applications extends Component {
         label: k.Name
       };
     });
-
+    let TenderTypes = [...this.state.TenderTypes].map((k,i)=>{
+      return{
+        value:k.Code,
+        label:k.Description
+      }
+    })
+    let TenderSubCategories = [
+      {
+        value: "Simple Tenders",
+        label: "Simple Tenders"
+      }, {
+        value: "Medium Tenders",
+        label: "Medium Tenders"
+      },
+      {
+        value: "Complex Tenders",
+        label: "Complex Tenders"
+      }
+    ]
+    let TenderCategories=[
+      {
+        value:"Pre-qualification",
+        label:"Pre-qualification"
+      }, {
+        value: "Unquantified Tenders",
+        label: "Unquantified Tenders"
+      },
+      {
+        value: "Other Tenders",
+        label: "Other Tenders"
+      }
+    ]
     const ColumnData = [
       { label: "ApplicationNo", field: "ApplicationNo" },
       {
@@ -1941,6 +2166,17 @@ class Applications extends Component {
                     </a>
                     <a
                       class="nav-item nav-link font-weight-bold"
+                      id="nav-InterestedParties-tab"
+                      data-toggle="tab"
+                      href="#nav-InterestedParties"
+                      role="tab"
+                      aria-controls="InterestedParties"
+                      aria-selected="false"
+                    >
+                      Interested Parties
+                    </a>
+                    <a
+                      class="nav-item nav-link font-weight-bold"
                       id="nav-Fees-tab"
                       data-toggle="tab"
                       href="#nav-Fees"
@@ -1984,12 +2220,12 @@ class Applications extends Component {
                               disabled
                             />
                           </div>
-                          <div class="col-sm-2">
+                          <div class="col-sm-1">
                             <label for="PEID" className="font-weight-bold">
                               Procuring Entity{" "}
                             </label>
                           </div>
-                          <div class="col-sm-4">
+                          <div class="col-sm-5">
                             <div className="form-group">
                               <Select
                                 name="PEID"
@@ -2022,44 +2258,7 @@ class Applications extends Component {
                               required
                             />
                           </div>
-                          <div class="col-sm-2">
-                            <label for="TenderNo" className="font-weight-bold">
-                              Tender Amount
-                            </label>
-                          </div>
-                          <div class="col-sm-4">
-                            <input
-                              type="number"
-                              class="form-control"
-                              name="TenderValue"
-                              onChange={this.handleInputChange}
-                              value={this.state.TenderValue}
-                              required
-                              min="1"
-                            />
-                          </div>
-                          {/* <div class="col-sm-2">
-                            <label
-                              for="ApplicationREf"
-                              className="font-weight-bold"
-                            >
-                              Refference{" "}
-                            </label>
-                          </div>
-                          <div class="col-sm-4">
-                            <input
-                              type="text"
-                              class="form-control"
-                              name="ApplicationREf"
-                              onChange={this.handleInputChange}
-                              value={this.state.ApplicationREf}
-                              required
-                            />
-                          </div> */}
-                        </div>
-                        <br />
-                        <div class="row">
-                          <div class="col-sm-2">
+                          <div class="col-sm-1">
                             <label
                               for="TenderName"
                               className="font-weight-bold"
@@ -2067,7 +2266,7 @@ class Applications extends Component {
                               Tender Name{" "}
                             </label>
                           </div>
-                          <div class="col-sm-4">
+                          <div class="col-sm-5">
                             <input
                               type="text"
                               class="form-control"
@@ -2077,6 +2276,89 @@ class Applications extends Component {
                               required
                             />
                           </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            <label for="TenderNo" className="font-weight-bold">
+                              Tender Type
+                            </label>
+                          </div>
+                          <div class="col-sm-4">
+                            <Select
+                              name="TenderType"
+                              //value={this.state.PEID}
+                              // value={PE.filter(
+                              //     option =>
+                              //         option.label === this.state.PEName
+                              // )}
+                              defaultInputValue={this.state.TenderType}
+                              onChange={this.handleSelectChange}
+                              options={TenderTypes}
+                              required
+                            />
+                          </div>
+                          {this.state.Ascertainable ? <div class="col-sm-6">
+                            <div className="row">
+                              <div class="col-sm-2">
+                                <label for="TenderNo" className="font-weight-bold">
+                                  Tender Amount
+                            </label>
+                              </div>
+                              <div class="col-sm-10">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  name="TenderValue"
+                                  onChange={this.handleInputChange}
+                                  value={this.state.TenderValue}
+                                  required
+                                  min="1"
+                                />
+                              </div>
+                            </div>                           
+                          </div>:null}
+                        
+                          {this.state.Unascertainable ? <div class="col-sm-6">
+                            <div className="row">
+                              <div class="col-sm-2">
+                                <label for="TenderNo" className="font-weight-bold">
+                                  Category
+                            </label>
+                              </div>
+                              <div class="col-sm-4">
+                                <Select
+                                  name="TenderCategory"
+                                  defaultInputValue={this.state.TenderCategory}
+                                  onChange={this.handleSelectChange}
+                                  options={TenderCategories}
+                                 
+                                />
+                              </div>
+                              {this.state.ShowSubcategory ? <div class="col-sm-6">
+                                <div className="row">
+                                  <div class="col-sm-4">
+                                    <label for="TenderNo" className="font-weight-bold">
+                                      Sub-Category
+                            </label>
+                                  </div>
+                                  <div class="col-sm-8">
+                                    <Select
+                                      name="TenderSubCategory"
+                                      defaultInputValue={this.state.TenderSubCategory}
+                                      onChange={this.handleSelectChange}
+                                      options={TenderSubCategories}
+
+                                    />
+                                  </div>
+                                </div>
+                           
+                              </div> : null}
+                            </div>
+                          </div> : null}
+                        </div>
+                        <br/>
+                        <div class="row">
+                        
                           <div class="col-sm-2">
                             <label for="Town" className="font-weight-bold">
                               Tender Opening Date{" "}
@@ -2093,31 +2375,13 @@ class Applications extends Component {
                               max={this.state.Today}
                             />
                           </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                          {/* <div class="col-sm-2">
-                            <label for="Town" className="font-weight-bold">
-                              Tender Opening Date{" "}
-                            </label>
-                          </div>
-                          <div class="col-sm-4">
-                            <input
-                              type="date"
-                              name="StartDate"
-                              required
-                              defaultValue={this.state.StartDate}
-                              className="form-control"
-                              onChange={this.handleInputChange}
-                              max={this.state.Today}
-                            />
-                          </div> */}
+
                           <div class="col-sm-2">
                             <label
                               for="ClosingDate"
                               className="font-weight-bold"
                             >
-                              Date of Award
+                              Date of Notification of Award/Occurrence of Breach
                             </label>
                           </div>
                           <div class="col-sm-4">
@@ -2132,6 +2396,8 @@ class Applications extends Component {
                             />
                           </div>
                         </div>
+                        <br />
+                  
                         <p></p>
                         <div className=" row">
                           <div className="col-sm-2" />
@@ -2737,6 +3003,413 @@ class Applications extends Component {
                       </form>
                     </div>
                   </div>
+
+                  <div
+                    class="tab-pane fade"
+                    id="nav-InterestedParties"
+                    role="tabpanel"
+                    style={childdiv}
+                    aria-labelledby="nav-InterestedParties-tab"
+                  >
+                    <Modal
+                      visible={this.state.AddInterestedParty}
+                      width="900"
+                      height="450"
+                      effect="fadeInUp"
+                      onClickAway={() => this.closeAddInterestedParty()}
+                    >
+                      <a
+                        style={{ float: "right", color: "red", margin: "10px" }}
+                        href="javascript:void(0);"
+                        onClick={() => this.closeAddInterestedParty()}
+                      >
+                        <i class="fa fa-close"></i>
+                      </a>
+                      <div>
+                        <h4
+                          style={{ "text-align": "center", color: "#1c84c6" }}
+                        >
+                          Interested Party
+                        </h4>
+                        <div className="container-fluid">
+                          <div className="col-sm-12">
+                            <div className="ibox-content">
+                              <form onSubmit={this.handleInterestedPartySubmit}>
+                                <div className=" row">
+                                  <div className="col-md-6">
+                                    <div className="row">                                   
+                                    <div className="col-md-4">
+                                      <label
+                                        htmlFor="exampleInputPassword1"
+                                        className="font-weight-bold"
+                                      >
+                                      Organization Name
+                                        </label>
+                                    </div>
+                                    <div className="col-md-8">                                    
+                                       
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={this.state.InterestedPartyName}
+                                          type="text"
+                                          required
+                                          name="InterestedPartyName"
+                                          className="form-control"
+                                        />
+                                     
+                                    </div>
+                                  </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                  <div className="row">
+                                    <div className="col-md-4">
+                                      <label
+                                        htmlFor="exampleInputPassword1"
+                                        className="font-weight-bold"
+                                      >
+                                        Contact Name
+                                        </label>
+                                    </div>
+                                    <div className="col-md-8">
+
+                                      <input
+                                        onChange={this.handleInputChange}
+                                        value={
+                                          this.state
+                                            .InterestedPartyContactName
+                                        }
+                                        type="text"
+                                        required
+                                        name="InterestedPartyContactName"
+                                        className="form-control"
+                                      />
+
+                                    </div>
+                                  </div> 
+                                </div>                                
+                                </div>
+                                <br/>
+                                <div className=" row">
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Designation
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state
+                                              .InterestedPartyDesignation
+                                          }
+                                          type="text"
+                                          required
+                                          name="InterestedPartyDesignation"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+                                  </div>  
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                         Email
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state.InterestedPartyEmail
+                                          }
+                                          type="email"
+                                          required
+                                          name="InterestedPartyEmail"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+
+                             
+                                  </div>
+                               
+                                </div>
+                                  <br/>
+                                <div className=" row">
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Mobile
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state.InterestedPartyMobile
+                                          }
+                                          type="number"
+                                          required
+                                          name="InterestedPartyMobile"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          TelePhone
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state.InterestedPartyTelePhone
+                                          }
+                                          type="number"
+                                          required
+                                          name="InterestedPartyTelePhone"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  
+                                </div>
+                                <br/>
+                                <div className=" row">
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          POBox
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state.InterestedPartyPOBox
+                                          }
+                                          type="number"
+                                          required
+                                          name="InterestedPartyPOBox"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Postal Code
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state
+                                              .InterestedPartyPostalCode
+                                          }
+                                          type="text"
+                                          required
+                                          name="InterestedPartyPostalCode"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+<br/>
+
+                                <div className=" row">
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Physical Address
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state
+                                              .InterestedPartyPhysicalAddress
+                                          }
+                                          type="text"
+                                          required
+                                          name="InterestedPartyPhysicalAddress"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Town
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state
+                                              .InterestedPartyTown
+                                          }
+                                          type="text"
+                                          required
+                                          name="InterestedPartyTown"
+                                          className="form-control"
+                                        />
+
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                                <br/>
+                               <div className="col-sm-12 ">
+                                  <div className=" row">
+                                    <div className="col-sm-9" />
+                                    <div className="col-sm-3">
+                                      <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                      >
+                                        {" "}
+                                        Save
+                                      </button>
+                                      &nbsp; &nbsp;
+                                      <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={this.closeAddInterestedParty}
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Modal>
+
+                    <div style={formcontainerStyle}>
+                      <div style={FormStyle}>
+                        <h3 style={headingstyle}>Interested Parties</h3>
+
+                        <div className="row">
+                          <div class="col-sm-8">
+                            <table className="table table-sm">
+                              <th>Org Name</th>
+                              <th>ContactName</th>
+                              <th>Designation</th>
+                              <th>Email</th>
+                              <th>TelePhone</th>
+                              <th>Mobile</th>
+                              <th>PhysicalAddress</th>
+                              <th>Actions</th>
+
+                              {this.state.interestedparties.map((r, i) =>
+                             
+                                  <tr>
+                                    <td>{r.Name}</td>
+                                    <td> {r.ContactName}  </td>
+                                    <td> {r.Designation}  </td>
+                                    <td> {r.Email}  </td>
+                                  <td> {r.TelePhone}  </td>
+                                  <td> {r.Mobile}  </td>
+                                    <td> {r.PhysicalAddress}  </td>
+                                    <td>
+                                      {" "}
+                                      <span>
+                                        <a
+                                          style={{ color: "#f44542" }}
+                                          onClick={e =>
+                                            this.handleDeleteInterestedparty(r, e)
+                                          }
+                                        >
+                                          &nbsp; Remove
+                                              </a>
+                                        {this.state.alert}
+                                      </span>
+                                    </td>
+                                  </tr>
+                               
+                              )}
+                            </table>
+                          </div>
+                        </div>
+                        <div className=" row">
+                          <div className="col-sm-10" />
+                          <div className="col-sm-2">
+                            <button
+                              className="btn btn-primary"
+                              onClick={this.AddNewInterestedparty}
+                            >
+                              ADD
+                            </button>
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+                    </div>
+                  </div>
+
                   <div
                     class="tab-pane fade"
                     id="nav-Fees"
@@ -2759,18 +3432,7 @@ class Applications extends Component {
                                 <td>Application fee</td>
                                 <td>5000</td>
                               </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>
-                                  10% Deposit fee of Tender Value (
-                                  {this.formatNumber(this.state.TenderValue)})
-                                </td>
-                                <td>
-                                  {this.formatNumber(
-                                    this.state.TenderValue * 0.1
-                                  )}
-                                </td>
-                              </tr>
+                              <tr></tr>
                               <tfoot>
                                 <tr>
                                   <th></th>

@@ -85,7 +85,8 @@ Users.post("/", auth.validateRole("System Users"), function(req, res) {
     Gender: Joi.string()
       .min(4)
       .required(),
-    IsActive: Joi.boolean()
+    IsActive: Joi.boolean(),
+    Board: Joi.boolean()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
@@ -110,7 +111,8 @@ Users.post("/", auth.validateRole("System Users"), function(req, res) {
         req.body.IDnumber,
         req.body.DOB,
         req.body.Gender,
-        activationCode
+        activationCode,
+        req.body.Board
       ];
       con.getConnection(function(err, connection) {
         if (err) {
@@ -120,7 +122,7 @@ Users.post("/", auth.validateRole("System Users"), function(req, res) {
           });
         } // not connected!
         else {
-          let sp = "call SaveUser(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          let sp = "call SaveUser(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
@@ -169,6 +171,7 @@ Users.put("/:ID", auth.validateRole("System Users"), function(req, res) {
     IDnumber: Joi.number()
       .integer()
       .min(1),
+    Board: Joi.boolean(),
     DOB: Joi.date().required(),
     Gender: Joi.string()
       .min(4)
@@ -188,7 +191,8 @@ Users.put("/:ID", auth.validateRole("System Users"), function(req, res) {
       req.body.Signature,
       req.body.IDnumber,
       req.body.DOB,
-      req.body.Gender
+      req.body.Gender,
+      req.body.Board
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -198,7 +202,7 @@ Users.put("/:ID", auth.validateRole("System Users"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call UpdateUser(?,?,?,?,?,?,?,?,?,?,?)";
+        let sp = "call UpdateUser(?,?,?,?,?,?,?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
