@@ -28,7 +28,7 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
-      interestedparties:[],
+      interestedparties: [],
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
@@ -47,7 +47,7 @@ class Applications extends Component {
       profile: true,
       summary: false,
       IsUpdate: false,
-      TenderTypes:[],
+      TenderTypes: [],
       selectedFile: null,
       loaded: 0,
       DocumentDescription: "",
@@ -83,29 +83,26 @@ class Applications extends Component {
       PEEmail: "",
       PEWebsite: "",
       TotalAmountdue: "",
-      TenderType:"",
+      TenderType: "",
       ApplicantPostalCode: "",
       ApplicantPOBox: "",
       ApplicantTown: "",
       AddInterestedParty: false,
       alert: null,
 
-      Unascertainable: false ,
-      Ascertainable: false ,
-      TenderCategory:"",
+      Unascertainable: false,
+      Ascertainable: false,
+      TenderCategory: "",
       InterestedPartyContactName: "",
       InterestedPartyName: "",
       InterestedPartyEmail: "",
       InterestedPartyTelePhone: "",
       InterestedPartyMobile: "",
-      InterestedPartyPhysicalAddress:"",
+      InterestedPartyPhysicalAddress: "",
       InterestedPartyPOBox: "",
-      InterestedPartyPostalCode:"",
-      InterestedPartyTown:"",
-      InterestedPartyDesignation:""
-
-      
-
+      InterestedPartyPostalCode: "",
+      InterestedPartyTown: "",
+      InterestedPartyDesignation: ""
     };
     this.handViewApplication = this.handViewApplication.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
@@ -362,8 +359,6 @@ class Applications extends Component {
     });
   };
   handleDeleteInterestedparty = d => {
-   
-
     swal({
       text: "Are you sure that you want to remove this record?",
       icon: "warning",
@@ -388,7 +383,7 @@ class Applications extends Component {
                 // );
                 // this.setState({ ApplicationGrounds: filtereddata });
               } else {
-                toast.error("Remove Failed")
+                toast.error("Remove Failed");
                 //swal("", "Remove Failed", "error");
               }
             })
@@ -512,9 +507,7 @@ class Applications extends Component {
     event.preventDefault();
     let awarddate = new Date(this.state.ClosingDate);
     awarddate.setDate(awarddate.getDate() + 14);
-    //alert(awarddate)
-
-    if (
+       if (
       this.state.Today >
       dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")
     ) {
@@ -529,7 +522,7 @@ class Applications extends Component {
           if (this.state.IsUpdate) {
             this.UpdateTenderdetails();
           } else {
-            this.SaveTenderdetails();
+            this.SaveTenderdetails("Submited after 14 days");
           }
         }
       });
@@ -537,20 +530,27 @@ class Applications extends Component {
       if (this.state.IsUpdate) {
         this.UpdateTenderdetails();
       } else {
-        this.SaveTenderdetails();
+        this.SaveTenderdetails("Submited within 14 days");
       }
     }
+ 
   };
 
-  UpdateTenderdetails() {
+  UpdateTenderdetails=()=> {
+   
     let data = {
       TenderNo: this.state.TenderNo,
       TenderName: this.state.TenderName,
       PEID: this.state.PEID,
       StartDate: this.state.StartDate,
       ClosingDate: this.state.ClosingDate,
-      TenderValue: this.state.TenderValue
+      TenderValue: this.state.TenderValue,
+      TenderType: this.state.TenderType,
+      TenderSubCategory: this.state.TenderSubCategory,
+      TenderCategory: this.state.TenderCategory
+     
     };
+   
     fetch("/api/tenders/" + this.state.TenderID, {
       method: "PUT",
       headers: {
@@ -572,7 +572,7 @@ class Applications extends Component {
         swal("!", err.message, "error");
       });
   }
-  UpdateApplication() {
+  UpdateApplication=()=> {
     let data = {
       TenderID: this.state.TenderID,
       ApplicantID: this.state.ApplicantID,
@@ -589,6 +589,13 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
+            let newdata = {
+              TenderValue: "",
+              TenderType: "",
+              TenderSubCategory: "",
+              TenderCategory: ""
+            };
+            this.setState(newdata)
             this.UpdateApplicationFees();
           } else {
             swal("", data.message, "error");
@@ -625,14 +632,18 @@ class Applications extends Component {
         swal("", err.message, "error");
       });
   }
-  SaveTenderdetails() {
+  SaveTenderdetails(Timer) {
     let data = {
       TenderNo: this.state.TenderNo,
       TenderName: this.state.TenderName,
       PEID: this.state.PEID,
       StartDate: this.state.StartDate,
       ClosingDate: this.state.ClosingDate,
-      TenderValue: this.state.TenderValue
+      TenderValue: this.state.TenderValue,
+      TenderType: this.state.TenderType,
+      TenderSubCategory: this.state.TenderSubCategory,
+      TenderCategory: this.state.TenderCategory,
+      Timer: Timer
     };
     fetch("/api/tenders", {
       method: "POST",
@@ -804,8 +815,6 @@ class Applications extends Component {
     event.preventDefault();
     if (this.state.ApplicationID) {
       let datatosave = {
-  
-
         Name: this.state.InterestedPartyName,
         ApplicationID: this.state.ApplicationID,
         ContactName: this.state.InterestedPartyContactName,
@@ -843,12 +852,12 @@ class Applications extends Component {
                 InterestedPartyPOBox: "",
                 InterestedPartyPostalCode: "",
                 InterestedPartyTown: "",
-                InterestedPartyDesignation:"",
-                AddInterestedParty:false}
+                InterestedPartyDesignation: "",
+                AddInterestedParty: false
+              };
               this.setState(setstatedata);
-            
             } else {
-              toast.error(data.message)
+              toast.error(data.message);
               //swal("", "Could not be added please try again", "error");
             }
           })
@@ -940,6 +949,13 @@ class Applications extends Component {
               data.results[0].ApplicationREf
             );
             toast.success("Tender details saved");
+            let newdata = {
+              TenderValue:"",
+              TenderType: "",
+              TenderSubCategory: "",
+              TenderCategory: ""
+            };
+            this.setState(newdata)
           } else {
             swal("", data.message, "error");
           }
@@ -974,30 +990,46 @@ class Applications extends Component {
     this.setState({ AddAdedendums: true });
     this.setState({ AdendumsAvailable: true });
     this.setState({ DocumentsAvailable: true });
+    if (this.state.TenderType==="A"){
+      this.setState({
+        Ascertainable: true,
+        Unascertainable: false,
+        ShowSubcategory: false
+      });
+    } else {
+      this.setState({
+        Ascertainable: false,
+        Unascertainable: true,
+        ShowSubcategory: true
+      });
+    }
   };
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({ [actionMeta.name]: UserGroup.value });
-    if (actionMeta.name ==="TenderType"){
-        if(UserGroup.value==="A"){
-          this.setState({ Ascertainable: true, Unascertainable: false, ShowSubcategory:false });
-      
-        }else{
-          this.setState({ Ascertainable: false, Unascertainable: true, ShowSubcategory: false  });
-        
-        }
-    }
-    if (actionMeta.name === "TenderCategory") {
-         if (UserGroup.value === "Unquantified Tenders") {
-        this.setState({  ShowSubcategory: true });
-
-      } else if (UserGroup.value === "Pre-qualification") {
-           this.setState({  ShowSubcategory: true });
+    if (actionMeta.name === "TenderType") {
+      if (UserGroup.value === "A") {
+        this.setState({
+          Ascertainable: true,
+          Unascertainable: false,
+          ShowSubcategory: false
+        });
       } else {
-        this.setState({ ShowSubcategory: false });
-
+        this.setState({
+          Ascertainable: false,
+          Unascertainable: true,
+          ShowSubcategory: false
+        });
       }
     }
-    
+    if (actionMeta.name === "TenderCategory") {
+      if (UserGroup.value === "Unquantified Tenders") {
+        this.setState({ ShowSubcategory: true });
+      } else if (UserGroup.value === "Pre-qualification") {
+        this.setState({ ShowSubcategory: true });
+      } else {
+        this.setState({ ShowSubcategory: false });
+      }
+    }
   };
   handleInputChange = event => {
     // event.preventDefault();
@@ -1129,9 +1161,9 @@ class Applications extends Component {
       });
     }
   };
-  fetchinterestedparties=()=>{
+  fetchinterestedparties = () => {
     this.setState({ interestedparties: [] });
-    fetch("/api/interestedparties", {
+    fetch("/api/interestedparties/" + this.state.ApplicationID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1144,12 +1176,10 @@ class Applications extends Component {
           this.setState({ interestedparties: interestedparties });
         } else {
           toast.error(interestedparties.message);
-         
         }
       })
       .catch(err => {
         toast.error(err.message);
-       
       });
   };
   fetchPE = () => {
@@ -1185,13 +1215,11 @@ class Applications extends Component {
         if (TenderTypes.length > 0) {
           this.setState({ TenderTypes: TenderTypes });
         } else {
-          toast.err(TenderTypes.message)
-          
+          toast.err(TenderTypes.message);
         }
       })
       .catch(err => {
-        toast.err(err.message)
-       
+        toast.err(err.message);
       });
   };
   componentDidMount() {
@@ -1231,16 +1259,17 @@ class Applications extends Component {
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   handViewApplication = k => {
+     
     this.setState({ AddedAdendums: [] });
     this.setState({ ApplicationGrounds: [] });
     this.setState({ ApplicationDocuments: [] });
     this.setState({ Applicationfees: [] });
     this.setState({ TotalAmountdue: "" });
-
     this.fetchApplicationGrounds(k.ID);
     this.fetchApplicationfees(k.ID);
     this.fetchApplicationDocuments(k.ID);
     this.fetchTenderAdendums(k.TenderID);
+    
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
@@ -1249,7 +1278,6 @@ class Applications extends Component {
       PEMobile: k.PEMobile,
       PEEmail: k.PEEmail,
       PEWebsite: k.PEWebsite,
-
       TenderID: k.TenderID,
       ApplicationID: k.ID,
       ApplicationNo: k.ApplicationNo,
@@ -1260,7 +1288,10 @@ class Applications extends Component {
       TenderName: k.TenderName,
       Status: k.Status,
       TenderValue: k.TenderValue,
-
+      TenderType: k.TenderType,
+      TenderSubCategory: k.TenderSubCategory,
+      TenderCategory: k.TenderCategory,
+      PEID: k.PEID,
       StartDate: dateFormat(
         new Date(k.StartDate).toLocaleDateString(),
         "isoDate"
@@ -1272,6 +1303,7 @@ class Applications extends Component {
     };
     this.setState({ summary: true });
     this.setState(data);
+    this.fetchinterestedparties();
   };
 
   showAttacmentstab = e => {
@@ -1280,6 +1312,9 @@ class Applications extends Component {
   };
   openFeesTab() {
     document.getElementById("nav-Fees-tab").click();
+  }
+  openInterestedPartiesTab(){
+    document.getElementById("nav-InterestedParties-tab").click();
   }
   AddNewInterestedparty = () => {
     this.setState({ AddInterestedParty: true });
@@ -1526,17 +1561,18 @@ class Applications extends Component {
         label: k.Name
       };
     });
-    let TenderTypes = [...this.state.TenderTypes].map((k,i)=>{
-      return{
-        value:k.Code,
-        label:k.Description
-      }
-    })
+    let TenderTypes = [...this.state.TenderTypes].map((k, i) => {
+      return {
+        value: k.Code,
+        label: k.Description
+      };
+    });
     let TenderSubCategories = [
       {
         value: "Simple Tenders",
         label: "Simple Tenders"
-      }, {
+      },
+      {
         value: "Medium Tenders",
         label: "Medium Tenders"
       },
@@ -1544,12 +1580,13 @@ class Applications extends Component {
         value: "Complex Tenders",
         label: "Complex Tenders"
       }
-    ]
-    let TenderCategories=[
+    ];
+    let TenderCategories = [
       {
-        value:"Pre-qualification",
-        label:"Pre-qualification"
-      }, {
+        value: "Pre-qualification",
+        label: "Pre-qualification"
+      },
+      {
         value: "Unquantified Tenders",
         label: "Unquantified Tenders"
       },
@@ -1557,7 +1594,7 @@ class Applications extends Component {
         value: "Other Tenders",
         label: "Other Tenders"
       }
-    ]
+    ];
     const ColumnData = [
       { label: "ApplicationNo", field: "ApplicationNo" },
       {
@@ -1875,6 +1912,19 @@ class Applications extends Component {
                       <tr>
                         <td className="font-weight-bold"> FilingDate:</td>
                         <td> {this.state.FilingDate}</td>
+                      </tr>{" "}
+                      <tr>                       
+
+                        <td className="font-weight-bold"> TenderType:</td>
+                        <td> {this.state.TenderType}</td>
+                      </tr>{" "}
+                      <tr>
+                        <td className="font-weight-bold"> TenderCategory:</td>
+                        <td> {this.state.TenderCategory}</td>
+                      </tr>{" "}
+                      <tr>
+                        <td className="font-weight-bold"> TenderSubCategory:</td>
+                        <td> {this.state.TenderSubCategory}</td>
                       </tr>{" "}
                     </table>
                     <h3 style={headingstyle}>Tender Addendums</h3>
@@ -2286,79 +2336,94 @@ class Applications extends Component {
                           <div class="col-sm-4">
                             <Select
                               name="TenderType"
-                              //value={this.state.PEID}
-                              // value={PE.filter(
-                              //     option =>
-                              //         option.label === this.state.PEName
-                              // )}
-                              defaultInputValue={this.state.TenderType}
+                              value={this.state.PEID}
+                              value={TenderTypes.filter(
+                                  option =>
+                                  option.value === this.state.TenderType
+                              )}
+                              //defaultInputValue={this.state.TenderType}
                               onChange={this.handleSelectChange}
                               options={TenderTypes}
                               required
                             />
                           </div>
-                          {this.state.Ascertainable ? <div class="col-sm-6">
-                            <div className="row">
-                              <div class="col-sm-2">
-                                <label for="TenderNo" className="font-weight-bold">
-                                  Tender Amount
-                            </label>
-                              </div>
-                              <div class="col-sm-10">
-                                <input
-                                  type="number"
-                                  class="form-control"
-                                  name="TenderValue"
-                                  onChange={this.handleInputChange}
-                                  value={this.state.TenderValue}
-                                  required
-                                  min="1"
-                                />
-                              </div>
-                            </div>                           
-                          </div>:null}
-                        
-                          {this.state.Unascertainable ? <div class="col-sm-6">
-                            <div className="row">
-                              <div class="col-sm-2">
-                                <label for="TenderNo" className="font-weight-bold">
-                                  Category
-                            </label>
-                              </div>
-                              <div class="col-sm-4">
-                                <Select
-                                  name="TenderCategory"
-                                  defaultInputValue={this.state.TenderCategory}
-                                  onChange={this.handleSelectChange}
-                                  options={TenderCategories}
-                                 
-                                />
-                              </div>
-                              {this.state.ShowSubcategory ? <div class="col-sm-6">
-                                <div className="row">
-                                  <div class="col-sm-4">
-                                    <label for="TenderNo" className="font-weight-bold">
-                                      Sub-Category
-                            </label>
-                                  </div>
-                                  <div class="col-sm-8">
-                                    <Select
-                                      name="TenderSubCategory"
-                                      defaultInputValue={this.state.TenderSubCategory}
-                                      onChange={this.handleSelectChange}
-                                      options={TenderSubCategories}
-
-                                    />
-                                  </div>
+                          {this.state.Ascertainable ? (
+                            <div class="col-sm-6">
+                              <div className="row">
+                                <div class="col-sm-2">
+                                  <label
+                                    for="TenderNo"
+                                    className="font-weight-bold"
+                                  >
+                                    Tender Amount
+                                  </label>
                                 </div>
-                           
-                              </div> : null}
+                                <div class="col-sm-10">
+                                  <input
+                                    type="number"
+                                    class="form-control"
+                                    name="TenderValue"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.TenderValue}
+                                    required
+                                    min="1"
+                                  />
+                                </div>
+                              </div>
                             </div>
-                          </div> : null}
+                          ) : null}
+
+                          {this.state.Unascertainable ? (
+                            <div class="col-sm-6">
+                              <div className="row">
+                                <div class="col-sm-2">
+                                  <label
+                                    for="TenderNo"
+                                    className="font-weight-bold"
+                                  >
+                                    Category
+                                  </label>
+                                </div>
+                                <div class="col-sm-4">
+                                  <Select
+                                    name="TenderCategory"
+                                    defaultInputValue={
+                                      this.state.TenderCategory
+                                    }
+                                    onChange={this.handleSelectChange}
+                                    options={TenderCategories}
+                                  />
+                                </div>
+                                {this.state.ShowSubcategory ? (
+                                  <div class="col-sm-6">
+                                    <div className="row">
+                                      <div class="col-sm-4">
+                                        <label
+                                          for="TenderNo"
+                                          className="font-weight-bold"
+                                        >
+                                          Sub-Category
+                                        </label>
+                                      </div>
+                                      <div class="col-sm-8">
+                                        <Select
+                                          name="TenderSubCategory"
+                                          defaultInputValue={
+                                            this.state.TenderSubCategory
+                                          }
+                                          onChange={this.handleSelectChange}
+                                          options={TenderSubCategories}
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
-                        <br/>
+                        <br />
                         <div class="row">
-                        
                           <div class="col-sm-2">
                             <label for="Town" className="font-weight-bold">
                               Tender Opening Date{" "}
@@ -2397,7 +2462,7 @@ class Applications extends Component {
                           </div>
                         </div>
                         <br />
-                  
+
                         <p></p>
                         <div className=" row">
                           <div className="col-sm-2" />
@@ -2415,7 +2480,7 @@ class Applications extends Component {
                               <button
                                 type="button"
                                 onClick={this.openRequestTab}
-                                className="btn btn-primary float-left"
+                                className="btn btn-success float-left"
                               >
                                 {" "}
                                 &nbsp; Next
@@ -2572,7 +2637,7 @@ class Applications extends Component {
                                 <button
                                   type="button"
                                   onClick={this.openRequestTab}
-                                  className="btn btn-primary float-right"
+                                  className="btn btn-success float-right"
                                 >
                                   {" "}
                                   &nbsp; Next
@@ -2879,7 +2944,7 @@ class Applications extends Component {
                             <div className="col-sm-11"></div>
                             <div className="col-sm-1">
                               <button
-                                className="btn btn-primary"
+                                className="btn btn-success"
                                 onClick={this.showAttacmentstab}
                               >
                                 Next &nbsp;
@@ -2992,8 +3057,8 @@ class Applications extends Component {
                           <div class="col-sm-1">
                             <button
                               type="button"
-                              onClick={this.openFeesTab}
-                              className="btn btn-primary "
+                              onClick={this.openInterestedPartiesTab}
+                              className="btn btn-success "
                             >
                               {" "}
                               &nbsp; Next
@@ -3037,17 +3102,16 @@ class Applications extends Component {
                               <form onSubmit={this.handleInterestedPartySubmit}>
                                 <div className=" row">
                                   <div className="col-md-6">
-                                    <div className="row">                                   
-                                    <div className="col-md-4">
-                                      <label
-                                        htmlFor="exampleInputPassword1"
-                                        className="font-weight-bold"
-                                      >
-                                      Organization Name
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Organization Name
                                         </label>
-                                    </div>
-                                    <div className="col-md-8">                                    
-                                       
+                                      </div>
+                                      <div className="col-md-8">
                                         <input
                                           onChange={this.handleInputChange}
                                           value={this.state.InterestedPartyName}
@@ -3056,39 +3120,36 @@ class Applications extends Component {
                                           name="InterestedPartyName"
                                           className="form-control"
                                         />
-                                     
+                                      </div>
                                     </div>
-                                  </div>
                                   </div>
                                   <div className="col-md-6">
-                                  <div className="row">
-                                    <div className="col-md-4">
-                                      <label
-                                        htmlFor="exampleInputPassword1"
-                                        className="font-weight-bold"
-                                      >
-                                        Contact Name
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Contact Name
                                         </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={
+                                            this.state
+                                              .InterestedPartyContactName
+                                          }
+                                          type="text"
+                                          required
+                                          name="InterestedPartyContactName"
+                                          className="form-control"
+                                        />
+                                      </div>
                                     </div>
-                                    <div className="col-md-8">
-
-                                      <input
-                                        onChange={this.handleInputChange}
-                                        value={
-                                          this.state
-                                            .InterestedPartyContactName
-                                        }
-                                        type="text"
-                                        required
-                                        name="InterestedPartyContactName"
-                                        className="form-control"
-                                      />
-
-                                    </div>
-                                  </div> 
-                                </div>                                
+                                  </div>
                                 </div>
-                                <br/>
+                                <br />
                                 <div className=" row">
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3101,7 +3162,6 @@ class Applications extends Component {
                                         </label>
                                       </div>
                                       <div className="col-md-8">
-
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
@@ -3113,10 +3173,9 @@ class Applications extends Component {
                                           name="InterestedPartyDesignation"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-                                  </div>  
+                                  </div>
                                   <div className="col-md-6">
                                     <div className="row">
                                       <div className="col-md-4">
@@ -3124,11 +3183,10 @@ class Applications extends Component {
                                           htmlFor="exampleInputPassword1"
                                           className="font-weight-bold"
                                         >
-                                         Email
+                                          Email
                                         </label>
                                       </div>
                                       <div className="col-md-8">
-
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
@@ -3139,15 +3197,11 @@ class Applications extends Component {
                                           name="InterestedPartyEmail"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-
-                             
                                   </div>
-                               
                                 </div>
-                                  <br/>
+                                <br />
                                 <div className=" row">
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3160,7 +3214,6 @@ class Applications extends Component {
                                         </label>
                                       </div>
                                       <div className="col-md-8">
-
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
@@ -3171,10 +3224,8 @@ class Applications extends Component {
                                           name="InterestedPartyMobile"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-
                                   </div>
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3187,7 +3238,6 @@ class Applications extends Component {
                                         </label>
                                       </div>
                                       <div className="col-md-8">
-
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
@@ -3198,14 +3248,11 @@ class Applications extends Component {
                                           name="InterestedPartyTelePhone"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-
                                   </div>
-                                  
                                 </div>
-                                <br/>
+                                <br />
                                 <div className=" row">
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3230,7 +3277,6 @@ class Applications extends Component {
                                         />
                                       </div>
                                     </div>
-
                                   </div>
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3246,8 +3292,7 @@ class Applications extends Component {
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
-                                            this.state
-                                              .InterestedPartyPostalCode
+                                            this.state.InterestedPartyPostalCode
                                           }
                                           type="text"
                                           required
@@ -3256,10 +3301,9 @@ class Applications extends Component {
                                         />
                                       </div>
                                     </div>
-
                                   </div>
                                 </div>
-<br/>
+                                <br />
 
                                 <div className=" row">
                                   <div className="col-md-6">
@@ -3273,7 +3317,6 @@ class Applications extends Component {
                                         </label>
                                       </div>
                                       <div className="col-md-8">
-
                                         <input
                                           onChange={this.handleInputChange}
                                           value={
@@ -3285,10 +3328,8 @@ class Applications extends Component {
                                           name="InterestedPartyPhysicalAddress"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-
                                   </div>
                                   <div className="col-md-6">
                                     <div className="row">
@@ -3303,23 +3344,18 @@ class Applications extends Component {
                                       <div className="col-md-8">
                                         <input
                                           onChange={this.handleInputChange}
-                                          value={
-                                            this.state
-                                              .InterestedPartyTown
-                                          }
+                                          value={this.state.InterestedPartyTown}
                                           type="text"
                                           required
                                           name="InterestedPartyTown"
                                           className="form-control"
                                         />
-
                                       </div>
                                     </div>
-
                                   </div>
                                 </div>
-                                <br/>
-                               <div className="col-sm-12 ">
+                                <br />
+                                <div className="col-sm-12 ">
                                   <div className=" row">
                                     <div className="col-sm-9" />
                                     <div className="col-sm-3">
@@ -3353,7 +3389,7 @@ class Applications extends Component {
                         <h3 style={headingstyle}>Interested Parties</h3>
 
                         <div className="row">
-                          <div class="col-sm-8">
+                          <div class="col-sm-11">
                             <table className="table table-sm">
                               <th>Org Name</th>
                               <th>ContactName</th>
@@ -3364,33 +3400,31 @@ class Applications extends Component {
                               <th>PhysicalAddress</th>
                               <th>Actions</th>
 
-                              {this.state.interestedparties.map((r, i) =>
-                             
-                                  <tr>
-                                    <td>{r.Name}</td>
-                                    <td> {r.ContactName}  </td>
-                                    <td> {r.Designation}  </td>
-                                    <td> {r.Email}  </td>
-                                  <td> {r.TelePhone}  </td>
-                                  <td> {r.Mobile}  </td>
-                                    <td> {r.PhysicalAddress}  </td>
-                                    <td>
-                                      {" "}
-                                      <span>
-                                        <a
-                                          style={{ color: "#f44542" }}
-                                          onClick={e =>
-                                            this.handleDeleteInterestedparty(r, e)
-                                          }
-                                        >
-                                          &nbsp; Remove
-                                              </a>
-                                        {this.state.alert}
-                                      </span>
-                                    </td>
-                                  </tr>
-                               
-                              )}
+                              {this.state.interestedparties.map((r, i) => (
+                                <tr>
+                                  <td>{r.Name}</td>
+                                  <td> {r.ContactName} </td>
+                                  <td> {r.Designation} </td>
+                                  <td> {r.Email} </td>
+                                  <td> {r.TelePhone} </td>
+                                  <td> {r.Mobile} </td>
+                                  <td> {r.PhysicalAddress} </td>
+                                  <td>
+                                    {" "}
+                                    <span>
+                                      <a
+                                        style={{ color: "#f44542" }}
+                                        onClick={e =>
+                                          this.handleDeleteInterestedparty(r, e)
+                                        }
+                                      >
+                                        &nbsp; Remove
+                                      </a>
+                                      {/* {this.state.alert} */}
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
                             </table>
                           </div>
                         </div>
@@ -3403,7 +3437,17 @@ class Applications extends Component {
                             >
                               ADD
                             </button>
+                            &nbsp;
+                            <button
+                              type="button"
+                              onClick={this.openFeesTab}
+                              className="btn btn-success"
+                            >
+                              {" "}
+                              &nbsp; Next
+                                </button>
                           </div>
+                         
                         </div>
                         <br />
                       </div>

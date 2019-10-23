@@ -93,16 +93,15 @@ interestedparties.post("/", auth.validateRole("Interested Parties"), function(
     Town: Joi.string()
       .min(2)
       .required(),
-      Designation: Joi.string()
-          .min(2)
-          .required(),
+    Designation: Joi.string()
+      .min(2)
+      .required(),
     POBox: Joi.string()
       .min(1)
       .required()
   });
   const result = Joi.validate(req.body, schema);
-  if (!result.error) {   
-
+  if (!result.error) {
     let data = [
       req.body.Name,
       req.body.ApplicationID,
@@ -115,7 +114,7 @@ interestedparties.post("/", auth.validateRole("Interested Parties"), function(
       req.body.Town,
       req.body.POBox,
       res.locals.user,
-     req.body.Designation
+      req.body.Designation
     ];
     con.getConnection(function(err, connection) {
       if (err) {

@@ -57,19 +57,26 @@ tenders.get("/:ID", auth.validateRole("Applications"), function(req, res) {
   });
 });
 tenders.post("/", auth.validateRole("Applications"), function(req, res) {
+ 
   const schema = Joi.object().keys({
-    TenderNo: Joi.string()
-      .min(3)
-      .required(),
-    TenderName: Joi.string()
-      .min(3)
-      .required(),
-    PEID: Joi.string()
-      .min(1)
-      .required(),
+    TenderNo: Joi.string().required(),
+    TenderName: Joi.string().required(),
+    PEID: Joi.string().required(),
     StartDate: Joi.date().required(),
     ClosingDate: Joi.date().required(),
     TenderValue: Joi.number()
+      .allow(null)
+      .allow(""),
+    TenderType: Joi.string().required(),
+    TenderSubCategory: Joi.string()
+      .allow(null)
+      .allow(""),
+    TenderCategory: Joi.string()
+      .allow(null)
+      .allow(""),
+    Timer:Joi.string()
+      .allow(null)
+      .allow("")
   });
 
   const result = Joi.validate(req.body, schema);
@@ -81,7 +88,12 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
       req.body.StartDate,
       req.body.ClosingDate,
       res.locals.user,
-      req.body.TenderValue
+      req.body.TenderValue,
+      req.body.TenderType,
+      req.body.TenderSubCategory,
+      req.body.TenderCategory,
+      req.body.Timer
+      
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -91,7 +103,7 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveTender(?,?,?,?,?,?,?)";
+        let sp = "call SaveTender(?,?,?,?,?,?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -118,6 +130,7 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
   }
 });
 tenders.put("/:ID", auth.validateRole("Applications"), function(req, res) {
+  
   const schema = Joi.object().keys({
     TenderNo: Joi.string()
       .min(3)
@@ -130,7 +143,17 @@ tenders.put("/:ID", auth.validateRole("Applications"), function(req, res) {
       .required(),
     StartDate: Joi.date().required(),
     ClosingDate: Joi.date().required(),
+
     TenderValue: Joi.number()
+      .allow(null)
+      .allow(""),
+    TenderType: Joi.string().required(),
+    TenderSubCategory: Joi.string()
+      .allow(null)
+      .allow(""),
+    TenderCategory: Joi.string()
+      .allow(null)
+      .allow("")
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
@@ -143,7 +166,10 @@ tenders.put("/:ID", auth.validateRole("Applications"), function(req, res) {
       req.body.StartDate,
       req.body.ClosingDate,
       res.locals.user,
-      req.body.TenderValue
+      req.body.TenderValue,
+      req.body.TenderType,
+      req.body.TenderSubCategory,
+      req.body.TenderCategory
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -153,7 +179,7 @@ tenders.put("/:ID", auth.validateRole("Applications"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call UpdateTender(?,?,?,?,?,?,?,?)";
+        let sp = "call UpdateTender(?,?,?,?,?,?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
