@@ -57,7 +57,6 @@ tenders.get("/:ID", auth.validateRole("Applications"), function(req, res) {
   });
 });
 tenders.post("/", auth.validateRole("Applications"), function(req, res) {
- 
   const schema = Joi.object().keys({
     TenderNo: Joi.string().required(),
     TenderName: Joi.string().required(),
@@ -74,7 +73,7 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
     TenderCategory: Joi.string()
       .allow(null)
       .allow(""),
-    Timer:Joi.string()
+    Timer: Joi.string()
       .allow(null)
       .allow("")
   });
@@ -93,7 +92,6 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
       req.body.TenderSubCategory,
       req.body.TenderCategory,
       req.body.Timer
-      
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -130,7 +128,6 @@ tenders.post("/", auth.validateRole("Applications"), function(req, res) {
   }
 });
 tenders.put("/:ID", auth.validateRole("Applications"), function(req, res) {
-  
   const schema = Joi.object().keys({
     TenderNo: Joi.string()
       .min(3)

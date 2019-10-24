@@ -14,7 +14,6 @@ import "./../../Styles/tablestyle.css";
 import CKEditor from "ckeditor4-react";
 import ReactHtmlParser from "react-html-parser";
 import Modal from "react-awesome-modal";
-import { deepStrictEqual } from "assert";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 var dateFormat = require("dateformat");
@@ -28,6 +27,7 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
+      BankSlips:[],
       interestedparties: [],
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
@@ -89,7 +89,7 @@ class Applications extends Component {
       ApplicantTown: "",
       AddInterestedParty: false,
       alert: null,
-
+      Timer:"",
       Unascertainable: false,
       Ascertainable: false,
       TenderCategory: "",
@@ -102,7 +102,14 @@ class Applications extends Component {
       InterestedPartyPOBox: "",
       InterestedPartyPostalCode: "",
       InterestedPartyTown: "",
-      InterestedPartyDesignation: ""
+      InterestedPartyDesignation: "",
+      TenderTypeDesc:"",
+      ShowPaymentDetails:false,
+
+      AmountPaid:"",
+      DateofPayment:"" ,
+      PaymentReference:"",
+      PaidBy:""
     };
     this.handViewApplication = this.handViewApplication.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
@@ -205,6 +212,7 @@ class Applications extends Component {
       });
   };
   fetchApplicationfees = Applicationno => {
+    this.setState({ Applicationfees: [] });
     fetch("/api/applicationfees/" + Applicationno, {
       method: "GET",
       headers: {
@@ -216,7 +224,6 @@ class Applications extends Component {
       .then(Applicationfees => {
         if (Applicationfees.length > 0) {
           this.setState({ Applicationfees: Applicationfees });
-
           this.setState({ TotalAmountdue: Applicationfees[0].total });
         }
       })
@@ -376,20 +383,17 @@ class Applications extends Component {
           .then(response =>
             response.json().then(data => {
               if (data.success) {
+                toast.success("Removed successfully")
                 this.fetchinterestedparties();
-                // var rows = [...this.state.ApplicationGrounds];
-                // const filtereddata = rows.filter(
-                //   item => item.Description !== d.Description
-                // );
-                // this.setState({ ApplicationGrounds: filtereddata });
+             
               } else {
                 toast.error("Remove Failed");
-                //swal("", "Remove Failed", "error");
+                
               }
             })
           )
           .catch(err => {
-            swal("", "Remove Failed", "error");
+            toast.error("Remove Failed");
           });
       }
     });
@@ -417,6 +421,41 @@ class Applications extends Component {
                   item => item.AdendumNo !== d.AdendumNo
                 );
                 this.setState({ AddedAdendums: filtereddata });
+              } else {
+                swal("", "Remove Failed", "error");
+              }
+            })
+          )
+          .catch(err => {
+            swal("", "Remove Failed", "error");
+          });
+      }
+    });
+  };
+  handleDeleteBankSlip = d => {
+    swal({
+      text: "Are you sure that you want to remove this slip?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/applicationfees/" + d, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                var rows = [...this.state.BankSlips];
+                const filtereddata = rows.filter(
+                  item => item.Name !== d
+                );
+                this.setState({ BankSlips: filtereddata });
+                toast.success("Removed successfully")
               } else {
                 swal("", "Remove Failed", "error");
               }
@@ -507,7 +546,7 @@ class Applications extends Component {
     event.preventDefault();
     let awarddate = new Date(this.state.ClosingDate);
     awarddate.setDate(awarddate.getDate() + 14);
-       if (
+      if (
       this.state.Today >
       dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")
     ) {
@@ -535,9 +574,17 @@ class Applications extends Component {
     }
  
   };
-
-  UpdateTenderdetails=()=> {
-   
+  UpdateTenderdetails=()=> {   
+    if (this.state.TenderType === "B"){
+      if (!this.state.TenderCategory){
+        toast.error("Tender category is required.")
+        return;
+      }
+      if (!this.state.TenderSubCategory) {
+        toast.error("Tender subcategory is required.")
+        return;
+      }
+    }
     let data = {
       TenderNo: this.state.TenderNo,
       TenderName: this.state.TenderName,
@@ -547,8 +594,7 @@ class Applications extends Component {
       TenderValue: this.state.TenderValue,
       TenderType: this.state.TenderType,
       TenderSubCategory: this.state.TenderSubCategory,
-      TenderCategory: this.state.TenderCategory
-     
+      TenderCategory: this.state.TenderCategory     
     };
    
     fetch("/api/tenders/" + this.state.TenderID, {
@@ -607,12 +653,39 @@ class Applications extends Component {
       });
   }
   UpdateApplicationFees() {
-    let data = {
-      EntryType: "10% On tender Value",
-      AmountDue: this.state.TenderValue * 0.1
-    };
-    fetch("/api/applicationfees/" + this.state.ApplicationID, {
+        fetch("/api/applicationfees/" + this.state.ApplicationID, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            toast.success("Information updated");
+            this.fetchApplicationfees(this.state.ApplicationID)
+          } else {
+            toast.error(data.message)
+           // swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        toast.error(err.message)
+       // swal("", err.message, "error");
+      });
+  }
+  SavePaymentdetails() {    
+    let data={
+      ApplicationID: this.state.ApplicationID,
+      Paidby: this.state.PaidBy,
+      Reference: this.state.PaymentReference,
+      DateOfpayment: this.state.DateofPayment,
+      AmountPaid: this.state.AmountPaid      
+    }
+    fetch("/api/applicationfees/1/Paymentdetails", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token")
@@ -622,17 +695,35 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            toast.success("Information updated");
+           toast.success("Payment details save successfuly")
           } else {
-            swal("", data.message, "error");
+            toast.error(data.message)
+            // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message)
+        //swal("", err.message, "error");
       });
   }
+  
   SaveTenderdetails(Timer) {
+    if (this.state.TenderType === "B") {
+      if (!this.state.TenderCategory) {
+        toast.error("Tender category is required.")
+        return;
+      }else{
+        if (this.state.TenderCategory === "Other Tenders") {
+           }else{
+            if (!this.state.TenderSubCategory) {
+              toast.error("Tender subcategory is required.")
+              return;
+            }
+           }
+      }     
+    
+    }
     let data = {
       TenderNo: this.state.TenderNo,
       TenderName: this.state.TenderName,
@@ -663,12 +754,14 @@ class Applications extends Component {
             }
             //document.getElementById("nav-profile-tab").click();
           } else {
-            swal("", data.message, "error");
+            toast.error(data.message)
+           // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message)
+        //swal("", err.message, "error");
       });
   }
   saveGroundsDescriptions(EntryType) {
@@ -699,17 +792,16 @@ class Applications extends Component {
               this.setState({ open: false });
               this.setState({ GroundNO: "" });
             } else {
-              swal("", "Could not be added please try again", "error");
+              toast.error("Could not be added please try again")
+             // swal("", , "error");
             }
           })
         )
         .catch(err => {
-          swal("", "Could not be added please try again", "error");
+          toast.error("Could not be added please try again")
         });
     } else {
-      alert(
-        "Please ensure You have filled tender details before filling grounds and requests."
-      );
+      toast.error("Please ensure You have filled tender details before filling grounds and requests.")
     }
   }
   saveRequests(EntryType) {
@@ -741,17 +833,17 @@ class Applications extends Component {
 
               this.setState({ openRequest: false });
             } else {
-              swal("", "Could not be added please try again", "error");
+              toast.error("Could not be added please try again")
+             
             }
           })
         )
         .catch(err => {
-          swal("", "Could not be added please try again", "error");
+          toast.error("Could not be added please try again")
         });
     } else {
-      alert(
-        "Please ensure You have filled tender details before filling grounds and requests."
-      );
+      toast.error("Please ensure You have filled tender details before filling grounds and requests.")
+     
     }
   }
   saveDocuments(FileName) {
@@ -842,6 +934,7 @@ class Applications extends Component {
               var rows = this.state.interestedparties;
               rows.push(datatosave);
               this.setState({ interestedparties: rows });
+              toast.success("Added successfully")
               let setstatedata = {
                 InterestedPartyContactName: "",
                 InterestedPartyName: "",
@@ -863,29 +956,17 @@ class Applications extends Component {
           })
         )
         .catch(err => {
-          swal("", "Could not be added please try again", "error");
+          toast.error("Could not be added please try again");
         });
     } else {
-      alert(
-        "Please ensure You have filled tender details before adding interested parties."
-      );
+      toast.error("Please ensure You have filled tender details before adding interested parties.");
     }
   };
-  Savefees(ApplicantID, ApplicationREf) {
+  Savefees(ApplicantID) {
     let data = {
-      ApplicationID: ApplicantID,
-      EntryType: "Application fee",
-      AmountDue: 5000,
-      RefNo: ApplicationREf
-    };
-    let data2 = {
-      ApplicationID: ApplicantID,
-      EntryType: "10% Of Tender Value",
-      AmountDue: 0.1 * this.state.TenderValue,
-      RefNo: ApplicationREf
-    };
-
-    fetch("/api/applicationfees", {
+      ApplicationID: ApplicantID     
+    };  
+  fetch("/api/applicationfees", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -896,34 +977,16 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
+            this.fetchApplicationfees(this.state.ApplicationID)
           } else {
-            swal("", data.message, "error");
+            toast.error("Error occured while generating fees")
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error("Error occured while generating fees")
       });
-    fetch("/api/applicationfees", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data2)
-    })
-      .then(response =>
-        response.json().then(data => {
-          if (data.success) {
-          } else {
-            swal("", data.message, "error");
-          }
-        })
-      )
-      .catch(err => {
-        swal("", err.message, "error");
-      });
-  }
+     }
   SaveApplication(_TenderID) {
     let data = {
       TenderID: _TenderID,
@@ -945,8 +1008,7 @@ class Applications extends Component {
             this.setState({ ApplicationNo: data.results[0].ApplicationNo });
             this.setState({ ApplicationREf: data.results[0].ApplicationREf });
             this.Savefees(
-              data.results[0].ApplicationID,
-              data.results[0].ApplicationREf
+              data.results[0].ApplicationID
             );
             toast.success("Tender details saved");
             let newdata = {
@@ -957,12 +1019,14 @@ class Applications extends Component {
             };
             this.setState(newdata)
           } else {
-            swal("", data.message, "error");
+            toast.error(data.message);
+           //swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
+       // swal("", err.message, "error");
       });
   }
   handleswitchMenu = e => {
@@ -1151,6 +1215,82 @@ class Applications extends Component {
       toast.warn("Please select a file to upload");
     }
   };
+  fetchBankSlips = Applicationno => {
+    this.setState({ BankSlips: [] });
+    fetch("/api/applicationfees/" + Applicationno+"/Bankslips", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(BankSlips => {
+        if (BankSlips.length > 0) {
+          this.setState({ BankSlips: BankSlips });
+          
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  SaveBankSlip(Filename) {
+   
+    let data = {
+      ApplicationID:this.state.ApplicationID,
+      filename: Filename,
+    };
+    fetch("/api/applicationfees/BankSlip", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            toast.success("upload complete")
+            this.fetchBankSlips(this.state.ApplicationID)
+          } else {
+            toast.error("Error occured while saving uploaded document")
+          }
+        })
+      )
+      .catch(err => {
+        toast.error("Error occured while saving uploaded document")
+      });
+  }
+  UploadBankSlip = event => {
+    event.preventDefault();
+    if (this.state.selectedFile) {
+      const data = new FormData();
+
+      for (var x = 0; x < this.state.selectedFile.length; x++) {
+        data.append("file", this.state.selectedFile[x]);
+      }
+      axios
+        .post("/api/upload/BankSlips", data, {
+          // receive two parameter endpoint url ,form data
+          onUploadProgress: ProgressEvent => {
+            this.setState({
+              loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
+            });
+          }
+        })
+        .then(res => {
+          this.SaveBankSlip(res.data);
+        })
+        .catch(err => {
+          toast.error("upload fail");
+        });
+    } else {
+      toast.warn("Please select a file to upload");
+    }
+  };
+
   onChangeHandler = event => {
     //for multiple files
     var files = event.target.files;
@@ -1269,7 +1409,7 @@ class Applications extends Component {
     this.fetchApplicationfees(k.ID);
     this.fetchApplicationDocuments(k.ID);
     this.fetchTenderAdendums(k.TenderID);
-    
+    this.fetchBankSlips(k.ID)
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
@@ -1290,8 +1430,10 @@ class Applications extends Component {
       TenderValue: k.TenderValue,
       TenderType: k.TenderType,
       TenderSubCategory: k.TenderSubCategory,
+      TenderTypeDesc: k.TenderTypeDesc,
       TenderCategory: k.TenderCategory,
       PEID: k.PEID,
+      Timer: k.Timer,
       StartDate: dateFormat(
         new Date(k.StartDate).toLocaleDateString(),
         "isoDate"
@@ -1319,20 +1461,24 @@ class Applications extends Component {
   AddNewInterestedparty = () => {
     this.setState({ AddInterestedParty: true });
   };
+  AddpaymentDetails=()=>{
+    this.setState({ ShowPaymentDetails: !this.state.ShowPaymentDetails });
+  }
   CompletedApplication = () => {
-    swal("", "Your Application has been submited", "success");
-    let applicantMsg =
-      "Your Application with ApplicationNO:" +
-      this.state.ApplicationNo +
-      " has been Received";
-    this.SendSMS(this.state.ApplicantPhone, applicantMsg);
-    this.sendApproverNotification();
-    if (this.state.profile === false) {
-      this.setState({ profile: true });
-    } else {
-      this.setState({ profile: false });
-    }
-    this.fetchMyApplications(this.state.ApplicantID);
+    this.SavePaymentdetails();
+    // swal("", "Your Application has been submited", "success");
+    // let applicantMsg =
+    //   "Your Application with ApplicationNO:" +
+    //   this.state.ApplicationNo +
+    //   " has been Received";
+    // this.SendSMS(this.state.ApplicantPhone, applicantMsg);
+    // this.sendApproverNotification();
+    // if (this.state.profile === false) {
+    //   this.setState({ profile: true });
+    // } else {
+    //   this.setState({ profile: false });
+    // }
+    // this.fetchMyApplications(this.state.ApplicantID);
   };
   sendBulkNtification = (ApproversPhone, ApproversMail) => {
     let applicantMsg =
@@ -1569,16 +1715,16 @@ class Applications extends Component {
     });
     let TenderSubCategories = [
       {
-        value: "Simple Tenders",
-        label: "Simple Tenders"
+        value: "Simple",
+        label: "Simple"
       },
       {
-        value: "Medium Tenders",
-        label: "Medium Tenders"
+        value: "Medium",
+        label: "Medium"
       },
       {
-        value: "Complex Tenders",
-        label: "Complex Tenders"
+        value: "Complex",
+        label: "Complex"
       }
     ];
     let TenderCategories = [
@@ -1631,7 +1777,6 @@ class Applications extends Component {
     ];
     let Rowdata1 = [];
     const rows = [...this.state.Applications];
-
     if (rows.length > 0) {
       rows.map((k, i) => {
         if (k.Status === "NOT PAID") {
@@ -1912,20 +2057,35 @@ class Applications extends Component {
                       <tr>
                         <td className="font-weight-bold"> FilingDate:</td>
                         <td> {this.state.FilingDate}</td>
+                      </tr>
+                      <tr>
+                        <td className="font-weight-bold"> Application Timing:</td>
+                        <td> {this.state.Timer}</td>
                       </tr>{" "}
+                      
                       <tr>                       
 
                         <td className="font-weight-bold"> TenderType:</td>
-                        <td> {this.state.TenderType}</td>
-                      </tr>{" "}
-                      <tr>
-                        <td className="font-weight-bold"> TenderCategory:</td>
-                        <td> {this.state.TenderCategory}</td>
-                      </tr>{" "}
-                      <tr>
-                        <td className="font-weight-bold"> TenderSubCategory:</td>
-                        <td> {this.state.TenderSubCategory}</td>
-                      </tr>{" "}
+                        <td> {this.state.TenderTypeDesc}</td>
+                      </tr>
+                       {
+                        this.state.TenderType==="B" ? 
+                          <tr>
+                            <td className="font-weight-bold"> TenderCategory:</td>
+                            <td> {this.state.TenderCategory}</td>
+                          </tr>
+                          
+                        :null
+                      }    {
+                        this.state.TenderType === "B" ?
+                         
+                          <tr>
+                            <td className="font-weight-bold"> TenderSubCategory:</td>
+                            <td> {this.state.TenderSubCategory}</td>
+                          </tr>
+                        : null
+                      }
+                      
                     </table>
                     <h3 style={headingstyle}>Tender Addendums</h3>
                     <table className="table table-borderless table-sm">
@@ -2387,9 +2547,11 @@ class Applications extends Component {
                                 <div class="col-sm-4">
                                   <Select
                                     name="TenderCategory"
-                                    defaultInputValue={
-                                      this.state.TenderCategory
-                                    }
+                                   
+                                    value={TenderCategories.filter(
+                                      option =>
+                                        option.value === this.state.TenderCategory
+                                    )}
                                     onChange={this.handleSelectChange}
                                     options={TenderCategories}
                                   />
@@ -2408,9 +2570,10 @@ class Applications extends Component {
                                       <div class="col-sm-8">
                                         <Select
                                           name="TenderSubCategory"
-                                          defaultInputValue={
-                                            this.state.TenderSubCategory
-                                          }
+                                         value={TenderSubCategories.filter(
+                                            option =>
+                                              option.value === this.state.TenderSubCategory
+                                          )}
                                           onChange={this.handleSelectChange}
                                           options={TenderSubCategories}
                                         />
@@ -3363,7 +3526,6 @@ class Applications extends Component {
                                         type="submit"
                                         className="btn btn-primary"
                                       >
-                                        {" "}
                                         Save
                                       </button>
                                       &nbsp; &nbsp;
@@ -3461,39 +3623,232 @@ class Applications extends Component {
                     style={childdiv}
                     aria-labelledby="nav-Fees-tab"
                   >
+                    
                     <div style={formcontainerStyle}>
                       <div style={FormStyle}>
                         <h3 style={headingstyle}>Application fees</h3>
-
+                        <div className="col-lg-12 border border-success rounded">
                         <div className="row">
                           <div class="col-sm-8">
-                            <table className="table table-sm">
-                              <th>#</th>
-                              <th>fees description</th>
-                              <th>Value</th>
-                              <tr>
-                                <td>1</td>
-                                <td>Application fee</td>
-                                <td>5000</td>
-                              </tr>
-                              <tr></tr>
-                              <tfoot>
+                            <table class="table table-sm">
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Fees description</th>
+                                  <th scope="col">Value</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {this.state.Applicationfees.map((r, i) => (
+                                  <tr>
+                                    <td>{i + 1}</td>
+                                    <td>{r.EntryType}</td>
+                                    <td className="font-weight-bold">
+                                      {this.formatNumber(r.AmountDue)}
+                                    </td>
+                                  </tr>
+                                ))}
                                 <tr>
                                   <th></th>
-                                  <th scope="row">Total Amount</th>
-                                  <th>
-                                    {this.formatNumber(
-                                      this.state.TenderValue * 0.1 + 5000
-                                    )}
+                                  <th>Total Amount</th>
+                                  <th className="font-weight-bold text-danger">
+                                    {" "}
+                                    {this.formatNumber(this.state.TotalAmountdue)}
                                   </th>
                                 </tr>
-                              </tfoot>
+                              </tbody>
                             </table>
                           </div>
                         </div>
+                        </div>
+                       
+                        {this.state.ShowPaymentDetails ? <div><h3 style={headingstyle}>Payment Details</h3>
+                        <div className="col-lg-12 border border-success rounded">
+                          
+                          <div style={FormStyle}>
+                            <div className=" row">
+                              <div className="col-md-5">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label
+                                      htmlFor="exampleInputPassword1"
+                                      className="font-weight-bold"
+                                    >
+                                      Amount Paid
+                                        </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <input
+                                      onChange={this.handleInputChange}
+                                      value={
+                                        this.state.AmountPaid
+                                      }
+                                      type="number"
+                                      required
+                                      name="AmountPaid"
+                                      className="form-control"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-5">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label
+                                      htmlFor="exampleInputPassword1"
+                                      className="font-weight-bold"
+                                    >
+                                      Date of Payment
+                                        </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <input
+                                      onChange={this.handleInputChange}
+                                      value={
+                                        this.state.DateofPayment
+                                      }
+                                      type="date"
+                                      required
+                                      name="DateofPayment"
+                                       
+                                      className="form-control"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <br />
+                            <div className=" row">
+                              <div className="col-md-5">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label
+                                      htmlFor="exampleInputPassword1"
+                                      className="font-weight-bold"
+                                    >
+                                      Payment Reference
+                                        </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <input
+                                      onChange={this.handleInputChange}
+                                      value={
+                                        this.state.PaymentReference
+                                      }
+                                      type="text"
+                                      required
+                                        
+                                      name="PaymentReference"
+                                      className="form-control"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-5">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label
+                                      htmlFor="exampleInputPassword1"
+                                      className="font-weight-bold"
+                                    >
+                                      Paid By
+                                    </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <input
+                                      onChange={this.handleInputChange}
+                                      value={
+                                        this.state.PaidBy
+                                      }
+                                      type="text"
+                                      required
+                                       
+                                      name="PaidBy"
+                                      className="form-control"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                              <div className="col-md-5">
+                                <div className="row">
+                                  <div className="col-md-4">
+                                    <label
+                                      htmlFor="exampleInputPassword1"
+                                      className="font-weight-bold"
+                                    >
+                                      Payment slip
+                                        </label>
+                                  </div>
+                                  <div className="col-md-8">
+                                    <input
+                                      type="file"
+                                      className="form-control"
+                                      name="file"
+                                      onChange={this.onChangeHandler}
+                                      multiple
+                                    />
+                                    <div class="form-group">
+                                      <Progress
+                                        max="100"
+                                        color="success"
+                                        value={this.state.loaded}
+                                      >
+                                        {Math.round(this.state.loaded, 2)}%
+                              </Progress>
+                                    </div>
+                                    <button
+                                      type="submit"
+                                      class="btn btn-success "
+                                      onClick={this.UploadBankSlip}
+                                    >
+                                      Upload
+                            </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-5">
+                                <table className="table table-sm">
+
+                                  <th scope="col">Slip</th>
+                                  <th scope="col">Action</th>
+                                  {this.state.BankSlips.map((r, i) => (
+                                    <tr>
+                                      <td>{r.Name}</td>
+                                      <td>
+                                        <span>
+                                          <a
+                                            style={{ color: "#f44542" }}
+                                            onClick={e =>
+                                              this.handleDeleteBankSlip(r.Name, e)
+                                            }
+                                          >
+                                            &nbsp; Remove
+                                            </a>
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </table>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div></div> : null}
+                      
+                        <br/>
                         <div className=" row">
-                          <div className="col-sm-10" />
-                          <div className="col-sm-2">
+                          <div className="col-sm-9" />
+                          <div className="col-sm-3">
+                            <button
+                              className="btn btn-success"
+                              onClick={this.AddpaymentDetails}
+                            >
+                              Already paid
+                            </button>
+                            &nbsp;&nbsp;
                             <button
                               className="btn btn-primary"
                               onClick={this.CompletedApplication}

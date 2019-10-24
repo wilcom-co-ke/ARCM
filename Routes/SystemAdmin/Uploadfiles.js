@@ -1,7 +1,9 @@
 var express = require("express");
 var Uploadfiles = express();
 var multer = require("multer");
-
+var mysql = require("mysql");
+var config = require("../../DB");
+var con = mysql.createPool(config);
 Uploadfiles.post("/", function(req, res) {
   try {
     var Timestamp = Date.now();
@@ -82,6 +84,30 @@ Uploadfiles.post("/:ID", function(req, res) {
         }
         return res.status(200).send(filename);
         //return res.status(200).send(req.file);
+      });
+    }
+    if (ID == "BankSlips") {
+      var Timestamp = Date.now();
+      var storage = multer.diskStorage({
+        destination: function(req, file, cb) {
+          cb(null, "uploads/BankSlips");
+        },
+        filename: function(req, file, cb) {
+          cb(null, Timestamp + "-" + file.originalname);
+        }
+      });
+      //var upload = multer({ storage: storage }).single("file");//for single file
+      var upload = multer({ storage: storage }).array("file"); //for multiple files
+
+      upload(req, res, function(err) {
+        var filename = Timestamp + "-" + req.files[0].originalname;
+
+        if (err instanceof multer.MulterError) {
+          return res.status(500).json(err);
+        } else if (err) {
+          return res.status(500).json(err);
+        }
+        return res.status(200).send(filename);
       });
     }
   } catch (e) {
