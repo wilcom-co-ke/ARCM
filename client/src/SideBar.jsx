@@ -472,19 +472,11 @@ const CaseManagement = props => {
               <li>
                 <Link to="/FeesApproval">
                   <i className="fa fa-tasks" />
-                  Fees Approval
-                </Link>
-              </li>
-            ) : null}
-
-            {props.validaterole("Applications Approval", "View") ? (
-              <li>
-                <Link to="/PaymentConfirmation">
-                  <i className="fa fa-tasks" />
                   Payment Confirmation
                 </Link>
               </li>
             ) : null}
+
             {props.validaterole("Applications Approval", "View") ? (
               <li>
                 <Link to="/ApplicationsApprovals">
@@ -494,7 +486,6 @@ const CaseManagement = props => {
               </li>
             ) : null}
 
-            
             {props.validaterole("Case Management", "View") ? (
               <li>
                 <Link to="/Response">
@@ -536,7 +527,7 @@ const CaseManagement = props => {
                 </Link>
               </li>
             ) : null}
-           
+
             {props.validaterole("Case Adjournment", "View") ? (
               <li>
                 <Link to="/AdjournmentApproval">

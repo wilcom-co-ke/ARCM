@@ -153,14 +153,10 @@ CREATE TABLE IF NOT EXISTS `applicantshistory` (
   PRIMARY KEY (`ID`,`ApplicantCode`) USING BTREE,
   KEY `financialyear_ibfk_1` (`Created_By`),
   KEY `financialyear_ibfk_2` (`Updated_By`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicantshistory: ~2 rows (approximately)
+-- Dumping data for table arcm.applicantshistory: ~0 rows (approximately)
 /*!40000 ALTER TABLE `applicantshistory` DISABLE KEYS */;
-INSERT INTO `applicantshistory` (`ID`, `ApplicantCode`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`) VALUES
-	(1, 'AP-12', 'Allicom', '', '047', 'Nairobi', '0705555285', '00100', 'NAIROBI', '0705555285', '0705555285', 'elvis@gmail.com', '', '0705555285', '0705555285', '2019-10-17 17:30:35', NULL, NULL, NULL, NULL, NULL),
-	(2, 'AP-13', 'Kim', '', '001', 'Mombasa', '123', '00100', 'NAIROBI', '123456789', '123456789', 'elviskcheruiyot@gmail.com', '', '', '123456789', '2019-10-17 17:33:23', NULL, NULL, NULL, NULL, NULL),
-	(3, 'AP-14', 'Allicom', '', '001', 'Mombasa', '1234', '00100', 'NAIROBI', '07055552851', '0705555285', 'Allicom@gmail.com', '', '', '0705555285', '2019-10-17 17:42:01', NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicantshistory` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocuments
@@ -180,10 +176,12 @@ CREATE TABLE IF NOT EXISTS `applicationdocuments` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocuments: ~0 rows (approximately)
+-- Dumping data for table arcm.applicationdocuments: ~1 rows (approximately)
 /*!40000 ALTER TABLE `applicationdocuments` DISABLE KEYS */;
+INSERT INTO `applicationdocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
+	(1, 1, 'Tender document', '1572006372767-EFT.docx', '2019-10-25 15:26:13', 'http://74.208.157.60:3001/Documents', 'Applicant', '2019-10-25 15:26:13', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `applicationdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocumentshistory
@@ -204,10 +202,12 @@ CREATE TABLE IF NOT EXISTS `applicationdocumentshistory` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocumentshistory: ~0 rows (approximately)
+-- Dumping data for table arcm.applicationdocumentshistory: ~1 rows (approximately)
 /*!40000 ALTER TABLE `applicationdocumentshistory` DISABLE KEYS */;
+INSERT INTO `applicationdocumentshistory` (`ID`, `ApplicationID`, `DocType`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
+	(1, 1, NULL, 'Tender document', '1572006372767-EFT.docx', '2019-10-25 15:26:13', 'http://74.208.157.60:3001/Documents', 'Applicant', '2019-10-25 15:26:13', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `applicationdocumentshistory` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfees
@@ -236,31 +236,15 @@ CREATE TABLE IF NOT EXISTS `applicationfees` (
   `DateApproved` datetime DEFAULT NULL,
   `Narration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationfees: ~20 rows (approximately)
+-- Dumping data for table arcm.applicationfees: ~4 rows (approximately)
 /*!40000 ALTER TABLE `applicationfees` DISABLE KEYS */;
 INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, `RefNo`, `BillDate`, `AmountPaid`, `PaidDate`, `PaymentRef`, `PaymentMode`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `CalculatedAmount`, `FeesStatus`, `ApprovedBy`, `DateApproved`, `Narration`) VALUES
-	(1, 7, 1, 10000, '7', '2019-10-24 12:24:24', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:24:24', NULL, NULL, 1, '2019-10-24 12:27:21', 'Applicant', 10000, 'Pending Approval', NULL, NULL, NULL),
-	(2, 7, 4, 10000, '7', '2019-10-24 12:25:31', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:25:31', NULL, NULL, 1, '2019-10-24 12:27:21', 'Applicant', 10000, 'Pending Approval', NULL, NULL, NULL),
-	(3, 7, 4, 10000, '7', '2019-10-24 12:25:59', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:25:59', NULL, NULL, 1, '2019-10-24 12:27:21', 'Applicant', 10000, 'Pending Approval', NULL, NULL, NULL),
-	(4, 7, 4, 10000, '7', '2019-10-24 12:27:22', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:27:22', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(5, 8, 4, 10000, '8', '2019-10-24 12:30:06', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:30:06', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(6, 9, 4, 10000, '9', '2019-10-24 12:34:13', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 12:34:13', NULL, NULL, 1, '2019-10-24 13:24:40', 'Applicant', 10000, 'Pending Approval', NULL, NULL, NULL),
-	(7, 9, 1, 20000, '9', '2019-10-24 13:24:41', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:24:41', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(8, 9, 2, 48000, '9', '2019-10-24 13:24:41', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:24:41', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(9, 9, 3, 1250, '9', '2019-10-24 13:24:41', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:24:41', NULL, NULL, 0, NULL, NULL, 1250, 'Pending Approval', NULL, NULL, NULL),
-	(10, 10, 9, 10000, '10', '2019-10-24 13:30:25', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:30:25', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(11, 11, 1, 20000, '11', '2019-10-24 13:30:43', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:30:43', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(12, 11, 2, 300, '11', '2019-10-24 13:30:43', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 13:30:43', NULL, NULL, 0, NULL, NULL, 300, 'Pending Approval', NULL, NULL, NULL),
-	(13, 12, 1, 20000, '12', '2019-10-24 14:01:09', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:01:09', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(14, 12, 2, 48000, '12', '2019-10-24 14:01:09', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:01:09', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(15, 12, 3, 1141.96, '12', '2019-10-24 14:01:09', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:01:09', NULL, NULL, 0, NULL, NULL, 1141.96, 'Pending Approval', NULL, NULL, NULL),
-	(16, 13, 1, 20000, '13', '2019-10-24 14:04:10', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:04:10', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(17, 13, 2, 48000, '13', '2019-10-24 14:04:10', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:04:10', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(18, 13, 3, 2487500, '13', '2019-10-24 14:04:10', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:04:10', NULL, NULL, 0, NULL, NULL, 2487500, 'Pending Approval', NULL, NULL, NULL),
-	(19, 14, 6, 40000, '14', '2019-10-24 14:04:52', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:04:52', NULL, NULL, 0, NULL, NULL, 40000, 'Pending Approval', NULL, NULL, NULL),
-	(20, 15, 1, 10000, '15', '2019-10-24 14:05:53', 0, NULL, NULL, NULL, 'Applicant', '2019-10-24 14:05:53', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL);
+	(1, 1, 14, 5000, '1', '2019-10-25 15:24:59', 0, NULL, NULL, NULL, 'Applicant', '2019-10-25 15:24:59', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
+	(2, 1, 1, 10000, '1', '2019-10-25 15:25:00', 0, NULL, NULL, NULL, 'Applicant', '2019-10-25 15:25:00', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
+	(3, 2, 14, 5000, '2', '2019-10-25 16:29:02', 0, NULL, NULL, NULL, 'Applicant', '2019-10-25 16:29:02', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
+	(4, 2, 1, 10000, '2', '2019-10-25 16:29:02', 0, NULL, NULL, NULL, 'Applicant', '2019-10-25 16:29:02', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicationfees` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfeeshistory
@@ -309,28 +293,16 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ClosingDate` date DEFAULT NULL,
+  `PaymentStatus` varchar(50) COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications: ~15 rows (approximately)
+-- Dumping data for table arcm.applications: ~2 rows (approximately)
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
-INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `ClosingDate`) VALUES
-	(1, 1, 2, 'PE-2', '2019-10-22 14:55:03', '1', '1', 'Unverified', 'Applicant', '2019-10-22 14:55:03', '2019-10-24 12:05:53', 'Applicant', 0, NULL, NULL, NULL),
-	(2, 2, 2, 'PE-2', '2019-10-23 10:03:56', '2', '2', 'Unverified', 'Applicant', '2019-10-23 10:03:56', '2019-10-23 11:10:05', 'Applicant', 0, NULL, NULL, NULL),
-	(3, 3, 2, 'PE-2', '2019-10-23 10:06:49', '3', '3', 'Unverified', 'Applicant', '2019-10-23 10:06:49', '2019-10-23 11:10:28', 'Applicant', 0, NULL, NULL, NULL),
-	(4, 4, 2, 'PE-2', '2019-10-23 11:21:15', '4', '4', 'Unverified', 'Applicant', '2019-10-23 11:21:15', NULL, NULL, 0, NULL, NULL, NULL),
-	(5, 5, 2, 'PE-2', '2019-10-23 11:22:06', '5', '5', 'Unverified', 'Applicant', '2019-10-23 11:22:06', NULL, NULL, 0, NULL, NULL, NULL),
-	(6, 6, 2, 'PE-2', '2019-10-23 11:25:18', '6', '6', 'Unverified', 'Applicant', '2019-10-23 11:25:18', '2019-10-24 11:43:10', 'Applicant', 0, NULL, NULL, NULL),
-	(7, 7, 2, 'PE-2', '2019-10-23 11:25:38', '7', '7', 'Unverified', 'Applicant', '2019-10-23 11:25:38', '2019-10-24 12:27:21', 'Applicant', 0, NULL, NULL, NULL),
-	(8, 8, 2, 'PE-2', '2019-10-24 12:30:06', '8', '8', 'Unverified', 'Applicant', '2019-10-24 12:30:06', NULL, NULL, 0, NULL, NULL, NULL),
-	(9, 9, 2, 'PE-2', '2019-10-24 12:34:12', '9', '9', 'Unverified', 'Applicant', '2019-10-24 12:34:12', '2019-10-24 13:24:40', 'Applicant', 0, NULL, NULL, NULL),
-	(10, 10, 2, 'PE-2', '2019-10-24 13:30:24', '10', '10', 'Unverified', 'Applicant', '2019-10-24 13:30:24', NULL, NULL, 0, NULL, NULL, NULL),
-	(11, 11, 2, 'PE-2', '2019-10-24 13:30:43', '11', '11', 'Unverified', 'Applicant', '2019-10-24 13:30:43', NULL, NULL, 0, NULL, NULL, NULL),
-	(12, 12, 2, 'PE-2', '2019-10-24 14:01:08', '12', '12', 'Unverified', 'Applicant', '2019-10-24 14:01:08', NULL, NULL, 0, NULL, NULL, NULL),
-	(13, 13, 2, 'PE-2', '2019-10-24 14:04:10', '13', '13', 'Unverified', 'Applicant', '2019-10-24 14:04:10', NULL, NULL, 0, NULL, NULL, NULL),
-	(14, 14, 2, 'PE-2', '2019-10-24 14:04:52', '14', '14', 'Unverified', 'Applicant', '2019-10-24 14:04:52', NULL, NULL, 0, NULL, NULL, NULL),
-	(15, 15, 2, 'PE-2', '2019-10-24 14:05:52', '15', '15', 'Unverified', 'Applicant', '2019-10-24 14:05:52', NULL, NULL, 0, NULL, NULL, NULL);
+INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `ClosingDate`, `PaymentStatus`) VALUES
+	(1, 19, 2, 'PE-2', '2019-10-25 15:24:59', '1', '1', 'Submited', 'Applicant', '2019-10-25 15:24:59', NULL, NULL, 0, NULL, NULL, NULL, 'Submited'),
+	(2, 20, 2, 'PE-2', '2019-10-25 16:29:02', '2', '2', 'Submited', 'Applicant', '2019-10-25 16:29:02', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationsequence
@@ -343,26 +315,17 @@ CREATE TABLE IF NOT EXISTS `applicationsequence` (
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ExpectedAction` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationsequence: ~15 rows (approximately)
+-- Dumping data for table arcm.applicationsequence: ~6 rows (approximately)
 /*!40000 ALTER TABLE `applicationsequence` DISABLE KEYS */;
 INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Status`, `ExpectedAction`) VALUES
-	(1, '1', '2019-10-22', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(2, '2', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(3, '3', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(4, '4', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(5, '5', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(6, '6', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(7, '7', '2019-10-23', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(8, '8', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(9, '9', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(10, '10', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(11, '11', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(12, '12', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(13, '13', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(14, '14', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval'),
-	(15, '15', '2019-10-24', 'Submited Application', 'Pending', 'Awaiting Approval');
+	(1, '1', '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval'),
+	(2, '1', '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval'),
+	(3, NULL, '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval'),
+	(4, '1', '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval'),
+	(5, '2', '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval'),
+	(6, '2', '2019-10-25', 'Submited Application', 'Pending', 'Awaiting Approval');
 /*!40000 ALTER TABLE `applicationsequence` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationshistory
@@ -408,26 +371,10 @@ CREATE TABLE IF NOT EXISTS `applications_approval_workflow` (
   `Created_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications_approval_workflow: ~15 rows (approximately)
+-- Dumping data for table arcm.applications_approval_workflow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `applications_approval_workflow` DISABLE KEYS */;
-INSERT INTO `applications_approval_workflow` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Approver`, `Remarks`, `Created_By`, `Approved_At`, `Created_At`) VALUES
-	(1, 1, 2, 'PE-2', '2019-10-22 14:55:03', '1', '1', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-22 14:55:03'),
-	(2, 2, 2, 'PE-2', '2019-10-23 10:03:56', '2', '2', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 10:03:56'),
-	(3, 3, 2, 'PE-2', '2019-10-23 10:06:49', '3', '3', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 10:06:49'),
-	(4, 4, 2, 'PE-2', '2019-10-23 11:21:15', '4', '4', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 11:21:15'),
-	(5, 5, 2, 'PE-2', '2019-10-23 11:22:06', '5', '5', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 11:22:06'),
-	(6, 6, 2, 'PE-2', '2019-10-23 11:25:18', '6', '6', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 11:25:18'),
-	(7, 7, 2, 'PE-2', '2019-10-23 11:25:38', '7', '7', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-23 11:25:38'),
-	(8, 8, 2, 'PE-2', '2019-10-24 12:30:06', '8', '8', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 12:30:06'),
-	(9, 9, 2, 'PE-2', '2019-10-24 12:34:13', '9', '9', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 12:34:13'),
-	(10, 10, 2, 'PE-2', '2019-10-24 13:30:24', '10', '10', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 13:30:24'),
-	(11, 11, 2, 'PE-2', '2019-10-24 13:30:43', '11', '11', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 13:30:43'),
-	(12, 12, 2, 'PE-2', '2019-10-24 14:01:08', '12', '12', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 14:01:08'),
-	(13, 13, 2, 'PE-2', '2019-10-24 14:04:10', '13', '13', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 14:04:10'),
-	(14, 14, 2, 'PE-2', '2019-10-24 14:04:52', '14', '14', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 14:04:52'),
-	(15, 15, 2, 'PE-2', '2019-10-24 14:05:52', '15', '15', 'Pending Approval', '', NULL, 'Applicant', NULL, '2019-10-24 14:05:52');
 /*!40000 ALTER TABLE `applications_approval_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.approvalmodules
@@ -572,12 +519,39 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApproveApplicationFees
 DROP PROCEDURE IF EXISTS `ApproveApplicationFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _ApprovedAmount FLOAT, IN _FeeEntryType VARCHAR(100), IN _Narration VARCHAR(255))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _Amount FLOAT, IN _Reff VARCHAR(100))
 BEGIN
-Update applicationfees set AmountDue=_ApprovedAmount, FeesStatus='Approved', Narration=_Narration ,ApprovedBy=_Approver,
-  DateApproved=NOW() where ApplicationID=_ApplicationID and EntryType=_FeeEntryType;
-  select Created_By from applications where ID=_ApplicationID LIMIT 1 into @Applicant;
-  select Email,Phone,Name from users where Username=@Applicant;
+-- new
+
+ insert into feesapprovalworkflow (ApplicationID ,Amount , RefNo ,Status,ApprovedBy,  DateApproved)
+ VALUES(_ApplicationID,_Amount,_Reff,'Approved',_Approver,now());
+
+select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='PAYMT' LIMIT 1 into @MaxApprovals;
+select IFNULL(count(*),0) from feesapprovalworkflow  WHERE  ApplicationID=_ApplicationID and Status='Approved' and 
+   ApprovedBy in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='PAYMT')
+  into @CountApproved;
+
+  -- check mandatory approvers
+select IFNULL(count(*),0) from approvers WHERE Mandatory=1 and ModuleCode='PAYMT' and Deleted=0 into @CountMandatory;
+select IFNULL(count(*),0) from feesapprovalworkflow  WHERE  ApplicationID=_ApplicationID and Status='Approved' and 
+  ApprovedBy in (select Username from approvers WHERE Mandatory=1 and ModuleCode='PAYMT' and Deleted=0) into @CountMandatoryApproved;
+
+if @CountMandatoryApproved >= @CountMandatory  THEN
+BEGIN
+    if @CountApproved >= @MaxApprovals  THEN
+    BEGIN
+      update applications set PaymentStatus='Approved' where ID=_ApplicationID;
+        Update applicationfees set  FeesStatus='Approved', Narration=_Reff ,ApprovedBy=_Approver,
+          DateApproved=NOW() where ApplicationID=_ApplicationID;
+    END;
+    end if;
+
+
+END;
+end if;
+
+-- end new
+
 END//
 DELIMITER ;
 
@@ -726,7 +700,7 @@ INSERT INTO `approvers` (`ID`, `Username`, `ModuleCode`, `Mandatory`, `Active`, 
 	(1, 'Admin', 'APFRE', 1, 1, '2019-10-16 14:11:35', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(2, 'Admin2', 'APFRE', 0, 1, '2019-10-16 14:11:40', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(3, 'Admin', 'REXED', 1, 1, '2019-10-16 14:38:31', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(4, 'Admin', 'PAYMT', 0, 1, '2019-10-16 16:32:58', NULL, 'Admin', NULL, 0, NULL, NULL),
+	(4, 'Admin', 'PAYMT', 1, 1, '2019-10-16 16:32:58', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(5, 'Admin2', 'PAYMT', 1, 1, '2019-10-16 16:32:59', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(6, 'Admin2', 'PAREQ', 1, 1, '2019-10-17 09:41:23', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(7, 'Admin', 'PAREQ', 1, 1, '2019-10-17 09:41:24', NULL, 'Admin', NULL, 0, NULL, NULL);
@@ -790,201 +764,34 @@ CREATE TABLE IF NOT EXISTS `audittrails` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IpAddress` bigint(20) NOT NULL,
   PRIMARY KEY (`AuditID`)
-) ENGINE=InnoDB AUTO_INCREMENT=191 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.audittrails: ~190 rows (approximately)
+-- Dumping data for table arcm.audittrails: ~23 rows (approximately)
 /*!40000 ALTER TABLE `audittrails` DISABLE KEYS */;
 INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES
-	(1, '2019-10-17 17:30:35', '0705555285', 'Added new applicant with Name: Allicom', 'Add', 0),
-	(2, '2019-10-17 17:33:23', '123456789', 'Added new applicant with Name: Kim', 'Add', 0),
-	(3, '2019-10-17 17:42:01', '0705555285', 'Added new applicant with Name: Allicom', 'Add', 0),
-	(4, '2019-10-22 10:03:40', 'Admin', 'Updated  User with username: 0705555285', 'Update', 0),
-	(5, '2019-10-22 10:05:00', 'Admin', 'Updated  User with username: Admin', 'Update', 0),
-	(6, '2019-10-22 14:55:02', 'Applicant', 'Added new Tender with TenderNo:123455', 'Add', 0),
-	(7, '2019-10-22 14:55:03', 'Applicant', 'Added new Application with ApplicationNo:1', 'Add', 0),
-	(8, '2019-10-22 14:55:03', 'Applicant', '1', 'Add', 0),
-	(9, '2019-10-22 14:55:03', 'Applicant', '1', 'Add', 0),
-	(10, '2019-10-22 14:57:23', 'Admin', '621', 'Create', 0),
-	(11, '2019-10-22 14:57:24', 'Admin', '621', 'Update', 0),
-	(12, '2019-10-22 14:57:24', 'Admin', '621', 'Update', 0),
-	(13, '2019-10-22 14:57:25', 'Admin', '621', 'Update', 0),
-	(14, '2019-10-22 14:57:25', 'Admin', '621', 'Update', 0),
-	(15, '2019-10-22 14:57:51', 'Admin', '628', 'Create', 0),
-	(16, '2019-10-22 14:57:52', 'Admin', '628', 'Update', 0),
-	(17, '2019-10-22 14:57:52', 'Admin', '628', 'Update', 0),
-	(18, '2019-10-22 14:57:53', 'Admin', '628', 'Update', 0),
-	(19, '2019-10-22 14:57:54', 'Admin', '628', 'Update', 0),
-	(20, '2019-10-22 14:57:57', 'Admin', '588', 'Create', 0),
-	(21, '2019-10-22 14:57:58', 'Admin', '588', 'Update', 0),
-	(22, '2019-10-22 14:57:58', 'Admin', '588', 'Update', 0),
-	(23, '2019-10-22 14:57:59', 'Admin', '588', 'Update', 0),
-	(24, '2019-10-22 14:58:00', 'Admin', '588', 'Update', 0),
-	(25, '2019-10-22 14:58:23', 'Admin', 'Updated  user access of role for user: Applicant', 'Create', 0),
-	(26, '2019-10-22 14:58:24', 'Admin', 'Updated  user access of role for user: Applicant', 'Update', 0),
-	(27, '2019-10-22 14:58:26', 'Admin', 'Updated  user access of role for user: Applicant', 'Update', 0),
-	(28, '2019-10-22 14:58:28', 'Admin', 'Updated  user access of role for user: Applicant', 'Update', 0),
-	(29, '2019-10-22 14:58:30', 'Admin', 'Updated  user access of role for user: Applicant', 'Update', 0),
-	(30, '2019-10-22 15:00:35', 'Admin', 'Updated  user access of role for user: Applicant', 'Create', 0),
-	(31, '2019-10-22 15:01:41', 'Admin', 'Updated  user access of role for user: Applicant', 'Update', 0),
-	(32, '2019-10-22 15:08:05', 'Applicant', 'Added new interested party for application:1', 'Add', 0),
-	(33, '2019-10-22 15:19:13', 'Applicant', 'Deleted UserGroup with iD:1', 'Delete', 0),
-	(34, '2019-10-22 15:25:52', 'Admin', 'Added new tendertype with Name: Tenders of Ascertainable Value', 'Add', 0),
-	(35, '2019-10-22 15:26:33', 'Admin', 'Added new tendertype with Name: Tenders of Unascertainable Value', 'Add', 0),
-	(36, '2019-10-23 10:03:55', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(37, '2019-10-23 10:03:56', 'Applicant', 'Added new Application with ApplicationNo:2', 'Add', 0),
-	(38, '2019-10-23 10:03:56', 'Applicant', '2', 'Add', 0),
-	(39, '2019-10-23 10:06:49', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(40, '2019-10-23 10:06:49', 'Applicant', 'Added new Application with ApplicationNo:3', 'Add', 0),
-	(41, '2019-10-23 10:06:50', 'Applicant', '3', 'Add', 0),
-	(42, '2019-10-23 10:06:50', 'Applicant', '3', 'Add', 0),
-	(43, '2019-10-23 11:05:08', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(44, '2019-10-23 11:05:09', 'Applicant', 'Updated Application :3', 'Update', 0),
-	(45, '2019-10-23 11:10:05', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(46, '2019-10-23 11:10:05', 'Applicant', 'Updated Application :2', 'Update', 0),
-	(47, '2019-10-23 11:10:28', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(48, '2019-10-23 11:10:28', 'Applicant', 'Updated Application :3', 'Update', 0),
-	(49, '2019-10-23 11:10:28', 'Applicant', '3', 'UPDATE', 0),
-	(50, '2019-10-23 11:21:15', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(51, '2019-10-23 11:21:16', 'Applicant', 'Added new Application with ApplicationNo:4', 'Add', 0),
-	(52, '2019-10-23 11:21:16', 'Applicant', '4', 'Add', 0),
-	(53, '2019-10-23 11:21:16', 'Applicant', '4', 'Add', 0),
-	(54, '2019-10-23 11:22:06', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(55, '2019-10-23 11:22:06', 'Applicant', 'Added new Application with ApplicationNo:5', 'Add', 0),
-	(56, '2019-10-23 11:22:06', 'Applicant', '5', 'Add', 0),
-	(57, '2019-10-23 11:22:07', 'Applicant', '5', 'Add', 0),
-	(58, '2019-10-23 11:25:17', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(59, '2019-10-23 11:25:18', 'Applicant', 'Added new Application with ApplicationNo:6', 'Add', 0),
-	(60, '2019-10-23 11:25:18', 'Applicant', '6', 'Add', 0),
-	(61, '2019-10-23 11:25:18', 'Applicant', '6', 'Add', 0),
-	(62, '2019-10-23 11:25:38', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(63, '2019-10-23 11:25:38', 'Applicant', 'Added new Application with ApplicationNo:7', 'Add', 0),
-	(64, '2019-10-23 11:25:38', 'Applicant', '7', 'Add', 0),
-	(65, '2019-10-23 11:28:38', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(66, '2019-10-23 11:28:39', 'Applicant', 'Updated Application :6', 'Update', 0),
-	(67, '2019-10-23 11:52:30', 'Applicant', 'Added new interested party for application:7', 'Add', 0),
-	(68, '2019-10-23 11:53:58', 'Applicant', 'Added new interested party for application:7', 'Add', 0),
-	(69, '2019-10-23 11:54:04', 'Applicant', 'Deleted UserGroup with iD:2', 'Delete', 0),
-	(70, '2019-10-23 16:39:35', 'Admin', '3', 'Add', 0),
-	(71, '2019-10-23 16:41:47', 'Admin', '3', 'Add', 0),
-	(72, '2019-10-23 16:42:55', 'Admin', '3', 'Add', 0),
-	(73, '2019-10-23 16:57:47', 'Admin', '3', 'Add', 0),
-	(74, '2019-10-23 16:57:47', 'Admin', '3', 'Add', 0),
-	(75, '2019-10-23 17:09:36', 'Admin', '3', 'Add', 0),
-	(76, '2019-10-23 17:09:36', 'Admin', '3', 'Add', 0),
-	(77, '2019-10-23 17:09:36', 'Admin', '3', 'Add', 0),
-	(78, '2019-10-23 17:16:21', 'Admin', '3', 'Add', 0),
-	(79, '2019-10-23 17:16:21', 'Admin', '3', 'Add', 0),
-	(80, '2019-10-23 17:17:52', 'Admin', '3', 'Add', 0),
-	(81, '2019-10-23 17:20:43', 'Admin', '3', 'Add', 0),
-	(82, '2019-10-23 17:20:43', 'Admin', '3', 'Add', 0),
-	(83, '2019-10-24 09:06:18', 'Admin', '3', 'Add', 0),
-	(84, '2019-10-24 09:06:18', 'Admin', '3', 'Add', 0),
-	(85, '2019-10-24 09:08:19', 'Admin', '3', 'Add', 0),
-	(86, '2019-10-24 09:08:19', 'Admin', '3', 'Add', 0),
-	(87, '2019-10-24 09:09:08', 'Admin', '3', 'Add', 0),
-	(88, '2019-10-24 09:09:08', 'Admin', '3', 'Add', 0),
-	(89, '2019-10-24 09:11:09', 'Admin', '3', 'Add', 0),
-	(90, '2019-10-24 09:11:09', 'Admin', '3', 'Add', 0),
-	(91, '2019-10-24 09:13:08', 'Admin', '3', 'Add', 0),
-	(92, '2019-10-24 09:13:42', 'Admin', '3', 'Add', 0),
-	(93, '2019-10-24 10:25:26', 'Admin', '3', 'Add', 0),
-	(94, '2019-10-24 10:28:51', 'Admin', '3', 'Add', 0),
-	(95, '2019-10-24 10:28:51', 'Admin', '3', 'Add', 0),
-	(96, '2019-10-24 10:29:44', 'Admin', '3', 'Add', 0),
-	(97, '2019-10-24 10:29:44', 'Admin', '3', 'Add', 0),
-	(98, '2019-10-24 10:29:44', 'Admin', '3', 'Add', 0),
-	(99, '2019-10-24 10:34:07', 'Admin', '3', 'Add', 0),
-	(100, '2019-10-24 10:34:07', 'Admin', '3', 'Add', 0),
-	(101, '2019-10-24 10:34:07', 'Admin', '3', 'Add', 0),
-	(102, '2019-10-24 10:41:44', 'Admin', '3', 'Add', 0),
-	(103, '2019-10-24 10:41:44', 'Admin', '3', 'Add', 0),
-	(104, '2019-10-24 10:41:45', 'Admin', '3', 'Add', 0),
-	(105, '2019-10-24 10:53:56', 'Admin', '3', 'Add', 0),
-	(106, '2019-10-24 10:53:56', 'Admin', '3', 'Add', 0),
-	(107, '2019-10-24 10:53:56', 'Admin', '3', 'Add', 0),
-	(108, '2019-10-24 10:54:26', 'Admin', '3', 'Add', 0),
-	(109, '2019-10-24 10:54:27', 'Admin', '3', 'Add', 0),
-	(110, '2019-10-24 10:55:08', 'Admin', '3', 'Add', 0),
-	(111, '2019-10-24 10:55:08', 'Admin', '3', 'Add', 0),
-	(112, '2019-10-24 10:55:08', 'Admin', '3', 'Add', 0),
-	(113, '2019-10-24 11:24:14', 'Admin', '3', 'Add', 0),
-	(114, '2019-10-24 11:24:15', 'Admin', '3', 'Add', 0),
-	(115, '2019-10-24 11:24:15', 'Admin', '3', 'Add', 0),
-	(116, '2019-10-24 11:36:03', 'Admin', '3', 'Add', 0),
-	(117, '2019-10-24 11:36:04', 'Admin', '3', 'Add', 0),
-	(118, '2019-10-24 11:36:04', 'Admin', '3', 'Add', 0),
-	(119, '2019-10-24 11:43:10', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(120, '2019-10-24 11:43:10', 'Applicant', 'Updated Application :6', 'Update', 0),
-	(121, '2019-10-24 11:47:56', 'Admin', '6', 'Add', 0),
-	(122, '2019-10-24 11:52:53', 'Admin', '6', 'Add', 0),
-	(123, '2019-10-24 12:05:19', 'Applicant', 'Updated Tender with TenderNo:123455', 'Update', 0),
-	(124, '2019-10-24 12:05:20', 'Applicant', 'Updated Application :1', 'Update', 0),
-	(125, '2019-10-24 12:05:53', 'Applicant', 'Updated Tender with TenderNo:123455', 'Update', 0),
-	(126, '2019-10-24 12:05:53', 'Applicant', 'Updated Application :1', 'Update', 0),
-	(127, '2019-10-24 12:22:10', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(128, '2019-10-24 12:22:10', 'Applicant', 'Updated Application :7', 'Update', 0),
-	(129, '2019-10-24 12:24:23', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(130, '2019-10-24 12:24:23', 'Applicant', 'Updated Application :7', 'Update', 0),
-	(131, '2019-10-24 12:24:24', 'Applicant', '7', 'Add', 0),
-	(132, '2019-10-24 12:25:30', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(133, '2019-10-24 12:25:31', 'Applicant', 'Updated Application :7', 'Update', 0),
-	(134, '2019-10-24 12:25:31', 'Applicant', '7', 'Add', 0),
-	(135, '2019-10-24 12:25:58', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(136, '2019-10-24 12:25:58', 'Applicant', 'Updated Application :7', 'Update', 0),
-	(137, '2019-10-24 12:25:59', 'Applicant', '7', 'Add', 0),
-	(138, '2019-10-24 12:27:21', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(139, '2019-10-24 12:27:21', 'Applicant', 'Updated Application :7', 'Update', 0),
-	(140, '2019-10-24 12:27:22', 'Applicant', '7', 'Add', 0),
-	(141, '2019-10-24 12:30:06', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(142, '2019-10-24 12:30:06', 'Applicant', 'Added new Application with ApplicationNo:8', 'Add', 0),
-	(143, '2019-10-24 12:30:06', 'Applicant', '8', 'Add', 0),
-	(144, '2019-10-24 12:34:12', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(145, '2019-10-24 12:34:13', 'Applicant', 'Added new Application with ApplicationNo:9', 'Add', 0),
-	(146, '2019-10-24 12:34:13', 'Applicant', '9', 'Add', 0),
-	(147, '2019-10-24 12:34:38', 'Applicant', 'Added new Ground/Request for Application:9', 'Add', 0),
-	(148, '2019-10-24 13:24:40', 'Applicant', 'Updated Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Update', 0),
-	(149, '2019-10-24 13:24:40', 'Applicant', 'Updated Application :9', 'Update', 0),
-	(150, '2019-10-24 13:24:41', 'Applicant', '9', 'Add', 0),
-	(151, '2019-10-24 13:24:41', 'Applicant', '9', 'Add', 0),
-	(152, '2019-10-24 13:24:41', 'Applicant', '9', 'Add', 0),
-	(153, '2019-10-24 13:30:24', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(154, '2019-10-24 13:30:25', 'Applicant', 'Added new Application with ApplicationNo:10', 'Add', 0),
-	(155, '2019-10-24 13:30:25', 'Applicant', '10', 'Add', 0),
-	(156, '2019-10-24 13:30:43', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(157, '2019-10-24 13:30:43', 'Applicant', 'Added new Application with ApplicationNo:11', 'Add', 0),
-	(158, '2019-10-24 13:30:43', 'Applicant', '11', 'Add', 0),
-	(159, '2019-10-24 13:30:43', 'Applicant', '11', 'Add', 0),
-	(160, '2019-10-24 14:01:08', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(161, '2019-10-24 14:01:08', 'Applicant', 'Added new Application with ApplicationNo:12', 'Add', 0),
-	(162, '2019-10-24 14:01:09', 'Applicant', '12', 'Add', 0),
-	(163, '2019-10-24 14:01:09', 'Applicant', '12', 'Add', 0),
-	(164, '2019-10-24 14:01:09', 'Applicant', '12', 'Add', 0),
-	(165, '2019-10-24 14:04:10', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(166, '2019-10-24 14:04:10', 'Applicant', 'Added new Application with ApplicationNo:13', 'Add', 0),
-	(167, '2019-10-24 14:04:10', 'Applicant', '13', 'Add', 0),
-	(168, '2019-10-24 14:04:10', 'Applicant', '13', 'Add', 0),
-	(169, '2019-10-24 14:04:11', 'Applicant', '13', 'Add', 0),
-	(170, '2019-10-24 14:04:51', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(171, '2019-10-24 14:04:52', 'Applicant', 'Added new Application with ApplicationNo:14', 'Add', 0),
-	(172, '2019-10-24 14:04:52', 'Applicant', '14', 'Add', 0),
-	(173, '2019-10-24 14:05:52', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(174, '2019-10-24 14:05:52', 'Applicant', 'Added new Application with ApplicationNo:15', 'Add', 0),
-	(175, '2019-10-24 14:05:53', 'Applicant', '15', 'Add', 0),
-	(176, '2019-10-24 14:07:56', 'Applicant', 'Added new interested party for application:15', 'Add', 0),
-	(177, '2019-10-24 15:38:39', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(178, '2019-10-24 15:42:44', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(179, '2019-10-24 15:43:56', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(180, '2019-10-24 15:47:54', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(181, '2019-10-24 16:29:06', 'Applicant', 'Deleted bank slip: 1571920716975-paypal.PNG', 'Add', 0),
-	(182, '2019-10-24 16:29:11', 'Applicant', 'Deleted bank slip: 1571921035041-paypal.PNG', 'Add', 0),
-	(183, '2019-10-24 16:29:14', 'Applicant', 'Deleted bank slip: 1571920958896-paypal.PNG', 'Add', 0),
-	(184, '2019-10-24 16:30:38', 'Applicant', 'Deleted bank slip: 1571921273271-paypal.PNG', 'Add', 0),
-	(185, '2019-10-24 16:30:49', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(186, '2019-10-24 16:50:18', 'Applicant', 'Deleted bank slip: 1571923848714-paypal.PNG', 'Add', 0),
-	(187, '2019-10-24 16:50:34', 'Applicant', 'Deleted UserGroup with iD:3', 'Delete', 0),
-	(188, '2019-10-24 16:51:28', 'Applicant', 'Added new interested party for application:15', 'Add', 0),
-	(189, '2019-10-24 17:24:23', 'Applicant', 'Added new bank slip for application: 15', 'Add', 0),
-	(190, '2019-10-24 17:25:42', 'Applicant', 'Added new payment details for application: 15', 'Add', 0);
+	(1, '2019-10-25 15:24:59', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
+	(2, '2019-10-25 15:24:59', 'Applicant', 'Added new Application with ApplicationNo:1', 'Add', 0),
+	(3, '2019-10-25 15:24:59', 'Applicant', 'Added Fee for Application: 1', 'Add', 0),
+	(4, '2019-10-25 15:25:00', 'Applicant', 'Added Fee for Application: 1', 'Add', 0),
+	(5, '2019-10-25 15:25:50', 'Applicant', 'Added new Ground/Request for Application:1', 'Add', 0),
+	(6, '2019-10-25 15:26:13', 'Applicant', 'Added new Document for application: 1', 'Add', 0),
+	(7, '2019-10-25 15:27:19', 'Applicant', 'Deleted UserGroup with iD:6', 'Delete', 0),
+	(8, '2019-10-25 15:28:21', 'Applicant', 'Added new interested party for application:1', 'Add', 0),
+	(9, '2019-10-25 15:35:40', 'Applicant', 'Added new bank slip for application: 1', 'Add', 0),
+	(10, '2019-10-25 15:35:43', 'Applicant', 'Added new payment details for application: 1', 'Add', 0),
+	(11, '2019-10-25 16:20:51', 'Admin', '0', 'Add', 0),
+	(12, '2019-10-25 16:20:52', 'Admin', '0', 'Add', 0),
+	(13, '2019-10-25 16:20:53', 'Admin', '0', 'Add', 0),
+	(14, '2019-10-25 16:29:02', 'Applicant', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
+	(15, '2019-10-25 16:29:02', 'Applicant', 'Added new Application with ApplicationNo:2', 'Add', 0),
+	(16, '2019-10-25 16:29:02', 'Applicant', 'Added Fee for Application: 2', 'Add', 0),
+	(17, '2019-10-25 16:29:02', 'Applicant', 'Added Fee for Application: 2', 'Add', 0),
+	(18, '2019-10-25 16:29:19', 'Applicant', 'Added new Ground/Request for Application:2', 'Add', 0),
+	(19, '2019-10-25 17:35:51', 'Admin2', 'Updated  user access of role for user: Admin2', 'Create', 0),
+	(20, '2019-10-25 17:35:52', 'Admin2', 'Updated  user access of role for user: Admin2', 'Update', 0),
+	(21, '2019-10-25 17:35:53', 'Admin2', 'Updated  user access of role for user: Admin2', 'Update', 0),
+	(22, '2019-10-25 17:35:53', 'Admin2', 'Updated  user access of role for user: Admin2', 'Update', 0),
+	(23, '2019-10-25 17:35:55', 'Admin2', 'Updated  user access of role for user: Admin2', 'Update', 0);
 /*!40000 ALTER TABLE `audittrails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.bankslips
@@ -1002,9 +809,9 @@ CREATE TABLE IF NOT EXISTS `bankslips` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.bankslips: ~6 rows (approximately)
+-- Dumping data for table arcm.bankslips: ~7 rows (approximately)
 /*!40000 ALTER TABLE `bankslips` DISABLE KEYS */;
 INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
 	(4, 15, '1571920716975-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 15:38:38', NULL, NULL, 1, NULL, NULL),
@@ -1012,7 +819,8 @@ INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `C
 	(6, 15, '1571921035041-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 15:43:56', NULL, NULL, 1, NULL, NULL),
 	(7, 15, '1571921273271-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 15:47:54', NULL, NULL, 1, NULL, NULL),
 	(8, 15, '1571923848714-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 16:30:49', NULL, NULL, 1, NULL, NULL),
-	(9, 15, '1571927062974-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 17:24:23', NULL, NULL, 0, NULL, NULL);
+	(9, 15, '1571927062974-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-24 17:24:23', NULL, NULL, 0, NULL, NULL),
+	(10, 1, '1572006940621-paypal.PNG', 'uploads/BankSlips', 'Applicant', '2019-10-25 15:35:40', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `bankslips` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.BookVenue
@@ -1221,6 +1029,18 @@ INSERT INTO `committeetypes` (`ID`, `Code`, `Description`, `Created_At`, `Create
 	(11, 'COMT-6', 'Test', '2019-08-27 17:35:10', 'Admin', '2019-08-27 17:40:18', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `committeetypes` ENABLE KEYS */;
 
+-- Dumping structure for procedure arcm.CompleteApplication
+DROP PROCEDURE IF EXISTS `CompleteApplication`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CompleteApplication`(in _ApplicationID INT)
+BEGIN
+Update applications set Status='Submited' where ID=_ApplicationID;
+call Saveapplicationsequence(@ApplicationNo,'Submited Application','Awaiting Approval');
+
+ 
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.Computefeestest
 DROP PROCEDURE IF EXISTS `Computefeestest`;
 DELIMITER //
@@ -1231,6 +1051,10 @@ BEGIN
     select ApplicationREf from applications where ID=_ApplicationID Limit 1 into @ApplicationREf;
    Update applicationfees set Deleted=1,Deleted_At=now(),Deleted_By=_UserID where ApplicationID=_ApplicationID;
  
+select MaxFee from feesstructure where  Name='Administrative Fee' LIMIT 1 into @Fee;
+select ID   from feesstructure where Name='Administrative Fee' LIMIT 1 into @DescriptionID;
+call SaveApplicationFees(_ApplicationID,@DescriptionID,@Fee,@ApplicationREf, _UserID);
+
 if (@TenderType = 'A') Then
 Begin
 
@@ -1791,7 +1615,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteInterestedParty`(IN _ID INT, 
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
-set lSaleDesc= CONCAT('Deleted UserGroup with iD:',_ID); 
+set lSaleDesc= CONCAT('Removed Interested party with iD:',_ID); 
 UPDATE interestedparties set Deleted=1 WHERE ID=_ID;
 call SaveAuditTrail(_userID,lSaleDesc,'Delete','0' );
 End//
@@ -2008,6 +1832,26 @@ END IF;
 
 END//
 DELIMITER ;
+
+-- Dumping structure for table arcm.feesapprovalworkflow
+DROP TABLE IF EXISTS `feesapprovalworkflow`;
+CREATE TABLE IF NOT EXISTS `feesapprovalworkflow` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ApplicationID` bigint(20) NOT NULL,
+  `Amount` float NOT NULL,
+  `RefNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApprovedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `DateApproved` datetime NOT NULL,
+  PRIMARY KEY (`ID`,`ApplicationID`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
+
+-- Dumping data for table arcm.feesapprovalworkflow: ~2 rows (approximately)
+/*!40000 ALTER TABLE `feesapprovalworkflow` DISABLE KEYS */;
+INSERT INTO `feesapprovalworkflow` (`ID`, `ApplicationID`, `Amount`, `RefNo`, `Status`, `ApprovedBy`, `DateApproved`) VALUES
+	(21, 1, 16111, '123456789', 'Approved', 'Admin', '2019-10-25 17:30:00'),
+	(22, 1, 16111, '123456778', 'Approved', 'Admin2', '2019-10-25 17:36:37');
+/*!40000 ALTER TABLE `feesapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.feescomputations
 DROP TABLE IF EXISTS `feescomputations`;
@@ -2301,7 +2145,7 @@ DELIMITER //
 CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `GetApplicationFees`(IN _ApplicationID int)
     NO SQL
 BEGIN
-select sum(AmountDue)  from applicationfees where ApplicationID=_ApplicationID INTO @Totall;
+select sum(AmountDue)  from applicationfees where ApplicationID=_ApplicationID and applicationfees.Deleted=0 INTO @Totall;
 select  applicationfees.ID, applicationfees.ApplicationID,feesstructure.Description as EntryType, applicationfees.AmountDue, applicationfees.RefNo, applicationfees.BillDate, applicationfees.AmountPaid
   ,@Totall as total, applicationfees.PaidDate, applicationfees.PaymentRef, applicationfees.PaymentMode
   from applicationfees inner join feesstructure  on feesstructure.ID=applicationfees.EntryType 
@@ -2343,6 +2187,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationGroundsOnly`(IN _Appl
 BEGIN
 Select * FROM groundsandrequestedorders
 WHERE Deleted=0 and ApplicationID in (select ID from applications where ApplicationNo=_ApplicationNo) and EntryType='Grounds for Appeal';
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.GetApplicationPaymentDetails
+DROP PROCEDURE IF EXISTS `GetApplicationPaymentDetails`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationPaymentDetails`(IN _ApplicationID INT)
+BEGIN
+  select sum(AmountPaid) FROM paymentdetails  WHERE ApplicationID=_ApplicationID into @AmountPaid;
+  select @AmountPaid as TotalPaid,ApplicationID,Paidby,Refference,DateOfpayment,AmountPaid from paymentdetails WHERE ApplicationID=_ApplicationID;
+ 
 END//
 DELIMITER ;
 
@@ -2665,11 +2520,12 @@ DELIMITER //
 CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `getmyapplications`(IN _ApplicantID BIGINT)
     NO SQL
 BEGIN
+
 SELECT applications.ID,ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,TenderType,TenderSubCategory,TenderCategory,Timer,
   procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   
-  `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`,tendertypes.Description as TenderTypeDesc,tenders.Timer
+  `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,tenders.Timer
   FROM `applications` inner join procuremententity on procuremententity.PEID=applications.PEID 
   inner join tenders on tenders.ID=applications.TenderID
   inner join tendertypes on tendertypes.Code=tenders.TenderType
@@ -2999,15 +2855,17 @@ DROP PROCEDURE IF EXISTS `GetPendingApplicationFees`;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingApplicationFees`(IN _UserName VARCHAR(50))
 BEGIN
-
-select DISTINCT applications.ID ,applications.ApplicantID,  
-  
-  procuremententity.Name,applicationfees.FeesStatus,applicationfees.Created_At as FilingDate,procuremententity.Mobile,
+select DISTINCT applications.ID ,applications.ApplicantID,    
+  procuremententity.Name,applications.PaymentStatus as FeesStatus,applications.Created_At  as FilingDate,procuremententity.Mobile,
   procuremententity.Location,procuremententity.POBox,procuremententity.Email,procuremententity.Website,procuremententity.PostalCode,procuremententity.Town 
-  from applications inner join procuremententity on procuremententity.PEID =applications.PEID
-  inner join applicationfees on applicationfees.ApplicationID=applications.ID 
-  where applicationfees.Deleted=0 and applicationfees.FeesStatus='Pending Approval' and _UserName 
-  in ( SELECT Username from approvers where ModuleCode='PAYMT' and Deleted=0 and Active=1  );
+  from applications inner join procuremententity on procuremententity.PEID =applications.PEID 
+  where applications.PaymentStatus='Submited' and applications.Status='Submited'
+    and applications.ID 
+  in (SELECT ApplicationID from paymentdetails)
+   and applications.ID 
+  not in (SELECT ApplicationID from feesapprovalworkflow where ApprovedBy=_UserName )  
+  and _UserName 
+  in ( SELECT Username from approvers where ModuleCode='PAYMT' and Deleted=0 and Active=1 );
  
 END//
 DELIMITER ;
@@ -3015,11 +2873,14 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingFeesApprovals
 DROP PROCEDURE IF EXISTS `GetPendingFeesApprovals`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingFeesApprovals`()
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingFeesApprovals`(IN _ApplicationID int)
 BEGIN
-select ApplicationID,EntryType,AmountDue,RefNo, BillDate,AmountPaid ,PaidDate,PaymentRef,PaymentMode ,CalculatedAmount ,FeesStatus 
- 
-from applicationfees where Deleted=0 and FeesStatus='Pending Approval';
+select sum(AmountDue)  from applicationfees where ApplicationID=_ApplicationID and applicationfees.Deleted=0 INTO @Totall;
+  select @Totall as Total, applicationfees.ID, applicationfees.ApplicationID,feesstructure.Description as EntryType, applicationfees.AmountDue, applicationfees.RefNo, applicationfees.BillDate, applicationfees.AmountPaid
+  ,applicationfees.PaidDate, applicationfees.PaymentRef, applicationfees.PaymentMode
+  from applicationfees inner join feesstructure  on feesstructure.ID=applicationfees.EntryType 
+ where applicationfees.Deleted=0 and FeesStatus='Pending Approval' and applicationfees.ApplicationID=_ApplicationID ;
+
 
 END//
 DELIMITER ;
@@ -3213,7 +3074,11 @@ DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTenderDetailsPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select TenderID from applications where ApplicationNo=_ApplicationNo or ID=_ApplicationNo limit 1 into @Tender;
-select TenderNo,Name,TenderValue,StartDate,Created_At as FilingDate from tenders where ID=@Tender;
+select TenderNo,Name,TenderValue,tendertypes.Description as TenderTypeDesc,StartDate,tenders.Created_At as FilingDate,  TenderType,
+  TenderSubCategory,TenderCategory,Timer from tenders
+  inner join tendertypes on tenders.TenderType=tendertypes.Code
+  
+  where tenders.ID=@Tender;
 END//
 DELIMITER ;
 
@@ -3366,12 +3231,13 @@ CREATE TABLE IF NOT EXISTS `groundsandrequestedorders` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `GroundNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groundsandrequestedorders: ~1 rows (approximately)
+-- Dumping data for table arcm.groundsandrequestedorders: ~2 rows (approximately)
 /*!40000 ALTER TABLE `groundsandrequestedorders` DISABLE KEYS */;
 INSERT INTO `groundsandrequestedorders` (`ID`, `ApplicationID`, `Description`, `EntryType`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `GroundNO`) VALUES
-	(1, 9, '<p>1</p>\n', 'Grounds for Appeal', 'Pending Review', 'Applicant', '2019-10-24 12:34:38', NULL, NULL, 0, NULL, NULL, '1');
+	(1, 1, '<p>She&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/sat">sat</a>&nbsp;down and proceeded to&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/tell">tell</a>&nbsp;me about her&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/ski">skiing</a>&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/holiday">holiday</a>.</p>\n\n<p>humorous&nbsp;He told me he was on a&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/diet">diet</a>&nbsp;and then proceeded to&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/eat">eat</a>&nbsp;a&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/plateful">plateful</a>&nbsp;of&nbsp;<a href="https://dictionary.cambridge.org/dictionary/english/chips">chips</a>!</p>\n', 'Grounds for Appeal', 'Pending Review', 'Applicant', '2019-10-25 15:25:50', NULL, NULL, 0, NULL, NULL, '1'),
+	(2, 2, '<p>ontextual text classes also work well on anchors with the provided hover and focus states.&nbsp;<strong>Note that the&nbsp;<code>.text-white</code>&nbsp;and&nbsp;<code>.text-muted</code>&nbsp;class has no link styling.</strong></p>\n', 'Grounds for Appeal', 'Pending Review', 'Applicant', '2019-10-25 16:29:19', NULL, NULL, 0, NULL, NULL, '1');
 /*!40000 ALTER TABLE `groundsandrequestedorders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.groundsandrequestedordershistory
@@ -3548,16 +3414,18 @@ CREATE TABLE IF NOT EXISTS `interestedparties` (
   `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Designation` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.interestedparties: ~5 rows (approximately)
+-- Dumping data for table arcm.interestedparties: ~7 rows (approximately)
 /*!40000 ALTER TABLE `interestedparties` DISABLE KEYS */;
 INSERT INTO `interestedparties` (`ID`, `Name`, `ApplicationID`, `ContactName`, `Email`, `TelePhone`, `Mobile`, `PhysicalAddress`, `PostalCode`, `Town`, `POBox`, `Create_at`, `Update_at`, `Deleted`, `CreatedBy`, `UpdatedBy`, `Designation`) VALUES
 	(1, 'Wilcom Systems', 1, 'Elvis kimutai', 'elvis@gmail.com', '0705555285', '0705555285', 'Kilimani', '122', 'Nairobi', '123', '2019-10-22 15:08:04', NULL, 1, 'Applicant', NULL, NULL),
 	(2, 'Wilcom Systems', 7, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0705555285', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '0705555285', '2019-10-23 11:52:30', NULL, 1, 'Applicant', NULL, NULL),
 	(3, 'Wilcom Systems', 7, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0705555285', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1233', '2019-10-23 11:53:58', NULL, 1, 'Applicant', NULL, NULL),
-	(4, 'Wilcom Systems', 15, 'Elvis Kimutai', 'cmkikungu@gmail.com', '1234566789', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1234566789', '2019-10-24 14:07:56', NULL, 0, 'Applicant', NULL, NULL),
-	(5, 'Wilcom Systems', 15, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1111111', '2019-10-24 16:51:28', NULL, 0, 'Applicant', NULL, NULL);
+	(4, 'Wilcom Systems', 15, 'Elvis Kimutai', 'cmkikungu@gmail.com', '1234566789', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1234566789', '2019-10-24 14:07:56', NULL, 1, 'Applicant', NULL, NULL),
+	(5, 'Wilcom Systems', 15, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1111111', '2019-10-24 16:51:28', NULL, 1, 'Applicant', NULL, NULL),
+	(6, 'Wilcom Systems', 1, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '12345456', '2019-10-25 15:02:04', NULL, 1, 'Applicant', NULL, NULL),
+	(7, 'Wilcom Systems', 1, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '11111', '2019-10-25 15:28:20', NULL, 0, 'Applicant', NULL, NULL);
 /*!40000 ALTER TABLE `interestedparties` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.MarkcaseWithdrawalasfrivolous
@@ -3628,41 +3496,13 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `DueDate` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.notifications: ~30 rows (approximately)
+-- Dumping data for table arcm.notifications: ~2 rows (approximately)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`) VALUES
-	(1, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-22 14:55:03', '2019-10-25 14:55:03', 'Not Resolved'),
-	(2, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-22 14:55:03', '2019-10-25 14:55:03', 'Not Resolved'),
-	(3, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 10:03:56', '2019-10-26 10:03:56', 'Not Resolved'),
-	(4, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 10:03:56', '2019-10-26 10:03:56', 'Not Resolved'),
-	(6, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 10:06:49', '2019-10-26 10:06:49', 'Not Resolved'),
-	(7, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 10:06:49', '2019-10-26 10:06:49', 'Not Resolved'),
-	(9, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:21:16', '2019-10-26 11:21:16', 'Not Resolved'),
-	(10, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:21:16', '2019-10-26 11:21:16', 'Not Resolved'),
-	(12, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:22:06', '2019-10-26 11:22:06', 'Not Resolved'),
-	(13, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:22:06', '2019-10-26 11:22:06', 'Not Resolved'),
-	(15, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:25:18', '2019-10-26 11:25:18', 'Not Resolved'),
-	(16, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:25:18', '2019-10-26 11:25:18', 'Not Resolved'),
-	(18, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:25:38', '2019-10-26 11:25:38', 'Not Resolved'),
-	(19, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-23 11:25:38', '2019-10-26 11:25:38', 'Not Resolved'),
-	(20, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 12:30:06', '2019-10-27 12:30:06', 'Not Resolved'),
-	(21, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 12:30:06', '2019-10-27 12:30:06', 'Not Resolved'),
-	(23, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 12:34:13', '2019-10-27 12:34:13', 'Not Resolved'),
-	(24, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 12:34:13', '2019-10-27 12:34:13', 'Not Resolved'),
-	(26, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 13:30:25', '2019-10-27 13:30:25', 'Not Resolved'),
-	(27, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 13:30:25', '2019-10-27 13:30:25', 'Not Resolved'),
-	(29, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 13:30:43', '2019-10-27 13:30:43', 'Not Resolved'),
-	(30, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 13:30:43', '2019-10-27 13:30:43', 'Not Resolved'),
-	(32, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:01:09', '2019-10-27 14:01:09', 'Not Resolved'),
-	(33, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:01:09', '2019-10-27 14:01:09', 'Not Resolved'),
-	(35, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:04:10', '2019-10-27 14:04:10', 'Not Resolved'),
-	(36, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:04:10', '2019-10-27 14:04:10', 'Not Resolved'),
-	(38, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:04:52', '2019-10-27 14:04:52', 'Not Resolved'),
-	(39, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:04:52', '2019-10-27 14:04:52', 'Not Resolved'),
-	(41, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:05:52', '2019-10-27 14:05:52', 'Not Resolved'),
-	(42, 'Admin2', 'Applications Approval', 'Applications pending approval', '2019-10-24 14:05:52', '2019-10-27 14:05:52', 'Not Resolved');
+	(4, 'Admin', 'Applications Fees Approval', 'Applications pending fees approval', '2019-10-25 15:35:43', '2019-10-28 15:35:43', 'Not Resolved'),
+	(5, 'Admin2', 'Applications Fees Approval', 'Applications pending fees approval', '2019-10-25 15:35:43', '2019-10-28 15:35:43', 'Not Resolved');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panellist
@@ -3735,12 +3575,23 @@ CREATE TABLE IF NOT EXISTS `paymentdetails` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.paymentdetails: ~1 rows (approximately)
+-- Dumping data for table arcm.paymentdetails: ~12 rows (approximately)
 /*!40000 ALTER TABLE `paymentdetails` DISABLE KEYS */;
 INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `DateOfpayment`, `AmountPaid`, `Created_By`, `Created_At`) VALUES
-	(4, 15, 'kim', '12222', '2019-10-10', 12333, 'Applicant', '2019-10-24 17:25:42');
+	(4, 15, 'kim', '12222', '2019-10-10', 12333, 'Applicant', '2019-10-24 17:25:42'),
+	(5, 15, 'kim', '12222', '2019-10-02', 12344, 'Applicant', '2019-10-25 11:17:35'),
+	(6, 15, 'kim', '12222', '2019-10-02', 12344, 'Applicant', '2019-10-25 11:17:51'),
+	(7, 15, 'kim', '12222', '2019-10-02', 12344, 'Applicant', '2019-10-25 11:17:53'),
+	(8, 14, 'kim', '12222', '2019-10-10', 345, 'Applicant', '2019-10-25 11:19:06'),
+	(9, 11, 'kim', '12222', '2019-10-10', 111, 'Applicant', '2019-10-25 11:20:31'),
+	(10, 9, 'kim', '12222', '2019-10-10', 3333, 'Applicant', '2019-10-25 11:23:26'),
+	(11, 12, 'kim', '12222', '2019-10-24', 12345, 'Applicant', '2019-10-25 11:28:46'),
+	(12, 6, 'kim', '12222', '2019-10-11', 222, 'Applicant', '2019-10-25 11:33:30'),
+	(13, 10, 'kim', '12222', '2019-10-16', 222, 'Applicant', '2019-10-25 11:35:25'),
+	(14, 1, 'kim', '12222', '2019-09-30', 1111, 'Applicant', '2019-10-25 11:41:00'),
+	(15, 1, 'Elvis kimutai', '0987656544322', '2019-10-23', 15000, 'Applicant', '2019-10-25 15:35:42');
 /*!40000 ALTER TABLE `paymentdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.pedeadlineextensionsrequests
@@ -4219,18 +4070,18 @@ DECLARE lSaleDesc varchar(200);
 select IFNULL(MAX(ID),0)+1 from applications   INTO @ApplicationNo; 
 -- select Username from approvers  where ModuleCode ='APFRE' and Level=1 and Deleted=0 and Active=1 INTO @Approver ; 
 set lSaleDesc= CONCAT('Added new Application with ApplicationNo:',@ApplicationNo); 
-INSERT INTO `applications`( `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`,  `Deleted`) 
-VALUES (_TenderID,_ApplicantID,_PEID,now(),@ApplicationNo,@ApplicationNo,'Unverified',_userID,now(),0);
+INSERT INTO `applications`( `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`,  `Deleted`,PaymentStatus) 
+VALUES (_TenderID,_ApplicantID,_PEID,now(),@ApplicationNo,@ApplicationNo,'Not Submited',_userID,now(),0,'Not Submited');
 
-INSERT INTO applications_approval_workflow( `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`) 
-VALUES (_TenderID,_ApplicantID,_PEID,now(),@ApplicationNo,@ApplicationNo,'Pending Approval',_userID,now());
+-- INSERT INTO applications_approval_workflow( `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`) 
+-- VALUES (_TenderID,_ApplicantID,_PEID,now(),@ApplicationNo,@ApplicationNo,'Pending Approval',_userID,now());
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
 -- call SaveNotification(@Approver,'Applications Approval','Applications pending approval',DATE_ADD(NOW(), INTERVAL 3 DAY));
 call Saveapplicationsequence(@ApplicationNo,'Submited Application','Awaiting Approval');
 
-  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
-  from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
+  -- INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
+ -- select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+ -- from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
   -- VALUES (_Username,_Category,_Description,NOW(),_DueDate,'Not Resolved');
 
 select MAX(ID) as ApplicationID,@ApplicationNo as ApplicationNo,@ApplicationNo as ApplicationREf FROM applications where TenderID=_TenderID 
@@ -4247,7 +4098,7 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `SaveApplicationFees`(IN _Applicatio
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
-set lSaleDesc= CONCAT('Added Fee for Application: '+_ApplicationID); 
+set lSaleDesc= CONCAT('Added Fee for Application: ',_ApplicationID); 
 
 if(select count(*) from applicationfees where ApplicationID=_ApplicationID and EntryType=_EntryType )>0 THEN
 Begin
@@ -4694,7 +4545,13 @@ DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new payment details for application: ', _ApplicationID); 
 Insert into paymentdetails (ApplicationID,Paidby ,Refference ,DateOfpayment,AmountPaid ,Created_By,Created_At)
   VALUES(_ApplicationID,_Paidby,_Refference,_DateOfpayment,_AmountPaid,_userID,now());
+update applications set PaymentStatus='Submited' where ID=_ApplicationID;
+call CompleteApplication(_ApplicationID);
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0' );
+
+   INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
+  select Username,'Applications Fees Approval','Applications pending fees approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+  from approvers where ModuleCode ='PAYMT' and Active=1 and Deleted=0;
 END//
 DELIMITER ;
 
@@ -5116,9 +4973,9 @@ CREATE TABLE IF NOT EXISTS `sentsms` (
   `Message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SentTime` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.sentsms: ~12 rows (approximately)
+-- Dumping data for table arcm.sentsms: ~48 rows (approximately)
 /*!40000 ALTER TABLE `sentsms` DISABLE KEYS */;
 INSERT INTO `sentsms` (`ID`, `Recepient`, `SenderID`, `Message`, `SentTime`) VALUES
 	(1, '0705555285', 'WILCOM-TVET', '838700', '2019-10-17 09:54:15'),
@@ -5132,7 +4989,43 @@ INSERT INTO `sentsms` (`ID`, `Recepient`, `SenderID`, `Message`, `SentTime`) VAL
 	(9, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO: has been Received', '2019-10-23 11:39:25'),
 	(10, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-24 14:40:01'),
 	(11, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-24 14:40:01'),
-	(12, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-24 14:40:01');
+	(12, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-24 14:40:01'),
+	(13, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:23:53'),
+	(14, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:23:53'),
+	(15, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:23:54'),
+	(16, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:24:29'),
+	(17, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:24:30'),
+	(18, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:24:30'),
+	(19, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:25:45'),
+	(20, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:25:46'),
+	(21, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:25:46'),
+	(22, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:27:43'),
+	(23, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:27:44'),
+	(24, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:27:44'),
+	(25, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:28:30'),
+	(26, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:28:30'),
+	(27, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:28:30'),
+	(28, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:32:59'),
+	(29, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:32:59'),
+	(30, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:32:59'),
+	(31, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:37:36'),
+	(32, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:37:36'),
+	(33, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:37:36'),
+	(34, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:15 has been Received', '2019-10-25 10:22:14'),
+	(35, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 10:22:14'),
+	(36, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 10:22:14'),
+	(37, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:12 has been Received', '2019-10-25 11:28:47'),
+	(38, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:12 has been submited and is awaiting your review', '2019-10-25 11:28:47'),
+	(39, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:12 has been submited and is awaiting your review', '2019-10-25 11:28:47'),
+	(40, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:6 has been Received', '2019-10-25 11:33:31'),
+	(41, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-10-25 11:33:31'),
+	(42, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-10-25 11:33:31'),
+	(43, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:10 has been Received', '2019-10-25 11:35:26'),
+	(44, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:10 has been submited and is awaiting your review', '2019-10-25 11:35:26'),
+	(45, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:10 has been submited and is awaiting your review', '2019-10-25 11:35:26'),
+	(46, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:16 has been Received', '2019-10-25 11:36:43'),
+	(47, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:16 has been submited and is awaiting your review', '2019-10-25 11:36:43'),
+	(48, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:16 has been submited and is awaiting your review', '2019-10-25 11:36:43');
 /*!40000 ALTER TABLE `sentsms` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.SetMaxApproval
@@ -5195,7 +5088,7 @@ CREATE TABLE IF NOT EXISTS `smsdetails` (
 -- Dumping data for table arcm.smsdetails: ~0 rows (approximately)
 /*!40000 ALTER TABLE `smsdetails` DISABLE KEYS */;
 INSERT INTO `smsdetails` (`ID`, `SenderID`, `UserName`, `URL`, `Key`) VALUES
-	(1, 'WILCOM-TVET', 'ARCM', 'http://api.mspace.co.ke/mspaceservice/wr/sms/sendtext/', '123456');
+	(1, 'WILCOM-TVET', 'ARCM', 'http://api.mspace.co.ke/mspaceservice/wr/sms/sendtext/', '1234561');
 /*!40000 ALTER TABLE `smsdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.smtpdetails
@@ -5414,26 +5307,13 @@ CREATE TABLE IF NOT EXISTS `tenders` (
   KEY `ID` (`ID`),
   KEY `FK_PEID` (`PEID`),
   CONSTRAINT `FK_PEID` FOREIGN KEY (`PEID`) REFERENCES `procuremententity` (`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.tenders: ~15 rows (approximately)
+-- Dumping data for table arcm.tenders: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tenders` DISABLE KEYS */;
 INSERT INTO `tenders` (`ID`, `TenderNo`, `Name`, `PEID`, `TenderValue`, `StartDate`, `ClosingDate`, `AwardDate`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `TenderType`, `TenderSubCategory`, `TenderCategory`, `Timer`) VALUES
-	(1, '123455', 'Test tender', 'PE-2', 0, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-01 00:00:00', 'Applicant', '2019-10-22 14:55:02', '2019-10-24 12:05:53', 'Applicant', 0, NULL, NULL, 'B', 'Simple', 'Pre-qualification', NULL),
-	(2, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 0, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-01 00:00:00', 'Applicant', '2019-10-23 10:03:55', '2019-10-23 11:10:05', 'Applicant', 0, NULL, NULL, 'B', 'Simple Tenders', 'Pre-qualification', NULL),
-	(3, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 55000000, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-01 00:00:00', 'Applicant', '2019-10-23 10:06:49', '2019-10-23 11:10:28', 'Applicant', 0, NULL, NULL, 'A', 'Simple Tenders', 'Pre-qualification', NULL),
-	(4, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 900000, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-23 00:00:00', 'Applicant', '2019-10-23 11:21:15', '2019-10-23 11:21:15', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(5, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 900000, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-23 00:00:00', 'Applicant', '2019-10-23 11:22:06', '2019-10-23 11:22:06', NULL, 0, NULL, NULL, 'B', 'Medium Tenders', 'Pre-qualification', 'Submited within 14 days'),
-	(6, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 123456, '2019-10-02 00:00:00', '2019-10-02 00:00:00', '2019-10-02 00:00:00', 'Applicant', '2019-10-23 11:25:17', '2019-10-24 11:43:10', 'Applicant', 0, NULL, NULL, 'B', 'Simple', 'Pre-qualification', 'Submited within 14 days'),
-	(7, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 0, '2019-10-02 00:00:00', '2019-10-02 00:00:00', '2019-10-02 00:00:00', 'Applicant', '2019-10-23 11:25:37', '2019-10-24 12:27:21', 'Applicant', 0, NULL, NULL, 'B', '', 'Pre-qualification', 'Submited within 14 days'),
-	(8, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 0, '2019-10-10 00:00:00', '2019-10-10 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 12:30:06', '2019-10-24 12:30:06', NULL, 0, NULL, NULL, 'B', 'Simple', 'Pre-qualification', 'Submited within 14 days'),
-	(9, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 55000000, '2019-10-17 00:00:00', '2019-10-17 00:00:00', '2019-10-17 00:00:00', 'Applicant', '2019-10-24 12:34:12', '2019-10-24 13:24:40', 'Applicant', 0, NULL, NULL, 'A', NULL, 'Other Tenders', 'Submited within 14 days'),
-	(10, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 0, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 13:30:24', '2019-10-24 13:30:24', NULL, 0, NULL, NULL, 'B', 'Simple', 'Unquantified Tenders', 'Submited within 14 days'),
-	(11, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 2300000, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 13:30:42', '2019-10-24 13:30:42', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days'),
-	(12, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 54567832, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 14:01:08', '2019-10-24 14:01:08', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days'),
-	(13, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 10000000000, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 14:04:09', '2019-10-24 14:04:09', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days'),
-	(14, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 0, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 14:04:51', '2019-10-24 14:04:51', NULL, 0, NULL, NULL, 'B', 'Complex', 'Pre-qualification', 'Submited within 14 days'),
-	(15, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 12333, '2019-10-16 00:00:00', '2019-10-16 00:00:00', '2019-10-24 00:00:00', 'Applicant', '2019-10-24 14:05:52', '2019-10-24 14:05:52', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days');
+	(19, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 123456, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-10-25 00:00:00', 'Applicant', '2019-10-25 15:24:59', '2019-10-25 15:24:59', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days'),
+	(20, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-2', 1000000, '2019-10-17 00:00:00', '2019-10-17 00:00:00', '2019-10-25 00:00:00', 'Applicant', '2019-10-25 16:29:02', '2019-10-25 16:29:02', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days');
 /*!40000 ALTER TABLE `tenders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tendertypes
@@ -7110,7 +6990,7 @@ CREATE TABLE IF NOT EXISTS `useraccess` (
   CONSTRAINT `useraccess_ibfk_3` FOREIGN KEY (`UpdateBy`) REFERENCES `users` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.useraccess: ~142 rows (approximately)
+-- Dumping data for table arcm.useraccess: ~143 rows (approximately)
 /*!40000 ALTER TABLE `useraccess` DISABLE KEYS */;
 INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`) VALUES
 	('0705555285', 32, 1, 1, 0, 1, 1, NULL, '0705555285', '2019-10-17 17:42:01', NULL),
@@ -7232,6 +7112,7 @@ INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `Vie
 	('Admin2', 55, 1, 1, 1, 1, 1, 'Admin2', 'Admin2', '2019-09-25 09:56:48', '2019-09-25 09:56:57'),
 	('Admin2', 56, 1, 1, 1, 1, 1, 'Admin2', 'Admin2', '2019-09-24 15:20:28', '2019-09-24 15:20:53'),
 	('Admin2', 57, 1, 1, 1, 1, 1, 'Admin2', 'Admin2', '2019-09-24 15:20:32', '2019-09-24 15:20:55'),
+	('Admin2', 61, 1, 1, 1, 1, 1, 'Admin2', 'Admin2', '2019-10-25 17:35:51', '2019-10-25 17:35:55'),
 	('Applicant', 32, 1, 1, 0, 1, 1, NULL, 'Applicant', '2019-08-20 16:30:46', NULL),
 	('Applicant', 36, 1, 1, 0, 1, 1, NULL, 'Applicant', '2019-08-20 16:30:46', NULL),
 	('Applicant', 38, 0, 0, 0, 1, 0, NULL, 'Applicant', '2019-08-20 16:30:46', NULL),

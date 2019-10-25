@@ -31,6 +31,36 @@ FeesApproval.get("/", auth.validateRole("Fees Approval"), function(req, res) {
     }
   });
 });
+FeesApproval.get(
+  "/:ID/:ApplicationFees",
+  auth.validateRole("Fees Approval"),
+  function(req, res) {
+    const ID = req.params.ID;
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call GetPendingFeesApprovals(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 FeesApproval.get("/:ID", auth.validateRole("Fees Approval"), function(
   req,
   res
@@ -116,13 +146,8 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
       .min(1)
       .required(),
     ApplicationID: Joi.number().min(1),
-    ApprovedAmount: Joi.number().min(1),
-    FeeEntryType: Joi.string()
-      .min(1)
-      .required(),
-    Narration: Joi.string()
-      .min(1)
-      .required()
+    Amount: Joi.number().min(1),
+    Reference: Joi.string().required()
   });
 
   const result = Joi.validate(req.body, schema);
@@ -130,9 +155,8 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
     let data = [
       req.body.Approver,
       req.body.ApplicationID,
-      req.body.ApprovedAmount,
-      req.body.FeeEntryType,
-      req.body.Narration
+      req.body.Amount,
+      req.body.Reference
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -142,7 +166,7 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call ApproveApplicationFees(?,?,?,?,?)";
+        let sp = "call ApproveApplicationFees(?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

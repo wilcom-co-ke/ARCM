@@ -10,6 +10,8 @@ TRUNCATE arcm.applicationfeeshistory;
 TRUNCATE arcm.applicationfees;
 TRUNCATE arcm.applicationfeeshistory;
 TRUNCATE arcm.applications;
+TRUNCATE arcm.interestedparties;
+
   TRUNCATE arcm.applicationshistory ;
   TRUNCATE arcm.applications_approval_workflow;
 TRUNCATE arcm.attendanceregister;

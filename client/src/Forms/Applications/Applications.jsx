@@ -27,7 +27,8 @@ class Applications extends Component {
       ApplicantPhone: data.Phone,
       Applications: [],
       PE: [],
-      BankSlips:[],
+      PaymentDetails: [],
+      BankSlips: [],
       interestedparties: [],
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
@@ -47,6 +48,7 @@ class Applications extends Component {
       profile: true,
       summary: false,
       IsUpdate: false,
+      openPaymentModal:false,
       TenderTypes: [],
       selectedFile: null,
       loaded: 0,
@@ -89,7 +91,7 @@ class Applications extends Component {
       ApplicantTown: "",
       AddInterestedParty: false,
       alert: null,
-      Timer:"",
+      Timer: "",
       Unascertainable: false,
       Ascertainable: false,
       TenderCategory: "",
@@ -103,13 +105,13 @@ class Applications extends Component {
       InterestedPartyPostalCode: "",
       InterestedPartyTown: "",
       InterestedPartyDesignation: "",
-      TenderTypeDesc:"",
-      ShowPaymentDetails:false,
+      TenderTypeDesc: "",
+      ShowPaymentDetails: false,
 
-      AmountPaid:"",
-      DateofPayment:"" ,
-      PaymentReference:"",
-      PaidBy:""
+      AmountPaid: "",
+      DateofPayment: "",
+      PaymentReference: "",
+      PaidBy: ""
     };
     this.handViewApplication = this.handViewApplication.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
@@ -144,6 +146,12 @@ class Applications extends Component {
     window.open(filepath);
     //this.setState({ openFileViewer: true });
   };
+  ClosePaymentModal = () => {
+    this.setState({ openPaymentModal: false });
+  }
+  OpenPaymentModal = () => {
+    this.setState({ openPaymentModal: true });
+  }
   closeRequestModal = () => {
     this.setState({ openRequest: false });
   };
@@ -203,8 +211,12 @@ class Applications extends Component {
     })
       .then(res => res.json())
       .then(AddedAdendums => {
-        if (AddedAdendums.length > 0) {
+        if (AddedAdendums.length > 0) {         
           this.setState({ AddedAdendums: AddedAdendums });
+          this.setState({ AdendumsAvailable: true });
+        }else{
+          this.setState({ AddAdedendums: false });
+          this.setState({ AdendumsAvailable: false });
         }
       })
       .catch(err => {
@@ -213,6 +225,7 @@ class Applications extends Component {
   };
   fetchApplicationfees = Applicationno => {
     this.setState({ Applicationfees: [] });
+    this.setState({ TotalAmountdue: "" });
     fetch("/api/applicationfees/" + Applicationno, {
       method: "GET",
       headers: {
@@ -383,12 +396,10 @@ class Applications extends Component {
           .then(response =>
             response.json().then(data => {
               if (data.success) {
-                toast.success("Removed successfully")
+                toast.success("Removed successfully");
                 this.fetchinterestedparties();
-             
               } else {
                 toast.error("Remove Failed");
-                
               }
             })
           )
@@ -451,11 +462,9 @@ class Applications extends Component {
             response.json().then(data => {
               if (data.success) {
                 var rows = [...this.state.BankSlips];
-                const filtereddata = rows.filter(
-                  item => item.Name !== d
-                );
+                const filtereddata = rows.filter(item => item.Name !== d);
                 this.setState({ BankSlips: filtereddata });
-                toast.success("Removed successfully")
+                toast.success("Removed successfully");
               } else {
                 swal("", "Remove Failed", "error");
               }
@@ -546,7 +555,7 @@ class Applications extends Component {
     event.preventDefault();
     let awarddate = new Date(this.state.ClosingDate);
     awarddate.setDate(awarddate.getDate() + 14);
-      if (
+    if (
       this.state.Today >
       dateFormat(new Date(awarddate).toLocaleDateString(), "isoDate")
     ) {
@@ -572,16 +581,15 @@ class Applications extends Component {
         this.SaveTenderdetails("Submited within 14 days");
       }
     }
- 
   };
-  UpdateTenderdetails=()=> {   
-    if (this.state.TenderType === "B"){
-      if (!this.state.TenderCategory){
-        toast.error("Tender category is required.")
+  UpdateTenderdetails = () => {
+    if (this.state.TenderType === "B") {
+      if (!this.state.TenderCategory) {
+        toast.error("Tender category is required.");
         return;
       }
       if (!this.state.TenderSubCategory) {
-        toast.error("Tender subcategory is required.")
+        toast.error("Tender subcategory is required.");
         return;
       }
     }
@@ -594,9 +602,9 @@ class Applications extends Component {
       TenderValue: this.state.TenderValue,
       TenderType: this.state.TenderType,
       TenderSubCategory: this.state.TenderSubCategory,
-      TenderCategory: this.state.TenderCategory     
+      TenderCategory: this.state.TenderCategory
     };
-   
+
     fetch("/api/tenders/" + this.state.TenderID, {
       method: "PUT",
       headers: {
@@ -617,8 +625,8 @@ class Applications extends Component {
       .catch(err => {
         swal("!", err.message, "error");
       });
-  }
-  UpdateApplication=()=> {
+  };
+  UpdateApplication = () => {
     let data = {
       TenderID: this.state.TenderID,
       ApplicantID: this.state.ApplicantID,
@@ -641,7 +649,7 @@ class Applications extends Component {
               TenderSubCategory: "",
               TenderCategory: ""
             };
-            this.setState(newdata)
+            this.setState(newdata);
             this.UpdateApplicationFees();
           } else {
             swal("", data.message, "error");
@@ -651,9 +659,9 @@ class Applications extends Component {
       .catch(err => {
         swal("", err.message, "error");
       });
-  }
+  };
   UpdateApplicationFees() {
-        fetch("/api/applicationfees/" + this.state.ApplicationID, {
+    fetch("/api/applicationfees/" + this.state.ApplicationID, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -664,26 +672,26 @@ class Applications extends Component {
         response.json().then(data => {
           if (data.success) {
             toast.success("Information updated");
-            this.fetchApplicationfees(this.state.ApplicationID)
+            this.fetchApplicationfees(this.state.ApplicationID);
           } else {
-            toast.error(data.message)
-           // swal("", data.message, "error");
+            toast.error(data.message);
+            // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        toast.error(err.message)
-       // swal("", err.message, "error");
+        toast.error(err.message);
+        // swal("", err.message, "error");
       });
   }
-  SavePaymentdetails() {    
-    let data={
+  SavePaymentdetails=()=>{     
+    let data = {
       ApplicationID: this.state.ApplicationID,
       Paidby: this.state.PaidBy,
       Reference: this.state.PaymentReference,
       DateOfpayment: this.state.DateofPayment,
-      AmountPaid: this.state.AmountPaid      
-    }
+      AmountPaid: this.state.AmountPaid
+    };       
     fetch("/api/applicationfees/1/Paymentdetails", {
       method: "POST",
       headers: {
@@ -693,36 +701,38 @@ class Applications extends Component {
       body: JSON.stringify(data)
     })
       .then(response =>
-        response.json().then(data => {
-          if (data.success) {
-           toast.success("Payment details save successfuly")
+        response.json().then(data => {        
+          if (data.success) {   
+             
+            toast.success("Payment details save successfuly");  
+            //swal("","Payment details save successfuly","success")   
+            this.SubmitApplication();
+            this.sendApproverNotification();
+            this.setState({ PaymentStatus:"Submited"})       
           } else {
-            toast.error(data.message)
-            // swal("", data.message, "error");
+            toast.error(data.message);
           }
         })
       )
       .catch(err => {
-        toast.error(err.message)
-        //swal("", err.message, "error");
-      });
+        toast.error(err.message);
+       });
   }
-  
+
   SaveTenderdetails(Timer) {
     if (this.state.TenderType === "B") {
       if (!this.state.TenderCategory) {
-        toast.error("Tender category is required.")
+        toast.error("Tender category is required.");
         return;
-      }else{
+      } else {
         if (this.state.TenderCategory === "Other Tenders") {
-           }else{
-            if (!this.state.TenderSubCategory) {
-              toast.error("Tender subcategory is required.")
-              return;
-            }
-           }
-      }     
-    
+        } else {
+          if (!this.state.TenderSubCategory) {
+            toast.error("Tender subcategory is required.");
+            return;
+          }
+        }
+      }
     }
     let data = {
       TenderNo: this.state.TenderNo,
@@ -754,13 +764,13 @@ class Applications extends Component {
             }
             //document.getElementById("nav-profile-tab").click();
           } else {
-            toast.error(data.message)
-           // swal("", data.message, "error");
+            toast.error(data.message);
+            // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        toast.error(err.message)
+        toast.error(err.message);
         //swal("", err.message, "error");
       });
   }
@@ -792,16 +802,18 @@ class Applications extends Component {
               this.setState({ open: false });
               this.setState({ GroundNO: "" });
             } else {
-              toast.error("Could not be added please try again")
-             // swal("", , "error");
+              toast.error("Could not be added please try again");
+              // swal("", , "error");
             }
           })
         )
         .catch(err => {
-          toast.error("Could not be added please try again")
+          toast.error("Could not be added please try again");
         });
     } else {
-      toast.error("Please ensure You have filled tender details before filling grounds and requests.")
+      toast.error(
+        "Please ensure You have filled tender details before filling grounds and requests."
+      );
     }
   }
   saveRequests(EntryType) {
@@ -833,17 +845,17 @@ class Applications extends Component {
 
               this.setState({ openRequest: false });
             } else {
-              toast.error("Could not be added please try again")
-             
+              toast.error("Could not be added please try again");
             }
           })
         )
         .catch(err => {
-          toast.error("Could not be added please try again")
+          toast.error("Could not be added please try again");
         });
     } else {
-      toast.error("Please ensure You have filled tender details before filling grounds and requests.")
-     
+      toast.error(
+        "Please ensure You have filled tender details before filling grounds and requests."
+      );
     }
   }
   saveDocuments(FileName) {
@@ -934,7 +946,7 @@ class Applications extends Component {
               var rows = this.state.interestedparties;
               rows.push(datatosave);
               this.setState({ interestedparties: rows });
-              toast.success("Added successfully")
+              toast.success("Added successfully");
               let setstatedata = {
                 InterestedPartyContactName: "",
                 InterestedPartyName: "",
@@ -959,14 +971,16 @@ class Applications extends Component {
           toast.error("Could not be added please try again");
         });
     } else {
-      toast.error("Please ensure You have filled tender details before adding interested parties.");
+      toast.error(
+        "Please ensure You have filled tender details before adding interested parties."
+      );
     }
   };
   Savefees(ApplicantID) {
     let data = {
-      ApplicationID: ApplicantID     
-    };  
-  fetch("/api/applicationfees", {
+      ApplicationID: ApplicantID
+    };
+    fetch("/api/applicationfees", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -977,16 +991,16 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            this.fetchApplicationfees(this.state.ApplicationID)
+            this.fetchApplicationfees(this.state.ApplicationID);
           } else {
-            toast.error("Error occured while generating fees")
+            toast.error("Error occured while generating fees");
           }
         })
       )
       .catch(err => {
-        toast.error("Error occured while generating fees")
+        toast.error("Error occured while generating fees");
       });
-     }
+  }
   SaveApplication(_TenderID) {
     let data = {
       TenderID: _TenderID,
@@ -1007,26 +1021,24 @@ class Applications extends Component {
             this.setState({ ApplicationID: data.results[0].ApplicationID });
             this.setState({ ApplicationNo: data.results[0].ApplicationNo });
             this.setState({ ApplicationREf: data.results[0].ApplicationREf });
-            this.Savefees(
-              data.results[0].ApplicationID
-            );
+            this.Savefees(data.results[0].ApplicationID);
             toast.success("Tender details saved");
             let newdata = {
-              TenderValue:"",
+              TenderValue: "",
               TenderType: "",
               TenderSubCategory: "",
               TenderCategory: ""
             };
-            this.setState(newdata)
+            this.setState(newdata);
           } else {
             toast.error(data.message);
-           //swal("", data.message, "error");
+            //swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
         toast.error(err.message);
-       // swal("", err.message, "error");
+        // swal("", err.message, "error");
       });
   }
   handleswitchMenu = e => {
@@ -1050,11 +1062,10 @@ class Applications extends Component {
     }
     this.setState({ GroundsAvailable: true });
     this.setState({ RequestsAvailable: true });
-    this.setState({ IsUpdate: true });
-    this.setState({ AddAdedendums: true });
-    this.setState({ AdendumsAvailable: true });
+    this.setState({ IsUpdate: true });   
+    
     this.setState({ DocumentsAvailable: true });
-    if (this.state.TenderType==="A"){
+    if (this.state.TenderType === "A") {
       this.setState({
         Ascertainable: true,
         Unascertainable: false,
@@ -1217,7 +1228,7 @@ class Applications extends Component {
   };
   fetchBankSlips = Applicationno => {
     this.setState({ BankSlips: [] });
-    fetch("/api/applicationfees/" + Applicationno+"/Bankslips", {
+    fetch("/api/applicationfees/" + Applicationno + "/Bankslips", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1228,18 +1239,36 @@ class Applications extends Component {
       .then(BankSlips => {
         if (BankSlips.length > 0) {
           this.setState({ BankSlips: BankSlips });
-          
         }
       })
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message)
+      });
+  };
+  fetchPaymentDetails = ApplicationID => {
+    this.setState({ PaymentDetails: [] });
+    fetch("/api/applicationfees/" + ApplicationID + "/PaymentDetails", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(PaymentDetails => {
+        if (PaymentDetails.length > 0) {
+          this.setState({ PaymentDetails: PaymentDetails });
+        }
+      })
+      .catch(err => {
+        toast.error(err.message)
+        //swal("", err.message, "error");
       });
   };
   SaveBankSlip(Filename) {
-   
     let data = {
-      ApplicationID:this.state.ApplicationID,
-      filename: Filename,
+      ApplicationID: this.state.ApplicationID,
+      filename: Filename
     };
     fetch("/api/applicationfees/BankSlip", {
       method: "POST",
@@ -1252,15 +1281,15 @@ class Applications extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            toast.success("upload complete")
-            this.fetchBankSlips(this.state.ApplicationID)
+            toast.success("upload complete");
+            this.fetchBankSlips(this.state.ApplicationID);
           } else {
-            toast.error("Error occured while saving uploaded document")
+            toast.error("Error occured while saving uploaded document");
           }
         })
       )
       .catch(err => {
-        toast.error("Error occured while saving uploaded document")
+        toast.error("Error occured while saving uploaded document");
       });
   }
   UploadBankSlip = event => {
@@ -1399,7 +1428,6 @@ class Applications extends Component {
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   handViewApplication = k => {
-     
     this.setState({ AddedAdendums: [] });
     this.setState({ ApplicationGrounds: [] });
     this.setState({ ApplicationDocuments: [] });
@@ -1407,9 +1435,10 @@ class Applications extends Component {
     this.setState({ TotalAmountdue: "" });
     this.fetchApplicationGrounds(k.ID);
     this.fetchApplicationfees(k.ID);
+    this.fetchPaymentDetails(k.ID)
     this.fetchApplicationDocuments(k.ID);
     this.fetchTenderAdendums(k.TenderID);
-    this.fetchBankSlips(k.ID)
+    this.fetchBankSlips(k.ID);
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
@@ -1434,6 +1463,7 @@ class Applications extends Component {
       TenderCategory: k.TenderCategory,
       PEID: k.PEID,
       Timer: k.Timer,
+      PaymentStatus: k.PaymentStatus,
       StartDate: dateFormat(
         new Date(k.StartDate).toLocaleDateString(),
         "isoDate"
@@ -1455,30 +1485,54 @@ class Applications extends Component {
   openFeesTab() {
     document.getElementById("nav-Fees-tab").click();
   }
-  openInterestedPartiesTab(){
+  openInterestedPartiesTab() {
     document.getElementById("nav-InterestedParties-tab").click();
   }
   AddNewInterestedparty = () => {
     this.setState({ AddInterestedParty: true });
   };
-  AddpaymentDetails=()=>{
+  AddpaymentDetails = () => {
     this.setState({ ShowPaymentDetails: !this.state.ShowPaymentDetails });
+  };
+  SubmitApplication() {   
+    fetch("/api/applications/"+this.state.ApplicationID, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Your Application has been submited", "success");
+            let applicantMsg =
+              "Your Application with Reference:" +
+              this.state.ApplicationNo +
+              " has been Received";
+            this.SendSMS(this.state.ApplicantPhone, applicantMsg);            
+            this.setState({ profile:true });
+            this.setState({ summary: false });
+            this.setState({ openPaymentModal: false }); 
+            this.setState({ Status: "Submited" });                        
+            this.fetchMyApplications(this.state.ApplicantID);
+          } else {
+            toast.error(data.message);            
+          }
+        })
+      )
+      .catch(err => {
+        toast.error(err.message);
+       
+      });
   }
   CompletedApplication = () => {
-    this.SavePaymentdetails();
-    // swal("", "Your Application has been submited", "success");
-    // let applicantMsg =
-    //   "Your Application with ApplicationNO:" +
-    //   this.state.ApplicationNo +
-    //   " has been Received";
-    // this.SendSMS(this.state.ApplicantPhone, applicantMsg);
-    // this.sendApproverNotification();
-    // if (this.state.profile === false) {
-    //   this.setState({ profile: true });
-    // } else {
-    //   this.setState({ profile: false });
-    // }
-    // this.fetchMyApplications(this.state.ApplicantID);
+    if (this.state.ShowPaymentDetails) {
+      this.SavePaymentdetails();    
+      //this.SubmitApplication();
+    } else {
+      this.SubmitApplication();
+    }
   };
   sendBulkNtification = (ApproversPhone, ApproversMail) => {
     let applicantMsg =
@@ -1516,7 +1570,8 @@ class Applications extends Component {
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
+       
       });
   };
   sendApproverNotification1 = () => {
@@ -1608,8 +1663,12 @@ class Applications extends Component {
   ShowAdendumsWindow = () => {
     this.setState({ AddAdedendums: !this.state.AddAdedendums });
   };
-  openRequestTab() {
+  openRequestTab=()=> {
+    if (this.state.TenderID) {
     document.getElementById("nav-profile-tab").click();
+    }else{
+      toast.error("Fill in tender details to proceed")
+    }
   }
   UpdateData(url = ``, data = {}) {
     fetch(url, {
@@ -1779,61 +1838,7 @@ class Applications extends Component {
     const rows = [...this.state.Applications];
     if (rows.length > 0) {
       rows.map((k, i) => {
-        if (k.Status === "NOT PAID") {
-          let Rowdata = {
-            ApplicationNo: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.ApplicationNo}
-              </a>
-            ),
-            TenderName: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.TenderName}
-              </a>
-            ),
-            PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
-            FilingDate: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {new Date(k.FilingDate).toLocaleDateString()}
-              </a>
-            ),
-            ApplicationREf: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.ApplicationREf}
-              </a>
-            ),
-            Status: (
-              <span>
-                <b
-                  style={{ color: "#FF3C33" }}
-                  onClick={e => this.handViewApplication(k, e)}
-                >
-                  AWAITING PAYMENT
-                </b>
-              </span>
-            ),
-
-            action: (
-              <span>
-                <Link
-                  to={{
-                    pathname: "/payment",
-                    ApplicationID: k.ID,
-                    ApplicationNo: k.ApplicationNo
-                  }}
-                >
-                  <a
-                    style={{ color: "#55FF33" }}
-                    // onClick={e => this.handViewApplication(k, e)}
-                  >
-                    PAY NOW
-                  </a>
-                </Link>
-              </span>
-            )
-          };
-          Rowdata1.push(Rowdata);
-        } else {
+        
           let Rowdata = {
             ApplicationNo: (
               <a onClick={e => this.handViewApplication(k, e)}>
@@ -1864,7 +1869,6 @@ class Applications extends Component {
                 {k.Status}
               </a>
             ),
-
             action: (
               <span>
                 <a
@@ -1878,7 +1882,7 @@ class Applications extends Component {
             )
           };
           Rowdata1.push(Rowdata);
-        }
+      
       });
     }
     let FormStyle = {
@@ -1948,14 +1952,7 @@ class Applications extends Component {
               </div>
               <div className="col-lg-2">
                 <div className="row wrapper ">
-                  <button
-                    type="button"
-                    style={{ marginTop: 40 }}
-                    onClick={this.GoBack}
-                    className="btn btn-primary float-left"
-                  >
-                    &nbsp; Back
-                  </button>
+                  
                 </div>
               </div>
             </div>
@@ -2059,33 +2056,31 @@ class Applications extends Component {
                         <td> {this.state.FilingDate}</td>
                       </tr>
                       <tr>
-                        <td className="font-weight-bold"> Application Timing:</td>
+                        <td className="font-weight-bold">
+                          {" "}
+                          Application Timing:
+                        </td>
                         <td> {this.state.Timer}</td>
                       </tr>{" "}
-                      
-                      <tr>                       
-
+                      <tr>
                         <td className="font-weight-bold"> TenderType:</td>
                         <td> {this.state.TenderTypeDesc}</td>
                       </tr>
-                       {
-                        this.state.TenderType==="B" ? 
-                          <tr>
-                            <td className="font-weight-bold"> TenderCategory:</td>
-                            <td> {this.state.TenderCategory}</td>
-                          </tr>
-                          
-                        :null
-                      }    {
-                        this.state.TenderType === "B" ?
-                         
-                          <tr>
-                            <td className="font-weight-bold"> TenderSubCategory:</td>
-                            <td> {this.state.TenderSubCategory}</td>
-                          </tr>
-                        : null
-                      }
-                      
+                      {this.state.TenderType === "B" ? (
+                        <tr>
+                          <td className="font-weight-bold"> TenderCategory:</td>
+                          <td> {this.state.TenderCategory}</td>
+                        </tr>
+                      ) : null}{" "}
+                      {this.state.TenderType === "B" ? (
+                        <tr>
+                          <td className="font-weight-bold">
+                            {" "}
+                            TenderSubCategory:
+                          </td>
+                          <td> {this.state.TenderSubCategory}</td>
+                        </tr>
+                      ) : null}
                     </table>
                     <h3 style={headingstyle}>Tender Addendums</h3>
                     <table className="table table-borderless table-sm">
@@ -2203,12 +2198,13 @@ class Applications extends Component {
                   <h3 style={headingstyle}>Fees</h3>
                   <div className="col-lg-11 border border-success rounded">
                     <div class="col-sm-8">
+                      <h3 style={headingstyle}>Fees Details </h3>
                       <table class="table table-sm">
                         <thead>
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">Fees description</th>
-                            <th scope="col">Value</th>
+                            <th scope="col">Amount</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -2231,44 +2227,272 @@ class Applications extends Component {
                           </tr>
                         </tbody>
                       </table>
+                      {this.state.PaymentStatus ==="Not Submited"?
+                        <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4>  :null
+                    }
                     </div>
+                    <br/>
+                    {this.state.PaymentStatus === "Submited" ? (
+                      <div class="col-sm-8">
+                        <h3 style={headingstyle}>Payment Details</h3>
+                        <table class="table table-sm">
+                          <thead>
+                            <tr>
+                              <th scope="col">Date paid</th>
+                              <th scope="col">Amount</th>
+                              <th scope="col">Refference</th>
+                              <th scope="col">Paidby</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {this.state.PaymentDetails.map((r, i) => (
+                              <tr>
+
+                                <td> {new Date(r.DateOfpayment).toLocaleDateString()} </td>
+
+                                <td>{this.formatNumber(r.AmountPaid)}</td>
+
+                                <td>{r.Refference}</td>
+                                <td>{r.Paidby}</td>
+
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : null}
+
+                   
+                    <br/>
+                    <div className="row">
+                      <div className="col-lg-10"></div>
+                      <div className="col-lg-2">
+                        {this.state.PaymentStatus === "Not Submited" ? (
+                         
+                            <button
+                              type="button"
+                            onClick={this.OpenPaymentModal}
+                              className="btn btn-success"
+                            >
+                              PAY NOW
+                      </button>                         
+                        ) : null}&nbsp;&nbsp;
+                     {this.state.Status === "Not Submited" ? (
+                          <button
+                            type="button"
+                            onClick={this.EditApplication}
+                            className="btn btn-primary"
+                          >
+                            EDIT
+                    </button>
+                        ) : null}
+                         &nbsp; &nbsp;
+                        <button
+                          type="button"
+                           onClick={this.GoBack}
+                          className="btn btn-warning float-right"
+                        >
+                          Back
+                  </button>
+                      </div>
+                    </div>
+                    <br/>
+
+                    <Modal visible={this.state.openPaymentModal} width="900" height="410" effect="fadeInUp" onClickAway={() => this.ClosePaymentModal()}>
+                      <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.ClosePaymentModal()}><i class="fa fa-close"></i></a>
+                      <div>
+                        <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Payment Details</h4>
+                        <div className="container-fluid">
+                          <div className="col-sm-12">
+                            <div className="ibox-content">
+                              <div>  
+                                                            
+                                <div className="col-lg-12 border border-success rounded">
+                                  <div style={FormStyle}>
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Amount Paid
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.AmountPaid}
+                                              type="number"
+                                              required
+                                              name="AmountPaid"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Date of Payment
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.DateofPayment}
+                                              type="date"
+                                              required
+                                              name="DateofPayment"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Payment Reference
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.PaymentReference}
+                                              type="text"
+                                              required
+                                              name="PaymentReference"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Paid By
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.PaidBy}
+                                              type="text"
+                                              required
+                                              name="PaidBy"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Payment slip
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              type="file"
+                                              className="form-control"
+                                              name="file"
+                                              onChange={this.onChangeHandler}
+                                              multiple
+                                            />
+                                            <div class="form-group">
+                                              <Progress
+                                                max="100"
+                                                color="success"
+                                                value={this.state.loaded}
+                                              >
+                                                {Math.round(this.state.loaded, 2)}%
+                                          </Progress>
+                                            </div>
+                                            <button
+                                              type="submit"
+                                              class="btn btn-success "
+                                              onClick={this.UploadBankSlip}
+                                            >
+                                              Upload
+                                        </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <table className="table table-sm">
+                                          <th scope="col">Slip</th>
+                                          <th scope="col">Action</th>
+                                          {this.state.BankSlips.map((r, i) => (
+                                            <tr>
+                                              <td>{r.Name}</td>
+                                              <td>
+                                                <span>
+                                                  <a
+                                                    style={{ color: "#f44542" }}
+                                                    onClick={e =>
+                                                      this.handleDeleteBankSlip(
+                                                        r.Name,
+                                                        e
+                                                      )
+                                                    }
+                                                  >
+                                                    &nbsp; Remove
+                                              </a>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br/>
+                                <div className="row">
+                                  <div className="col-md-10">
+                                  </div>
+                                  <div className="col-md-2">
+                                    <button type="button" onClick={this.SavePaymentdetails} className="btn btn-primary">Submit</button>&nbsp;
+                                    <button type="button" className="btn btn-warning" onClick={this.ClosePaymentModal}>Close</button>
+                                  </div>
+
+                                </div>
+                              </div> 
+                             </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </Modal>
+
+
                   </div>
                 </div>
               </div>
 
-              <br />
-              <div className="row">
-                <div className="col-lg-10"></div>
-                <div className="col-lg-1">
-                  {this.state.Status === "NOT PAID" ? (
-                    <Link
-                      to={{
-                        pathname: "/payment",
-                        ApplicationID: this.state.ApplicationID,
-                        ApplicationNo: this.state.ApplicationNo
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={this.EditApplication}
-                        className="btn btn-primary float-left"
-                      >
-                        &nbsp; PAY NOW
-                      </button>
-                    </Link>
-                  ) : null}
-                  {this.state.Status === "Unverified" ? (
-                    <button
-                      type="button"
-                      onClick={this.EditApplication}
-                      className="btn btn-primary float-left"
-                    >
-                      &nbsp; EDIT
-                    </button>
-                  ) : null}
-                </div>
-              </div>
-              <br />
             </div>
           </div>
         );
@@ -2308,7 +2532,7 @@ class Applications extends Component {
       return (
         <div>
           <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-10">
+            <div className="col-lg-11">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   {this.state.IsUpdate ? (
@@ -2321,16 +2545,9 @@ class Applications extends Component {
                 </li>
               </ol>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-1">
               <div className="row wrapper ">
-                <button
-                  type="button"
-                  style={{ marginTop: 40 }}
-                  onClick={this.handleswitchMenu}
-                  className="btn btn-primary float-left"
-                >
-                  &nbsp; Back
-                </button>
+               
               </div>
             </div>
           </div>
@@ -2498,8 +2715,7 @@ class Applications extends Component {
                               name="TenderType"
                               value={this.state.PEID}
                               value={TenderTypes.filter(
-                                  option =>
-                                  option.value === this.state.TenderType
+                                option => option.value === this.state.TenderType
                               )}
                               //defaultInputValue={this.state.TenderType}
                               onChange={this.handleSelectChange}
@@ -2547,10 +2763,10 @@ class Applications extends Component {
                                 <div class="col-sm-4">
                                   <Select
                                     name="TenderCategory"
-                                   
                                     value={TenderCategories.filter(
                                       option =>
-                                        option.value === this.state.TenderCategory
+                                        option.value ===
+                                        this.state.TenderCategory
                                     )}
                                     onChange={this.handleSelectChange}
                                     options={TenderCategories}
@@ -2570,9 +2786,10 @@ class Applications extends Component {
                                       <div class="col-sm-8">
                                         <Select
                                           name="TenderSubCategory"
-                                         value={TenderSubCategories.filter(
+                                          value={TenderSubCategories.filter(
                                             option =>
-                                              option.value === this.state.TenderSubCategory
+                                              option.value ===
+                                              this.state.TenderSubCategory
                                           )}
                                           onChange={this.handleSelectChange}
                                           options={TenderSubCategories}
@@ -2628,8 +2845,7 @@ class Applications extends Component {
 
                         <p></p>
                         <div className=" row">
-                          <div className="col-sm-2" />
-                          <div className="col-sm-8" />
+                            <div className="col-sm-9" />
                           <div className="col-sm-1">
                             <button
                               type="submit"
@@ -2638,16 +2854,28 @@ class Applications extends Component {
                               Save
                             </button>
                           </div>
-                          <div className="col-sm-1">
+                          <div className="col-sm-2">
                             {this.state.AddAdedendums ? null : (
-                              <button
-                                type="button"
-                                onClick={this.openRequestTab}
-                                className="btn btn-success float-left"
-                              >
-                                {" "}
-                                &nbsp; Next
+                              <div>
+                                <button
+                                  type="button"
+                                  onClick={this.openRequestTab}
+                                  className="btn btn-success"
+                                >
+                                  {" "}
+                                  &nbsp; Next
                               </button>
+                                &nbsp;&nbsp;
+                            <button
+                                  type="button"
+                                  onClick={this.handleswitchMenu}
+                                  className="btn btn-warning"
+                                >
+                                  &nbsp; Close
+                          </button>
+                              </div>
+
+                            
                             )}
                           </div>
                         </div>
@@ -2797,14 +3025,25 @@ class Applications extends Component {
                             <div className="col-sm-10"></div>
                             <div className="col-sm-2">
                               {this.state.AddAdedendums ? (
-                                <button
-                                  type="button"
-                                  onClick={this.openRequestTab}
-                                  className="btn btn-success float-right"
-                                >
-                                  {" "}
-                                  &nbsp; Next
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={this.openRequestTab}
+                                    className="btn btn-success"
+                                  >
+                                    {" "}
+                                    Next
                                 </button>
+&nbsp; &nbsp; 
+                                  <button
+                                    type="button"
+                                    onClick={this.handleswitchMenu}
+                                    className="btn btn-warning"
+                                  >
+                                    Close
+                          </button>
+                                </div>
+                                
                               ) : null}
                             </div>
                           </div>
@@ -3104,14 +3343,22 @@ class Applications extends Component {
                             </div>
                           </div>
                           <div className=" row">
-                            <div className="col-sm-11"></div>
-                            <div className="col-sm-1">
+                            <div className="col-sm-10"></div>
+                            <div className="col-sm-2">
                               <button
                                 className="btn btn-success"
                                 onClick={this.showAttacmentstab}
                               >
                                 Next &nbsp;
                               </button>
+                              &nbsp;&nbsp;
+                            <button
+                                type="button"
+                                onClick={this.handleswitchMenu}
+                                className="btn btn-warning"
+                              >
+                                &nbsp; Close
+                          </button>
                             </div>
                           </div>
                         </div>
@@ -3216,8 +3463,8 @@ class Applications extends Component {
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-sm-11"></div>
-                          <div class="col-sm-1">
+                          <div class="col-sm-10"></div>
+                          <div class="col-sm-2">
                             <button
                               type="button"
                               onClick={this.openInterestedPartiesTab}
@@ -3225,7 +3472,14 @@ class Applications extends Component {
                             >
                               {" "}
                               &nbsp; Next
-                            </button>
+                            </button>&nbsp;&nbsp;
+                            <button
+                              type="button"
+                              onClick={this.handleswitchMenu}
+                              className="btn btn-warning"
+                            >
+                              &nbsp; Close
+                          </button>
                           </div>
                         </div>
                       </form>
@@ -3591,8 +3845,8 @@ class Applications extends Component {
                           </div>
                         </div>
                         <div className=" row">
-                          <div className="col-sm-10" />
-                          <div className="col-sm-2">
+                          <div className="col-sm-9" />
+                          <div className="col-sm-3">
                             <button
                               className="btn btn-primary"
                               onClick={this.AddNewInterestedparty}
@@ -3607,9 +3861,16 @@ class Applications extends Component {
                             >
                               {" "}
                               &nbsp; Next
-                                </button>
+                            </button>
+                            &nbsp;&nbsp;
+                            <button
+                              type="button"
+                              onClick={this.handleswitchMenu}
+                              className="btn btn-warning"
+                            >
+                              &nbsp; Close
+                          </button>
                           </div>
-                         
                         </div>
                         <br />
                       </div>
@@ -3623,225 +3884,219 @@ class Applications extends Component {
                     style={childdiv}
                     aria-labelledby="nav-Fees-tab"
                   >
-                    
                     <div style={formcontainerStyle}>
                       <div style={FormStyle}>
                         <h3 style={headingstyle}>Application fees</h3>
                         <div className="col-lg-12 border border-success rounded">
-                        <div className="row">
-                          <div class="col-sm-8">
-                            <table class="table table-sm">
-                              <thead>
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Fees description</th>
-                                  <th scope="col">Value</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {this.state.Applicationfees.map((r, i) => (
+                          <div className="row">
+                            <div class="col-sm-8">
+                              <table class="table table-sm">
+                                <thead>
                                   <tr>
-                                    <td>{i + 1}</td>
-                                    <td>{r.EntryType}</td>
-                                    <td className="font-weight-bold">
-                                      {this.formatNumber(r.AmountDue)}
-                                    </td>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Fees description</th>
+                                    <th scope="col">Value</th>
                                   </tr>
-                                ))}
-                                <tr>
-                                  <th></th>
-                                  <th>Total Amount</th>
-                                  <th className="font-weight-bold text-danger">
-                                    {" "}
-                                    {this.formatNumber(this.state.TotalAmountdue)}
-                                  </th>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                        </div>
-                       
-                        {this.state.ShowPaymentDetails ? <div><h3 style={headingstyle}>Payment Details</h3>
-                        <div className="col-lg-12 border border-success rounded">
-                          
-                          <div style={FormStyle}>
-                            <div className=" row">
-                              <div className="col-md-5">
-                                <div className="row">
-                                  <div className="col-md-4">
-                                    <label
-                                      htmlFor="exampleInputPassword1"
-                                      className="font-weight-bold"
-                                    >
-                                      Amount Paid
-                                        </label>
-                                  </div>
-                                  <div className="col-md-8">
-                                    <input
-                                      onChange={this.handleInputChange}
-                                      value={
-                                        this.state.AmountPaid
-                                      }
-                                      type="number"
-                                      required
-                                      name="AmountPaid"
-                                      className="form-control"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-5">
-                                <div className="row">
-                                  <div className="col-md-4">
-                                    <label
-                                      htmlFor="exampleInputPassword1"
-                                      className="font-weight-bold"
-                                    >
-                                      Date of Payment
-                                        </label>
-                                  </div>
-                                  <div className="col-md-8">
-                                    <input
-                                      onChange={this.handleInputChange}
-                                      value={
-                                        this.state.DateofPayment
-                                      }
-                                      type="date"
-                                      required
-                                      name="DateofPayment"
-                                       
-                                      className="form-control"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <br />
-                            <div className=" row">
-                              <div className="col-md-5">
-                                <div className="row">
-                                  <div className="col-md-4">
-                                    <label
-                                      htmlFor="exampleInputPassword1"
-                                      className="font-weight-bold"
-                                    >
-                                      Payment Reference
-                                        </label>
-                                  </div>
-                                  <div className="col-md-8">
-                                    <input
-                                      onChange={this.handleInputChange}
-                                      value={
-                                        this.state.PaymentReference
-                                      }
-                                      type="text"
-                                      required
-                                        
-                                      name="PaymentReference"
-                                      className="form-control"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-5">
-                                <div className="row">
-                                  <div className="col-md-4">
-                                    <label
-                                      htmlFor="exampleInputPassword1"
-                                      className="font-weight-bold"
-                                    >
-                                      Paid By
-                                    </label>
-                                  </div>
-                                  <div className="col-md-8">
-                                    <input
-                                      onChange={this.handleInputChange}
-                                      value={
-                                        this.state.PaidBy
-                                      }
-                                      type="text"
-                                      required
-                                       
-                                      name="PaidBy"
-                                      className="form-control"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                              <div className="col-md-5">
-                                <div className="row">
-                                  <div className="col-md-4">
-                                    <label
-                                      htmlFor="exampleInputPassword1"
-                                      className="font-weight-bold"
-                                    >
-                                      Payment slip
-                                        </label>
-                                  </div>
-                                  <div className="col-md-8">
-                                    <input
-                                      type="file"
-                                      className="form-control"
-                                      name="file"
-                                      onChange={this.onChangeHandler}
-                                      multiple
-                                    />
-                                    <div class="form-group">
-                                      <Progress
-                                        max="100"
-                                        color="success"
-                                        value={this.state.loaded}
-                                      >
-                                        {Math.round(this.state.loaded, 2)}%
-                              </Progress>
-                                    </div>
-                                    <button
-                                      type="submit"
-                                      class="btn btn-success "
-                                      onClick={this.UploadBankSlip}
-                                    >
-                                      Upload
-                            </button>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="col-md-5">
-                                <table className="table table-sm">
-
-                                  <th scope="col">Slip</th>
-                                  <th scope="col">Action</th>
-                                  {this.state.BankSlips.map((r, i) => (
+                                </thead>
+                                <tbody>
+                                  {this.state.Applicationfees.map((r, i) => (
                                     <tr>
-                                      <td>{r.Name}</td>
-                                      <td>
-                                        <span>
-                                          <a
-                                            style={{ color: "#f44542" }}
-                                            onClick={e =>
-                                              this.handleDeleteBankSlip(r.Name, e)
-                                            }
-                                          >
-                                            &nbsp; Remove
-                                            </a>
-                                        </span>
+                                      <td>{i + 1}</td>
+                                      <td>{r.EntryType}</td>
+                                      <td className="font-weight-bold">
+                                        {this.formatNumber(r.AmountDue)}
                                       </td>
                                     </tr>
                                   ))}
-                                </table>
-                              </div>
-
+                                  <tr>
+                                    <th></th>
+                                    <th>Total Amount</th>
+                                    <th className="font-weight-bold text-danger">
+                                      {" "}
+                                      {this.formatNumber(
+                                        this.state.TotalAmountdue
+                                      )}
+                                    </th>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
                           </div>
-                        </div></div> : null}
-                      
-                        <br/>
+                        </div>
+
+                        {this.state.ShowPaymentDetails ? (
+                          <div>
+                            <h3 style={headingstyle}>Payment Details</h3>
+                            <div className="col-lg-12 border border-success rounded">
+                              <div style={FormStyle}>
+                                <div className=" row">
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Amount Paid
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={this.state.AmountPaid}
+                                          type="number"
+                                          required
+                                          name="AmountPaid"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Date of Payment
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={this.state.DateofPayment}
+                                          type="date"
+                                          required
+                                          name="DateofPayment"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br />
+                                <div className=" row">
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Payment Reference
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={this.state.PaymentReference}
+                                          type="text"
+                                          required
+                                          name="PaymentReference"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Paid By
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          onChange={this.handleInputChange}
+                                          value={this.state.PaidBy}
+                                          type="text"
+                                          required
+                                          name="PaidBy"
+                                          className="form-control"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                          Payment slip
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <input
+                                          type="file"
+                                          className="form-control"
+                                          name="file"
+                                          onChange={this.onChangeHandler}
+                                          multiple
+                                        />
+                                        <div class="form-group">
+                                          <Progress
+                                            max="100"
+                                            color="success"
+                                            value={this.state.loaded}
+                                          >
+                                            {Math.round(this.state.loaded, 2)}%
+                                          </Progress>
+                                        </div>
+                                        <button
+                                          type="submit"
+                                          class="btn btn-success "
+                                          onClick={this.UploadBankSlip}
+                                        >
+                                          Upload
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-5">
+                                    <table className="table table-sm">
+                                      <th scope="col">Slip</th>
+                                      <th scope="col">Action</th>
+                                      {this.state.BankSlips.map((r, i) => (
+                                        <tr>
+                                          <td>{r.Name}</td>
+                                          <td>
+                                            <span>
+                                              <a
+                                                style={{ color: "#f44542" }}
+                                                onClick={e =>
+                                                  this.handleDeleteBankSlip(
+                                                    r.Name,
+                                                    e
+                                                  )
+                                                }
+                                              >
+                                                &nbsp; Remove
+                                              </a>
+                                            </span>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        <br />
                         <div className=" row">
-                          <div className="col-sm-9" />
-                          <div className="col-sm-3">
+                          <div className="col-sm-8" />
+                          <div className="col-sm-4">
                             <button
                               className="btn btn-success"
                               onClick={this.AddpaymentDetails}
@@ -3855,6 +4110,14 @@ class Applications extends Component {
                             >
                               SUBMIT FOR REVIEW
                             </button>
+                             &nbsp;&nbsp;
+                            <button
+                              type="button"
+                              onClick={this.handleswitchMenu}
+                              className="btn btn-warning"
+                            >
+                              &nbsp; Close
+                          </button>
                           </div>
                         </div>
                         <br />

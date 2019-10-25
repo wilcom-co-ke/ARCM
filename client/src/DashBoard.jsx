@@ -210,6 +210,13 @@ class DashBoard extends Component {
                           </Link>
                         </a>
                       ) : null}
+                      {r.Category === "Applications Fees Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link to="/FeesApproval" className="text-white">
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
                       {r.Category === "Case withdrawal Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link
@@ -281,6 +288,13 @@ class DashBoard extends Component {
                       {r.Category === "Case Scheduling" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link to="/CaseScheduling" className="text-white">
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
+                      {r.Category === "Applications Fees Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link to="/FeesApproval" className="text-white">
                             More info <i className="fa fa-arrow-circle-right" />
                           </Link>
                         </a>

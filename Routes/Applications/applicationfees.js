@@ -31,10 +31,11 @@ applicationfees.get("/", auth.validateRole("Applications"), function(req, res) {
   });
 });
 applicationfees.get(
-  "/:ID/:Bankslips",
+  "/:ID/:Value",
   auth.validateRole("Applications"),
   function(req, res) {
     const ID = req.params.ID;
+    const Value=req.params.Value;
     con.getConnection(function(err, connection) {
       if (err) {
         res.json({
@@ -43,19 +44,36 @@ applicationfees.get(
         });
       } // not connected!
       else {
-        let sp = "call GetBankSlips(?)";
-        connection.query(sp, [ID], function(error, results, fields) {
-          if (error) {
-            res.json({
-              success: false,
-              message: error.message
-            });
-          } else {
-            res.json(results[0]);
-          }
-          connection.release();
-          // Don't use the connection here, it has been returned to the pool.
-        });
+        if (Value ==="Bankslips"){
+          let sp = "call GetBankSlips(?)";
+          connection.query(sp, [ID], function (error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json(results[0]);
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        } if (Value === "PaymentDetails") {
+          let sp = "call GetApplicationPaymentDetails(?)";
+          connection.query(sp, [ID], function (error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json(results[0]);
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+        
       }
     });
   }
@@ -175,6 +193,7 @@ applicationfees.post(
   "/:ID/:Paymentdetails",
   auth.validateRole("Applications"),
   function(req, res) {
+   
     const schema = Joi.object().keys({
       DateOfpayment: Joi.date().required(),
       AmountPaid: Joi.number().required(),
