@@ -70,15 +70,9 @@ CaseWithdrawal.post("/", auth.validateRole("Case Withdrawal"), function(
   res
 ) {
   const schema = Joi.object().keys({
-    Applicant: Joi.string()
-      .min(1)
-      .required(),
-    ApplicationNo: Joi.string()
-      .min(1)
-      .required(),
-    Reason: Joi.string()
-      .min(1)
-      .required()
+    Applicant: Joi.string().required(),
+    ApplicationNo: Joi.string().required(),
+    Reason: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {

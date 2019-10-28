@@ -78,7 +78,6 @@ class AllApplications extends Component {
         };
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
         this.Resetsate = this.Resetsate.bind(this);
-
     }
     fetchApplicantDetails = (Applicant) => {
         fetch("/api/applicants/" + Applicant, {
@@ -357,7 +356,6 @@ class AllApplications extends Component {
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
-
             StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
             ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate")
         };
@@ -375,9 +373,6 @@ class AllApplications extends Component {
         this.setState({ openTracking: true });
 
     }
-
-
-
     closeModal=()=> {
         this.setState({ openTracking: false });
     }

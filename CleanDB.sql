@@ -42,4 +42,8 @@ TRUNCATE arcm.tenderaddendums;
 Delete FROM arcm.tenders;
 TRUNCATE arcm.venuebookings;
 TRUNCATE arcm.applicationsequence;
+TRUNCATE arcm.paymentdetails;
+TRUNCATE arcm.bankslips;
+TRUNCATE arcm.feesapprovalworkflow;
+TRUNCATE arcm.applications_approval_workflow;
 --- TRUNCATE arcm.venues;

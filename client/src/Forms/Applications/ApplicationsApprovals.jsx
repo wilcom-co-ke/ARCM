@@ -308,7 +308,7 @@ class ApplicationsApprovals extends Component {
 
                     if (data.success) {                   
                                             
-                        let msg = data.results[0].msg;     
+                        let msg = data.results[0].msg;    
                                   
                             if (msg == "Notify PE") {
                             let AproverEmail = data.results[0].Email;                            
@@ -518,6 +518,12 @@ class ApplicationsApprovals extends Component {
         this.fetchTenderAdendums(k.TenderID);
         this.fetchApplicantDetails(k.Applicantusername)
         const data = {
+            TenderType: k.TenderType ,
+            TenderSubCategory: k.TenderSubCategory ,
+            TenderCategory: k.TenderCategory ,
+             Timer: k.Timer,
+            TenderTypeDesc: k.TenderTypeDesc ,
+
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
             PETown: k.PETown,
@@ -835,7 +841,30 @@ class ApplicationsApprovals extends Component {
                                             <tr>
                                                 <td className="font-weight-bold"> FilingDate:</td>
                                                 <td> {this.state.FilingDate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    Application Timing:
+                                            </td>
+                                                <td> {this.state.Timer}</td>
                                             </tr>{" "}
+
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold"> TenderCategory:</td>
+                                                    <td> {this.state.TenderCategory}</td>
+                                                </tr>
+                                            ) : null}{" "}
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold">
+                                                        {" "}
+                                                        TenderSubCategory:
+                          </td>
+                                                    <td> {this.state.TenderSubCategory}</td>
+                                                </tr>
+                                            ) : null}
                                         </table>
                                         <h3 style={headingstyle}>Tender Addendums</h3>
                                         <table className="table table-borderless table-sm">

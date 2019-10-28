@@ -397,7 +397,7 @@ class Applications extends Component {
             response.json().then(data => {
               if (data.success) {
                 toast.success("Removed successfully");
-                this.fetchinterestedparties();
+                this.fetchinterestedparties(this.state.ApplicationID);
               } else {
                 toast.error("Remove Failed");
               }
@@ -816,6 +816,34 @@ class Applications extends Component {
       );
     }
   }
+  fetchAdditionalSubmisions = (ApplicationID) => {
+    this.setState({
+      AdditionalSubmisions: []
+    });
+    fetch("/api/additionalsubmissions/" + ApplicationID, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(AdditionalSubmisions => {
+
+        if (AdditionalSubmisions.length > 0) {
+          this.setState({
+            AdditionalSubmisions: AdditionalSubmisions
+          });
+
+        } else {
+          toast.error(AdditionalSubmisions.message);
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+
+      });
+  };
   saveRequests(EntryType) {
     if (this.state.ApplicationID) {
       let datatosave = {
@@ -1330,9 +1358,9 @@ class Applications extends Component {
       });
     }
   };
-  fetchinterestedparties = () => {
+  fetchinterestedparties = (ApplicationID) => {
     this.setState({ interestedparties: [] });
-    fetch("/api/interestedparties/" + this.state.ApplicationID, {
+    fetch("/api/interestedparties/" + ApplicationID, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1410,7 +1438,7 @@ class Applications extends Component {
               this.fetchPE();
               this.fetchTenderTypes();
               this.fetchApplicantDetails();
-              this.fetchinterestedparties();
+             
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -1428,6 +1456,7 @@ class Applications extends Component {
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   handViewApplication = k => {
+    
     this.setState({ AddedAdendums: [] });
     this.setState({ ApplicationGrounds: [] });
     this.setState({ ApplicationDocuments: [] });
@@ -1439,6 +1468,7 @@ class Applications extends Component {
     this.fetchApplicationDocuments(k.ID);
     this.fetchTenderAdendums(k.TenderID);
     this.fetchBankSlips(k.ID);
+    this.fetchAdditionalSubmisions(k.ID);
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
@@ -1475,7 +1505,7 @@ class Applications extends Component {
     };
     this.setState({ summary: true });
     this.setState(data);
-    this.fetchinterestedparties();
+    this.fetchinterestedparties(k.ID);
   };
 
   showAttacmentstab = e => {
@@ -1542,7 +1572,7 @@ class Applications extends Component {
     this.SendSMS(ApproversPhone, applicantMsg);
     let ID1 = "Applicant";
     let ID2 = "FeesApprover";
-    let subject1 = "PPARB APPLICATION ACKNOWLEDGEMENT";
+    let subject1 = "APPLICATION ACKNOWLEDGEMENT";
     let subject2 = "APPLICATION FEES APPROVAL REQUEST";
     this.SendMail(this.state.ApplicationREf, ApproversMail, ID2, subject2);
     this.SendMail(
@@ -2195,6 +2225,63 @@ class Applications extends Component {
               <br />
               <div className="row">
                 <div className="col-lg-12 ">
+                  <h3 style={headingstyle}>Additional Submissions</h3>
+                  <div className="col-lg-11 border border-success rounded">
+                    <table className="table table-borderless table-sm">
+                      <th>ID</th>
+                      <th>Description</th>
+                      <th>Date Uploaded</th>
+                      <th>Actions</th>
+                      {this.state.AdditionalSubmisions.map(function (k, i) {
+                        return (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td>   {ReactHtmlParser(k.Description)}</td>
+                            <td>
+                              {new Date(k.Create_at).toLocaleDateString()}
+                            </td>
+                            <td>
+                              <a onClick={e => ViewFile(k, e)} className="text-success">
+                                <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
+                                                      </a>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-lg-12 ">
+                  <h3 style={headingstyle}>Interested Parties</h3>
+                  <div className="col-lg-11 border border-success rounded">
+                  <table className="table table-sm">
+                    <th>Org Name</th>
+                    <th>ContactName</th>
+                    <th>Designation</th>
+                    <th>Email</th>
+                    <th>TelePhone</th>
+                    <th>Mobile</th>
+                    <th>PhysicalAddress</th>
+                    {this.state.interestedparties.map((r, i) => (
+                      <tr>
+                        <td>{r.Name}</td>
+                        <td> {r.ContactName} </td>
+                        <td> {r.Designation} </td>
+                        <td> {r.Email} </td>
+                        <td> {r.TelePhone} </td>
+                        <td> {r.Mobile} </td>
+                        <td> {r.PhysicalAddress} </td>
+                     
+                      </tr>
+                    ))}
+                  </table>
+                </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-lg-12 ">
                   <h3 style={headingstyle}>Fees</h3>
                   <div className="col-lg-11 border border-success rounded">
                     <div class="col-sm-8">
@@ -2230,6 +2317,12 @@ class Applications extends Component {
                       {this.state.PaymentStatus ==="Not Submited"?
                         <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4>  :null
                     }
+                      {this.state.PaymentStatus === "Approved" ?
+                        <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
+                      }
+                      {this.state.PaymentStatus === "Submited" ?
+                        <h4>Fees Status: <span className="text-warning">Payment Pending Confirmation</span> </h4> : null
+                      }
                     </div>
                     <br/>
                     {this.state.PaymentStatus === "Submited" ? (

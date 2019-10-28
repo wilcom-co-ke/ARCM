@@ -5,6 +5,7 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
+import { ToastContainer, toast } from "react-toastify";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 
@@ -107,8 +108,7 @@ class CaseWithdrawal extends Component {
                     });
                     this.setState({
                         ApplicantCode: ApplicantDetails[0].ApplicantCode
-                    });
-                    
+                    });                    
                     this.setState({ ApplicantPOBox: ApplicantDetails[0].POBox });
                     this.setState({ ApplicantTown: ApplicantDetails[0].Town });
 
@@ -157,10 +157,34 @@ class CaseWithdrawal extends Component {
             ApplicationNo: this.state.ApplicationNo,
             Reason: this.state.WithdrawalReason
         };
-
-        this.postData("/api/CaseWithdrawal", data);
-      
+        this.postData("/api/CaseWithdrawal", data);      
     };
+    notifyPanelmembers = (ApproverMail, ApproverMobile, ApproverName) => {
+          let applicantMsg =
+            "New request to withdrawal appeal:" +
+            this.state.ApplicationNo +
+            " has been submited and is awaiting your review.";
+        let applicantMsg1 =
+            "Your request to withdrawal appeal :" +
+            this.state.ApplicationNo +
+            " has been received and is awaiting approval.";
+        this.SendSMS(this.state.ApplicantPhone, applicantMsg1);
+        this.SendSMS(ApproverMobile, applicantMsg);
+        this.SendMail(
+            this.state.ApplicationNo,
+            this.state.ApplicantUserEmail,
+            "casewithdrawal Applicant",
+            "CASE WITHDRAWAL REQUEST",
+            this.state.ApplicantUserName
+        );
+        this.SendMail(
+            this.state.ApplicationNo,
+            ApproverMail,
+            "casewithdrawal",
+            "CASE WITHDRAWAL APPROVAL",
+            ApproverName
+        );
+    }
     postData(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -174,51 +198,36 @@ class CaseWithdrawal extends Component {
                 response.json().then(data => {                    
 
                     if (data.success) {
-                        if (data.results[0].msg ==="Already submited"){
-                            swal("", "You have already submited a request for this application", "error");
-                            this.setState({ open: false });
-                            this.setState({ summary: false });
+                        if (data.results.length > 0) {
+                            if (data.results[0].msg === "Already submited") {
+                                toast.error("You have already submited a request for this application");
+                                this.setState({ open: false });
+                                this.setState({ summary: false });
+                            } else {
+                                toast.success("Your request has been submited");
+                                let NewList = [data.results]
+                                NewList[0].map((item, key) =>
+                                    this.notifyPanelmembers(item.Email, item.Phone, item.Name)
+                                )
+                                this.setState({ open: false });
+                                this.setState({ summary: false });
+                            }
                         }else{
-                            swal("", "Your request has been submited", "success");
-                            let ApproverMail = data.results[0].Email 
-                            let ApproverMobile = data.results[0].Phone 
-                            let ApproverName = data.results[0].Name 
-                            let applicantMsg =
-                                "New request to withdrawal appeal:" +
-                                this.state.ApplicationNo +
-                                " has been submited and is awaiting your review.";
-                            let applicantMsg1 =
-                                "Your request to withdrawal appeal :" +
-                                this.state.ApplicationNo +
-                                " has been received and is awaiting approval.";
-                                        this.SendSMS(this.state.ApplicantPhone, applicantMsg1);
-                            this.SendSMS(ApproverMobile, applicantMsg);
-                            this.SendMail(
-                                this.state.ApplicationNo,
-                                this.state.ApplicantUserEmail,
-                                "casewithdrawal Applicant",
-                                "CASE WITHDRAWAL REQUEST",
-                                this.state.ApplicantUserName
-                            );
-                            this.SendMail(
-                                this.state.ApplicationNo,
-                                ApproverMail,
-                                "casewithdrawal",
-                                "CASE WITHDRAWAL APPROVAL",
-                                ApproverName
-                            );
                             this.setState({ open: false });
                             this.setState({ summary: false });
+                            toast.warning("Your request has been submited but no approver is defined in the system", "success");
                         }
+                     
+                        
                         
                        
                     } else {
-                        swal("", data.message, "error");
+                        toast.error(  data.message);
                     }
                 })
             )
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error( err.message);
             });
     }
       
@@ -258,10 +267,7 @@ class CaseWithdrawal extends Component {
         let newtot = Number(num).toFixed(2);
         return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };
-    handViewApplication = k => {
-   
-
-      
+    handViewApplication = k => {       
         const data = {
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
@@ -279,8 +285,12 @@ class CaseWithdrawal extends Component {
             FilingDate: new Date(k.FilingDate).toLocaleDateString(),
             TenderName: k.TenderName,
             Status: k.Status,
+            TenderType: k.TenderType,
+            TenderSubCategory: k.TenderSubCategory,
+            TenderTypeDesc: k.TenderTypeDesc,
+            TenderCategory: k.TenderCategory,
+            Timer: k.Timer,
             TenderValue: k.TenderValue,
-
             StartDate: dateFormat(
                 new Date(k.StartDate).toLocaleDateString(),
                 "isoDate"
@@ -290,8 +300,7 @@ class CaseWithdrawal extends Component {
                 "isoDate"
             )
         };
-        this.setState({ summary: true });
-       
+        this.setState({ summary: true });       
         this.setState(data);
     };
 
@@ -303,7 +312,6 @@ class CaseWithdrawal extends Component {
             ID: ID,
             Name: Name
         };
-
         fetch("/api/NotifyApprover", {
             method: "POST",
             headers: {
@@ -438,13 +446,12 @@ class CaseWithdrawal extends Component {
    
         let headingstyle = {
             color: "#7094db"
-        };
-       
-
-      
+        };      
+     
             if (this.state.summary) {
                 return (
                     <div>
+                        <ToastContainer/>
                         <Popup
                             open={this.state.open}
                             closeOnDocumentClick
@@ -459,6 +466,7 @@ class CaseWithdrawal extends Component {
                                     {" "}
                                     CASE WITHDRAWAL{" "}
                                 </div>
+                               
                                 <div className={popup.content}>
                                     <div className="container-fluid">
                                         <div className="col-sm-12">
@@ -489,18 +497,12 @@ class CaseWithdrawal extends Component {
                                                             <div className="col-sm-2" />
                                                             <div className="col-sm-8" />
                                                             <div className="col-sm-2">
-                                                                {this.state.Unbooking ? (<button
-                                                                    type="button"
-                                                                    className="btn btn-warning float-left"
-                                                                    onClick={this.HandleUnbook}
-                                                                >
-                                                                    RELEASE
-                                                         </button>) : <button
+                                                               <button
                                                                         type="submit"
                                                                         className="btn btn-primary float-left"
                                                                     >
                                                                         CONFIRM
-                                                        </button>}
+                                                        </button>
 
                                                             </div>
                                                         </div>
@@ -583,7 +585,7 @@ class CaseWithdrawal extends Component {
                                                 <td>
                                                     {" "}
                                                     {this.state.ApplicantPOBox}-
-                          {this.state.ApplicantPostalCode}
+                                                     {this.state.ApplicantPostalCode}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -655,7 +657,33 @@ class CaseWithdrawal extends Component {
                                             <tr>
                                                 <td className="font-weight-bold"> FilingDate:</td>
                                                 <td> {this.state.FilingDate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    Application Timing:
+                                         </td>
+                                                <td> {this.state.Timer}</td>
                                             </tr>{" "}
+                                            <tr>
+                                                <td className="font-weight-bold"> TenderType:</td>
+                                                <td> {this.state.TenderTypeDesc}</td>
+                                            </tr>
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold"> TenderCategory:</td>
+                                                    <td> {this.state.TenderCategory}</td>
+                                                </tr>
+                                            ) : null}{" "}
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold">
+                                                        {" "}
+                                                        TenderSubCategory:
+                                                </td>
+                                                    <td> {this.state.TenderSubCategory}</td>
+                                                </tr>
+                                            ) : null}
                                         </table>
                                        </div>
                                 </div>
@@ -668,6 +696,7 @@ class CaseWithdrawal extends Component {
             } else {
                 return (
                     <div>
+                        <ToastContainer />
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-12">
                                 <ol className="breadcrumb">

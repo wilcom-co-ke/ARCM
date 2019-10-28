@@ -108,6 +108,13 @@ class Mymenu extends Component {
                     <Link to="/PEApplications">Applications</Link>
                   </li>
                 )}
+                {UserCategory === "Applicant" ? (
+                  <li>
+                    <Link to="/additionalsubmissions">
+                      Additional submissions
+                    </Link>
+                  </li>
+                ) : null}
                 {UserCategory === "PE" ? (
                   <li>
                     <Link to="/MyResponse">Response</Link>

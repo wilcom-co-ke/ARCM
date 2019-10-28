@@ -46,6 +46,7 @@ import PanelApproval from "./Forms/Applications/PanelApproval";
 import HearingInprogress from "./Forms/Applications/HearingInprogress";
 import CaseProceedings from "./Forms/Applications/CaseProceedings";
 //applications
+import additionalsubmissions from "./Forms/Applications/additionalsubmissions";
 import FeesApproval from "./Forms/Applications/FeesApproval";
 import Applications from "./Forms/Applications/Applications";
 import CaseWithdrawalApproval from "./Forms/Applications/CaseWithdrawalApproval";
@@ -239,6 +240,11 @@ function App() {
                     exact
                     path="/ApplicantProfile"
                     component={ApplicantProfile}
+                  />
+                  <Route
+                    exact
+                    path="/additionalsubmissions"
+                    component={additionalsubmissions}
                   />
                   <Route exact path="/Applications" component={Applications} />
                   <Route

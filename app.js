@@ -57,6 +57,7 @@ var CaseWithdrawal = require("./Routes/Applications/CaseWithdrawal");
 var adjournment = require("./Routes/Applications/adjournment");
 var casesittingsregister = require("./Routes/Applications/casesittingsregister");
 var HearingInProgress = require("./Routes/Applications/HearingInProgress");
+var additionalsubmissions = require("./Routes/Applications/additionalsubmissions");
 //mpesa
 var Authentication = require("./Routes/Mpesa/Authentication");
 var confirmation = require("./Routes/Mpesa/confirmation");
@@ -111,8 +112,8 @@ app.use("/api/MpesaAuthentication", Authentication);
 app.use("/api/confirmation", confirmation);
 app.use("/api/validation_url", validation_url);
 app.use("/api/PE", PE);
-
 app.use(auth.validateToken);
+app.use("/api/additionalsubmissions", additionalsubmissions);
 app.use("/api/UpdateProfile", updateprofile);
 app.use("/api/users", Users);
 app.use("/api/caseofficers", caseofficers);

@@ -154,7 +154,7 @@ class FeesApproval extends Component {
             ApplicationID: this.state.ApplicationID,
             Amount: this.state.TotalPaid,
             Reference: this.state.Reference
-        };              
+        };            
 
         this.Approve("/api/FeesApproval", data);
        
@@ -183,14 +183,14 @@ class FeesApproval extends Component {
                 swal("", err.message, "error");
             });
     }
-    SendMail = (Name, email, ID, subject, NewDeadline) => {
+    SendMail = (Name, email, ID, subject) => {
         const emaildata = {
             to: email,
             subject: subject,
             ID: ID,
-            Name: Name,
-            NewDeadline: NewDeadline,
-            Remarks: this.state.Remarks
+            Name: Name,          
+            TotalPaid:this.state.TotalPaid,
+             Reference:this.state.Reference 
         };
 
         fetch("/api/NotifyApprover", {
@@ -206,6 +206,53 @@ class FeesApproval extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
+    SendFeesApproverMail = (ApplicationNo, email, ID, subject1) => {
+        const emaildata = {
+            to: email,
+            subject: subject1,
+            ApplicationNo: ApplicationNo,
+            ID: ID
+        };
+
+        fetch("/api/NotifyApprover", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(emaildata)
+        })
+            .then(response => response.json().then(data => { }))
+            .catch(err => {
+                //swal("Oops!", err.message, "error");
+            });
+    };
+    notifyPanelmembers = (AproverMobile, Name, AproverEmail,  Msg) => {    
+                           
+
+        if (Msg === "Complete") {
+            this.SendSMS(
+                AproverMobile,
+                "Fees amount of: " + this.state.TotalPaid + " paid for application with Reference " + this.state.Reference + " has been confirmed.Application is now marked as paid."
+            );
+            this.SendMail(
+                Name,
+                AproverEmail,
+                "Fee Payment notification",
+                "FEES PAYMENT NOTIFICATION"
+            );
+        } else {
+            let ID2 = "FeesApprover";
+            let subject2 = "APPLICATION FEES APPROVAL REQUEST";
+            this.SendFeesApproverMail(this.state.Reference, AproverEmail, ID2, subject2);
+            let applicantMsg =
+                "New request to approve application fees with Reference No:" +
+                this.state.Reference +
+                " has been submited and is awaiting your review";
+            this.SendSMS(AproverMobile, applicantMsg);
+        }
+
+    }
     Approve(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -219,39 +266,16 @@ class FeesApproval extends Component {
                 response.json().then(data => {
                     if (data.success) {   
                         swal("","Approved","success")   
-                        this.setState({ summary: false });                 
-                        //     let AproverEmail = data.results[0].Email;                           
-                        //     let AproverMobile = data.results[0].Phone;
-                        //     let Name = data.results[0].Name;
-                        //     this.SendSMS(
-                        //         AproverMobile,
-                        //         "Fees payable for application you submited has been approved.You are required to make payments and submited payment details."
-                        //     );
-                        //     this.SendMail(
-                        //         Name,
-                        //         AproverEmail,
-                        //         "Fee Payment notification",
-                        //         "FEES PAYMENT NOTIFICATION",
-                        //         ""
-                        //     );
-                        // this.SendSMS(
-                        //     this.state.Applicantname,
-                        //     "Fees payable for application you submited has been approved.You are required to make payments and submited payment details."
-                        // );
-                       
-                        // this.SendMail(
-                        //     this.state.Applicantname,
-                        //     this.state.ApplicantEmail,
-                        //     "Fee Payment notification",
-                        //     "FEES PAYMENT NOTIFICATION",
-                        //     ""
-                        // );                   
+                        this.setState({ summary: false });  
+                        if (data.results.length > 0) {
+                            let NewList = [data.results]  
+                            NewList[0].map((item, key) =>
 
+                                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.Msg)
+                            )
+                        }
 
-                        // this.fetchPendingRequests();
-                        // swal("", "Application Approved", "success");
-
-                        // this.setState({ open: false });
+                        
 
                     } else {
                         swal("", data.message, "error");

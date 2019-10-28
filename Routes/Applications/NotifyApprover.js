@@ -10,8 +10,8 @@ NotifyApprover.post("/", function(req, res) {
 
   if (ID === "Fee Payment notification") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
-     Fees payable for application you submited to Public Procurement Administrative Review Board has been approved.You are required to login to the system 
-     to get payment details.
+      "Fees amount of: <b>${req.body.TotalPaid}</b>  paid for application with Reference <b>${req.body.Reference}</b>  has been confirmed.Application is now marked as paid."
+          
     <br></br>
     This is computer generated message.Please do not reply.`;
     con.getConnection(function(err, connection) {

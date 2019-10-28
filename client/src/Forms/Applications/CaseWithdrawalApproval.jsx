@@ -26,8 +26,6 @@ class CaseWithdrawalApproval extends Component {
             Decline:false,
             ApprovalRemarks:""
         };
-
-
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fetchPEDetails = this.fetchPEDetails.bind(this)
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
@@ -40,7 +38,7 @@ class CaseWithdrawalApproval extends Component {
     };
 
     fetchPendingRequests = () => {
-       
+        this.setState({ Applications: []});
         fetch("/api/CaseWithdrawal/" + localStorage.getItem("UserName"), {
             method: "GET",
             headers: {
@@ -122,6 +120,10 @@ class CaseWithdrawalApproval extends Component {
                     this.setState({ TenderName: ApplicantDetails[0].Name });
                     this.setState({ TenderValue: ApplicantDetails[0].TenderValue });
                     this.setState({ FilingDate: ApplicantDetails[0].FilingDate });
+                    this.setState({ Timer: ApplicantDetails[0].Timer });
+                    this.setState({ TenderCategory: ApplicantDetails[0].TenderCategory });
+                    this.setState({ TenderSubCategory: ApplicantDetails[0].TenderSubCategory });
+                    this.setState({ TenderType: ApplicantDetails[0].TenderType });
 
                 } else {
                     swal("", ApplicantDetails.message, "error");
@@ -210,25 +212,38 @@ class CaseWithdrawalApproval extends Component {
         }
 
     };
-    notifyPanelmembers = (Phone, Name, Email, ApplicationNo) => {
+    notifyPanelmembers = (Phone, Name, Email, ApplicationNo, Msg) => {    
+      
+        if (Msg ==="Complete"){
+            let smstext = "Dear " + Name + ". A request to withdraw application " + ApplicationNo + " has been Accepted. The Appeal is now marked withdrawn."
+            this.SendSMS(
+                Phone,
+                smstext
+            )
+            this.SendMail(
+                ApplicationNo,
+                Email,
+                "CaseWithdrawalAccepted",
+                "CASE WITHDRAWAL",
+                Name
+            )
+        }else{
+            let applicantMsg =
+                "New request to withdrawal appeal:" +
+                this.state.ApplicationNo +
+                " has been submited and is awaiting your review.";
+            this.SendSMS(Phone, applicantMsg);
+            this.SendMail(
+                this.state.ApplicationNo,
+                Email,
+                "casewithdrawal",
+                "CASE WITHDRAWAL APPROVAL",
+                Name
+            );
+        }   
        
-        let smstext = "Dear " + Name + ". A request to withdraw application " + ApplicationNo + " has been Accepted. The Appeal is now marked withdrawn and the process to refund the deposit has been initiated."
-       
-        this.SendSMS(
-            Phone,
-            smstext
-        )
-        this.SendMail(
-            ApplicationNo,           
-            Email,
-            "CaseWithdrawalAccepted",
-            "CASE WITHDRAWAL",
-            Name
-            
-        )
     }
     notifyAllmembersDeclined = (Phone, Name, Email, ApplicationNo, Reason) => {
-
         let smstext = "Dear " + Name + ". A request to withdraw application " + ApplicationNo + " has been REJECTED. The Appeal will proceed as scheduled."
 
         this.SendSMS(
@@ -299,16 +314,15 @@ class CaseWithdrawalApproval extends Component {
                         let NewList = [data.results]  
                       
                             swal("", "Request has been approved", "success");
-                        NewList[0].map((item, key) =>
-
-                            this.notifyPanelmembers(item.Mobile, item.Name, item.Email, this.state.ApplicationNo)
-
-                        )
-                            this.setState({ Approve: false });
-                            this.setState({ Decline: false });  
+                        if (data.results.length>0){
+                            NewList[0].map((item, key) =>
                            
-                            this.setState({ open: false });
-                            this.setState({ summary: false });
+                                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, this.state.ApplicationNo, item.Msg)
+                            )
+                        }
+                            
+                        this.setState({ Approve: false, Decline: false, open: false, summary: false });
+                          
                             this.fetchPendingRequests();  
                         //}
 
@@ -419,6 +433,7 @@ class CaseWithdrawalApproval extends Component {
         return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };
     handViewApplication = k => {
+       
         this.fetchApplicantDetails(k.ApplicationNo);
         this.fetchPEDetails(k.ApplicationNo);
         this.fetchApplicationtenderdetails(k.ApplicationNo)
@@ -798,7 +813,33 @@ class CaseWithdrawalApproval extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> FilingDate:</td>
                                             <td> {this.state.FilingDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                Application Timing:
+                        </td>
+                                            <td> {this.state.Timer}</td>
                                         </tr>{" "}
+                                        <tr>
+                                            <td className="font-weight-bold"> TenderType:</td>
+                                            <td> {this.state.TenderTypeDesc}</td>
+                                        </tr>
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold"> TenderCategory:</td>
+                                                <td> {this.state.TenderCategory}</td>
+                                            </tr>
+                                        ) : null}{" "}
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    TenderSubCategory:
+                          </td>
+                                                <td> {this.state.TenderSubCategory}</td>
+                                            </tr>
+                                        ) : null}
                                     </table>
                                 </div>
                             </div>
