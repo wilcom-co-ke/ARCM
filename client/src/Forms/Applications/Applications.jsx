@@ -1483,6 +1483,7 @@ class Applications extends Component {
       TenderNo: k.TenderNo,
       ApplicationREf: k.ApplicationREf,
       PEName: k.PEName,
+      AwardDate: new Date(k.AwardDate).toLocaleDateString(),
       FilingDate: new Date(k.FilingDate).toLocaleDateString(),
       TenderName: k.TenderName,
       Status: k.Status,
@@ -2084,6 +2085,10 @@ class Applications extends Component {
                       <tr>
                         <td className="font-weight-bold"> FilingDate:</td>
                         <td> {this.state.FilingDate}</td>
+                      </tr>
+                      <tr>
+                        <td className="font-weight-bold"> Occurrence of Breach:</td>
+                        <td> {this.state.AwardDate}</td>
                       </tr>
                       <tr>
                         <td className="font-weight-bold">

@@ -58,6 +58,31 @@ PEResponse.get("/:ID", function(req, res) {
 PEResponse.get("/:ID/:Value", function(req, res) {
   const ID = req.params.ID;
   const Value = req.params.Value;
+  if (ID === "GetPEResponseDetailsPerApplication") {
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call GetPEResponseDetailsPerApplication(?)";
+        connection.query(sp, [Value], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
   if (ID === "Documents") {
     con.getConnection(function(err, connection) {
       if (err) {
@@ -227,18 +252,11 @@ PEResponse.post("/:ID", function(req, res) {
         .integer()
         .min(1)
         .required(),
-      UserID: Joi.string()
-        .min(1)
-        .required(),
-      GrounNo: Joi.string()
-        .min(1)
-        .required(),
-      Groundtype: Joi.string()
-        .min(1)
-        .required(),
-      Response: Joi.string()
-        .min(1)
-        .required()
+      UserID: Joi.string().required(),
+      GrounNo: Joi.string().required(),
+      Groundtype: Joi.string().required(),
+      Response: Joi.string().required(),
+      BackgroundInformation: Joi.string().required()
     });
 
     const result = Joi.validate(req.body, schema);
@@ -248,7 +266,8 @@ PEResponse.post("/:ID", function(req, res) {
         req.body.GrounNo,
         req.body.Groundtype,
         req.body.Response,
-        req.body.UserID
+        req.body.UserID,
+        req.body.BackgroundInformation
       ];
 
       con.getConnection(function(err, connection) {
@@ -259,7 +278,7 @@ PEResponse.post("/:ID", function(req, res) {
           });
         } // not connected!
         else {
-          let sp = "call SavePEResponseDetails(?,?,?,?,?)";
+          let sp = "call SavePEResponseDetails(?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
@@ -385,7 +404,6 @@ PEResponse.put("/:ID/:Value", function(req, res) {
                 message: error.message
               });
             } else {
-              console.log(results[0]);
               res.json({
                 success: true,
                 message: "updated",
@@ -527,5 +545,34 @@ PEResponse.put("/:ID", function(req, res) {
     }
   });
 });
-
+PEResponse.delete("/:ID", function(req, res) {
+  const GroundNO = req.params.ID;
+  let data = [GroundNO, res.locals.user];
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call DeletePEResponsedetails(?,?)";
+      connection.query(sp, data, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            success: true,
+            message: "Deleted Successfully"
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 module.exports = PEResponse;

@@ -8,31 +8,54 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import ReactHtmlParser from "react-html-parser";
-
+import Modal from "react-awesome-modal";
+var _ = require("lodash");
 class PEResponse extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ApplicationGrounds: [],
       ResponseDocuments: [],
+      interestedparties: [],
+      PrayersDetails: [],
+      ApplicationRequests: [],
+      GroundsDetails: [],
       ApplicationNo: this.props.location.ApplicationNo,
       ApplicationID: this.props.location.ApplicationID,
       NewDeadLine: "",
       Reason: "",
+      Groundtype: "",
+      open: false,
       GroundResponse: "",
       GroundNo: "",
       selectedFile: "",
       loaded: 0,
+      BackgroundInformation: "",
       ResponseID: "",
       grounddesc: "",
       showAction: true,
       Action: "",
-      InitialSubmision: true
+      InitialSubmision: true,
+      AddInterestedParty: false,
+
+      InterestedPartyContactName: "",
+      InterestedPartyName: "",
+      InterestedPartyEmail: "",
+      InterestedPartyTelePhone: "",
+      InterestedPartyMobile: "",
+      InterestedPartyPhysicalAddress: "",
+      InterestedPartyPOBox: "",
+      InterestedPartyPostalCode: "",
+      InterestedPartyTown: "",
+      InterestedPartyDesignation: "",
+      TenderTypeDesc: ""
     };
     this.onEditorChange = this.onEditorChange.bind(this);
     this.SavePEResponse = this.SavePEResponse.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.onDeadlineEditorChange = this.onDeadlineEditorChange.bind(this);
+    this.OpenRequestsModal = this.OpenRequestsModal.bind(this);
+    this.OpenGroundsModal = this.OpenGroundsModal.bind(this);
   }
   fetchResponseDocuments = () => {
     fetch("/api/PEResponse/Documents/" + this.state.ResponseID, {
@@ -50,6 +73,39 @@ class PEResponse extends Component {
       })
       .catch(err => {
         swal("", err.message, "error");
+      });
+  };
+  fetchResponseDetails = () => {
+    this.setState({ PrayersDetails: [] });
+    this.setState({ GroundsDetails: [] });
+    fetch(
+      "/api/PEResponse/GetPEResponseDetailsPerApplication/" +
+        this.state.ApplicationNo,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+      .then(res => res.json())
+      .then(ResponseDetails => {
+        if (ResponseDetails.length > 0) {
+          
+          this.setState({ ResponseID: ResponseDetails[0].PEResponseID });
+          const UserRoles = [_.groupBy(ResponseDetails, "GroundType")];
+
+          if (UserRoles[0].Prayers) {
+            this.setState({ PrayersDetails: UserRoles[0].Prayers });
+          }
+          if (UserRoles[0].Grounds) {
+            this.setState({ GroundsDetails: UserRoles[0].Grounds });
+          }
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
       });
   };
   fetchApplicationGrounds = () => {
@@ -70,6 +126,24 @@ class PEResponse extends Component {
         swal("", err.message, "error");
       });
   };
+  fetchApplicationPrayers = () => {
+    fetch("/api/grounds/PrayersOnly/" + this.state.ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ApplicationRequests => {
+        if (ApplicationRequests.length > 0) {
+          this.setState({ ApplicationRequests: ApplicationRequests });
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+      });
+  };
   openAttachmentsTab() {
     document.getElementById("nav-profile-tab").click();
   }
@@ -87,6 +161,18 @@ class PEResponse extends Component {
     this.setState({ [actionMeta.name]: UserGroup.value });
     if (actionMeta.name === "GroundNo") {
       const filtereddata = this.state.ApplicationGrounds.filter(
+        item => item.GroundNO == UserGroup.value
+      );
+
+      if (filtereddata.length > 0) {
+        this.setState({ grounddesc: filtereddata[0].Description });
+      } else {
+        this.setState({ grounddesc: "No description given." });
+      }
+    }
+    if (actionMeta.name === "GroundNoPrayers") {
+      this.setState({ GroundNo: UserGroup.value });
+      const filtereddata = this.state.ApplicationRequests.filter(
         item => item.GroundNO == UserGroup.value
       );
 
@@ -213,7 +299,8 @@ class PEResponse extends Component {
     const data = {
       PERsponseID: ResponseID,
       GrounNo: this.state.GroundNo,
-      Groundtype: "Grounds for Appeal",
+      BackgroundInformation: this.state.BackgroundInformation,
+      Groundtype: this.state.Groundtype,
       Response: this.state.GroundResponse,
       UserID: localStorage.getItem("UserName")
     };
@@ -228,15 +315,17 @@ class PEResponse extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
+            this.fetchResponseDetails();
             swal("", "Your Response has been added!", "success");
-            this.setState({ GroundResponse:" "})
+            this.setState({ GroundResponse: " ", BackgroundInformation: " " });
           } else {
-            swal("", data.message, "error");
+            swal("", "Could not be added", "success");
           }
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        swal("", "Could not be added", "success");
+        // toast.error(err.message);
       });
   }
   SavePEResponse(url = ``, data = {}) {
@@ -252,15 +341,12 @@ class PEResponse extends Component {
         response.json().then(data => {
           if (data.success) {
             if (data.ResponseID[0].msg === "Already Responded") {
-              swal(
-                "",
-                "You have already submited a response for this application.You can view it on Response menu.",
-                "error"
-              );
+              this.setState({ ResponseID: data.ResponseID[0].ID });
+              this.setState({ InitialSubmision: false });
+              this.SavePEResponseDetails(data.ResponseID[0].ID);
             } else {
               this.setState({ ResponseID: data.ResponseID[0].ID });
               this.setState({ InitialSubmision: false });
-
               this.SavePEResponseDetails(data.ResponseID[0].ID);
             }
           } else {
@@ -292,10 +378,30 @@ class PEResponse extends Component {
         swal("", err.message, "error");
       });
   };
+  fetchinterestedparties = () => {
+    this.setState({ interestedparties: [] });
+    fetch("/api/interestedparties/" + this.state.ApplicationID, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(interestedparties => {
+        if (interestedparties.length > 0) {
+          this.setState({ interestedparties: interestedparties });
+        } else {
+          toast.error(interestedparties.message);
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+      });
+  };
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-    
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -310,6 +416,9 @@ class PEResponse extends Component {
           response.json().then(data => {
             if (data.success) {
               this.fetchApplicationGrounds();
+              this.fetchApplicationPrayers();
+              this.fetchinterestedparties();
+              this.fetchResponseDetails();
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -321,8 +430,38 @@ class PEResponse extends Component {
           return (window.location = "/#/Logout");
         });
     }
-    
   }
+  handleGround = d => {
+    swal({
+      text: "Are you sure that you want to remove this record?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/PEResponse/" + d.ID, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                toast.success("Removed ");
+                this.fetchResponseDetails();
+              } else {
+                toast.error("Remove Failed");
+              }
+            })
+          )
+          .catch(err => {
+            toast.error("Remove Failed");
+          });
+      }
+    });
+  };
   formatNumber = num => {
     let newtot = Number(num).toFixed(2);
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -462,7 +601,6 @@ class PEResponse extends Component {
         response.json().then(data => {
           if (data.success) {
             let NewList = [data.results];
-
             if (NewList.length > 0) {
               NewList[0].map((item, key) => {
                 if (item.Role === "Case officer") {
@@ -526,6 +664,122 @@ class PEResponse extends Component {
         swal("Oops!", err.message, "error");
       });
   };
+  closeAddInterestedParty = () => {
+    this.setState({ AddInterestedParty: false });
+  };
+  handleDeleteInterestedparty = d => {
+    swal({
+      text: "Are you sure that you want to remove this record?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/interestedparties/" + d.ID, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                toast.success("Removed successfully");
+                this.fetchinterestedparties(this.state.ApplicationID);
+              } else {
+                toast.error("Remove Failed");
+              }
+            })
+          )
+          .catch(err => {
+            toast.error("Remove Failed");
+          });
+      }
+    });
+  };
+  AddNewInterestedparty = () => {
+    this.setState({ AddInterestedParty: true });
+  };
+  handleInterestedPartySubmit = event => {
+    event.preventDefault();
+    alert(this.state.ApplicationID);
+    if (this.state.ApplicationID) {
+      let datatosave = {
+        Name: this.state.InterestedPartyName,
+        ApplicationID: this.state.ApplicationID,
+        ContactName: this.state.InterestedPartyContactName,
+        Email: this.state.InterestedPartyEmail,
+        TelePhone: this.state.InterestedPartyTelePhone,
+        Mobile: this.state.InterestedPartyMobile,
+        PhysicalAddress: this.state.InterestedPartyPhysicalAddress,
+        PostalCode: this.state.InterestedPartyPostalCode,
+        Town: this.state.InterestedPartyTown,
+        POBox: this.state.InterestedPartyPOBox,
+        Designation: this.state.InterestedPartyDesignation
+      };
+      fetch("/api/interestedparties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(datatosave)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              // this.setState({ Grounds: datatosave });
+              var rows = this.state.interestedparties;
+              rows.push(datatosave);
+              this.setState({ interestedparties: rows });
+              toast.success("Added successfully");
+              let setstatedata = {
+                InterestedPartyContactName: "",
+                InterestedPartyName: "",
+                InterestedPartyEmail: "",
+                InterestedPartyTelePhone: "",
+                InterestedPartyMobile: "",
+                InterestedPartyPhysicalAddress: "",
+                InterestedPartyPOBox: "",
+                InterestedPartyPostalCode: "",
+                InterestedPartyTown: "",
+                InterestedPartyDesignation: "",
+                AddInterestedParty: false
+              };
+              this.setState(setstatedata);
+            } else {
+              toast.error(data.message);
+              //swal("", "Could not be added please try again", "error");
+            }
+          })
+        )
+        .catch(err => {
+          toast.error("Could not be added please try again");
+        });
+    } else {
+      toast.error(
+        "Please ensure You have filled tender details before adding interested parties."
+      );
+    }
+  };
+  closeRequestModal = () => {
+    this.setState({ openRequest: false });
+  };
+  closeGroundsModal = () => {
+    this.setState({ open: false });
+  };
+  OpenGroundsModal = e => {
+    e.preventDefault();
+    this.setState({ open: true, Groundtype: "Grounds" });
+  };
+  OpenRequestsModal = e => {
+    e.preventDefault();
+    this.setState({ open: true, Groundtype: "Prayers" });
+  };
+  openInterestedPartiesTab() {
+    document.getElementById("nav-InterestedParties-tab").click();
+  }
   render() {
     let headingstyle = {
       color: "#7094db"
@@ -543,10 +797,10 @@ class PEResponse extends Component {
       background: "white"
     };
     let FormStyle = {
-      margin: "20px"
+      margin: "10px"
     };
     let childdiv = {
-      margin: "30px"
+      margin: "10px"
     };
 
     let photostyle1 = {
@@ -560,11 +814,17 @@ class PEResponse extends Component {
         label: k.GroundNO
       };
     });
+    let ApplicationPrayers = [...this.state.ApplicationRequests].map((k, i) => {
+      return {
+        value: k.GroundNO,
+        label: k.GroundNO
+      };
+    });
 
     let Actions = [
       {
-        value: "No Objection",
-        label: "No Objection"
+        value: "Memorandum of Response",
+        label: "Memorandum of Response"
       },
       {
         value: "Preliminary Objection",
@@ -577,6 +837,7 @@ class PEResponse extends Component {
     ];
     return (
       <div>
+        <ToastContainer />
         <div className="row wrapper border-bottom white-bg page-heading">
           <div className="col-lg-10">
             <ol className="breadcrumb">
@@ -604,8 +865,8 @@ class PEResponse extends Component {
         <p></p>
 
         <div className="row">
-          <div className="col-lg-1"></div>
-          <div className="col-lg-10 ">
+          {/* <div className="col-lg-1"></div> */}
+          <div className="col-lg-12 ">
             <h3 style={headingstyle}>
               Respond to ApplicationNo:{this.state.ApplicationNo}{" "}
             </h3>
@@ -716,7 +977,7 @@ class PEResponse extends Component {
                     </div>
                   </div>
                 ) : null}
-                {this.state.Action === "No Objection" ? (
+                {this.state.Action === "Memorandum of Response" ? (
                   <div class="col-sm-12">
                     <nav>
                       <div class="nav nav-tabs " id="nav-tab" role="tablist">
@@ -730,6 +991,17 @@ class PEResponse extends Component {
                           aria-selected="true"
                         >
                           Response{" "}
+                        </a>
+                        <a
+                          class="nav-item nav-link font-weight-bold"
+                          id="nav-InterestedParties-tab"
+                          data-toggle="tab"
+                          href="#nav-InterestedParties"
+                          role="tab"
+                          aria-controls="InterestedParties"
+                          aria-selected="false"
+                        >
+                          Interested Parties
                         </a>
                         <a
                           class="nav-item nav-link font-weight-bold"
@@ -753,76 +1025,657 @@ class PEResponse extends Component {
                         aria-labelledby="nav-home-tab"
                         style={childdiv}
                       >
-                        {/* <form style={FormStyle} onSubmit={this.SaveTenders}> */}
-                        <div style={formcontainerStyle}>
-                          <form
-                            style={FormStyle}
-                            onSubmit={this.SaveNoObjectionResponse}
+                        {" "}
+                        <div style={FormStyle}>
+                          <Modal
+                            visible={this.state.open}
+                            width="80%"
+                            height="86%"
+                            effect="fadeInUp"
+                            onClickAway={() => this.closeGroundsModal()}
                           >
-                            <div class="row">
-                              <div class="col-sm-2">
-                                <label
-                                  style={headingstyle}
-                                  for="Location"
-                                  className="font-weight-bold"
-                                >
-                                  Select Ground
-                                </label>
+                            <a
+                              style={{
+                                float: "right",
+                                color: "red",
+                                margin: "10px"
+                              }}
+                              href="javascript:void(0);"
+                              onClick={() => this.closeGroundsModal()}
+                            >
+                              <i class="fa fa-close"></i>
+                            </a>
+                            <div>
+                              <h3
+                                style={{
+                                  "text-align": "center",
+                                  color: "#1c84c6"
+                                }}
+                              >
+                                Respond to {this.state.Groundtype}
+                              </h3>
+                              <hr />
+                              <div className="container-fluid">
+                                <div className="col-sm-12">
+                                  <div className="scroll">
+                                    <form
+                                      style={FormStyle}
+                                      onSubmit={this.SaveNoObjectionResponse}
+                                    >
+                                      <div class="row">
+                                        <div class="col-sm-4">
+                                          <label
+                                            style={headingstyle}
+                                            for="Location"
+                                            className="font-weight-bold"
+                                          >
+                                            Select Ground
+                                          </label>
+                                          {this.state.Groundtype ===
+                                          "Grounds" ? (
+                                            <Select
+                                              name="GroundNo"
+                                              onChange={this.handleSelectChange}
+                                              options={Grounds}
+                                              required
+                                            />
+                                          ) : (
+                                            <Select
+                                              name="GroundNoPrayers"
+                                              onChange={this.handleSelectChange}
+                                              options={ApplicationPrayers}
+                                              required
+                                            />
+                                          )}
+                                        </div>
+                                      </div>
 
-                                <Select
-                                  name="GroundNo"
-                                  // value={Counties.filter(
-                                  //     option =>
-                                  //         option.label === this.state.County
-                                  // )}
-                                  onChange={this.handleSelectChange}
-                                  options={Grounds}
-                                  required
-                                />
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <h3 style={headingstyle}>
+                                            Ground Description
+                                          </h3>
+                                          <br />
+                                          {ReactHtmlParser(
+                                            this.state.grounddesc
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <label
+                                            style={headingstyle}
+                                            for="Location"
+                                            className="font-weight-bold"
+                                          >
+                                            Background Information
+                                          </label>
+                                          <textarea
+                                            class="form-control"
+                                            name="BackgroundInformation"
+                                            value={
+                                              this.state.BackgroundInformation
+                                            }
+                                            onChange={this.handleInputChange}
+                                            required
+                                          />
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <b style={headingstyle}>
+                                            Our Response
+                                          </b>
+                                          <br />
+                                          <CKEditor
+                                            data={this.state.GroundResponse}
+                                            onChange={this.onEditorChange}
+                                          />
+                                        </div>
+                                      </div>
+                                      <br />
+                                      <div className=" row">
+                                        <div className="col-sm-10" />
+                                        <div className="col-sm-2">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            Add
+                                          </button>
+                                          &nbsp;&nbsp;
+                                          <button
+                                            type="button"
+                                            onClick={this.closeGroundsModal}
+                                            className="btn btn-success"
+                                          >
+                                            {" "}
+                                            Done
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                            <br />
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <h3 style={headingstyle}>Ground Description</h3>
-                                <br />
-                                {ReactHtmlParser(this.state.grounddesc)}
-                              </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <h3 style={headingstyle}>Your Response</h3>
-                                <br />
-                                <CKEditor data={this.state.GroundResponse} onChange={this.onEditorChange} />
-                              </div>
-                            </div>
-                            <br />
-                            <div className=" row">
-                              <div className="col-sm-2" />
-                              <div className="col-sm-8" />
-                              <div className="col-sm-1">
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary float-right"
-                                >
-                                  Add
-                                </button>
-                              </div>
-                              <div className="col-sm-1">
-                                {this.state.AddAdedendums ? null : (
-                                  <button
-                                    type="button"
-                                    onClick={this.openAttachmentsTab}
-                                    className="btn btn-primary float-left"
-                                  >
+                          </Modal>
+
+                          <label for="Name" className="font-weight-bold">
+                            1.Respond to Grounds for appeal &nbsp; &nbsp; &nbsp;
+                            &nbsp;
+                          </label>
+                          <button
+                            className="btn btn-info"
+                            type="button"
+                            onClick={this.OpenGroundsModal}
+                          >
+                            Add
+                          </button>
+                          <br />
+                          <br />
+                          <div className="row">
+                            <table className="table table-striped table-sm">
+                              <thead class="thead-light">
+                                <th>GroundNO</th>
+                                <th>BackgroundInformation</th>
+                                <th>Response</th>
+                                <th>Action</th>
+                              </thead>
+                              {this.state.GroundsDetails.map((r, i) => (
+                                <tr>
+                                  <td className="font-weight-bold">
+                                    {r.GroundNO}
+                                  </td>
+
+                                  <td className="font-weight-bold">
+                                    {r.BackgrounInformation}
+                                  </td>
+                                  <td className="font-weight-bold">
+                                    {ReactHtmlParser(r.Response)}
+                                  </td>
+                                  <td>
                                     {" "}
-                                    Next
-                                  </button>
-                                )}
+                                    <span>
+                                      <a
+                                        style={{ color: "#f44542" }}
+                                        onClick={e => this.handleGround(r, e)}
+                                      >
+                                        &nbsp; Remove
+                                      </a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </table>
+                          </div>
+
+                          <br />
+                          <label for="Name" className="font-weight-bold">
+                            2.Respond to Requested Orders &nbsp; &nbsp; &nbsp;
+                            &nbsp;
+                          </label>
+                          <button
+                            className="btn btn-info"
+                            type="button"
+                            onClick={this.OpenRequestsModal}
+                          >
+                            Add
+                          </button>
+                          <br />
+                          <br />
+                          <div className="row">
+                            <table className="table table-striped table-sm">
+                              <thead class="thead-light">
+                                <th>OrderNo</th>
+                                <th>BackgroundInformation</th>
+                                <th>Response</th>
+                                <th>Action</th>
+                              </thead>
+                              {this.state.PrayersDetails.map((r, i) => (
+                                <tr>
+                                  <td className="font-weight-bold">
+                                    {r.GroundNO}
+                                  </td>
+
+                                  <td className="font-weight-bold">
+                                    {r.BackgrounInformation}
+                                  </td>
+                                  <td className="font-weight-bold">
+                                    {ReactHtmlParser(r.Response)}
+                                  </td>
+                                  <td>
+                                    {" "}
+                                    <span>
+                                      <a
+                                        style={{ color: "#f44542" }}
+                                        onClick={e => this.handleGround(r, e)}
+                                      >
+                                        &nbsp; Remove
+                                      </a>
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </table>
+                          </div>
+                        </div>
+                        <br />
+                        <div className="row">
+                          <div className="col-sm-11"></div>
+                          <div className="col-sm-1">
+                            <button
+                              type="button"
+                              onClick={this.openInterestedPartiesTab}
+                              className="btn btn-success"
+                            >
+                              {" "}
+                              &nbsp; &nbsp; Next &nbsp; &nbsp;
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="tab-pane fade"
+                        id="nav-InterestedParties"
+                        role="tabpanel"
+                        style={childdiv}
+                        aria-labelledby="nav-InterestedParties-tab"
+                      >
+                        <Modal
+                          visible={this.state.AddInterestedParty}
+                          width="900"
+                          height="450"
+                          effect="fadeInUp"
+                          onClickAway={() => this.closeAddInterestedParty()}
+                        >
+                          <a
+                            style={{
+                              float: "right",
+                              color: "red",
+                              margin: "10px"
+                            }}
+                            href="javascript:void(0);"
+                            onClick={() => this.closeAddInterestedParty()}
+                          >
+                            <i class="fa fa-close"></i>
+                          </a>
+                          <div>
+                            <h4
+                              style={{
+                                "text-align": "center",
+                                color: "#1c84c6"
+                              }}
+                            >
+                              Interested Party
+                            </h4>
+                            <div className="container-fluid">
+                              <div className="col-sm-12">
+                                <div className="ibox-content">
+                                  <form
+                                    onSubmit={this.handleInterestedPartySubmit}
+                                  >
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Organization Name
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.InterestedPartyName
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyName"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Contact Name
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .InterestedPartyContactName
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyContactName"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Designation
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .InterestedPartyDesignation
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyDesignation"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Email
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.InterestedPartyEmail
+                                              }
+                                              type="email"
+                                              required
+                                              name="InterestedPartyEmail"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Mobile
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.InterestedPartyMobile
+                                              }
+                                              type="number"
+                                              required
+                                              name="InterestedPartyMobile"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              TelePhone
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .InterestedPartyTelePhone
+                                              }
+                                              type="number"
+                                              required
+                                              name="InterestedPartyTelePhone"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              POBox
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.InterestedPartyPOBox
+                                              }
+                                              type="number"
+                                              required
+                                              name="InterestedPartyPOBox"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Postal Code
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .InterestedPartyPostalCode
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyPostalCode"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Physical Address
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .InterestedPartyPhysicalAddress
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyPhysicalAddress"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Town
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.InterestedPartyTown
+                                              }
+                                              type="text"
+                                              required
+                                              name="InterestedPartyTown"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className="col-sm-12 ">
+                                      <div className=" row">
+                                        <div className="col-sm-9" />
+                                        <div className="col-sm-3">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            Save
+                                          </button>
+                                          &nbsp; &nbsp;
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={
+                                              this.closeAddInterestedParty
+                                            }
+                                          >
+                                            Close
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
                               </div>
                             </div>
-                          </form>
+                          </div>
+                        </Modal>
+
+                        <div style={formcontainerStyle}>
+                          <div style={FormStyle}>
+                            <h3 style={headingstyle}>Interested Parties</h3>
+
+                            <div className="row">
+                              <div class="col-sm-11">
+                                <table className="table table-sm">
+                                  <th>Org Name</th>
+                                  <th>ContactName</th>
+                                  <th>Designation</th>
+                                  <th>Email</th>
+                                  <th>TelePhone</th>
+                                  <th>Mobile</th>
+                                  <th>PhysicalAddress</th>
+                                  <th>Actions</th>
+
+                                  {this.state.interestedparties.map((r, i) => (
+                                    <tr>
+                                      <td>{r.Name}</td>
+                                      <td> {r.ContactName} </td>
+                                      <td> {r.Designation} </td>
+                                      <td> {r.Email} </td>
+                                      <td> {r.TelePhone} </td>
+                                      <td> {r.Mobile} </td>
+                                      <td> {r.PhysicalAddress} </td>
+                                      <td>
+                                        {" "}
+                                        <span>
+                                          <a
+                                            style={{ color: "#f44542" }}
+                                            onClick={e =>
+                                              this.handleDeleteInterestedparty(
+                                                r,
+                                                e
+                                              )
+                                            }
+                                          >
+                                            &nbsp; Remove
+                                          </a>
+                                          {/* {this.state.alert} */}
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </table>
+                              </div>
+                            </div>
+                            <div className=" row">
+                              <div className="col-sm-9" />
+                              <div className="col-sm-3">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={this.AddNewInterestedparty}
+                                >
+                                  ADD
+                                </button>
+                                &nbsp;
+                                <button
+                                  type="button"
+                                  onClick={this.openAttachmentsTab}
+                                  className="btn btn-success"
+                                >
+                                  {" "}
+                                  &nbsp; Next
+                                </button>
+                                &nbsp;&nbsp;
+                              </div>
+                            </div>
+                            <br />
+                          </div>
                         </div>
                       </div>
                       <div
@@ -833,7 +1686,6 @@ class PEResponse extends Component {
                         aria-labelledby="nav-profile-tab"
                       >
                         <div style={formcontainerStyle}>
-                          <ToastContainer />
                           <form
                             style={FormStyle}
                             onSubmit={this.handleDocumentSubmit}

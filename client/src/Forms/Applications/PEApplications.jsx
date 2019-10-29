@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import "./../../Styles/tablestyle.css";
 import ReactHtmlParser from "react-html-parser";
+import { ToastContainer, toast } from "react-toastify";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 var dateFormat = require("dateformat");
@@ -17,7 +18,9 @@ class PEApplications extends Component {
             openRequest: false,
             ApplicantEmail: data.Email,
             ApplicantPhone: data.Phone,
-            Applications: [],        
+            Applications: [],   
+            interestedparties: [],
+            AdditionalSubmisions: [],     
             TimerStatus:"",
             TenderNo: "",
             TenderID: "",
@@ -81,6 +84,55 @@ class PEApplications extends Component {
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
        
     }
+    fetchinterestedparties = (ApplicationID) => {
+        this.setState({ interestedparties: [] });
+        fetch("/api/interestedparties/" + ApplicationID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(interestedparties => {
+                if (interestedparties.length > 0) {
+                    this.setState({ interestedparties: interestedparties });
+                } else {
+                    toast.error(interestedparties.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+            });
+    };
+    fetchAdditionalSubmisions = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisions: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisions: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
     closeModal = () => {
         this.setState({ open: false });
     };
@@ -309,6 +361,8 @@ class PEApplications extends Component {
         this.fetchApplicationDocuments(k.ID);
         this.fetchTenderAdendums(k.TenderID);
         this.fetchApplicantDetails(k.ApplicantID);
+        this.fetchAdditionalSubmisions(k.ID);
+        this.fetchinterestedparties(k.ID);
         const data = {
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
@@ -324,11 +378,17 @@ class PEApplications extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
+            AwardDate: new Date(k.AwardDate).toLocaleDateString(),
             FilingDate: new Date(k.FilingDate).toLocaleDateString(),
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
-            
+            TenderType: k.TenderType,
+            TenderSubCategory: k.TenderSubCategory,
+            TenderTypeDesc: k.TenderTypeDesc,
+            TenderCategory: k.TenderCategory,
+            Timer: k.Timer,
+            PaymentStatus: k.PaymentStatus,
 
             StartDate: dateFormat(
                 new Date(k.StartDate).toLocaleDateString(),
@@ -386,7 +446,7 @@ class PEApplications extends Component {
             });
     };
     SendMail = (ApplicationNo, Applicantemail, PPRAEmail, subject1) => {
-   
+        
         const emaildata = {
             PPRAEmail: PPRAEmail,
             subject: subject1,
@@ -449,16 +509,18 @@ class PEApplications extends Component {
                         let Applicantname = data.data[0].Applicantname;
                         let PPRAEmail = data.data[0].PPRAEmail;
                         let PPRAMobile = data.data[0].PPRAMobile;                        
-                        
-                        swal("", "Acknowledged", "success")
+                        toast.success("Acknowledged")
+                     
                         this.SendMail(this.state.ApplicationNo, ApplicantEmail, PPRAEmail,"RECEIPT ACKNOWLEDGEMENT")
                     } else {
-                        swal("", data.message, "error");
+                        toast.error(data.message)
+                       
                     }
                 })
             )
             .catch(err => {
-                swal("!", err.message, "error");
+                toast.error(err.message)
+             
             });
     }
 
@@ -623,6 +685,7 @@ class PEApplications extends Component {
             if (this.state.summary) {
                 return (
                     <div>
+                        <ToastContainer/>
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-8">
                                 <ol className="breadcrumb">
@@ -779,7 +842,38 @@ class PEApplications extends Component {
                                             <tr>
                                                 <td className="font-weight-bold"> FilingDate:</td>
                                                 <td> {this.state.FilingDate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-weight-bold">Occurrence of Breach:</td>
+                                                <td> {this.state.AwardDate}</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    Application Timing:
+                        </td>
+                                                <td> {this.state.Timer}</td>
                                             </tr>{" "}
+                                            <tr>
+                                                <td className="font-weight-bold"> TenderType:</td>
+                                                <td> {this.state.TenderTypeDesc}</td>
+                                            </tr>
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold"> TenderCategory:</td>
+                                                    <td> {this.state.TenderCategory}</td>
+                                                </tr>
+                                            ) : null}{" "}
+                                            {this.state.TenderType === "B" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold">
+                                                        {" "}
+                                                        TenderSubCategory:
+                          </td>
+                                                    <td> {this.state.TenderSubCategory}</td>
+                                                </tr>
+                                            ) : null}
                                         </table>
                                         <h3 style={headingstyle}>Tender Addendums</h3>
                                         <table className="table table-borderless table-sm">
@@ -918,12 +1012,78 @@ class PEApplications extends Component {
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            {this.state.PaymentStatus === "Not Submited" ?
+                                                <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4> : null
+                                            }
+                                            {this.state.PaymentStatus === "Approved" ?
+                                                <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
+                                            }
+                                            {this.state.PaymentStatus === "Submited" ?
+                                                <h4>Fees Status: <span className="text-warning">Payment Pending Confirmation</span> </h4> : null
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <br />
+                            <div className="row">
+                                <div className="col-lg-12 ">
+                                    <h3 style={headingstyle}>Interested Parties</h3>
+                                    <div className="col-lg-11 border border-success rounded">
+                                        <table className="table table-sm">
+                                            <th>Org Name</th>
+                                            <th>ContactName</th>
+                                            <th>Designation</th>
+                                            <th>Email</th>
+                                            <th>TelePhone</th>
+                                            <th>Mobile</th>
+                                            <th>PhysicalAddress</th>
+                                            {this.state.interestedparties.map((r, i) => (
+                                                <tr>
+                                                    <td>{r.Name}</td>
+                                                    <td> {r.ContactName} </td>
+                                                    <td> {r.Designation} </td>
+                                                    <td> {r.Email} </td>
+                                                    <td> {r.TelePhone} </td>
+                                                    <td> {r.Mobile} </td>
+                                                    <td> {r.PhysicalAddress} </td>
+
+                                                </tr>
+                                            ))}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-lg-12 ">
+                                    <h3 style={headingstyle}>Additional Submissions</h3>
+                                    <div className="col-lg-11 border border-success rounded">
+                                        <table className="table table-borderless table-sm">
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Actions</th>
+                                            {this.state.AdditionalSubmisions.map(function (k, i) {
+                                                return (
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>   {ReactHtmlParser(k.Description)}</td>
+                                                        <td>
+                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                        </td>
+                                                        <td>
+                                                            <a onClick={e => ViewFile(k, e)} className="text-success">
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
+                                                      </a>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                            
                         </div>
                     </div>
@@ -931,6 +1091,7 @@ class PEApplications extends Component {
             } else {
                 return (
                     <div>
+                        <ToastContainer />
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-10">
                                 <ol className="breadcrumb">

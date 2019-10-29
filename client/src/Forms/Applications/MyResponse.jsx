@@ -27,6 +27,7 @@ class MyResponse extends Component {
       loaded: 0,
       ResponseID: "",
       grounddesc: "",
+      ApplicationID: "",
       summary: "",
       DocumentDesc: "",
       ApplicantPostalCode: "",
@@ -113,7 +114,6 @@ class MyResponse extends Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-     
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -177,6 +177,7 @@ class MyResponse extends Component {
     let data = {
       ApplicationNo: k.ApplicationNo,
       Name: k.Name,
+      ApplicationID: k.ApplicationID,
       ResponseDate: k.ResponseDate,
       ResponseID: k.ResponseID,
       ResponseType: k.ResponseType,
@@ -690,21 +691,46 @@ class MyResponse extends Component {
             <br />
             <div className="row">
               <div className="col-sm-10">
-                <h3 style={headingstyle}> Response Details</h3>
+                <h3 style={headingstyle}> Response to Applicant Grounds</h3>
                 <div className="col-lg-12 border border-success rounded">
                   {this.state.ResponseDetails.map(function(k, i) {
-                    return (
-                      <div>
-                        <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
-                        <h3 style={headingstyle}>Response</h3>
-                        {ReactHtmlParser(k.Response)}
-                      </div>
-                    );
+                    if (k.GroundType === "Grounds") {
+                      return (
+                        <div>
+                          <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
+                          <h3>BackgroundInformation</h3>
+                          <p>{k.BackgrounInformation}</p>
+
+                          <h3>Response</h3>
+                          {ReactHtmlParser(k.Response)}
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-sm-10">
+                <h3 style={headingstyle}> Response Applicant Requests</h3>
+                <div className="col-lg-12 border border-success rounded">
+                  {this.state.ResponseDetails.map(function(k, i) {
+                    if (k.GroundType === "Prayers") {
+                      return (
+                        <div>
+                          <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
+                          <h3>BackgroundInformation</h3>
+                          <p>{k.BackgrounInformation}</p>
 
+                          <h3>Response</h3>
+                          {ReactHtmlParser(k.Response)}
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
             <br />
             <div className="row">
               <div className="col-sm-10">
@@ -742,12 +768,27 @@ class MyResponse extends Component {
               <div className="row">
                 <div className="col-sm-9"></div>
                 <div className="col-sm-1">
-                  <button
+                  <Link
+                    to={{
+                      pathname: "/PEResponse",
+                      ApplicationNo: this.state.ApplicationNo,
+                      ApplicationID: this.state.ApplicationID
+                    }}
+                  >
+                    <button
+                      className="btn btn-primary"
+                      style={{ marginTop: 30 }}
+                    >
+                      Respond Now
+                    </button>
+                  </Link>
+
+                  {/* <button
                     className="btn btn-primary"
                     onClick={this.handleEditClick}
                   >
                     Edit
-                  </button>
+                  </button> */}
                 </div>
               </div>
             )}

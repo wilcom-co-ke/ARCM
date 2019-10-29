@@ -5,15 +5,19 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import ReactHtmlParser from "react-html-parser";
 import Modal from 'react-awesome-modal';
+import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require('dateformat');
 class AllApplications extends Component {
     constructor() {
         super();
         this.state = {
             Applications: [],
+            interestedparties: [],
+            AdditionalSubmisions: [],
             PE: [],
             ApplicationsProgress:[],
             stdtenderdocs: [],
+         
             TenderNo: "",
             TenderID: "",
             TenderValue: "",
@@ -336,6 +340,8 @@ class AllApplications extends Component {
         this.fetchApplicationfees(k.ID)
         this.fetchApplicationDocuments(k.ID)
         this.fetchTenderAdendums(k.TenderID);
+        this.fetchAdditionalSubmisions(k.ID);
+        this.fetchinterestedparties(k.ID);
         this.fetchApplicantDetails(k.Applicantusername)
         this.fetchApplicationProgress(k.ApplicationNo)
         const data = {
@@ -357,7 +363,14 @@ class AllApplications extends Component {
             Status: k.Status,
             TenderValue: k.TenderValue,
             StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
-            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate")
+            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate"),
+
+             TenderType: k.TenderType,
+            TenderSubCategory: k.TenderSubCategory,
+            TenderTypeDesc: k.TenderTypeDesc,
+            TenderCategory: k.TenderCategory,         
+            Timer: k.Timer,
+            PaymentStatus: k.PaymentStatus,
         };
         this.setState({ summary: true });
         this.setState(data);
@@ -368,7 +381,55 @@ class AllApplications extends Component {
         window.open(filepath);
         //this.setState({ openFileViewer: true });
     };
-   
+    fetchinterestedparties = (ApplicationID) => {
+        this.setState({ interestedparties: [] });
+        fetch("/api/interestedparties/" + ApplicationID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(interestedparties => {
+                if (interestedparties.length > 0) {
+                    this.setState({ interestedparties: interestedparties });
+                } else {
+                    toast.error(interestedparties.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+            });
+    };
+    fetchAdditionalSubmisions = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisions: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisions: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
     openModal=()=> {
         this.setState({ openTracking: true });
 
@@ -453,6 +514,7 @@ class AllApplications extends Component {
         if (this.state.summary) {
             return (
                 <div>
+                    <ToastContainer/>
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-9">
                             <ol className="breadcrumb">
@@ -602,7 +664,33 @@ class AllApplications extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> FilingDate:</td>
                                             <td> {this.state.FilingDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                Application Timing:
+                        </td>
+                                            <td> {this.state.Timer}</td>
                                         </tr>{" "}
+                                        <tr>
+                                            <td className="font-weight-bold"> TenderType:</td>
+                                            <td> {this.state.TenderTypeDesc}</td>
+                                        </tr>
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold"> TenderCategory:</td>
+                                                <td> {this.state.TenderCategory}</td>
+                                            </tr>
+                                        ) : null}{" "}
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    TenderSubCategory:
+                          </td>
+                                                <td> {this.state.TenderSubCategory}</td>
+                                            </tr>
+                                        ) : null}
                                     </table>
                                     <h3 style={headingstyle}>Tender Addendums</h3>
                                     <table className="table table-borderless table-sm ">
@@ -739,21 +827,85 @@ class AllApplications extends Component {
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        {this.state.PaymentStatus === "Not Submited" ?
+                                            <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4> : null
+                                        }
+                                        {this.state.PaymentStatus === "Approved" ?
+                                            <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
+                                        }
+                                        {this.state.PaymentStatus === "Submited" ?
+                                            <h4>Fees Status: <span className="text-warning">Payment Pending Confirmation</span> </h4> : null
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-lg-12 ">
+                                <h3 style={headingstyle}>Additional Submissions</h3>
+                                <div className="col-lg-11 border border-success rounded">
+                                    <table className="table table-borderless table-sm">
+                                        <th>ID</th>
+                                        <th>Description</th>
+                                        <th>Date Uploaded</th>
+                                        <th>Actions</th>
+                                        {this.state.AdditionalSubmisions.map(function (k, i) {
+                                            return (
+                                                <tr>
+                                                    <td>{i + 1}</td>
+                                                    <td>   {ReactHtmlParser(k.Description)}</td>
+                                                    <td>
+                                                        {new Date(k.Create_at).toLocaleDateString()}
+                                                    </td>
+                                                    <td>
+                                                        <a onClick={e => ViewFile(k, e)} className="text-success">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
+                                                      </a>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-lg-12 ">
+                                <h3 style={headingstyle}>Interested Parties</h3>
+                                <div className="col-lg-11 border border-success rounded">
+                                    <table className="table table-sm">
+                                        <th>Org Name</th>
+                                        <th>ContactName</th>
+                                        <th>Designation</th>
+                                        <th>Email</th>
+                                        <th>TelePhone</th>
+                                        <th>Mobile</th>
+                                        <th>PhysicalAddress</th>
+                                        {this.state.interestedparties.map((r, i) => (
+                                            <tr>
+                                                <td>{r.Name}</td>
+                                                <td> {r.ContactName} </td>
+                                                <td> {r.Designation} </td>
+                                                <td> {r.Email} </td>
+                                                <td> {r.TelePhone} </td>
+                                                <td> {r.Mobile} </td>
+                                                <td> {r.PhysicalAddress} </td>
 
-                       
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <Modal visible={this.state.openTracking} width="900" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                        <div>
+                    <Modal visible={this.state.openTracking} width="900" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <div style={{ overflow: "scroll" }}>
 
                             <a style={{ float: "right", margin: "10px", color: "red" }} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
                             <br />
                             <h4 style={{ "text-align": "center", color: "#1c84c6" }}>APPLICATION {this.state.ApplicationNo}</h4>
 
-                            <div className="container-fluid">
+                            <div className="container-fluid" >
                                 <table className="table  table-sm  table-striped">
                                     <thead class="thead-light">
                                     <th>Date</th>
@@ -798,7 +950,7 @@ class AllApplications extends Component {
         } else {
             return (
                 <div>
-
+                    <ToastContainer />
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-12">
                             <ol className="breadcrumb">
