@@ -67,13 +67,15 @@ class additionalsubmissions extends Component {
             ApplicantTown: "",
             WithdrawalReason: ""
         };
-       
+        
     }
     closeModal = () => {
         this.setState({ open: false });
     };
 
     fetchMyApplications = ApplicantID => {
+      
+        this.setState({ Applications: [] });
         fetch("/api/applications/" + ApplicantID + "/Applicant", {
             method: "GET",
             headers: {
@@ -114,16 +116,13 @@ class additionalsubmissions extends Component {
 
                     this.setState({ ApplicantPOBox: ApplicantDetails[0].POBox });
                     this.setState({ ApplicantTown: ApplicantDetails[0].Town });
-
                     this.setState({ ApplicantDetails: ApplicantDetails });
                     this.setState({ Applicantname: ApplicantDetails[0].Name });
-
                     this.setState({ ApplicantLocation: ApplicantDetails[0].Location });
                     this.setState({ ApplicantMobile: ApplicantDetails[0].Mobile });
                     this.setState({ ApplicantEmail: ApplicantDetails[0].Email });
                     this.setState({ ApplicantPIN: ApplicantDetails[0].PIN });
                     this.setState({ ApplicantWebsite: ApplicantDetails[0].Website });
-
                     this.setState({ ApplicantID: ApplicantDetails[0].ID });
                     this.fetchMyApplications(ApplicantDetails[0].ID);
                 } else {

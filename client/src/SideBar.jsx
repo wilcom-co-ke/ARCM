@@ -472,7 +472,15 @@ const CaseManagement = props => {
               <li>
                 <Link to="/FeesApproval">
                   <i className="fa fa-tasks" />
-                  Payment Confirmation
+                  Application Fees Confirmation
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Fees Approval", "View") ? (
+              <li>
+                <Link to="/PreliminaryObjectionFees">
+                  <i className="fa fa-tasks" />
+                  Preliminary Objection Fees
                 </Link>
               </li>
             ) : null}

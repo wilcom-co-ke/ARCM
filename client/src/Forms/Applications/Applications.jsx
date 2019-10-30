@@ -164,6 +164,7 @@ class Applications extends Component {
     this.setState({ openRequest: true });
   };
   fetchMyApplications = ApplicantID => {
+    
     fetch("/api/applications/" + ApplicantID + "/Applicant", {
       method: "GET",
       headers: {
@@ -684,13 +685,35 @@ class Applications extends Component {
         // swal("", err.message, "error");
       });
   }
-  SavePaymentdetails=()=>{     
+  SavePaymentdetails=()=>{    
+    
+    if (!this.state.DateofPayment)
+    {
+      swal("", "Date of payment is required", "error");
+      return;
+    }
+    if (!this.state.PaymentReference) {
+      swal("", "Reference is required", "error");
+      return;
+    }
+    if (!this.state.AmountPaid) {
+      swal("", "Amount paid is required", "error");
+      return;
+    }
+    if (!this.state.PaidBy) {
+      swal("", "Paid by is required", "error");
+      return;
+    }
+    if (+this.state.TotalAmountdue > +this.state.AmountPaid) {
+      toast.warn("Amount paid is less than amount due");
+    }
     let data = {
       ApplicationID: this.state.ApplicationID,
       Paidby: this.state.PaidBy,
       Reference: this.state.PaymentReference,
       DateOfpayment: this.state.DateofPayment,
-      AmountPaid: this.state.AmountPaid
+      AmountPaid: this.state.AmountPaid,
+      Category:"Applicationfees"
     };       
     fetch("/api/applicationfees/1/Paymentdetails", {
       method: "POST",
@@ -1296,7 +1319,8 @@ class Applications extends Component {
   SaveBankSlip(Filename) {
     let data = {
       ApplicationID: this.state.ApplicationID,
-      filename: Filename
+      filename: Filename,
+      Category:"ApplicationFees"
     };
     fetch("/api/applicationfees/BankSlip", {
       method: "POST",
@@ -1950,6 +1974,7 @@ class Applications extends Component {
       if (this.state.summary) {
         return (
           <div>
+            <ToastContainer />
             <div className="row wrapper border-bottom white-bg page-heading">
               <div className="col-lg-10">
                 <ol className="breadcrumb">
@@ -1972,9 +1997,16 @@ class Applications extends Component {
                           {this.state.Status}
                         </span>
                       ) : (
-                        <span className="text-success">
-                          {" "}
-                          {this.state.Status}
+                        <span>
+                            {this.state.PaymentStatus === "Not Submited" ?
+                              <span className="text-danger">NOT PAID</span>: null
+                            }
+                            {this.state.PaymentStatus === "Approved" ?
+                              <span className="text-success"> {this.state.Status}</span> : null
+                            }
+                            {this.state.PaymentStatus === "Submited" ?
+                             <span className="text-warning">Payment Pending Confirmation</span>  : null
+                            }
                         </span>
                       )}
                     </h2>
@@ -2321,7 +2353,7 @@ class Applications extends Component {
                       </table>
                       {this.state.PaymentStatus ==="Not Submited"?
                         <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4>  :null
-                    }
+                     }
                       {this.state.PaymentStatus === "Approved" ?
                         <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
                       }
@@ -2597,6 +2629,7 @@ class Applications extends Component {
       } else {
         return (
           <div>
+            <ToastContainer />
             <div className="row wrapper border-bottom white-bg page-heading">
               <div className="col-lg-10">
                 <ol className="breadcrumb">
@@ -2629,6 +2662,7 @@ class Applications extends Component {
     } else {
       return (
         <div>
+          <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-11">
               <ol className="breadcrumb">
@@ -2651,7 +2685,7 @@ class Applications extends Component {
           </div>
           <p></p>
           <div style={divconatinerstyle}>
-            <ToastContainer />
+            
             <div class="row">
               <div class="col-sm-12">
                 <nav>

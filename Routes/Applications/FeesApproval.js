@@ -90,6 +90,35 @@ FeesApproval.get("/:ID", auth.validateRole("Fees Approval"), function(
     }
   });
 });
+FeesApproval.get("/:ID/:PreliminaryObjectionFees/:Value2", auth.validateRole("Fees Approval"), function (
+  req,
+  res
+) {
+  const ID = req.params.ID;
+  con.getConnection(function (err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call GetPendingPreliminaryObjectionFees(?)";
+      connection.query(sp, [ID], function (error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json(results[0]);
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 FeesApproval.put("/", auth.validateRole("Fees Approval"), function(req, res) {
   const schema = Joi.object().keys({
     Approver: Joi.string()

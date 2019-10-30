@@ -366,6 +366,62 @@ PEResponse.post("/:ID", function(req, res) {
 PEResponse.put("/:ID/:Value", function(req, res) {
   const ID = req.params.ID;
   const Value = req.params.Value;
+  if (ID === "SubmitPePreliminaryObjection") {
+    const schema = Joi.object().keys({
+      PEResponseID: Joi.number()
+        .integer()
+        .min(1)
+        .required(),
+      UserID: Joi.string()
+        .min(1)
+        .required(),
+      ApplicationNo: Joi.string()
+        .min(1)
+        .required()
+    });
+
+    const result = Joi.validate(req.body, schema);
+    if (!result.error) {
+      let data = [
+        req.body.PEResponseID,
+        req.body.ApplicationNo,
+        req.body.UserID
+      ];
+
+      con.getConnection(function (err, connection) {
+        if (err) {
+          res.json({
+            success: false,
+            message: err.message
+          });
+        } // not connected!
+        else {
+          let sp = "call SubmitPePreliminaryObjection(?,?,?)";
+          connection.query(sp, data, function (error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "updated",
+                results: results[0]
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+      });
+    } else {
+      res.json({
+        success: false,
+        message: result.error.details[0].message
+      });
+    }
+  }
   if (ID === "SubmitResponse") {
     const schema = Joi.object().keys({
       PEResponseID: Joi.number()

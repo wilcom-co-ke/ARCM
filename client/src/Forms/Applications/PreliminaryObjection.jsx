@@ -8,19 +8,19 @@ import "react-toastify/dist/ReactToastify.css";
 import Modal from 'react-awesome-modal';
 import GoogleDocsViewer from "react-google-docs-viewer";
 var _ = require("lodash");
-class FeesApproval extends Component {
+class PreliminaryObjection extends Component {
     constructor() {
         super();
         this.state = {
             Requests: [],
-            FeesDetails: [] ,
+            FeesDetails: [],
             BankSlips: [],
-            PaymentDetails:[],
+            PaymentDetails: [],
             summary: false,
             openView: false,
             open: false,
             openDocPreview: false,
-            Attachmentname:"",
+            Attachmentname: "",
             Remarks: "",
             IsAccept: false,
             IsDecline: false,
@@ -42,27 +42,26 @@ class FeesApproval extends Component {
             TenderName: "",
             TenderValue: "",
             StartDate: "",
-            CalculatedAAmount:"",
-           
-             Reference:"",
-            TotalPaid:""
+            CalculatedAAmount: "",
+
+            Reference: "",
+            TotalPaid: ""
 
         };
         this.handViewApplication = this.handViewApplication.bind(this)
         this.fetchApplicationtenderdetails = this.fetchApplicationtenderdetails.bind(this);
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this);
-        this.handleviewBankSlip = this.handleviewBankSlip.bind(this);     
+        this.handleviewBankSlip = this.handleviewBankSlip.bind(this);
         this.fetchPendingRequests = this.fetchPendingRequests.bind(this)
     }
     formatNumber = num => {
         let newtot = Number(num).toFixed(2);
         return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };
-    fetchPaymentDetails = ApplicationID => {
+    fetchPaymentDetails = (ApplicationID) => {
         this.setState({ PaymentDetails: [] });
-        this.setState({ TotalPaid: "" });
-
-        fetch("/api/applicationfees/" + ApplicationID + "/PaymentDetails", {
+        this.setState({ TotalPaid: "" });        
+        fetch("/api/applicationfees/" + ApplicationID + "/PreliminaryObjectionsFeesPaymentDetails", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -72,16 +71,17 @@ class FeesApproval extends Component {
             .then(res => res.json())
             .then(PaymentDetails => {
                 if (PaymentDetails.length > 0) {
-
                     this.setState({ TotalPaid: PaymentDetails[0].TotalPaid });
                     this.setState({ PaymentDetails: PaymentDetails });
+                } else {
+                    toast.error(PaymentDetails.message);
                 }
             })
             .catch(err => {
-                toast.error(err.message)
-                //swal("", err.message, "error");
+                toast.error(err.message);
             });
     };
+    
     fetchBankSlips = Applicationno => {
         this.setState({ BankSlips: [] });
         fetch("/api/applicationfees/" + Applicationno + "/Bankslips", {
@@ -94,21 +94,23 @@ class FeesApproval extends Component {
             .then(res => res.json())
             .then(BankSlips => {
                 if (BankSlips.length > 0) {
-                    const UserRoles = [_.groupBy(BankSlips, "Category")];
-                    if (UserRoles[0].ApplicationFees) {
-                        this.setState({ BankSlips: UserRoles[0].ApplicationFees });
+                  
+                    const UserRoles = [_.groupBy(BankSlips, "Category")];  
+                    if (UserRoles[0].PreliminaryObjection) {
+                        this.setState({ BankSlips: UserRoles[0].PreliminaryObjection });
                     }
-                     
+                                 
+                    
                 }
             })
             .catch(err => {
                 toast.error(err.message)
             });
     };
-    fetchFeesDetails = (ApplicationID) => {
+    fetchFeesDetails = () => {
         this.setState({ FeesDetails: [] });
         this.setState({ TotalAmountDue: "" });
-        fetch("/api/FeesApproval/" + ApplicationID+"/1", {
+        fetch("/api/applicationfees/1/PreliminaryObjectionsFees", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -118,21 +120,21 @@ class FeesApproval extends Component {
             .then(res => res.json())
             .then(FeesDetails => {
                 if (FeesDetails.length > 0) {
-                    
                     this.setState({ TotalAmountDue: FeesDetails[0].Total });
                     this.setState({ FeesDetails: FeesDetails });
                 } else {
-                
-                    swal("", FeesDetails.message, "error");
+                    toast.error(FeesDetails.message);
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
             });
     };
+
+  
     fetchPendingRequests = () => {
         this.setState({ Requests: [] });
-        fetch("/api/FeesApproval/" + localStorage.getItem("UserName") , {
+        fetch("/api/FeesApproval/" + localStorage.getItem("UserName") +"/PreliminaryObjectionFees/Value2", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -153,16 +155,16 @@ class FeesApproval extends Component {
             });
     };
     handleSubmit = event => {
-        event.preventDefault();        
+        event.preventDefault();
         const data = {
             Approver: localStorage.getItem("UserName"),
             ApplicationID: this.state.ApplicationID,
             Amount: this.state.TotalPaid,
             Reference: this.state.Reference
-        };            
+        };
 
         this.Approve("/api/FeesApproval", data);
-       
+
     };
     SendSMS(MobileNumber, Msg) {
         let data = {
@@ -193,9 +195,9 @@ class FeesApproval extends Component {
             to: email,
             subject: subject,
             ID: ID,
-            Name: Name,          
-            TotalPaid:this.state.TotalPaid,
-            Reference:this.state.Reference ,
+            Name: Name,
+            TotalPaid: this.state.TotalPaid,
+            Reference: this.state.Reference,
             ApplicationNo: this.state.this.state.Reference
         };
 
@@ -233,7 +235,7 @@ class FeesApproval extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
-    notifyPanelmembers = (AproverMobile, Name, AproverEmail,  Msg) => {                              
+    notifyPanelmembers = (AproverMobile, Name, AproverEmail, Msg) => {
 
         if (Msg === "Complete") {
             this.SendSMS(
@@ -281,17 +283,17 @@ class FeesApproval extends Component {
         })
             .then(response =>
                 response.json().then(data => {
-                    if (data.success) {   
-                        swal("","Approved","success")   
-                        this.setState({ summary: false });  
+                    if (data.success) {
+                        swal("", "Approved", "success")
+                        this.setState({ summary: false });
                         if (data.results.length > 0) {
-                            let NewList = [data.results]  
+                            let NewList = [data.results]
                             NewList[0].map((item, key) =>
 
                                 this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.Msg)
                             )
                         }
-                        this.fetchPendingRequests();                        
+                        this.fetchPendingRequests();
 
                     } else {
                         swal("", data.message, "error");
@@ -301,20 +303,21 @@ class FeesApproval extends Component {
             .catch(err => {
                 swal("", err.message, "error");
             });
-    }   
+    }
     handleviewBankSlip = d => {
         this.setState({
             openDocPreview: true,
-            Attachmentname: d,}) 
+            Attachmentname: d,
+        })
     };
     GoBack = e => {
         e.preventDefault();
         this.setState({ summary: false });
     }
-    ConfirmPayment=e=>{
-          e.preventDefault();        
-        this.setState({ open: true})
-    }   
+    ConfirmPayment = e => {
+        e.preventDefault();
+        this.setState({ open: true })
+    }
 
     componentDidMount() {
         let token = localStorage.getItem("token");
@@ -334,7 +337,7 @@ class FeesApproval extends Component {
                     response.json().then(data => {
                         if (data.success) {
                             this.fetchPendingRequests();
-                           // this.fetchFeesDetails()
+                             this.fetchFeesDetails()
                         } else {
                             localStorage.clear();
                             return (window.location = "/#/Logout");
@@ -360,7 +363,7 @@ class FeesApproval extends Component {
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
                     this.setState({
-                           ApplicantPostalCode: ApplicantDetails[0].PostalCode
+                        ApplicantPostalCode: ApplicantDetails[0].PostalCode
                     });
                     this.setState({ ApplicantPOBox: ApplicantDetails[0].POBox });
                     this.setState({ ApplicantTown: ApplicantDetails[0].Town });
@@ -395,13 +398,13 @@ class FeesApproval extends Component {
             .then(res => res.json())
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
-                   
+
                     this.setState({ TenderType: ApplicantDetails[0].TenderType });
                     this.setState({ TenderSubCategory: ApplicantDetails[0].TenderSubCategory });
                     this.setState({ TenderCategory: ApplicantDetails[0].TenderCategory });
                     this.setState({ Timer: ApplicantDetails[0].Timer });
                     this.setState({ TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc });
-                    
+
                     this.setState({ TenderNo: ApplicantDetails[0].TenderNo });
                     this.setState({ TenderName: ApplicantDetails[0].Name });
                     this.setState({ TenderValue: ApplicantDetails[0].TenderValue });
@@ -417,7 +420,7 @@ class FeesApproval extends Component {
     handViewApplication = k => {
         this.fetchApplicantDetails(k.ApplicantID)
         this.fetchApplicationtenderdetails(k.ID)
-        this.fetchFeesDetails(k.ID)
+        
         this.fetchPaymentDetails(k.ID)
         this.fetchBankSlips(k.ID);
         const data = {
@@ -432,10 +435,10 @@ class FeesApproval extends Component {
             PEWebsite: k.Website,
             IsAccept: false,
             IsDecline: false,
-            ApplicationID: k.ID,         
-            Status: k.FeesStatus,        
+            ApplicationID: k.ID,
+            Status: k.FeesStatus,
         };
-      
+
         this.setState({ summary: true });
         this.setState(data);
 
@@ -451,7 +454,7 @@ class FeesApproval extends Component {
     closeDocPreview = () => {
         this.setState({ openDocPreview: false });
     }
-    
+
     render() {
 
 
@@ -470,8 +473,8 @@ class FeesApproval extends Component {
                 field: "FilingDate",
                 sort: "asc"
             },
-            
-           
+
+
             {
                 label: "Status",
                 field: "Status",
@@ -527,15 +530,15 @@ class FeesApproval extends Component {
                                 <div className="col-sm-12">
                                     <div className="ibox-content">
                                         <form onSubmit={this.handleSubmit}>
-                                         
-                                                <div className=" row">
+
+                                            <div className=" row">
                                                 <div className="col-sm">
                                                     <div className="form-group">
                                                         <label
                                                             htmlFor="exampleInputPassword1"
                                                             className="font-weight-bold"
                                                         >
-                                                            Amount 
+                                                            Amount
                                                          </label>
                                                         <input
                                                             onChange={this.handleInputChange}
@@ -570,7 +573,7 @@ class FeesApproval extends Component {
                                                 </div>
 
                                             </div>
-                                          <div className="col-sm-12 ">
+                                            <div className="col-sm-12 ">
                                                 <div className=" row">
                                                     <div className="col-sm-2" />
                                                     <div className="col-sm-8" />
@@ -607,7 +610,7 @@ class FeesApproval extends Component {
                                                 this.state.Attachmentname
                                             }
                                         />
-                                  </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -629,8 +632,8 @@ class FeesApproval extends Component {
                             &nbsp;&nbsp;
                                 <button className="btn btn-danger " onClick={this.ShowRejectModal} style={{ marginTop: 20 }}>Reject</button>
                             &nbsp;&nbsp; */}
-                            
-                              
+
+
 
                         </div>
 
@@ -658,7 +661,7 @@ class FeesApproval extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> POBOX:</td>
                                             <td>
-                                                   
+
                                                 {this.state.ApplicantPOBox}-{this.state.ApplicantPostalCode}
                                             </td>
                                         </tr>{" "}
@@ -747,7 +750,7 @@ class FeesApproval extends Component {
                                             </td>
                                             <td> {this.state.Timer}</td>
                                         </tr>{" "}
-                                      
+
                                         {this.state.TenderType === "B" ? (
                                             <tr>
                                                 <td className="font-weight-bold"> TenderCategory:</td>
@@ -772,31 +775,30 @@ class FeesApproval extends Component {
                             <div className="col-sm-10">
                                 <h3 style={headingstyle}>Fees Details</h3>
                                 <div className="col-lg-12 border border-success rounded">
-                                    
-                                    <table className="table table-sm ">
-                                        <th>#</th>
-                                        <th>Fees Description</th>
-                                        <th>AmountDue</th>                                       
-                                        {this.state.FeesDetails.map( (k, i)=> {
-                                          
-                                                return (
-                                                    <tr>
-                                                        <td>{+i + +1}</td>
-                                                        <td>{k.EntryType}</td>
-                                                        <td>{this.formatNumber(k.AmountDue)}</td>
-                                                        {/* <td>{k.FeesStatus}</td>
-                                                        <td style={{ color: "#7094db", cursor: "pointer"}} onClick ={ e => ShowAcceptModal(k,e)}>Approve</td> */}
-                                                    </tr>
-                                                );
-                                         
-                                        })}
-                                       
-                                       
+                                    <table className="table table-striped table-sm">
+                                        <thead class="thead-light">
+                                            <th>Description</th>
+                                            <th>Amount</th>                                           
+
+                                        </thead>
+                                        {this.state.FeesDetails.map((r, i) => (
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {r.Description}
+                                                </td>
+
+                                                <td className="font-weight-bold">
+                                                    {this.formatNumber(r.MaxFee)}
+                                                </td>
+                                              
+
+                                            </tr>
+                                        ))}
                                         <tfoot>
                                             <tr>
-                                                <th></th>
+                                               
                                                 <th scope="row">Total Amount</th>
-                                                <th style={{color:"Red"}}>
+                                                <th style={{ color: "Red" }}>
                                                     {this.formatNumber(
                                                         this.state.TotalAmountDue
                                                     )}
@@ -804,44 +806,60 @@ class FeesApproval extends Component {
                                             </tr>
                                         </tfoot>
                                     </table>
+
                                 </div>
                             </div>
                         </div>
-                        <br/>
+                        <br />
                         <div className="row">
                             <div className="col-sm-10">
                                 <h3 style={headingstyle}>Payment Details</h3>
                                 <div className="col-lg-12 border border-success rounded">
-                                    
-                                        <div class="col-sm-8">                                          
-                                            <table class="table table-sm">
-                                                <thead>
+
+                                    <div class="col-sm-11">
+                                        <table class="table table-sm">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">Date paid</th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Refference</th>
+                                                    <th scope="col">Paidby</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.state.PaymentDetails.map((r, i) => (
                                                     <tr>
-                                                        <th scope="col">Date paid</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Refference</th>
-                                                        <th scope="col">Paidby</th>
+
+                                                        <td> {new Date(r.DateOfpayment).toLocaleDateString()} </td>
+
+                                                        <td style={{ color: "Blue" }}>{this.formatNumber(r.AmountPaid)}</td>
+
+                                                        <td>{r.Refference}</td>
+                                                        <td>{r.Paidby}</td>
+
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {this.state.PaymentDetails.map((r, i) => (
-                                                        <tr>
+                                                ))}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
 
-                                                            <td> {new Date(r.DateOfpayment).toLocaleDateString()} </td>
-
-                                                            <td>{this.formatNumber(r.AmountPaid)}</td>
-
-                                                            <td>{r.Refference}</td>
-                                                            <td>{r.Paidby}</td>
-
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                                    <th scope="row">Total Amount paid</th>
+                                                    <th style={{ color: "Red" }}>
+                                                        {this.formatNumber(
+                                                            this.state.TotalPaid
+                                                        )}
+                                                    </th>
+                                                </tr>
+                                            </tfoot>
+                                            
+                                        </table>
                                         <h3 style={headingstyle}>Payment Documents</h3>
                                         <table className="table table-sm">
-                                            <th scope="col">Slip</th>
-                                            <th scope="col">Action</th>
+                                            <thead class="thead-light">
+                                                <th scope="col">Slip</th>
+                                                <th scope="col">Action</th>
+                                            </thead>
+                                          
                                             {this.state.BankSlips.map((r, i) => (
                                                 <tr>
                                                     <td>{r.Name}</td>
@@ -863,15 +881,15 @@ class FeesApproval extends Component {
                                                 </tr>
                                             ))}
                                         </table>
-                                        </div>
-                                    
+                                    </div>
+
 
                                 </div>
                             </div>
                         </div>
                         <br />
                         <div className="row">
-                            
+
                             <div className="col-sm-8"></div>
                             <div className="col-sm-3">
                                 <button
@@ -883,7 +901,7 @@ class FeesApproval extends Component {
                                 </button>
                                 &nbsp;
                                 <button
-                                    type="button"                                  
+                                    type="button"
                                     onClick={this.GoBack}
                                     className="btn btn-warning"
                                 >
@@ -934,4 +952,4 @@ class FeesApproval extends Component {
     }
 }
 
-export default FeesApproval;
+export default PreliminaryObjection;

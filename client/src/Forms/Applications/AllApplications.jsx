@@ -82,6 +82,7 @@ class AllApplications extends Component {
         };
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
         this.Resetsate = this.Resetsate.bind(this);
+        this.fetchAdditionalSubmisions = this.fetchAdditionalSubmisions.bind(this)
     }
     fetchApplicantDetails = (Applicant) => {
         fetch("/api/applicants/" + Applicant, {
@@ -403,6 +404,7 @@ class AllApplications extends Component {
             });
     };
     fetchAdditionalSubmisions = (ApplicationID) => {
+      
         this.setState({
             AdditionalSubmisions: []
         });
@@ -415,7 +417,7 @@ class AllApplications extends Component {
         })
             .then(res => res.json())
             .then(AdditionalSubmisions => {
-
+              
                 if (AdditionalSubmisions.length > 0) {
                     this.setState({
                         AdditionalSubmisions: AdditionalSubmisions

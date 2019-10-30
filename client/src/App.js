@@ -72,6 +72,7 @@ import Attendance from "./Forms/Reports/Attendance";
 import CaseSummary from "./Forms/Reports/CaseSummary";
 import Logout from "./Logout";
 import CloseRegistrations from "./Forms/Applications/CloseRegistrations";
+import PreliminaryObjection from "./Forms/Applications/PreliminaryObjection";
 const checkAuth = () => {
   let token = localStorage.getItem("token");
   if (!token) {
@@ -123,6 +124,11 @@ function App() {
                 <Route exact path="/RB1" component={RB1} />
                 <Route exact path="/Attendance" component={Attendance} />
                 <Route exact path="/FeesApproval" component={FeesApproval} />
+                <Route
+                  exact
+                  path="/PreliminaryObjectionFees"
+                  component={PreliminaryObjection}
+                />
                 <Route
                   exact
                   path="/HearingInprogress"

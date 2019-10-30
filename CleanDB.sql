@@ -46,4 +46,6 @@ TRUNCATE arcm.paymentdetails;
 TRUNCATE arcm.bankslips;
 TRUNCATE arcm.feesapprovalworkflow;
 TRUNCATE arcm.applications_approval_workflow;
+TRUNCATE arcm.additionalsubmissions;
+
 --- TRUNCATE arcm.venues;

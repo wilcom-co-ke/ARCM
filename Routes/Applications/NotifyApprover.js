@@ -7,7 +7,121 @@ var con = mysql.createPool(config);
 
 NotifyApprover.post("/", function(req, res) {
   const ID = req.body.ID;
+  
+  if (ID === "Preliminary Objections Fees Approval") {
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
+      "Payment details for Filling Preliminary Objection response for application: <b>${req.body.ApplicationNo}</b>  has been submited and it's waiting for your review.</b>."          
+    <br></br>
+    This is computer generated message.Please do not reply.`;
+    con.getConnection(function (err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function (error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
 
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.json({
+                success: true,
+                message: "Not Sent"
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "Sent"
+              });
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
+  if (ID === "Notify Applicant on Application Approved") {
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
+      "Application: <b>${req.body.ApplicationNo}</b>  has been APPROVED and Procuring Entity has been notified to respond before <b>${req.body.ResponseTimeout}</b>."          
+    <br></br>
+    This is computer generated message.Please do not reply.`;
+    con.getConnection(function (err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function (error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
+
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.json({
+                success: true,
+                message: "Not Sent"
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "Sent"
+              });
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
   if (ID === "Fee Payment notification") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
       "Fees amount of: <b>${req.body.TotalPaid}</b>  paid for application with Reference <b>${req.body.Reference}</b>  has been confirmed.Application is now marked as paid."
@@ -45,12 +159,7 @@ NotifyApprover.post("/", function(req, res) {
           let mailOptions = {
             to: req.body.to,
             subject: req.body.subject,
-            html: output,
-            attachments: {
-              // use URL as an attachment
-              filename: req.body.AttachmentName,
-              path: req.body.Attachmentpath
-            }
+            html: output
           };
 
           transporter.sendMail(mailOptions, (error, info) => {
@@ -107,12 +216,7 @@ NotifyApprover.post("/", function(req, res) {
           let mailOptions = {
             to: req.body.to,
             subject: req.body.subject,
-            html: output,
-            attachments: {
-              // use URL as an attachment
-              filename: req.body.AttachmentName,
-              path: req.body.Attachmentpath
-            }
+            html: output
           };
 
           transporter.sendMail(mailOptions, (error, info) => {
@@ -169,12 +273,7 @@ NotifyApprover.post("/", function(req, res) {
           let mailOptions = {
             to: req.body.to,
             subject: req.body.subject,
-            html: output,
-            attachments: {
-              // use URL as an attachment
-              filename: req.body.AttachmentName,
-              path: req.body.Attachmentpath
-            }
+            html: output
           };
 
           transporter.sendMail(mailOptions, (error, info) => {
@@ -231,12 +330,7 @@ NotifyApprover.post("/", function(req, res) {
           let mailOptions = {
             to: req.body.to,
             subject: req.body.subject,
-            html: output,
-            attachments: {
-              // use URL as an attachment
-              filename: req.body.AttachmentName,
-              path: req.body.Attachmentpath
-            }
+            html: output
           };
 
           transporter.sendMail(mailOptions, (error, info) => {
@@ -778,7 +872,11 @@ and the process to refund the deposit has been initiated.<br></br>
     });
   }
   if (ID === "Notify PE") {
-    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Application with ApplicationNo: <b>${req.body.ApplicationNo}.</b> Has been submited to PPRA and you are required to Login to ARCMS System to submit your response before the Deadline given.`;
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Application: <b>${req.body.ApplicationNo}.</b>
+     Has been submited to PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD, you are required to Login to ARCMS System to submit your response before 
+     <b>${req.body.ResponseTimeout}</b>.
+      <br></br>
+    This is computer generated message.Please do not reply.`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {
@@ -1170,7 +1268,7 @@ and the process to refund the deposit has been initiated.<br></br>
   }
 
   if (ID == "Approver") {
-    const output = `<p>New Application with APPLICATIONNO :<b>${req.body.ApplicationNo}</b> has been sent and its awaiting your review.</p>`;
+    const output = `<p>New application has been sent and its awaiting your review.</p>`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {

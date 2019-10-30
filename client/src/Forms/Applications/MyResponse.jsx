@@ -766,7 +766,7 @@ class MyResponse extends Component {
             <br />
             {this.state.ResponseStatus === "Submited" ? null : (
               <div className="row">
-                <div className="col-sm-9"></div>
+                <div className="col-sm-8"></div>
                 <div className="col-sm-1">
                   <Link
                     to={{
@@ -779,7 +779,7 @@ class MyResponse extends Component {
                       className="btn btn-primary"
                       style={{ marginTop: 30 }}
                     >
-                      Respond Now
+                      Edit Response 
                     </button>
                   </Link>
 

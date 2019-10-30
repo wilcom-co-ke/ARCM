@@ -146,14 +146,15 @@ class ApplicationsApprovals extends Component {
                     let ApplicationNo = Applicationno;
                     this.SendSMS(
                         AproverMobile,
-                        "You have been selected as case officer for  Application with ApplicationNo:" + ApplicationNo + "."
+                        "You have been selected as case officer for  Application:" + ApplicationNo + "."
                     );
                     this.SendMail(
                         Name,
                         AproverEmail,
                         "OfficerReasinment",
                         "CASE ASIGNMENT",
-                        ApplicationNo
+                        ApplicationNo,
+                        " "
                     );
                 } 
             })
@@ -272,13 +273,14 @@ class ApplicationsApprovals extends Component {
                // swal("", err.message, "error");
             });
     }
-    SendMail = (Name, email, ID, subject, ApplicationNo) => {
+    SendMail = (Name, email, ID, subject, ApplicationNo, ResponseTimeout) => {
         const emaildata = {
             to: email,
             subject: subject,
             ID: ID,
             Name: Name,
-            ApplicationNo: ApplicationNo
+            ApplicationNo: ApplicationNo,
+            ResponseTimeout: ResponseTimeout
         };
 
         fetch("/api/NotifyApprover", {
@@ -294,6 +296,54 @@ class ApplicationsApprovals extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
+    notifyPanelmembers = (AproverMobile, Name, AproverEmail, ApplicationNo, Msg, ResponseTimeout) => {        
+
+        if (Msg == "PE") {
+           
+            this.SendSMS(
+                AproverMobile,
+                "New Application " + ApplicationNo + " has been submited. You are required to Login to ARCMS and respond to it before: " + ResponseTimeout
+            );
+            this.SendMail(
+                Name,
+                AproverEmail,
+                "Notify PE",
+                "REQUEST FOR APPLICATION RESPONSE",
+                ApplicationNo,
+                ResponseTimeout
+            );
+            this.GenerateRb1(ApplicationNo);
+        }  
+        if (Msg == "Applicant") {         
+            this.SendSMS(
+                AproverMobile,
+                "Application " + ApplicationNo + " has been APPROVED and Procuring Entity has been notified to respond to it before: " + ResponseTimeout
+            );
+            this.SendMail(
+                Name,
+                AproverEmail,
+                "Notify Applicant on Application Approved",
+                "APPLICATION APPROVED",
+                ApplicationNo,
+                ResponseTimeout
+            );
+        }
+        if (Msg == "Incomplete") {
+            this.SendSMS(
+                AproverMobile,
+                "Application " + ApplicationNo + " has been partialy approved and it is still waiting for your review to be completed."
+            );
+            this.SendMail(
+                Name,
+                AproverEmail,
+                "Approver",
+                "APPLICATION APPROVAL",
+                ApplicationNo,
+                ResponseTimeout
+            );
+        }
+
+    }
     Approve(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -307,29 +357,13 @@ class ApplicationsApprovals extends Component {
                 response.json().then(data => {                   
 
                     if (data.success) {                   
-                                            
-                        let msg = data.results[0].msg;    
-                                  
-                            if (msg == "Notify PE") {
-                            let AproverEmail = data.results[0].Email;                            
-                            let AproverMobile = data.results[0].Mobile;
-                            let Name = data.results[0].Name;
-                            let ApplicationNo = data.results[0].NewApplicationno;
-                            this.GenerateRb1(ApplicationNo);
-                            this.SendSMS(
-                                AproverMobile,
-                                "New Application with ApplicationNo:" + ApplicationNo + " has been submited. You are required to Login to PPRA ARCMS respond to it before tha deadline given."
-                            );
-                            this.SendMail(
-                                Name,
-                                AproverEmail,
-                                "Notify PE",
-                                "REQUEST FOR APPLICATION RESPONSE",
-                                ApplicationNo
-                            );
-                                this.NotifyCaseOfficer(ApplicationNo)
-                        }                    
-                      
+                        if (data.results.length > 0) {
+                            let NewList = [data.results]
+                            NewList[0].map((item, key) =>                                
+                                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.ApplicationNo, item.Msg, item.ResponseTimeout)
+                            )
+                            this.NotifyCaseOfficer(data.results[0].ApplicationNo) 
+                        }                                         
                         swal("", "Application Approved", "success");
                         this.fetchMyApplications();  
                          
@@ -523,7 +557,7 @@ class ApplicationsApprovals extends Component {
             TenderCategory: k.TenderCategory ,
              Timer: k.Timer,
             TenderTypeDesc: k.TenderTypeDesc ,
-
+            PaymentStatus: k.PaymentStatus,
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
             PETown: k.PETown,
@@ -1001,6 +1035,15 @@ class ApplicationsApprovals extends Component {
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            {this.state.PaymentStatus === "Not Submited" ?
+                                                <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4> : null
+                                            }
+                                            {this.state.PaymentStatus === "Approved" ?
+                                                <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
+                                            }
+                                            {this.state.PaymentStatus === "Submited" ?
+                                                <h4>Fees Status: <span className="text-warning">Payment Pending Confirmation</span> </h4> : null
+                                            }
                                         </div>
                                     </div>
                                 </div>

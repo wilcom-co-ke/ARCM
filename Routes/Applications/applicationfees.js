@@ -30,54 +30,83 @@ applicationfees.get("/", auth.validateRole("Applications"), function(req, res) {
     }
   });
 });
-applicationfees.get(
-  "/:ID/:Value",
-  auth.validateRole("Applications"),
-  function(req, res) {
-    const ID = req.params.ID;
-    const Value=req.params.Value;
-    con.getConnection(function(err, connection) {
-      if (err) {
-        res.json({
-          success: false,
-          message: err.message
+applicationfees.get("/:ID/:Value", auth.validateRole("Applications"), function(
+  req,
+  res
+) {
+  const ID = req.params.ID;
+  const Value = req.params.Value;
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      if (Value === "Bankslips") {
+        let sp = "call GetBankSlips(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
         });
-      } // not connected!
-      else {
-        if (Value ==="Bankslips"){
-          let sp = "call GetBankSlips(?)";
-          connection.query(sp, [ID], function (error, results, fields) {
-            if (error) {
-              res.json({
-                success: false,
-                message: error.message
-              });
-            } else {
-              res.json(results[0]);
-            }
-            connection.release();
-            // Don't use the connection here, it has been returned to the pool.
-          });
-        } if (Value === "PaymentDetails") {
-          let sp = "call GetApplicationPaymentDetails(?)";
-          connection.query(sp, [ID], function (error, results, fields) {
-            if (error) {
-              res.json({
-                success: false,
-                message: error.message
-              });
-            } else {
-              res.json(results[0]);
-            }
-            connection.release();
-            // Don't use the connection here, it has been returned to the pool.
-          });
-        }
-        
       }
-    });
-  }
-);
+      if (Value === "PaymentDetails") {
+        let sp = "call GetApplicationPaymentDetails(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+      if (Value === "PreliminaryObjectionsFeesPaymentDetails") {
+        let sp = "call GetPreliminaryObjectionsFeesPaymentDetails(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+      if (Value === "PreliminaryObjectionsFees") {
+        let sp = "call getPreliminaryObjections()";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    }
+  });
+});
 applicationfees.get("/:ID", auth.validateRole("Applications"), function(
   req,
   res
@@ -160,7 +189,8 @@ applicationfees.post("/:ID", auth.validateRole("Applications"), function(
     req.body.ApplicationID,
     req.body.filename,
     "uploads/BankSlips",
-    res.locals.user
+    res.locals.user,
+    req.body.Category
   ];
   con.getConnection(function(err, connection) {
     if (err) {
@@ -170,7 +200,7 @@ applicationfees.post("/:ID", auth.validateRole("Applications"), function(
       });
     } // not connected!
     else {
-      let sp = "call SaveBankSlip(?,?,?,?)";
+      let sp = "call SaveBankSlip(?,?,?,?,?)";
       connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({
@@ -193,8 +223,8 @@ applicationfees.post(
   "/:ID/:Paymentdetails",
   auth.validateRole("Applications"),
   function(req, res) {
-   
     const schema = Joi.object().keys({
+      Category: Joi.string().required(),
       DateOfpayment: Joi.date().required(),
       AmountPaid: Joi.number().required(),
       Reference: Joi.string().required(),
@@ -211,7 +241,8 @@ applicationfees.post(
         req.body.Reference,
         req.body.DateOfpayment,
         req.body.AmountPaid,
-        res.locals.user
+        res.locals.user,
+        req.body.Category
       ];
       con.getConnection(function(err, connection) {
         if (err) {
@@ -221,7 +252,7 @@ applicationfees.post(
           });
         } // not connected!
         else {
-          let sp = "call SavePaymentdetails(?,?,?,?,?,?)";
+          let sp = "call SavePaymentdetails(?,?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
