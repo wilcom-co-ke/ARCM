@@ -160,7 +160,8 @@ class PreliminaryObjection extends Component {
             Approver: localStorage.getItem("UserName"),
             ApplicationID: this.state.ApplicationID,
             Amount: this.state.TotalPaid,
-            Reference: this.state.Reference
+            Reference: this.state.Reference,
+            Category:"PreliminaryObjectionFees" 
         };
 
         this.Approve("/api/FeesApproval", data);
@@ -198,7 +199,7 @@ class PreliminaryObjection extends Component {
             Name: Name,
             TotalPaid: this.state.TotalPaid,
             Reference: this.state.Reference,
-            ApplicationNo: this.state.this.state.Reference
+            ApplicationNo: this.state.Reference
         };
 
         fetch("/api/NotifyApprover", {
@@ -236,11 +237,11 @@ class PreliminaryObjection extends Component {
             });
     };
     notifyPanelmembers = (AproverMobile, Name, AproverEmail, Msg) => {
-
+     
         if (Msg === "Complete") {
             this.SendSMS(
                 AproverMobile,
-                "Fees amount of: " + this.state.TotalPaid + " paid for application with Reference " + this.state.Reference + " has been confirmed.Application is now marked as paid."
+                "Fees amount of: " + this.state.TotalPaid + " paid for filing Preliminary Objection  has been confirmed.Your response is now marked as paid and submited."
             );
             this.SendMail(
                 Name,
@@ -248,24 +249,13 @@ class PreliminaryObjection extends Component {
                 "Fee Payment notification",
                 "FEES PAYMENT NOTIFICATION"
             );
-        } else if (Msg === "Approver") {
-            this.SendSMS(
-                AproverMobile,
-                "New application with Reference " + this.state.Reference + " has been submited and it's awaiting your review."
-            );
-            this.SendMail(
-                Name,
-                AproverEmail,
-                "Approver",
-                "APPLICATION APPROVAL"
-            );
-        }
+        } 
         else {
             let ID2 = "FeesApprover";
-            let subject2 = "APPLICATION FEES APPROVAL REQUEST";
+            let subject2 = "PRELIMINARY OBJECTION FEES APPROVAL REQUEST";
             this.SendFeesApproverMail(this.state.Reference, AproverEmail, ID2, subject2);
             let applicantMsg =
-                "New request to approve application fees with Reference No:" +
+                "New request to approve Preliminary Objection fees with Reference No:" +
                 this.state.Reference +
                 " has been submited and is awaiting your review";
             this.SendSMS(AproverMobile, applicantMsg);
@@ -283,6 +273,7 @@ class PreliminaryObjection extends Component {
         })
             .then(response =>
                 response.json().then(data => {
+                    
                     if (data.success) {
                         swal("", "Approved", "success")
                         this.setState({ summary: false });
@@ -296,11 +287,13 @@ class PreliminaryObjection extends Component {
                         this.fetchPendingRequests();
 
                     } else {
+                      
                         swal("", data.message, "error");
                     }
                 })
             )
             .catch(err => {
+               
                 swal("", err.message, "error");
             });
     }

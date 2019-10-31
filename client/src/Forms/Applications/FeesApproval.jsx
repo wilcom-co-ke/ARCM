@@ -158,7 +158,8 @@ class FeesApproval extends Component {
             Approver: localStorage.getItem("UserName"),
             ApplicationID: this.state.ApplicationID,
             Amount: this.state.TotalPaid,
-            Reference: this.state.Reference
+            Reference: this.state.Reference,
+             Category: "ApplicationFees" 
         };            
 
         this.Approve("/api/FeesApproval", data);
@@ -189,6 +190,7 @@ class FeesApproval extends Component {
             });
     }
     SendMail = (Name, email, ID, subject) => {
+     
         const emaildata = {
             to: email,
             subject: subject,
@@ -196,9 +198,9 @@ class FeesApproval extends Component {
             Name: Name,          
             TotalPaid:this.state.TotalPaid,
             Reference:this.state.Reference ,
-            ApplicationNo: this.state.this.state.Reference
+            ApplicationNo: this.state.Reference
         };
-
+      
         fetch("/api/NotifyApprover", {
             method: "POST",
             headers: {
@@ -233,12 +235,12 @@ class FeesApproval extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
-    notifyPanelmembers = (AproverMobile, Name, AproverEmail,  Msg) => {                              
-
+    notifyPanelmembers = (AproverMobile, Name, AproverEmail, Msg, TotalPaid, Reference) => {                              
+        
         if (Msg === "Complete") {
             this.SendSMS(
                 AproverMobile,
-                "Fees amount of: " + this.state.TotalPaid + " paid for application with Reference " + this.state.Reference + " has been confirmed.Application is now marked as paid."
+                "Fees amount of: " + TotalPaid + " paid for application with Reference " + Reference + " has been confirmed.Application is now marked as paid."
             );
             this.SendMail(
                 Name,
@@ -249,7 +251,7 @@ class FeesApproval extends Component {
         } else if (Msg === "Approver") {
             this.SendSMS(
                 AproverMobile,
-                "New application with Reference " + this.state.Reference + " has been submited and it's awaiting your review."
+                "New application with Reference " +Reference + " has been submited and it's awaiting your review."
             );
             this.SendMail(
                 Name,
@@ -261,7 +263,7 @@ class FeesApproval extends Component {
         else {
             let ID2 = "FeesApprover";
             let subject2 = "APPLICATION FEES APPROVAL REQUEST";
-            this.SendFeesApproverMail(this.state.Reference, AproverEmail, ID2, subject2);
+            this.SendFeesApproverMail(Reference, AproverEmail, ID2, subject2);
             let applicantMsg =
                 "New request to approve application fees with Reference No:" +
                 this.state.Reference +
@@ -281,24 +283,29 @@ class FeesApproval extends Component {
         })
             .then(response =>
                 response.json().then(data => {
+                    let TotalPaid = this.state.TotalPaid;
+                    let Reference = this.state.Reference
                     if (data.success) {   
                         swal("","Approved","success")   
-                        this.setState({ summary: false });  
+                        
                         if (data.results.length > 0) {
                             let NewList = [data.results]  
                             NewList[0].map((item, key) =>
 
-                                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.Msg)
+                                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.Msg, TotalPaid, Reference)
                             )
                         }
-                        this.fetchPendingRequests();                        
+                        this.fetchPendingRequests();    
+                        this.setState({ summary: false });                      
 
                     } else {
+                      
                         swal("", data.message, "error");
                     }
                 })
             )
             .catch(err => {
+               
                 swal("", err.message, "error");
             });
     }   

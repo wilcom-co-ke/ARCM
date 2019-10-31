@@ -7,7 +7,68 @@ var con = mysql.createPool(config);
 
 NotifyApprover.post("/", function(req, res) {
   const ID = req.body.ID;
-  
+ 
+          
+  if (ID === "New User") {
+    const output = `<p>Dear <b>${req.body.Name}</b>.<br></br>
+      Thank you for Registering with eARCMS. Your User Name is  <b>${req.body.Username}</b> and 
+Password is <b>${req.body.Password}</b>. Remember to reset your password on first login.
+Regards<br></br><br></br>
+ARCMS – System Administrator          
+    <br></br>
+    This is computer generated message.Please do not reply.`;
+    con.getConnection(function (err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function (error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
+
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.json({
+                success: true,
+                message: "Not Sent"
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "Sent"
+              });
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
   if (ID === "Preliminary Objections Fees Approval") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
       "Payment details for Filling Preliminary Objection response for application: <b>${req.body.ApplicationNo}</b>  has been submited and it's waiting for your review.</b>."          
@@ -971,8 +1032,9 @@ and the process to refund the deposit has been initiated.<br></br>
       });
     });
   }
+  
   if (ID === "PanelMember") {
-    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>You have been selected to be in a Panel that will handle Application: <b>${req.body.ApplicationNo}.</b>`;
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>You have been selected to be in a Panel for Application: <b>${req.body.ApplicationNo}.</b>`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {
@@ -1019,9 +1081,58 @@ and the process to refund the deposit has been initiated.<br></br>
       });
     });
   }
+  if (ID === "HEARING SCHEDULING") {
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>Panel List for Application: <b>${req.body.ApplicationNo}</b> 
+    has been approved,You are required to schedule hearing date.`;
+    con.getConnection(function (err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function (error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
+
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(sent);
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
   if (ID === "PanelApprover") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Panel List for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
-   and it's aaiting your reviw.</br>
+   and it's awaiting your reviw.</br>
     </p>`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";

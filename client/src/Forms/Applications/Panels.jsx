@@ -4,6 +4,7 @@ import Select from "react-select";
 import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 var dateFormat = require('dateformat');
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
@@ -125,13 +126,21 @@ class Panels extends Component {
             .then(Users => {
                 if (Users.length > 0) {
                     const GroupedUsers = [_.groupBy(Users, "Category")];
-                    this.setState({ Users: GroupedUsers[0].System_User });
+                    let System_User= GroupedUsers[0].System_User
+                    //const Board = [_.groupBy(Users, "Board")];
+                    const filtereddata = System_User.filter(
+                      
+                        item => item.Board == 1
+                    );
+                   
+                    this.setState({ Users: filtereddata });
                 } else {
-                    swal("", Users.message, "error");
+                    toast.error(Users.message);
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
+             
             });
     };
     fetchRespondedApplications = () => {
@@ -149,11 +158,11 @@ class Panels extends Component {
                   
                     this.setState({ Applications: Applications });
                 } else {
-                    swal("", Applications.message, "error");
-                }
+                    toast.error(Applications.message);
+               }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
             });
     };
     fetchApplicantDetails = (ApplicationNo) => {
@@ -247,10 +256,7 @@ class Panels extends Component {
             });
     };
     sendBulkNtification = (AproverEmail, AproverMobile, Name, ApplicationNo) => {
-        // let AproverEmail = data.results[0].Email;
-        // let AproverMobile = data.results[0].Phone;
-        // let Name = data.results[0].Name;
-        // let ApplicationNo = data.results[0].ApplicationNo;
+    
         this.SendSMS(
             AproverMobile,
             "New Panel List for ApplicationNo:" + ApplicationNo + " has been submited and it's awaiting your review."
@@ -264,34 +270,41 @@ class Panels extends Component {
         );
 
     };
-    subMitPanellist=()=>{
-        
-        fetch("/api/Panels/" + this.state.ApplicationNo, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem("token")
-            }
-        })
-            .then(response =>
-                response.json().then(data => {
-                    if (data.success) {
-                        swal("", "Submited successsfuly", "success");
-                        data.results.map((item, key) =>
-                            this.sendBulkNtification(item.AproverEmail, item.AproverMobile, item.Name, item.ApplicationNo)
-                        );
-                      
-                        this.fetchRespondedApplications();
-                        this.setState({ summary: false });
+    subMitPanellist=()=>{    
+        if (this.state.Panels.length>2){
+            fetch("/api/Panels/" + this.state.ApplicationNo, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": localStorage.getItem("token")
+                }
+            })
+                .then(response =>
+                    response.json().then(data => {
+                        if (data.success) {
+                            if (data.results.length > 0) {
+                                data.results.map((item, key) =>
+                                    this.sendBulkNtification(item.Email, item.Phone, item.Name, item.ApplicationNo)
+                                );
 
-                    } else {
-                        swal("", "Could not be added please try again", "error");
-                    }
-                })
-            )
-            .catch(err => {
-                swal("", "Could not be added please try again", "error");
-            });
+                                this.fetchRespondedApplications();
+                            }
+                            toast.success("Submited successfuly");
+
+                            this.setState({ summary: false });
+
+                        } else {
+                            toast.error("Could not be added please try again");
+                        }
+                    })
+                )
+                .catch(err => {
+                    toast.error("Could not be added please try again");
+                });
+        }else{
+            toast.error("A minimum of 3 board members is allowed")
+        }    
+       
     }
     AddUser=(event)=> {
         event.preventDefault();
@@ -311,16 +324,16 @@ class Panels extends Component {
                 .then(response =>
                     response.json().then(data => {
                         if (data.success) {
-                            swal("", "Added successsfuly", "success");
+                            toast.success("Added successsfuly");
                             this.fetchPanels();
                           
                         } else {
-                            swal("", "Could not be added please try again", "error");
+                            toast.error("Could not be added please try again");
                         }
                     })
                 )
                 .catch(err => {
-                    swal("", "Could not be added please try again", "error");
+                    toast.error("Could not be added please try again");
                 });
       
     }
@@ -425,16 +438,16 @@ class Panels extends Component {
                     .then(response =>
                         response.json().then(data => {
                             if (data.success) {
-                             swal("","Removed successfully","success")
+                                toast.success("Removed successfully")
                                 this.fetchPanels();
                             } else {
-                                swal("", "Remove Failed", "error");
+                                toast.error("Remove Failed");
                                 
                             }
                         })
                     )
                     .catch(err => {
-                        swal("", "Remove Failed", "error");
+                        toast.error("Remove Failed");
                     });
             }
         });
@@ -541,7 +554,8 @@ class Panels extends Component {
         let Removemember = this.Removemember;
         if (this.state.summary) {
         return (
-            <div>              
+            <div>      
+                <ToastContainer/>        
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
                             <ol className="breadcrumb">
@@ -813,6 +827,7 @@ class Panels extends Component {
      }else{
          return(
              <div>
+                 <ToastContainer /> 
                  <div>
                      <div className="row wrapper border-bottom white-bg page-heading">
                          <div className="col-lg-10">

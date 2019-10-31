@@ -388,7 +388,7 @@ PEResponse.put("/:ID/:Value", function(req, res) {
         req.body.UserID
       ];
 
-      con.getConnection(function (err, connection) {
+      con.getConnection(function(err, connection) {
         if (err) {
           res.json({
             success: false,
@@ -397,7 +397,7 @@ PEResponse.put("/:ID/:Value", function(req, res) {
         } // not connected!
         else {
           let sp = "call SubmitPePreliminaryObjection(?,?,?)";
-          connection.query(sp, data, function (error, results, fields) {
+          connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
                 success: false,

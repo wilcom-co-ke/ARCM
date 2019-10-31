@@ -4,7 +4,7 @@ import Select from "react-select";
 import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
-var dateFormat = require('dateformat');
+import { toast, ToastContainer } from "react-toastify";
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
 var _ = require("lodash");
@@ -24,8 +24,6 @@ class PanelApproval extends Component {
             summary: false,
             PanelStatus: "",
             showAdd: false
-
-
         };
         this.FormPanel = this.FormPanel.bind(this)
         this.handleSelectChange = this.handleSelectChange.bind(this)
@@ -124,13 +122,20 @@ class PanelApproval extends Component {
             .then(Users => {
                 if (Users.length > 0) {
                     const GroupedUsers = [_.groupBy(Users, "Category")];
-                    this.setState({ Users: GroupedUsers[0].System_User });
+                    let System_User = GroupedUsers[0].System_User               
+                    const filtereddata = System_User.filter(
+                        item => item.Board == 1
+                    );
+
+                    this.setState({ Users: filtereddata });
                 } else {
-                    swal("", Users.message, "error");
+                    toast.error(Users.message);
+                 
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
+               
             });
     };
     fetchRespondedApplications = () => {
@@ -148,11 +153,12 @@ class PanelApproval extends Component {
 
                     this.setState({ Applications: Applications });
                 } else {
-                    swal("", Applications.message, "error");
+                    toast.error(Applications.message);
+                   
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
             });
     };
     fetchApplicantDetails = (ApplicationNo) => {
@@ -242,21 +248,36 @@ class PanelApproval extends Component {
                 //swal("Oops!", err.message, "error");
             });
     };
-    notifyPanelmembers = (Phone, Name,Email,ApplicationNo)=>{
+    notifyPanelmembers = (Phone, Name, Email, ApplicationNo, Msg)=>{
+        if (Msg ==="Panel"){
             this.SendSMS(
                 Phone,
-                "You have been selected to be in a Panel for Application:" + ApplicationNo+"."
-        )
-        this.SendMail(
-            Name,
-            Email,
-            "PanelMember",
-            "PANEL MEMBERSHIP",
-            ApplicationNo
-        )
+                "You have been selected to be in a Panel for Application:" + ApplicationNo + "."
+            )
+            this.SendMail(
+                Name,
+                Email,
+                "PanelMember",
+                "PANEL MEMBERSHIP",
+                ApplicationNo
+            )
+        }
+        if (Msg === "Case Officer") {
+            this.SendSMS(
+                Phone,
+                "Panel for Application:" + ApplicationNo + " has been approved,You are required to schedule hearing date."
+            )
+            this.SendMail(
+                Name,
+                Email,
+                "HEARING SCHEDULING",
+                "HEARING SCHEDULING",
+                ApplicationNo
+            )
+        }
+           
     }
     subMitPanellist = () => {
-
         fetch("/api/PanelApproval/" + this.state.ApplicationNo, {
             method: "PUT",
             headers: {
@@ -267,48 +288,26 @@ class PanelApproval extends Component {
             .then(response =>
                 response.json().then(data => {
                     if (data.success) {
-                        swal("", "Submited successsfuly", "success");
-                        let msg = data.results[0].msg;                                      
+                        toast.success("Submited successfuly");
+                                                           
                         let NewList = [data.results]                       
-                        if (msg =="Partially Approved"){
-                           
-                            let AproverEmail = data.results[0].Email;                          
-                            let AproverMobile = data.results[0].Phone;
-                            let Name = data.results[0].Name;
-                            let ApplicationNo = data.results[0].ApplicationNo;
-                            this.SendSMS(
-                                AproverMobile,
-                                "New Panel List for ApplicationNo:" + ApplicationNo+" has been submited and it's awaiting your review."
-                            );
-                            this.SendMail(
-                                Name,
-                                AproverEmail,
-                                "PanelApprover",
-                                "PANEL LIST APPROVAL",
-                                ApplicationNo
-                            );
-                        }else{
-                          
-                            NewList[0].map((item, key) =>                           
-                            
-                               this.notifyPanelmembers(item.Phone, item.Name, item.Email, item.ApplicationNo)
+                        if (NewList.length>0){ 
+                            NewList[0].map((item, key) =>                         
+                                this.notifyPanelmembers(item.Phone, item.Name, item.Email, item.ApplicationNo, item.Msg)
                                
                             )
-                        }
-                      
-                     
-
-                        this.fetchRespondedApplications();
+                        }                     
+                       this.fetchRespondedApplications();
                         this.setState({ summary: false });
 
                     } else {
-                        swal("", "Could not be dddc added please try again", "error");
+                        toast.error("Could not be added please try again");
                     }
                 })
             )
             .catch(err => {
          
-                swal("", "Could not be added please try again", "error");
+                toast.error("Could not be added please try again");
             });
     }
     AddUser = (event) => {
@@ -329,16 +328,17 @@ class PanelApproval extends Component {
             .then(response =>
                 response.json().then(data => {
                     if (data.success) {
-                        swal("", "Added successsfuly", "success");
+                        toast.success( "Added successsfuly");
                         this.fetchPanels();
 
                     } else {
-                        swal("", "Could not be added please try again", "error");
+                        toast.error("Could not be added please try again");
                     }
                 })
             )
             .catch(err => {
-                swal("", "Could not be added please try again", "error");
+              
+               
             });
 
     }
@@ -356,11 +356,11 @@ class PanelApproval extends Component {
                 if (Panels.length > 0) {
                     this.setState({ Panels: Panels });
                 } else {
-                    swal("", Panels.message, "error");
+                    toast.error(Panels.message);
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message)
             });
     };
     fetchPanels1 = (ApplicationNo) => {
@@ -443,16 +443,17 @@ class PanelApproval extends Component {
                     .then(response =>
                         response.json().then(data => {
                             if (data.success) {
-                                swal("", "Removed successfully", "success")
+                                toast.success("Removed successfully")
                                 this.fetchPanels();
                             } else {
-                                swal("", "Remove Failed", "error");
+                                toast.error("Remove Failed");
 
                             }
                         })
                     )
                     .catch(err => {
-                        swal("", "Remove Failed", "error");
+                        toast.error("Remove Failed");
+
                     });
             }
         });
@@ -476,16 +477,16 @@ class PanelApproval extends Component {
                     .then(response =>
                         response.json().then(data => {
                             if (data.success) {
-                                swal("", "Approved successfully", "success")
+                                toast.success("Approved successfully")
                                 this.fetchPanels();
                             } else {
-                                swal("", "Approve Failed", "error");
+                                toast.error("Approve Failed");
 
                             }
                         })
                     )
                     .catch(err => {
-                        swal("", "Approve Failed", "error");
+                        toast.error("Approve Failed");
                     });
             }
         });
@@ -591,6 +592,7 @@ class PanelApproval extends Component {
         if (this.state.summary) {
             return (
                 <div>
+                    <ToastContainer/>
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
                             <ol className="breadcrumb">
@@ -868,6 +870,7 @@ class PanelApproval extends Component {
         } else {
             return (
                 <div>
+                    <ToastContainer />
                     <div>
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-10">

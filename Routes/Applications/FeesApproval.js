@@ -90,35 +90,36 @@ FeesApproval.get("/:ID", auth.validateRole("Fees Approval"), function(
     }
   });
 });
-FeesApproval.get("/:ID/:PreliminaryObjectionFees/:Value2", auth.validateRole("Fees Approval"), function (
-  req,
-  res
-) {
-  const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
-    if (err) {
-      res.json({
-        success: false,
-        message: err.message
-      });
-    } // not connected!
-    else {
-      let sp = "call GetPendingPreliminaryObjectionFees(?)";
-      connection.query(sp, [ID], function (error, results, fields) {
-        if (error) {
-          res.json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.json(results[0]);
-        }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
-      });
-    }
-  });
-});
+FeesApproval.get(
+  "/:ID/:PreliminaryObjectionFees/:Value2",
+  auth.validateRole("Fees Approval"),
+  function(req, res) {
+    const ID = req.params.ID;
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call GetPendingPreliminaryObjectionFees(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 FeesApproval.put("/", auth.validateRole("Fees Approval"), function(req, res) {
   const schema = Joi.object().keys({
     Approver: Joi.string()
@@ -176,7 +177,8 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
       .required(),
     ApplicationID: Joi.number().min(1),
     Amount: Joi.number().min(1),
-    Reference: Joi.string().required()
+    Reference: Joi.string().required(),
+    Category: Joi.string().required()
   });
 
   const result = Joi.validate(req.body, schema);
@@ -185,7 +187,8 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
       req.body.Approver,
       req.body.ApplicationID,
       req.body.Amount,
-      req.body.Reference
+      req.body.Reference,
+      req.body.Category
     ];
     con.getConnection(function(err, connection) {
       if (err) {
@@ -195,7 +198,7 @@ FeesApproval.post("/", auth.validateRole("Fees Approval"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call ApproveApplicationFees(?,?,?,?)";
+        let sp = "call ApproveApplicationFees(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

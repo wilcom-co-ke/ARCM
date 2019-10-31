@@ -33,7 +33,7 @@ class Users extends Component {
       open: false,
       RolesPoup: false,
       IsActive: false,
-      Board:false,
+      Board: false,
       isUpdate: false,
       ShowMe: false,
       Roles: [],
@@ -56,7 +56,7 @@ class Users extends Component {
       { title: "Email", dataKey: "Email" },
       { title: "Phone", dataKey: "Phone" },
       { title: "IsActive", dataKey: "IsActive" },
-      { title: "Board", dataKey:"Board"},
+      { title: "Board", dataKey: "Board" },
       { title: "UserGroup", dataKey: "UserGroup" }
     ];
 
@@ -349,7 +349,7 @@ class Users extends Component {
       Phone: Users.Phone,
       UserGroup: Users.UserGroup,
       IsActive: !!+Users.IsActive,
-      Board: !! + Users.Board,
+      Board: !!+Users.Board,
       Photo: Users.Photo,
       Signature: Users.Signature,
       UserGroupID: Users.UserGroupID,
@@ -395,6 +395,53 @@ class Users extends Component {
       }
     });
   };
+  SendSMS(MobileNumber, Msg) {
+    let data = {
+      MobileNumber: MobileNumber,
+      Message: Msg
+    };
+    return fetch("/api/sendsms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  }
+  SendMail = () => {
+    const emaildata = {
+      to: this.state.Email,
+      Name: this.state.Name,
+      subject: "ARCMS REGISTRATION",
+      Username: this.state.Username,
+      Password: this.state.Username,
+      ID: "New User"
+    };
+
+    fetch("/api/NotifyApprover", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(emaildata)
+    })
+      .then(response => response.json().then(data => {}))
+      .catch(err => {
+        //swal("Oops!", err.message, "error");
+      });
+  };
   UpdateData(url = ``, data = {}) {
     fetch(url, {
       method: "PUT",
@@ -432,6 +479,7 @@ class Users extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
+            this.SendMail();
             swal("", "Record has been saved!", "success");
             //this.Resetsate();
             this.fetchUsers();
@@ -993,7 +1041,7 @@ class Users extends Component {
                                     htmlFor="Board"
                                     className="font-weight-bold"
                                   >
-                                    Board 
+                                    Board
                                   </label>
                                 </div>
                               </div>

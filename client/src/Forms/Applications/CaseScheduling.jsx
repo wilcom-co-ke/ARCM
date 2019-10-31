@@ -8,6 +8,7 @@ import Modal from 'react-awesome-modal';
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
 import GoogleDocsViewer from "react-google-docs-viewer";
+import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require('dateformat');
 
 var jsPDF = require("jspdf");
@@ -70,6 +71,7 @@ class CaseScheduling extends Component {
         this.setState({ Unbooking: false });
     }
     fetchBookings = () => {
+        this.setState({ Bookings: [] });
         fetch("/api/CaseScheduling/All/AllBookings", {
             method: "GET",
             headers: {
@@ -344,11 +346,11 @@ class CaseScheduling extends Component {
                 if (casedetails.length > 0) {
                     this.setState({ casedetails: casedetails });
                 } else {
-                    swal("", casedetails.message, "error");
+                   toast.error(casedetails.message);
                 }
             })
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message);
             });
     };
     UpdateSentMails = () => {
@@ -840,12 +842,7 @@ class CaseScheduling extends Component {
                 sort: "asc",
                 width: 200
             },
-            {
-                label: "Responded On",
-                field: "Responsedate",
-                sort: "asc",
-                width: 200
-            },
+           
             {
                 label: "action",
                 field: "action",
@@ -861,7 +858,7 @@ class CaseScheduling extends Component {
                 const Rowdata = {
                     Name: k.ApplicationNo,
                     ProcuringEntity: k.PEName,
-                    Responsedate: dateFormat(new Date(k.ResponseDate).toLocaleDateString(), "isoDate"), 
+              
                     action: (
                         <span>
                             <a
@@ -993,6 +990,7 @@ class CaseScheduling extends Component {
         if (this.state.summary) {
             return (
                 <div>
+                    <ToastContainer />
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
                             <ol className="breadcrumb">
@@ -1410,9 +1408,9 @@ class CaseScheduling extends Component {
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
-                                                        ) : <td style={trstyle} onClick={() => BookRoom("11.00AM", r.Date)}> </td>}
+                                                        ) : <td style={trstyle} onClick={() => BookRoom("10.00AM", r.Date)}> </td>}
                                                         {checkIfBooked("11.00AM", r.Date) ? (
-                                                            <td style={bookedtd} onClick={() => UnBookRoom("8.00AM", r.Date)}>    
+                                                            <td style={bookedtd} onClick={() => UnBookRoom("11.00AM", r.Date)}>    
                                                                 <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("11.00AM", r.Date)}>Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
@@ -1526,6 +1524,7 @@ class CaseScheduling extends Component {
         } else {
             return (
                 <div>
+                    <ToastContainer/>
                     <div>
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-10">
