@@ -533,11 +533,7 @@ class PEApplications extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            {
-                label: "PE",
-                field: "PEName",
-                sort: "asc"
-            },
+   
             {
                 label: "FilingDate",
                 field: "FilingDate",
@@ -583,7 +579,7 @@ class PEApplications extends Component {
                                 {k.TenderName}
                             </a>
                         ),
-                        PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
+                       
                         FilingDate: (
                             <a onClick={e => this.handViewApplication(k, e)}>
                                 {new Date(k.FilingDate).toLocaleDateString()}
@@ -844,7 +840,7 @@ class PEApplications extends Component {
                                                 <td> {this.state.FilingDate}</td>
                                             </tr>
                                             <tr>
-                                                <td className="font-weight-bold">Occurrence of Breach:</td>
+                                                <td className="font-weight-bold">Date of Occurrence of Breach:</td>
                                                 <td> {this.state.AwardDate}</td>
                                             </tr>
                                             

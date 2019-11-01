@@ -86,6 +86,31 @@ casesittingsregister.get("/:ID/:CheckIfOpen", function(req, res) {
     }
   });
 });
+casesittingsregister.get("/:ID/:value2/:AllRegistered", function(req, res) {
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call getAllcasesittingsregister()";
+      connection.query(sp, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json(results[0]);
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 casesittingsregister.post("/", function(req, res) {
   const schema = Joi.object().keys({
     Date: Joi.date().required(),
@@ -152,15 +177,17 @@ casesittingsregister.post(
         .integer()
         .min(1),
       Name: Joi.string()
-        .min(3)
-        .required(),
+              .required(),
       Category: Joi.string()
-        .min(1)
-        .required(),
+              .required(),
       Email: Joi.string().email({ minDomainAtoms: 2 }),
       MobileNo: Joi.number()
         .integer()
-        .min(1)
+        .min(1),
+      Designation: Joi.string()
+          .required(),
+      FirmFrom: Joi.string()
+          .required(),
     });
     const result = Joi.validate(req.body, schema);
     if (!result.error) {
@@ -171,7 +198,9 @@ casesittingsregister.post(
         req.body.MobileNo,
         req.body.Category,
         res.locals.user,
-        req.body.Email
+        req.body.Email,
+        req.body.Designation,
+        req.body.FirmFrom
       ];
 
       con.getConnection(function(err, connection) {
@@ -182,7 +211,7 @@ casesittingsregister.post(
           });
         } // not connected!
         else {
-          let sp = "call selfAttendanceregistration(?,?,?,?,?,?,?)";
+          let sp = "call selfAttendanceregistration(?,?,?,?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({

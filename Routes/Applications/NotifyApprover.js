@@ -7,8 +7,7 @@ var con = mysql.createPool(config);
 
 NotifyApprover.post("/", function(req, res) {
   const ID = req.body.ID;
- 
-          
+
   if (ID === "New User") {
     const output = `<p>Dear <b>${req.body.Name}</b>.<br></br>
       Thank you for Registering with eARCMS. Your User Name is  <b>${req.body.Username}</b> and 
@@ -17,9 +16,9 @@ Regards<br></br><br></br>
 ARCMS – System Administrator          
     <br></br>
     This is computer generated message.Please do not reply.`;
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
-      connection.query(sp, function (error, results, fields) {
+      connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -74,9 +73,9 @@ ARCMS – System Administrator
       "Payment details for Filling Preliminary Objection response for application: <b>${req.body.ApplicationNo}</b>  has been submited and it's waiting for your review.</b>."          
     <br></br>
     This is computer generated message.Please do not reply.`;
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
-      connection.query(sp, function (error, results, fields) {
+      connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -131,9 +130,9 @@ ARCMS – System Administrator
       "Application: <b>${req.body.ApplicationNo}</b>  has been APPROVED and Procuring Entity has been notified to respond before <b>${req.body.ResponseTimeout}</b>."          
     <br></br>
     This is computer generated message.Please do not reply.`;
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
-      connection.query(sp, function (error, results, fields) {
+      connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -784,8 +783,7 @@ ARCMS – System Administrator
   }
   if (ID === "CaseWithdrawalAccepted") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
-     Request to withdraw appeal: <b>${req.body.ApplicationNo}.</b> has been <b>ACCEPTED</b> The Appeal is now marked withdrawn
-and the process to refund the deposit has been initiated.<br></br>
+     Request to withdraw appeal: <b>${req.body.ApplicationNo}.</b> has been <b>ACCEPTED</b>.The Appeal is now marked withdrawn.<br></br>
     This is computer generated message.Please do not reply.`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
@@ -1032,7 +1030,7 @@ and the process to refund the deposit has been initiated.<br></br>
       });
     });
   }
-  
+
   if (ID === "PanelMember") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>You have been selected to be in a Panel for Application: <b>${req.body.ApplicationNo}.</b>`;
     con.getConnection(function(err, connection) {
@@ -1084,9 +1082,9 @@ and the process to refund the deposit has been initiated.<br></br>
   if (ID === "HEARING SCHEDULING") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>Panel List for Application: <b>${req.body.ApplicationNo}</b> 
     has been approved,You are required to schedule hearing date.`;
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
-      connection.query(sp, function (error, results, fields) {
+      connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
             success: false,

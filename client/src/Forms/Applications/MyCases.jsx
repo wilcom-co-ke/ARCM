@@ -329,7 +329,7 @@ class MyCases extends Component {
         this.setState({
             AdditionalSubmisions: []
         });
-        fetch("/api/additionalsubmissions/" + ApplicationID, {
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -381,6 +381,7 @@ class MyCases extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
+            AwardDate: new Date(k.AwardDate).toLocaleDateString(),
             FilingDate: new Date(k.FilingDate).toLocaleDateString(),
             TenderName: k.TenderName,
             Status: k.Status,
@@ -418,11 +419,7 @@ class MyCases extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            {
-                label: "PE",
-                field: "PEName",
-                sort: "asc"
-            },
+           
             {
                 label: "FilingDate",
                 field: "FilingDate",
@@ -604,6 +601,22 @@ class MyCases extends Component {
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-borderless table-sm">
                                         <tr>
+                                            <td className="font-weight-bold"> Application Date:</td>
+                                            <td> {this.state.FilingDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Date of Notification of Award/Occurrence
+of Breach:</td>
+                                            <td> {this.state.AwardDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                Application Timing:
+                        </td>
+                                            <td> {this.state.Timer}</td>
+                                        </tr>{" "}
+                                        <tr>
                                             <td className="font-weight-bold"> TenderNo:</td>
                                             <td> {this.state.TenderNo}</td>
                                         </tr>
@@ -618,17 +631,7 @@ class MyCases extends Component {
                                                 {this.formatNumber(this.state.TenderValue)}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="font-weight-bold"> FilingDate:</td>
-                                            <td> {this.state.FilingDate}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-weight-bold">
-                                                {" "}
-                                                Application Timing:
-                        </td>
-                                            <td> {this.state.Timer}</td>
-                                        </tr>{" "}
+                                     
                                         <tr>
                                             <td className="font-weight-bold"> TenderType:</td>
                                             <td> {this.state.TenderTypeDesc}</td>

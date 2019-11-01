@@ -641,7 +641,37 @@ class DeadlinerequestApproval extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> Opening Date:</td>
                                             <td>{new Date(this.state.StartDate).toLocaleDateString()}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">Date of Notification of Award/Occurrence of Breach: </td>
+                                            <td> {this.state.AwardDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                Application Timing:
+                        </td>
+                                            <td> {this.state.Timer}</td>
                                         </tr>{" "}
+                                        <tr>
+                                            <td className="font-weight-bold"> TenderType:</td>
+                                            <td> {this.state.TenderTypeDesc}</td>
+                                        </tr>
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold"> TenderCategory:</td>
+                                                <td> {this.state.TenderCategory}</td>
+                                            </tr>
+                                        ) : null}{" "}
+                                        {this.state.TenderType === "B" ? (
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    TenderSubCategory:
+                          </td>
+                                                <td> {this.state.TenderSubCategory}</td>
+                                            </tr>
+                                        ) : null}
                                     </table>
                                    </div>
                             </div>

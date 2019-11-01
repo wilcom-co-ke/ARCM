@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import swal from "sweetalert";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require("dateformat");
-//console.log(localStorage.getItem("CompanyData"))
 
 class casesittingsregister extends Component {
   constructor() {
@@ -20,11 +20,14 @@ class casesittingsregister extends Component {
       IdNO: "",
       Email: "",
       Category: "",
-
+      Designation: "",
+      FirmFrom: "",
       summary: "Step 1",
       RegisterID: "",
       registraionisOpen: false,
-      Applications: []
+      Applications: [],
+      casesittingsregister: [],
+      Users: []
     };
     this.handlePublicself = this.handlePublicself.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,34 +46,98 @@ class casesittingsregister extends Component {
       IdNO: "",
       Category: "",
       summary: "Step 1",
-      RegisterID: ""
+      RegisterID: "",
+      Designation: "",
+      FirmFrom: ""
     };
     this.setState(data);
   }
   handleInputChange = event => {
-    // event.preventDefault();
-    // this.setState({ [event.target.name]: event.target.value });
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     this.setState({ [name]: value });
+    if (this.state.summary === "ppra") {
+      if (name === "IdNO") {
+        const filtereddata = this.state.Users.filter(
+          item => item.IDnumber == value
+        );
+        if (filtereddata.length > 0) {
+          this.setState({
+            Name: filtereddata[0].Name,
+            MobileNo: filtereddata[0].Phone,
+            Email: filtereddata[0].Email,
+            Designation: "Staff",
+            FirmFrom: "PPRA"
+          });
+        } else {
+          this.setState({
+            Name: "",
+            MobileNo: "",
+            Email: "",
+            Designation: "Staff",
+            FirmFrom: "PPRA"
+          });
+        }
+      }
+    } else {
+      if (name === "IdNO") {
+        const filtereddata = this.state.casesittingsregister.filter(
+          item => item.IDNO == value
+        );
+        if (filtereddata.length > 0) {
+          this.setState({
+            Name: filtereddata[0].Name,
+            MobileNo: filtereddata[0].MobileNo,
+            Email: filtereddata[0].Email,
+            Designation: filtereddata[0].Designation,
+            FirmFrom: filtereddata[0].FirmFrom
+          });
+        } else {
+          this.setState({
+            Name: "",
+            MobileNo: "",
+            Email: "",
+            Designation: "",
+            FirmFrom: ""
+          });
+        }
+      }
+    }
   };
   handleSelfPublicSubmit = event => {
     event.preventDefault();
-
-    const data = {
-      RegisterID: this.state.RegisterID,
-      Name: this.state.Name,
-      IDNO: this.state.IdNO,
-      MobileNo: this.state.MobileNo,
-      Category: this.state.Category,
-      Email: this.state.Email
-    };
-
-    this.postSelfRegistrationData(
-      "/api/casesittingsregister/SelfRegistration",
-      data
-    );
+    if (this.state.summary === "ppra") {
+      const data = {
+        RegisterID: this.state.RegisterID,
+        Name: this.state.Name,
+        IDNO: this.state.IdNO,
+        MobileNo: this.state.MobileNo,
+        Category: "PPRA",
+        Email: this.state.Email,
+        Designation: "Staff",
+        FirmFrom: "PPRA"
+      };
+      this.postSelfRegistrationData(
+        "/api/casesittingsregister/SelfRegistration",
+        data
+      );
+    } else {
+      const data = {
+        RegisterID: this.state.RegisterID,
+        Name: this.state.Name,
+        IDNO: this.state.IdNO,
+        MobileNo: this.state.MobileNo,
+        Category: this.state.Category,
+        Email: this.state.Email,
+        Designation: this.state.Designation,
+        FirmFrom: this.state.FirmFrom
+      };
+      this.postSelfRegistrationData(
+        "/api/casesittingsregister/SelfRegistration",
+        data
+      );
+    }
   };
   handleSubmit = event => {
     event.preventDefault();
@@ -149,11 +216,31 @@ class casesittingsregister extends Component {
         if (Applications.length > 0) {
           this.setState({ Applications: Applications });
         } else {
-          swal("", Applications.message, "error");
+          toast.error(casesittingsregister.message);
         }
       })
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
+      });
+  };
+  fetchcasesittingsregister = () => {
+    fetch("/api/casesittingsregister/1/1/Attendancelist", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(casesittingsregister => {
+        if (casesittingsregister.length > 0) {
+          this.setState({ casesittingsregister: casesittingsregister });
+        } else {
+          toast.error(casesittingsregister.message);
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
       });
   };
   CheckIfOpen = Applicationno => {
@@ -234,6 +321,26 @@ class casesittingsregister extends Component {
         // swal("Oops!", err.message, "error");
       });
   };
+  fetchUsers = () => {
+    fetch("/api/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(Users => {
+        if (Users.length > 0) {
+          this.setState({ Users: Users });
+        } else {
+          swal("", Users.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
@@ -252,6 +359,8 @@ class casesittingsregister extends Component {
             if (data.success) {
               this.fetchApplications();
               this.fetchCompanyDetails();
+              this.fetchcasesittingsregister();
+              this.fetchUsers();
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -278,16 +387,16 @@ class casesittingsregister extends Component {
   };
   render() {
     let divconatinerstyle = {
-      width: "80%",
+      width: "100%",
       margin: "0 auto",
       backgroundColor: "white"
     };
     let FormStyle = {
-      margin: "20px"
+      margin: "10px"
     };
     let formcontainerStyle = {
       border: "1px solid grey",
-      "border-radius": "10px",
+      borderRadius: "10px",
       width: "80%",
       margin: "0 auto"
     };
@@ -301,7 +410,7 @@ class casesittingsregister extends Component {
       width: 170,
       background: "#a7b1c2",
       margin: 10,
-      "border-radius": 20
+      borderRadius: 20
     };
     const ApplicationOptions = [...this.state.Applications].map((k, i) => {
       return {
@@ -321,6 +430,10 @@ class casesittingsregister extends Component {
       {
         value: "Member of Public",
         label: "Member of Public"
+      },
+      {
+        value: "Press",
+        label: "Press"
       }
     ];
     let CategoryOptions1 = [
@@ -332,6 +445,7 @@ class casesittingsregister extends Component {
     if (this.state.summary === "Step 1") {
       return (
         <div>
+          <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-10">
               <ol className="breadcrumb">
@@ -448,6 +562,7 @@ class casesittingsregister extends Component {
     if (this.state.summary === "Step 2") {
       return (
         <div>
+          <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-10">
               <ol className="breadcrumb">
@@ -493,7 +608,7 @@ class casesittingsregister extends Component {
                   style={{ width: "270px" }}
                   onClick={this.handlePublicself}
                 >
-                  PE,APPELANT,MEMBERS OF PUBLIC
+                  PE,APPELANT,MEMBERS OF PUBLIC,PRESS
                 </button>
                 <br />
                 <br />
@@ -516,6 +631,7 @@ class casesittingsregister extends Component {
     if (this.state.summary === "Public") {
       return (
         <div>
+          <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-10">
               <ol className="breadcrumb">
@@ -546,29 +662,32 @@ class casesittingsregister extends Component {
             <div style={formcontainerStyle}>
               <form style={FormStyle} onSubmit={this.handleSelfPublicSubmit}>
                 <div className="text-center">
-                  <img
+                  {/* <img
                     src={
                       process.env.REACT_APP_BASE_URL +
                       "/profilepics/" +
                       this.state.Logo
                     }
                     style={photostyle}
-                  />
+                  /> */}
                   <h3>CASE NO: {this.state.ApplicationNo}</h3>
 
                   <h3>SELF REGISTRATION </h3>
                   <h3>Date:{this.state.Date}</h3>
                 </div>
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="PEID" className="font-weight-bold">
                       Identification NO{" "}
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <div className="form-group">
                       <input
                         type="number"
                         className="form-control"
                         name="IdNO"
+                        defaultValue={this.state.IdNO}
                         value={this.state.IdNO}
                         onChange={this.handleInputChange}
                         required
@@ -576,25 +695,30 @@ class casesittingsregister extends Component {
                     </div>
                   </div>
 
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="TenderNo" className="font-weight-bold">
                       Name
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <input
                       type="text"
                       name="Name"
+                      value={this.state.Name}
                       required
-                      defaultValue={this.state.Name}
                       onChange={this.handleInputChange}
                       className="form-control"
                     />
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="Branch" className="font-weight-bold">
                       Mobile No
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <input
                       type="number"
                       className="form-control"
@@ -605,10 +729,12 @@ class casesittingsregister extends Component {
                     />
                   </div>
 
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="Venue" className="font-weight-bold">
                       Category{" "}
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <Select
                       name="Category"
                       onChange={this.handleSelectChange}
@@ -618,17 +744,51 @@ class casesittingsregister extends Component {
                   </div>
                 </div>
                 <p></p>
-
                 <div className=" row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="Branch" className="font-weight-bold">
                       Email
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <input
                       type="email"
                       className="form-control"
                       name="Email"
                       value={this.state.Email}
+                      onChange={this.handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div className="col-sm-2">
+                    <label for="Branch" className="font-weight-bold">
+                      Designation
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="Designation"
+                      value={this.state.Designation}
+                      onChange={this.handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+                <p></p>
+                <div className=" row">
+                  <div className="col-sm-2">
+                    <label for="Branch" className="font-weight-bold">
+                      Firm From
+                    </label>
+                  </div>
+                  <div className="col-sm-4">
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="FirmFrom"
+                      value={this.state.FirmFrom}
                       onChange={this.handleInputChange}
                       required
                     />
@@ -654,6 +814,7 @@ class casesittingsregister extends Component {
     if (this.state.summary === "ppra") {
       return (
         <div>
+          <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
             <div className="col-lg-10">
               <ol className="breadcrumb">
@@ -684,29 +845,32 @@ class casesittingsregister extends Component {
             <div style={formcontainerStyle}>
               <form style={FormStyle} onSubmit={this.handleSelfPublicSubmit}>
                 <div className="text-center">
-                  <img
+                  {/* <img
                     src={
                       process.env.REACT_APP_BASE_URL +
                       "/profilepics/" +
                       this.state.Logo
                     }
                     style={photostyle}
-                  />
+                  /> */}
                   <h3>CASE NO: {this.state.ApplicationNo}</h3>
 
                   <h3>SELF REGISTRATION </h3>
                   <h3>Date:{this.state.Date}</h3>
                 </div>
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="PEID" className="font-weight-bold">
                       Identification NO{" "}
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <div className="form-group">
                       <input
                         type="number"
                         className="form-control"
                         name="IdNO"
+                        defaultValue={this.state.IdNO}
                         value={this.state.IdNO}
                         onChange={this.handleInputChange}
                         required
@@ -714,27 +878,32 @@ class casesittingsregister extends Component {
                     </div>
                   </div>
 
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="TenderNo" className="font-weight-bold">
                       Name
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <input
                       type="text"
                       name="Name"
+                      value={this.state.Name}
                       required
-                      defaultValue={this.state.Name}
                       onChange={this.handleInputChange}
                       className="form-control"
                     />
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
                     <label for="Branch" className="font-weight-bold">
                       Mobile No
                     </label>
+                  </div>
+                  <div className="col-sm-4">
                     <input
-                      type="text"
+                      type="number"
                       className="form-control"
                       name="MobileNo"
                       value={this.state.MobileNo}
@@ -743,23 +912,30 @@ class casesittingsregister extends Component {
                     />
                   </div>
 
-                  <div className="col-sm-6">
-                    <label for="Venue" className="font-weight-bold">
-                      Category{" "}
+                  <div className="col-sm-2">
+                    <label for="Branch" className="font-weight-bold">
+                      Email
                     </label>
-                    <Select
-                      name="Category"
-                      onChange={this.handleSelectChange}
-                      options={CategoryOptions1}
+                  </div>
+                  <div className="col-sm-4">
+                    <input
+                      type="email"
+                      className="form-control"
+                      name="Email"
+                      value={this.state.Email}
+                      onChange={this.handleInputChange}
                       required
                     />
                   </div>
                 </div>
+
                 <p></p>
                 <div className=" row">
-                  <div className="col-sm-2" />
-                  <div className="col-sm-8" />
+                  <div className="col-sm-2"></div>
+                  <div className="col-sm-4"></div>
+                  <div className="col-sm-4"></div>
                   <div className="col-sm-2">
+                    <br />
                     <button
                       type="submit"
                       className="btn btn-primary float-right"

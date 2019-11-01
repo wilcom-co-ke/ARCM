@@ -160,6 +160,7 @@ class CaseWithdrawal extends Component {
         this.postData("/api/CaseWithdrawal", data);      
     };
     notifyPanelmembers = (ApproverMail, ApproverMobile, ApproverName) => {
+      
           let applicantMsg =
             "New request to withdrawal appeal:" +
             this.state.ApplicationNo +
@@ -206,6 +207,7 @@ class CaseWithdrawal extends Component {
                             } else {
                                 toast.success("Your request has been submited");
                                 let NewList = [data.results]
+                               
                                 NewList[0].map((item, key) =>
                                     this.notifyPanelmembers(item.Email, item.Phone, item.Name)
                                 )
@@ -361,11 +363,7 @@ class CaseWithdrawal extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            {
-                label: "PE",
-                field: "PEName",
-                sort: "asc"
-            },
+          
             {
                 label: "FilingDate",
                 field: "FilingDate",
@@ -393,7 +391,7 @@ class CaseWithdrawal extends Component {
 
         if (rows.length > 0) {
             rows.map((k, i) => {
-                if (k.Status === "APPROVED") {
+                
                     let Rowdata = {
                         ApplicationNo: (
                             <a onClick={e => this.handViewApplication(k, e)}>
@@ -422,25 +420,26 @@ class CaseWithdrawal extends Component {
                                     
                                     onClick={e => this.handViewApplication(k, e)}
                                 >
-                                    APPROVED
+                                    {k.Status}
                 </b>
                             </span>
                         ),
 
                         action: (
-                            <span>
-                                <a
-                                    style={{ color: "#007bff" }}
-                                    onClick={e => this.handViewApplication(k, e)}
-                                >
-                                    {" "}
-                                    WITHDRAW{" "}
-                                </a>
-                            </span>
+                            k.Status ==="WITHDRAWN"?
+                                <p>-</p> : <span>
+                                    <a
+                                        style={{ color: "#007bff" }}
+                                        onClick={e => this.handViewApplication(k, e)}
+                                    >
+                                        {" "}
+                                        WITHDRAW{" "}
+                                    </a>
+                                </span>
                         )
                     };
                     Rowdata1.push(Rowdata);
-                }
+                
             });
         }
    

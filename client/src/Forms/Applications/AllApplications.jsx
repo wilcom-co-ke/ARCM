@@ -58,7 +58,7 @@ class AllApplications extends Component {
             ApplicationNo: "",
             openView: false,
             GroundNO: "",
-           
+            AwardDate:"",
             ApplicantLocation: "",
             ApplicantMobile: "",
             ApplicantEmail: "",
@@ -359,13 +359,13 @@ class AllApplications extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
-            FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "isoDate"),
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
             StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
             ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate"),
-
+            AwardDate: dateFormat(new Date(k.AwardDate).toLocaleDateString(), "isoDate"),
              TenderType: k.TenderType,
             TenderSubCategory: k.TenderSubCategory,
             TenderTypeDesc: k.TenderTypeDesc,
@@ -403,12 +403,11 @@ class AllApplications extends Component {
                 toast.error(err.message);
             });
     };
-    fetchAdditionalSubmisions = (ApplicationID) => {
-      
+    fetchAdditionalSubmisions = (ApplicationID) => {      
         this.setState({
             AdditionalSubmisions: []
         });
-        fetch("/api/additionalsubmissions/" + ApplicationID, {
+        fetch("/api/additionalsubmissions/" + ApplicationID +"/Applicant", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -451,12 +450,7 @@ class AllApplications extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            {
-                label: "PE",
-                field: "PEName",
-                sort: "asc"
-            },
-            {
+             {
                 label: "FilingDate",
                 field: "FilingDate",
                 sort: "asc"
@@ -649,6 +643,23 @@ class AllApplications extends Component {
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-borderless table-sm">
                                         <tr>
+                                            <td className="font-weight-bold"> Application Date:</td>
+                                            <td> {this.state.FilingDate}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="font-weight-bold"> Date of Notification of Award/Occurrence
+of Breach:</td>
+                                            <td> {this.state.AwardDate}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td className="font-weight-bold">
+                                                {" "}
+                                                Application Timing:
+                        </td>
+                                            <td> {this.state.Timer}</td>
+                                        </tr>{" "}
+                                        <tr>
                                             <td className="font-weight-bold"> TenderNo:</td>
                                             <td> {this.state.TenderNo}</td>
                                         </tr>
@@ -663,17 +674,7 @@ class AllApplications extends Component {
                                                 {this.formatNumber(this.state.TenderValue)}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="font-weight-bold"> FilingDate:</td>
-                                            <td> {this.state.FilingDate}</td>
-                                        </tr>
-                                        <tr>
-                                            <td className="font-weight-bold">
-                                                {" "}
-                                                Application Timing:
-                        </td>
-                                            <td> {this.state.Timer}</td>
-                                        </tr>{" "}
+                                  
                                         <tr>
                                             <td className="font-weight-bold"> TenderType:</td>
                                             <td> {this.state.TenderTypeDesc}</td>

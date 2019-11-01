@@ -4,6 +4,7 @@ import SortableTree from "react-sortable-tree";
 import "react-sortable-tree/style.css";
 import { Link } from "react-router-dom";
 import Modal from "react-awesome-modal";
+import { toast, ToastContainer } from "react-toastify";
 var _ = require("lodash");
 class NewApprovers extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class NewApprovers extends Component {
       treeData: [],
       Approvers: [],
       Users: [],
+      Modules: [],
       UserName: "",
       Module: "",
       ModuleName: "",
@@ -30,9 +32,17 @@ class NewApprovers extends Component {
 
   openModal = () => {
     if (this.state.Module) {
-      this.setState({ open: true });
+      var rows = [...this.state.Modules];
+      const filtereddata = rows.filter(
+        item => item.ModuleCode == this.state.Module
+      );
+
+      this.setState({
+        open: true,
+        MaximumApprovers: filtereddata[0].MaxApprovals
+      });
     } else {
-      swal("", "Select Approval Module to continue", "error");
+      toast.error("Select Approval Module to continue");
     }
   };
   closeModal = () => {
@@ -124,6 +134,7 @@ class NewApprovers extends Component {
       .then(res => res.json())
       .then(Modules => {
         if (Modules.length > 0) {
+          this.setState({ Modules: Modules });
           let Application = [];
           let Fees = [];
           let Case = [];
@@ -194,11 +205,11 @@ class NewApprovers extends Component {
 
           this.setState({ treeData: treeData });
         } else {
-          swal("", Modules.message, "error");
+          toast.error(Modules.message);
         }
       })
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
       });
   };
   fetchUsers = () => {
@@ -215,11 +226,11 @@ class NewApprovers extends Component {
           const GroupedUsers = [_.groupBy(Users, "Category")];
           this.setState({ Users: GroupedUsers[0].System_User });
         } else {
-          swal("", Users.message, "error");
+          toast.error(Users.message);
         }
       })
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
       });
   };
   fetchApprovers = () => {
@@ -233,14 +244,15 @@ class NewApprovers extends Component {
       .then(res => res.json())
       .then(Approvers => {
         if (Approvers.length > 0) {
+          //console.log(Approvers);
           this.setState({ Approvers: Approvers });
           // ModuleApproves
         } else {
-          swal("", Approvers.message, "error");
+          toast.error(Approvers.message);
         }
       })
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
       });
   };
   componentDidMount() {
@@ -297,14 +309,14 @@ class NewApprovers extends Component {
           this.fetchApprovers();
 
           if (data.success) {
-            swal("", "Record has been saved!", "success");
+            toast.success("Record has been saved!");
           } else {
-            swal("", "Could not be added", "error");
+            toast.error("Could not be added");
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+        toast.error(err.message);
       });
   }
   postData(url = ``, data = {}) {
@@ -381,6 +393,7 @@ class NewApprovers extends Component {
     let handleCheckBoxChange = this.handleCheckBoxChange;
     return (
       <div>
+        <ToastContainer />
         <div className="row wrapper border-bottom white-bg page-heading">
           <div className="col-lg-11">
             <ol className="breadcrumb">
@@ -496,7 +509,7 @@ class NewApprovers extends Component {
             </h4>
             <div className="container-fluid">
               <div className="col-sm-12">
-                <div className="ibox-content">
+                <div style={{ "overflow-y": "scroll", height: "400px" }}>
                   <form onSubmit={this.handleSubmit}>
                     <div className=" row">
                       <div className="col-sm">
@@ -592,6 +605,7 @@ class NewApprovers extends Component {
                               <input
                                 style={{ width: "70px" }}
                                 type="number"
+                                value={this.state.MaximumApprovers}
                                 name="MaximumApprovers"
                                 onChange={this.handleInputChange}
                                 required

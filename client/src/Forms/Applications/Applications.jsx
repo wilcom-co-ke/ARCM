@@ -277,21 +277,17 @@ class Applications extends Component {
       .then(ApplicantDetails => {
         if (ApplicantDetails.length > 0) {
           this.setState({
-            ApplicantPostalCode: ApplicantDetails[0].PostalCode
-          });
-          this.setState({ ApplicantPOBox: ApplicantDetails[0].POBox });
-          this.setState({ ApplicantTown: ApplicantDetails[0].Town });
-
-          this.setState({ ApplicantDetails: ApplicantDetails });
-          this.setState({ Applicantname: ApplicantDetails[0].Name });
-
-          this.setState({ ApplicantLocation: ApplicantDetails[0].Location });
-          this.setState({ ApplicantMobile: ApplicantDetails[0].Mobile });
-          this.setState({ ApplicantEmail: ApplicantDetails[0].Email });
-          this.setState({ ApplicantPIN: ApplicantDetails[0].PIN });
-          this.setState({ ApplicantWebsite: ApplicantDetails[0].Website });
-
-          this.setState({ ApplicantID: ApplicantDetails[0].ID });
+            ApplicantPostalCode: ApplicantDetails[0].PostalCode,          
+            ApplicantPOBox: ApplicantDetails[0].POBox ,
+            ApplicantTown: ApplicantDetails[0].Town ,
+            ApplicantDetails: ApplicantDetails ,
+            Applicantname: ApplicantDetails[0].Name ,
+            ApplicantLocation: ApplicantDetails[0].Location ,
+            ApplicantMobile: ApplicantDetails[0].Mobile,
+            ApplicantEmail: ApplicantDetails[0].Email,
+            ApplicantPIN: ApplicantDetails[0].PIN ,
+            ApplicantWebsite: ApplicantDetails[0].Website ,
+            ApplicantID: ApplicantDetails[0].ID });
           this.fetchMyApplications(ApplicantDetails[0].ID);
         } else {
           swal("", ApplicantDetails.message, "error");
@@ -843,7 +839,7 @@ class Applications extends Component {
     this.setState({
       AdditionalSubmisions: []
     });
-    fetch("/api/additionalsubmissions/" + ApplicationID, {
+    fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1862,11 +1858,7 @@ class Applications extends Component {
         field: "TenderName",
         sort: "asc"
       },
-      {
-        label: "PE",
-        field: "PEName",
-        sort: "asc"
-      },
+      
       {
         label: "FilingDate",
         field: "FilingDate",
@@ -2119,7 +2111,7 @@ class Applications extends Component {
                         <td> {this.state.FilingDate}</td>
                       </tr>
                       <tr>
-                        <td className="font-weight-bold"> Occurrence of Breach:</td>
+                        <td className="font-weight-bold">Date of Notification of Award/Occurrence of Breach: </td>
                         <td> {this.state.AwardDate}</td>
                       </tr>
                       <tr>

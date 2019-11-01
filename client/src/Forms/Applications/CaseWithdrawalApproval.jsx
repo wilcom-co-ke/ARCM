@@ -5,7 +5,7 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
-
+var dateFormat = require("dateformat");
 class CaseWithdrawalApproval extends Component {
     constructor() {
         super();
@@ -20,11 +20,13 @@ class CaseWithdrawalApproval extends Component {
             FilingDate: ""  ,    
             summary: false,       
             ApplicantDetails: [],          
-            ApplicationNo: "",         
+            ApplicationNo: "",     
+            AwardDate:"",    
              WithdrawalReason: "",
             Approve:false,
             Decline:false,
-            ApprovalRemarks:""
+            ApprovalRemarks:"",
+            WithdrawalDate:""
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.fetchPEDetails = this.fetchPEDetails.bind(this)
@@ -115,15 +117,17 @@ class CaseWithdrawalApproval extends Component {
             .then(res => res.json())
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
-
-                    this.setState({ TenderNo: ApplicantDetails[0].TenderNo });
-                    this.setState({ TenderName: ApplicantDetails[0].Name });
-                    this.setState({ TenderValue: ApplicantDetails[0].TenderValue });
-                    this.setState({ FilingDate: ApplicantDetails[0].FilingDate });
-                    this.setState({ Timer: ApplicantDetails[0].Timer });
-                    this.setState({ TenderCategory: ApplicantDetails[0].TenderCategory });
-                    this.setState({ TenderSubCategory: ApplicantDetails[0].TenderSubCategory });
-                    this.setState({ TenderType: ApplicantDetails[0].TenderType });
+                    
+                    this.setState({
+                        AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "isoDate"),
+                        TenderNo: ApplicantDetails[0].TenderNo ,
+                   TenderName: ApplicantDetails[0].Name ,
+                    TenderValue: ApplicantDetails[0].TenderValue ,
+                    FilingDate: ApplicantDetails[0].FilingDate ,
+                     Timer: ApplicantDetails[0].Timer ,
+                     TenderCategory: ApplicantDetails[0].TenderCategory ,
+                     TenderSubCategory: ApplicantDetails[0].TenderSubCategory ,
+                     TenderType: ApplicantDetails[0].TenderType });
 
                 } else {
                     swal("", ApplicantDetails.message, "error");
@@ -437,9 +441,9 @@ class CaseWithdrawalApproval extends Component {
         this.fetchApplicantDetails(k.ApplicationNo);
         this.fetchPEDetails(k.ApplicationNo);
         this.fetchApplicationtenderdetails(k.ApplicationNo)
-        this.setState({ summary: true });
-        this.setState({ WithdrawalReason: k.Reason });
-        this.setState({ ApplicationNo: k.ApplicationNo });       
+        
+        this.setState({ WithdrawalReason: k.Reason, WithdrawalDate: k.Created_At, ApplicationNo: k.ApplicationNo, summary: true });
+        
 
     };
     SendMail = (ApplicationNo, email, ID, subject1, Name) => {
@@ -637,21 +641,15 @@ class CaseWithdrawalApproval extends Component {
                                                 </div>
                                                 <div className="col-sm-12 ">
                                                     <div className=" row">
-                                                        <div className="col-sm-2" />
-                                                        <div className="col-sm-8" />
+                                                        
+                                                        <div className="col-sm-10" />
                                                         <div className="col-sm-2">
-                                                            {this.state.Unbooking ? (<button
-                                                                type="button"
-                                                                className="btn btn-warning float-left"
-                                                                onClick={this.HandleUnbook}
-                                                            >
-                                                                RELEASE
-                                                         </button>) : <button
+                                                           <button
                                                                     type="submit"
                                                                     className="btn btn-primary float-left"
                                                                 >
                                                                     CONFIRM
-                                                        </button>}
+                                                        </button>
 
                                                         </div>
                                                     </div>
@@ -673,6 +671,10 @@ class CaseWithdrawalApproval extends Component {
                                         <span className="font-weight-bold text-success">
                                             {" "}
                                             {this.state.ApplicationNo}
+                                        </span>
+                                        &nbsp;&nbsp; &nbsp; &nbsp;
+                                        <span>
+                                           withdrawal Submited on: {dateFormat(new Date(this.state.WithdrawalDate).toLocaleDateString(), "isoDate")}
                                         </span>
                                     </h2>
                                 </li>
@@ -815,6 +817,11 @@ class CaseWithdrawalApproval extends Component {
                                             <td> {this.state.FilingDate}</td>
                                         </tr>
                                         <tr>
+                                            <td className="font-weight-bold"> Date of Notification of Award/Occurrence
+of Breach:</td>
+                                            <td> {this.state.AwardDate}</td>
+                                        </tr>
+                                        <tr>
                                             <td className="font-weight-bold">
                                                 {" "}
                                                 Application Timing:
@@ -848,6 +855,7 @@ class CaseWithdrawalApproval extends Component {
                             <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Reason for withdrawal</h3>
                                 <div className="col-lg-11 border border-success rounded">
+                             
                                     <p>{this.state.WithdrawalReason}</p>
 
                                 </div>

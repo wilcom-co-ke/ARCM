@@ -46,6 +46,7 @@ import PanelApproval from "./Forms/Applications/PanelApproval";
 import HearingInprogress from "./Forms/Applications/HearingInprogress";
 import CaseProceedings from "./Forms/Applications/CaseProceedings";
 //applications
+import PEadditionalsubmissions from "./Forms/Applications/PEadditionalsubmissions";
 import additionalsubmissions from "./Forms/Applications/additionalsubmissions";
 import FeesApproval from "./Forms/Applications/FeesApproval";
 import Applications from "./Forms/Applications/Applications";
@@ -283,6 +284,11 @@ function App() {
                     exact
                     path="/PEApplications"
                     component={PEApplications}
+                  />
+                  <Route
+                    exact
+                    path="/PEadditionalsubmissions"
+                    component={PEadditionalsubmissions}
                   />
                   <Route
                     exact

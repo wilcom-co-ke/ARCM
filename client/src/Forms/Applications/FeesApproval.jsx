@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Modal from 'react-awesome-modal';
 import GoogleDocsViewer from "react-google-docs-viewer";
 var _ = require("lodash");
+var dateFormat = require("dateformat");
 class FeesApproval extends Component {
     constructor() {
         super();
@@ -27,6 +28,7 @@ class FeesApproval extends Component {
             NewDeadLine: "",
             FilingDate: "",
             PE: "",
+            AwardDate:"",
             PEPOBox: "",
             PELocation: "",
             PETown: "",
@@ -403,16 +405,16 @@ class FeesApproval extends Component {
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
                    
-                    this.setState({ TenderType: ApplicantDetails[0].TenderType });
-                    this.setState({ TenderSubCategory: ApplicantDetails[0].TenderSubCategory });
-                    this.setState({ TenderCategory: ApplicantDetails[0].TenderCategory });
-                    this.setState({ Timer: ApplicantDetails[0].Timer });
-                    this.setState({ TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc });
-                    
-                    this.setState({ TenderNo: ApplicantDetails[0].TenderNo });
-                    this.setState({ TenderName: ApplicantDetails[0].Name });
-                    this.setState({ TenderValue: ApplicantDetails[0].TenderValue });
-                    this.setState({ StartDate: ApplicantDetails[0].StartDate });
+                    this.setState({ TenderType: ApplicantDetails[0].TenderType ,
+                     TenderSubCategory: ApplicantDetails[0].TenderSubCategory ,
+                    TenderCategory: ApplicantDetails[0].TenderCategory ,
+                    Timer: ApplicantDetails[0].Timer ,
+                        AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "isoDate"),
+                     TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc ,                    
+                     TenderNo: ApplicantDetails[0].TenderNo,
+                     TenderName: ApplicantDetails[0].Name ,
+                    TenderValue: ApplicantDetails[0].TenderValue ,
+                     StartDate: ApplicantDetails[0].StartDate });
                 } else {
                     swal("", ApplicantDetails.message, "error");
                 }
@@ -428,7 +430,7 @@ class FeesApproval extends Component {
         this.fetchPaymentDetails(k.ID)
         this.fetchBankSlips(k.ID);
         const data = {
-            FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "isoDate"), 
             PE: k.Name,
             PEPOBox: k.POBox,
             PELocation: k.Location,
@@ -743,9 +745,19 @@ class FeesApproval extends Component {
                                                 {this.formatNumber(this.state.TenderValue)}
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td className="font-weight-bold"> Opening Date:</td>
+                                        {/* <tr>
+                                            <td className="font-weight-bold">Opening Date:</td>
                                             <td>{new Date(this.state.StartDate).toLocaleDateString()}</td>
+                                        </tr> */}
+                                        <tr>
+                                            <td className="font-weight-bold">Application Date:</td>
+                                            <td>{this.state.FilingDate}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td className="font-weight-bold"> Date of Notification of Award/Occurrence
+of Breach:</td>
+                                            <td> {this.state.AwardDate}</td>
                                         </tr>
                                         <tr>
                                             <td className="font-weight-bold">

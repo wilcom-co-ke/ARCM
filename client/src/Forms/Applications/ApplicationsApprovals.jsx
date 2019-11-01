@@ -556,6 +556,7 @@ class ApplicationsApprovals extends Component {
             TenderSubCategory: k.TenderSubCategory ,
             TenderCategory: k.TenderCategory ,
              Timer: k.Timer,
+            AwardDate:new Date(k.AwardDate).toLocaleDateString(),
             TenderTypeDesc: k.TenderTypeDesc ,
             PaymentStatus: k.PaymentStatus,
             PEPOBox: k.PEPOBox,
@@ -612,11 +613,7 @@ class ApplicationsApprovals extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            {
-                label: "PE",
-                field: "PEName",
-                sort: "asc"
-            },
+          
             {
                 label: "FilingDate",
                 field: "FilingDate",
@@ -645,8 +642,7 @@ class ApplicationsApprovals extends Component {
             rows.map((k, i) => {
                 let Rowdata = {
                     ApplicationNo: k.ApplicationNo,
-                    TenderName: k.TenderName,
-                    PE: k.PEName,
+                    TenderName: k.TenderName,                   
                     FilingDate: new Date(k.FilingDate).toLocaleDateString(),
                     ApplicationREf: k.ApplicationREf,
                     Status: k.Status,
@@ -858,6 +854,22 @@ class ApplicationsApprovals extends Component {
                                     <div className="col-lg-11 border border-success rounded">
                                         <table className="table table-borderless table-sm">
                                             <tr>
+                                                <td className="font-weight-bold"> Application Date:</td>
+                                                <td> {this.state.FilingDate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-weight-bold"> Date of Notification of Award/Occurrence
+                                                    of Breach:</td>
+                                                <td> {this.state.AwardDate}</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="font-weight-bold">
+                                                    {" "}
+                                                    Application Timing:
+                                            </td>
+                                                <td> {this.state.Timer}</td>
+                                            </tr>{" "}
+                                            <tr>
                                                 <td className="font-weight-bold"> TenderNo:</td>
                                                 <td> {this.state.TenderNo}</td>
                                             </tr>
@@ -872,17 +884,8 @@ class ApplicationsApprovals extends Component {
                                                     {this.formatNumber(this.state.TenderValue)}
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td className="font-weight-bold"> FilingDate:</td>
-                                                <td> {this.state.FilingDate}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="font-weight-bold">
-                                                    {" "}
-                                                    Application Timing:
-                                            </td>
-                                                <td> {this.state.Timer}</td>
-                                            </tr>{" "}
+                                          
+                                           
 
                                             {this.state.TenderType === "B" ? (
                                                 <tr>

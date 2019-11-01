@@ -13,7 +13,7 @@ import ReactHtmlParser from "react-html-parser";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 var dateFormat = require("dateformat");
-class additionalsubmissions extends Component {
+class PEadditionalsubmissions extends Component {
     constructor() {
         super();
         this.state = {
@@ -23,15 +23,15 @@ class additionalsubmissions extends Component {
             ApplicantPhone: data.Phone,
             ApplicantUserName: data.Name,
             Applications: [],
-            AdditionalSubmisions:[],
+            AdditionalSubmisions: [],
             TenderNo: "",
-            ApplicationID:"",
+            ApplicationID: "",
             TenderID: "",
             TenderValue: "",
             ApplicationID: "",
             TenderName: "",
             PEID: "",
-            AwardDate:"",
+            AwardDate: "",
             StartDate: "",
             ClosingDate: "",
             ApplicationREf: "",
@@ -40,7 +40,7 @@ class additionalsubmissions extends Component {
             RequestDescription: "",
             GroundDescription: "",
             summary: false,
-            AdditionalDescription:"",
+            AdditionalDescription: "",
             ApplicantDetails: [],
             ApplicantCode: "",
             Applicantname: "",
@@ -62,21 +62,20 @@ class additionalsubmissions extends Component {
             PEEmail: "",
             PEWebsite: "",
             TotalAmountdue: "",
-            UploadedFilename:"",
+            UploadedFilename: "",
             ApplicantPostalCode: "",
             ApplicantPOBox: "",
             ApplicantTown: "",
             WithdrawalReason: ""
         };
-       
+
     }
     closeModal = () => {
         this.setState({ open: false });
     };
 
-    fetchMyApplications = ApplicantID => {     
-       
-        fetch("/api/applications/" + ApplicantID + "/Applicant", {
+    fetchMyApplications = () => {
+        fetch("/api/applications/" + localStorage.getItem("UserName") + "/PE", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -95,47 +94,50 @@ class additionalsubmissions extends Component {
                 swal("", err.message, "error");
             });
     };
-    fetchApplicantDetails = () => {
-        fetch("/api/applicants/" + localStorage.getItem("UserName"), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem("token")
-            }
-        })
-            .then(res => res.json())
-            .then(ApplicantDetails => {
 
-                if (ApplicantDetails.length > 0) {
-                    this.setState({
-                        ApplicantPostalCode: ApplicantDetails[0].PostalCode
-                    });
-                    this.setState({
-                    ApplicantCode: ApplicantDetails[0].ApplicantCode,
-                    ApplicantPOBox: ApplicantDetails[0].POBox ,
-                     ApplicantTown: ApplicantDetails[0].Town ,
-                     ApplicantDetails: ApplicantDetails ,
-                     Applicantname: ApplicantDetails[0].Name ,
-                     ApplicantLocation: ApplicantDetails[0].Location ,
-                     ApplicantMobile: ApplicantDetails[0].Mobile ,
-                     ApplicantEmail: ApplicantDetails[0].Email ,
-                     ApplicantPIN: ApplicantDetails[0].PIN ,
-                     ApplicantWebsite: ApplicantDetails[0].Website ,
-                     ApplicantID: ApplicantDetails[0].ID });
-                    this.fetchMyApplications(ApplicantDetails[0].ID);
-                } else {
-                    swal("", ApplicantDetails.message, "error");
-                }
-            })
-            .catch(err => {
-                swal("", err.message, "error");
-            });
-    };
+
+
+    // fetchApplicantDetails = () => {
+    //     fetch("/api/applicants/" + localStorage.getItem("UserName"), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "x-access-token": localStorage.getItem("token")
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(ApplicantDetails => {
+
+    //             if (ApplicantDetails.length > 0) {
+    //                 this.setState({
+    //                     ApplicantPostalCode: ApplicantDetails[0].PostalCode
+    //                 });
+    //                 this.setState({
+    //                 ApplicantCode: ApplicantDetails[0].ApplicantCode,
+    //                 ApplicantPOBox: ApplicantDetails[0].POBox ,
+    //                 ApplicantTown: ApplicantDetails[0].Town ,
+    //                 ApplicantDetails: ApplicantDetails ,
+    //                 Applicantname: ApplicantDetails[0].Name ,
+    //                 ApplicantLocation: ApplicantDetails[0].Location ,
+    //                 ApplicantMobile: ApplicantDetails[0].Mobile ,
+    //                 ApplicantEmail: ApplicantDetails[0].Email ,
+    //                 ApplicantPIN: ApplicantDetails[0].PIN ,
+    //                 ApplicantWebsite: ApplicantDetails[0].Website ,
+    //                 ApplicantID: ApplicantDetails[0].ID });
+                   
+    //             } else {
+    //                 swal("", ApplicantDetails.message, "error");
+    //             }
+    //         })
+    //         .catch(err => {
+    //             swal("", err.message, "error");
+    //         });
+    // };
     fetchAdditionalSubmisions = (ApplicationID) => {
         this.setState({
             AdditionalSubmisions: []
         });
-        fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant", {
+        fetch("/api/additionalsubmissions/" + ApplicationID +"/PE", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -149,7 +151,7 @@ class additionalsubmissions extends Component {
                     this.setState({
                         AdditionalSubmisions: AdditionalSubmisions
                     });
-                   
+
                 } else {
                     toast.error(AdditionalSubmisions.message);
                 }
@@ -167,15 +169,15 @@ class additionalsubmissions extends Component {
     GoBack = e => {
         e.preventDefault();
         this.setState({ summary: false });
-    };    
+    };
     handleSubmit = event => {
         event.preventDefault();
         const data = {
             DocName: this.state.UploadedFilename,
             ApplicationID: this.state.ApplicationID,
             Description: this.state.AdditionalDescription,
-            FilePath: process.env.REACT_APP_BASE_URL+"/Documents",
-            Category: "Applicant"
+            FilePath: process.env.REACT_APP_BASE_URL + "/Documents",
+            Category:"PE"
         };
         this.postData("/api/additionalsubmissions", data);
     };
@@ -191,12 +193,12 @@ class additionalsubmissions extends Component {
             .then(response =>
                 response.json().then(data => {
 
-                    if (data.success) {                    
-                     toast.success("Submited successfully")
+                    if (data.success) {
+                        toast.success("Submited successfully")
                         this.fetchAdditionalSubmisions(this.state.ApplicationID);
-                        this.setState({ open: false})
+                        this.setState({ open: false })
                     } else {
-                        toast.error(data.message);                     
+                        toast.error(data.message);
                     }
                 })
             )
@@ -221,7 +223,7 @@ class additionalsubmissions extends Component {
                 .then(response =>
                     response.json().then(data => {
                         if (data.success) {
-                            this.fetchApplicantDetails();                         
+                            this.fetchMyApplications();
                         } else {
                             localStorage.clear();
                             return (window.location = "/#/Logout");
@@ -239,7 +241,54 @@ class additionalsubmissions extends Component {
         let newtot = Number(num).toFixed(2);
         return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };
+    fetchApplicantDetails = (ApplicantID) => {
+        let dat = {
+            ApplicantPostalCode: "",
+            ApplicantPOBox: "",
+            ApplicantTown: "",
+            ApplicantDetails: "",
+            Applicantname: "",
+            ApplicantLocation: "",
+            ApplicantMobile: "",
+            ApplicantEmail: "",
+            ApplicantPIN: "",
+            ApplicantWebsite: "",
+            ApplicantID: ""
+        }
+        this.setState(dat);
+        fetch("/api/applicants/" + ApplicantID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ApplicantDetails => {
+                if (ApplicantDetails.length > 0) {
+                    this.setState({
+                     ApplicantPostalCode: ApplicantDetails[0].PostalCode,
+                     ApplicantPOBox: ApplicantDetails[0].POBox ,
+                     ApplicantTown: ApplicantDetails[0].Town ,
+                     ApplicantDetails: ApplicantDetails,
+                     Applicantname: ApplicantDetails[0].Name ,
+                     ApplicantLocation: ApplicantDetails[0].Location ,
+                     ApplicantMobile: ApplicantDetails[0].Mobile ,
+                     ApplicantEmail: ApplicantDetails[0].Email ,
+                     ApplicantPIN: ApplicantDetails[0].PIN ,
+                     ApplicantWebsite: ApplicantDetails[0].Website ,
+                  ApplicantID: ApplicantDetails[0].ID });
+
+                } else {
+                    toast.error( ApplicantDetails.message);
+                }
+            })
+            .catch(err => {
+                toast.error( err.message);
+            });
+    };
     handViewApplication = k => {
+      
         const data = {
             ApplicationID: k.ID,
             PEPOBox: k.PEPOBox,
@@ -249,13 +298,13 @@ class additionalsubmissions extends Component {
             PEMobile: k.PEMobile,
             PEEmail: k.PEEmail,
             PEWebsite: k.PEWebsite,
-            TenderID: k.TenderID,            
+            TenderID: k.TenderID,
             ApplicationNo: k.ApplicationNo,
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
             FilingDate: new Date(k.FilingDate).toLocaleDateString(),
-            AwardDate:new Date(k.AwardDate).toLocaleDateString(), 
+            AwardDate: new Date(k.AwardDate).toLocaleDateString(),
             TenderName: k.TenderName,
             Status: k.Status,
             TenderType: k.TenderType,
@@ -275,6 +324,7 @@ class additionalsubmissions extends Component {
         };
         this.setState({ summary: true });
         this.setState(data);
+        this.fetchApplicantDetails(k.ApplicantID)
         this.fetchAdditionalSubmisions(k.ID);
     };
 
@@ -328,7 +378,7 @@ class additionalsubmissions extends Component {
         this.setState({
             AdditionalDescription: evt.editor.getData()
         });
-    };   
+    };
     onClickHandler = event => {
         event.preventDefault();
         if (this.state.selectedFile) {
@@ -395,7 +445,7 @@ class additionalsubmissions extends Component {
                 field: "TenderName",
                 sort: "asc"
             },
-            
+
             {
                 label: "FilingDate",
                 field: "FilingDate",
@@ -423,54 +473,54 @@ class additionalsubmissions extends Component {
 
         if (rows.length > 0) {
             rows.map((k, i) => {
-               
-                    let Rowdata = {
-                        ApplicationNo: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.ApplicationNo}
-                            </a>
-                        ),
-                        TenderName: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.TenderName}
-                            </a>
-                        ),
-                        PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
-                        FilingDate: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {new Date(k.FilingDate).toLocaleDateString()}
-                            </a>
-                        ),
-                        ApplicationREf: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.ApplicationREf}
-                            </a>
-                        ),
-                        Status: (
-                            <span>
-                                <b
 
-                                    onClick={e => this.handViewApplication(k, e)}
-                                >
-                                    {k.Status}
-                             </b>
-                            </span>
-                        ),
+                let Rowdata = {
+                    ApplicationNo: (
+                        <a onClick={e => this.handViewApplication(k, e)}>
+                            {k.ApplicationNo}
+                        </a>
+                    ),
+                    TenderName: (
+                        <a onClick={e => this.handViewApplication(k, e)}>
+                            {k.TenderName}
+                        </a>
+                    ),
+                    PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
+                    FilingDate: (
+                        <a onClick={e => this.handViewApplication(k, e)}>
+                            {new Date(k.FilingDate).toLocaleDateString()}
+                        </a>
+                    ),
+                    ApplicationREf: (
+                        <a onClick={e => this.handViewApplication(k, e)}>
+                            {k.ApplicationREf}
+                        </a>
+                    ),
+                    Status: (
+                        <span>
+                            <b
 
-                        action: (
-                            <span>
-                                <a
-                                    style={{ color: "#007bff" }}
-                                    onClick={e => this.handViewApplication(k, e)}
-                                >
-                                    {" "}
-                                    Add{" "}
-                                </a>
-                            </span>
-                        )
-                    };
-                    Rowdata1.push(Rowdata);
-                
+                                onClick={e => this.handViewApplication(k, e)}
+                            >
+                                {k.Status}
+                            </b>
+                        </span>
+                    ),
+
+                    action: (
+                        <span>
+                            <a
+                                style={{ color: "#007bff" }}
+                                onClick={e => this.handViewApplication(k, e)}
+                            >
+                                {" "}
+                                Add{" "}
+                            </a>
+                        </span>
+                    )
+                };
+                Rowdata1.push(Rowdata);
+
             });
         }
         let headingstyle = {
@@ -480,7 +530,7 @@ class additionalsubmissions extends Component {
         if (this.state.summary) {
             return (
                 <div>
-                    <ToastContainer/>
+                    <ToastContainer />
                     <Popup
                         open={this.state.open}
                         closeOnDocumentClick
@@ -510,7 +560,7 @@ class additionalsubmissions extends Component {
                                                                 Backgound Information
                                                                          </label>
                                                             <CKEditor
-                                                            
+
                                                                 onChange={this.onEditorChange}
                                                             />
                                                         </div>
@@ -540,7 +590,7 @@ class additionalsubmissions extends Component {
                                                         <button
                                                             type="button"
                                                             class="btn btn-success "
-                                                         onClick={this.onClickHandler}
+                                                            onClick={this.onClickHandler}
                                                         >
                                                             Upload
                             </button>{" "}
@@ -552,10 +602,10 @@ class additionalsubmissions extends Component {
                                                         <div className="col-sm-8" />
                                                         <div className="col-sm-2">
                                                             <button
-                                                                    type="submit"
-                                                                    className="btn btn-primary float-left"
-                                                                >
-                                                                    Submit
+                                                                type="submit"
+                                                                className="btn btn-primary float-left"
+                                                            >
+                                                                Submit
                                                         </button>
 
                                                         </div>
@@ -595,16 +645,16 @@ class additionalsubmissions extends Component {
                         </div>
                         <div className="col-lg-3">
                             <div className="row wrapper ">
-                                {this.state.Status ==="WITHDRAWN"?
-                                    null: <button
-                                    type="button"
-                                    style={{ marginTop: 40 }}
-                                    onClick={this.openWithdraw}
-                                    className="btn btn-primary float-right"
-                                >
-                                    Submit Aditional Submission </button>
+                                {this.state.Status === "WITHDRAWN" ?
+                                    null : <button
+                                        type="button"
+                                        style={{ marginTop: 40 }}
+                                        onClick={this.openWithdraw}
+                                        className="btn btn-primary float-right"
+                                    >
+                                        Submit Aditional Submission </button>
                                 }
-                              &nbsp;
+                                &nbsp;
                                     <button
                                     type="button"
                                     style={{ marginTop: 40 }}
@@ -712,7 +762,7 @@ class additionalsubmissions extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> FilingDate:</td>
                                             <td> {this.state.FilingDate}</td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                             <td className="font-weight-bold"> Date of Notification of Award/Occurrence
 of Breach:</td>
@@ -754,19 +804,19 @@ of Breach:</td>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-borderless table-sm">
                                         <th>ID</th>
-                                        <th>Description</th>                                    
+                                        <th>Description</th>
                                         <th>Date Uploaded</th>
                                         <th>Actions</th>
                                         {this.state.AdditionalSubmisions.map(function (k, i) {
                                             return (
                                                 <tr>
                                                     <td>{i + 1}</td>
-                                                    <td>   {ReactHtmlParser(k.Description)}</td>                                                   
+                                                    <td>   {ReactHtmlParser(k.Description)}</td>
                                                     <td>
                                                         {new Date(k.Create_at).toLocaleDateString()}
                                                     </td>
                                                     <td>
-                                                  <a onClick={e => ViewFile(k, e)} className="text-success">
+                                                        <a onClick={e => ViewFile(k, e)} className="text-success">
                                                             <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
                                                       </a>
                                                     </td>
@@ -789,7 +839,7 @@ of Breach:</td>
                         <div className="col-lg-12">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <h2>My Applications</h2>
+                                    <h2>Applications</h2>
                                 </li>
                             </ol>
                         </div>
@@ -806,4 +856,4 @@ of Breach:</td>
     }
 }
 
-export default additionalsubmissions;
+export default PEadditionalsubmissions;
