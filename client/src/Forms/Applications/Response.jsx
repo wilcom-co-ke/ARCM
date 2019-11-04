@@ -5,16 +5,22 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require("dateformat");
+let userdateils = localStorage.getItem("UserData");
+let data = JSON.parse(userdateils);
 class Response extends Component {
     constructor(props) {
         super(props);
         this.state = {
             ResponseDocuments: [],
             ResponseDetails: [],
+            AdditionalSubmisionsDocuments: [],
+            AdditionalSubmisions: [],
             Response: [],
             NewDeadLine: "",
             Reason: "",
+            Board: data.Board,
             GroundResponse: "",
             GroundNo: "",
             selectedFile: "",
@@ -41,6 +47,43 @@ class Response extends Component {
             TenderNo: ""
         };
     }
+    checkDocumentRoles = () => {
+
+        if (this.state.Board) {
+            return true;
+        }        
+
+        return false;
+
+    }
+    fetchAdditionalSubmisions = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisions: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/PE", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisions: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
     fetchResponseDocuments = ResponseID => {
         fetch("/api/PEResponse/Documents/" + ResponseID, {
             method: "GET",
@@ -161,7 +204,6 @@ class Response extends Component {
     };
     handViewResponse = k => {
         let ResponseID = k.ResponseID;
-
         let data = {
             ApplicationNo: k.ApplicationNo,
             Name: k.Name,
@@ -178,6 +220,8 @@ class Response extends Component {
         this.fetchResponseDetails(ResponseID);
         this.fetchApplicantDetails(k.Applicantusername);
         this.setState({ summary: true });
+        this.fetchAdditionalSubmisions(k.ID);
+        this.fetchAdditionalSubmisionsDocuments(k.ID)
     };
     formatNumber = num => {
         let newtot = Number(num).toFixed(2);
@@ -188,10 +232,43 @@ class Response extends Component {
         this.setState({ summary: false });
     };
     ViewFile = (k, e) => {
-        let filepath = process.env.REACT_APP_BASE_URL + "/" + k.Path + "/" + k.Name;
-        window.open(filepath);
+        if(k.FileName){
+            let filepath = k.Path + "/" + k.FileName;
+            window.open(filepath);
+        }else{
+            let filepath = process.env.REACT_APP_BASE_URL + "/" + k.Path + "/" + k.Name;
+            window.open(filepath);
+        }
+      
     };
+    fetchAdditionalSubmisionsDocuments = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisionsDocuments: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/PE/Documents", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
 
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisionsDocuments: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
     render() {
         const ColumnData = [
             {
@@ -260,6 +337,7 @@ class Response extends Component {
         if (this.state.summary) {
             return (
                 <div>
+                    <ToastContainer/>
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-11">
                             <ol className="breadcrumb">
@@ -392,13 +470,18 @@ class Response extends Component {
                                 <h3 style={headingstyle}> Documents Attached</h3>
                                 <div className="col-lg-12 border border-success rounded">
                                     <table className="table table-sm">
+                                        <thead className="thead-light">
                                         <th>#</th>
                                         <th>Document Description</th>
                                         <th>FileName</th>
+                                        <th>Actions</th>
+                                        </thead>
 
-                                        {this.state.ResponseDocuments.map(function (k, i) {
+                                        {this.state.ResponseDocuments.map( (k, i)=> {
                                             return (
-                                                <tr>
+                                                k.Confidential ?
+                                                    this.checkDocumentRoles() ?
+                                                  <tr>
                                                     <td>{i + 1}</td>
                                                     <td>{k.Description}</td>
                                                     <td>{k.Name}</td>
@@ -408,12 +491,77 @@ class Response extends Component {
                                                             className="text-success"
                                                         >
                                                             <i class="fa fa-eye" aria-hidden="true"></i>View
-                            </a>
+                                                                   </a>
                                                     </td>
-                                                </tr>
+                                                    </tr>
+                                                     :null
+                                                    :
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>{k.Description}</td>
+                                                        <td>{k.Name}</td>
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                                                   </a>
+                                                        </td>
+                                                    </tr>
                                             );
                                         })}
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-lg-12 ">
+                                <h3 style={headingstyle}>Additional Submissions</h3>
+                                <div className="col-lg-11 border border-success rounded">
+                                    <h2>Background Information</h2>
+
+                                    {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        return (
+
+                                            <p>
+                                                {ReactHtmlParser(k.Description)}
+                                            </p>
+
+                                        );
+                                    })}
+                                    <h2>Attachments</h2>
+
+                                    <table className="table table-borderless table-sm">
+                                        <thead className="thead-light">
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Actions</th>
+                                           
+                                        </thead>
+                                        {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
+                                            return (
+                                                this.checkDocumentRoles() ?
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>   {k.Description}</td>
+                                                        <td>
+                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                        </td>
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                                        </td>
+                                                    </tr> : null
+                                            );
+                                        })}
+                                    </table>
+
                                 </div>
                             </div>
                         </div>
@@ -423,6 +571,7 @@ class Response extends Component {
         } else {
             return (
                 <div>
+                    <ToastContainer />
                     <div>
                         <div className="row wrapper border-bottom white-bg page-heading">
                             <div className="col-lg-10">

@@ -23,6 +23,7 @@ class PEResponse extends Component {
       ApplicationRequests: [],
       GroundsDetails: [],
       BankSlips:[],
+      Confidential: false,
       ApplicationNo: this.props.location.ApplicationNo,
       ApplicationID: this.props.location.ApplicationID,
       NewDeadLine: "",
@@ -62,6 +63,8 @@ class PEResponse extends Component {
     this.OpenGroundsModal = this.OpenGroundsModal.bind(this);
   }
   fetchResponseDocuments = () => {
+    this.setState({ ResponseDocuments: [] });
+
     fetch("/api/PEResponse/Documents/" + this.state.ResponseID, {
       method: "GET",
       headers: {
@@ -728,7 +731,8 @@ class PEResponse extends Component {
       PERsponseID: this.state.ResponseID,
       Name: Documentname,
       Description: this.state.DocumentDesc,
-      Path: "Documents"
+      Path: "Documents",
+      Confidential: this.state.Confidential
     };
     fetch("/api/PEResponse/Documents", {
       method: "POST",
@@ -783,7 +787,36 @@ class PEResponse extends Component {
       toast.warn("Please select a file to upload");
     }
   };
-
+  handleDeleteDocument = d => {
+    swal({
+      text: "Are you sure that you want to remove this document?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/PEResponse/DeleteDocument/" + d.Name, {
+          method: "Put",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                this.fetchResponseDocuments();
+              } else {
+                swal("", "Remove Failed", "error");
+              }
+            })
+          )
+          .catch(err => {
+            swal("", "Remove Failed", "error");
+          });
+      }
+    });
+  };
   onChangeHandler = event => {
     //for multiple files
     var files = event.target.files;
@@ -1103,6 +1136,7 @@ class PEResponse extends Component {
         label: "Request Extension of deadline"
       }
     ];
+    let handleDeleteDocument = this.handleDeleteDocument
     return (
       <div>
         <ToastContainer />
@@ -1443,7 +1477,7 @@ class PEResponse extends Component {
                           <br />
                           <div className="row">
                             <table className="table table-striped table-sm">
-                              <thead class="thead-light">
+                              <thead className="thead-light">
                                 <th>GroundNO</th>
                                 <th>BackgroundInformation</th>
                                 <th>Response</th>
@@ -1880,6 +1914,7 @@ class PEResponse extends Component {
                             <div className="row">
                               <div class="col-sm-11">
                                 <table className="table table-sm">
+                                  <thead class="thead-light">
                                   <th>Org Name</th>
                                   <th>ContactName</th>
                                   <th>Designation</th>
@@ -1888,7 +1923,7 @@ class PEResponse extends Component {
                                   <th>Mobile</th>
                                   <th>PhysicalAddress</th>
                                   <th>Actions</th>
-
+                                  </thead>
                                   {this.state.interestedparties.map((r, i) => (
                                     <tr>
                                       <td>{r.Name}</td>
@@ -1958,7 +1993,7 @@ class PEResponse extends Component {
                             onSubmit={this.handleDocumentSubmit}
                           >
                             <div class="row">
-                              <div class="col-sm-6">
+                              <div class="col-sm-5">
                                 <label
                                   for="Document"
                                   className="font-weight-bold"
@@ -1970,7 +2005,7 @@ class PEResponse extends Component {
                                   className="form-control"
                                   name="file"
                                   onChange={this.onChangeHandler}
-                                  multiple
+                                  
                                 />
                                 <div class="form-group">
                                   <Progress
@@ -1989,7 +2024,7 @@ class PEResponse extends Component {
                                   Upload
                                 </button>{" "}
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-5">
                                 <label
                                   for="Document"
                                   className="font-weight-bold"
@@ -2005,13 +2040,34 @@ class PEResponse extends Component {
                                   required
                                 />
                               </div>
+                              <div className="col-sm-2">
+                                <div className="form-group">
+                                  <br />
+                                  <br />
+                                  <input
+                                    className="checkbox"
+                                    id="Confidential"
+                                    type="checkbox"
+                                    name="Confidential"
+                                    defaultChecked={this.state.Confidential}
+                                    onChange={this.handleInputChange}
+                                  />{" "}
+                                  <label
+                                    htmlFor="Confidential"
+                                    className="font-weight-bold"
+                                  >
+                                    Confidential
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                             <br />
                             <div className="row">
-                              <table className="table table-sm">
+                              <table className="table table-sm-7">
                                 <th>#</th>
                                 <th>Document Description</th>
                                 <th>FileName</th>
+                                <th>Actions</th>
 
                                 {this.state.ResponseDocuments.map(function(
                                   k,
@@ -2022,6 +2078,18 @@ class PEResponse extends Component {
                                       <td>{i + 1}</td>
                                       <td>{k.Description}</td>
                                       <td>{k.Name}</td>
+                                      <td>
+                                        <span>
+                                          <a
+                                            style={{ color: "#f44542" }}
+                                            onClick={e =>
+                                              handleDeleteDocument(k, e)
+                                            }
+                                          >
+                                            &nbsp; Remove
+                                            </a>
+                                        </span>
+                                      </td>
                                     </tr>
                                   );
                                 })}
@@ -2774,7 +2842,7 @@ class PEResponse extends Component {
                             onSubmit={this.handleDocumentSubmit}
                           >
                             <div class="row">
-                              <div class="col-sm-6">
+                              <div class="col-sm-5">
                                 <label
                                   for="Document"
                                   className="font-weight-bold"
@@ -2786,7 +2854,7 @@ class PEResponse extends Component {
                                   className="form-control"
                                   name="file"
                                   onChange={this.onChangeHandler}
-                                  multiple
+                                  
                                 />
                                 <div class="form-group">
                                   <Progress
@@ -2805,7 +2873,7 @@ class PEResponse extends Component {
                                   Upload
                                 </button>{" "}
                               </div>
-                              <div class="col-sm-6">
+                              <div class="col-sm-5">
                                 <label
                                   for="Document"
                                   className="font-weight-bold"
@@ -2821,13 +2889,35 @@ class PEResponse extends Component {
                                   required
                                 />
                               </div>
+                              
+                              <div className="col-sm-2">
+                                <div className="form-group">
+                                  <br />
+                                  <br />
+                                  <input
+                                    className="checkbox"
+                                    id="Confidential"
+                                    type="checkbox"
+                                    name="Confidential"
+                                    defaultChecked={this.state.Confidential}
+                                    onChange={this.handleInputChange}
+                                  />{" "}
+                                  <label
+                                    htmlFor="Confidential"
+                                    className="font-weight-bold"
+                                  >
+                                    Confidential
+                                  </label>
+                                </div>
+                              </div>                             
                             </div>
                             <br />
                             <div className="row">
-                              <table className="table table-sm">
+                              <table className="table table-sm-7">
                                 <th>#</th>
                                 <th>Document Description</th>
                                 <th>FileName</th>
+                                <th>Actions</th>
 
                                 {this.state.ResponseDocuments.map(function(
                                   k,
@@ -2838,6 +2928,18 @@ class PEResponse extends Component {
                                       <td>{i + 1}</td>
                                       <td>{k.Description}</td>
                                       <td>{k.Name}</td>
+                                      <td>   
+                                        <span>
+                                          <a
+                                            style={{ color: "#f44542" }}
+                                            onClick={e =>
+                                              handleDeleteDocument(k, e)
+                                            }
+                                          >
+                                            &nbsp; Remove
+                                            </a>
+                                        </span>
+                                      </td>
                                     </tr>
                                   );
                                 })}
@@ -2992,7 +3094,7 @@ class PEResponse extends Component {
                                                     className="form-control"
                                                     name="file"
                                                     onChange={this.onChangeHandler}
-                                                    multiple
+                                                    
                                                   />
                                                   <div class="form-group">
                                                     <Progress

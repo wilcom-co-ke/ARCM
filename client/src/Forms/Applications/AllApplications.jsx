@@ -7,6 +7,8 @@ import ReactHtmlParser from "react-html-parser";
 import Modal from 'react-awesome-modal';
 import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require('dateformat');
+let userdateils = localStorage.getItem("UserData");
+let data = JSON.parse(userdateils);
 class AllApplications extends Component {
     constructor() {
         super();
@@ -14,10 +16,11 @@ class AllApplications extends Component {
             Applications: [],
             interestedparties: [],
             AdditionalSubmisions: [],
+            AdditionalSubmisionsDocuments: [],
             PE: [],
             ApplicationsProgress:[],
             stdtenderdocs: [],
-         
+            Board: data.Board,
             TenderNo: "",
             TenderID: "",
             TenderValue: "",
@@ -83,6 +86,17 @@ class AllApplications extends Component {
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
         this.Resetsate = this.Resetsate.bind(this);
         this.fetchAdditionalSubmisions = this.fetchAdditionalSubmisions.bind(this)
+    }
+    checkDocumentRoles = () => {
+      
+        if (this.state.Board) {
+
+            return true;
+        }
+       
+
+        return false;
+
     }
     fetchApplicantDetails = (Applicant) => {
         fetch("/api/applicants/" + Applicant, {
@@ -342,6 +356,7 @@ class AllApplications extends Component {
         this.fetchApplicationDocuments(k.ID)
         this.fetchTenderAdendums(k.TenderID);
         this.fetchAdditionalSubmisions(k.ID);
+        this.fetchAdditionalSubmisionsDocuments(k.ID)
         this.fetchinterestedparties(k.ID);
         this.fetchApplicantDetails(k.Applicantusername)
         this.fetchApplicationProgress(k.ApplicationNo)
@@ -378,6 +393,7 @@ class AllApplications extends Component {
 
     }
     ViewFile = (k, e) => {
+       
         let filepath = k.Path + "/" + k.FileName;
         window.open(filepath);
         //this.setState({ openFileViewer: true });
@@ -401,6 +417,34 @@ class AllApplications extends Component {
             })
             .catch(err => {
                 toast.error(err.message);
+            });
+    };
+    fetchAdditionalSubmisionsDocuments = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisionsDocuments: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant/Documents", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisionsDocuments: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
             });
     };
     fetchAdditionalSubmisions = (ApplicationID) => {      
@@ -765,39 +809,59 @@ of Breach:</td>
                             <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Documents Attached</h3>
                                 <div className="col-lg-11 border border-success rounded">
-                                    <table className="table  table-sm">
+                                    <table className="table table-sm">
+                                        <thead className="thead-light">
                                         <th>ID</th>
                                         <th>Document Description</th>
                                         <th>FileName</th>
                                         <th>Date Uploaded</th>
                                         <th>Actions</th>
-                                        {this.state.ApplicationDocuments.map(function (k, i) {
+                                        </thead>
+                                        {this.state.ApplicationDocuments.map((k, i) => {
                                             return (
-                                                <tr>
-                                                    <td>{i + 1}</td>
-                                                    <td>{k.Description}</td>
-                                                    <td>{k.FileName}</td>
-                                                    <td>
-                                                        {new Date(k.DateUploaded).toLocaleDateString()}
-                                                    </td>
-                                                    <td>
-                                                        {/* <a
-                                href={k.Path + "/" + k.FileName}
-                                target="_blank"
-                                >
-                                Download
-                                </a> */}
 
-                                                        <a onClick={e => ViewFile(k, e)} className="text-success">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>View
-                              </a>
-                                                    </td>
-                                                </tr>
+                                                k.Confidential ?
+
+                                                    this.checkDocumentRoles() ?
+                                                        <tr>
+                                                            <td>{i + 1}</td>
+                                                            <td>{k.Description}</td>
+                                                            <td>{k.FileName}</td>
+                                                            <td>
+                                                                {new Date(k.DateUploaded).toLocaleDateString()}
+                                                            </td>
+                                                            <td>
+                                                                <a
+                                                                    onClick={e => ViewFile(k, e)}
+                                                                    className="text-success"
+                                                                >
+                                                                    <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                                            </td>
+                                                        </tr>
+                                                        : null
+                                                    :
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>{k.Description}</td>
+                                                        <td>{k.FileName}</td>
+                                                        <td>
+                                                            {new Date(k.DateUploaded).toLocaleDateString()}
+                                                        </td>
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                                        </td>
+                                                    </tr>
                                             );
                                         })}
                                     </table>
                                 </div>
-                            </div>
+                                 </div>
                         </div>
                         <br />
                         <div className="row">
@@ -806,12 +870,11 @@ of Breach:</td>
                                 <div className="col-lg-11 border border-success rounded">
                                     <div class="col-sm-8">
                                         <table class="table table-sm">
-                                            <thead>
-                                                <tr>
+                                            <thead className="thead-light">
                                                     <th scope="col">#</th>
                                                     <th scope="col">Fees description</th>
                                                     <th scope="col">Value</th>
-                                                </tr>
+                                               
                                             </thead>
                                             <tbody>
                                                 {this.state.Applicationfees.map((r, i) => (
@@ -847,28 +910,50 @@ of Breach:</td>
                             <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Additional Submissions</h3>
                                 <div className="col-lg-11 border border-success rounded">
+                                    <h2>Background Information</h2>
+
+                                    {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        return (
+
+                                            <p>
+                                                {ReactHtmlParser(k.Description)}
+                                            </p>
+
+                                        );
+                                    })}
+                                    <h2>Attachments</h2>
+
                                     <table className="table table-borderless table-sm">
-                                        <th>ID</th>
-                                        <th>Description</th>
-                                        <th>Date Uploaded</th>
-                                        <th>Actions</th>
-                                        {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        <thead className="thead-light">
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Actions</th>
+
+                                        </thead>
+                                        {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
                                             return (
-                                                <tr>
-                                                    <td>{i + 1}</td>
-                                                    <td>   {ReactHtmlParser(k.Description)}</td>
-                                                    <td>
-                                                        {new Date(k.Create_at).toLocaleDateString()}
-                                                    </td>
-                                                    <td>
-                                                        <a onClick={e => ViewFile(k, e)} className="text-success">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
-                                                      </a>
-                                                    </td>
-                                                </tr>
+                                                this.checkDocumentRoles() ?
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>   {k.Description}</td>
+                                                        <td>
+                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                        </td>
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                                        </td>
+
+                                                    </tr> : null
                                             );
                                         })}
                                     </table>
+
                                 </div>
                             </div>
                         </div>
@@ -877,6 +962,7 @@ of Breach:</td>
                                 <h3 style={headingstyle}>Interested Parties</h3>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-sm">
+                                        <thead className="thead-light">
                                         <th>Org Name</th>
                                         <th>ContactName</th>
                                         <th>Designation</th>
@@ -884,6 +970,7 @@ of Breach:</td>
                                         <th>TelePhone</th>
                                         <th>Mobile</th>
                                         <th>PhysicalAddress</th>
+                                        </thead>
                                         {this.state.interestedparties.map((r, i) => (
                                             <tr>
                                                 <td>{r.Name}</td>

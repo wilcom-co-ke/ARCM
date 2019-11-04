@@ -80,6 +80,7 @@ app.use(
 
 app.use(express.static("uploads"));
 app.use(express.static("Reports"));
+//app.use("/Reports", express.static(__dirname + "Reports"));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   //Enabling CORS

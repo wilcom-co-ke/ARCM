@@ -317,7 +317,8 @@ PEResponse.post("/:ID", function(req, res) {
         .required(),
       Path: Joi.string()
         .min(1)
-        .required()
+        .required(),
+      Confidential:Joi.boolean()
     });
 
     const result = Joi.validate(req.body, schema);
@@ -326,7 +327,8 @@ PEResponse.post("/:ID", function(req, res) {
         req.body.PERsponseID,
         req.body.Name,
         req.body.Description,
-        req.body.Path
+        req.body.Path,
+        req.body.Confidential
       ];
 
       con.getConnection(function(err, connection) {
@@ -337,7 +339,7 @@ PEResponse.post("/:ID", function(req, res) {
           });
         } // not connected!
         else {
-          let sp = "call SavePEresponseDocuments(?,?,?,?)";
+          let sp = "call SavePEresponseDocuments(?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
@@ -614,6 +616,36 @@ PEResponse.delete("/:ID", function(req, res) {
     else {
       let sp = "call DeletePEResponsedetails(?,?)";
       connection.query(sp, data, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            success: true,
+            message: "Deleted Successfully"
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
+PEResponse.delete("/:Vale/:ID", function (req, res) {
+  const GroundNO = req.params.ID;
+  let data = [GroundNO, res.locals.user];
+  con.getConnection(function (err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call DeletePEResponsedetails(?,?)";
+      connection.query(sp, data, function (error, results, fields) {
         if (error) {
           res.json({
             success: false,

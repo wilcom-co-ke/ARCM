@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import Modal from 'react-awesome-modal';
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
-import GoogleDocsViewer from "react-google-docs-viewer";
 import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require('dateformat');
 
@@ -29,6 +28,7 @@ class CaseScheduling extends Component {
             summary: false,
             Unbooking:false,
             DaysArray:[],
+            FilePath:"",
             casedetailstatus: "",
             Bookings:[],
             VenueID:"",
@@ -56,7 +56,7 @@ class CaseScheduling extends Component {
         this.fetchBookings = this.fetchBookings.bind(this)
         this.getDates = this.getDates.bind(this)
         this.HoverBtn = this.HoverBtn.bind(this)
-        //this.BookRoom = this.BookRoom.bind(this)
+        this.GenerateNotification = this.GenerateNotification.bind(this)
         this.UnBookRoom = this.UnBookRoom .bind(this)
         this.fetchVenuesPerBranch = this.fetchVenuesPerBranch.bind(this)
         this.checkIfBooked = this.checkIfBooked.bind(this)
@@ -806,7 +806,9 @@ class CaseScheduling extends Component {
             },
             body: JSON.stringify(data)
             }).then(response =>
-                response.json().then(data => {
+                response.json().then(data => {       
+                                 
+                    this.setState({ FilePath: process.env.REACT_APP_BASE_URL + "/HearingNotices/" + this.state.ApplicationNo + ".pdf" });
                     this.setState({ openViewer: true });
                 })
             )
@@ -1507,11 +1509,15 @@ class CaseScheduling extends Component {
 
                                     </div>
                                     <br />
-                                    <GoogleDocsViewer
-                                        width="690px"
-                                        height="500px"
-                                        fileUrl={process.env.REACT_APP_BASE_URL + "/HearingNotices/" + this.state.ApplicationNo + ".pdf"}
-                                    />
+                                    <object
+                                        width="100%"
+                                        height="450"
+                                        data={this.state.FilePath}
+                                        type="application/pdf"
+                                    >
+                                        {" "}
+                                    </object>
+                                
                                      </div>
                             </div>
 

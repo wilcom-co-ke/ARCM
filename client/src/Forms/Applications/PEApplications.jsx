@@ -19,8 +19,8 @@ class PEApplications extends Component {
             ApplicantEmail: data.Email,
             ApplicantPhone: data.Phone,
             Applications: [],   
-            interestedparties: [],
-            AdditionalSubmisions: [],     
+            interestedparties: [],          
+            Board: data.Board,
             TimerStatus:"",
             TenderNo: "",
             TenderID: "",
@@ -105,34 +105,7 @@ class PEApplications extends Component {
                 toast.error(err.message);
             });
     };
-    fetchAdditionalSubmisions = (ApplicationID) => {
-        this.setState({
-            AdditionalSubmisions: []
-        });
-        fetch("/api/additionalsubmissions/" + ApplicationID, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem("token")
-            }
-        })
-            .then(res => res.json())
-            .then(AdditionalSubmisions => {
-
-                if (AdditionalSubmisions.length > 0) {
-                    this.setState({
-                        AdditionalSubmisions: AdditionalSubmisions
-                    });
-
-                } else {
-                    toast.error(AdditionalSubmisions.message);
-                }
-            })
-            .catch(err => {
-                toast.error(err.message);
-
-            });
-    };
+    
     closeModal = () => {
         this.setState({ open: false });
     };
@@ -349,6 +322,7 @@ class PEApplications extends Component {
         let newtot = Number(num).toFixed(2);
         return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     };
+ 
     handViewApplication = k => {
       
         this.setState({ AddedAdendums: [] });
@@ -361,7 +335,7 @@ class PEApplications extends Component {
         this.fetchApplicationDocuments(k.ID);
         this.fetchTenderAdendums(k.TenderID);
         this.fetchApplicantDetails(k.ApplicantID);
-        this.fetchAdditionalSubmisions(k.ID);
+       
         this.fetchinterestedparties(k.ID);
         const data = {
             PEPOBox: k.PEPOBox,
@@ -445,6 +419,18 @@ class PEApplications extends Component {
                 swal("", err.message, "error");
             });
     };
+    checkDocumentRoles = (CreatedBy) => {
+
+        if (this.state.Board) {
+            return true;
+        }
+        if (localStorage.getItem("UserName") === CreatedBy) {
+            return true;
+        }
+
+        return false;
+
+    }
     SendMail = (ApplicationNo, Applicantemail, PPRAEmail, subject1) => {
         
         const emaildata = {
@@ -951,25 +937,46 @@ class PEApplications extends Component {
                                             <th>Actions</th>
                                             {this.state.ApplicationDocuments.map(function (k, i) {
                                                 return (
+                                                   k.Confidential?
+                                                   <div>
+                                                           { this.checkDocumentRoles(k.Created_By) ?
                                                     <tr>
-                                                        <td>{i + 1}</td>
-                                                        <td>{k.Description}</td>
-                                                        <td>{k.FileName}</td>
-                                                        <td>
-                                                            {new Date(k.DateUploaded).toLocaleDateString()}
-                                                        </td>
-                                                        <td>
-                                       
-                                                            <a
-                                                                onClick={e => ViewFile(k, e)}
-                                                                className="text-success"
-                                                            >
-                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
-                              </a>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
+                                                                <td>{i + 1}</td>
+                                                                <td>{k.Description}</td>
+                                                                <td>{k.FileName}</td>
+                                                                <td>
+                                                                    {new Date(k.DateUploaded).toLocaleDateString()}
+                                                                </td>
+                                                                <td>
+
+                                                                    <a
+                                                                        onClick={e => ViewFile(k, e)}
+                                                                        className="text-success"
+                                                                    >
+                                                                        <i class="fa fa-eye" aria-hidden="true"></i>View
+                                                      </a>
+                                                                </td>
+                                                            </tr>:null}
+                                                   </div>:
+                                                            < tr >
+                                                            <td>{i + 1}</td>
+                                                            <td>{k.Description}</td>
+                                                            <td>{k.FileName}</td>
+                                                            <td>
+                                                                {new Date(k.DateUploaded).toLocaleDateString()}
+                                                            </td>
+                                                            <td>
+
+                                                                <a
+                                                                    onClick={e => ViewFile(k, e)}
+                                                                    className="text-success"
+                                                                >
+                                                                    <i class="fa fa-eye" aria-hidden="true"></i>View
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                );
+                            })}
                                         </table>
                                     </div>
                                 </div>
@@ -1051,36 +1058,7 @@ class PEApplications extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
-                                <div className="col-lg-12 ">
-                                    <h3 style={headingstyle}>Additional Submissions</h3>
-                                    <div className="col-lg-11 border border-success rounded">
-                                        <table className="table table-borderless table-sm">
-                                            <th>ID</th>
-                                            <th>Description</th>
-                                            <th>Date Uploaded</th>
-                                            <th>Actions</th>
-                                            {this.state.AdditionalSubmisions.map(function (k, i) {
-                                                return (
-                                                    <tr>
-                                                        <td>{i + 1}</td>
-                                                        <td>   {ReactHtmlParser(k.Description)}</td>
-                                                        <td>
-                                                            {new Date(k.Create_at).toLocaleDateString()}
-                                                        </td>
-                                                        <td>
-                                                            <a onClick={e => ViewFile(k, e)} className="text-success">
-                                                                <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
-                                                      </a>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                           
+                         
                         </div>
                     </div>
                 );

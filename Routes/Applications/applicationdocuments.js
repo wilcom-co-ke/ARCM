@@ -79,7 +79,8 @@ applicationdocuments.post("/", auth.validateRole("Applications"), function(
       .required(),
     Description: Joi.string()
       .min(3)
-      .required()
+      .required(),
+    Confidential: Joi.boolean()
   });
 
   const result = Joi.validate(req.body, schema);
@@ -89,9 +90,10 @@ applicationdocuments.post("/", auth.validateRole("Applications"), function(
       req.body.Description,
       req.body.FileName,
       req.body.Path,
-      res.locals.user
+      res.locals.user,
+      req.body.Confidential
     ];
-    
+
     con.getConnection(function(err, connection) {
       if (err) {
         res.json({
@@ -100,7 +102,7 @@ applicationdocuments.post("/", auth.validateRole("Applications"), function(
         });
       } // not connected!
       else {
-        let sp = "call SaveDocument(?,?,?,?,?)";
+        let sp = "call SaveDocument(?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

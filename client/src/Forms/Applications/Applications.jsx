@@ -22,7 +22,9 @@ class Applications extends Component {
     super();
     this.state = {
       open: false,
+      Confidential: false,
       openRequest: false,
+      Board: data.Board,
       ApplicantEmail: data.Email,
       ApplicantPhone: data.Phone,
       Applications: [],
@@ -120,7 +122,19 @@ class Applications extends Component {
     this.SaveTenderdetails = this.SaveTenderdetails.bind(this);
     this.CompletedApplication = this.CompletedApplication.bind(this);
   }
+  checkDocumentRoles = (CreatedBy) => {
+  
+    if (this.state.Board) {
 
+      return true;
+    }
+    if (localStorage.getItem("UserName") === CreatedBy) {
+      return true;
+    }
+
+    return false;
+
+  }
   closeAddInterestedParty = () => {
     this.setState({ AddInterestedParty: false });
   };
@@ -913,7 +927,8 @@ class Applications extends Component {
         ApplicationID: this.state.ApplicationID,
         Description: this.state.DocumentDescription,
         Path: process.env.REACT_APP_BASE_URL + "/Documents",
-        FileName: FileName
+        FileName: FileName,
+        Confidential: this.state.Confidential
       };
       fetch("/api/applicationdocuments", {
         method: "POST",
@@ -2220,31 +2235,46 @@ class Applications extends Component {
                       <th>FileName</th>
                       <th>Date Uploaded</th>
                       <th>Actions</th>
-                      {this.state.ApplicationDocuments.map(function(k, i) {
+                      {this.state.ApplicationDocuments.map((k, i)=> {
                         return (
-                          <tr>
-                            <td>{i + 1}</td>
-                            <td>{k.Description}</td>
-                            <td>{k.FileName}</td>
-                            <td>
-                              {new Date(k.DateUploaded).toLocaleDateString()}
-                            </td>
-                            <td>
-                              {/* <a
-                                href={k.Path + "/" + k.FileName}
-                                target="_blank"
+                          
+                          k.Confidential ?
+                           
+                              this.checkDocumentRoles(k.Created_By) ?
+                              <tr>
+                                <td>{i + 1}</td>
+                                <td>{k.Description}</td>
+                                <td>{k.FileName}</td>
+                                <td>
+                                  {new Date(k.DateUploaded).toLocaleDateString()}
+                                </td>
+                                <td>
+                                  <a
+                                    onClick={e => ViewFile(k, e)}
+                                    className="text-success"
+                                  >
+                                    <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                </td>
+                              </tr>
+                              :null
+                         :
+                            <tr>
+                              <td>{i + 1}</td>
+                              <td>{k.Description}</td>
+                              <td>{k.FileName}</td>
+                              <td>
+                                {new Date(k.DateUploaded).toLocaleDateString()}
+                              </td>
+                              <td>
+                                <a
+                                  onClick={e => ViewFile(k, e)}
+                                  className="text-success"
                                 >
-                                Download
-                                </a> */}
-
-                              <a
-                                onClick={e => ViewFile(k, e)}
-                                className="text-success"
-                              >
-                                <i class="fa fa-eye" aria-hidden="true"></i>View
-                              </a>
-                            </td>
-                          </tr>
+                                  <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                              </td>
+                            </tr>
                         );
                       })}
                     </table>
@@ -3514,6 +3544,26 @@ class Applications extends Component {
                               value={this.state.DocumentDescription}
                               required
                             />
+                          </div>
+                          <div className="col-sm-2">
+                            <div className="form-group">
+                              <br />
+                              <br />
+                              <input
+                                className="checkbox"
+                                id="Confidential"
+                                type="checkbox"
+                                name="Confidential"
+                                defaultChecked={this.state.Confidential}
+                                onChange={this.handleInputChange}
+                              />{" "}
+                              <label
+                                htmlFor="Confidential"
+                                className="font-weight-bold"
+                              >
+                                Confidential
+                                  </label>
+                            </div>
                           </div>
                         </div>
                         <div class="row">

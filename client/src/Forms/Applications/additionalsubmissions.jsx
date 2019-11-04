@@ -3,8 +3,7 @@ import swal from "sweetalert";
 import Table from "./../../Table";
 import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
-import Popup from "reactjs-popup";
-import popup from "./../../Styles/popup.css";
+import Modal from "react-awesome-modal";
 import CKEditor from "ckeditor4-react";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
@@ -19,12 +18,14 @@ class additionalsubmissions extends Component {
         this.state = {
             open: false,
             openRequest: false,
+            Board: data.Board,
             ApplicantUserEmail: data.Email,
             ApplicantPhone: data.Phone,
             ApplicantUserName: data.Name,
             Applications: [],
             AdditionalSubmisions:[],
             TenderNo: "",
+            AdditionalSubmisionsDocuments: [],
             ApplicationID:"",
             TenderID: "",
             TenderValue: "",
@@ -48,6 +49,8 @@ class additionalsubmissions extends Component {
             PEName: "",
             ApplicationNo: "",
             selectedFile: null,
+            DocumentDesc:"",
+            Confidential: false,
             loaded: 0,
             ApplicantLocation: "",
             ApplicantMobile: "",
@@ -73,7 +76,19 @@ class additionalsubmissions extends Component {
     closeModal = () => {
         this.setState({ open: false });
     };
+    checkDocumentRoles = (CreatedBy) => {
 
+        if (this.state.Board) {
+
+            return true;
+        }
+        if (localStorage.getItem("UserName") === CreatedBy) {
+            return true;
+        }
+
+        return false;
+
+    }
     fetchMyApplications = ApplicantID => {     
        
         fetch("/api/applications/" + ApplicantID + "/Applicant", {
@@ -94,6 +109,90 @@ class additionalsubmissions extends Component {
             .catch(err => {
                 swal("", err.message, "error");
             });
+    };
+    fetchAdditionalSubmisionsDocuments = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisionsDocuments: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant/Documents", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisionsDocuments: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
+    Savedocument(url = ``, data = {}) {
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response =>
+                response.json().then(data => {
+
+                    if (data.success) {
+                        swal("", "Upload Completed", "success")
+                        this.fetchAdditionalSubmisionsDocuments(this.state.ApplicationID);
+                    } else {
+                        toast.error(data.message);
+                    }
+                })
+            )
+            .catch(err => {
+                toast.error(err.message);
+            });
+    }
+    handleDeleteDocument = d => {
+
+        swal({
+            text: "Are you sure that you want to remove this attachemnt?",
+            icon: "warning",
+            dangerMode: true,
+            buttons: true
+        }).then(willDelete => {
+            if (willDelete) {
+                return fetch("/api/additionalsubmissions/" + d.FileName + "/Document", {
+                    method: "Delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": localStorage.getItem("token")
+                    }
+                })
+                    .then(response =>
+                        response.json().then(data => {
+                            if (data.success) {
+                                swal("", "Removed successfully", "success");
+                                this.fetchAdditionalSubmisionsDocuments(this.state.ApplicationID);
+                            } else {
+                                swal("", "Remove Failed", "error");
+                            }
+                        })
+                    )
+                    .catch(err => {
+                        swal("", "Remove Failed", "error");
+                    });
+            }
+        });
     };
     fetchApplicantDetails = () => {
         fetch("/api/applicants/" + localStorage.getItem("UserName"), {
@@ -276,6 +375,7 @@ class additionalsubmissions extends Component {
         this.setState({ summary: true });
         this.setState(data);
         this.fetchAdditionalSubmisions(k.ID);
+         this.fetchAdditionalSubmisionsDocuments(k.ID)
     };
 
     SendMail = (ApplicationNo, email, ID, subject1, Name) => {
@@ -329,8 +429,20 @@ class additionalsubmissions extends Component {
             AdditionalDescription: evt.editor.getData()
         });
     };   
+    handleInputChange = event => {
+        // event.preventDefault();
+        // this.setState({ [event.target.name]: event.target.value });
+        const target = event.target;
+        const value = target.type === "checkbox" ? target.checked : target.value;
+        const name = target.name;
+        this.setState({ [name]: value });
+    };
     onClickHandler = event => {
         event.preventDefault();
+        if (!this.state.DocumentDesc) {
+            swal("", "Document Description is required", "error");
+            return;
+        }
         if (this.state.selectedFile) {
             const data = new FormData();
 
@@ -347,11 +459,19 @@ class additionalsubmissions extends Component {
                     }
                 })
                 .then(res => {
-                    //this.saveDocuments(res.data);
                     this.setState({
                         UploadedFilename: res.data
                     });
-                    toast.success("Upload Completed")
+                    const data = {
+                        DocName: res.data,
+                        ApplicationID: this.state.ApplicationID,
+                        Description: this.state.DocumentDesc,
+                        FilePath: process.env.REACT_APP_BASE_URL + "/Documents",
+                        Category: "Applicant",
+                        Confidential: this.state.Confidential
+                    };
+                    this.Savedocument("/api/additionalsubmissions/Documents", data);
+
                     // localStorage.setItem("UserPhoto", res.data);
                 })
                 .catch(err => {
@@ -382,7 +502,7 @@ class additionalsubmissions extends Component {
         }
     };
     ViewFile = (k, e) => {
-        let filepath = k.FilePath + "/" + k.FileName;
+        let filepath = k.Path + "/" + k.FileName;
         window.open(filepath);
         //this.setState({ openFileViewer: true });
     };
@@ -481,95 +601,175 @@ class additionalsubmissions extends Component {
             return (
                 <div>
                     <ToastContainer/>
-                    <Popup
-                        open={this.state.open}
-                        closeOnDocumentClick
-                        onClose={this.closeModal}
+                    <Modal
+                        visible={this.state.open}
+                        width="80%"
+                        height="80%"
+                        effect="fadeInUp"
+                        onClickAway={() => this.closeModal()}
                     >
-                        <div className={popup.modal}>
-                            <a className="close" onClick={this.closeModal}>
-                                &times;
-                    </a>
-
-                            <div className={popup.header} className="font-weight-bold">
-                                {" "}
-                                ADDITIONAL SUBMISSION{" "}
-                            </div>
-                            <div className={popup.content}>
-                                <div className="container-fluid">
-                                    <div className="col-sm-12">
-                                        <div className="ibox-content">
-                                            <form onSubmit={this.handleSubmit}>
-                                                <div className=" row">
-                                                    <div className="col-sm">
-                                                        <div className="form-group">
-                                                            <label
-                                                                htmlFor="exampleInputEmail1"
-                                                                className="font-weight-bold"
-                                                            >
-                                                                Backgound Information
-                                                                         </label>
-                                                            <CKEditor
-                                                            
-                                                                onChange={this.onEditorChange}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm">
-                                                        <label for="Document" className="font-weight-bold">
-                                                            Document
-                                                             </label>
-                                                        <input
-                                                            type="file"
-                                                            className="form-control"
-                                                            name="file"
-                                                            onChange={this.onChangeHandler}
-                                                            multiple
-                                                        />
-                                                        <div class="form-group">
-                                                            <Progress
-                                                                max="100"
-                                                                color="success"
-                                                                value={this.state.loaded}
-                                                            >
-                                                                {Math.round(this.state.loaded, 2)}%
-                              </Progress>
-                                                        </div>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-success "
-                                                         onClick={this.onClickHandler}
+                        <div className="ibox-content" style={{ overflow: "scroll", height: "100%" }}>
+                        <a
+                            style={{ float: "right", color: "red", margin: "10px" }}
+                            href="javascript:void(0);"
+                            onClick={() => this.closeModal()}
+                        >
+                            <i class="fa fa-close"></i>
+                        </a>
+                        <div>
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
+                                 ADDITIONAL SUBMISSION
+                            </h4>
+                            <div className="container-fluid" >
+                                <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                        <form onSubmit={this.handleSubmit}>
+                                            <div className=" row">
+                                                <div className="col-sm">
+                                                    <div className="form-group">
+                                                        <label
+                                                            htmlFor="exampleInputEmail1"
+                                                            className="font-weight-bold"
                                                         >
-                                                            Upload
-                            </button>{" "}
+                                                            Background Information
+                                                                         </label>
+                                                        <CKEditor
+
+                                                            onChange={this.onEditorChange}
+                                                        />
                                                     </div>
                                                 </div>
-                                                <div className="col-sm-12 ">
-                                                    <div className=" row">
-                                                        <div className="col-sm-2" />
-                                                        <div className="col-sm-8" />
-                                                        <div className="col-sm-2">
-                                                            <button
-                                                                    type="submit"
-                                                                    className="btn btn-primary float-left"
-                                                                >
-                                                                    Submit
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-5">
+                                                    <label for="Document" className="font-weight-bold">
+                                                        Document
+                                                             </label>
+                                                    <input
+                                                        type="file"
+                                                        className="form-control"
+                                                        name="file"
+                                                        onChange={this.onChangeHandler}
+                                                        multiple
+                                                    />
+                                                    <div class="form-group">
+                                                        <Progress
+                                                            max="100"
+                                                            color="success"
+                                                            value={this.state.loaded}
+                                                        >
+                                                            {Math.round(this.state.loaded, 2)}%
+                              </Progress>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-success "
+                                                        onClick={this.onClickHandler}
+                                                    >
+                                                        Upload
+                                                 </button>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <label
+                                                        for="Document"
+                                                        className="font-weight-bold"
+                                                    >
+                                                      Document Description
+                                                     </label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="DocumentDesc"
+                                                        onChange={this.handleInputChange}
+                                                        value={this.state.DocumentDesc}
+                                                        
+                                                    />
+                                                </div>
+                                                <div className="col-sm-2">
+                                                    <div className="form-group">
+                                                        <br />
+                                                        <br />
+                                                        <input
+                                                            className="checkbox"
+                                                            id="Confidential"
+                                                            type="checkbox"
+                                                            name="Confidential"
+                                                            defaultChecked={this.state.Confidential}
+                                                            onChange={this.handleInputChange}
+                                                        />{" "}
+                                                        <label
+                                                            htmlFor="Confidential"
+                                                            className="font-weight-bold"
+                                                        >
+                                                            Confidential
+                                  </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         
+                                            <div className="col-sm-12 ">
+                                                <div className=" row">
+                                                    <div className="col-sm-2" />
+                                                    <div className="col-sm-8" />
+                                                    <div className="col-sm-2">
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-primary float-left"
+                                                        >
+                                                            Submit
                                                         </button>
 
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                      <div className=" row" >
+                                                <table className="table table-borderless table-sm">
+                                                        <thead className="thead-light">
+                                                    <th>ID</th>
+                                                    <th>Description</th>
+                                                    <th>Date Uploaded</th>
+                                                    <th>Actions</th>
+                                                        </thead>
+                                                        {this.state.AdditionalSubmisionsDocuments.map( (k, i)=> {
+                                                        return (
+                                                            <tr>
+                                                                <td>{i + 1}</td>
+                                                                <td>   {k.Description}</td>
+                                                                <td>
+                                                                    {new Date(k.Create_at).toLocaleDateString()}
+                                                                </td>
+                                                                <td>
+                                                                    <a onClick={e => ViewFile(k, e)} className="text-success">
+                                                                        <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
+                                                                     </a>|
+                                                                      <a
+                                                                        style={{ color: "#f44542" }}
+                                                                        onClick={e =>
+                                                                            this.handleDeleteDocument(
+                                                                                k,
+                                                                                e
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        &nbsp; Remove
+                                          </a>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </table>
+
+                                            </div>
+                                        </form>
+                                            
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </Popup>
-
-                    <div className="row wrapper border-bottom white-bg page-heading">
+                        </div>
+                    </Modal>
+                   
+ <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-9">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
@@ -752,32 +952,59 @@ of Breach:</td>
                             <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Additional Submissions</h3>
                                 <div className="col-lg-11 border border-success rounded">
+                                    <h2>Background Information</h2>
+
+                                    {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        return (
+
+                                            <p>
+                                                {ReactHtmlParser(k.Description)}
+                                            </p>
+
+                                        );
+                                    })}
+                                    <h2>Attachments</h2>
+
                                     <table className="table table-borderless table-sm">
-                                        <th>ID</th>
-                                        <th>Description</th>                                    
-                                        <th>Date Uploaded</th>
-                                        <th>Actions</th>
-                                        {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        <thead className="thead-light">
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Actions</th>
+                                        </thead>
+                                        {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
                                             return (
-                                                <tr>
-                                                    <td>{i + 1}</td>
-                                                    <td>   {ReactHtmlParser(k.Description)}</td>                                                   
-                                                    <td>
-                                                        {new Date(k.Create_at).toLocaleDateString()}
-                                                    </td>
-                                                    <td>
-                                                  <a onClick={e => ViewFile(k, e)} className="text-success">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
-                                                      </a>
-                                                    </td>
-                                                </tr>
+                                                this.checkDocumentRoles(k.CreatedBy) ?
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>   {k.Description}</td>
+                                                        <td>
+                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                        </td>
+                                                        <td>
+                                                            <a onClick={e => ViewFile(k, e)} className="text-success">
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
+                                                                     </a>|
+                                                                      <a
+                                                                style={{ color: "#f44542" }}
+                                                                onClick={e =>
+                                                                    this.handleDeleteDocument(
+                                                                        k,
+                                                                        e
+                                                                    )
+                                                                }
+                                                            >
+                                                                &nbsp; Remove
+                                          </a>
+                                                        </td>
+                                                    </tr> : null
                                             );
                                         })}
                                     </table>
+
                                 </div>
                             </div>
                         </div>
-                        <br />
 
                     </div>
                 </div>

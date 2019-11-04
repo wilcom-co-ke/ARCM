@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import swal from "sweetalert";
 import Select from "react-select";
-import GoogleDocsViewer from "react-google-docs-viewer";
 class HearingNotices extends Component {
   constructor() {
     super();
     this.state = {
       Applications: [],
-      ApplicationNo: ""
+      ApplicationNo: "",
+      FilePath: ""
     };
   }
+
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({ [actionMeta.name]: UserGroup.value });
+    let FilePath =
+      process.env.REACT_APP_BASE_URL +
+      "/HearingNotices/" +
+      UserGroup.value +
+      ".pdf";
+
+    this.setState({ FilePath: FilePath });
   };
   fetchApplications = () => {
     fetch("/api/HearingNotices", {
@@ -36,7 +44,6 @@ class HearingNotices extends Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-     
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -81,6 +88,7 @@ class HearingNotices extends Component {
         label: k.ApplicationNo
       };
     });
+
     return (
       <div>
         <div>
@@ -130,16 +138,15 @@ class HearingNotices extends Component {
                 </div>
                 <hr />
                 <br />
-                <GoogleDocsViewer
+
+                <object
                   width="100%"
-                  height="400px"
-                  fileUrl={
-                    process.env.REACT_APP_BASE_URL +
-                    "/HearingNotices/" +
-                    this.state.ApplicationNo +
-                    ".pdf"
-                  }
-                />
+                  height="450"
+                  data={this.state.FilePath}
+                  type="application/pdf"
+                >
+                  {" "}
+                </object>
               </div>
             </div>
           </div>
