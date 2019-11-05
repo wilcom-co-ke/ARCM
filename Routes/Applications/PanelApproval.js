@@ -245,6 +245,7 @@ PanelApproval.put("/:ID", auth.validateRole("Panels Approval"), function(
 ) {
   const ID = req.params.ID;
   let data = [res.locals.user, ID];
+  
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -261,7 +262,7 @@ PanelApproval.put("/:ID", auth.validateRole("Panels Approval"), function(
             message: error.message
           });
         } else {
-        
+          console.log(results[0]);
           res.json({
             success: true,
             message: "updated",

@@ -262,6 +262,19 @@ class PanelApproval extends Component {
                 ApplicationNo
             )
         }
+        if (Msg === "Approver") {
+            this.SendSMS(
+                Phone,
+                "New Panel List for ApplicationNo:" + ApplicationNo + " has been submited and it's awaiting your review."
+            );
+            this.SendMail(
+                Name,
+                Email,
+                "PanelApprover",
+                "PANEL LIST APPROVAL",
+                ApplicationNo
+            );
+        }
         if (Msg === "Case Officer") {
             this.SendSMS(
                 Phone,
@@ -288,8 +301,7 @@ class PanelApproval extends Component {
             .then(response =>
                 response.json().then(data => {
                     if (data.success) {
-                        toast.success("Submited successfuly");
-                                                           
+                        toast.success("Submited successfuly");                                                           
                         let NewList = [data.results]                       
                         if (NewList.length>0){ 
                             NewList[0].map((item, key) =>                         
