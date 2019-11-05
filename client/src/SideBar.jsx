@@ -439,6 +439,14 @@ const CaseHearing = props => {
                 Case Proceedings
               </Link>
             </li>
+            {props.validaterole("Decision", "View") ? (
+              <li>
+                <Link to="/DecisionPreparations">
+                  <i className="fa fa-tasks" />
+                  Decision Preparations
+                </Link>
+              </li>
+            ) : null}
           </ul>
         ) : null}
       </li>

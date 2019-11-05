@@ -72,6 +72,11 @@ var GeneratePanelList = require("./Routes/generatePdf/GeneratePanelList");
 var GenerateCaseSummary = require("./Routes/generatePdf/GenerateCaseSummary");
 var GenerateAttendanceregister = require("./Routes/generatePdf/GenerateAttendanceregister");
 var FeesApproval = require("./Routes/Applications/FeesApproval");
+
+var issuesfordetermination = require("./Routes/Applications/issuesfordetermination");
+var findingsonissues = require("./Routes/Applications/findingsonissues");
+var decisiondocuments = require("./Routes/Applications/decisiondocuments");
+var decisionorders = require("./Routes/Applications/decisionorders");
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -114,6 +119,12 @@ app.use("/api/confirmation", confirmation);
 app.use("/api/validation_url", validation_url);
 app.use("/api/PE", PE);
 app.use(auth.validateToken);
+
+app.use("/api/issuesfordetermination", issuesfordetermination);
+app.use("/api/findingsonissues", findingsonissues);
+app.use("/api/decisiondocuments", decisiondocuments);
+app.use("/api/decisionorders", decisionorders);
+
 app.use("/api/additionalsubmissions", additionalsubmissions);
 app.use("/api/UpdateProfile", updateprofile);
 app.use("/api/users", Users);
