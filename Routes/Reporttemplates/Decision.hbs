@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>PDF Result Template</title>
+    <style>
+        .logo {
+            height: 130px;
+            width: 170px;
+        }
+
+        .space {
+            line-height: 1.6;
+        }
+
+        .img-container {
+            text-align: center;
+            display: block;
+        }
+
+        .headings {
+            text-align: center;
+        }
+
+        .Container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        h6 {
+            padding: 5px;
+            margin: 0;
+        }
+
+        .customers {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .customers td,
+        .customers th {
+            padding: 8px;
+        }
+
+        .customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .customers th {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            text-align: left;
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .headercolun {
+            width: 200px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Container">
+        {{!-- <span class="img-container">
+            <img class="logo" src="{{ LogoPath }}" alt="" />
+        </span> --}}
+        <H6 class="headings">REPUBLIC OF KENYA</H6>
+        <H6 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</H6>
+        <H6 class="headings">DECISION SUMMARY FOR APPLICATION NO {{ Applicationno }}</H6>
+        <H6 class="headings">BETWEEN {{ ApplicantName }} AND {{ PEName }} SUBMITED ON {{FilingDate}} </H6>
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Application</th>
+        </table>
+        <table class="customers">
+            <tr>
+                <td style="width: 150px">
+                    Application No:
+                </td>
+                <td>{{ Applicationno }}</td>
+            </tr>
+            {{!-- <tr>
+                <td>
+                    Status:
+                </td>
+
+                <td>{{ Applicationstatus }}</td>
+            </tr> --}}
+            <tr>
+                <td>
+                    Application Date:
+                </td>
+                <td>{{ FilingDate }}</td>
+            </tr>
+            <tr>
+                <td>
+                    Date of Notification of Award/Occurrence of Breach:
+                </td>
+                <td>{{ AwardDate }}</td>
+            </tr>
+            <tr>
+                <td>
+                    TenderName:
+                </td>
+                <td>{{ TenderName }}</td>
+            </tr>
+            <tr>
+                <td>
+                    TenderNo:
+                </td>
+                <td>{{ TenderNo }}</td>
+            </tr>
+            <tr>
+                <td>
+                    TenderType:
+                </td>
+                <td>{{ TenderType }}</td>
+            </tr>
+            <tr>
+                <td>
+                    TenderValue:
+                </td>
+                <td>{{ TenderValue }}</td>
+            </tr>
+        </table>
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Background Information</th>
+            <tr>
+                <td>
+                    {{{ BackgroundInformation }}}
+                </td>
+            </tr>
+        </table>
+
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Issues for Determinations</th>
+        </table>
+        <table class="customers">
+            <tr>
+                <td>No</td>
+                <td>Description</td>
+
+            </tr>
+            {{#each Issues}}
+            <tr>
+                <td>{{ NO }}</td>
+
+                <td>
+                    {{{ Description }}}
+                </td>
+
+            </tr>
+            {{/each}}
+        </table>
+
+        <br />
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Findings on Issues</th>
+        </table>
+        <table class="customers">
+            <tr>
+                <td>No</td>
+                <td>Decision</td>
+                <td>Description</td>
+
+            </tr>
+            {{#each Findings}}
+            <tr>
+                <td>{{ NO }}</td>
+                <td>
+                    {{ Actions }}
+                </td>
+                <td>
+                    {{{ Description }}}
+                </td>
+
+            </tr>
+            {{/each}}
+        </table>
+        <br />
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Orders</th>
+        </table>
+        <table class="customers">
+            <tr>
+                <td>No</td>
+                <td>Description</td>
+
+            </tr>
+            {{#each Orders}}
+            <tr>
+                <td>{{ NO }}</td>
+                <td>
+                    {{{ Description }}}
+                </td>
+
+            </tr>
+            {{/each}}
+        </table>
+
+
+
+
+    </div>
+</body>
+
+</html>

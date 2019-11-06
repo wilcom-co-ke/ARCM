@@ -77,6 +77,8 @@ var issuesfordetermination = require("./Routes/Applications/issuesfordeterminati
 var findingsonissues = require("./Routes/Applications/findingsonissues");
 var decisiondocuments = require("./Routes/Applications/decisiondocuments");
 var decisionorders = require("./Routes/Applications/decisionorders");
+var Decision = require("./Routes/Applications/Decision");
+var GenerateDecision =require("./Routes/generatePdf/GenerateDecision")
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -124,6 +126,7 @@ app.use("/api/issuesfordetermination", issuesfordetermination);
 app.use("/api/findingsonissues", findingsonissues);
 app.use("/api/decisiondocuments", decisiondocuments);
 app.use("/api/decisionorders", decisionorders);
+app.use("/api/Decision", Decision);
 
 app.use("/api/additionalsubmissions", additionalsubmissions);
 app.use("/api/UpdateProfile", updateprofile);
@@ -176,6 +179,8 @@ app.use("/api/GenerateRB1Form", GenerateRBForm);
 app.use("/api/GeneratePanelList", GeneratePanelList);
 app.use("/api/GenerateCaseSummary", GenerateCaseSummary);
 app.use("/api/GenerateAttendanceregister", GenerateAttendanceregister);
+app.use("/api/GenerateDecision", GenerateDecision);
+
 app.use((req, res, next) => {
   const error = new Error("resource not found");
   error.status = 404;

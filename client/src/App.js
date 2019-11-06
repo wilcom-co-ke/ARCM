@@ -74,7 +74,8 @@ import CaseSummary from "./Forms/Reports/CaseSummary";
 import Logout from "./Logout";
 import CloseRegistrations from "./Forms/Applications/CloseRegistrations";
 import PreliminaryObjection from "./Forms/Applications/PreliminaryObjection";
-import DecisionPreparations from "./Forms/Applications/DecisionPreparations"
+import DecisionPreparations from "./Forms/Applications/DecisionPreparations";
+import Decision from "./Forms/Applications/Decision";
 const checkAuth = () => {
   let token = localStorage.getItem("token");
   if (!token) {
@@ -119,8 +120,12 @@ function App() {
                 <Route exact path="/Roles" component={Roles} />
                 <Route exct path="/Usergroups" component={UserGroups} />
                 <Route exact path="/Auditrails" component={Auditrails} />
-                <Route exact path="/DecisionPreparations" component={DecisionPreparations} />
-                
+                <Route
+                  exact
+                  path="/DecisionPreparations"
+                  component={DecisionPreparations}
+                />
+                <Route exact path="/Decision" component={Decision} />
                 {/* <Route exact path="/Approvers" component={Approvers} /> */}
                 <Route exact path="/casedetails" component={casedetails} />
                 <Route exact path="/Branches" component={Branches} />

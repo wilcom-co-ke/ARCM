@@ -156,7 +156,7 @@ findingsonissues.delete("/:ID", auth.validateRole("Decision"), function(
       });
     } // not connected!
     else {
-        let sp = "call Deletedecisionorders(?,?,?)";
+      let sp = "call Deletefindingsonissues(?,?,?)";
       connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({

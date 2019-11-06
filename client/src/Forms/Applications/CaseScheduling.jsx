@@ -9,7 +9,6 @@ import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
 import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require('dateformat');
-
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
 var _ = require("lodash");
