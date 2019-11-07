@@ -138,11 +138,10 @@ class counties extends Component {
         swal("", err.message, "error");
       });
   };
- 
+
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-     
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -169,7 +168,6 @@ class counties extends Component {
           return (window.location = "/#/Logout");
         });
     }
- 
   }
   handleSubmit = event => {
     event.preventDefault();

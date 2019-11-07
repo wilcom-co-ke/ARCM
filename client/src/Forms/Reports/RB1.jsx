@@ -6,8 +6,10 @@ class RB1 extends Component {
     super();
     this.state = {
       Applications: [],
-      ApplicationNo: ""
+      ApplicationNo: "",
+      FilePath: ""
     };
+    // this.handleSelectChange = this.handleSelectChange.bind(this);
   }
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({
@@ -132,24 +134,12 @@ class RB1 extends Component {
                 </div>
                 <hr />
                 <br />
-                <object
-                  width="100%"
-                  height="450"
-                  data={this.state.FilePath}
-                  type="application/pdf"
-                >
-                  {" "}
-                </object>
-                {/* <GoogleDocsViewer
-                  width="100%"
-                  height="400px"
-                  fileUrl={
-                    process.env.REACT_APP_BASE_URL +
-                    "/RB1FORMS/" +
-                    this.state.ApplicationNo +
-                    ".pdf"
-                  }
-                /> */}
+
+                {this.state.FilePath ? (
+                  <object width="100%" height="450" data={this.state.FilePath}>
+                    {" "}
+                  </object>
+                ) : null}
               </div>
             </div>
           </div>

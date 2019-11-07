@@ -378,9 +378,10 @@ class createacc extends Component {
             body: JSON.stringify(data)
         })
             .then(response =>
-                response.json().then(data => {
-                    if (data.success) {
-                        const data = {
+                response.json().then(response => {
+                    if (response.success) {
+                       
+                        const datatoPost = {
 
                             Name: this.state.Name,
                             Location: this.state.Location,
@@ -405,18 +406,18 @@ class createacc extends Component {
                                 Procuringentity: this.state.Procuringentity
                             }
                             localStorage.setItem("Unverifiedusername", this.state.PIN);
-                            this.SendMail(data.activationCode);
+                            this.SendMail(response.activationCode);
                             this.postPEData("/api/PEUsers", pedata)
                         }else{
                             localStorage.setItem("Unverifiedusername", this.state.PIN);
-                            this.SendMail(data.activationCode);
-                            this.postData("/api/applicants", data);  
+                            this.SendMail(response.activationCode);
+                            this.postData("/api/applicants", datatoPost);  
                         }
                         
                      
                       
                     } else {
-                        let resmsg = data.message;
+                        let resmsg = response.message;
                         if (resmsg.match(/(^|\W)Duplicate($|\W)/)) {
                             if (resmsg.match(/(^|\W)MobileNo($|\W)/)) {
                                 swal("", "MobileNo Already registered", "error");

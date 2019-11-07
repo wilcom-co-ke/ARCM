@@ -88,7 +88,6 @@ class Attendance extends Component {
   };
   fetchmembers = SittingID => {
     this.setState({ Members: [] });
-
     fetch("/api/GenerateAttendanceregister/" + SittingID + "/Attendance", {
       method: "GET",
       headers: {

@@ -69,36 +69,30 @@
         </span> --}}
         <H6 class="headings">REPUBLIC OF KENYA</H6>
         <H6 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</H6>
-        <H6 class="headings">DECISION SUMMARY FOR APPLICATION NO {{ Applicationno }}</H6>
-        <H6 class="headings">BETWEEN {{ ApplicantName }} AND {{ PEName }} SUBMITED ON {{FilingDate}} </H6>
+        <H6 class="headings">DECISION SUMMARY FOR APPLICATION NO {{ Applicationno }} OF {{FilingDate}}</H6>
+        <H6 class="headings">BETWEEN </H6>
+        <H6 class="headings">BETWEEN {{ ApplicantName }}..........APPLICANT</H6>
+        <H6 class="headings"> AND </H6>
+        <H6 class="headings"> {{ PEName }} ...........PROCURING ENTITY </H6>
+
+
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Application</th>
         </table>
         <table class="customers">
-            <tr>
-                <td style="width: 150px">
-                    Application No:
-                </td>
-                <td>{{ Applicationno }}</td>
-            </tr>
-            {{!-- <tr>
-                <td>
-                    Status:
-                </td>
 
-                <td>{{ Applicationstatus }}</td>
-            </tr> --}}
-            <tr>
-                <td>
-                    Application Date:
-                </td>
-                <td>{{ FilingDate }}</td>
-            </tr>
+
             <tr>
                 <td>
                     Date of Notification of Award/Occurrence of Breach:
                 </td>
                 <td>{{ AwardDate }}</td>
+            </tr>
+            <tr>
+                <td>
+                    Decision Date:
+                </td>
+                <td>{{ DecisionDate }}</td>
             </tr>
             <tr>
                 <td>
@@ -125,6 +119,62 @@
                 <td>{{ TenderValue }}</td>
             </tr>
         </table>
+
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Board Members</th>
+        </table>
+        <table>
+
+            {{#each Boardmembers}}
+            <tr>
+                <td>{{ ID }}.&nbsp;</td>
+                <td>
+                    {{ Name }}
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp; -{{ Role }}
+                </td>
+                <td></td>
+
+            </tr>
+            {{/each}}
+        </table>
+
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Interested Parties</th>
+        </table>
+        <table>
+            {{#each InterestedParties}}
+            <tr>
+                <td>{{ ID }}. &nbsp;</td>
+                <td>{{ Name }}</td>
+            </tr>
+            {{/each}}
+        </table>
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Attendance</th>
+        </table>
+        <br>
+        <table>
+
+
+            {{#group Attendance by="Date"}}
+            <b>Date:&nbsp; {{ value }}</b>&nbsp;&nbsp;
+            {{#group items by="venue"}}
+            <b>Venue:&nbsp;{{ value }}</b>
+
+            {{#each items}}
+            <tr>
+                <td>{{ Name }} &nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp; -{{ FirmFrom }}</td>
+            </tr>
+            {{/each}}
+            {{/group}}
+
+            {{/group}}
+
+
+        </table>
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Background Information</th>
             <tr>
@@ -133,7 +183,6 @@
                 </td>
             </tr>
         </table>
-
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Issues for Determinations</th>
         </table>

@@ -41,9 +41,9 @@ module.exports = ({
   </head>
   <body>
     <div class="Container"> 
- <span class="img-container">
-    <img class="logo" src=${LogoPath} alt="">
-    </span>
+//  <span class="img-container">
+//     <img class="logo" src=${LogoPath} alt="">
+//     </span>
       <h2 class="headings">REPUBLIC OF KENYA</h2>
       <H3 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</H3>
       <H3 class="headings">REQUEST NO ${ApplicationNo}</H3>

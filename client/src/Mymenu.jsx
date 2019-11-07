@@ -97,45 +97,74 @@ class Mymenu extends Component {
               </a>
               <ul className="nav nav-second-level collapse">
                 <li className="active">
-                  <Link to="/ApplicantProfile">My Details</Link>
+                  <Link to="/ApplicantProfile">
+                    {" "}
+                    <i className="fa fa-tasks" />
+                    My Details
+                  </Link>
                 </li>
                 {UserCategory === "Applicant" ? (
                   <li>
-                    <Link to="/Applications">Applications</Link>
+                    <Link to="/Applications">
+                      {" "}
+                      <i className="fa fa-tasks" />
+                      Applications
+                    </Link>
                   </li>
                 ) : (
                   <li>
-                    <Link to="/PEApplications">Applications</Link>
+                    <Link to="/PEApplications">
+                      <i className="fa fa-tasks" />
+                      Applications
+                    </Link>
                   </li>
                 )}
                 {UserCategory === "Applicant" ? (
                   <li>
                     <Link to="/additionalsubmissions">
+                      <i className="fa fa-tasks" />
                       Additional submissions
                     </Link>
                   </li>
                 ) : (
                   <li>
                     <Link to="/PEadditionalsubmissions">
+                      <i className="fa fa-tasks" />
                       Additional submissions
                     </Link>
                   </li>
                 )}
                 {UserCategory === "PE" ? (
                   <li>
-                    <Link to="/MyResponse">Response</Link>
+                    <Link to="/MyResponse">
+                      <i className="fa fa-tasks" />
+                      Response
+                    </Link>
                   </li>
                 ) : null}
                 {UserCategory === "Applicant" ? (
                   <li>
-                    <Link to="/CaseWithdrawal">Case Withdrawal</Link>
+                    <Link to="/CaseWithdrawal">
+                      <i className="fa fa-tasks" />
+                      Case Withdrawal
+                    </Link>
                   </li>
                 ) : null}
                 {UserCategory === "Applicant" ? (
                   <li>
-                    <Link to="/adjournment">Case adjournment</Link>
+                    <Link to="/adjournment">
+                      <i className="fa fa-tasks" />
+                      Case adjournment
+                    </Link>
                   </li>
                 ) : null}
+
+                <li>
+                  <Link to="/Decision">
+                    <i className="fa fa-tasks" />
+                    Decision
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>

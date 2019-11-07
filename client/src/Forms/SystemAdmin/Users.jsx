@@ -543,7 +543,7 @@ class Users extends Component {
       // loop create toast massage
       event.target.value = null;
       toast.error(err[z]);
-      return false
+      return false;
     }
     return true;
   };

@@ -64,9 +64,9 @@
 
 <body>
     <div class="Container">
-        <span class="img-container">
+        {{!-- <span class="img-container">
             <img class="logo" src="{{ LogoPath }}" alt="" />
-        </span>
+        </span> --}}
         <H6 class="headings">REPUBLIC OF KENYA</H6>
         <H6 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVEREVIEW BOARD</H6>
         <H6 class="headings">SUMMARY FOR APPLICATION NO {{ Applicationno }}</H6>
@@ -76,16 +76,16 @@
         </table>
         <table class="customers">
             <tr>
-                <td style="width: 150px">
-                    Application No:
+                <td>
+                    Date of Notification of Award/Occurrence of Breach:
                 </td>
-                <td>{{ Applicationno }}</td>
+                <td>{{ AwardDate }}</td>
             </tr>
             <tr>
                 <td>
-                    Application Date:
+                    Application Timing:
                 </td>
-                <td>{{ FilingDate }}</td>
+                <td>{{ Timer }}</td>
             </tr>
             <tr>
                 <td>
@@ -94,7 +94,27 @@
 
                 <td>{{ Applicationstatus }}</td>
             </tr>
+            <tr>
+                <td style="width: 150px">TenderNo:</td>
+                <td>{{ TenderNo }}</td>
+            </tr>
+            <tr>
+                <td>TenderName:</td>
+                <td>{{ TenderName }}</td>
+            </tr>
+            <tr>
+                <td>
+                    TenderType:
+                </td>
+                <td>{{ TenderType }}</td>
+            </tr>
 
+            <tr>
+                <td>Tender Value:</td>
+                <td>
+                    {{ TenderValue }}
+                </td>
+            </tr>
 
         </table>
         <table class="customers" cellpadding="0" cellspacing="0">
@@ -187,26 +207,7 @@
 
         </table>
 
-        <table class="customers" cellpadding="0" cellspacing="0">
-            <th class="headercolun">Tender Details</th>
-        </table>
-        <table class="customers">
-            <tr>
-                <td style="width: 150px">TenderNo:</td>
-                <td>{{ TenderNo }}</td>
-            </tr>
-            <tr>
-                <td>TenderName:</td>
-                <td>{{ TenderName }}</td>
-            </tr>
-            <tr>
-                <td>Tender Value:</td>
-                <td>
-                    {{ TenderValue }}
-                </td>
-            </tr>
 
-        </table>
 
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Tender Addendum</th>
@@ -232,7 +233,17 @@
             </tr>
             {{/each}}
         </table>
-        <br>
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Interested Parties</th>
+        </table>
+        <table>
+            {{#each InterestedParties}}
+            <tr>
+                <td>{{ ID }}. &nbsp;</td>
+                <td>{{ Name }}</td>
+            </tr>
+            {{/each}}
+        </table>
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Grounds for Appeal</th>
         </table>
@@ -292,6 +303,22 @@
 
 
             </tr>
+        </table>
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>Additional Submisions</th>
+        </table>
+        <table class="customers">
+
+            {{!-- {{#group AdditionalSubmisions by="Category"}}
+            <h5>Submited by:{{ value }} </h5> --}}
+            {{#each AdditionalSubmisions}}
+
+            <tr>
+                <td>{{{ Description }}}.</td>
+
+            </tr>
+            {{/each}}
+            {{!-- {{/group}} --}}
         </table>
         <br>
         <table class="customers" cellpadding="0" cellspacing="0">

@@ -1,11 +1,11 @@
 var express = require("express");
-var Decision = express();
+var CaseFollowUp = express();
 var mysql = require("mysql");
-var config = require("./../../DB");
+var config = require("../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
-var auth = require("./../../auth");
-Decision.get("/", auth.validateRole("Decision"), function(req, res) {
+var auth = require("../../auth");
+CaseFollowUp.get("/", auth.validateRole("Case FollowUp"), function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -14,7 +14,7 @@ Decision.get("/", auth.validateRole("Decision"), function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call GetApplicationsforDecision()";
+      let sp = "call getapplicationsforFollowup()";
       connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
@@ -30,7 +30,10 @@ Decision.get("/", auth.validateRole("Decision"), function(req, res) {
     }
   });
 });
-Decision.get("/:ID", auth.validateRole("Decision"), function(req, res) {
+CaseFollowUp.get("/:ID", auth.validateRole("Case FollowUp"), function(
+  req,
+  res
+) {
   const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {
@@ -40,7 +43,38 @@ Decision.get("/:ID", auth.validateRole("Decision"), function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call GetApplicationDecisionsBackgroundinformation(?)";
+      let sp = "call getPrimaryCaseOfficer(?)";
+      connection.query(sp, [ID], function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            results: results[0]
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
+CaseFollowUp.get("/:ID/:MyCases", auth.validateRole("Case FollowUp"), function(
+  req,
+  res
+) {
+  const ID = req.params.ID;
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call getMycases(?)";
       connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
@@ -56,98 +90,26 @@ Decision.get("/:ID", auth.validateRole("Decision"), function(req, res) {
     }
   });
 });
-Decision.get("/:ID/:Attendance", auth.validateRole("Decision"), function (req, res) {
-  const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
-    if (err) {
-      res.json({
-        success: false,
-        message: err.message
-      });
-    } // not connected!
-    else {
-      let sp = "call ComprehensiveAttendanceRegister(?)";
-      connection.query(sp, [ID], function (error, results, fields) {
-        if (error) {
-          res.json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.json(results[0]);
-        }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
-      });
-    }
-  });
-});
 
-Decision.post("/", auth.validateRole("Decision"), function(req, res) {
+CaseFollowUp.post("/", auth.validateRole("Case FollowUp"), function(req, res) {
   const schema = Joi.object().keys({
-    Followup: Joi.boolean(),
-    Referral: Joi.boolean(),
-    Closed: Joi.boolean(),
-    DecisionDate: Joi.date().required(),
-
-    ApplicationNo: Joi.string().required()
+    Username: Joi.string()
+      .min(3)
+      .required(),
+    ApplicationNo: Joi.string()
+      .min(3)
+      .required(),
+    Reason: Joi.string()
+      .min(3)
+      .required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
     let data = [
-      req.body.ApplicationNo,
       res.locals.user,
-      req.body.DecisionDate,
-      req.body.Followup,
-      req.body.Referral,
-
-      req.body.Closed
-    ];
-
-    con.getConnection(function(err, connection) {
-      if (err) {
-        res.json({
-          success: false,
-          message: err.message
-        });
-      } // not connected!
-      else {
-        let sp = "call SubmitCaseDecision(?,?,?,?,?,?)";
-        connection.query(sp, data, function(error, results, fields) {
-          if (error) {
-            res.json({
-              success: false,
-              message: error.message
-            });
-          } else {
-            res.json({
-              success: true,
-              message: "saved"
-            });
-          }
-          connection.release();
-          // Don't use the connection here, it has been returned to the pool.
-        });
-      }
-    });
-  } else {
-    res.json({
-      success: false,
-      message: result.error.details[0].message
-    });
-  }
-});
-Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
-  const schema = Joi.object().keys({
-    ApplicationNo: Joi.string().required(),
-    Backgroundinformation: Joi.string().required()
-  });
-  const result = Joi.validate(req.body, schema);
-  if (!result.error) {
-    let data = [
       req.body.ApplicationNo,
-      req.body.Backgroundinformation,
-      res.locals.user
+      req.body.Username,
+      req.body.Reason
     ];
 
     con.getConnection(function(err, connection) {
@@ -158,7 +120,7 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call Savedecisions(?,?,?)";
+        let sp = "call ReasignCaseOfficer(?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -168,7 +130,8 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
           } else {
             res.json({
               success: true,
-              message: "saved"
+              message: "saved",
+              results: results[0]
             });
           }
           connection.release();
@@ -184,4 +147,4 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
   }
 });
 
-module.exports = Decision;
+module.exports = CaseFollowUp;

@@ -19,6 +19,9 @@ class DecisionPreparations extends Component {
       Documents: [],
       Applications: [],
       Findings: [],
+      Attendance:[],
+      InterestedParties:[],
+      Boardmembers:[],
       TenderName: "",
       ApplicantDetails: [],
       privilages: [],
@@ -195,6 +198,69 @@ class DecisionPreparations extends Component {
         swal("", err.message, "error");
       });
   };
+  fetchInterestedParties = ApplicationNo => {
+    this.setState({ InterestedParties: [] });
+    fetch("/api/interestedparties/" + ApplicationNo , {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ApplicantDetails => {
+        if (ApplicantDetails.length > 0) {
+          this.setState({ InterestedParties: ApplicantDetails });
+        } else {
+          swal("", ApplicantDetails.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  fetchBoardMembers = ApplicationNo => {
+    this.setState({ Boardmembers: [] });
+    fetch("/api/GeneratePanelList/" + ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ApplicantDetails => {
+        if (ApplicantDetails.length > 0) {
+          this.setState({ Boardmembers: ApplicantDetails });
+        } else {
+          swal("", ApplicantDetails.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  fetchAttendance = ApplicationNo => {
+    this.setState({ Attendance: [] });
+    fetch("/api/Decision/" + ApplicationNo+"/Attendance", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ApplicantDetails => {
+        if (ApplicantDetails.length > 0) {
+          this.setState({ Attendance: ApplicantDetails });
+        } else {
+          swal("", ApplicantDetails.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
   fetchBackgroundInformation = ApplicationNo => {
     this.setState({ BackgroundInformation: "" });
     fetch("/api/Decision/" + ApplicationNo, {
@@ -231,7 +297,7 @@ class DecisionPreparations extends Component {
   };
 
   fetchApplications = () => {
-      this.setState({ Applications: [] });
+    this.setState({ Applications: [] });
     fetch("/api/HearingInProgress", {
       method: "GET",
       headers: {
@@ -312,7 +378,10 @@ class DecisionPreparations extends Component {
     this.setState({ openIssuesModal: true, Orders: false });
   };
   openBackgroundModal = () => {
-      this.setState({ openBackgroundsModal: true, Description: this.state.BackgroundInformation});
+    this.setState({
+      openBackgroundsModal: true,
+      Description: this.state.BackgroundInformation
+    });
   };
   CloseBackgroundModal = () => {
     this.setState({ openBackgroundsModal: false });
@@ -476,7 +545,7 @@ class DecisionPreparations extends Component {
 
     this.setState({ FileURL: filepath });
   };
-   
+
   HandleIssuesEdit = d => {
     this.setState({
       Description: d.Description,
@@ -573,10 +642,20 @@ class DecisionPreparations extends Component {
       TenderValue: k.TenderValue,
       TenderCategory: k.TenderCategory,
       TenderSubCategory: k.TenderSubCategory,
-      TenderType: k.TenderType
+      TenderType: k.TenderType,
+      DecisionDate: dateFormat(
+        new Date(k.DecisionDate).toLocaleDateString(),
+        "isoDate"
+      ),
+      FollowUpRequired: !!+k.Followup,
+      RefertoDG: !!+k.Referral,
+      Closed: !!+k.Closed
     };
     this.setState(data);
     this.fetchApplicantDetails(k.ApplicationNo);
+    this.fetchInterestedParties(k.ApplicationNo);
+    this.fetchBoardMembers(k.ApplicationNo)
+    this.fetchAttendance(k.ApplicationNo)
     this.fetchBackgroundInformation(k.ApplicationNo);
     this.fetchPEDetails(k.ApplicationNo);
     this.fetchDocuments(k.ApplicationNo);
@@ -592,9 +671,15 @@ class DecisionPreparations extends Component {
       Issues: this.state.Issues,
       Orders: this.state.Decisionorders,
       Findings: this.state.Findings,
+      Attendance: this.state.Attendance,
+      DecisionDate: dateFormat(new Date(this.state.DecisionDate).toLocaleDateString(), "mediumDate"
+      ),
+
+      InterestedParties: this.state.InterestedParties,
+      Boardmembers: this.state.Boardmembers,
       ApplicantName: app,
       PEName: pe,
-        BackgroundInformation: this.state.BackgroundInformation,
+      BackgroundInformation: this.state.BackgroundInformation,
       Applicationstatus: this.state.Status,
       FilingDate: dateFormat(
         new Date(this.state.FilingDate).toLocaleDateString(),
@@ -659,10 +744,9 @@ class DecisionPreparations extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-              this.fetchApplications()
-             swal("", "Submited", "success");
-              this.setState({ summary: false });
-              
+            this.fetchApplications();
+            swal("", "Submited", "success");
+            this.setState({ summary: false });
           } else {
             swal("", data.message, "error");
           }
@@ -1650,7 +1734,6 @@ class DecisionPreparations extends Component {
                     <p></p>
                     <div>
                       <table class="table table-sm">
-                        
                         <tbody>
                           <tr>
                             <td>
@@ -1663,9 +1746,7 @@ class DecisionPreparations extends Component {
                               <span>
                                 <a
                                   style={{ color: "#007bff" }}
-                                  onClick={
-                                      this.openBackgroundModal
-                                  }
+                                  onClick={this.openBackgroundModal}
                                 >
                                   Edit
                                 </a>

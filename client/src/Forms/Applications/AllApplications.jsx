@@ -996,6 +996,7 @@ of Breach:</td>
                             <h4 style={{ "text-align": "center", color: "#1c84c6" }}>APPLICATION {this.state.ApplicationNo}</h4>
 
                             <div className="container-fluid" >
+                                <div style={{ "overflow-y": "scroll", height: "400px" }}>
                                 <table className="table  table-sm  table-striped">
                                     <thead class="thead-light">
                                     <th>Date</th>
@@ -1030,6 +1031,7 @@ of Breach:</td>
                                 
                             ))}
                                 </table>
+                             </div>
                              </div>
 
                         </div>

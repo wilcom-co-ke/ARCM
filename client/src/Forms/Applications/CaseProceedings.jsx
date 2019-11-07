@@ -153,7 +153,7 @@ class CaseProceedings extends Component {
             });
     };
     fetchApplications = () => {
-        this.setState({ casedetails: [] });
+        this.setState({ Applications: [] });
         fetch("/api/HearingInProgress/1/1", {
             method: "GET",
             headers: {
@@ -726,6 +726,25 @@ class CaseProceedings extends Component {
 
             return (
                 <div>
+                    <Modal visible={this.state.openPlayer} width="1000" height="700" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
+
+
+                        <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
+                        <br />
+                        <div className="container-fluid">
+                            <div className="col-sm-12">
+                                <div style={{ "overflow-y": "scroll", height: "680px" }}>
+                                    <ReactPlayer
+                                        url={this.state.MediaURL}
+                                        className='react-player'
+                                        playing
+                                        controls="true"
+                                        width="700"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </Modal>
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-10">
                             <ol className="breadcrumb">
@@ -1133,30 +1152,14 @@ class CaseProceedings extends Component {
                             <div>
 
                                 <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeViewerModal()}>Close</a>
-                                <GoogleDocsViewer
-                                    width="100%"
-                                    height="540px"
-                                    fileUrl={this.state.FileURL}
-                                />
+
+                                <object width="100%" height="450" data={this.state.FileURL}></object>
                             </div>
                         </Modal>
 
 
 
-                        <Modal visible={this.state.openPlayer} width="830" height="400" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
-                            <div>
-
-                                <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
-                             
-                                <ReactPlayer
-                                    url={this.state.MediaURL}
-                                    className='react-player'
-                                    playing
-                                    width='800px'
-                                    height='390px'
-                                />
-                            </div>
-                        </Modal>
+                    
 
 
 

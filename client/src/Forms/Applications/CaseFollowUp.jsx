@@ -9,19 +9,19 @@ import ReactHtmlParser from "react-html-parser";
 import Modal from 'react-awesome-modal';
 var dateFormat = require("dateformat");
 var _ = require("lodash");
-class Decision extends Component {
+class CaseFollowUp extends Component {
     constructor() {
         super();
         this.state = {
             Documents: [],
             Applications: [],
-            Findings:[],
+            Findings: [],
             Decisionorders: [],
             Issues: [],
             TenderName: "",
             ApplicantDetails: [],
             privilages: [],
-            Confidential:false,           
+            Confidential: false,
             ApplicationNo: "",
             PEDetails: [],
             summary: false,
@@ -29,38 +29,38 @@ class Decision extends Component {
             Orders: false,
             TenderName: "",
             FilingDate: "",
-            BackgroundInformation: "" ,
+            BackgroundInformation: "",
             AwardDate: "",
             TenderNo: "",
-            TenderValue:"",
+            TenderValue: "",
             TenderCategory: "",
             TenderSubCategory: "",
-            TenderType:"",
+            TenderType: "",
 
             FollowUpRequired: false,
             RefertoDG: false,
             Closed: false,
-            DecisionDate: "", 
+            DecisionDate: "",
             selectedFile: null,
             loaded: 0,
-            IsUpdateFindings:false,
+            IsUpdateFindings: false,
             Description: "",
-            IsUpdateissues:false,
+            IsUpdateissues: false,
             openViewer: false,
-            openIssuesModal:false,
-            openFindingsModal:false,
+            openIssuesModal: false,
+            openFindingsModal: false,
             loaded: 0,
-            Number:"",
-            Action:""
+            Number: "",
+            Action: ""
 
         };
 
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.HandlePrevieView = this.HandlePrevieView.bind(this)
-       
+
     }
-    openModal=()=> {
+    openModal = () => {
         this.setState({ open: true });
 
     }
@@ -87,10 +87,10 @@ class Decision extends Component {
                 swal("", err.message, "error");
             });
     };
-    closeModal=()=> {
+    closeModal = () => {
         this.setState({ open: false });
     }
-  
+
     fetchPEDetails = (ApplicationNo) => {
         this.setState({ PEDetails: [] });
         fetch("/api/PE/" + ApplicationNo + "/ApplicantDetails", {
@@ -113,11 +113,11 @@ class Decision extends Component {
                 swal("", err.message, "error");
             });
     };
-    
-     fetchOrders = (ApplicationNo) => {
-        
-         this.setState({ Decisionorders: [] });
-         fetch("/api/decisionorders/" + ApplicationNo, {
+
+    fetchOrders = (ApplicationNo) => {
+
+        this.setState({ Decisionorders: [] });
+        fetch("/api/decisionorders/" + ApplicationNo, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -126,7 +126,7 @@ class Decision extends Component {
         })
             .then(res => res.json())
             .then(PEDetails => {
-              
+
                 if (PEDetails.length > 0) {
 
                     this.setState({ Decisionorders: PEDetails });
@@ -161,7 +161,7 @@ class Decision extends Component {
             });
     };
     fetchFindings = (ApplicationNo) => {
-     
+
         this.setState({ Findings: [] });
         fetch("/api/findingsonissues/" + ApplicationNo, {
             method: "GET",
@@ -229,10 +229,10 @@ class Decision extends Component {
     };
     handleSelectChange = (UserGroup, actionMeta) => {
         this.setState({ [actionMeta.name]: UserGroup.value });
-    };    
+    };
     fetchApplications = () => {
         this.setState({ Applications: [] });
-        fetch("/api/Decision", {
+        fetch("/api/CaseFollowUp", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -284,30 +284,30 @@ class Decision extends Component {
 
 
     }
-    
-  
+
+
     switchMenu = e => {
         this.setState({ summary: false });
     }
 
 
-   
- 
+
+
     HandlePrevieView = (d) => {
 
-        let filepath = d.Path +"/"+ d.Name
+        let filepath = d.Path + "/" + d.Name
         var res = filepath.split(".");
-        if(res[1]=="pdf"){
+        if (res[1] == "pdf") {
             this.setState({ openViewer: true });
         }
         if (res[1] == "PDF") {
             this.setState({ openViewer: true });
         }
-        
+
         this.setState({ FileURL: filepath });
 
-    } 
-  
+    }
+
     ProtectRoute() {
         fetch("/api/UserAccess", {
             method: "GET",
@@ -443,7 +443,7 @@ class Decision extends Component {
             TenderCategory: k.TenderCategory,
             TenderSubCategory: k.TenderSubCategory,
             TenderType: k.TenderType,
-           
+
             DecisionDate: dateFormat(
                 new Date(k.DecisionDate).toLocaleDateString(),
                 "isoDate"
@@ -463,7 +463,7 @@ class Decision extends Component {
         this.fetchFindings(k.ApplicationNo)
         this.fetchOrders(k.ApplicationNo)
         this.fetchBackgroundInformation(k.ApplicationNo);
-      
+
     };
 
     PrintPDF = () => {
@@ -590,10 +590,10 @@ class Decision extends Component {
             });
         }
 
-      
-        
+
+
         if (this.state.summary) {
-           
+
             return (
                 <div>
                     <ToastContainer />
@@ -764,10 +764,10 @@ class Decision extends Component {
                                 <div className="row border border-success rounded bg-white">
                                     <div class="col-sm-12">
                                         <br />
-                                        
+
                                         <div>
                                             <table class="table table-sm">
-                                              
+
                                                 <tbody>
                                                     <tr>
                                                         <td>
@@ -775,7 +775,7 @@ class Decision extends Component {
                                                                 this.state.BackgroundInformation
                                                             )}
                                                         </td>
-                                                     
+
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -784,135 +784,135 @@ class Decision extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">                            
-                            <div className="col-lg-1"></div>                          
+                        <div className="row">
+                            <div className="col-lg-1"></div>
                             <div className="col-lg-10 ">
                                 <h3 style={headingstyle}>
                                     Issues for Determinations
                                         </h3>
                                 <div className="row border border-success rounded bg-white">
                                     <div class="col-sm-12">
-                                                                       
-                                      
-                                        <br/>
-                                      
-                                       <div>
-                                        <table class="table table-sm">
+
+
+                                        <br />
+
+                                        <div>
+                                            <table class="table table-sm">
                                                 <thead className="thead-light">
-                                                            <tr>
-                                                                <th scope="col">NO</th>
-                                                                <th scope="col"> Description</th>
-                                                               
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                    <tr>
+                                                        <th scope="col">NO</th>
+                                                        <th scope="col"> Description</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                     {this.state.Issues.map((r, i) =>
 
-                                                                <tr>
-                                                                    <td>{r.NO}</td>
-                                                                    <td>
+                                                        <tr>
+                                                            <td>{r.NO}</td>
+                                                            <td>
                                                                 {ReactHtmlParser(r.Description)}
-                                                                    
-                                                                    </td>
-                                                                 
-                                                                </tr>
 
-                                                            )}
-                                                        </tbody>
-                                                    </table>
-                                                 
-                                      </div>
-                                          
+                                                            </td>
+
+                                                        </tr>
+
+                                                    )}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                          <div className="row">                            
-                            <div className="col-lg-1"></div>                          
+                        <div className="row">
+                            <div className="col-lg-1"></div>
                             <div className="col-lg-10 ">
                                 <h3 style={headingstyle}>
-                                   Findings on Issues
+                                    Findings on Issues
                                         </h3>
                                 <div className="row border border-success rounded bg-white">
                                     <div class="col-sm-12">
-                                                                     
-                                      
-                                        <br/>
-                                      
-                                       <div>
-                                        <table class="table table-sm">
+
+
+                                        <br />
+
+                                        <div>
+                                            <table class="table table-sm">
                                                 <thead className="thead-light">
-                                                            <tr>
+                                                    <tr>
                                                         <th scope="col">NO</th>
-                                                                <th scope="col">Decision</th>
-                                                                <th scope="col"> Description</th>
-                                                                
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                        <th scope="col">Decision</th>
+                                                        <th scope="col"> Description</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                     {this.state.Findings.map((r, i) =>
 
-                                                                <tr>
+                                                        <tr>
                                                             <td>{r.NO}</td>
                                                             <td>{r.Actions}</td>
-                                                                    
-                                                                    <td>
-                                                                {ReactHtmlParser(r.Description)}
-                                                                    
-                                                                    </td>
-                                                                  
-                                                                </tr>
 
-                                                            )}
-                                                        </tbody>
-                                                    </table>
-                                                 
-                                      </div>
-                                          
+                                                            <td>
+                                                                {ReactHtmlParser(r.Description)}
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    )}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                        <div className="row">                            
-                            <div className="col-lg-1"></div>                          
+                        <div className="row">
+                            <div className="col-lg-1"></div>
                             <div className="col-lg-10 ">
                                 <h3 style={headingstyle}>
                                     Orders
                                         </h3>
                                 <div className="row border border-success rounded bg-white">
-                                    <div class="col-sm-12">                                                                        
-                                      
-                                        <br/>
-                                      
-                                       <div>
-                                        <table class="table table-sm">
+                                    <div class="col-sm-12">
+
+                                        <br />
+
+                                        <div>
+                                            <table class="table table-sm">
                                                 <thead className="thead-light">
-                                                            <tr>
-                                                                <th scope="col">NO</th>
-                                                                <th scope="col"> Description</th>
-                                                              
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                    <tr>
+                                                        <th scope="col">NO</th>
+                                                        <th scope="col"> Description</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
                                                     {this.state.Decisionorders.map((r, i) =>
 
-                                                                <tr>
-                                                                    <td>{r.NO}</td>
-                                                                    <td>
+                                                        <tr>
+                                                            <td>{r.NO}</td>
+                                                            <td>
                                                                 {ReactHtmlParser(r.Description)}
-                                                                    
-                                                                    </td>
-                                                                   
-                                                                </tr>
 
-                                                            )}
-                                                        </tbody>
-                                                    </table>
-                                                 
-                                      </div>
-                                          
+                                                            </td>
+
+                                                        </tr>
+
+                                                    )}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -928,7 +928,7 @@ class Decision extends Component {
                                     <div class="col-sm-12">
 
                                         <br />
-                                      
+
                                         <div>
                                             <table class="table table-sm">
                                                 <thead className="thead-light">
@@ -974,7 +974,7 @@ class Decision extends Component {
                             <div className="col-lg-1"></div>
                             <div className="col-lg-10 ">
                                 <h3 style={headingstyle}>
-                                    Decision 
+                                    Decision
                                         </h3>
                                 <div className="row border border-success rounded bg-white">
                                     <div class="col-sm-12">
@@ -1053,7 +1053,7 @@ class Decision extends Component {
                                                     >
                                                         Print
                                                         </button>
-                                                        &nbsp;
+                                                    &nbsp;
                                                     <button
                                                         className="btn btn-warning"
                                                         type="button"
@@ -1070,7 +1070,7 @@ class Decision extends Component {
 
                             </div>
                         </div>
-                
+
 
 
                     </div>
@@ -1085,7 +1085,7 @@ class Decision extends Component {
                             <div className="col-lg-10">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <h2>Decisions</h2>
+                                        <h2>CASE FOLLOW UP</h2>
                                     </li>
                                 </ol>
                             </div>
@@ -1116,4 +1116,4 @@ class Decision extends Component {
     }
 }
 
-export default Decision;
+export default CaseFollowUp;

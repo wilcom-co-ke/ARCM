@@ -3,7 +3,10 @@ var GenerateDecision = express();
 const fs = require("fs");
 const path = require("path");
 const puppeteer = require("puppeteer");
-const handlebars = require("handlebars");
+const handlebars = require("handlebars"),
+  groupBy = require("handlebars-group-by");
+groupBy(handlebars);
+
 var mysql = require("mysql");
 var config = require("../../DB");
 var con = mysql.createPool(config);

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import swal from "sweetalert";
 import Select from "react-select";
-
 var dateFormat = require("dateformat");
+
 class CaseSummary extends Component {
   constructor() {
     super();
@@ -13,8 +13,10 @@ class CaseSummary extends Component {
       Applicationfees: [],
       ApplicationGrounds: [],
       ResponseDetails: [],
+      InterestedParties: [],
       ApplicationNo: "",
       ApplicantName: "",
+      AdditionalSubmisions: [],
       PEName: "",
       File: "",
       FilePath: "",
@@ -35,6 +37,27 @@ class CaseSummary extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.Downloadfile = this.Downloadfile.bind(this);
   }
+  fetchInterestedParties = ApplicationNo => {
+    this.setState({ InterestedParties: [] });
+    fetch("/api/interestedparties/" + ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ApplicantDetails => {
+        if (ApplicantDetails.length > 0) {
+          this.setState({ InterestedParties: ApplicantDetails });
+        } else {
+          swal("", ApplicantDetails.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
   fetchApplicantDetails = Applicant => {
     fetch("/api/applicants/" + Applicant, {
       method: "GET",
@@ -184,8 +207,11 @@ class CaseSummary extends Component {
       PEWebsite: filtereddata[0].PEWebsite,
       PEName: filtereddata[0].PEName,
       TenderName: filtereddata[0].TenderName,
-      TenderNo: filtereddata[0].TenderNo,
+      TenderType: filtereddata[0].TenderTypeDesc,
+      AwardDate: filtereddata[0].AwardDate,
       TenderValue: filtereddata[0].TenderValue,
+      TenderNo: filtereddata[0].TenderNo,
+      Timer: filtereddata[0].Timer,
       ApplicantName: filtereddata[0].ApplicantName,
 
       AddedAdendums: [],
@@ -198,6 +224,8 @@ class CaseSummary extends Component {
       TotalAmountdue: ""
     };
     this.setState(data);
+    this.fetchAdditionalSubmisions(UserGroup.value);
+    this.fetchInterestedParties(UserGroup.value);
     this.fetchApplicationGrounds(filtereddata[0].ID);
     this.fetchApplicationfees(filtereddata[0].ID);
     this.fetchTenderAdendums(filtereddata[0].TenderID);
@@ -279,6 +307,31 @@ class CaseSummary extends Component {
     let newtot = Number(num).toFixed(2);
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
+  fetchAdditionalSubmisions = ApplicationNo => {
+    this.setState({
+      AdditionalSubmisions: []
+    });
+    fetch("/api/additionalsubmissions/" + ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(AdditionalSubmisions => {
+        if (AdditionalSubmisions.length > 0) {
+          this.setState({
+            AdditionalSubmisions: AdditionalSubmisions
+          });
+        } else {
+          //toast.error(AdditionalSubmisions.message);
+        }
+      })
+      .catch(err => {
+        //toast.error(err.message);
+      });
+  };
   Downloadfile = () => {
     if (this.state.ApplicationNo) {
       const data = {
@@ -292,12 +345,20 @@ class CaseSummary extends Component {
         Applicationfees: this.state.Applicationfees,
         ApplicationGrounds: this.state.ApplicationGrounds,
         ResponseDetails: this.state.ResponseDetails,
+        TenderType: this.state.TenderType,
+        Timer: this.state.Timer,
+        InterestedParties: this.state.InterestedParties,
+        AdditionalSubmisions: this.state.AdditionalSubmisions,
+        AwardDate: dateFormat(
+          new Date(this.state.AwardDate).toLocaleDateString(),
+          "fullDate"
+        ),
         LogoPath: process.env.REACT_APP_BASE_URL + "/images/Harambee.png",
         TotalBalance: this.state.TotalBalance,
         TotalPaid: this.state.TotalPaid,
         FilingDate: dateFormat(
           new Date(this.state.FilingDate).toLocaleDateString(),
-          "isoDate"
+          "fullDate"
         ),
         PEPOBox: this.state.PEPOBox,
         PETown: this.state.PETown,

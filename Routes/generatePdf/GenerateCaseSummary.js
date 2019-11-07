@@ -7,6 +7,9 @@ const handlebars = require("handlebars");
 var mysql = require("mysql");
 var config = require("../../DB");
 var con = mysql.createPool(config);
+
+  groupBy = require("handlebars-group-by");
+groupBy(handlebars);
 GenerateCaseSummary.get("/:ID", function(req, res) {
   const ID = req.params.ID;
 

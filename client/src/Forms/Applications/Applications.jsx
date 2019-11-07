@@ -2159,11 +2159,12 @@ class Applications extends Component {
                     </table>
                     <h3 style={headingstyle}>Tender Addendums</h3>
                     <table className="table table-borderless table-sm">
+                      <thead className="thead-light">
                       <th>No</th>
                       <th>StartDate</th>
                       <th>ClosingDate</th>
                       <th>Description</th>
-
+                      </thead>
                       {this.state.AddedAdendums.map((r, i) => (
                         <tr>
                           <td className="font-weight-bold">{r.AdendumNo}</td>
@@ -2231,11 +2232,14 @@ class Applications extends Component {
                   <h3 style={headingstyle}>Documents Attached</h3>
                   <div className="col-lg-11 border border-success rounded">
                     <table className="table table-sm">
+                       <thead className="thead-light">
+                      
                       <th>ID</th>
                       <th>Document Description</th>
                       <th>FileName</th>
                       <th>Date Uploaded</th>
                       <th>Actions</th>
+                      </thead>
                       {this.state.ApplicationDocuments.map((k, i)=> {
                         return (
                           
@@ -2288,10 +2292,12 @@ class Applications extends Component {
                   <h3 style={headingstyle}>Additional Submissions</h3>
                   <div className="col-lg-11 border border-success rounded">
                     <table className="table table-borderless table-sm">
+                      <thead className="thead-light">
                       <th>ID</th>
                       <th>Description</th>
                       <th>Date Uploaded</th>
                       <th>Actions</th>
+                      </thead>
                       {this.state.AdditionalSubmisions.map(function (k, i) {
                         return (
                           <tr>
@@ -2317,6 +2323,7 @@ class Applications extends Component {
                   <h3 style={headingstyle}>Interested Parties</h3>
                   <div className="col-lg-11 border border-success rounded">
                   <table className="table table-sm">
+                      <thead className="thead-light">
                     <th>Org Name</th>
                     <th>ContactName</th>
                     <th>Designation</th>
@@ -2324,6 +2331,7 @@ class Applications extends Component {
                     <th>TelePhone</th>
                     <th>Mobile</th>
                     <th>PhysicalAddress</th>
+                    </thead>
                     {this.state.interestedparties.map((r, i) => (
                       <tr>
                         <td>{r.Name}</td>
@@ -2347,13 +2355,12 @@ class Applications extends Component {
                     <div class="col-sm-8">
                       <h3 style={headingstyle}>Fees Details </h3>
                       <table class="table table-sm">
-                        <thead>
-                          <tr>
+                     
+                          <thead className="thead-light">
                             <th scope="col">#</th>
                             <th scope="col">Fees description</th>
                             <th scope="col">Amount</th>
-                          </tr>
-                        </thead>
+                          </thead>
                         <tbody>
                           {this.state.Applicationfees.map((r, i) => (
                             <tr>
@@ -3982,6 +3989,7 @@ class Applications extends Component {
                         <div className="row">
                           <div class="col-sm-11">
                             <table className="table table-sm">
+                                <thead className="thead-light">
                               <th>Org Name</th>
                               <th>ContactName</th>
                               <th>Designation</th>
@@ -3990,7 +3998,7 @@ class Applications extends Component {
                               <th>Mobile</th>
                               <th>PhysicalAddress</th>
                               <th>Actions</th>
-
+                              </thead>
                               {this.state.interestedparties.map((r, i) => (
                                 <tr>
                                   <td>{r.Name}</td>

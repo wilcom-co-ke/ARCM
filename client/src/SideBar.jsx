@@ -363,6 +363,13 @@ const Reports = props => {
         {props.showmenuvalue ? (
           <ul className="nav nav-second-level">
             <li>
+              <Link to="/Decision">
+                <i className="fa fa-tasks" />
+                Decisions
+              </Link>
+            </li>
+
+            <li>
               <Link to="/RB1">
                 <i className="fa fa-user-plus" />
                 RB1
@@ -455,11 +462,19 @@ const CaseHearing = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Decision", "View") ? (
+            {props.validaterole("Case FollowUp", "View") ? (
               <li>
-                <Link to="/Decision">
+                <Link to="/CaseFollowUp">
                   <i className="fa fa-tasks" />
-                  Decision 
+                  Follow Up
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Case Referrals", "View") ? (
+              <li>
+                <Link to="/CaseReferrals">
+                  <i className="fa fa-tasks" />
+                  Case Referrals
                 </Link>
               </li>
             ) : null}
@@ -623,14 +638,14 @@ const SystemAdmin = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Roles", "View") ? (
+            {/* {props.validaterole("Roles", "View") ? (
               <li>
                 <Link to="/Roles">
                   <i className="fa fa-user-plus " />
                   Roles
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Security Groups", "View") ? (
               <li>
                 <Link to="/Usergroups">
@@ -723,38 +738,38 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("PeTypes", "View") ? (
+            {/* {props.validaterole("PeTypes", "View") ? (
               <li>
                 <Link to="/PETypes">
                   <i className="fa fa-user-plus " />
                   PETypes
                 </Link>
               </li>
-            ) : null}
-            {props.validaterole("Procurement Methods", "View") ? (
+            ) : null} */}
+            {/* {props.validaterole("Procurement Methods", "View") ? (
               <li>
                 <Link to="/procurementmethods">
                   <i className="fa fa-user-plus " />
                   Procurement Types
                 </Link>
               </li>
-            ) : null}
-            {props.validaterole("Standard Tender Documents", "View") ? (
+            ) : null} */}
+            {/* {props.validaterole("Standard Tender Documents", "View") ? (
               <li>
                 <Link to="/STDDocs">
                   <i className="fa fa-folder" />
                   Tender Documents
                 </Link>
               </li>
-            ) : null}
-            {props.validaterole("Committee Types", "View") ? (
+            ) : null} */}
+            {/* {props.validaterole("Committee Types", "View") ? (
               <li>
                 <Link to="/CommitteesTypes">
                   <i className="fa fa-cogs" />
                   Committees Types
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Financial Year", "View") ? (
               <li>
                 <Link to="/financialyear">
@@ -763,14 +778,14 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Member types", "View") ? (
+            {/* {props.validaterole("Member types", "View") ? (
               <li>
                 <Link to="/membertypes">
                   <i className="fa fa-users" />
                   Member Types
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Fees structure", "View") ? (
               <li>
                 <Link to="/Charges">
