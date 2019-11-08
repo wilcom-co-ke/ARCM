@@ -29,7 +29,7 @@ class additionalsubmissions extends Component {
             ApplicationID:"",
             TenderID: "",
             TenderValue: "",
-            ApplicationID: "",
+       
             TenderName: "",
             PEID: "",
             AwardDate:"",
@@ -60,7 +60,7 @@ class additionalsubmissions extends Component {
             PEPOBox: "",
             PEPostalCode: "",
             PETown: "",
-            PEPostalCode: "",
+      
             PEMobile: "",
             PEEmail: "",
             PEWebsite: "",
@@ -802,7 +802,7 @@ class additionalsubmissions extends Component {
                                     onClick={this.openWithdraw}
                                     className="btn btn-primary float-right"
                                 >
-                                    Submit Aditional Submission </button>
+                                    Aditional Submission </button>
                                 }
                               &nbsp;
                                     <button

@@ -310,11 +310,12 @@ class counties extends Component {
     ];
     let Rowdata1 = [];
     const rows = [...this.state.counties];
+
     if (rows.length > 0) {
       rows.forEach(k => {
         const Rowdata = {
           Code: k.Code,
-          Description: k.Name,
+          Name: k.Name,
 
           action: (
             <span>

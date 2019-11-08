@@ -17,6 +17,7 @@ class MyCases extends Component {
             stdtenderdocs: [],
             TenderNo: "",
             TenderID: "",
+            caseOfficer:"",
             TenderValue: "",
             ApplicationID: "",
             TenderName: "",
@@ -371,6 +372,7 @@ class MyCases extends Component {
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
             PETown: k.PETown,
+            caseOfficer: k.caseOfficer,
             PEPostalCode: k.PEPostalCode,
             PEMobile: k.PEMobile,
             PEEmail: k.PEEmail,
@@ -519,7 +521,20 @@ class MyCases extends Component {
                     </div>
                     <p></p>
                     <div className="border-bottom white-bg p-4">
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="row">
+                                    <div className="col-sm-3">
 
+                                        <h3 style={headingstyle}>Case Officer</h3>
+                                    </div>
+                                    <div className="col-sm-7">
+                                        <input type="text" className="form-control" disabled value={this.state.caseOfficer} />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="row">
 
                             <div className="col-sm-6">
@@ -654,11 +669,12 @@ of Breach:</td>
                                     </table>
                                     <h3 style={headingstyle}>Tender Addendums</h3>
                                     <table className="table table-borderless table-sm ">
+                                        <thead className="thead-light">
                                         <th>No</th>
                                         <th>StartDate</th>
                                         <th>ClosingDate</th>
                                         <th>Description</th>
-
+                                        </thead>
                                         {this.state.AddedAdendums.map((r, i) => (
                                             <tr>
                                                 <td className="font-weight-bold">{r.AdendumNo}</td>
@@ -722,11 +738,13 @@ of Breach:</td>
                                 <h3 style={headingstyle}>Documents Attached</h3>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table  table-sm">
+                                        <thead className="thead-light">
                                         <th>ID</th>
                                         <th>Document Description</th>
                                         <th>FileName</th>
                                         <th>Date Uploaded</th>
                                         <th>Actions</th>
+                                        </thead>
                                         {this.state.ApplicationDocuments.map(function (k, i) {
                                             return (
                                                 <tr>
@@ -756,12 +774,11 @@ of Breach:</td>
                                 <div className="col-lg-11 border border-success rounded">
                                     <div class="col-sm-8">
                                         <table class="table table-sm">
-                                            <thead>
-                                                <tr>
+                                            <thead className="thead-light">
                                                     <th scope="col">#</th>
                                                     <th scope="col">Fees description</th>
                                                     <th scope="col">Value</th>
-                                                </tr>
+                                              
                                             </thead>
                                             <tbody>
                                                 {this.state.Applicationfees.map((r, i) => (
@@ -798,6 +815,7 @@ of Breach:</td>
                                 <h3 style={headingstyle}>Interested Parties</h3>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-sm">
+                                        <thead className="thead-light">
                                         <th>Org Name</th>
                                         <th>ContactName</th>
                                         <th>Designation</th>
@@ -805,6 +823,7 @@ of Breach:</td>
                                         <th>TelePhone</th>
                                         <th>Mobile</th>
                                         <th>PhysicalAddress</th>
+                                        </thead>
                                         {this.state.interestedparties.map((r, i) => (
                                             <tr>
                                                 <td>{r.Name}</td>
@@ -826,10 +845,12 @@ of Breach:</td>
                                 <h3 style={headingstyle}>Additional Submissions</h3>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-borderless table-sm">
+                                        <thead className="thead-light">
                                         <th>ID</th>
                                         <th>Description</th>
                                         <th>Date Uploaded</th>
                                         <th>Actions</th>
+                                        </thead>
                                         {this.state.AdditionalSubmisions.map(function (k, i) {
                                             return (
                                                 <tr>

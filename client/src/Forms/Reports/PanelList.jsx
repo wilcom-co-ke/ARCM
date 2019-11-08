@@ -126,8 +126,11 @@ class PanelList extends Component {
           response.json().then(data => {
             if (data.success) {
               let filename = this.state.ApplicationNo + ".pdf";
-              this.setState({ File: filename });
               this.setState({
+                FilePath: ""
+              });
+              this.setState({
+                File: filename,
                 FilePath:
                   process.env.REACT_APP_BASE_URL + "/PanelLists/" + filename
               });

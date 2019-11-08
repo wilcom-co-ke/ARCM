@@ -333,6 +333,7 @@ class CaseSummary extends Component {
       });
   };
   Downloadfile = () => {
+    this.setState({ FilePath: "" });
     if (this.state.ApplicationNo) {
       const data = {
         TotalAmountdue: this.state.TotalAmountdue,
@@ -389,8 +390,9 @@ class CaseSummary extends Component {
           response.json().then(data => {
             if (data.success) {
               let filename = this.state.ApplicationNo + ".pdf";
-              this.setState({ File: filename });
+
               this.setState({
+                File: filename,
                 FilePath: process.env.REACT_APP_BASE_URL + "/Cases/" + filename
               });
             } else {

@@ -35,15 +35,15 @@ class feesstructure extends Component {
     exportpdf = () => {
         var columns = [
          
-            { title: "Code", dataKey: "Code" },
+            { title: "Name", dataKey: "Name" },
             { title: "Description", dataKey: "Description" },
         { title: "MinAmount", dataKey: "MinAmount" },
         { title: "MaxAmount", dataKey: "MaxAmount" },
         { title: "Rate1", dataKey: "Rate1" },
-        { title: "Rate2", dataKey: "Rate2" },
+     
         { title: "MinFee", dataKey: "MinFee" },
         { title: "MaxFee", dataKey: "MaxFee" },
-        { title: "FixedFee", dataKey: "FixedFee" }
+     
         ];
 
         const rows = [...this.state.feesstructure];
@@ -448,6 +448,16 @@ class feesstructure extends Component {
                 Rowdata1.push(Rowdata);
             });
         }
+        let trstyle = {
+            background: "#1ab394"
+        }
+        let bookedtd = {
+            background: "#f8ac59"
+        }
+        let DivvenuesStyle = {
+            width: "90%",
+            margin: "0 auto"
+        }
 
         return (
             <div>
@@ -462,17 +472,7 @@ class feesstructure extends Component {
                         </div>
                         <div className="col-lg-3">
                             <div className="row wrapper ">
-                                {this.validaterole("Fees structure", "AddNew") ? (
-                                    <button
-                                        type="button"
-                                        style={{ marginTop: 40 }}
-                                        onClick={this.openModal}
-                                        className="btn btn-primary float-left fa fa-plus"
-                                    >
-                                        New
-                </button>
-                                ) : null}
-                                &nbsp;
+                           
                 {this.validaterole("Fees structure", "Export") ? (
                                     <button
                                         onClick={this.exportpdf}
@@ -499,15 +499,14 @@ class feesstructure extends Component {
                                           
 
                                         <ExcelSheet data={rows} name="feesstructure">
-                                            <ExcelColumn label="Code" value="Code" />
+                                            <ExcelColumn label="Name" value="Name" />
                                             <ExcelColumn label="Description" value="Description" />
                                             <ExcelColumn label="MinAmount" value="MinAmount" />
                                             <ExcelColumn label="MaxAmount" value="MaxAmount" />
-                                            <ExcelColumn label="Rate1" value="Rate1" />
-                                            <ExcelColumn label="Rate2" value="Rate2" />
+                                            <ExcelColumn label="Rate1" value="Rate1" />                                         
                                             <ExcelColumn label="MinFee" value="MinFee" />
                                             <ExcelColumn label="MaxFee" value="MaxFee" />
-                                            <ExcelColumn label="FixedFee" value="FixedFee" />
+                                           
                                         </ExcelSheet>
                                     </ExcelFile>
                                 ) : null}
@@ -696,10 +695,67 @@ class feesstructure extends Component {
                         </div>
                     </div>
                 </div>
+                <br/>
+            <div className="bg-white">
+                <br/>
+                    <div className="row">
 
-                <TableWrapper>
+                        <div style={DivvenuesStyle}>
+                            <table className="table table-sm table-bordered">
+                                <thead className="thead-light">
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>MinAmount</th>
+                                <th>MaxAmount</th>
+                                <th>Rate</th>
+                                <th>Minfee</th>
+                                <th>Maxfee</th>                            
+                                </thead>
+                                {this.state.feesstructure.map(function (r, i) {
+                                    return (
+                                        <tr id={i}>
+                                            <td >
+                                                {r.Name}
+
+                                            </td>
+                                            <td >
+                                                {r.Description}
+
+                                            </td>
+                                            <td >
+                                                {r.MinAmount}
+                                            </td>
+                                            <td >
+                                                {r.MaxAmount}
+                                            </td>
+                                            <td >
+                                                {r.Rate1}
+                                            </td>
+                                            <td >
+                                                {r.MinFee}
+                                            </td>
+                                            <td >
+                                                {r.MaxFee}
+                                            </td>
+
+                                        </tr>
+                                    );
+                                }
+                                )}
+
+
+
+                            </table>
+
+                         
+
+                        </div>
+                    </div>
+
+</div>
+                {/* <TableWrapper>
                     <Table Rows={Rowdata1} columns={ColumnData} />
-                </TableWrapper>
+                </TableWrapper> */}
             </div>
         );
     }

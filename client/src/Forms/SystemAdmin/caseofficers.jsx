@@ -23,8 +23,8 @@ class caseofficers extends Component {
             privilages: [],
             redirect: false,
             isUpdate: false,
-            MinValue:"",
-            MaximumValue:"",           
+            MinValue:"1",
+            MaximumValue:"1",           
             NotAvailableFrom:"",
             NotAvailableTo:""
         };
@@ -216,15 +216,13 @@ class caseofficers extends Component {
             NotAvailableTo: this.state.NotAvailableTo,
             Active: this.state.Active
         };
-        if (this.state.MinValue > this.state.MaximumValue){
-        swal("","Minimum Amount should be leass than Maximum Amount","error")
-        }else{
+       
                     if (this.state.isUpdate) {
                         this.UpdateData("/api/caseofficers/" + this.state.UserName, data);
                     } else {
                         this.postData("/api/caseofficers", data);
                     }
-        }
+       
         
     };
     handleEdit = k => {
@@ -335,8 +333,7 @@ class caseofficers extends Component {
         var columns = [
             { title: "Username", dataKey: "Username" },
             { title: "Name", dataKey: "Name" },
-            { title: "MinValue", dataKey: "MinValue" },
-            { title: "MaximumValue", dataKey: "MaximumValue" },
+         
             
             { title: "OngoingCases", dataKey: "OngoingCases" },
             { title: "CumulativeCases", dataKey: "CumulativeCases" },
@@ -371,17 +368,6 @@ class caseofficers extends Component {
             {
                 label: "Name",
                 field: "Name",
-                sort: "asc",
-                width: 200
-            },
-            {
-                label: "MaximumValue",
-                field: "MaximumValue",
-                sort: "asc",
-                width: 200
-            }, {
-                label: "MinValue",
-                field: "MinValue",
                 sort: "asc",
                 width: 200
             }, {
@@ -428,8 +414,7 @@ class caseofficers extends Component {
                 const Rowdata = {
                     Username: k.Username,
                     Name: k.Name,
-                    MaximumValue: k.MaximumValue,
-                    MinValue: k.MinValue,
+                  
                     OngoingCases: k.OngoingCases,
                     CumulativeCases: k.CumulativeCases,
                     NotAvailableFrom: dateFormat(new Date(k.NotAvailableFrom).toLocaleDateString(), "isoDate"), 
@@ -522,8 +507,7 @@ class caseofficers extends Component {
                                         <ExcelSheet data={rows} name="caseofficers">
                                                        <ExcelColumn label="Username" value="Username" />
                                             <ExcelColumn label="Name" value="Name" />
-                                            <ExcelColumn label="MinValue" value="MinValue" />
-                                            <ExcelColumn label="MaximumValue" value="MaximumValue" />
+                                       
                                             <ExcelColumn label="OngoingCases" value="OngoingCases" />
                                             <ExcelColumn label="CumulativeCases" value="CumulativeCases" />
                                             <ExcelColumn label="NotAvailableFrom" value="NotAvailableFrom" />
@@ -624,7 +608,7 @@ class caseofficers extends Component {
                                                                   
                                                                 </div>
                                                             </div>
-                                                            <div className=" row">
+                                                            {/* <div className=" row">
                                                                 <div className="col-sm">
                                                                     <div className="form-group">
                                                                         <label htmlFor="exampleInputEmail1">
@@ -655,7 +639,7 @@ class caseofficers extends Component {
                                                                         />
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                             <div className="col-sm-12 ">
                                                                 <div className=" row">
                                                                     <div className="col-sm-2">

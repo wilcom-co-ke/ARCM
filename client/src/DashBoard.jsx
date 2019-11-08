@@ -5,7 +5,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "./Styles/App.css";
-var dateFormat = require("dateformat");
+
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 const localizer = momentLocalizer(moment);

@@ -290,12 +290,7 @@ class Branches extends Component {
         const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
         const ColumnData = [
-            {
-                label: "ID",
-                field: "ID",
-                sort: "asc",
-                width: 200
-            },
+            
             {
                 label: "Description",
                 field: "Description",
@@ -316,7 +311,7 @@ class Branches extends Component {
         if (rows.length > 0) {
             rows.forEach(k => {
                 const Rowdata = {
-                    ID: k.ID,
+                
                     Description: k.Description,
 
                     action: (

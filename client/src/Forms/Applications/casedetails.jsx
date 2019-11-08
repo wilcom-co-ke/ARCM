@@ -455,8 +455,10 @@ class casedetails extends Component {
             }
         ];
         let Rowdata1 = [];
-
-        const rows = [...this.state.casedetails];
+        var rows1 = [...this.state.casedetails];
+        const rows= rows1.filter(
+            item => item.Status !== "Re-Assigned"
+        );
         if (rows.length > 0) {
             rows.forEach(k => {
                 const Rowdata = {

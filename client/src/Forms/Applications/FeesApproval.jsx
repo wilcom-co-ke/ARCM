@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from 'react-awesome-modal';
-import GoogleDocsViewer from "react-google-docs-viewer";
+
 var _ = require("lodash");
 var dateFormat = require("dateformat");
 class FeesApproval extends Component {
@@ -53,8 +53,8 @@ class FeesApproval extends Component {
         this.handViewApplication = this.handViewApplication.bind(this)
         this.fetchApplicationtenderdetails = this.fetchApplicationtenderdetails.bind(this);
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this);
-        this.handleviewBankSlip = this.handleviewBankSlip.bind(this);     
-        this.fetchPendingRequests = this.fetchPendingRequests.bind(this)
+        //this.handleviewBankSlip = this.handleviewBankSlip.bind(this);     
+        //this.fetchPendingRequests = this.fetchPendingRequests.bind(this)
     }
     formatNumber = num => {
         let newtot = Number(num).toFixed(2);
@@ -312,9 +312,10 @@ class FeesApproval extends Component {
             });
     }   
     handleviewBankSlip = d => {
+        
         this.setState({
             openDocPreview: true,
-            Attachmentname: d,}) 
+            Attachmentname: process.env.REACT_APP_BASE_URL + "/BankSlips/" + d}) 
     };
     GoBack = e => {
         e.preventDefault();
@@ -409,7 +410,7 @@ class FeesApproval extends Component {
                      TenderSubCategory: ApplicantDetails[0].TenderSubCategory ,
                     TenderCategory: ApplicantDetails[0].TenderCategory ,
                     Timer: ApplicantDetails[0].Timer ,
-                        AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "isoDate"),
+                    AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "isoDate"),
                      TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc ,                    
                      TenderNo: ApplicantDetails[0].TenderNo,
                      TenderName: ApplicantDetails[0].Name ,
@@ -458,17 +459,14 @@ class FeesApproval extends Component {
         this.setState({ open: false });
     }
     closeDocPreview = () => {
-        this.setState({ openDocPreview: false });
+        this.setState({ openDocPreview: false, Attachmentname: " " });
     }
     
     render() {
 
 
         const ColumnData = [
-            {
-                label: "ID",
-                field: "ID",
-            },
+           
             {
                 label: "Procuring Entity",
                 field: "Name",
@@ -498,7 +496,7 @@ class FeesApproval extends Component {
         if (rows.length > 0) {
             rows.map((k, i) => {
                 let Rowdata = {
-                    ID: k.ID,
+               
                     Name: k.Name,
                     FilingDate: new Date(k.FilingDate).toLocaleDateString(),
                     Status: k.FeesStatus,
@@ -607,15 +605,17 @@ class FeesApproval extends Component {
                             <div className="container-fluid">
                                 <div className="col-sm-12">
                                     <div className="ibox-content">
-                                        <GoogleDocsViewer
+                                        <object
                                             width="100%"
-                                            height="400px"
-                                            fileUrl={
-                                                process.env.REACT_APP_BASE_URL +
-                                                "/BankSlips/" +
+                                            height="450"
+                                            data={                                              
                                                 this.state.Attachmentname
                                             }
-                                        />
+                                          
+                                        >
+                                            {" "}
+                                        </object>
+                                       
                                   </div>
                                 </div>
                             </div>

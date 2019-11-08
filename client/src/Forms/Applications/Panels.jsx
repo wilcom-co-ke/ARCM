@@ -308,6 +308,33 @@ class Panels extends Component {
     }
     AddUser=(event)=> {
         event.preventDefault();
+        var rows = [...this.state.Panels];
+        const filtereddata = rows.filter(
+            item => item.UserName === this.state.UserName
+        );
+        if (filtereddata.length>0){
+            toast.error(this.state.UserName + " is already added")
+            return
+        }
+        if (this.state.PanelRole==="Chairperson"){
+            const filtereddata1 = rows.filter(
+                item => item.Role === this.state.PanelRole
+            );
+            if (filtereddata1.length > 0) {
+                toast.error(this.state.PanelRole + " is already selected ")
+                return
+            }
+        }
+        if (this.state.PanelRole === "Vice Chairperson") {
+            const filtereddata1 = rows.filter(
+                item => item.Role === this.state.PanelRole
+            );
+            if (filtereddata1.length > 0) {
+                toast.error(this.state.PanelRole + " is already selected ")
+                return
+            }
+        }
+       
             let datatosave = {
                 ApplicationNo: this.state.ApplicationNo,
                 Role: this.state.PanelRole,
@@ -758,22 +785,23 @@ class Panels extends Component {
                                </form>
                             <div  className="row">
                                 <table style={FormStyle} className="table table-sm">
+                                    <thead className="thead-light">
                                     <th>#</th>
-                                    <th>UserName</th>
+                                 
                                     <th>Names</th>
                                     <th>Email</th>
                                     <th>Mobile No</th>
                                     <th>Role</th>
                                     <th>Status</th>
                                     <th>Action</th>
-
+</thead>
 
                                     {this.state.Panels.map(
                                         (r, i) => (
 
                                             <tr>
                                                 <td>{i+1}.</td>
-                                                <td>{r.UserName}</td>
+                                               
                                                 <td>{r.Name}</td>
                                                 <td>{r.Email}</td>
                                                 <td>{r.Phone}</td>

@@ -51,7 +51,7 @@ class Applications extends Component {
       profile: true,
       summary: false,
       IsUpdate: false,
-      openPaymentModal:false,
+      openPaymentModal: false,
       TenderTypes: [],
       selectedFile: null,
       loaded: 0,
@@ -123,10 +123,8 @@ class Applications extends Component {
     this.SaveTenderdetails = this.SaveTenderdetails.bind(this);
     this.CompletedApplication = this.CompletedApplication.bind(this);
   }
-  checkDocumentRoles = (CreatedBy) => {
-  
+  checkDocumentRoles = CreatedBy => {
     if (this.state.Board) {
-
       return true;
     }
     if (localStorage.getItem("UserName") === CreatedBy) {
@@ -134,8 +132,7 @@ class Applications extends Component {
     }
 
     return false;
-
-  }
+  };
   closeAddInterestedParty = () => {
     this.setState({ AddInterestedParty: false });
   };
@@ -163,10 +160,10 @@ class Applications extends Component {
   };
   ClosePaymentModal = () => {
     this.setState({ openPaymentModal: false });
-  }
+  };
   OpenPaymentModal = () => {
     this.setState({ openPaymentModal: true });
-  }
+  };
   closeRequestModal = () => {
     this.setState({ openRequest: false });
   };
@@ -179,7 +176,7 @@ class Applications extends Component {
     this.setState({ openRequest: true });
   };
   fetchMyApplications = ApplicantID => {
-    
+    this.setState({ Applications: [] });
     fetch("/api/applications/" + ApplicantID + "/Applicant", {
       method: "GET",
       headers: {
@@ -227,10 +224,10 @@ class Applications extends Component {
     })
       .then(res => res.json())
       .then(AddedAdendums => {
-        if (AddedAdendums.length > 0) {         
+        if (AddedAdendums.length > 0) {
           this.setState({ AddedAdendums: AddedAdendums });
           this.setState({ AdendumsAvailable: true });
-        }else{
+        } else {
           this.setState({ AddAdedendums: false });
           this.setState({ AdendumsAvailable: false });
         }
@@ -292,17 +289,18 @@ class Applications extends Component {
       .then(ApplicantDetails => {
         if (ApplicantDetails.length > 0) {
           this.setState({
-            ApplicantPostalCode: ApplicantDetails[0].PostalCode,          
-            ApplicantPOBox: ApplicantDetails[0].POBox ,
-            ApplicantTown: ApplicantDetails[0].Town ,
-            ApplicantDetails: ApplicantDetails ,
-            Applicantname: ApplicantDetails[0].Name ,
-            ApplicantLocation: ApplicantDetails[0].Location ,
+            ApplicantPostalCode: ApplicantDetails[0].PostalCode,
+            ApplicantPOBox: ApplicantDetails[0].POBox,
+            ApplicantTown: ApplicantDetails[0].Town,
+            ApplicantDetails: ApplicantDetails,
+            Applicantname: ApplicantDetails[0].Name,
+            ApplicantLocation: ApplicantDetails[0].Location,
             ApplicantMobile: ApplicantDetails[0].Mobile,
             ApplicantEmail: ApplicantDetails[0].Email,
-            ApplicantPIN: ApplicantDetails[0].PIN ,
-            ApplicantWebsite: ApplicantDetails[0].Website ,
-            ApplicantID: ApplicantDetails[0].ID });
+            ApplicantPIN: ApplicantDetails[0].PIN,
+            ApplicantWebsite: ApplicantDetails[0].Website,
+            ApplicantID: ApplicantDetails[0].ID
+          });
           this.fetchMyApplications(ApplicantDetails[0].ID);
         } else {
           swal("", ApplicantDetails.message, "error");
@@ -696,10 +694,8 @@ class Applications extends Component {
         // swal("", err.message, "error");
       });
   }
-  SavePaymentdetails=()=>{    
-    
-    if (!this.state.DateofPayment)
-    {
+  SavePaymentdetails = () => {
+    if (!this.state.DateofPayment) {
       swal("", "Date of payment is required", "error");
       return;
     }
@@ -715,43 +711,78 @@ class Applications extends Component {
       swal("", "Paid by is required", "error");
       return;
     }
-    if (+this.state.TotalAmountdue > +this.state.AmountPaid) {
-      toast.warn("Amount paid is less than amount due");
-    }
     let data = {
       ApplicationID: this.state.ApplicationID,
       Paidby: this.state.PaidBy,
       Reference: this.state.PaymentReference,
       DateOfpayment: this.state.DateofPayment,
       AmountPaid: this.state.AmountPaid,
-      Category:"Applicationfees"
-    };       
-    fetch("/api/applicationfees/1/Paymentdetails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response =>
-        response.json().then(data => {        
-          if (data.success) {   
-             
-            toast.success("Payment details save successfuly");  
-            //swal("","Payment details save successfuly","success")   
-            this.SubmitApplication();
-            this.sendApproverNotification();
-            this.setState({ PaymentStatus:"Submited"})       
-          } else {
-            toast.error(data.message);
-          }
-        })
-      )
-      .catch(err => {
-        toast.error(err.message);
-       });
-  }
+      Category: "Applicationfees"
+    };
+    if (+this.state.TotalAmountdue > +this.state.AmountPaid) {
+    
+      swal({
+        text: "Amount paid is less than amount due.Do you want to Continue",
+        icon: "warning",
+        dangerMode: true,
+        buttons: true
+      }).then(willDelete => {
+        if (willDelete) {
+          fetch("/api/applicationfees/1/Paymentdetails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(data)
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (data.success) {
+                  toast.success("Payment details save successfuly");
+                  //swal("","Payment details save successfuly","success")
+                  this.SubmitApplication();
+                  this.sendApproverNotification();
+
+                } else {
+                  toast.error(data.message);
+                }
+              })
+            )
+            .catch(err => {
+              toast.error(err.message);
+            });
+        }
+      });
+    }else{
+      fetch("/api/applicationfees/1/Paymentdetails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              toast.success("Payment details save successfuly");
+              //swal("","Payment details save successfuly","success")
+              this.SubmitApplication();
+              this.sendApproverNotification();
+
+            } else {
+              toast.error(data.message);
+            }
+          })
+        )
+        .catch(err => {
+          toast.error(err.message);
+        });
+    }
+  
+   
+  };
 
   SaveTenderdetails(Timer) {
     if (this.state.TenderType === "B") {
@@ -850,7 +881,7 @@ class Applications extends Component {
       );
     }
   }
-  fetchAdditionalSubmisions = (ApplicationID) => {
+  fetchAdditionalSubmisions = ApplicationID => {
     this.setState({
       AdditionalSubmisions: []
     });
@@ -863,19 +894,16 @@ class Applications extends Component {
     })
       .then(res => res.json())
       .then(AdditionalSubmisions => {
-
         if (AdditionalSubmisions.length > 0) {
           this.setState({
             AdditionalSubmisions: AdditionalSubmisions
           });
-
         } else {
           toast.error(AdditionalSubmisions.message);
         }
       })
       .catch(err => {
         toast.error(err.message);
-
       });
   };
   saveRequests(EntryType) {
@@ -1125,8 +1153,8 @@ class Applications extends Component {
     }
     this.setState({ GroundsAvailable: true });
     this.setState({ RequestsAvailable: true });
-    this.setState({ IsUpdate: true });   
-    
+    this.setState({ IsUpdate: true });
+
     this.setState({ DocumentsAvailable: true });
     if (this.state.TenderType === "A") {
       this.setState({
@@ -1305,7 +1333,7 @@ class Applications extends Component {
         }
       })
       .catch(err => {
-        toast.error(err.message)
+        toast.error(err.message);
       });
   };
   fetchPaymentDetails = ApplicationID => {
@@ -1324,7 +1352,7 @@ class Applications extends Component {
         }
       })
       .catch(err => {
-        toast.error(err.message)
+        toast.error(err.message);
         //swal("", err.message, "error");
       });
   };
@@ -1332,7 +1360,7 @@ class Applications extends Component {
     let data = {
       ApplicationID: this.state.ApplicationID,
       filename: Filename,
-      Category:"ApplicationFees"
+      Category: "ApplicationFees"
     };
     fetch("/api/applicationfees/BankSlip", {
       method: "POST",
@@ -1394,7 +1422,7 @@ class Applications extends Component {
       });
     }
   };
-  fetchinterestedparties = (ApplicationID) => {
+  fetchinterestedparties = ApplicationID => {
     this.setState({ interestedparties: [] });
     fetch("/api/interestedparties/" + ApplicationID, {
       method: "GET",
@@ -1474,7 +1502,6 @@ class Applications extends Component {
               this.fetchPE();
               this.fetchTenderTypes();
               this.fetchApplicantDetails();
-             
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -1492,23 +1519,20 @@ class Applications extends Component {
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   handViewApplication = k => {
-    
-    this.setState({ AddedAdendums: [] });
-    this.setState({ ApplicationGrounds: [] });
-    this.setState({ ApplicationDocuments: [] });
-    this.setState({ Applicationfees: [] });
-    this.setState({ TotalAmountdue: "" });
+    this.setState({ AddedAdendums: [] ,ApplicationGrounds: [] , ApplicationDocuments: [],Applicationfees: [], TotalAmountdue: "" });
     this.fetchApplicationGrounds(k.ID);
     this.fetchApplicationfees(k.ID);
-    this.fetchPaymentDetails(k.ID)
+    this.fetchPaymentDetails(k.ID);
     this.fetchApplicationDocuments(k.ID);
     this.fetchTenderAdendums(k.TenderID);
     this.fetchBankSlips(k.ID);
     this.fetchAdditionalSubmisions(k.ID);
+    this.fetchinterestedparties(k.ID);
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
       PETown: k.PETown,
+     
       PEPostalCode: k.PEPostalCode,
       PEMobile: k.PEMobile,
       PEEmail: k.PEEmail,
@@ -1530,6 +1554,7 @@ class Applications extends Component {
       TenderCategory: k.TenderCategory,
       PEID: k.PEID,
       Timer: k.Timer,
+      summary: true ,
       PaymentStatus: k.PaymentStatus,
       StartDate: dateFormat(
         new Date(k.StartDate).toLocaleDateString(),
@@ -1540,9 +1565,9 @@ class Applications extends Component {
         "isoDate"
       )
     };
-    this.setState({ summary: true });
+    
     this.setState(data);
-    this.fetchinterestedparties(k.ID);
+    
   };
 
   showAttacmentstab = e => {
@@ -1561,8 +1586,8 @@ class Applications extends Component {
   AddpaymentDetails = () => {
     this.setState({ ShowPaymentDetails: !this.state.ShowPaymentDetails });
   };
-  SubmitApplication() {   
-    fetch("/api/applications/"+this.state.ApplicationID, {
+  SubmitApplication() {
+    fetch("/api/applications/" + this.state.ApplicationID, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1577,25 +1602,21 @@ class Applications extends Component {
               "Your Application with Reference:" +
               this.state.ApplicationNo +
               " has been Received";
-            this.SendSMS(this.state.ApplicantPhone, applicantMsg);            
-            this.setState({ profile:true });
-            this.setState({ summary: false });
-            this.setState({ openPaymentModal: false }); 
-            this.setState({ Status: "Submited" });                        
+            this.SendSMS(this.state.ApplicantPhone, applicantMsg);
+            this.setState({ profile: true , summary: false,openPaymentModal: false ,Status: "Submited" });
             this.fetchMyApplications(this.state.ApplicantID);
           } else {
-            toast.error(data.message);            
+            toast.error(data.message);
           }
         })
       )
       .catch(err => {
         toast.error(err.message);
-       
       });
   }
   CompletedApplication = () => {
     if (this.state.ShowPaymentDetails) {
-      this.SavePaymentdetails();    
+      this.SavePaymentdetails();
       //this.SubmitApplication();
     } else {
       this.SubmitApplication();
@@ -1620,6 +1641,7 @@ class Applications extends Component {
     );
   };
   sendApproverNotification = () => {
+    this.setState({ PaymentStatus: "Submited" });
     fetch("/api/NotifyApprover/" + this.state.ApplicationNo, {
       method: "GET",
       headers: {
@@ -1638,7 +1660,6 @@ class Applications extends Component {
       )
       .catch(err => {
         toast.error(err.message);
-       
       });
   };
   sendApproverNotification1 = () => {
@@ -1719,24 +1740,24 @@ class Applications extends Component {
         response.json().then(data => {
           if (data.success) {
           } else {
-            swal("", data.message, "error");
+           // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-        swal("", err.message, "error");
+       // swal("", err.message, "error");
       });
   }
   ShowAdendumsWindow = () => {
     this.setState({ AddAdedendums: !this.state.AddAdedendums });
   };
-  openRequestTab=()=> {
+  openRequestTab = () => {
     if (this.state.TenderID) {
-    document.getElementById("nav-profile-tab").click();
-    }else{
-      toast.error("Fill in tender details to proceed")
+      document.getElementById("nav-profile-tab").click();
+    } else {
+      toast.error("Fill in tender details to proceed");
     }
-  }
+  };
   UpdateData(url = ``, data = {}) {
     fetch(url, {
       method: "PUT",
@@ -1874,7 +1895,7 @@ class Applications extends Component {
         field: "TenderName",
         sort: "asc"
       },
-      
+
       {
         label: "FilingDate",
         field: "FilingDate",
@@ -1901,51 +1922,47 @@ class Applications extends Component {
     const rows = [...this.state.Applications];
     if (rows.length > 0) {
       rows.map((k, i) => {
-        
-          let Rowdata = {
-            ApplicationNo: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.ApplicationNo}
-              </a>
-            ),
-            TenderName: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.TenderName}
-              </a>
-            ),
-            PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
-            FilingDate: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {new Date(k.FilingDate).toLocaleDateString()}
-              </a>
-            ),
-            ApplicationREf: (
-              <a onClick={e => this.handViewApplication(k, e)}>
-                {k.ApplicationREf}
-              </a>
-            ),
-            Status: (
+        let Rowdata = {
+          ApplicationNo: (
+            <a onClick={e => this.handViewApplication(k, e)}>
+              {k.ApplicationNo}
+            </a>
+          ),
+          TenderName: (
+            <a onClick={e => this.handViewApplication(k, e)}>{k.TenderName}</a>
+          ),
+          PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
+          FilingDate: (
+            <a onClick={e => this.handViewApplication(k, e)}>
+              {new Date(k.FilingDate).toLocaleDateString()}
+            </a>
+          ),
+          ApplicationREf: (
+            <a onClick={e => this.handViewApplication(k, e)}>
+              {k.ApplicationREf}
+            </a>
+          ),
+          Status: (
+            <a
+              className="font-weight-bold"
+              onClick={e => this.handViewApplication(k, e)}
+            >
+              {k.Status}
+            </a>
+          ),
+          action: (
+            <span>
               <a
-                className="font-weight-bold"
+                style={{ color: "#007bff" }}
                 onClick={e => this.handViewApplication(k, e)}
               >
-                {k.Status}
+                {" "}
+                View{" "}
               </a>
-            ),
-            action: (
-              <span>
-                <a
-                  style={{ color: "#007bff" }}
-                  onClick={e => this.handViewApplication(k, e)}
-                >
-                  {" "}
-                  View{" "}
-                </a>
-              </span>
-            )
-          };
-          Rowdata1.push(Rowdata);
-      
+            </span>
+          )
+        };
+        Rowdata1.push(Rowdata);
       });
     }
     let FormStyle = {
@@ -2006,15 +2023,20 @@ class Applications extends Component {
                         </span>
                       ) : (
                         <span>
-                            {this.state.PaymentStatus === "Not Submited" ?
-                              <span className="text-danger">NOT PAID</span>: null
-                            }
-                            {this.state.PaymentStatus === "Approved" ?
-                              <span className="text-success"> {this.state.Status}</span> : null
-                            }
-                            {this.state.PaymentStatus === "Submited" ?
-                             <span className="text-warning">Payment Pending Confirmation</span>  : null
-                            }
+                          {this.state.PaymentStatus === "Not Submited" ? (
+                            <span className="text-danger">NOT PAID</span>
+                          ) : null}
+                          {this.state.PaymentStatus === "Approved" ? (
+                            <span className="text-success">
+                              {" "}
+                              {this.state.Status}
+                            </span>
+                          ) : null}
+                          {this.state.PaymentStatus === "Submited" ? (
+                            <span className="text-warning">
+                              Payment Pending Confirmation
+                            </span>
+                          ) : null}
                         </span>
                       )}
                     </h2>
@@ -2022,13 +2044,12 @@ class Applications extends Component {
                 </ol>
               </div>
               <div className="col-lg-2">
-                <div className="row wrapper ">
-                  
-                </div>
+                <div className="row wrapper "></div>
               </div>
             </div>
             <p></p>
             <div className="border-bottom white-bg p-4">
+             
               <div className="row">
                 <div className="col-sm-6">
                   <h3 style={headingstyle}> Applicant details</h3>
@@ -2127,7 +2148,9 @@ class Applications extends Component {
                         <td> {this.state.FilingDate}</td>
                       </tr>
                       <tr>
-                        <td className="font-weight-bold">Date of Notification of Award/Occurrence of Breach: </td>
+                        <td className="font-weight-bold">
+                          Date of Notification of Award/Occurrence of Breach:{" "}
+                        </td>
                         <td> {this.state.AwardDate}</td>
                       </tr>
                       <tr>
@@ -2160,10 +2183,10 @@ class Applications extends Component {
                     <h3 style={headingstyle}>Tender Addendums</h3>
                     <table className="table table-borderless table-sm">
                       <thead className="thead-light">
-                      <th>No</th>
-                      <th>StartDate</th>
-                      <th>ClosingDate</th>
-                      <th>Description</th>
+                        <th>No</th>
+                        <th>StartDate</th>
+                        <th>ClosingDate</th>
+                        <th>Description</th>
                       </thead>
                       {this.state.AddedAdendums.map((r, i) => (
                         <tr>
@@ -2232,38 +2255,16 @@ class Applications extends Component {
                   <h3 style={headingstyle}>Documents Attached</h3>
                   <div className="col-lg-11 border border-success rounded">
                     <table className="table table-sm">
-                       <thead className="thead-light">
-                      
-                      <th>ID</th>
-                      <th>Document Description</th>
-                      <th>FileName</th>
-                      <th>Date Uploaded</th>
-                      <th>Actions</th>
+                      <thead className="thead-light">
+                        <th>ID</th>
+                        <th>Document Description</th>
+                        <th>FileName</th>
+                        <th>Date Uploaded</th>
+                        <th>Actions</th>
                       </thead>
-                      {this.state.ApplicationDocuments.map((k, i)=> {
-                        return (
-                          
-                          k.Confidential ?
-                           
-                              this.checkDocumentRoles(k.Created_By) ?
-                              <tr>
-                                <td>{i + 1}</td>
-                                <td>{k.Description}</td>
-                                <td>{k.FileName}</td>
-                                <td>
-                                  {new Date(k.DateUploaded).toLocaleDateString()}
-                                </td>
-                                <td>
-                                  <a
-                                    onClick={e => ViewFile(k, e)}
-                                    className="text-success"
-                                  >
-                                    <i class="fa fa-eye" aria-hidden="true"></i>View
-                                  </a>
-                                </td>
-                              </tr>
-                              :null
-                         :
+                      {this.state.ApplicationDocuments.map((k, i) => {
+                        return k.Confidential ? (
+                          this.checkDocumentRoles(k.Created_By) ? (
                             <tr>
                               <td>{i + 1}</td>
                               <td>{k.Description}</td>
@@ -2276,10 +2277,29 @@ class Applications extends Component {
                                   onClick={e => ViewFile(k, e)}
                                   className="text-success"
                                 >
-                                  <i class="fa fa-eye" aria-hidden="true"></i>View
-                                  </a>
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                                  View
+                                </a>
                               </td>
                             </tr>
+                          ) : null
+                        ) : (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td>{k.Description}</td>
+                            <td>{k.FileName}</td>
+                            <td>
+                              {new Date(k.DateUploaded).toLocaleDateString()}
+                            </td>
+                            <td>
+                              <a
+                                onClick={e => ViewFile(k, e)}
+                                className="text-success"
+                              >
+                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                              </a>
+                            </td>
+                          </tr>
                         );
                       })}
                     </table>
@@ -2293,23 +2313,27 @@ class Applications extends Component {
                   <div className="col-lg-11 border border-success rounded">
                     <table className="table table-borderless table-sm">
                       <thead className="thead-light">
-                      <th>ID</th>
-                      <th>Description</th>
-                      <th>Date Uploaded</th>
-                      <th>Actions</th>
+                        <th>ID</th>
+                        <th>Description</th>
+                        <th>Date Uploaded</th>
+                        <th>Actions</th>
                       </thead>
-                      {this.state.AdditionalSubmisions.map(function (k, i) {
+                      {this.state.AdditionalSubmisions.map(function(k, i) {
                         return (
                           <tr>
                             <td>{i + 1}</td>
-                            <td>   {ReactHtmlParser(k.Description)}</td>
+                            <td> {ReactHtmlParser(k.Description)}</td>
                             <td>
                               {new Date(k.Create_at).toLocaleDateString()}
                             </td>
                             <td>
-                              <a onClick={e => ViewFile(k, e)} className="text-success">
-                                <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
-                                                      </a>
+                              <a
+                                onClick={e => ViewFile(k, e)}
+                                className="text-success"
+                              >
+                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                Attachemnt
+                              </a>
                             </td>
                           </tr>
                         );
@@ -2322,30 +2346,29 @@ class Applications extends Component {
                 <div className="col-lg-12 ">
                   <h3 style={headingstyle}>Interested Parties</h3>
                   <div className="col-lg-11 border border-success rounded">
-                  <table className="table table-sm">
+                    <table className="table table-sm">
                       <thead className="thead-light">
-                    <th>Org Name</th>
-                    <th>ContactName</th>
-                    <th>Designation</th>
-                    <th>Email</th>
-                    <th>TelePhone</th>
-                    <th>Mobile</th>
-                    <th>PhysicalAddress</th>
-                    </thead>
-                    {this.state.interestedparties.map((r, i) => (
-                      <tr>
-                        <td>{r.Name}</td>
-                        <td> {r.ContactName} </td>
-                        <td> {r.Designation} </td>
-                        <td> {r.Email} </td>
-                        <td> {r.TelePhone} </td>
-                        <td> {r.Mobile} </td>
-                        <td> {r.PhysicalAddress} </td>
-                     
-                      </tr>
-                    ))}
-                  </table>
-                </div>
+                        <th>Org Name</th>
+                        <th>ContactName</th>
+                        <th>Designation</th>
+                        <th>Email</th>
+                        <th>TelePhone</th>
+                        <th>Mobile</th>
+                        <th>PhysicalAddress</th>
+                      </thead>
+                      {this.state.interestedparties.map((r, i) => (
+                        <tr>
+                          <td>{r.Name}</td>
+                          <td> {r.ContactName} </td>
+                          <td> {r.Designation} </td>
+                          <td> {r.Email} </td>
+                          <td> {r.TelePhone} </td>
+                          <td> {r.Mobile} </td>
+                          <td> {r.PhysicalAddress} </td>
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
                 </div>
               </div>
               <div className="row">
@@ -2355,12 +2378,11 @@ class Applications extends Component {
                     <div class="col-sm-8">
                       <h3 style={headingstyle}>Fees Details </h3>
                       <table class="table table-sm">
-                     
-                          <thead className="thead-light">
-                            <th scope="col">#</th>
-                            <th scope="col">Fees description</th>
-                            <th scope="col">Amount</th>
-                          </thead>
+                        <thead className="thead-light">
+                          <th scope="col">#</th>
+                          <th scope="col">Fees description</th>
+                          <th scope="col">Amount</th>
+                        </thead>
                         <tbody>
                           {this.state.Applicationfees.map((r, i) => (
                             <tr>
@@ -2381,17 +2403,28 @@ class Applications extends Component {
                           </tr>
                         </tbody>
                       </table>
-                      {this.state.PaymentStatus ==="Not Submited"?
-                        <h4>Fees Status: <span className="text-danger">NOT PAID</span> </h4>  :null
-                     }
-                      {this.state.PaymentStatus === "Approved" ?
-                        <h4>Fees Status: <span className="text-success">PAID</span> </h4> : null
-                      }
-                      {this.state.PaymentStatus === "Submited" ?
-                        <h4>Fees Status: <span className="text-warning">Payment Pending Confirmation</span> </h4> : null
-                      }
+                      {this.state.PaymentStatus === "Not Submited" ? (
+                        <h4>
+                          Fees Status:{" "}
+                          <span className="text-danger">NOT PAID</span>{" "}
+                        </h4>
+                      ) : null}
+                      {this.state.PaymentStatus === "Approved" ? (
+                        <h4>
+                          Fees Status:{" "}
+                          <span className="text-success">PAID</span>{" "}
+                        </h4>
+                      ) : null}
+                      {this.state.PaymentStatus === "Submited" ? (
+                        <h4>
+                          Fees Status:{" "}
+                          <span className="text-warning">
+                            Payment Pending Confirmation
+                          </span>{" "}
+                        </h4>
+                      ) : null}
                     </div>
-                    <br/>
+                    <br />
                     {this.state.PaymentStatus === "Submited" ? (
                       <div class="col-sm-8">
                         <h3 style={headingstyle}>Payment Details</h3>
@@ -2407,14 +2440,17 @@ class Applications extends Component {
                           <tbody>
                             {this.state.PaymentDetails.map((r, i) => (
                               <tr>
-
-                                <td> {new Date(r.DateOfpayment).toLocaleDateString()} </td>
+                                <td>
+                                  {" "}
+                                  {new Date(
+                                    r.DateOfpayment
+                                  ).toLocaleDateString()}{" "}
+                                </td>
 
                                 <td>{this.formatNumber(r.AmountPaid)}</td>
 
                                 <td>{r.Refference}</td>
                                 <td>{r.Paidby}</td>
-
                               </tr>
                             ))}
                           </tbody>
@@ -2422,51 +2458,65 @@ class Applications extends Component {
                       </div>
                     ) : null}
 
-                   
-                    <br/>
+                    <br />
                     <div className="row">
-                      <div className="col-lg-10"></div>
-                      <div className="col-lg-2">
+                      <div className="col-lg-9"></div>
+                      <div className="col-lg-3">
                         {this.state.PaymentStatus === "Not Submited" ? (
-                         
-                            <button
-                              type="button"
+                          <button
+                            type="button"
                             onClick={this.OpenPaymentModal}
-                              className="btn btn-success"
-                            >
-                              PAY NOW
-                      </button>                         
-                        ) : null}&nbsp;&nbsp;
-                     {this.state.Status === "Not Submited" ? (
+                            className="btn btn-success"
+                          >
+                            PAY NOW
+                          </button>
+                        ) : null}
+                        &nbsp;&nbsp;
+                        {this.state.Status === "Not Submited" ? (
                           <button
                             type="button"
                             onClick={this.EditApplication}
                             className="btn btn-primary"
                           >
                             EDIT
-                    </button>
+                          </button>
                         ) : null}
-                         &nbsp; &nbsp;
+                        &nbsp; &nbsp;
                         <button
                           type="button"
-                           onClick={this.GoBack}
-                          className="btn btn-warning float-right"
+                          onClick={this.GoBack}
+                          className="btn btn-warning"
                         >
                           Back
-                  </button>
+                        </button>
                       </div>
                     </div>
-                    <br/>
+                    <br />
 
-                    <Modal visible={this.state.openPaymentModal} width="900" height="410" effect="fadeInUp" onClickAway={() => this.ClosePaymentModal()}>
-                      <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.ClosePaymentModal()}><i class="fa fa-close"></i></a>
+                    <Modal
+                      visible={this.state.openPaymentModal}
+                      width="900"
+                      height="410"
+                      effect="fadeInUp"
+                      onClickAway={() => this.ClosePaymentModal()}
+                    >
+                      <a
+                        style={{ float: "right", color: "red", margin: "10px" }}
+                        href="javascript:void(0);"
+                        onClick={() => this.ClosePaymentModal()}
+                      >
+                        <i class="fa fa-close"></i>
+                      </a>
                       <div>
-                        <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Payment Details</h4>
+                        <h4
+                          style={{ "text-align": "center", color: "#1c84c6" }}
+                        >
+                          Payment Details
+                        </h4>
                         <div className="container-fluid">
                           <div className="col-sm-12">
                             <div className="ibox-content">
-                              <div>  
-                                                            
+                              <div>
                                 <div className="col-lg-12 border border-success rounded">
                                   <div style={FormStyle}>
                                     <div className=" row">
@@ -2478,7 +2528,7 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Amount Paid
-                                        </label>
+                                            </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
@@ -2486,6 +2536,8 @@ class Applications extends Component {
                                               value={this.state.AmountPaid}
                                               type="number"
                                               required
+                                              step="0.01"
+                                              min="0"
                                               name="AmountPaid"
                                               className="form-control"
                                             />
@@ -2500,7 +2552,7 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Date of Payment
-                                        </label>
+                                            </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
@@ -2525,12 +2577,14 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Payment Reference
-                                        </label>
+                                            </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
                                               onChange={this.handleInputChange}
-                                              value={this.state.PaymentReference}
+                                              value={
+                                                this.state.PaymentReference
+                                              }
                                               type="text"
                                               required
                                               name="PaymentReference"
@@ -2547,7 +2601,7 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Paid By
-                                        </label>
+                                            </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
@@ -2572,7 +2626,7 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Payment slip
-                                        </label>
+                                            </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
@@ -2588,8 +2642,12 @@ class Applications extends Component {
                                                 color="success"
                                                 value={this.state.loaded}
                                               >
-                                                {Math.round(this.state.loaded, 2)}%
-                                          </Progress>
+                                                {Math.round(
+                                                  this.state.loaded,
+                                                  2
+                                                )}
+                                                %
+                                              </Progress>
                                             </div>
                                             <button
                                               type="submit"
@@ -2597,7 +2655,7 @@ class Applications extends Component {
                                               onClick={this.UploadBankSlip}
                                             >
                                               Upload
-                                        </button>
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
@@ -2620,7 +2678,7 @@ class Applications extends Component {
                                                     }
                                                   >
                                                     &nbsp; Remove
-                                              </a>
+                                                  </a>
                                                 </span>
                                               </td>
                                             </tr>
@@ -2630,29 +2688,36 @@ class Applications extends Component {
                                     </div>
                                   </div>
                                 </div>
-                                <br/>
+                                <br />
                                 <div className="row">
-                                  <div className="col-md-10">
+                                  <div className="col-md-9"></div>
+                                  <div className="col-md-3">
+                                    <button
+                                      type="button"
+                                      onClick={this.SavePaymentdetails}
+                                      className="btn btn-primary"
+                                    >
+                                      Submit
+                                    </button>
+                                    &nbsp; &nbsp;
+                                    <button
+                                      type="button"
+                                      className="btn btn-warning"
+                                      onClick={this.ClosePaymentModal}
+                                    >
+                                      Close
+                                    </button>
                                   </div>
-                                  <div className="col-md-2">
-                                    <button type="button" onClick={this.SavePaymentdetails} className="btn btn-primary">Submit</button>&nbsp;
-                                    <button type="button" className="btn btn-warning" onClick={this.ClosePaymentModal}>Close</button>
-                                  </div>
-
                                 </div>
-                              </div> 
-                             </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-
                       </div>
                     </Modal>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         );
@@ -2708,14 +2773,11 @@ class Applications extends Component {
               </ol>
             </div>
             <div className="col-lg-1">
-              <div className="row wrapper ">
-               
-              </div>
+              <div className="row wrapper "></div>
             </div>
           </div>
           <p></p>
           <div style={divconatinerstyle}>
-            
             <div class="row">
               <div class="col-sm-12">
                 <nav>
@@ -2901,6 +2963,8 @@ class Applications extends Component {
                                     type="number"
                                     class="form-control"
                                     name="TenderValue"
+                                    step="0.01"
+                                    min="0"
                                     onChange={this.handleInputChange}
                                     value={this.state.TenderValue}
                                     required
@@ -3007,7 +3071,7 @@ class Applications extends Component {
 
                         <p></p>
                         <div className=" row">
-                            <div className="col-sm-9" />
+                          <div className="col-sm-9" />
                           <div className="col-sm-1">
                             <button
                               type="submit"
@@ -3026,18 +3090,16 @@ class Applications extends Component {
                                 >
                                   {" "}
                                   &nbsp; Next
-                              </button>
+                                </button>
                                 &nbsp;&nbsp;
-                            <button
+                                <button
                                   type="button"
                                   onClick={this.handleswitchMenu}
                                   className="btn btn-warning"
                                 >
                                   &nbsp; Close
-                          </button>
+                                </button>
                               </div>
-
-                            
                             )}
                           </div>
                         </div>
@@ -3195,17 +3257,16 @@ class Applications extends Component {
                                   >
                                     {" "}
                                     Next
-                                </button>
-&nbsp; &nbsp; 
+                                  </button>
+                                  &nbsp; &nbsp;
                                   <button
                                     type="button"
                                     onClick={this.handleswitchMenu}
                                     className="btn btn-warning"
                                   >
                                     Close
-                          </button>
+                                  </button>
                                 </div>
-                                
                               ) : null}
                             </div>
                           </div>
@@ -3302,17 +3363,18 @@ class Applications extends Component {
                                       <div class="col-sm-9"></div>
                                       <div class="col-sm-3">
                                         <button
+                                          type="submit"
+                                          className="btn btn-primary"
+                                        >
+                                          &nbsp;Save
+                                        </button>
+                                        &nbsp;
+                                        <button
                                           type="button"
                                           onClick={this.closeModal}
-                                          className="btn btn-danger float-left "
+                                          className="btn btn-danger"
                                         >
-                                          &nbsp;Close{" "}
-                                        </button>
-                                        <button
-                                          type="submit"
-                                          className="btn btn-primary float-right "
-                                        >
-                                          &nbsp;Save{" "}
+                                          &nbsp;Close
                                         </button>
                                       </div>
                                     </div>
@@ -3323,10 +3385,10 @@ class Applications extends Component {
                           </Popup>
                           <p></p>
                           <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-11">
                               {this.state.GroundsAvailable ? (
                                 <table class="table table-sm">
-                                  <thead>
+                                  <thead className="thead-light">
                                     <tr>
                                       <th scope="col">NO</th>
                                       <th scope="col">Grounds for appeal</th>
@@ -3440,17 +3502,18 @@ class Applications extends Component {
                                       <div class="col-sm-9"></div>
                                       <div class="col-sm-3">
                                         <button
+                                          type="submit"
+                                          className="btn btn-primary"
+                                        >
+                                          Save{" "}
+                                        </button>
+                                        &nbsp;
+                                        <button
                                           type="button"
                                           onClick={this.closeRequestModal}
-                                          className="btn btn-danger float-left "
+                                          className="btn btn-danger"
                                         >
-                                          &nbsp;Close{" "}
-                                        </button>
-                                        <button
-                                          type="submit"
-                                          className="btn btn-primary float-right "
-                                        >
-                                          &nbsp;Save{" "}
+                                          Close{" "}
                                         </button>
                                       </div>
                                     </div>
@@ -3459,17 +3522,15 @@ class Applications extends Component {
                               </div>
                             </div>
                           </Popup>
-
+                          <p></p>
                           <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-11">
                               {this.state.RequestsAvailable ? (
                                 <table class="table table-sm">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">NO</th>
-                                      <th scope="col">Requested Orders</th>
-                                      <th scope="col">Actions</th>
-                                    </tr>
+                                  <thead className="thead-light">
+                                    <th scope="col">NO</th>
+                                    <th scope="col">Requested Orders</th>
+                                    <th scope="col">Actions</th>
                                   </thead>
                                   <tbody>
                                     {this.state.ApplicationGrounds.map((r, i) =>
@@ -3514,13 +3575,13 @@ class Applications extends Component {
                                 Next &nbsp;
                               </button>
                               &nbsp;&nbsp;
-                            <button
+                              <button
                                 type="button"
                                 onClick={this.handleswitchMenu}
                                 className="btn btn-warning"
                               >
                                 &nbsp; Close
-                          </button>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -3570,7 +3631,7 @@ class Applications extends Component {
                                 className="font-weight-bold"
                               >
                                 Confidential
-                                  </label>
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -3604,18 +3665,15 @@ class Applications extends Component {
                             </button>{" "}
                           </div>
                         </div>
-
+                        <br />
                         <div class="row">
                           <div class="col-sm-8">
                             {this.state.DocumentsAvailable ? (
                               <table class="table table-sm">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">File Description</th>
-                                    {/* <th scope="col">File Name</th> */}
-                                    <th scope="col">Action</th>
-                                  </tr>
+                                <thead className="thead-light">
+                                  <th scope="col">#</th>
+                                  <th scope="col">File Description</th>
+                                  <th scope="col">Action</th>
                                 </thead>
                                 <tbody>
                                   {this.state.ApplicationDocuments.map(
@@ -3654,14 +3712,15 @@ class Applications extends Component {
                             >
                               {" "}
                               &nbsp; Next
-                            </button>&nbsp;&nbsp;
+                            </button>
+                            &nbsp;&nbsp;
                             <button
                               type="button"
                               onClick={this.handleswitchMenu}
                               className="btn btn-warning"
                             >
                               &nbsp; Close
-                          </button>
+                            </button>
                           </div>
                         </div>
                       </form>
@@ -3989,15 +4048,15 @@ class Applications extends Component {
                         <div className="row">
                           <div class="col-sm-11">
                             <table className="table table-sm">
-                                <thead className="thead-light">
-                              <th>Org Name</th>
-                              <th>ContactName</th>
-                              <th>Designation</th>
-                              <th>Email</th>
-                              <th>TelePhone</th>
-                              <th>Mobile</th>
-                              <th>PhysicalAddress</th>
-                              <th>Actions</th>
+                              <thead className="thead-light">
+                                <th>Org Name</th>
+                                <th>ContactName</th>
+                                <th>Designation</th>
+                                <th>Email</th>
+                                <th>TelePhone</th>
+                                <th>Mobile</th>
+                                <th>PhysicalAddress</th>
+                                <th>Actions</th>
                               </thead>
                               {this.state.interestedparties.map((r, i) => (
                                 <tr>
@@ -4052,7 +4111,7 @@ class Applications extends Component {
                               className="btn btn-warning"
                             >
                               &nbsp; Close
-                          </button>
+                            </button>
                           </div>
                         </div>
                         <br />
@@ -4129,6 +4188,8 @@ class Applications extends Component {
                                           value={this.state.AmountPaid}
                                           type="number"
                                           required
+                                          step="0.01"
+                                          min="0"
                                           name="AmountPaid"
                                           className="form-control"
                                         />
@@ -4293,14 +4354,14 @@ class Applications extends Component {
                             >
                               SUBMIT FOR REVIEW
                             </button>
-                             &nbsp;&nbsp;
+                            &nbsp;&nbsp;
                             <button
                               type="button"
                               onClick={this.handleswitchMenu}
                               className="btn btn-warning"
                             >
                               &nbsp; Close
-                          </button>
+                            </button>
                           </div>
                         </div>
                         <br />

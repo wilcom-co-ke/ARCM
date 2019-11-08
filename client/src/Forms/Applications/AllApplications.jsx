@@ -367,6 +367,7 @@ class AllApplications extends Component {
             PEPostalCode: k.PEPostalCode,
             PEMobile: k.PEMobile,
             PEEmail: k.PEEmail,
+            caseOfficer: k.caseOfficer,
             PEWebsite: k.PEWebsite,
             TenderID: k.TenderID,
             ApplicationID: k.ID,
@@ -605,7 +606,20 @@ class AllApplications extends Component {
                     </div>
                     <p></p>
                     <div className="border-bottom white-bg p-4">
+                        <div className="row">
+                            <div className="col-sm-6">
+                                <div className="row">
+                                    <div className="col-sm-3">
 
+                                        <h3 style={headingstyle}>Case Officer</h3>
+                                    </div>
+                                    <div className="col-sm-7">
+                                        <input type="text" className="form-control" disabled value={this.state.caseOfficer} />
+
+                                    </div>
+                                </div>
+                            </div>                                                   
+                        </div>
                         <div className="row">
 
                             <div className="col-sm-6">

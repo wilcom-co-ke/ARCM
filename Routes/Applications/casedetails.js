@@ -58,9 +58,12 @@ casedetails.get("/:ID", auth.validateRole("Case officers"), function(req, res) {
     }
   });
 });
-casedetails.get("/:ID/:MyCases", auth.validateRole("Case officers"), function (req, res) {
+casedetails.get("/:ID/:MyCases", auth.validateRole("Case officers"), function(
+  req,
+  res
+) {
   const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
+  con.getConnection(function(err, connection) {
     if (err) {
       res.json({
         success: false,
@@ -69,7 +72,7 @@ casedetails.get("/:ID/:MyCases", auth.validateRole("Case officers"), function (r
     } // not connected!
     else {
       let sp = "call getMycases(?)";
-      connection.query(sp, [ID], function (error, results, fields) {
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,

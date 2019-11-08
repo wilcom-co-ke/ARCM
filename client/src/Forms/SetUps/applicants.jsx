@@ -468,7 +468,7 @@ class applicants extends Component {
                             } else {
                                 swal("", data.message, "error");
                             }
-                            this.this.fetchApplicants();
+                            this.fetchApplicants();
                         })
                     )
                     .catch(err => {
@@ -530,11 +530,7 @@ class applicants extends Component {
                 field: "Location",
                 sort: "asc"
             },
-            {
-                label: "Website",
-                field: "Website",
-                sort: "asc"
-            },
+           
             {
                 label: "Email",
                 field: "Email",
@@ -567,7 +563,7 @@ class applicants extends Component {
                     Code: k.PEID,
                     Name: k.Name,
                     Location: k.Location,
-                    Website: k.Website,
+               
                     Email: k.Email,
                     Telephone: k.Telephone,
                     County: k.County,

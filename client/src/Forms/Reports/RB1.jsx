@@ -13,6 +13,9 @@ class RB1 extends Component {
   }
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({
+      FilePath: ""
+    });
+    this.setState({
       FilePath:
         process.env.REACT_APP_BASE_URL + "/RB1FORMS/" + UserGroup.value + ".pdf"
     });
