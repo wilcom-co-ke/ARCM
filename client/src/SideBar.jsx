@@ -399,6 +399,26 @@ const Reports = props => {
                 Attendance
               </Link>
             </li>
+            <li>
+              <Link to="/Monthlycases">
+                <i className="fa fa-address-card" />
+                Monthly Cases
+              </Link>
+            </li>
+            <li>
+              <Link to="/PEAppearanceFrequencyPerCategory">
+                <i className="fa fa-address-card" />
+                PE Appearance Frequency
+              </Link>
+            </li>
+            {/* <li>
+              <Link to="/PEAppearanceFrequencyPerCategory">
+                <i className="fa fa-address-card" />
+               PE AppearanceFrequency PerCategory
+              </Link>
+            </li> */}
+            
+            
           </ul>
         ) : null}
       </li>

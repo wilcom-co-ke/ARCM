@@ -1,15 +1,16 @@
 import React from "react";
 import SideBar from "./SideBar";
 import Header from "./Header";
-import { Redirect } from "react-router-dom";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+//import { Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+//import { BrowserRouter, Route, Switch } from "react-router-dom";
 //system admin
 import Auditrails from "./Forms/SystemAdmin/Auditrails";
 import configurations from "./Forms/SystemAdmin/configurations";
 import UserGroups from "./Forms/SystemAdmin/UserGroups";
 import Roles from "./Forms/SystemAdmin/Roles";
 import Users from "./Forms/SystemAdmin/Users";
-import Approvers from "./Forms/SystemAdmin/Approvers";
+// import Approvers from "./Forms/SystemAdmin/Approvers";
 import NewApprovers from "./Forms/SystemAdmin/NewApprovers";
 import caseofficers from "./Forms/SystemAdmin/caseofficers";
 import casedetails from "./Forms/Applications/casedetails";
@@ -76,34 +77,36 @@ import CloseRegistrations from "./Forms/Applications/CloseRegistrations";
 import PreliminaryObjection from "./Forms/Applications/PreliminaryObjection";
 import DecisionPreparations from "./Forms/Applications/DecisionPreparations";
 import Decision from "./Forms/Applications/Decision";
-import CaseReferrals from "./Forms/Applications/CaseReferrals"
-import CaseFollowUp from "./Forms/Applications/CaseFollowUp"
-
-const checkAuth = () => {
-  let token = localStorage.getItem("token");
-  if (!token) {
-    localStorage.clear();
-    return false;
-  }
-  try {
-    const { exp } = decode(token);
-    if (exp < new Date().getTime() / 1000) {
-      localStorage.clear();
-      return false;
-    }
-  } catch (error) {
-    localStorage.clear();
-    return false;
-  }
-  return true;
-};
-const AuthRoute = ({ component: Component, ...rest }) => (
-  <Route
-    render={props =>
-      checkAuth() ? <Component {...props} /> : (window.location = "#/Logout")
-    }
-  />
-);
+import CaseReferrals from "./Forms/Applications/CaseReferrals";
+import CaseFollowUp from "./Forms/Applications/CaseFollowUp";
+import Monthlycases from "./Forms/Reports/Monthlycases";
+import PEAppearanceFrequency from "./Forms/Reports/PEAppearanceFrequency";
+import PEAppearanceFrequencyPerCategory from "./Forms/Reports/PEAppearanceFrequencyPerCategory";
+// const checkAuth = () => {
+//   let token = localStorage.getItem("token");
+//   if (!token) {
+//     localStorage.clear();
+//     return false;
+//   }
+//   try {
+//     const { exp } = decode(token);
+//     if (exp < new Date().getTime() / 1000) {
+//       localStorage.clear();
+//       return false;
+//     }
+//   } catch (error) {
+//     localStorage.clear();
+//     return false;
+//   }
+//   return true;
+// };
+// const AuthRoute = ({ component: Component, ...rest }) => (
+//   <Route
+//     render={props =>
+//       checkAuth() ? <Component {...props} /> : (window.location = "#/Logout")
+//     }
+//   />
+// );
 
 function App() {
   let token = localStorage.getItem("token");
@@ -125,7 +128,17 @@ function App() {
                 <Route exact path="/Auditrails" component={Auditrails} />
                 <Route exact path="/CaseReferrals" component={CaseReferrals} />
                 <Route exact path="/CaseFollowUp" component={CaseFollowUp} />
-                
+                <Route exact path="/Monthlycases" component={Monthlycases} />
+                <Route
+                  exact
+                  path="/PEAppearanceFrequency"
+                  component={PEAppearanceFrequency}
+                />
+                <Route
+                  exact
+                  path="/PEAppearanceFrequencyPerCategory"
+                  component={PEAppearanceFrequencyPerCategory}
+                />
                 <Route
                   exact
                   path="/DecisionPreparations"

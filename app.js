@@ -58,8 +58,8 @@ var adjournment = require("./Routes/Applications/adjournment");
 var casesittingsregister = require("./Routes/Applications/casesittingsregister");
 var HearingInProgress = require("./Routes/Applications/HearingInProgress");
 var additionalsubmissions = require("./Routes/Applications/additionalsubmissions");
-var CaseFollowUp = require("./Routes/Applications/CaseFollowUp")
-var CaseReferrals = require("./Routes/Applications/CaseReferrals")
+var CaseFollowUp = require("./Routes/Applications/CaseFollowUp");
+var CaseReferrals = require("./Routes/Applications/CaseReferrals");
 //mpesa
 var Authentication = require("./Routes/Mpesa/Authentication");
 var confirmation = require("./Routes/Mpesa/confirmation");
@@ -75,12 +75,13 @@ var GenerateCaseSummary = require("./Routes/generatePdf/GenerateCaseSummary");
 var GenerateAttendanceregister = require("./Routes/generatePdf/GenerateAttendanceregister");
 var FeesApproval = require("./Routes/Applications/FeesApproval");
 
+var ExecutiveReports = require("./Routes/Reports/ExecutiveReports");
 var issuesfordetermination = require("./Routes/Applications/issuesfordetermination");
 var findingsonissues = require("./Routes/Applications/findingsonissues");
 var decisiondocuments = require("./Routes/Applications/decisiondocuments");
 var decisionorders = require("./Routes/Applications/decisionorders");
 var Decision = require("./Routes/Applications/Decision");
-var GenerateDecision =require("./Routes/generatePdf/GenerateDecision")
+var GenerateDecision = require("./Routes/generatePdf/GenerateDecision");
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -185,6 +186,7 @@ app.use("/api/GeneratePanelList", GeneratePanelList);
 app.use("/api/GenerateCaseSummary", GenerateCaseSummary);
 app.use("/api/GenerateAttendanceregister", GenerateAttendanceregister);
 app.use("/api/GenerateDecision", GenerateDecision);
+app.use("/api/ExecutiveReports", ExecutiveReports);
 
 app.use((req, res, next) => {
   const error = new Error("resource not found");
