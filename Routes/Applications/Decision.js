@@ -56,9 +56,12 @@ Decision.get("/:ID", auth.validateRole("Decision"), function(req, res) {
     }
   });
 });
-Decision.get("/:ID/:Attendance", auth.validateRole("Decision"), function (req, res) {
+Decision.get("/:ID/:Attendance", auth.validateRole("Decision"), function(
+  req,
+  res
+) {
   const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
+  con.getConnection(function(err, connection) {
     if (err) {
       res.json({
         success: false,
@@ -67,7 +70,7 @@ Decision.get("/:ID/:Attendance", auth.validateRole("Decision"), function (req, r
     } // not connected!
     else {
       let sp = "call ComprehensiveAttendanceRegister(?)";
-      connection.query(sp, [ID], function (error, results, fields) {
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -89,7 +92,7 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
     Referral: Joi.boolean(),
     Closed: Joi.boolean(),
     DecisionDate: Joi.date().required(),
-
+    ApplicationSuccessful: Joi.boolean(),
     ApplicationNo: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
@@ -100,8 +103,8 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
       req.body.DecisionDate,
       req.body.Followup,
       req.body.Referral,
-
-      req.body.Closed
+      req.body.Closed,
+      req.body.ApplicationSuccessful
     ];
 
     con.getConnection(function(err, connection) {
@@ -112,7 +115,7 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SubmitCaseDecision(?,?,?,?,?,?)";
+        let sp = "call SubmitCaseDecision(?,?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

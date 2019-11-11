@@ -33,6 +33,7 @@ class DecisionPreparations extends Component {
       Orders: false,
       Decisionorders: [],
       Issues: [],
+      ApplicationSuccessful:false,
       FollowUpRequired: false,
       RefertoDG: false,
       Closed: false,
@@ -647,6 +648,7 @@ class DecisionPreparations extends Component {
         new Date(k.DecisionDate).toLocaleDateString(),
         "isoDate"
       ),
+      ApplicationSuccessful: !!+k.ApplicationSuccessful,
       FollowUpRequired: !!+k.Followup,
       RefertoDG: !!+k.Referral,
       Closed: !!+k.Closed
@@ -731,7 +733,8 @@ class DecisionPreparations extends Component {
       ApplicationNo: this.state.ApplicationNo,
       Followup: this.state.FollowUpRequired,
       Referral: this.state.RefertoDG,
-      Closed: this.state.Closed
+      Closed: this.state.Closed,
+      ApplicationSuccessful: this.state.ApplicationSuccessful
     };
     fetch("/api/Decision", {
       method: "POST",
@@ -2014,6 +2017,17 @@ class DecisionPreparations extends Component {
                       <br />
                       <div className="row">
                         &nbsp;&nbsp;&nbsp;&nbsp;
+                         <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+                            id="Confidential"
+                            type="checkbox"
+                            name="ApplicationSuccessful"
+                            
+                            defaultChecked={this.state.ApplicationSuccessful}
+                            onChange={this.handleInputChange}
+                          />&nbsp; Successful
+                                                </div>
                         <div className="col-sm-2">
                           <input
                             className="checkbox"

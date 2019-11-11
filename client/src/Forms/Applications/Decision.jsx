@@ -40,6 +40,7 @@ class Decision extends Component {
             FollowUpRequired: false,
             RefertoDG: false,
             Closed: false,
+            ApplicationSuccessful:false,
             DecisionDate: "", 
             selectedFile: null,
             loaded: 0,
@@ -450,7 +451,8 @@ class Decision extends Component {
             ),
             FollowUpRequired: k.Followup,
             RefertoDG: k.Referral,
-            Closed: k.Closed
+            Closed: k.Closed,
+            ApplicationSuccessful: k.ApplicationSuccessful
         };
         this.setState(data);
         this.fetchInterestedParties(k.ApplicationNo);
@@ -1005,8 +1007,21 @@ class Decision extends Component {
                                                 </div>
                                             </div>
                                             <br />
+                                            
                                             <div className="row">
                                                 &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+                                                        id="Confidential"
+                                                        type="checkbox"
+                                                        name="ApplicationSuccessful"
+                                                        disabled
+                                                        defaultChecked={this.state.ApplicationSuccessful}
+                                                        onChange={this.handleInputChange}
+                                                    />&nbsp; Successful
+                                                </div>
+
                                                 <div className="col-sm-2">
                                                     <input
                                                         className="checkbox"

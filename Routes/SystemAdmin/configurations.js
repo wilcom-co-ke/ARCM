@@ -5,10 +5,7 @@ var config = require("../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("../../auth");
-configurations.get("/:ID",  function(
-  req,
-  res
-) {
+configurations.get("/:ID", function(req, res) {
   const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {
@@ -26,6 +23,35 @@ configurations.get("/:ID",  function(
             message: error.message
           });
         } else {
+          res.json(results[0]);
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
+configurations.get("/:ID/:Category", function(req, res) {
+  const ID = req.params.ID;
+  const Category = req.params.Category;
+
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call GetLoogedinCompany(?,?)";
+      connection.query(sp, [ID, Category], function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          //console.log(Category);
           res.json(results[0]);
         }
         connection.release();

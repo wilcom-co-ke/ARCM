@@ -5,7 +5,7 @@ import Modal from "react-awesome-modal";
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
 var dateFormat = require("dateformat");
-class PEAppearanceFrequencyPerCategory extends Component {
+class requesthandled extends Component {
   constructor() {
     super();
     this.state = {
@@ -18,16 +18,22 @@ class PEAppearanceFrequencyPerCategory extends Component {
       All: false,
       openCategoryModal: false,
       openPEModal: false,
-      PEName: ""
+      PEName: "",
+      Category: ""
     };
 
     this.Downloadfile = this.Downloadfile.bind(this);
   }
   exportCategorypdf = () => {
-    let name = "PE CASES PER CATEGORY";
+    let name = this.state.Category + " CASES";
     var columns = [
-      { title: "CATEGORY", dataKey: "Name" },
-      { title: "Count", dataKey: "Count" }
+      { title: "ApplicationNo", dataKey: "ApplicationNo" },
+      { title: "FilingDate", dataKey: "FilingDate" },
+      { title: "Status", dataKey: "Status" },
+      { title: "TenderNo", dataKey: "TenderNo" },
+      { title: "TenderValue", dataKey: "TenderValue" },
+      { title: "Applicant", dataKey: "Applicant" },
+      { title: "PE", dataKey: "PE" }
     ];
     const rows = [...this.state.DataPercategory];
     var doc = new jsPDF("p", "pt");
@@ -37,7 +43,7 @@ class PEAppearanceFrequencyPerCategory extends Component {
         doc.text(name, 40, 50);
       }
     });
-    doc.save("ARCM PE CASES PER CATEGORY.pdf");
+    doc.save("ARCM handled cases.pdf");
   };
   exportPEpdf = () => {
     let name = this.state.PEName + " CASES";
@@ -133,7 +139,8 @@ class PEAppearanceFrequencyPerCategory extends Component {
           "/" +
           this.state.Todate +
           "/" +
-          +this.state.All,
+          +this.state.All +
+          "/requesthandled",
         {
           method: "GET",
           headers: {
@@ -163,46 +170,31 @@ class PEAppearanceFrequencyPerCategory extends Component {
   ClosePEModal = () => {
     this.setState({ openPEModal: false, openCategoryModal: true });
   };
-
-  DrillDownPE = (Category, Name) => {
-    fetch("/api/ExecutiveReports/" + Category + "/PEApplications", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-      .then(res => res.json())
-      .then(Applications => {
-        if (Applications.length > 0) {
-          this.setState({
-            PEName: Name,
-            DataPerPE: Applications,
-            openPEModal: true,
-            openCategoryModal: false
-          });
-        } else {
-          swal("", Applications.message, "error");
-        }
-      })
-      .catch(err => {
-        swal("", err.message, "error");
-      });
-  };
   DrillDown = Category => {
-    fetch("/api/ExecutiveReports/" + Category + "/PECategory", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
+    fetch(
+      "/api/ExecutiveReports/" +
+        this.state.FromDate +
+        "/" +
+        this.state.Todate +
+        "/" +
+        Category +
+        "/" +
+        !!+this.state.All,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
       }
-    })
+    )
       .then(res => res.json())
       .then(Applications => {
         if (Applications.length > 0) {
           this.setState({
             DataPercategory: Applications,
-            openCategoryModal: true
+            openCategoryModal: true,
+            Category: Category
           });
         } else {
           swal("", Applications.message, "error");
@@ -216,78 +208,18 @@ class PEAppearanceFrequencyPerCategory extends Component {
     let FormStyle = {
       margin: "20px"
     };
-    const data = [["PE Category", "Frequency"]];
+    const data = [["Category", "Frequency"]];
     [...this.state.Data].map((k, i) => {
-      let d = [k.PEDesc, k.Count];
+      let d = [k.Status, k.Count];
       data.push(d);
     });
     let DrillDown = this.DrillDown;
-    let DrillDownPE = this.DrillDownPE;
+
     return (
       <div>
         <Modal
-          visible={this.state.openPEModal}
-          width="1200"
-          height="410"
-          effect="fadeInUp"
-          // onClickAway={() => this.CloseCategoryModal()}
-        >
-          <div style={{ overflow: "scroll", height: "100%" }}>
-            <a
-              style={{ float: "right", color: "red", margin: "10px" }}
-              href="javascript:void(0);"
-              onClick={() => this.ClosePEModal()}
-            >
-              <i class="fa fa-close"></i>
-            </a>
-            <div>
-              <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
-                Applications filed against {this.state.PEName}
-              </h4>
-              <span
-                style={{ cursor: "pointer", color: "#1c84c6" }}
-                onClick={this.exportPEpdf}
-              >
-                Export
-              </span>
-              <div className="container-fluid">
-                <div className="col-sm-12">
-                  <div className="ibox-content">
-                    <table className="table table-borderless table-sm">
-                      <thead className="thead-light">
-                        <th>No</th>
-                        <th>ApplicationNo</th>
-                        <th>Applicant</th>
-                        <th>Application Date</th>
-                        <th>Application Status</th>
-                        <th>TenderNo</th>
-                      </thead>
-                      {this.state.DataPerPE.map((r, i) => (
-                        <tr>
-                          <td>{i + 1}</td>
-
-                          <td>{r.ApplicationNo}</td>
-                          <td>{r.Name}</td>
-                          <td>
-                            {dateFormat(
-                              new Date(r.FilingDate).toLocaleDateString(),
-                              "fullDate"
-                            )}
-                          </td>
-                          <td>{r.Status}</td>
-                          <td>{r.TenderNo}</td>
-                        </tr>
-                      ))}
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-        <Modal
           visible={this.state.openCategoryModal}
-          width="900"
+          width="80%"
           height="410"
           effect="fadeInUp"
           // onClickAway={() => this.CloseCategoryModal()}
@@ -303,7 +235,7 @@ class PEAppearanceFrequencyPerCategory extends Component {
             </a>
             <div>
               <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
-                PE Appearance Frequency
+                {this.state.Category} Cases
               </h4>
 
               <span
@@ -312,37 +244,37 @@ class PEAppearanceFrequencyPerCategory extends Component {
               >
                 Export
               </span>
-              {/* </i> */}
+
               <div className="container-fluid">
                 <div className="col-sm-12">
                   <div className="ibox-content">
                     <table className="table table-borderless table-sm">
                       <thead className="thead-light">
-                        <th>No</th>
-                        <th>PE Name</th>
-                        <th>Frequency</th>
+                        <th>ApplicationNo</th>
+                        <th>FilingDate</th>
+                        <th>Status</th>
+                        <th>TenderNo</th>
+                        <th>TenderValue</th>
+                        <th>Applicant</th>
+                        <th>PE</th>
                       </thead>
                       {this.state.DataPercategory.map((r, i) => (
                         <tr>
-                          <td
-                            style={{ cursor: "pointer" }}
-                            onClick={() => DrillDownPE(r.PEID, r.Name)}
-                          >
-                            {i + 1}
+                          <td style={{ cursor: "pointer" }}>
+                            {r.ApplicationNo}
                           </td>
 
-                          <td
-                            style={{ cursor: "pointer" }}
-                            onClick={() => DrillDownPE(r.PEID, r.Name)}
-                          >
-                            {r.Name}
+                          <td style={{ cursor: "pointer" }}>
+                            {dateFormat(
+                              new Date(r.FilingDate).toLocaleDateString(),
+                              "fullDate"
+                            )}
                           </td>
-                          <td
-                            style={{ cursor: "pointer" }}
-                            onClick={() => DrillDownPE(r.PEID, r.Name)}
-                          >
-                            {r.Count}
-                          </td>
+                          <td style={{ cursor: "pointer" }}>{r.Status}</td>
+                          <td style={{ cursor: "pointer" }}>{r.TenderNo}</td>
+                          <td style={{ cursor: "pointer" }}>{r.TenderValue}</td>
+                          <td style={{ cursor: "pointer" }}>{r.Applicant}</td>
+                          <td style={{ cursor: "pointer" }}>{r.PE}</td>
                         </tr>
                       ))}
                     </table>
@@ -358,7 +290,7 @@ class PEAppearanceFrequencyPerCategory extends Component {
             <div className="col-lg-9">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <h2>PE Appearance Frequency Per Category</h2>
+                  <h2>Cases handled</h2>
                 </li>
               </ol>
             </div>
@@ -432,15 +364,7 @@ class PEAppearanceFrequencyPerCategory extends Component {
                       Generate
                     </button>
                   </div>
-                  <div class="col-sm-1">
-                    {/* <button
-                      onClick={this.PrintFile}
-                      className="btn btn-success"
-                      type="button"
-                    >
-                      Print
-                    </button> */}
-                  </div>
+                  <div class="col-sm-1"></div>
                 </div>
                 <hr />
                 <br />
@@ -490,7 +414,7 @@ class PEAppearanceFrequencyPerCategory extends Component {
                             options={{
                               // Material design options
                               chart: {
-                                title: "PE Appearance Frequency Per Category"
+                                title: "Cases handled"
                               }
                             }}
                           />
@@ -504,31 +428,41 @@ class PEAppearanceFrequencyPerCategory extends Component {
                       aria-labelledby="nav-profile-tab"
                     >
                       <br />
-                      <h3>PE Appearance Frequency Per Category</h3>
+                      <h3 style={{ cursor: "pointer", color: "#1c84c6" }}>
+                        Cases handled between{" "}
+                        {dateFormat(
+                          new Date(this.state.FromDate).toLocaleDateString(),
+                          "fullDate"
+                        )}{" "}
+                        and{" "}
+                        {dateFormat(
+                          new Date(this.state.Todate).toLocaleDateString(),
+                          "fullDate"
+                        )}
+                      </h3>
                       <table className="table table-borderless table-sm">
                         <thead className="thead-light">
                           <th>No</th>
-                          <th>PE Category</th>
+                          <th>Category</th>
                           <th>Frequency</th>
                         </thead>
                         {this.state.Data.map((r, i) => (
                           <tr>
                             <td
                               style={{ cursor: "pointer" }}
-                              onClick={() => DrillDown(r.PEDesc)}
+                              onClick={() => DrillDown(r.Status)}
                             >
                               {i + 1}
                             </td>
-
                             <td
                               style={{ cursor: "pointer" }}
-                              onClick={() => DrillDown(r.PEDesc)}
+                              onClick={() => DrillDown(r.Status)}
                             >
-                              {r.PEDesc}
+                              {r.Status}
                             </td>
                             <td
                               style={{ cursor: "pointer" }}
-                              onClick={() => DrillDown(r.PEDesc)}
+                              onClick={() => DrillDown(r.Status)}
                             >
                               {r.Count}
                             </td>
@@ -547,4 +481,4 @@ class PEAppearanceFrequencyPerCategory extends Component {
   }
 }
 
-export default PEAppearanceFrequencyPerCategory;
+export default requesthandled;

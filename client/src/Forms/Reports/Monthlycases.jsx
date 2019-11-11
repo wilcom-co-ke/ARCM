@@ -164,13 +164,13 @@ class Monthlycases extends Component {
                     </button>
                   </div>
                   <div class="col-sm-1">
-                    <button
+                    {/* <button
                       onClick={this.PrintFile}
                       className="btn btn-success"
                       type="button"
                     >
                       Print
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <hr />

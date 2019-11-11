@@ -411,14 +411,12 @@ const Reports = props => {
                 PE Appearance Frequency
               </Link>
             </li>
-            {/* <li>
-              <Link to="/PEAppearanceFrequencyPerCategory">
+            <li>
+              <Link to="/requesthandled">
                 <i className="fa fa-address-card" />
-               PE AppearanceFrequency PerCategory
+                Requests handled
               </Link>
-            </li> */}
-            
-            
+            </li>
           </ul>
         ) : null}
       </li>
@@ -758,14 +756,14 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
-            {/* {props.validaterole("PeTypes", "View") ? (
+            {props.validaterole("PeTypes", "View") ? (
               <li>
                 <Link to="/PETypes">
                   <i className="fa fa-user-plus " />
                   PETypes
                 </Link>
               </li>
-            ) : null} */}
+            ) : null}
             {/* {props.validaterole("Procurement Methods", "View") ? (
               <li>
                 <Link to="/procurementmethods">

@@ -499,7 +499,7 @@ class createacc extends Component {
         };
         
         let Categories = [
-            { value: "Applicant", label: "Applicant" },
+            { value: "Applicant", label: "Suppliers" },
             {
                 value: "PE",
                 label: "Procuring Entity"

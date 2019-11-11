@@ -7,7 +7,8 @@ class Header extends Component {
   constructor() {
     super();
     this.state = {
-      ComapnyName: ""
+      ComapnyName: "",
+      LoogedinCompay: ""
     };
     this.logout = this.logout.bind(this);
   }
@@ -31,8 +32,35 @@ class Header extends Component {
         // swal("Oops!", err.message, "error");
       });
   };
+  fetchUsersCompanyDetails = () => {
+    fetch(
+      "/api/configurations/" +
+        localStorage.getItem("UserName") +
+        "/" +
+        localStorage.getItem("UserCategory"),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.length > 0) {
+          this.setState({ LoogedinCompay: data[0].Name });
+        } else {
+          // swal("Oops!", data.message, "error");
+        }
+      })
+      .catch(err => {
+        // swal("Oops!", err.message, "error");
+      });
+  };
   componentDidMount() {
     this.fetchCompanyDetails();
+    this.fetchUsersCompanyDetails();
   }
   logout() {
     localStorage.clear();
@@ -50,7 +78,15 @@ class Header extends Component {
       color: "white",
       float: "left",
       fontSize: "18px",
-      "margin-left": 70
+      "margin-left": 70,
+      textAlign: "Center"
+    };
+    const pStyle3 = {
+      color: "white",
+      float: "left",
+      fontSize: "18px",
+      "margin-left": 170,
+      textAlign: "Center"
     };
     const pStyle2 = {
       color: "white",
@@ -104,6 +140,8 @@ class Header extends Component {
                   <b style={pStyle1}>
                     Administrative Review Case Management System(ARCMS).
                   </b>
+                  <br />
+                  <b style={pStyle3}>{this.state.LoogedinCompay}</b>
                 </span>
               </li>
             </ul>

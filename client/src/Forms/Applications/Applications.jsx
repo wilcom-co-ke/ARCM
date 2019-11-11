@@ -36,6 +36,7 @@ class Applications extends Component {
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
+      ApplicationCreated_By:"",
       TenderValue: "",
       ApplicationID: "",
       TenderName: "",
@@ -1531,8 +1532,7 @@ class Applications extends Component {
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
-      PETown: k.PETown,
-     
+      PETown: k.PETown,     
       PEPostalCode: k.PEPostalCode,
       PEMobile: k.PEMobile,
       PEEmail: k.PEEmail,
@@ -1555,6 +1555,7 @@ class Applications extends Component {
       PEID: k.PEID,
       Timer: k.Timer,
       summary: true ,
+      ApplicationCreated_By: k.Created_By,
       PaymentStatus: k.PaymentStatus,
       StartDate: dateFormat(
         new Date(k.StartDate).toLocaleDateString(),
@@ -2463,24 +2464,32 @@ class Applications extends Component {
                       <div className="col-lg-9"></div>
                       <div className="col-lg-3">
                         {this.state.PaymentStatus === "Not Submited" ? (
-                          <button
-                            type="button"
-                            onClick={this.OpenPaymentModal}
-                            className="btn btn-success"
-                          >
-                            PAY NOW
-                          </button>
+                          this.state.ApplicationCreated_By === localStorage.getItem("UserName") ? (
+                            <button
+                              type="button"
+                              onClick={this.OpenPaymentModal}
+                              className="btn btn-success"
+                            >
+                              PAY NOW
+                          </button>)
+                            : null
+
+                        
                         ) : null}
                         &nbsp;&nbsp;
-                        {this.state.Status === "Not Submited" ? (
+                        {this.state.Status === "Not Submited" ? (                         
+                          
+                          this.state.ApplicationCreated_By === localStorage.getItem("UserName") ? (
                           <button
                             type="button"
                             onClick={this.EditApplication}
                             className="btn btn-primary"
                           >
                             EDIT
-                          </button>
+                          </button>)
+                          :null
                         ) : null}
+
                         &nbsp; &nbsp;
                         <button
                           type="button"

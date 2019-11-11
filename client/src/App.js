@@ -82,6 +82,7 @@ import CaseFollowUp from "./Forms/Applications/CaseFollowUp";
 import Monthlycases from "./Forms/Reports/Monthlycases";
 import PEAppearanceFrequency from "./Forms/Reports/PEAppearanceFrequency";
 import PEAppearanceFrequencyPerCategory from "./Forms/Reports/PEAppearanceFrequencyPerCategory";
+import requesthandled from "./Forms/Reports/requesthandled";
 // const checkAuth = () => {
 //   let token = localStorage.getItem("token");
 //   if (!token) {
@@ -129,6 +130,11 @@ function App() {
                 <Route exact path="/CaseReferrals" component={CaseReferrals} />
                 <Route exact path="/CaseFollowUp" component={CaseFollowUp} />
                 <Route exact path="/Monthlycases" component={Monthlycases} />
+                <Route
+                  exact
+                  path="/requesthandled"
+                  component={requesthandled}
+                />
                 <Route
                   exact
                   path="/PEAppearanceFrequency"
