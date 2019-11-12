@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Popup from "reactjs-popup";
 import popup from "./../../Styles/popup.css";
 import ReactHtmlParser from "react-html-parser";
+var dateFormat = require("dateformat");
 class AdjournmentApproval extends Component {
     constructor() {
         super();
@@ -512,7 +513,7 @@ class AdjournmentApproval extends Component {
                     ),
                     Date: (
                         <a onClick={e => this.handViewApplication(k, e)}>
-                            {new Date(k.Date).toLocaleDateString()}
+                            {dateFormat(new Date(k.Date).toLocaleDateString(), "mediumDate")}  
                         </a>
                     ),
 

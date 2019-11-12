@@ -133,6 +133,32 @@ PEResponse.get("/:ID/:Value", function(req, res) {
       }
     });
   }
+  if (ID === "BackgrounInformation") {
+    con.getConnection(function (err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call GetPEResponseBackgrounInformation(?)";
+        connection.query(sp, [Value], function (error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+  
 });
 PEResponse.post("/", function(req, res) {
   const schema = Joi.object().keys({
@@ -188,6 +214,57 @@ PEResponse.post("/", function(req, res) {
 });
 PEResponse.post("/:ID", function(req, res) {
   const ID = req.params.ID;
+  if (ID === "BackgroundInformation") {
+    const schema = Joi.object().keys({
+      UserID: Joi.string().required(),
+      ApplicationNo: Joi.string().required(),
+      BackgroundInformation: Joi.string().required(),
+      ResponseType: Joi.string().required()
+    });
+
+    const result = Joi.validate(req.body, schema);
+    if (!result.error) {
+      let data = [
+        req.body.ApplicationNo,
+        req.body.BackgroundInformation,
+        req.body.ResponseType,
+        req.body.UserID
+      ];
+
+      con.getConnection(function(err, connection) {
+        if (err) {
+          res.json({
+            success: false,
+            message: err.message
+          });
+        } // not connected!
+        else {
+          let sp = "call Saveperesponsebackgroundinformation(?,?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "saved",
+                results: results[0]
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+      });
+    } else {
+      res.json({
+        success: false,
+        message: result.error.details[0].message
+      });
+    }
+  }
   if (ID === "DeadlineExtension") {
     const schema = Joi.object().keys({
       UserID: Joi.string()
@@ -255,8 +332,7 @@ PEResponse.post("/:ID", function(req, res) {
       UserID: Joi.string().required(),
       GrounNo: Joi.string().required(),
       Groundtype: Joi.string().required(),
-      Response: Joi.string().required(),
-      BackgroundInformation: Joi.string().required()
+      Response: Joi.string().required()
     });
 
     const result = Joi.validate(req.body, schema);
@@ -266,8 +342,7 @@ PEResponse.post("/:ID", function(req, res) {
         req.body.GrounNo,
         req.body.Groundtype,
         req.body.Response,
-        req.body.UserID,
-        req.body.BackgroundInformation
+        req.body.UserID
       ];
 
       con.getConnection(function(err, connection) {
@@ -278,7 +353,7 @@ PEResponse.post("/:ID", function(req, res) {
           });
         } // not connected!
         else {
-          let sp = "call SavePEResponseDetails(?,?,?,?,?,?)";
+          let sp = "call SavePEResponseDetails(?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
@@ -318,7 +393,7 @@ PEResponse.post("/:ID", function(req, res) {
       Path: Joi.string()
         .min(1)
         .required(),
-      Confidential:Joi.boolean()
+      Confidential: Joi.boolean()
     });
 
     const result = Joi.validate(req.body, schema);
@@ -633,10 +708,10 @@ PEResponse.delete("/:ID", function(req, res) {
     }
   });
 });
-PEResponse.delete("/:Vale/:ID", function (req, res) {
+PEResponse.delete("/:Vale/:ID", function(req, res) {
   const GroundNO = req.params.ID;
   let data = [GroundNO, res.locals.user];
-  con.getConnection(function (err, connection) {
+  con.getConnection(function(err, connection) {
     if (err) {
       res.json({
         success: false,
@@ -645,7 +720,7 @@ PEResponse.delete("/:Vale/:ID", function (req, res) {
     } // not connected!
     else {
       let sp = "call DeletePEResponsedetails(?,?)";
-      connection.query(sp, data, function (error, results, fields) {
+      connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({
             success: false,

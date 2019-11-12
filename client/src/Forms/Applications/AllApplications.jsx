@@ -375,13 +375,13 @@ class AllApplications extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
-            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "isoDate"),
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"),
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
-            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
-            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate"),
-            AwardDate: dateFormat(new Date(k.AwardDate).toLocaleDateString(), "isoDate"),
+            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "mediumDate"),
+            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "mediumDate"),
+            AwardDate: dateFormat(new Date(k.AwardDate).toLocaleDateString(), "mediumDate"),
              TenderType: k.TenderType,
             TenderSubCategory: k.TenderSubCategory,
             TenderTypeDesc: k.TenderTypeDesc,
@@ -525,7 +525,7 @@ class AllApplications extends Component {
                     ApplicationNo: k.ApplicationNo,
                     TenderName: k.TenderName,
                     PE: k.PEName,
-                    FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+                    FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"), 
                     ApplicationREf: k.ApplicationREf,
                     Status: k.Status,
 
@@ -765,12 +765,12 @@ of Breach:</td>
                                                 <td className="font-weight-bold">{r.AdendumNo}</td>
 
                                                 <td className="font-weight-bold">
-                                                    {" "}
-                                                    {new Date(r.StartDate).toLocaleDateString()}
+                                                    {dateFormat(new Date(r.StartDate).toLocaleDateString(), "mediumDate")}
+                                                  
                                                 </td>
                                                 <td className="font-weight-bold">
-                                                    {" "}
-                                                    {new Date(r.ClosingDate).toLocaleDateString()}
+                                                    {dateFormat(new Date(r.ClosingDate).toLocaleDateString(), "mediumDate")}
+                                                    
                                                 </td>
                                                 <td className="font-weight-bold">{r.Description}</td>
                                             </tr>
@@ -842,7 +842,8 @@ of Breach:</td>
                                                             <td>{k.Description}</td>
                                                             <td>{k.FileName}</td>
                                                             <td>
-                                                                {new Date(k.DateUploaded).toLocaleDateString()}
+                                                                {dateFormat(new Date(k.DateUploaded).toLocaleDateString(), "mediumDate")}
+                                                              
                                                             </td>
                                                             <td>
                                                                 <a
@@ -860,7 +861,8 @@ of Breach:</td>
                                                         <td>{k.Description}</td>
                                                         <td>{k.FileName}</td>
                                                         <td>
-                                                            {new Date(k.DateUploaded).toLocaleDateString()}
+                                                            {dateFormat(new Date(k.DateUploaded).toLocaleDateString(), "mediumDate")}
+                                                           
                                                         </td>
                                                         <td>
                                                             <a
@@ -952,7 +954,8 @@ of Breach:</td>
                                                         <td>{i + 1}</td>
                                                         <td>   {k.Description}</td>
                                                         <td>
-                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                            {dateFormat(new Date(k.Create_at).toLocaleDateString(), "mediumDate")}
+                                                            
                                                         </td>
                                                         <td>
                                                             <a
@@ -1002,7 +1005,7 @@ of Breach:</td>
                             </div>
                         </div>
                     </div>
-                    <Modal visible={this.state.openTracking} width="900" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.openTracking} width="900" height="500" effect="fadeInUp">
                         <div style={{ overflow: "scroll" }}>
 
                             <a style={{ float: "right", margin: "10px", color: "red" }} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>

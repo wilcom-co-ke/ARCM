@@ -478,6 +478,32 @@ class PEApplications extends Component {
                 swal("", err.message, "error");
             });
     }
+    SendAcknowledgementMail = (ApplicationNo, Applicantemail, PPRAEmail, subject1, TenderNO, TenderName, Applicant) => {
+
+        const emaildata = {
+            PPRAEmail: PPRAEmail,
+            subject: subject1,
+            ApplicationNo: ApplicationNo,
+            Applicantemail: Applicantemail,
+            PE: this.state.PEName,
+            TenderNO: TenderNO,
+            TenderName: TenderName,
+            Applicant: Applicant
+        };
+
+        fetch("/api/sendmail/PEAcknowledgement", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(emaildata)
+        })
+            .then(response => response.json().then(data => { }))
+            .catch(err => {
+                //swal("Oops!", err.message, "error");
+            });
+    };
     AcknowledgeReceipt = e => {       
         fetch("/api/PEResponse/" + this.state.ApplicationNo, {
             method: "PUT",
@@ -494,10 +520,11 @@ class PEApplications extends Component {
                         let Applicantmobile = data.data[0].Applicantmobile;
                         let Applicantname = data.data[0].Applicantname;
                         let PPRAEmail = data.data[0].PPRAEmail;
-                        let PPRAMobile = data.data[0].PPRAMobile;                        
-                        toast.success("Acknowledged")
-                     
-                        this.SendMail(this.state.ApplicationNo, ApplicantEmail, PPRAEmail,"RECEIPT ACKNOWLEDGEMENT")
+                        let PPRAMobile = data.data[0].PPRAMobile;
+                        let TenderNo = data.data[0].TenderNo;
+                        let TenderName = data.data[0].TenderName;                        
+                        toast.success("Acknowledged")                      
+                        this.SendAcknowledgementMail(this.state.ApplicationNo, ApplicantEmail, PPRAEmail, "RECEIPT ACKNOWLEDGEMENT", TenderNo, TenderName, Applicantname)
                     } else {
                         toast.error(data.message)
                        
@@ -526,8 +553,8 @@ class PEApplications extends Component {
                 sort: "asc"
             },
             {
-                label: "ApplicationREf",
-                field: "ApplicationREf",
+                label: "REF",
+                field: "REF",
                 sort: "asc"
             },
             {
@@ -620,7 +647,11 @@ class PEApplications extends Component {
                         PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
                         FilingDate: (
                             <a onClick={e => this.handViewApplication(k, e)}>
-                                {new Date(k.FilingDate).toLocaleDateString()}
+                                {dateFormat(
+                                    new Date(k.FilingDate).toLocaleDateString(),
+                                    "mediumDate"
+                                )} 
+                                
                             </a>
                         ),
                         ApplicationREf: (
@@ -639,7 +670,10 @@ class PEApplications extends Component {
                         ),
                         DueOn: (
                             <a onClick={e => this.handViewApplication(k, e)} className="text-danger font-weight-bold" >
-                                {new Date(k.DueOn).toLocaleDateString()}
+                                {dateFormat(
+                                    new Date(k.DueOn).toLocaleDateString(),
+                                    "mediumDate"
+                                )} 
                             </a>
                         ), 
                         action: (
@@ -663,7 +697,7 @@ class PEApplications extends Component {
             color: "#7094db"
         };
         let ViewFile = this.ViewFile;
-
+        
             if (this.state.summary) {
                 return (
                     <div>
@@ -823,11 +857,17 @@ class PEApplications extends Component {
                                             </tr>
                                             <tr>
                                                 <td className="font-weight-bold"> FilingDate:</td>
-                                                <td> {this.state.FilingDate}</td>
+                                                <td>{dateFormat(
+                                                    new Date(this.state.FilingDate).toLocaleDateString(),
+                                                    "mediumDate"
+                                                )} </td>
                                             </tr>
                                             <tr>
                                                 <td className="font-weight-bold">Date of Occurrence of Breach:</td>
-                                                <td> {this.state.AwardDate}</td>
+                                                <td>{dateFormat(
+                                                    new Date(this.state.AwardDate).toLocaleDateString(),
+                                                    "mediumDate"
+                                                )} </td>
                                             </tr>
                                             
                                             <tr>
@@ -869,12 +909,18 @@ class PEApplications extends Component {
                                                     <td className="font-weight-bold">{r.AdendumNo}</td>
 
                                                     <td className="font-weight-bold">
-                                                        {" "}
-                                                        {new Date(r.StartDate).toLocaleDateString()}
+                                                        {dateFormat(
+                                                            new Date(r.StartDate).toLocaleDateString(),
+                                                            "mediumDate"
+                                                        )} 
+                                                      
                                                     </td>
                                                     <td className="font-weight-bold">
-                                                        {" "}
-                                                        {new Date(r.ClosingDate).toLocaleDateString()}
+                                                        {dateFormat(
+                                                            new Date(r.ClosingDate).toLocaleDateString(),
+                                                            "mediumDate"
+                                                        )} 
+                                                     
                                                     </td>
                                                     <td className="font-weight-bold">{r.Description}</td>
                                                 </tr>
@@ -935,7 +981,7 @@ class PEApplications extends Component {
                                             <th>FileName</th>
                                             <th>Date Uploaded</th>
                                             <th>Actions</th>
-                                            {this.state.ApplicationDocuments.map(function (k, i) {
+                                            {this.state.ApplicationDocuments.map( (k, i)=> {
                                                 return (
                                                    k.Confidential?
                                                    <div>
@@ -945,7 +991,11 @@ class PEApplications extends Component {
                                                                 <td>{k.Description}</td>
                                                                 <td>{k.FileName}</td>
                                                                 <td>
-                                                                    {new Date(k.DateUploaded).toLocaleDateString()}
+                                                                        {dateFormat(
+                                                                            new Date(k.DateUploaded).toLocaleDateString(),
+                                                                            "mediumDate"
+                                                                        )} 
+                                                                   
                                                                 </td>
                                                                 <td>
 
@@ -963,7 +1013,10 @@ class PEApplications extends Component {
                                                             <td>{k.Description}</td>
                                                             <td>{k.FileName}</td>
                                                             <td>
-                                                                {new Date(k.DateUploaded).toLocaleDateString()}
+                                                                {dateFormat(
+                                                                    new Date(k.DateUploaded).toLocaleDateString(),
+                                                                    "mediumDate"
+                                                                )}
                                                             </td>
                                                             <td>
 

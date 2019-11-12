@@ -410,7 +410,7 @@ class FeesApproval extends Component {
                      TenderSubCategory: ApplicantDetails[0].TenderSubCategory ,
                     TenderCategory: ApplicantDetails[0].TenderCategory ,
                     Timer: ApplicantDetails[0].Timer ,
-                    AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "isoDate"),
+                        AwardDate: dateFormat(new Date(ApplicantDetails[0].AwardDate).toLocaleDateString(), "mediumDate"),
                      TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc ,                    
                      TenderNo: ApplicantDetails[0].TenderNo,
                      TenderName: ApplicantDetails[0].Name ,
@@ -431,7 +431,7 @@ class FeesApproval extends Component {
         this.fetchPaymentDetails(k.ID)
         this.fetchBankSlips(k.ID);
         const data = {
-            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "isoDate"), 
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"), 
             PE: k.Name,
             PEPOBox: k.POBox,
             PELocation: k.Location,
@@ -485,8 +485,8 @@ class FeesApproval extends Component {
                 sort: "asc"
             },
             {
-                label: "action",
-                field: "action",
+                label: "Action",
+                field: "Action",
                 sort: "asc",
                 width: 200
             }
@@ -498,9 +498,13 @@ class FeesApproval extends Component {
                 let Rowdata = {
                
                     Name: k.Name,
-                    FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+                    FilingDate: 
+                        dateFormat(
+                new Date(k.FilingDate).toLocaleDateString(),
+                    "mediumDate"
+              ),
                     Status: k.FeesStatus,
-                    action: (
+                    Action: (
                         <span>
                             <a
                                 className="fa fa-edit"
@@ -598,16 +602,16 @@ class FeesApproval extends Component {
 
                         </div>
                     </Modal>
-                    <Modal visible={this.state.openDocPreview} width="880" height="500" effect="fadeInUp" onClickAway={() => this.closeDocPreview()}>
+                    <Modal visible={this.state.openDocPreview} width="80%" height="70%" effect="fadeInUp" onClickAway={() => this.closeDocPreview()}>
                         <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeDocPreview()}><i class="fa fa-close"></i></a>
                         <div>
-                            <h4 style={{ "text-align": "center" }}>Fees Approval </h4>
+                            <h4 style={{ "text-align": "center" }}>Payment Confirmation </h4>
                             <div className="container-fluid">
                                 <div className="col-sm-12">
                                     <div className="ibox-content">
                                         <object
                                             width="100%"
-                                            height="450"
+                                            height="80%"
                                             data={                                              
                                                 this.state.Attachmentname
                                             }
@@ -627,7 +631,7 @@ class FeesApproval extends Component {
                         <div className="col-lg-11">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <h2 className="font-weight-bold">Fees Approval <span style={headingstyle}> {}</span></h2>
+                                    <h2 className="font-weight-bold">Payment Confirmation <span style={headingstyle}> {}</span></h2>
                                 </li>
 
                             </ol>
@@ -756,8 +760,8 @@ class FeesApproval extends Component {
                                         
                                         <tr>
                                             <td className="font-weight-bold"> Date of Notification of Award/Occurrence
-of Breach:</td>
-                                            <td> {this.state.AwardDate}</td>
+                                                of Breach:</td>
+                                            <td>{this.state.AwardDate} </td>
                                         </tr>
                                         <tr>
                                             <td className="font-weight-bold">
@@ -846,7 +850,7 @@ of Breach:</td>
                                                     {this.state.PaymentDetails.map((r, i) => (
                                                         <tr>
 
-                                                            <td> {new Date(r.DateOfpayment).toLocaleDateString()} </td>
+                                                            <td> {dateFormat(new Date(r.DateOfpayment).toLocaleDateString(), "mediumDate")} </td>
 
                                                             <td>{this.formatNumber(r.AmountPaid)}</td>
 
@@ -922,7 +926,7 @@ of Breach:</td>
                         <div className="col-lg-10">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <h2> REQUESTS AWAITING MY REVIEW</h2>
+                                    <h2> REQUESTS AWAITING PAYMENT CONFIRMATION</h2>
                                 </li>
                             </ol>
                         </div>

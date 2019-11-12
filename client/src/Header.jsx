@@ -49,6 +49,8 @@ class Header extends Component {
       .then(res => res.json())
       .then(data => {
         if (data.length > 0) {
+          localStorage.setItem("LoogedinCompay", data[0].Name);
+
           this.setState({ LoogedinCompay: data[0].Name });
         } else {
           // swal("Oops!", data.message, "error");

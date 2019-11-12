@@ -242,9 +242,9 @@ ARCMS – System Administrator
   }
   if (ID === "PEresponseOthers") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
-     New Procuring Entity response for Application: <b>${req.body.ApplicationNo}.</b> has been submited to PPARB.Login to ARCMS to vew the details.
+     <b>${req.body.PEName}.</b>has submited their response to Application: <b>${req.body.ApplicationNo}.</b> to PPARB.<br></br>Login to ARCMS to vew more details.
     <br></br>
-    This is computer generated message.Please do not reply.`;
+    This is computer generated message. Please do not reply.`;
     con.getConnection(function(err, connection) {
       let sp = "call getSMTPDetails()";
       connection.query(sp, function(error, results, fields) {
@@ -356,7 +356,7 @@ ARCMS – System Administrator
   }
   if (ID === "PEresponseCaseOfficer") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
-     New PE response for Application: <b>${req.body.ApplicationNo}.</b> has been sent.You are required to form a panel and submit it for review.
+    <b>${req.body.PEName}.</b> has submited response to Application: <b>${req.body.ApplicationNo}.</b> You are required to form a panel and submit it for review.
     <br></br>
     This is computer generated message.Please do not reply.`;
     con.getConnection(function(err, connection) {

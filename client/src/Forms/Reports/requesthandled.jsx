@@ -179,7 +179,7 @@ class requesthandled extends Component {
         "/" +
         Category +
         "/" +
-        !!+this.state.All,
+        +this.state.All,
       {
         method: "GET",
         headers: {

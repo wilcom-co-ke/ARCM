@@ -352,14 +352,14 @@ class CaseSummary extends Component {
         AdditionalSubmisions: this.state.AdditionalSubmisions,
         AwardDate: dateFormat(
           new Date(this.state.AwardDate).toLocaleDateString(),
-          "fullDate"
+          "mediumDate"
         ),
         LogoPath: process.env.REACT_APP_BASE_URL + "/images/Harambee.png",
         TotalBalance: this.state.TotalBalance,
         TotalPaid: this.state.TotalPaid,
         FilingDate: dateFormat(
           new Date(this.state.FilingDate).toLocaleDateString(),
-          "fullDate"
+          "mediumDate"
         ),
         PEPOBox: this.state.PEPOBox,
         PETown: this.state.PETown,
@@ -443,7 +443,6 @@ class CaseSummary extends Component {
                       Select Application NO{" "}
                     </label>
                   </div>
-
                   <div class="col-sm-4">
                     <div className="form-group">
                       <Select
@@ -460,9 +459,10 @@ class CaseSummary extends Component {
                       className="btn btn-primary"
                       type="button"
                     >
-                      Generate
+                      Preview
                     </button>
                   </div>
+                  &nbsp;
                   <div class="col-sm-1">
                     <button
                       onClick={this.PrintFile}

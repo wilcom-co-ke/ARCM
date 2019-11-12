@@ -305,8 +305,8 @@ class Profile extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-sm-9"></div>
-                  <div className="col-sm-3">
+                  <div className="col-sm-7"></div>
+                  <div className="col-sm-5">
                     <button
                       type="button"
                       class="btn btn-success"

@@ -201,7 +201,8 @@ Mailer.post("/:ID", function(req, res) {
 
   if (ID == "PEAcknowledgement") {
     const output = `<p>This is to confirm the Acknowledgement of a request to respond to
-     Application with APPLICATIONNO:<b>${req.body.ApplicationNo}</b>
+     Application: <b>${req.body.ApplicationNo}</b> ;<b>${req.body.Applicant}</b> VS <b>${req.body.PE}</b> with respect 
+     to Tender No: <b>${req.body.TenderNO}</b> <b>${req.body.TenderName}</b> 
      which had been sent to Procuring Entity (<b>${req.body.PE}</b>).
      </p>`;
     con.getConnection(function(err, connection) {

@@ -5,6 +5,7 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import ReactHtmlParser from "react-html-parser";
 import { ToastContainer, toast } from "react-toastify";
+import Modal from 'react-awesome-modal';
 var dateFormat = require('dateformat');
 class MyCases extends Component {
     constructor() {
@@ -12,6 +13,7 @@ class MyCases extends Component {
         this.state = {
             Applications: [],
             PE: [],
+            ApplicationsProgress: [],
             interestedparties: [],
             AdditionalSubmisions: [],
             stdtenderdocs: [],
@@ -31,6 +33,7 @@ class MyCases extends Component {
             RequestDescription: "",
             GroundDescription: "",
             profile: true,
+            openTracking:false,
             summary: false,
             IsUpdate: false,
             Documenttype: "",
@@ -354,8 +357,27 @@ class MyCases extends Component {
 
             });
     };
-    handViewApplication = k => {
+    fetchApplicationProgress = Applicationno => {
 
+        fetch("/api/applications/" + Applicationno + "/1/1", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ApplicationsProgress => {
+                if (ApplicationsProgress.length > 0) {
+                     this.setState({ ApplicationsProgress: ApplicationsProgress });
+                }
+            })
+            .catch(err => {
+                // swal("", err.message, "error");
+            });
+    };
+    handViewApplication = k => {
+        this.setState({ ApplicationsProgress: [] });
         this.setState({ AddedAdendums: [] });
         this.setState({ ApplicationGrounds: [] });
         this.setState({ ApplicationDocuments: [] });
@@ -367,6 +389,7 @@ class MyCases extends Component {
         this.fetchTenderAdendums(k.TenderID);
         this.fetchAdditionalSubmisions(k.ID);
         this.fetchinterestedparties(k.ID);
+        this.fetchApplicationProgress(k.ApplicationNo)
         this.fetchApplicantDetails(k.Applicantusername)
         const data = {
             PEPOBox: k.PEPOBox,
@@ -383,8 +406,8 @@ class MyCases extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
-            AwardDate: new Date(k.AwardDate).toLocaleDateString(),
-            FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+            AwardDate:  dateFormat(new Date(k.AwardDate).toLocaleDateString(), "mediumDate"), 
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"), 
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
@@ -394,8 +417,8 @@ class MyCases extends Component {
             TenderCategory: k.TenderCategory,
             Timer: k.Timer,
             PaymentStatus: k.PaymentStatus,
-            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
-            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate")
+            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "mediumDate"),
+            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "mediumDate")
         };
         this.setState({ summary: true });
         this.setState(data);
@@ -407,7 +430,13 @@ class MyCases extends Component {
         //this.setState({ openFileViewer: true });
     };
 
+    openModal = () => {
+        this.setState({ openTracking: true });
 
+    }
+    closeModal = () => {
+        this.setState({ openTracking: false });
+    }
     render() {
 
 
@@ -452,7 +481,7 @@ class MyCases extends Component {
                     ApplicationNo: k.ApplicationNo,
                     TenderName: k.TenderName,
                     PE: k.PEName,
-                    FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+                    FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"), 
                     ApplicationREf: k.ApplicationREf,
                     Status: k.Status,
 
@@ -482,9 +511,57 @@ class MyCases extends Component {
         if (this.state.summary) {
             return (
                 <div>
+                    <Modal visible={this.state.openTracking} width="900" height="500" effect="fadeInUp">
+                        <div style={{ overflow: "scroll" }}>
+
+                            <a style={{ float: "right", margin: "10px", color: "red" }} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
+                            <br />
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}>APPLICATION {this.state.ApplicationNo}</h4>
+
+                            <div className="container-fluid" >
+                                <div style={{ "overflow-y": "scroll", height: "400px" }}>
+                                    <table className="table  table-sm  table-striped">
+                                        <thead class="thead-light">
+                                            <th>Date</th>
+                                            <th>Action</th>
+
+                                            <th>Status</th>
+                                        </thead>
+
+                                        {this.state.ApplicationsProgress.map((r, i) => (
+                                            r.Status === "Pending" ? (
+                                                <tr>
+                                                    <td className="font-weight-bold">{dateFormat(new Date(r.Date).toLocaleDateString(), "mediumDate")}</td>
+
+                                                    <td className="font-weight-bold">
+                                                        {" "}
+                                                        {r.ExpectedAction}
+                                                    </td>
+
+                                                    <td className="font-weight-bold">{r.Status}</td>
+                                                </tr>) : (
+                                                    <tr>
+                                                        <td className="font-weight-bold">{dateFormat(new Date(r.Date).toLocaleDateString(), "mediumDate")}</td>
+
+                                                        <td className="font-weight-bold">
+                                                            {" "}
+                                                            {r.Action}
+                                                        </td>
+
+                                                        <td className="font-weight-bold">{r.Status}</td>
+                                                    </tr>)
+
+
+                                        ))}
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </Modal> 
                     <ToastContainer />
                     <div className="row wrapper border-bottom white-bg page-heading">
-                        <div className="col-lg-10">
+                        <div className="col-lg-9">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
                                     <h2 className="font-weight-bold">
@@ -506,8 +583,19 @@ class MyCases extends Component {
                                 </li>
                             </ol>
                         </div>
-                        <div className="col-lg-2">
+                        <div className="col-lg-3">
                             <div className="row wrapper ">
+
+                                <button
+                                    type="button"
+                                    style={{ marginTop: 40 }}
+                                    onClick={this.openModal}
+                                    className="btn btn-success float-right"
+                                >
+                                    &nbsp; Track progress
+                             </button>
+
+                                &nbsp;
                                 <button
                                     type="button"
                                     style={{ marginTop: 40 }}
@@ -680,12 +768,12 @@ of Breach:</td>
                                                 <td className="font-weight-bold">{r.AdendumNo}</td>
 
                                                 <td className="font-weight-bold">
-                                                    {" "}
-                                                    {new Date(r.StartDate).toLocaleDateString()}
+                                                    {dateFormat(new Date(r.StartDate).toLocaleDateString(), "mediumDate")}
+                                                   
                                                 </td>
                                                 <td className="font-weight-bold">
-                                                    {" "}
-                                                    {new Date(r.ClosingDate).toLocaleDateString()}
+                                                    {dateFormat(new Date(r.ClosingDate).toLocaleDateString(), "mediumDate")}
+                                                   
                                                 </td>
                                                 <td className="font-weight-bold">{r.Description}</td>
                                             </tr>
@@ -752,7 +840,8 @@ of Breach:</td>
                                                     <td>{k.Description}</td>
                                                     <td>{k.FileName}</td>
                                                     <td>
-                                                        {new Date(k.DateUploaded).toLocaleDateString()}
+                                                        {dateFormat(new Date(k.DateUploaded).toLocaleDateString(), "mediumDate")}
+                                                        
                                                     </td>
                                                     <td>                                            
 
@@ -857,7 +946,8 @@ of Breach:</td>
                                                     <td>{i + 1}</td>
                                                     <td>   {ReactHtmlParser(k.Description)}</td>
                                                     <td>
-                                                        {new Date(k.Create_at).toLocaleDateString()}
+                                                        {dateFormat(new Date(k.Create_at).toLocaleDateString(), "mediumDate")}
+                                                      
                                                     </td>
                                                     <td>
                                                         <a onClick={e => ViewFile(k, e)} className="text-success">

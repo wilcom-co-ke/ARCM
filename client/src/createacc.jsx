@@ -85,6 +85,8 @@ class createacc extends Component {
             const filtereddata = rows.filter(
                 item => item.PEID == selectedPe
             );
+            // County: "NAIROBI"
+            // CountyCode: "047"
             let newdetails={
                 PIN: filtereddata[0].PIN,
                 RegistrationNo: filtereddata[0].RegistrationNo,
@@ -499,7 +501,7 @@ class createacc extends Component {
         };
         
         let Categories = [
-            { value: "Applicant", label: "Suppliers" },
+            { value: "Applicant", label: "Applicants/Suppliers/Interested Party" },
             {
                 value: "PE",
                 label: "Procuring Entity"
@@ -552,7 +554,7 @@ class createacc extends Component {
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <label for="Name" className="font-weight-bold">
-                                                        Name                  </label>
+                                                       Organization Name                  </label>
                                                     <input
                                                         type="text"
                                                         class="form-control"
@@ -568,7 +570,11 @@ class createacc extends Component {
 
                                                     <Select
                                                         name="County"
-                                                        //value={this.state.County}
+                                                        value={Counties.filter(
+                                                            option =>
+                                                                option.value === this.state.County
+                                                        )}
+                                                      
                                                         onChange={this.handleSelectChange}
                                                         options={Counties}
                                                         required
@@ -651,6 +657,7 @@ class createacc extends Component {
                                                             type="date"
                                                             name="Companyregistrationdate"
                                                             required
+                                                        value={this.state.Companyregistrationdate}
                                                             className="form-control"
                                                             onChange={this.handleInputChange}
                                                             id="Companyregistrationdate"

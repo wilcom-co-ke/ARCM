@@ -7,10 +7,7 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
 
-import Popup from "reactjs-popup";
-import popup from "./../../Styles/popup.css";
 import "./../../Styles/tablestyle.css";
 import CKEditor from "ckeditor4-react";
 import ReactHtmlParser from "react-html-parser";
@@ -36,8 +33,8 @@ class Applications extends Component {
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
-      ApplicationCreated_By:"",
-      TenderValue: "",
+      ApplicationCreated_By: "",
+      TenderValue: 0,
       ApplicationID: "",
       TenderName: "",
       PEID: "",
@@ -655,7 +652,7 @@ class Applications extends Component {
         response.json().then(data => {
           if (data.success) {
             let newdata = {
-              TenderValue: "",
+              TenderValue: "0",
               TenderType: "",
               TenderSubCategory: "",
               TenderCategory: ""
@@ -721,7 +718,6 @@ class Applications extends Component {
       Category: "Applicationfees"
     };
     if (+this.state.TotalAmountdue > +this.state.AmountPaid) {
-    
       swal({
         text: "Amount paid is less than amount due.Do you want to Continue",
         icon: "warning",
@@ -744,7 +740,6 @@ class Applications extends Component {
                   //swal("","Payment details save successfuly","success")
                   this.SubmitApplication();
                   this.sendApproverNotification();
-
                 } else {
                   toast.error(data.message);
                 }
@@ -755,7 +750,7 @@ class Applications extends Component {
             });
         }
       });
-    }else{
+    } else {
       fetch("/api/applicationfees/1/Paymentdetails", {
         method: "POST",
         headers: {
@@ -771,7 +766,6 @@ class Applications extends Component {
               //swal("","Payment details save successfuly","success")
               this.SubmitApplication();
               this.sendApproverNotification();
-
             } else {
               toast.error(data.message);
             }
@@ -781,8 +775,6 @@ class Applications extends Component {
           toast.error(err.message);
         });
     }
-  
-   
   };
 
   SaveTenderdetails(Timer) {
@@ -800,45 +792,88 @@ class Applications extends Component {
         }
       }
     }
-    let data = {
-      TenderNo: this.state.TenderNo,
-      TenderName: this.state.TenderName,
-      PEID: this.state.PEID,
-      StartDate: this.state.StartDate,
-      ClosingDate: this.state.ClosingDate,
-      TenderValue: this.state.TenderValue,
-      TenderType: this.state.TenderType,
-      TenderSubCategory: this.state.TenderSubCategory,
-      TenderCategory: this.state.TenderCategory,
-      Timer: Timer
-    };
-    fetch("/api/tenders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response =>
-        response.json().then(data => {
-          if (data.success) {
-            this.setState({ TenderID: data.results[0].TenderID });
-            this.SaveApplication(data.results[0].TenderID);
-            if (this.state.AdendumDescription) {
-              //this.saveTenderAdendums(data.results[0].TenderID);
+    if (this.state.TenderType === "B") {
+      let data = {
+        TenderNo: this.state.TenderNo,
+        TenderName: this.state.TenderName,
+        PEID: this.state.PEID,
+        StartDate: this.state.StartDate,
+        ClosingDate: this.state.ClosingDate,
+        TenderValue: 0,
+        TenderType: this.state.TenderType,
+        TenderSubCategory: this.state.TenderSubCategory,
+        TenderCategory: this.state.TenderCategory,
+        Timer: Timer
+      };
+      fetch("/api/tenders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              this.setState({ TenderID: data.results[0].TenderID });
+              this.SaveApplication(data.results[0].TenderID);
+              if (this.state.AdendumDescription) {
+                //this.saveTenderAdendums(data.results[0].TenderID);
+              }
+              //document.getElementById("nav-profile-tab").click();
+            } else {
+              toast.error(data.message);
+              // swal("", data.message, "error");
             }
-            //document.getElementById("nav-profile-tab").click();
-          } else {
-            toast.error(data.message);
-            // swal("", data.message, "error");
-          }
-        })
-      )
-      .catch(err => {
-        toast.error(err.message);
-        //swal("", err.message, "error");
-      });
+          })
+        )
+        .catch(err => {
+          toast.error(err.message);
+          //swal("", err.message, "error");
+        });
+    }else{
+      let data = {
+        TenderNo: this.state.TenderNo,
+        TenderName: this.state.TenderName,
+        PEID: this.state.PEID,
+        StartDate: this.state.StartDate,
+        ClosingDate: this.state.ClosingDate,
+        TenderValue: this.state.TenderValue,
+        TenderType: this.state.TenderType,
+        TenderSubCategory: this.state.TenderSubCategory,
+        TenderCategory: this.state.TenderCategory,
+        Timer: Timer
+      };
+      fetch("/api/tenders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              this.setState({ TenderID: data.results[0].TenderID });
+              this.SaveApplication(data.results[0].TenderID);
+              if (this.state.AdendumDescription) {
+                //this.saveTenderAdendums(data.results[0].TenderID);
+              }
+              //document.getElementById("nav-profile-tab").click();
+            } else {
+              toast.error(data.message);
+              // swal("", data.message, "error");
+            }
+          })
+        )
+        .catch(err => {
+          toast.error(err.message);
+          //swal("", err.message, "error");
+        });
+    }
+   
   }
   saveGroundsDescriptions(EntryType) {
     if (this.state.ApplicationID) {
@@ -979,7 +1014,7 @@ class Applications extends Component {
               };
               rows.push(datapush);
               this.setState({ ApplicationDocuments: rows });
-              this.setState({ DocumentsAvailable: true });
+              this.setState({ DocumentsAvailable: true, DocumentDescription:"" });
               this.setState({
                 loaded: 0
               });
@@ -1115,13 +1150,13 @@ class Applications extends Component {
             this.setState({ ApplicationREf: data.results[0].ApplicationREf });
             this.Savefees(data.results[0].ApplicationID);
             toast.success("Tender details saved");
-            let newdata = {
-              TenderValue: "",
-              TenderType: "",
-              TenderSubCategory: "",
-              TenderCategory: ""
-            };
-            this.setState(newdata);
+            // let newdata = {
+            //   TenderValue: "0",
+            //   TenderType: "",
+            //   TenderSubCategory: "",
+            //   TenderCategory: ""
+            // };
+            // this.setState(newdata);
           } else {
             toast.error(data.message);
             //swal("", data.message, "error");
@@ -1210,7 +1245,7 @@ class Applications extends Component {
     const data = {
       TenderNo: "",
       TenderID: "",
-      TenderValue: "",
+      TenderValue: "0",
       ApplicationID: "",
       TenderName: "",
       PEID: "",
@@ -1520,7 +1555,13 @@ class Applications extends Component {
     return newtot.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
   handViewApplication = k => {
-    this.setState({ AddedAdendums: [] ,ApplicationGrounds: [] , ApplicationDocuments: [],Applicationfees: [], TotalAmountdue: "" });
+    this.setState({
+      AddedAdendums: [],
+      ApplicationGrounds: [],
+      ApplicationDocuments: [],
+      Applicationfees: [],
+      TotalAmountdue: ""
+    });
     this.fetchApplicationGrounds(k.ID);
     this.fetchApplicationfees(k.ID);
     this.fetchPaymentDetails(k.ID);
@@ -1532,7 +1573,7 @@ class Applications extends Component {
     const data = {
       PEPOBox: k.PEPOBox,
       PEPostalCode: k.PEPostalCode,
-      PETown: k.PETown,     
+      PETown: k.PETown,
       PEPostalCode: k.PEPostalCode,
       PEMobile: k.PEMobile,
       PEEmail: k.PEEmail,
@@ -1554,7 +1595,7 @@ class Applications extends Component {
       TenderCategory: k.TenderCategory,
       PEID: k.PEID,
       Timer: k.Timer,
-      summary: true ,
+      summary: true,
       ApplicationCreated_By: k.Created_By,
       PaymentStatus: k.PaymentStatus,
       StartDate: dateFormat(
@@ -1566,9 +1607,8 @@ class Applications extends Component {
         "isoDate"
       )
     };
-    
+
     this.setState(data);
-    
   };
 
   showAttacmentstab = e => {
@@ -1604,7 +1644,12 @@ class Applications extends Component {
               this.state.ApplicationNo +
               " has been Received";
             this.SendSMS(this.state.ApplicantPhone, applicantMsg);
-            this.setState({ profile: true , summary: false,openPaymentModal: false ,Status: "Submited" });
+            this.setState({
+              profile: true,
+              summary: false,
+              openPaymentModal: false,
+              Status: "Submited"
+            });
             this.fetchMyApplications(this.state.ApplicantID);
           } else {
             toast.error(data.message);
@@ -1741,12 +1786,12 @@ class Applications extends Component {
         response.json().then(data => {
           if (data.success) {
           } else {
-           // swal("", data.message, "error");
+            // swal("", data.message, "error");
           }
         })
       )
       .catch(err => {
-       // swal("", err.message, "error");
+        // swal("", err.message, "error");
       });
   }
   ShowAdendumsWindow = () => {
@@ -1903,7 +1948,7 @@ class Applications extends Component {
         sort: "asc"
       },
       {
-        label: "ApplicationREf",
+        label: "REf",
         field: "ApplicationREf",
         sort: "asc"
       },
@@ -1913,8 +1958,8 @@ class Applications extends Component {
         sort: "asc"
       },
       {
-        label: "action",
-        field: "action",
+        label: "Action",
+        field: "Action",
         sort: "asc",
         width: 200
       }
@@ -1935,7 +1980,10 @@ class Applications extends Component {
           PE: <a onClick={e => this.handViewApplication(k, e)}>{k.PEName}</a>,
           FilingDate: (
             <a onClick={e => this.handViewApplication(k, e)}>
-              {new Date(k.FilingDate).toLocaleDateString()}
+              {dateFormat(
+                new Date(k.FilingDate).toLocaleDateString(),
+                "mediumDate"
+              )}
             </a>
           ),
           ApplicationREf: (
@@ -1951,7 +1999,7 @@ class Applications extends Component {
               {k.Status}
             </a>
           ),
-          action: (
+          Action: (
             <span>
               <a
                 style={{ color: "#007bff" }}
@@ -2050,7 +2098,6 @@ class Applications extends Component {
             </div>
             <p></p>
             <div className="border-bottom white-bg p-4">
-             
               <div className="row">
                 <div className="col-sm-6">
                   <h3 style={headingstyle}> Applicant details</h3>
@@ -2146,13 +2193,26 @@ class Applications extends Component {
                       </tr>
                       <tr>
                         <td className="font-weight-bold"> FilingDate:</td>
-                        <td> {this.state.FilingDate}</td>
+                        <td>
+                          {dateFormat(
+                            new Date(
+                              this.state.FilingDate
+                            ).toLocaleDateString(),
+                            "mediumDate"
+                          )}{" "}
+                        </td>
                       </tr>
                       <tr>
                         <td className="font-weight-bold">
                           Date of Notification of Award/Occurrence of Breach:{" "}
                         </td>
-                        <td> {this.state.AwardDate}</td>
+                        <td>
+                          {" "}
+                          {dateFormat(
+                            new Date(this.state.AwardDate).toLocaleDateString(),
+                            "mediumDate"
+                          )}
+                        </td>
                       </tr>
                       <tr>
                         <td className="font-weight-bold">
@@ -2194,12 +2254,16 @@ class Applications extends Component {
                           <td className="font-weight-bold">{r.AdendumNo}</td>
 
                           <td className="font-weight-bold">
-                            {" "}
-                            {new Date(r.StartDate).toLocaleDateString()}
+                            {dateFormat(
+                              new Date(r.StartDate).toLocaleDateString(),
+                              "mediumDate"
+                            )}
                           </td>
                           <td className="font-weight-bold">
-                            {" "}
-                            {new Date(r.ClosingDate).toLocaleDateString()}
+                            {dateFormat(
+                              new Date(r.ClosingDate).toLocaleDateString(),
+                              "mediumDate"
+                            )}
                           </td>
                           <td className="font-weight-bold">{r.Description}</td>
                         </tr>
@@ -2271,7 +2335,10 @@ class Applications extends Component {
                               <td>{k.Description}</td>
                               <td>{k.FileName}</td>
                               <td>
-                                {new Date(k.DateUploaded).toLocaleDateString()}
+                                {dateFormat(
+                                  new Date(k.DateUploaded).toLocaleDateString(),
+                                  "mediumDate"
+                                )}
                               </td>
                               <td>
                                 <a
@@ -2290,7 +2357,10 @@ class Applications extends Component {
                             <td>{k.Description}</td>
                             <td>{k.FileName}</td>
                             <td>
-                              {new Date(k.DateUploaded).toLocaleDateString()}
+                              {dateFormat(
+                                new Date(k.DateUploaded).toLocaleDateString(),
+                                "mediumDate"
+                              )}
                             </td>
                             <td>
                               <a
@@ -2325,7 +2395,10 @@ class Applications extends Component {
                             <td>{i + 1}</td>
                             <td> {ReactHtmlParser(k.Description)}</td>
                             <td>
-                              {new Date(k.Create_at).toLocaleDateString()}
+                              {dateFormat(
+                                new Date(k.Create_at).toLocaleDateString(),
+                                "mediumDate"
+                              )}
                             </td>
                             <td>
                               <a
@@ -2442,10 +2515,12 @@ class Applications extends Component {
                             {this.state.PaymentDetails.map((r, i) => (
                               <tr>
                                 <td>
-                                  {" "}
-                                  {new Date(
-                                    r.DateOfpayment
-                                  ).toLocaleDateString()}{" "}
+                                  {dateFormat(
+                                    new Date(
+                                      r.DateOfpayment
+                                    ).toLocaleDateString(),
+                                    "mediumDate"
+                                  )}
                                 </td>
 
                                 <td>{this.formatNumber(r.AmountPaid)}</td>
@@ -2464,32 +2539,30 @@ class Applications extends Component {
                       <div className="col-lg-9"></div>
                       <div className="col-lg-3">
                         {this.state.PaymentStatus === "Not Submited" ? (
-                          this.state.ApplicationCreated_By === localStorage.getItem("UserName") ? (
+                          this.state.ApplicationCreated_By ===
+                          localStorage.getItem("UserName") ? (
                             <button
                               type="button"
                               onClick={this.OpenPaymentModal}
                               className="btn btn-success"
                             >
                               PAY NOW
-                          </button>)
-                            : null
-
-                        
+                            </button>
+                          ) : null
                         ) : null}
                         &nbsp;&nbsp;
-                        {this.state.Status === "Not Submited" ? (                         
-                          
-                          this.state.ApplicationCreated_By === localStorage.getItem("UserName") ? (
-                          <button
-                            type="button"
-                            onClick={this.EditApplication}
-                            className="btn btn-primary"
-                          >
-                            EDIT
-                          </button>)
-                          :null
+                        {this.state.Status === "Not Submited" ? (
+                          this.state.ApplicationCreated_By ===
+                          localStorage.getItem("UserName") ? (
+                            <button
+                              type="button"
+                              onClick={this.EditApplication}
+                              className="btn btn-primary"
+                            >
+                              EDIT
+                            </button>
+                          ) : null
                         ) : null}
-
                         &nbsp; &nbsp;
                         <button
                           type="button"
@@ -2507,7 +2580,7 @@ class Applications extends Component {
                       width="900"
                       height="410"
                       effect="fadeInUp"
-                      onClickAway={() => this.ClosePaymentModal()}
+                     
                     >
                       <a
                         style={{ float: "right", color: "red", margin: "10px" }}
@@ -3052,7 +3125,7 @@ class Applications extends Component {
                               defaultValue={this.state.StartDate}
                               className="form-control"
                               onChange={this.handleInputChange}
-                              max={this.state.Today}
+                            
                             />
                           </div>
 
@@ -3176,7 +3249,7 @@ class Applications extends Component {
                                     defaultValue={this.state.AdendumClosingDate}
                                     className="form-control"
                                     onChange={this.handleInputChange}
-                                    max={this.state.Today}
+                                  
                                   />
                                 </div>
                               </div>
@@ -3315,17 +3388,39 @@ class Applications extends Component {
                           >
                             Add
                           </button>
-                          <Popup
-                            open={this.state.open}
-                            closeOnDocumentClick
-                            onClose={this.closeModal}
+                          <Modal
+                            visible={this.state.open}
+                            width="70%"
+                            height="550"
+                            effect="fadeInUp"
+                           
                           >
-                            <div className={popup.modal}>
+                            <div style={{overflow:"srcoll"}}>
+                            <a
+                              style={{
+                                float: "right",
+                                color: "red",
+                                margin: "10px"
+                              }}
+                              href="javascript:void(0);"
+                              onClick={() => this.closeModal()}
+                            >
+                              <i class="fa fa-close"></i>
+                            </a>
+                            <div>
+                              <h4
+                                style={{
+                                  "text-align": "center",
+                                  color: "#1c84c6"
+                                }}
+                              >
+                                Grounds for appeal
+                              </h4>
                               <div className="container-fluid">
                                 <div className="col-sm-12">
                                   <div className="ibox-con</div>tent">
                                     <div
-                                      className={popup.header}
+                                     
                                       className="font-weight-bold"
                                     >
                                       {" "}
@@ -3391,7 +3486,10 @@ class Applications extends Component {
                                 </div>
                               </div>
                             </div>
-                          </Popup>
+                          </div>
+                          </Modal>
+
+                         
                           <p></p>
                           <div class="row">
                             <div class="col-sm-11">
@@ -3454,83 +3552,107 @@ class Applications extends Component {
                           >
                             Add
                           </button>
-                          <Popup
-                            open={this.state.openRequest}
-                            closeOnDocumentClick
-                            onClose={this.closeRequestModal}
-                          >
-                            <div className={popup.modal}>
-                              <div className="container-fluid">
-                                <div className="col-sm-12">
-                                  <div className="ibox-con</div>tent">
-                                    <div
-                                      className={popup.header}
-                                      className="font-weight-bold"
-                                    >
-                                      {" "}
-                                      Add Requested Orders{" "}
-                                    </div>
-                                    <br />
-                                    <label
-                                      for="ApplicantID"
-                                      className="font-weight-bold "
-                                    >
-                                      Request NO{" "}
-                                    </label>
-                                    <div class="row">
-                                      <div class="col-sm-4">
-                                        <input
-                                          type="number"
-                                          class="form-control"
-                                          name="GroundNO"
-                                          onChange={this.handleInputChange}
-                                          value={this.state.GroundNO}
-                                          required
-                                          min="1"
-                                        />
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <label
-                                      for="GroundDescription"
-                                      className="font-weight-bold "
-                                    >
-                                      Description{" "}
-                                    </label>
-                                    <div class="row">
-                                      <div class="col-sm-12">
-                                        <CKEditor
-                                          data={this.state.GroundDescription}
-                                          onChange={this.onEditor2Change}
-                                        />
-                                      </div>
-                                    </div>
+                          <Modal
+                            visible={this.state.openRequest}
+                            width="70%"
+                            height="550"
+                            effect="fadeInUp"
 
-                                    <br />
-                                    <div className="row">
-                                      <div class="col-sm-9"></div>
-                                      <div class="col-sm-3">
+                          >
+                            <div style={{ overflow: "srcoll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() => this.closeRequestModal()}
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
+                              <div>
+                                <h4
+                                  style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                  }}
+                                >
+                                  Grounds for appeal
+                              </h4>
+                                <div className="container-fluid">
+                                  <div className="col-sm-12">
+                                    <div className="ibox-con</div>tent">
+                                      <div
+                                     
+                                        className="font-weight-bold"
+                                      >
+                                        {" "}
+                                        Add Requested Orders{" "}
+                                      </div>
+                                      <br />
+                                      <label
+                                        for="ApplicantID"
+                                        className="font-weight-bold "
+                                      >
+                                        Request NO{" "}
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-4">
+                                          <input
+                                            type="number"
+                                            class="form-control"
+                                            name="GroundNO"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.GroundNO}
+                                            required
+                                            min="1"
+                                          />
+                                        </div>
+                                      </div>
+                                      <br />
+                                      <label
+                                        for="GroundDescription"
+                                        className="font-weight-bold "
+                                      >
+                                        Description{" "}
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <CKEditor
+                                            data={this.state.GroundDescription}
+                                            onChange={this.onEditor2Change}
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <br />
+                                      <div className="row">
+                                        <div class="col-sm-9"></div>
+                                        <div class="col-sm-3">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            Save{" "}
+                                          </button>
+                                          &nbsp;
                                         <button
-                                          type="submit"
-                                          className="btn btn-primary"
-                                        >
-                                          Save{" "}
-                                        </button>
-                                        &nbsp;
-                                        <button
-                                          type="button"
-                                          onClick={this.closeRequestModal}
-                                          className="btn btn-danger"
-                                        >
-                                          Close{" "}
-                                        </button>
+                                            type="button"
+                                            onClick={this.closeRequestModal}
+                                            className="btn btn-danger"
+                                          >
+                                            Close{" "}
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </Popup>
+                          </Modal>
+                        
                           <p></p>
                           <div class="row">
                             <div class="col-sm-11">
@@ -3547,10 +3669,7 @@ class Applications extends Component {
                                         <tr>
                                           <td>{r.GroundNO}</td>
                                           <td>
-                                            {/* <CKEditor
-                                              data={r.Description}
-                                              onChange={this.onEditorChange}
-                                            /> */}
+                                           
                                             {ReactHtmlParser(r.Description)}
                                           </td>
                                           <td>
@@ -3748,7 +3867,7 @@ class Applications extends Component {
                       width="900"
                       height="450"
                       effect="fadeInUp"
-                      onClickAway={() => this.closeAddInterestedParty()}
+                      
                     >
                       <a
                         style={{ float: "right", color: "red", margin: "10px" }}
@@ -4348,8 +4467,8 @@ class Applications extends Component {
 
                         <br />
                         <div className=" row">
-                          <div className="col-sm-8" />
-                          <div className="col-sm-4">
+                          <div className="col-sm-7" />
+                          <div className="col-sm-5">
                             <button
                               className="btn btn-success"
                               onClick={this.AddpaymentDetails}

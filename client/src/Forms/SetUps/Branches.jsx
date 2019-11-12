@@ -402,7 +402,7 @@ class Branches extends Component {
                                 ) : null}
                                 &nbsp; &nbsp; &nbsp;
              
-                                <Modal visible={this.state.open} width="600" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                                <Modal visible={this.state.open} width="600" height="250" effect="fadeInUp" >
                                     <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeModal()}><i class="fa fa-close"></i></a>
                                  <div>
                                         <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Branches</h4>

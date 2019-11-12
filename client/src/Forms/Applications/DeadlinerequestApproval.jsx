@@ -419,8 +419,8 @@ class DeadlinerequestApproval extends Component {
                 sort: "asc"
             },
             {
-                label: "action",
-                field: "action",
+                label: "Action",
+                field: "Action",
                 sort: "asc",
                 width: 200
             }

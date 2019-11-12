@@ -607,7 +607,7 @@ class MyResponse extends Component {
           <div className="border-bottom white-bg p-4">
             <div className="row">
               <div className="col-sm-10">
-                <h3 style={headingstyle}> Applicantion Details</h3>
+                <h3 style={headingstyle}> Application Details</h3>
                 <div className="col-lg-12 border border-success rounded">
                   <table className="table table-borderless table-sm">
                     <tr>
@@ -692,14 +692,14 @@ class MyResponse extends Component {
             <div className="row">
               <div className="col-sm-10">
                 <h3 style={headingstyle}> Response to Applicant Grounds</h3>
+                <h3>BackgroundInformation</h3>
+                <p>{k.BackgrounInformation}</p>
                 <div className="col-lg-12 border border-success rounded">
                   {this.state.ResponseDetails.map(function(k, i) {
                     if (k.GroundType === "Grounds") {
                       return (
                         <div>
                           <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
-                          <h3>BackgroundInformation</h3>
-                          <p>{k.BackgrounInformation}</p>
 
                           <h3>Response</h3>
                           {ReactHtmlParser(k.Response)}
@@ -712,7 +712,7 @@ class MyResponse extends Component {
             </div>
             <div className="row">
               <div className="col-sm-10">
-                <h3 style={headingstyle}> Response Applicant Requests</h3>
+                <h3 style={headingstyle}> Response to Applicant Requests</h3>
                 <div className="col-lg-12 border border-success rounded">
                   {this.state.ResponseDetails.map(function(k, i) {
                     if (k.GroundType === "Prayers") {
@@ -779,7 +779,7 @@ class MyResponse extends Component {
                       className="btn btn-primary"
                       style={{ marginTop: 30 }}
                     >
-                      Edit Response 
+                      Edit Response
                     </button>
                   </Link>
 

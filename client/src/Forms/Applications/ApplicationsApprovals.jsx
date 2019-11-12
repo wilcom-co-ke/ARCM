@@ -220,7 +220,7 @@ class ApplicationsApprovals extends Component {
             Applicationno: ApplicationNo,
             PEName: this.state.PEName,
             ApplicationDate: this.state.FilingDate,
-            ReceivedDate: dateFormat(new Date().toLocaleDateString(), "isoDate"),
+            ReceivedDate: dateFormat(new Date().toLocaleDateString(), "mediumDate"),
             ApplicantName: this.state.Applicantname,
             PysicalAddress: this.state.ApplicantPOBox +"-"+ this.state.ApplicantPostalCode +" "+ this.state.ApplicantTown,
             Fax: " ",
@@ -556,7 +556,7 @@ class ApplicationsApprovals extends Component {
             TenderSubCategory: k.TenderSubCategory ,
             TenderCategory: k.TenderCategory ,
              Timer: k.Timer,
-            AwardDate:new Date(k.AwardDate).toLocaleDateString(),
+            AwardDate: dateFormat(new Date(k.AwardDate).toLocaleDateString(), "mediumDate"),
             TenderTypeDesc: k.TenderTypeDesc ,
             PaymentStatus: k.PaymentStatus,
             PEPOBox: k.PEPOBox,
@@ -572,14 +572,14 @@ class ApplicationsApprovals extends Component {
             TenderNo: k.TenderNo,
             ApplicationREf: k.ApplicationREf,
             PEName: k.PEName,
-            FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+            FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"),
             TenderName: k.TenderName,
             Status: k.Status,
             TenderValue: k.TenderValue,
             IsAccept: false,
             IsDecline: false,
-            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "isoDate"),
-            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "isoDate")
+            StartDate: dateFormat(new Date(k.StartDate).toLocaleDateString(), "mediumDate"),
+            ClosingDate: dateFormat(new Date(k.ClosingDate).toLocaleDateString(), "mediumDate")
         };
         this.setState({ summary: true });      
         this.setState(data);
@@ -643,7 +643,7 @@ class ApplicationsApprovals extends Component {
                 let Rowdata = {
                     ApplicationNo: k.ApplicationNo,
                     TenderName: k.TenderName,                   
-                    FilingDate: new Date(k.FilingDate).toLocaleDateString(),
+                    FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"),
                     ApplicationREf: k.ApplicationREf,
                     Status: k.Status,
 
@@ -915,12 +915,12 @@ class ApplicationsApprovals extends Component {
                                                     <td className="font-weight-bold">{r.AdendumNo}</td>
 
                                                     <td className="font-weight-bold">
-                                                        {" "}
-                                                        {new Date(r.StartDate).toLocaleDateString()}
+                                                        {dateFormat(new Date(r.StartDate).toLocaleDateString(), "mediumDate")}
+                                                     
                                                     </td>
                                                     <td className="font-weight-bold">
-                                                        {" "}
-                                                        {new Date(r.ClosingDate).toLocaleDateString()}
+                                                        {dateFormat(new Date(r.ClosingDate).toLocaleDateString(), "mediumDate")}
+                                                       
                                                     </td>
                                                     <td className="font-weight-bold">{r.Description}</td>
                                                 </tr>
@@ -986,7 +986,8 @@ class ApplicationsApprovals extends Component {
                                                         <td>{k.Description}</td>
                                                         <td>{k.FileName}</td>
                                                         <td>
-                                                            {new Date(k.DateUploaded).toLocaleDateString()}
+                                                            {dateFormat(new Date(k.DateUploaded).toLocaleDateString(), "mediumDate")}
+                                                        
                                                         </td>
                                                         <td>
                                                             {/* <a

@@ -16,17 +16,18 @@ class PEResponse extends Component {
     this.state = {
       ApplicationGrounds: [],
       ResponseDocuments: [],
-      PreliminaryObjectionsFeesPaymentDetails:[],
+      PreliminaryObjectionsFeesPaymentDetails: [],
       interestedparties: [],
-      PreliminaryObjectionsFees:[],
+      PreliminaryObjectionsFees: [],
       PrayersDetails: [],
       ApplicationRequests: [],
       GroundsDetails: [],
-      BankSlips:[],
+      BankSlips: [],
       Confidential: false,
       ApplicationNo: this.props.location.ApplicationNo,
       ApplicationID: this.props.location.ApplicationID,
       NewDeadLine: "",
+      BackgroundInfo: false,
       Reason: "",
       Groundtype: "",
       open: false,
@@ -80,6 +81,26 @@ class PEResponse extends Component {
       })
       .catch(err => {
         swal("", err.message, "error");
+      });
+  };
+  fetchBackgrounInformation = () => {
+    fetch("/api/PEResponse/BackgrounInformation/" + this.state.ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(ResponseDetails => {
+        if (ResponseDetails.length > 0) {
+          this.setState({
+            BackgroundInformation: ResponseDetails[0].BackgroundInformation
+          });
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
       });
   };
   fetchResponseDetails = () => {
@@ -161,11 +182,16 @@ class PEResponse extends Component {
       Reason: evt.editor.getData()
     });
   }
-  onEditorChange(evt) {
+  onEditorChange = evt => {
     this.setState({
       GroundResponse: evt.editor.getData()
     });
-  }
+  };
+  onBackgroundEditorChange = evt => {
+    this.setState({
+      BackgroundInformation: evt.editor.getData()
+    });
+  };
   fetchBankSlips = Applicationno => {
     this.setState({ BankSlips: [] });
     fetch("/api/applicationfees/" + Applicationno + "/Bankslips", {
@@ -182,7 +208,7 @@ class PEResponse extends Component {
         }
       })
       .catch(err => {
-        toast.error(err.message)
+        toast.error(err.message);
       });
   };
   SaveBankSlip(Filename) {
@@ -267,6 +293,38 @@ class PEResponse extends Component {
     }
     this.setState({ showAction: false });
   };
+  SaveBackgroundInformation = event => {
+    event.preventDefault();
+    const data = {
+      ApplicationNo: this.state.ApplicationNo,
+      ResponseType: this.state.Action,
+      UserID: localStorage.getItem("UserName"),
+      BackgroundInformation: this.state.BackgroundInformation
+    };
+
+    fetch("/api/PEResponse/BackgroundInformation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Background Information save", "success");
+            this.setState({ BackgroundInfo: false });
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+
   SaveNoObjectionResponse = event => {
     event.preventDefault();
     const data = {
@@ -310,7 +368,8 @@ class PEResponse extends Component {
       subject: subject,
       ID: ID,
       Name: Name,
-      ApplicationNo: ApplicationNo
+      ApplicationNo: ApplicationNo,
+      PEName: localStorage.getItem("LoogedinCompay")
     };
 
     fetch("/api/NotifyApprover", {
@@ -382,7 +441,7 @@ class PEResponse extends Component {
     const data = {
       PERsponseID: ResponseID,
       GrounNo: this.state.GroundNo,
-      BackgroundInformation: this.state.BackgroundInformation,
+
       Groundtype: this.state.Groundtype,
       Response: this.state.GroundResponse,
       UserID: localStorage.getItem("UserName")
@@ -400,7 +459,7 @@ class PEResponse extends Component {
           if (data.success) {
             this.fetchResponseDetails();
             swal("", "Your Response has been added!", "success");
-            this.setState({ GroundResponse: " ", BackgroundInformation: " " });
+            this.setState({ GroundResponse: " ", grounddesc: " " });
           } else {
             swal("", "Could not be added", "success");
           }
@@ -412,7 +471,6 @@ class PEResponse extends Component {
       });
   }
   SavePaymentdetails = () => {
-
     if (!this.state.DateofPayment) {
       swal("", "Date of payment is required", "error");
       return;
@@ -451,10 +509,8 @@ class PEResponse extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-
             toast.success("Payment details save successfuly");
             this.fetchPreliminaryObjectionsFeesPaymentDetails();
-           
           } else {
             toast.error(data.message);
           }
@@ -463,7 +519,7 @@ class PEResponse extends Component {
       .catch(err => {
         toast.error(err.message);
       });
-  }
+  };
 
   SavePEResponse(url = ``, data = {}) {
     fetch(url, {
@@ -517,17 +573,24 @@ class PEResponse extends Component {
   };
   fetchPreliminaryObjectionsFeesPaymentDetails = () => {
     this.setState({ PreliminaryObjectionsFeesPaymentDetails: [] });
-    fetch("/api/applicationfees/" + this.state.ApplicationID + "/PreliminaryObjectionsFeesPaymentDetails", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
+    fetch(
+      "/api/applicationfees/" +
+        this.state.ApplicationID +
+        "/PreliminaryObjectionsFeesPaymentDetails",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
       }
-    })
+    )
       .then(res => res.json())
       .then(PreliminaryObjectionsFeesPaymentDetails => {
         if (PreliminaryObjectionsFeesPaymentDetails.length > 0) {
-          this.setState({ PreliminaryObjectionsFeesPaymentDetails: PreliminaryObjectionsFeesPaymentDetails });
+          this.setState({
+            PreliminaryObjectionsFeesPaymentDetails: PreliminaryObjectionsFeesPaymentDetails
+          });
         } else {
           toast.error(PreliminaryObjectionsFeesPaymentDetails.message);
         }
@@ -548,7 +611,9 @@ class PEResponse extends Component {
       .then(res => res.json())
       .then(PreliminaryObjectionsFees => {
         if (PreliminaryObjectionsFees.length > 0) {
-          this.setState({ PreliminaryObjectionsFees: PreliminaryObjectionsFees });
+          this.setState({
+            PreliminaryObjectionsFees: PreliminaryObjectionsFees
+          });
         } else {
           toast.error(PreliminaryObjectionsFees.message);
         }
@@ -600,6 +665,7 @@ class PEResponse extends Component {
               this.fetchPreliminaryObjectionsFees();
               this.fetchPreliminaryObjectionsFeesPaymentDetails();
               this.fetchResponseDetails();
+              this.fetchBackgrounInformation();
               this.fetchBankSlips(this.state.ApplicationID);
             } else {
               localStorage.clear();
@@ -829,26 +895,26 @@ class PEResponse extends Component {
   };
   CompletePreliminaryObjectionSubmision = event => {
     event.preventDefault();
-    if (this.state.PreliminaryObjectionsFeesPaymentDetails.length>0){
+    if (this.state.PreliminaryObjectionsFeesPaymentDetails.length > 0) {
       const data = {
-      PEResponseID: this.state.ResponseID,
-      ApplicationNo: this.state.ApplicationNo,
-      UserID: localStorage.getItem("UserName")
-    };
+        PEResponseID: this.state.ResponseID,
+        ApplicationNo: this.state.ApplicationNo,
+        UserID: localStorage.getItem("UserName")
+      };
       fetch("/api/PEResponse/SubmitPePreliminaryObjection/1", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response =>
-        response.json().then(data => {
-          if (data.success) {
-            let NewList = [data.results];
-            if (NewList.length > 0) {
-              NewList[0].map((item, key) => {              
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              let NewList = [data.results];
+              if (NewList.length > 0) {
+                NewList[0].map((item, key) => {
                   let smstext =
                     "Dear " +
                     item.Name +
@@ -863,24 +929,25 @@ class PEResponse extends Component {
                     "FEES APPROVAL",
                     this.state.ApplicationNo
                   );
-             
-              
-              });
+                });
+              }
+              swal("", "Your Response has been submited!", "success");
+              window.location = "#/MyResponse";
+            } else {
+              swal("", "Your response could not be submited!", "error");
             }
-            swal("", "Your Response has been submited!", "success");           
-            window.location = "#/MyResponse";
-          } else {
-            swal("", "Your response could not be submited!", "error");
-          }
-        })
-      )
-      .catch(err => {
-        swal("Oops!", err.message, "error");
-      });
-    }else{
-      swal("","Preliminary Objection can only be submited after submiting payment details.","error")
+          })
+        )
+        .catch(err => {
+          swal("Oops!", err.message, "error");
+        });
+    } else {
+      swal(
+        "",
+        "Preliminary Objection can only be submited after submiting payment details.",
+        "error"
+      );
     }
-  
   };
   CompleteSubmision = event => {
     event.preventDefault();
@@ -915,7 +982,7 @@ class PEResponse extends Component {
                     item.Name,
                     item.Email,
                     "PEresponseCaseOfficer",
-                    "PE RESPONSE",
+                    "PE RESPONSE: " + this.state.ApplicationNo,
                     this.state.ApplicationNo
                   );
                 } else if (item.Role === "PE") {
@@ -930,7 +997,7 @@ class PEResponse extends Component {
                     item.Name,
                     item.Email,
                     "PEresponsePE",
-                    "PE RESPONSE",
+                    "PE RESPONSE: " + this.state.ApplicationNo,
                     this.state.ApplicationNo
                   );
                 } else {
@@ -945,7 +1012,7 @@ class PEResponse extends Component {
                     item.Name,
                     item.Email,
                     "PEresponseOthers",
-                    "PE RESPONSE",
+                    "PE RESPONSE: " + this.state.ApplicationNo,
                     this.state.ApplicationNo
                   );
                 }
@@ -1003,7 +1070,7 @@ class PEResponse extends Component {
   };
   handleInterestedPartySubmit = event => {
     event.preventDefault();
-    
+
     if (this.state.ApplicationID) {
       let datatosave = {
         Name: this.state.InterestedPartyName,
@@ -1055,10 +1122,13 @@ class PEResponse extends Component {
           })
         )
         .catch(err => {
-          swal("", "Could not be added please try again","error");
+          swal("", "Could not be added please try again", "error");
         });
     } else {
-      swal("", "Please ensure You have an selected an application to respond to.","error"
+      swal(
+        "",
+        "Please ensure You have an selected an application to respond to.",
+        "error"
       );
     }
   };
@@ -1072,6 +1142,13 @@ class PEResponse extends Component {
     e.preventDefault();
     this.setState({ open: true, Groundtype: "Grounds" });
   };
+  OpenbackgroundInformation = e => {
+    e.preventDefault();
+    this.setState({ BackgroundInfo: true });
+  };
+  closebackgroundInformation = () => {
+    this.setState({ BackgroundInfo: false });
+  };
   OpenRequestsModal = e => {
     e.preventDefault();
     this.setState({ open: true, Groundtype: "Prayers" });
@@ -1081,10 +1158,10 @@ class PEResponse extends Component {
   }
   ClosePaymentModal = () => {
     this.setState({ openPaymentModal: false });
-  }
+  };
   OpenPaymentModal = () => {
     this.setState({ openPaymentModal: true });
-  }
+  };
   render() {
     let headingstyle = {
       color: "#7094db"
@@ -1107,7 +1184,6 @@ class PEResponse extends Component {
     let childdiv = {
       margin: "10px"
     };
-   
 
     let Grounds = [...this.state.ApplicationGrounds].map((k, i) => {
       return {
@@ -1136,7 +1212,7 @@ class PEResponse extends Component {
         label: "Request Extension of deadline"
       }
     ];
-    let handleDeleteDocument = this.handleDeleteDocument
+    let handleDeleteDocument = this.handleDeleteDocument;
     return (
       <div>
         <ToastContainer />
@@ -1169,8 +1245,7 @@ class PEResponse extends Component {
         <div className="row">
           {/* <div className="col-lg-1"></div> */}
           <div className="col-lg-12 ">
-            <h3 style={headingstyle}>{this.state.Action}
-            </h3>
+            <h3 style={headingstyle}>{this.state.Action}</h3>
             <div className="col-lg-12 ">
               <div style={formcontainerStyle}>
                 {this.state.showAction ? (
@@ -1329,24 +1404,108 @@ class PEResponse extends Component {
                         {" "}
                         <div style={FormStyle}>
                           <Modal
+                            visible={this.state.BackgroundInfo}
+                            width="80%"
+                            height="70%"
+                            effect="fadeInUp"
+                          >
+                            <div style={{ overflow: "scroll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() =>
+                                  this.closebackgroundInformation()
+                                }
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
+                              <h3
+                                style={{
+                                  "text-align": "center",
+                                  color: "#1c84c6"
+                                }}
+                              >
+                                Background Information
+                              </h3>
+                              <hr />
+                              <div className="container-fluid">
+                                <div className="col-sm-12">
+                                  <div className="scroll">
+                                    <form
+                                      style={FormStyle}
+                                      onSubmit={this.SaveBackgroundInformation}
+                                    >
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <label
+                                            style={headingstyle}
+                                            for="Location"
+                                            className="font-weight-bold"
+                                          >
+                                            Background Information
+                                          </label>
+                                          <CKEditor
+                                            data={
+                                              this.state.BackgroundInformation
+                                            }
+                                            onChange={
+                                              this.onBackgroundEditorChange
+                                            }
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <br />
+                                      <div className=" row">
+                                        <div className="col-sm-10" />
+                                        <div className="col-sm-2">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            Add
+                                          </button>
+                                          &nbsp;&nbsp;
+                                          <button
+                                            type="button"
+                                            onClick={
+                                              this.closebackgroundInformation
+                                            }
+                                            className="btn btn-success"
+                                          >
+                                            {" "}
+                                            Done
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Modal>
+                          <Modal
                             visible={this.state.open}
                             width="80%"
                             height="86%"
                             effect="fadeInUp"
-                            onClickAway={() => this.closeGroundsModal()}
                           >
-                            <a
-                              style={{
-                                float: "right",
-                                color: "red",
-                                margin: "10px"
-                              }}
-                              href="javascript:void(0);"
-                              onClick={() => this.closeGroundsModal()}
-                            >
-                              <i class="fa fa-close"></i>
-                            </a>
-                            <div>
+                            <div style={{ overflow: "scroll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() => this.closeGroundsModal()}
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
                               <h3
                                 style={{
                                   "text-align": "center",
@@ -1402,26 +1561,7 @@ class PEResponse extends Component {
                                           )}
                                         </div>
                                       </div>
-                                      <div class="row">
-                                        <div class="col-sm-12">
-                                          <label
-                                            style={headingstyle}
-                                            for="Location"
-                                            className="font-weight-bold"
-                                          >
-                                            Background Information
-                                          </label>
-                                          <textarea
-                                            class="form-control"
-                                            name="BackgroundInformation"
-                                            value={
-                                              this.state.BackgroundInformation
-                                            }
-                                            onChange={this.handleInputChange}
-                                            required
-                                          />
-                                        </div>
-                                      </div>
+
                                       <div class="row">
                                         <div class="col-sm-12">
                                           <b style={headingstyle}>
@@ -1461,9 +1601,45 @@ class PEResponse extends Component {
                               </div>
                             </div>
                           </Modal>
-
                           <label for="Name" className="font-weight-bold">
-                            1.Respond to Grounds for appeal &nbsp; &nbsp; &nbsp;
+                            1.Add Background Information &nbsp; &nbsp; &nbsp;
+                            &nbsp;
+                          </label>
+                          <button
+                            className="btn btn-info"
+                            type="button"
+                            onClick={this.OpenbackgroundInformation}
+                          >
+                            Add
+                          </button>
+                          <br />
+                          <br />
+                          <div className="row">
+                            <table className="table table-striped table-sm">
+                              <thead className="thead-light">
+                                <th>Background Information</th>
+                                <th>Action</th>
+                              </thead>
+
+                              <tr>
+                                <td className="font-weight-bold">
+                                  {ReactHtmlParser(
+                                    this.state.BackgroundInformation
+                                  )}
+                                </td>
+                                <td>
+                                  {" "}
+                                  <span>
+                                    <a style={{ color: "#f44542" }}>
+                                      &nbsp; Remove
+                                    </a>
+                                  </span>
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <label for="Name" className="font-weight-bold">
+                            2.Respond to Grounds for appeal &nbsp; &nbsp; &nbsp;
                             &nbsp;
                           </label>
                           <button
@@ -1479,7 +1655,7 @@ class PEResponse extends Component {
                             <table className="table table-striped table-sm">
                               <thead className="thead-light">
                                 <th>GroundNO</th>
-                                <th>BackgroundInformation</th>
+
                                 <th>Response</th>
                                 <th>Action</th>
                               </thead>
@@ -1489,9 +1665,6 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
-                                    {r.BackgrounInformation}
-                                  </td>
                                   <td className="font-weight-bold">
                                     {ReactHtmlParser(r.Response)}
                                   </td>
@@ -1513,7 +1686,7 @@ class PEResponse extends Component {
 
                           <br />
                           <label for="Name" className="font-weight-bold">
-                            2.Respond to Requested Orders &nbsp; &nbsp; &nbsp;
+                            3.Respond to Requested Orders &nbsp; &nbsp; &nbsp;
                             &nbsp;
                           </label>
                           <button
@@ -1529,7 +1702,7 @@ class PEResponse extends Component {
                             <table className="table table-striped table-sm">
                               <thead class="thead-light">
                                 <th>OrderNo</th>
-                                <th>BackgroundInformation</th>
+
                                 <th>Response</th>
                                 <th>Action</th>
                               </thead>
@@ -1539,9 +1712,6 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
-                                    {r.BackgrounInformation}
-                                  </td>
                                   <td className="font-weight-bold">
                                     {ReactHtmlParser(r.Response)}
                                   </td>
@@ -1588,7 +1758,6 @@ class PEResponse extends Component {
                           width="900"
                           height="450"
                           effect="fadeInUp"
-                          onClickAway={() => this.closeAddInterestedParty()}
                         >
                           <a
                             style={{
@@ -1915,14 +2084,14 @@ class PEResponse extends Component {
                               <div class="col-sm-11">
                                 <table className="table table-sm">
                                   <thead class="thead-light">
-                                  <th>Org Name</th>
-                                  <th>ContactName</th>
-                                  <th>Designation</th>
-                                  <th>Email</th>
-                                  <th>TelePhone</th>
-                                  <th>Mobile</th>
-                                  <th>PhysicalAddress</th>
-                                  <th>Actions</th>
+                                    <th>Org Name</th>
+                                    <th>ContactName</th>
+                                    <th>Designation</th>
+                                    <th>Email</th>
+                                    <th>TelePhone</th>
+                                    <th>Mobile</th>
+                                    <th>PhysicalAddress</th>
+                                    <th>Actions</th>
                                   </thead>
                                   {this.state.interestedparties.map((r, i) => (
                                     <tr>
@@ -2005,7 +2174,6 @@ class PEResponse extends Component {
                                   className="form-control"
                                   name="file"
                                   onChange={this.onChangeHandler}
-                                  
                                 />
                                 <div class="form-group">
                                   <Progress
@@ -2087,7 +2255,7 @@ class PEResponse extends Component {
                                             }
                                           >
                                             &nbsp; Remove
-                                            </a>
+                                          </a>
                                         </span>
                                       </td>
                                     </tr>
@@ -2179,31 +2347,32 @@ class PEResponse extends Component {
                         {" "}
                         <div style={FormStyle}>
                           <Modal
-                            visible={this.state.open}
+                            visible={this.state.BackgroundInfo}
                             width="80%"
-                            height="86%"
+                            height="70%"
                             effect="fadeInUp"
-                            onClickAway={() => this.closeGroundsModal()}
                           >
-                            <a
-                              style={{
-                                float: "right",
-                                color: "red",
-                                margin: "10px"
-                              }}
-                              href="javascript:void(0);"
-                              onClick={() => this.closeGroundsModal()}
-                            >
-                              <i class="fa fa-close"></i>
-                            </a>
-                            <div>
+                            <div style={{ overflow: "scroll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() =>
+                                  this.closebackgroundInformation()
+                                }
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
                               <h3
                                 style={{
                                   "text-align": "center",
                                   color: "#1c84c6"
                                 }}
                               >
-                                Respond to {this.state.Groundtype}
+                                Background Information
                               </h3>
                               <hr />
                               <div className="container-fluid">
@@ -2211,47 +2380,8 @@ class PEResponse extends Component {
                                   <div className="scroll">
                                     <form
                                       style={FormStyle}
-                                      onSubmit={this.SaveNoObjectionResponse}
+                                      onSubmit={this.SaveBackgroundInformation}
                                     >
-                                      <div class="row">
-                                        <div class="col-sm-4">
-                                          <label
-                                            style={headingstyle}
-                                            for="Location"
-                                            className="font-weight-bold"
-                                          >
-                                            Select Ground
-                                          </label>
-                                          {this.state.Groundtype ===
-                                          "Grounds" ? (
-                                            <Select
-                                              name="GroundNo"
-                                              onChange={this.handleSelectChange}
-                                              options={Grounds}
-                                              required
-                                            />
-                                          ) : (
-                                            <Select
-                                              name="GroundNoPrayers"
-                                              onChange={this.handleSelectChange}
-                                              options={ApplicationPrayers}
-                                              required
-                                            />
-                                          )}
-                                        </div>
-                                      </div>
-
-                                      <div class="row">
-                                        <div class="col-sm-12">
-                                          <h3 style={headingstyle}>
-                                            Ground Description
-                                          </h3>
-                                          <br />
-                                          {ReactHtmlParser(
-                                            this.state.grounddesc
-                                          )}
-                                        </div>
-                                      </div>
                                       <div class="row">
                                         <div class="col-sm-12">
                                           <label
@@ -2261,29 +2391,17 @@ class PEResponse extends Component {
                                           >
                                             Background Information
                                           </label>
-                                          <textarea
-                                            class="form-control"
-                                            name="BackgroundInformation"
-                                            value={
+                                          <CKEditor
+                                            data={
                                               this.state.BackgroundInformation
                                             }
-                                            onChange={this.handleInputChange}
-                                            required
+                                            onChange={
+                                              this.onBackgroundEditorChange
+                                            }
                                           />
                                         </div>
                                       </div>
-                                      <div class="row">
-                                        <div class="col-sm-12">
-                                          <b style={headingstyle}>
-                                            Our Response
-                                          </b>
-                                          <br />
-                                          <CKEditor
-                                            data={this.state.GroundResponse}
-                                            onChange={this.onEditorChange}
-                                          />
-                                        </div>
-                                      </div>
+
                                       <br />
                                       <div className=" row">
                                         <div className="col-sm-10" />
@@ -2297,7 +2415,9 @@ class PEResponse extends Component {
                                           &nbsp;&nbsp;
                                           <button
                                             type="button"
-                                            onClick={this.closeGroundsModal}
+                                            onClick={
+                                              this.closebackgroundInformation
+                                            }
                                             className="btn btn-success"
                                           >
                                             {" "}
@@ -2311,9 +2431,164 @@ class PEResponse extends Component {
                               </div>
                             </div>
                           </Modal>
+                          <Modal
+                            visible={this.state.open}
+                            width="80%"
+                            height="70%"
+                            effect="fadeInUp"
+                          >
+                            <div style={{ overflow: "scroll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() => this.closeGroundsModal()}
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
+                              <div>
+                                <h3
+                                  style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                  }}
+                                >
+                                  Respond to {this.state.Groundtype}
+                                </h3>
+                                <hr />
+                                <div className="container-fluid">
+                                  <div className="col-sm-12">
+                                    <div className="scroll">
+                                      <form
+                                        style={FormStyle}
+                                        onSubmit={this.SaveNoObjectionResponse}
+                                      >
+                                        <div class="row">
+                                          <div class="col-sm-4">
+                                            <label
+                                              style={headingstyle}
+                                              for="Location"
+                                              className="font-weight-bold"
+                                            >
+                                              Select Ground
+                                            </label>
+                                            {this.state.Groundtype ===
+                                            "Grounds" ? (
+                                              <Select
+                                                name="GroundNo"
+                                                onChange={
+                                                  this.handleSelectChange
+                                                }
+                                                options={Grounds}
+                                                required
+                                              />
+                                            ) : (
+                                              <Select
+                                                name="GroundNoPrayers"
+                                                onChange={
+                                                  this.handleSelectChange
+                                                }
+                                                options={ApplicationPrayers}
+                                                required
+                                              />
+                                            )}
+                                          </div>
+                                        </div>
 
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                            <h3 style={headingstyle}>
+                                              Ground Description
+                                            </h3>
+                                            <br />
+                                            {ReactHtmlParser(
+                                              this.state.grounddesc
+                                            )}
+                                          </div>
+                                        </div>
+
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                            <b style={headingstyle}>
+                                              Our Response
+                                            </b>
+                                            <br />
+                                            <CKEditor
+                                              data={this.state.GroundResponse}
+                                              onChange={this.onEditorChange}
+                                            />
+                                          </div>
+                                        </div>
+                                        <br />
+                                        <div className=" row">
+                                          <div className="col-sm-10" />
+                                          <div className="col-sm-2">
+                                            <button
+                                              type="submit"
+                                              className="btn btn-primary"
+                                            >
+                                              Add
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button
+                                              type="button"
+                                              onClick={this.closeGroundsModal}
+                                              className="btn btn-success"
+                                            >
+                                              {" "}
+                                              Done
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Modal>
                           <label for="Name" className="font-weight-bold">
-                            1.Respond to Grounds for appeal &nbsp; &nbsp; &nbsp;
+                            1.Add Background Information &nbsp; &nbsp; &nbsp;
+                            &nbsp;
+                          </label>
+                          <button
+                            className="btn btn-info"
+                            type="button"
+                            onClick={this.OpenbackgroundInformation}
+                          >
+                            Add
+                          </button>
+                          <br />
+                          <br />
+                          <div className="row">
+                            <table className="table table-striped table-sm">
+                              <thead className="thead-light">
+                                <th>Background Information</th>
+                                <th>Action</th>
+                              </thead>
+
+                              <tr>
+                                <td className="font-weight-bold">
+                                  {ReactHtmlParser(
+                                    this.state.BackgroundInformation
+                                  )}
+                                </td>
+                                <td>
+                                  {" "}
+                                  <span>
+                                    <a style={{ color: "#f44542" }}>
+                                      &nbsp; Remove
+                                    </a>
+                                  </span>
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <label for="Name" className="font-weight-bold">
+                            2.Respond to Grounds for appeal &nbsp; &nbsp; &nbsp;
                             &nbsp;
                           </label>
                           <button
@@ -2329,7 +2604,7 @@ class PEResponse extends Component {
                             <table className="table table-striped table-sm">
                               <thead class="thead-light">
                                 <th>GroundNO</th>
-                                <th>BackgroundInformation</th>
+
                                 <th>Response</th>
                                 <th>Action</th>
                               </thead>
@@ -2339,9 +2614,6 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
-                                    {r.BackgrounInformation}
-                                  </td>
                                   <td className="font-weight-bold">
                                     {ReactHtmlParser(r.Response)}
                                   </td>
@@ -2379,7 +2651,7 @@ class PEResponse extends Component {
                             <table className="table table-striped table-sm">
                               <thead class="thead-light">
                                 <th>OrderNo</th>
-                                <th>BackgroundInformation</th>
+
                                 <th>Response</th>
                                 <th>Action</th>
                               </thead>
@@ -2389,9 +2661,6 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
-                                    {r.BackgrounInformation}
-                                  </td>
                                   <td className="font-weight-bold">
                                     {ReactHtmlParser(r.Response)}
                                   </td>
@@ -2440,317 +2709,344 @@ class PEResponse extends Component {
                           effect="fadeInUp"
                           onClickAway={() => this.closeAddInterestedParty()}
                         >
-                          <a
-                            style={{
-                              float: "right",
-                              color: "red",
-                              margin: "10px"
-                            }}
-                            href="javascript:void(0);"
-                            onClick={() => this.closeAddInterestedParty()}
-                          >
-                            <i class="fa fa-close"></i>
-                          </a>
-                          <div>
-                            <h4
+                          <div style={{ overflow: "scroll" }}>
+                            <a
                               style={{
-                                "text-align": "center",
-                                color: "#1c84c6"
+                                float: "right",
+                                color: "red",
+                                margin: "10px"
                               }}
+                              href="javascript:void(0);"
+                              onClick={() => this.closeAddInterestedParty()}
                             >
-                              Interested Party
-                            </h4>
-                            <div className="container-fluid">
-                              <div className="col-sm-12">
-                                <div className="ibox-content">
-                                  <form
-                                    onSubmit={this.handleInterestedPartySubmit}
-                                  >
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Organization Name
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.InterestedPartyName
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyName"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Contact Name
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state
-                                                  .InterestedPartyContactName
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyContactName"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Designation
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state
-                                                  .InterestedPartyDesignation
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyDesignation"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Email
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.InterestedPartyEmail
-                                              }
-                                              type="email"
-                                              required
-                                              name="InterestedPartyEmail"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Mobile
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.InterestedPartyMobile
-                                              }
-                                              type="number"
-                                              required
-                                              name="InterestedPartyMobile"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              TelePhone
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state
-                                                  .InterestedPartyTelePhone
-                                              }
-                                              type="number"
-                                              required
-                                              name="InterestedPartyTelePhone"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              POBox
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.InterestedPartyPOBox
-                                              }
-                                              type="number"
-                                              required
-                                              name="InterestedPartyPOBox"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Postal Code
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state
-                                                  .InterestedPartyPostalCode
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyPostalCode"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Physical Address
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state
-                                                  .InterestedPartyPhysicalAddress
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyPhysicalAddress"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Town
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.InterestedPartyTown
-                                              }
-                                              type="text"
-                                              required
-                                              name="InterestedPartyTown"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div className="col-sm-12 ">
+                              <i class="fa fa-close"></i>
+                            </a>
+                            <div>
+                              <h4
+                                style={{
+                                  "text-align": "center",
+                                  color: "#1c84c6"
+                                }}
+                              >
+                                Interested Party
+                              </h4>
+                              <div className="container-fluid">
+                                <div className="col-sm-12">
+                                  <div className="ibox-content">
+                                    <form
+                                      onSubmit={
+                                        this.handleInterestedPartySubmit
+                                      }
+                                    >
                                       <div className=" row">
-                                        <div className="col-sm-9" />
-                                        <div className="col-sm-3">
-                                          <button
-                                            type="submit"
-                                            className="btn btn-primary"
-                                          >
-                                            Save
-                                          </button>
-                                          &nbsp; &nbsp;
-                                          <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={
-                                              this.closeAddInterestedParty
-                                            }
-                                          >
-                                            Close
-                                          </button>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Organization Name
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state.InterestedPartyName
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyName"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Contact Name
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyContactName
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyContactName"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </form>
+                                      <br />
+                                      <div className=" row">
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Designation
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyDesignation
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyDesignation"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Email
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyEmail
+                                                }
+                                                type="email"
+                                                required
+                                                name="InterestedPartyEmail"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <br />
+                                      <div className=" row">
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Mobile
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyMobile
+                                                }
+                                                type="number"
+                                                required
+                                                name="InterestedPartyMobile"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                TelePhone
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyTelePhone
+                                                }
+                                                type="number"
+                                                required
+                                                name="InterestedPartyTelePhone"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <br />
+                                      <div className=" row">
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                POBox
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyPOBox
+                                                }
+                                                type="number"
+                                                required
+                                                name="InterestedPartyPOBox"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Postal Code
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyPostalCode
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyPostalCode"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <br />
+
+                                      <div className=" row">
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Physical Address
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state
+                                                    .InterestedPartyPhysicalAddress
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyPhysicalAddress"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Town
+                                              </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={
+                                                  this.handleInputChange
+                                                }
+                                                value={
+                                                  this.state.InterestedPartyTown
+                                                }
+                                                type="text"
+                                                required
+                                                name="InterestedPartyTown"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <br />
+                                      <div className="col-sm-12 ">
+                                        <div className=" row">
+                                          <div className="col-sm-9" />
+                                          <div className="col-sm-3">
+                                            <button
+                                              type="submit"
+                                              className="btn btn-primary"
+                                            >
+                                              Save
+                                            </button>
+                                            &nbsp; &nbsp;
+                                            <button
+                                              type="button"
+                                              className="btn btn-danger"
+                                              onClick={
+                                                this.closeAddInterestedParty
+                                              }
+                                            >
+                                              Close
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -2854,7 +3150,6 @@ class PEResponse extends Component {
                                   className="form-control"
                                   name="file"
                                   onChange={this.onChangeHandler}
-                                  
                                 />
                                 <div class="form-group">
                                   <Progress
@@ -2889,7 +3184,7 @@ class PEResponse extends Component {
                                   required
                                 />
                               </div>
-                              
+
                               <div className="col-sm-2">
                                 <div className="form-group">
                                   <br />
@@ -2909,7 +3204,7 @@ class PEResponse extends Component {
                                     Confidential
                                   </label>
                                 </div>
-                              </div>                             
+                              </div>
                             </div>
                             <br />
                             <div className="row">
@@ -2928,7 +3223,7 @@ class PEResponse extends Component {
                                       <td>{i + 1}</td>
                                       <td>{k.Description}</td>
                                       <td>{k.Name}</td>
-                                      <td>   
+                                      <td>
                                         <span>
                                           <a
                                             style={{ color: "#f44542" }}
@@ -2937,7 +3232,7 @@ class PEResponse extends Component {
                                             }
                                           >
                                             &nbsp; Remove
-                                            </a>
+                                          </a>
                                         </span>
                                       </td>
                                     </tr>
@@ -2971,197 +3266,257 @@ class PEResponse extends Component {
                         aria-labelledby="nav-Fees-tab"
                       >
                         <div style={formcontainerStyle}>
-                           
-                          <Modal visible={this.state.openPaymentModal} width="900" height="410" effect="fadeInUp" onClickAway={() => this.ClosePaymentModal()}>
-                            <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.ClosePaymentModal()}><i class="fa fa-close"></i></a>
-                            <div>
-                              <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Payment Details</h4>
-                              <div className="container-fluid">
-                                <div className="col-sm-12">
-                                  <div className="ibox-content">
-                                    <div>
-
-                                      <div className="col-lg-12 border border-success rounded">
-                                        <div style={FormStyle}>
-                                          <div className=" row">
-                                            <div className="col-md-6">
-                                              <div className="row">
-                                                <div className="col-md-4">
-                                                  <label
-                                                    htmlFor="exampleInputPassword1"
-                                                    className="font-weight-bold"
-                                                  >
-                                                    Amount Paid
-                                        </label>
-                                                </div>
-                                                <div className="col-md-8">
-                                                  <input
-                                                    onChange={this.handleInputChange}
-                                                    value={this.state.AmountPaid}
-                                                    type="number"
-                                                    required
-                                                    name="AmountPaid"
-                                                    className="form-control"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                              <div className="row">
-                                                <div className="col-md-4">
-                                                  <label
-                                                    htmlFor="exampleInputPassword1"
-                                                    className="font-weight-bold"
-                                                  >
-                                                    Date of Payment
-                                        </label>
-                                                </div>
-                                                <div className="col-md-8">
-                                                  <input
-                                                    onChange={this.handleInputChange}
-                                                    value={this.state.DateofPayment}
-                                                    type="date"
-                                                    required
-                                                    name="DateofPayment"
-                                                    className="form-control"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <br />
-                                          <div className=" row">
-                                            <div className="col-md-6">
-                                              <div className="row">
-                                                <div className="col-md-4">
-                                                  <label
-                                                    htmlFor="exampleInputPassword1"
-                                                    className="font-weight-bold"
-                                                  >
-                                                    Payment Reference
-                                        </label>
-                                                </div>
-                                                <div className="col-md-8">
-                                                  <input
-                                                    onChange={this.handleInputChange}
-                                                    value={this.state.PaymentReference}
-                                                    type="text"
-                                                    required
-                                                    name="PaymentReference"
-                                                    className="form-control"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                              <div className="row">
-                                                <div className="col-md-4">
-                                                  <label
-                                                    htmlFor="exampleInputPassword1"
-                                                    className="font-weight-bold"
-                                                  >
-                                                    Paid By
-                                        </label>
-                                                </div>
-                                                <div className="col-md-8">
-                                                  <input
-                                                    onChange={this.handleInputChange}
-                                                    value={this.state.PaidBy}
-                                                    type="text"
-                                                    required
-                                                    name="PaidBy"
-                                                    className="form-control"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <br />
-                                          <div class="row">
-                                            <div className="col-md-6">
-                                              <div className="row">
-                                                <div className="col-md-4">
-                                                  <label
-                                                    htmlFor="exampleInputPassword1"
-                                                    className="font-weight-bold"
-                                                  >
-                                                    Payment slip
-                                        </label>
-                                                </div>
-                                                <div className="col-md-8">
-                                                  <input
-                                                    type="file"
-                                                    className="form-control"
-                                                    name="file"
-                                                    onChange={this.onChangeHandler}
-                                                    
-                                                  />
-                                                  <div class="form-group">
-                                                    <Progress
-                                                      max="100"
-                                                      color="success"
-                                                      value={this.state.loaded}
+                          <Modal
+                            visible={this.state.openPaymentModal}
+                            width="900"
+                            height="410"
+                            effect="fadeInUp"
+                            onClickAway={() => this.ClosePaymentModal()}
+                          >
+                            <div style={{ overflow: "scroll" }}>
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() => this.ClosePaymentModal()}
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
+                              <div>
+                                <h4
+                                  style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                  }}
+                                >
+                                  Payment Details
+                                </h4>
+                                <div className="container-fluid">
+                                  <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                      <div>
+                                        <div className="col-lg-12 border border-success rounded">
+                                          <div style={FormStyle}>
+                                            <div className=" row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
                                                     >
-                                                      {Math.round(this.state.loaded, 2)}%
-                                          </Progress>
+                                                      Amount Paid
+                                                    </label>
                                                   </div>
-                                                  <button
-                                                    type="submit"
-                                                    class="btn btn-success "
-                                                    onClick={this.UploadBankSlip}
-                                                  >
-                                                    Upload
-                                        </button>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state.AmountPaid
+                                                      }
+                                                      type="number"
+                                                      required
+                                                      name="AmountPaid"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Date of Payment
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state.DateofPayment
+                                                      }
+                                                      type="date"
+                                                      required
+                                                      name="DateofPayment"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
                                                 </div>
                                               </div>
                                             </div>
-                                            <div className="col-md-6">
-                                              <table className="table table-sm">
-                                                <th scope="col">Slip</th>
-                                                <th scope="col">Action</th>
-                                                {this.state.BankSlips.map((r, i) => (
-                                                  <tr>
-                                                    <td>{r.Name}</td>
-                                                    <td>
-                                                      <span>
-                                                        <a
-                                                          style={{ color: "#f44542" }}
-                                                          onClick={e =>
-                                                            this.handleDeleteBankSlip(
-                                                              r.Name,
-                                                              e
-                                                            )
-                                                          }
-                                                        >
-                                                          &nbsp; Remove
-                                              </a>
-                                                      </span>
-                                                    </td>
-                                                  </tr>
-                                                ))}
-                                              </table>
+                                            <br />
+                                            <div className=" row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Payment Reference
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state
+                                                          .PaymentReference
+                                                      }
+                                                      type="text"
+                                                      required
+                                                      name="PaymentReference"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Paid By
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={this.state.PaidBy}
+                                                      type="text"
+                                                      required
+                                                      name="PaidBy"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Payment slip
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      type="file"
+                                                      className="form-control"
+                                                      name="file"
+                                                      onChange={
+                                                        this.onChangeHandler
+                                                      }
+                                                    />
+                                                    <div class="form-group">
+                                                      <Progress
+                                                        max="100"
+                                                        color="success"
+                                                        value={
+                                                          this.state.loaded
+                                                        }
+                                                      >
+                                                        {Math.round(
+                                                          this.state.loaded,
+                                                          2
+                                                        )}
+                                                        %
+                                                      </Progress>
+                                                    </div>
+                                                    <button
+                                                      type="submit"
+                                                      class="btn btn-success "
+                                                      onClick={
+                                                        this.UploadBankSlip
+                                                      }
+                                                    >
+                                                      Upload
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <table className="table table-sm">
+                                                  <th scope="col">Slip</th>
+                                                  <th scope="col">Action</th>
+                                                  {this.state.BankSlips.map(
+                                                    (r, i) => (
+                                                      <tr>
+                                                        <td>{r.Name}</td>
+                                                        <td>
+                                                          <span>
+                                                            <a
+                                                              style={{
+                                                                color: "#f44542"
+                                                              }}
+                                                              onClick={e =>
+                                                                this.handleDeleteBankSlip(
+                                                                  r.Name,
+                                                                  e
+                                                                )
+                                                              }
+                                                            >
+                                                              &nbsp; Remove
+                                                            </a>
+                                                          </span>
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                  )}
+                                                </table>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
-                                      </div>
-                                      <br />
-                                      <div className="row">
-                                        <div className="col-md-10">
+                                        <br />
+                                        <div className="row">
+                                          <div className="col-md-10"></div>
+                                          <div className="col-md-2">
+                                            <button
+                                              type="button"
+                                              onClick={this.SavePaymentdetails}
+                                              className="btn btn-primary"
+                                            >
+                                              Submit
+                                            </button>
+                                            &nbsp;
+                                            <button
+                                              type="button"
+                                              className="btn btn-warning"
+                                              onClick={this.ClosePaymentModal}
+                                            >
+                                              Close
+                                            </button>
+                                          </div>
                                         </div>
-                                        <div className="col-md-2">
-                                          <button type="button" onClick={this.SavePaymentdetails} className="btn btn-primary">Submit</button>&nbsp;
-                                    <button type="button" className="btn btn-warning" onClick={this.ClosePaymentModal}>Close</button>
-                                        </div>
-
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-
                             </div>
                           </Modal>
-
 
                           <form
                             style={FormStyle}
@@ -3175,62 +3530,62 @@ class PEResponse extends Component {
                                     <th>Description</th>
                                     <th>Amount</th>
                                     <th>Action</th>
-                                    
                                   </thead>
-                                  {this.state.PreliminaryObjectionsFees.map((r, i) => (
-                                    <tr>
-                                      <td className="font-weight-bold">
-                                        {r.Description}
-                                      </td>
+                                  {this.state.PreliminaryObjectionsFees.map(
+                                    (r, i) => (
+                                      <tr>
+                                        <td className="font-weight-bold">
+                                          {r.Description}
+                                        </td>
 
-                                      <td className="font-weight-bold">
-                                        {r.MaxFee}
-                                      </td>
-                                      <td className="font-weight-bold">
-                                        <button
-                                          type="button"
-                                          onClick={this.OpenPaymentModal}
-                                          className="btn btn-success"
-                                        >
-                                          Add Payment Details
-                              </button> 
-                                      </td>
-                                   
-                                    </tr>
-                                  ))}
+                                        <td className="font-weight-bold">
+                                          {r.MaxFee}
+                                        </td>
+                                        <td className="font-weight-bold">
+                                          <button
+                                            type="button"
+                                            onClick={this.OpenPaymentModal}
+                                            className="btn btn-success"
+                                          >
+                                            Add Payment Details
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    )
+                                  )}
                                 </table>
                               </div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div className="row">
                               <div className="col-sm-10">
                                 <h3 style={headingstyle}>Payment Details</h3>
-                              <table className="table table-striped table-sm">
-                                <thead class="thead-light">
-                                  <th>DateOfpayment</th>
-                                  <th>AmountPaid</th>
-                                  <th>Reference</th>
-                                  <th>AmountPaid</th>
-                                </thead>
-                                  {this.state.PreliminaryObjectionsFeesPaymentDetails.map((r, i) => (
-                                  <tr>
-                                    <td className="font-weight-bold">
-                                      {r.DateOfpayment}
-                                    </td>
+                                <table className="table table-striped table-sm">
+                                  <thead class="thead-light">
+                                    <th>DateOfpayment</th>
+                                    <th>AmountPaid</th>
+                                    <th>Reference</th>
+                                    <th>AmountPaid</th>
+                                  </thead>
+                                  {this.state.PreliminaryObjectionsFeesPaymentDetails.map(
+                                    (r, i) => (
+                                      <tr>
+                                        <td className="font-weight-bold">
+                                          {r.DateOfpayment}
+                                        </td>
 
-                                    <td className="font-weight-bold">
-                                      {r.AmountPaid}
-                                    </td>
-                                    <td className="font-weight-bold">
-                                      {r.Refference}
-                                    </td>
-                                    <td>
-                                      {r.AmountPaid}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </table>
-                            </div>
+                                        <td className="font-weight-bold">
+                                          {r.AmountPaid}
+                                        </td>
+                                        <td className="font-weight-bold">
+                                          {r.Refference}
+                                        </td>
+                                        <td>{r.AmountPaid}</td>
+                                      </tr>
+                                    )
+                                  )}
+                                </table>
+                              </div>
                             </div>
 
                             <br />
@@ -3241,7 +3596,9 @@ class PEResponse extends Component {
                                 &nbsp;&nbsp;
                                 <button
                                   type="button"
-                                  onClick={this.CompletePreliminaryObjectionSubmision}
+                                  onClick={
+                                    this.CompletePreliminaryObjectionSubmision
+                                  }
                                   className="btn btn-primary"
                                 >
                                   {" "}

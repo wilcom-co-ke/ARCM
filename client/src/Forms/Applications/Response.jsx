@@ -365,7 +365,7 @@ class Response extends Component {
                     <div className="border-bottom white-bg p-4">
                         <div className="row">
                             <div className="col-sm-10">
-                                <h3 style={headingstyle}> Applicantion Details</h3>
+                                <h3 style={headingstyle}> Application Details</h3>
                                 <div className="col-lg-12 border border-success rounded">
                                     <table className="table table-borderless table-sm">
                                         <tr>
