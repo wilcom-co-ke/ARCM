@@ -569,8 +569,8 @@ class PEApplications extends Component {
             },
             
             {
-                label: "action",
-                field: "action",
+                label: "Action",
+                field: "Action",
                 sort: "asc",
                 width: 200
             }
@@ -580,59 +580,7 @@ class PEApplications extends Component {
 
         if (rows.length > 0) {
             rows.map((k, i) => {
-                if (k.TimerStatus === "Responded") {
-                    let Rowdata = {
-                        ApplicationNo: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.ApplicationNo}
-                            </a>
-                        ),
-                        TenderName: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.TenderName}
-                            </a>
-                        ),
-                       
-                        FilingDate: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {new Date(k.FilingDate).toLocaleDateString()}
-                            </a>
-                        ),
-                        ApplicationREf: (
-                            <a onClick={e => this.handViewApplication(k, e)}>
-                                {k.ApplicationREf}
-                            </a>
-                        ),
-                        Status: (
-                            <span>
-                                <a
-                                    className="font-weight-bold"
-                                    onClick={e => this.handViewApplication(k, e)}
-                                >
-                                    {k.TimerStatus}
-                                </a>
-                              
-                            </span>
-                        ),    
-                        DueOn: (
-                            <a onClick={e => this.handViewApplication(k, e)} className="text-danger font-weight-bold" >
-                              
-                                {new Date(k.DueOn).toLocaleDateString()}
-                            </a>
-                        ),                  
-                        action: (
-                            <span>
-                                <a
-                                    style={{ color: "#007bff" }}
-                                    onClick={e => this.handViewApplication(k, e)}
-                                >
-                                    {" "}
-                                    View{" "}
-                                </a>
-                            </span>
-                        )};
-                    Rowdata1.push(Rowdata);
-                } else {
+                 if (k.TimerStatus==="Awaiting Response") {
                     let Rowdata = {
                         ApplicationNo: (
                             <a onClick={e => this.handViewApplication(k, e)}>
@@ -654,7 +602,7 @@ class PEApplications extends Component {
                                 
                             </a>
                         ),
-                        ApplicationREf: (
+                       REF: (
                             <a onClick={e => this.handViewApplication(k, e)}>
                                 {k.ApplicationREf}
                             </a>
@@ -676,7 +624,7 @@ class PEApplications extends Component {
                                 )} 
                             </a>
                         ), 
-                        action: (
+                        Action: (
                             <span>
                                 <a
                                     style={{ color: "#007bff" }}
@@ -689,7 +637,63 @@ class PEApplications extends Component {
                         )
                     };
                     Rowdata1.push(Rowdata);
-                }
+                 } else {
+                     let Rowdata = {
+                         ApplicationNo: (
+                             <a onClick={e => this.handViewApplication(k, e)}>
+                                 {k.ApplicationNo}
+                             </a>
+                         ),
+                         TenderName: (
+                             <a onClick={e => this.handViewApplication(k, e)}>
+                                 {k.TenderName}
+                             </a>
+                         ),
+
+                         FilingDate: (
+                             <a onClick={e => this.handViewApplication(k, e)}>
+                                 {dateFormat(
+                                     new Date(k.FilingDate).toLocaleDateString(),
+                                     "mediumDate"
+                                 )} 
+                             </a>
+                         ),
+                         REF: (
+                             <a onClick={e => this.handViewApplication(k, e)}>
+                                 {k.ApplicationREf}
+                             </a>
+                         ),
+                         Status: (
+                             <span>
+                                 <a
+                                     className="font-weight-bold"
+                                     onClick={e => this.handViewApplication(k, e)}
+                                 >
+                                     {k.TimerStatus}
+                                 </a>
+
+                             </span>
+                         ),
+                         DueOn: (
+                             <a onClick={e => this.handViewApplication(k, e)} className="text-danger font-weight-bold" >
+
+                                 {new Date(k.DueOn).toLocaleDateString()}
+                             </a>
+                         ),
+                         Action: (
+                             <span>
+                                 <a
+                                     style={{ color: "#007bff" }}
+                                     onClick={e => this.handViewApplication(k, e)}
+                                 >
+                                     {" "}
+                                     View{" "}
+                                 </a>
+                             </span>
+                         )
+                     };
+                     Rowdata1.push(Rowdata);
+                 }
             });
         }
     

@@ -693,7 +693,7 @@ class MyResponse extends Component {
               <div className="col-sm-10">
                 <h3 style={headingstyle}> Response to Applicant Grounds</h3>
                 <h3>BackgroundInformation</h3>
-                <p>{k.BackgrounInformation}</p>
+                <p>{this.state.BackgrounInformation}</p>
                 <div className="col-lg-12 border border-success rounded">
                   {this.state.ResponseDetails.map(function(k, i) {
                     if (k.GroundType === "Grounds") {

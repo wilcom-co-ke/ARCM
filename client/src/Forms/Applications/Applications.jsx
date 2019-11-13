@@ -12,6 +12,7 @@ import "./../../Styles/tablestyle.css";
 import CKEditor from "ckeditor4-react";
 import ReactHtmlParser from "react-html-parser";
 import Modal from "react-awesome-modal";
+var _ = require("lodash");
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 var dateFormat = require("dateformat");
@@ -832,7 +833,7 @@ class Applications extends Component {
           toast.error(err.message);
           //swal("", err.message, "error");
         });
-    }else{
+    } else {
       let data = {
         TenderNo: this.state.TenderNo,
         TenderName: this.state.TenderName,
@@ -873,7 +874,6 @@ class Applications extends Component {
           //swal("", err.message, "error");
         });
     }
-   
   }
   saveGroundsDescriptions(EntryType) {
     if (this.state.ApplicationID) {
@@ -1014,7 +1014,10 @@ class Applications extends Component {
               };
               rows.push(datapush);
               this.setState({ ApplicationDocuments: rows });
-              this.setState({ DocumentsAvailable: true, DocumentDescription:"" });
+              this.setState({
+                DocumentsAvailable: true,
+                DocumentDescription: ""
+              });
               this.setState({
                 loaded: 0
               });
@@ -1354,6 +1357,7 @@ class Applications extends Component {
     }
   };
   fetchBankSlips = Applicationno => {
+    
     this.setState({ BankSlips: [] });
     fetch("/api/applicationfees/" + Applicationno + "/Bankslips", {
       method: "GET",
@@ -1365,7 +1369,10 @@ class Applications extends Component {
       .then(res => res.json())
       .then(BankSlips => {
         if (BankSlips.length > 0) {
-          this.setState({ BankSlips: BankSlips });
+          const UserRoles = [_.groupBy(BankSlips, "Category")];
+          if (UserRoles[0].ApplicationFees) {
+            this.setState({ BankSlips: UserRoles[0].ApplicationFees });
+          }
         }
       })
       .catch(err => {
@@ -2580,7 +2587,6 @@ class Applications extends Component {
                       width="900"
                       height="410"
                       effect="fadeInUp"
-                     
                     >
                       <a
                         style={{ float: "right", color: "red", margin: "10px" }}
@@ -3125,7 +3131,6 @@ class Applications extends Component {
                               defaultValue={this.state.StartDate}
                               className="form-control"
                               onChange={this.handleInputChange}
-                            
                             />
                           </div>
 
@@ -3249,7 +3254,6 @@ class Applications extends Component {
                                     defaultValue={this.state.AdendumClosingDate}
                                     className="form-control"
                                     onChange={this.handleInputChange}
-                                  
                                   />
                                 </div>
                               </div>
@@ -3393,103 +3397,98 @@ class Applications extends Component {
                             width="70%"
                             height="550"
                             effect="fadeInUp"
-                           
                           >
-                            <div style={{overflow:"srcoll"}}>
-                            <a
-                              style={{
-                                float: "right",
-                                color: "red",
-                                margin: "10px"
-                              }}
-                              href="javascript:void(0);"
-                              onClick={() => this.closeModal()}
-                            >
-                              <i class="fa fa-close"></i>
-                            </a>
-                            <div>
-                              <h4
+                            <div style={{ overflow: "srcoll" }}>
+                              <a
                                 style={{
-                                  "text-align": "center",
-                                  color: "#1c84c6"
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
                                 }}
+                                href="javascript:void(0);"
+                                onClick={() => this.closeModal()}
                               >
-                                Grounds for appeal
-                              </h4>
-                              <div className="container-fluid">
-                                <div className="col-sm-12">
-                                  <div className="ibox-con</div>tent">
-                                    <div
-                                     
-                                      className="font-weight-bold"
-                                    >
-                                      {" "}
-                                      Add ground for appeal{" "}
-                                    </div>
-                                    <br />
-                                    <label
-                                      for="ApplicantID"
-                                      className="font-weight-bold "
-                                    >
-                                      Ground NO{" "}
-                                    </label>
-                                    <div class="row">
-                                      <div class="col-sm-4">
-                                        <input
-                                          type="number"
-                                          class="form-control"
-                                          name="GroundNO"
-                                          onChange={this.handleInputChange}
-                                          value={this.state.GroundNO}
-                                          required
-                                          min="1"
-                                        />
+                                <i class="fa fa-close"></i>
+                              </a>
+                              <div>
+                                <h4
+                                  style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                  }}
+                                >
+                                  Grounds for appeal
+                                </h4>
+                                <div className="container-fluid">
+                                  <div className="col-sm-12">
+                                    <div className="ibox-con</div>tent">
+                                      <div className="font-weight-bold">
+                                        {" "}
+                                        Add ground for appeal{" "}
                                       </div>
-                                    </div>
-                                    <br />
-                                    <label
-                                      for="GroundDescription"
-                                      className="font-weight-bold "
-                                    >
-                                      Description{" "}
-                                    </label>
-                                    <div class="row">
-                                      <div class="col-sm-12">
-                                        <CKEditor
-                                          data={this.state.RequestDescription}
-                                          onChange={this.onEditorChange}
-                                        />
+                                      <br />
+                                      <label
+                                        for="ApplicantID"
+                                        className="font-weight-bold "
+                                      >
+                                        Ground NO{" "}
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-4">
+                                          <input
+                                            type="number"
+                                            class="form-control"
+                                            name="GroundNO"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.GroundNO}
+                                            required
+                                            min="1"
+                                          />
+                                        </div>
                                       </div>
-                                    </div>
+                                      <br />
+                                      <label
+                                        for="GroundDescription"
+                                        className="font-weight-bold "
+                                      >
+                                        Description{" "}
+                                      </label>
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <CKEditor
+                                            data={this.state.RequestDescription}
+                                            onChange={this.onEditorChange}
+                                          />
+                                        </div>
+                                      </div>
 
-                                    <br />
-                                    <div className="row">
-                                      <div class="col-sm-9"></div>
-                                      <div class="col-sm-3">
-                                        <button
-                                          type="submit"
-                                          className="btn btn-primary"
-                                        >
-                                          &nbsp;Save
-                                        </button>
-                                        &nbsp;
-                                        <button
-                                          type="button"
-                                          onClick={this.closeModal}
-                                          className="btn btn-danger"
-                                        >
-                                          &nbsp;Close
-                                        </button>
+                                      <br />
+                                      <div className="row">
+                                        <div class="col-sm-9"></div>
+                                        <div class="col-sm-3">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            &nbsp;Save
+                                          </button>
+                                          &nbsp;
+                                          <button
+                                            type="button"
+                                            onClick={this.closeModal}
+                                            className="btn btn-danger"
+                                          >
+                                            &nbsp;Close
+                                          </button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
                           </Modal>
 
-                         
                           <p></p>
                           <div class="row">
                             <div class="col-sm-11">
@@ -3557,7 +3556,6 @@ class Applications extends Component {
                             width="70%"
                             height="550"
                             effect="fadeInUp"
-
                           >
                             <div style={{ overflow: "srcoll" }}>
                               <a
@@ -3579,14 +3577,11 @@ class Applications extends Component {
                                   }}
                                 >
                                   Grounds for appeal
-                              </h4>
+                                </h4>
                                 <div className="container-fluid">
                                   <div className="col-sm-12">
                                     <div className="ibox-con</div>tent">
-                                      <div
-                                     
-                                        className="font-weight-bold"
-                                      >
+                                      <div className="font-weight-bold">
                                         {" "}
                                         Add Requested Orders{" "}
                                       </div>
@@ -3637,7 +3632,7 @@ class Applications extends Component {
                                             Save{" "}
                                           </button>
                                           &nbsp;
-                                        <button
+                                          <button
                                             type="button"
                                             onClick={this.closeRequestModal}
                                             className="btn btn-danger"
@@ -3652,7 +3647,7 @@ class Applications extends Component {
                               </div>
                             </div>
                           </Modal>
-                        
+
                           <p></p>
                           <div class="row">
                             <div class="col-sm-11">
@@ -3669,7 +3664,6 @@ class Applications extends Component {
                                         <tr>
                                           <td>{r.GroundNO}</td>
                                           <td>
-                                           
                                             {ReactHtmlParser(r.Description)}
                                           </td>
                                           <td>
@@ -3867,7 +3861,6 @@ class Applications extends Component {
                       width="900"
                       height="450"
                       effect="fadeInUp"
-                      
                     >
                       <a
                         style={{ float: "right", color: "red", margin: "10px" }}

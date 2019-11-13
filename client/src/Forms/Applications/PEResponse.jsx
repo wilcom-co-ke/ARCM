@@ -204,7 +204,10 @@ class PEResponse extends Component {
       .then(res => res.json())
       .then(BankSlips => {
         if (BankSlips.length > 0) {
-          this.setState({ BankSlips: BankSlips });
+          const UserRoles = [_.groupBy(BankSlips, "Category")];
+          if (UserRoles[0].PreliminaryObjection) {
+            this.setState({ BankSlips: UserRoles[0].PreliminaryObjection });
+          }
         }
       })
       .catch(err => {
@@ -1491,7 +1494,7 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.open}
                             width="80%"
-                            height="86%"
+                            height="70%"
                             effect="fadeInUp"
                           >
                             <div style={{ overflow: "scroll" }}>
@@ -1622,7 +1625,7 @@ class PEResponse extends Component {
                               </thead>
 
                               <tr>
-                                <td className="font-weight-bold">
+                                <td>
                                   {ReactHtmlParser(
                                     this.state.BackgroundInformation
                                   )}
@@ -1665,7 +1668,7 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
+                                  <td >
                                     {ReactHtmlParser(r.Response)}
                                   </td>
                                   <td>
@@ -1712,7 +1715,7 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td className="font-weight-bold">
+                                  <td>
                                     {ReactHtmlParser(r.Response)}
                                   </td>
                                   <td>
@@ -3271,7 +3274,6 @@ class PEResponse extends Component {
                             width="900"
                             height="410"
                             effect="fadeInUp"
-                            onClickAway={() => this.ClosePaymentModal()}
                           >
                             <div style={{ overflow: "scroll" }}>
                               <a
@@ -3491,8 +3493,8 @@ class PEResponse extends Component {
                                         </div>
                                         <br />
                                         <div className="row">
-                                          <div className="col-md-10"></div>
-                                          <div className="col-md-2">
+                                          <div className="col-md-9"></div>
+                                          <div className="col-md-3">
                                             <button
                                               type="button"
                                               onClick={this.SavePaymentdetails}

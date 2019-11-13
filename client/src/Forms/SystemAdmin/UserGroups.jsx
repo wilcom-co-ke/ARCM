@@ -23,6 +23,7 @@ class UserGroups extends Component {
       Roles: [],
       AdminCategory: [],
       SystemparameteresCategory: [],
+      Menus:[],
       CaseManagementCategory: [],
       ReportsCategory: []
     };
@@ -124,6 +125,8 @@ class UserGroups extends Component {
         if (Roles.length > 0) {
           const UserRoles = [_.groupBy(Roles, "Category")];
           this.setState({ AdminCategory: UserRoles[0].Admin });
+          this.setState({ Menus: UserRoles[0].Menus });
+          
           this.setState({
             SystemparameteresCategory: UserRoles[0].Systemparameteres
           });
@@ -229,7 +232,6 @@ class UserGroups extends Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-      
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -256,7 +258,6 @@ class UserGroups extends Component {
           return (window.location = "/#/Logout");
         });
     }
-   
   }
   handleSubmit = event => {
     event.preventDefault();
@@ -401,6 +402,7 @@ class UserGroups extends Component {
     let Rowdata1 = [];
 
     const rows = [...this.state.Usergroups];
+
     if (rows.length > 0) {
       rows.forEach(k => {
         const Rowdata = {
@@ -425,7 +427,7 @@ class UserGroups extends Component {
                 <a
                   className="fa fa-trash"
                   style={{ color: "#f44542" }}
-                  onClick={e => this.handleDelete(k.RoleID, e)}
+                  onClick={e => this.handleDelete(k.UserGroupID, e)}
                 >
                   Delete
                 </a>
@@ -638,6 +640,86 @@ class UserGroups extends Component {
                           <form>
                             <table className="table">
                               <tbody>
+                                
+                                {this.state.Menus ? (
+                                  <div style={tabledivstyle}>
+                                    <h3>Menus</h3>
+                                    {this.state.Menus.map(function (
+                                      role,
+                                      i
+                                    ) {
+                                      return (
+                                        <tr id={i}>
+                                          <td style={tablestyle}>
+                                            {role.RoleName}
+                                          </td>
+                                          <td>
+                                            <input
+                                              className="checkbox"
+                                              id={i}
+                                              type="checkbox"
+                                              name="Create"
+                                              defaultChecked={role.AddNew}
+                                              onChange={e =>
+                                                handleCheckBoxChange(role, e)
+                                              }
+                                            // onChange={handleCheckBoxChange(e)}
+                                            />
+                                          </td>
+                                          <td style={tdstyle}>
+                                            <input
+                                              className="checkbox"
+                                              id={i + 1}
+                                              type="checkbox"
+                                              name="View"
+                                              defaultChecked={role.View}
+                                              //   value=""
+                                              onChange={e =>
+                                                handleCheckBoxChange(role, e)
+                                              }
+                                            />
+                                          </td>
+                                          <td style={tdstyle}>
+                                            <input
+                                              className="checkbox"
+                                              id={i + 2}
+                                              type="checkbox"
+                                              name="Delete"
+                                              defaultChecked={role.Remove}
+                                              onChange={e =>
+                                                handleCheckBoxChange(role, e)
+                                              }
+                                            />
+                                          </td>
+                                          <td style={tdstyle}>
+                                            <input
+                                              className="checkbox"
+                                              id={i + 3}
+                                              type="checkbox"
+                                              name="Update"
+                                              defaultChecked={role.Edit}
+                                              onChange={e =>
+                                                handleCheckBoxChange(role, e)
+                                              }
+                                            />
+                                          </td>
+                                          <td style={tdstyle}>
+                                            <input
+                                              className="checkbox"
+                                              id={i + 3}
+                                              type="checkbox"
+                                              name="Export"
+                                              defaultChecked={role.Export}
+                                              onChange={e =>
+                                                handleCheckBoxChange(role, e)
+                                              }
+                                            />
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </div>
+                                ) : null}
                                 {this.state.AdminCategory ? (
                                   <div style={tabledivstyle}>
                                     <h3>System Administration</h3>

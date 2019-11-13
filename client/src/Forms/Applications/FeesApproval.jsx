@@ -312,10 +312,10 @@ class FeesApproval extends Component {
             });
     }   
     handleviewBankSlip = d => {
-        
-        this.setState({
-            openDocPreview: true,
-            Attachmentname: process.env.REACT_APP_BASE_URL + "/BankSlips/" + d}) 
+        window.open(process.env.REACT_APP_BASE_URL + "/BankSlips/" + d);
+        // this.setState({
+        //     openDocPreview: true,
+        //     Attachmentname: process.env.REACT_APP_BASE_URL + "/BankSlips/" + d}) 
     };
     GoBack = e => {
         e.preventDefault();

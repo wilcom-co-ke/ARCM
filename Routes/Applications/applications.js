@@ -175,8 +175,12 @@ applications.post("/:ID", auth.validateRole("Applications"), function(
       });
     } // not connected!
     else {
-      let sp = "call CompleteApplication(?)";
-      connection.query(sp, [ID], function(error, results, fields) {
+      let sp = "call CompleteApplication(?,?)";
+      connection.query(sp, [ID, res.locals.user], function(
+        error,
+        results,
+        fields
+      ) {
         if (error) {
           res.json({
             success: false,

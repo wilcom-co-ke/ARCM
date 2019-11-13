@@ -112,7 +112,7 @@ ExecutiveReports.get("/:ID/:Val1/:Val2/:Val3", function(req, res) {
   const Val1 = req.params.Val1;
   const Val2 = req.params.Val2;
   const Val3 = req.params.Val3;
-  console.log([ID, Val1, Val2, Val3]);
+
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({

@@ -134,7 +134,7 @@ PEResponse.get("/:ID/:Value", function(req, res) {
     });
   }
   if (ID === "BackgrounInformation") {
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       if (err) {
         res.json({
           success: false,
@@ -143,7 +143,7 @@ PEResponse.get("/:ID/:Value", function(req, res) {
       } // not connected!
       else {
         let sp = "call GetPEResponseBackgrounInformation(?)";
-        connection.query(sp, [Value], function (error, results, fields) {
+        connection.query(sp, [Value], function(error, results, fields) {
           if (error) {
             res.json({
               success: false,
@@ -158,7 +158,6 @@ PEResponse.get("/:ID/:Value", function(req, res) {
       }
     });
   }
-  
 });
 PEResponse.post("/", function(req, res) {
   const schema = Joi.object().keys({

@@ -38,6 +38,7 @@ class Users extends Component {
       ShowMe: false,
       Roles: [],
       AdminCategory: [],
+      Menus: [],
       selectedFile: null,
       Signature: "",
       SystemparameteresCategory: [],
@@ -142,9 +143,8 @@ class Users extends Component {
       .then(Roles => {
         if (Roles.length > 0) {
           const UserRoles = [_.groupBy(Roles, "Category")];
-          // console.log("groups", UserRoles[0].Admin);
-          // console.log("Roles", Roles);
 
+          this.setState({ Menus: UserRoles[0].Menus });
           this.setState({ AdminCategory: UserRoles[0].Admin });
           this.setState({
             SystemparameteresCategory: UserRoles[0].Systemparameteres
@@ -1227,6 +1227,82 @@ class Users extends Component {
                         <form>
                           <table className="table">
                             <tbody>
+                              {this.state.Menus ? (
+                                <div style={tabledivstyle}>
+                                  <h3>Menus</h3>
+                                  {this.state.Menus.map(function(role, i) {
+                                    return (
+                                      <tr id={i}>
+                                        <td style={tablestyle}>
+                                          {role.RoleName}
+                                        </td>
+                                        <td>
+                                          <input
+                                            className="checkbox"
+                                            id={i}
+                                            type="checkbox"
+                                            name="Create"
+                                            defaultChecked={role.AddNew}
+                                            onChange={e =>
+                                              handleCheckBoxChange(role, e)
+                                            }
+                                            // onChange={handleCheckBoxChange(e)}
+                                          />
+                                        </td>
+                                        <td style={tdstyle}>
+                                          <input
+                                            className="checkbox"
+                                            id={i + 1}
+                                            type="checkbox"
+                                            name="View"
+                                            defaultChecked={role.View}
+                                            //   value=""
+                                            onChange={e =>
+                                              handleCheckBoxChange(role, e)
+                                            }
+                                          />
+                                        </td>
+                                        <td style={tdstyle}>
+                                          <input
+                                            className="checkbox"
+                                            id={i + 2}
+                                            type="checkbox"
+                                            name="Delete"
+                                            defaultChecked={role.Remove}
+                                            onChange={e =>
+                                              handleCheckBoxChange(role, e)
+                                            }
+                                          />
+                                        </td>
+                                        <td style={tdstyle}>
+                                          <input
+                                            className="checkbox"
+                                            id={i + 3}
+                                            type="checkbox"
+                                            name="Update"
+                                            defaultChecked={role.Edit}
+                                            onChange={e =>
+                                              handleCheckBoxChange(role, e)
+                                            }
+                                          />
+                                        </td>
+                                        <td style={tdstyle}>
+                                          <input
+                                            className="checkbox"
+                                            id={i + 3}
+                                            type="checkbox"
+                                            name="Export"
+                                            defaultChecked={role.Export}
+                                            onChange={e =>
+                                              handleCheckBoxChange(role, e)
+                                            }
+                                          />
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </div>
+                              ) : null}
                               {this.state.AdminCategory ? (
                                 <div style={tabledivstyle}>
                                   <h3>System Administration</h3>

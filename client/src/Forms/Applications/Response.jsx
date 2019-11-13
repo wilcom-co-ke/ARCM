@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import { ToastContainer, toast } from "react-toastify";
 var dateFormat = require("dateformat");
+var _ = require("lodash");
+var dateFormat = require("dateformat");
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
 class Response extends Component {
@@ -18,6 +20,8 @@ class Response extends Component {
             AdditionalSubmisionsDocuments: [],
             AdditionalSubmisions: [],
             Response: [],
+            PrayersDetails: [],
+            GroundsDetails: [],
             NewDeadLine: "",
             Reason: "",
             Board: data.Board,
@@ -42,7 +46,7 @@ class Response extends Component {
             ApplicationNo: "",
             Name: "",
             ResponseDate: "",
-
+            BackgroundInformation:"",
             ResponseType: "",
             TenderNo: ""
         };
@@ -102,6 +106,31 @@ class Response extends Component {
                 swal("", err.message, "error");
             });
     };
+    fetchBackgrounInformation = (ApplicationNo) => {
+        this.setState({
+            BackgroundInformation: []
+        });
+        fetch("/api/PEResponse/BackgrounInformation/" +ApplicationNo, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(ResponseDetails => {
+                if (ResponseDetails.length > 0) {
+                   
+                    this.setState({
+                        
+                        BackgroundInformation: ResponseDetails[0].BackgroundInformation
+                    });
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+            });
+    };
     fetchResponseDetails = ResponseID => {
         fetch("/api/PEResponse/Details/" + ResponseID, {
             method: "GET",
@@ -113,7 +142,16 @@ class Response extends Component {
             .then(res => res.json())
             .then(ResponseDetails => {
                 if (ResponseDetails.length > 0) {
+
                     this.setState({ ResponseDetails: ResponseDetails });
+                    const UserRoles = [_.groupBy(ResponseDetails, "GroundType")];
+
+                    if (UserRoles[0].Prayers) {
+                        this.setState({ PrayersDetails: UserRoles[0].Prayers });
+                    }
+                    if (UserRoles[0].Grounds) {
+                        this.setState({ GroundsDetails: UserRoles[0].Grounds });
+                    }
                 }
             })
             .catch(err => {
@@ -221,6 +259,7 @@ class Response extends Component {
         this.fetchApplicantDetails(k.Applicantusername);
         this.setState({ summary: true });
         this.fetchAdditionalSubmisions(k.ID);
+        this.fetchBackgrounInformation(k.ApplicationNo);
         this.fetchAdditionalSubmisionsDocuments(k.ID)
     };
     formatNumber = num => {
@@ -309,9 +348,10 @@ class Response extends Component {
                 const Rowdata = {
                     ApplicationNo: k.ApplicationNo,
                     ResponseType: k.ResponseType,
+                   
                     ResponseDate: dateFormat(
                         new Date(k.ResponseDate).toLocaleDateString(),
-                        "isoDate"
+                        "mediumDate"
                     ),
                     TenderNo: k.TenderNo,
                     TenderName: k.Name,
@@ -389,11 +429,12 @@ class Response extends Component {
                                         <tr>
                                             <td className="font-weight-bold"> Date:</td>
                                             <td className="font-weight-bold">
+                                              
                                                 {dateFormat(
                                                     new Date(
                                                         this.state.ResponseDate
                                                     ).toLocaleDateString(),
-                                                    "isoDate"
+                                                    "mediumDate"
                                                 )}
                                             </td>
                                         </tr>
@@ -451,10 +492,30 @@ class Response extends Component {
                             <div className="col-sm-10">
                                 <h3 style={headingstyle}> Response Details</h3>
                                 <div className="col-lg-12 border border-success rounded">
-                                    {this.state.ResponseDetails.map(function (k, i) {
+                                    {
+                                        this.state.BackgroundInformation? <div>
+                                            <h3>Background Information</h3>
+                                            {ReactHtmlParser(
+                                                this.state.BackgroundInformation
+                                            )}
+                                        </div>:null
+                                    }
+                                    <h3>Response to Applicant Grounds</h3>
+                                    {this.state.GroundsDetails.map(function (k, i) {
                                         return (
                                             <div>
                                                 <h3 style={headingstyle}>GroundNo: {k.GroundNO}</h3>
+                                                <h3 style={headingstyle}>Response</h3>
+                                                {ReactHtmlParser(k.Response)}
+                                            </div>
+                                        );
+                                    })}
+                                    <h3>Response to Applicant Requests</h3>
+
+                                    {this.state.PrayersDetails.map(function (k, i) {
+                                        return (
+                                            <div>
+                                                <h3 style={headingstyle}>RequestNo: {k.GroundNO}</h3>
                                                 <h3 style={headingstyle}>Response</h3>
                                                 {ReactHtmlParser(k.Response)}
                                             </div>
@@ -547,7 +608,13 @@ class Response extends Component {
                                                         <td>{i + 1}</td>
                                                         <td>   {k.Description}</td>
                                                         <td>
-                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                            {dateFormat(
+                                                                new Date(
+                                                                    k.Create_at
+                                                                ).toLocaleDateString(),
+                                                                "mediumDate"
+                                                            )}
+                                                          
                                                         </td>
                                                         <td>
                                                             <a

@@ -821,7 +821,7 @@ class PEadditionalsubmissions extends Component {
                    
 
                     <div className="row wrapper border-bottom white-bg page-heading">
-                        <div className="col-lg-9">
+                        <div className="col-lg-8">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
                                     <h2 className="font-weight-bold">
@@ -844,7 +844,7 @@ class PEadditionalsubmissions extends Component {
                                 </li>
                             </ol>
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-lg-4">
                             <div className="row wrapper ">
                                 {this.state.Status === "WITHDRAWN" ?
                                     null : <button

@@ -298,10 +298,11 @@ class PreliminaryObjection extends Component {
             });
     }
     handleviewBankSlip = d => {
-        this.setState({
-            openDocPreview: true,
-            Attachmentname: d,
-        })
+        window.open(process.env.REACT_APP_BASE_URL + "/BankSlips/" + d);
+        // this.setState({
+        //     openDocPreview: true,
+        //     Attachmentname: d,
+        // })
     };
     GoBack = e => {
         e.preventDefault();
