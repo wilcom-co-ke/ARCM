@@ -37,7 +37,7 @@ class PEApplications extends Component {
             RequestDescription: "",
             GroundDescription: "",         
             summary: false,
-           
+            ApplicationClosingDate:"",
             DocumentDescription: "",
             AddedAdendums: [],
             AdendumStartDate: "",
@@ -283,8 +283,7 @@ class PEApplications extends Component {
       GoBack = e => {
         e.preventDefault();
         this.setState({ summary: false });
-    };
-     
+    };     
 
     componentDidMount() {
         let token = localStorage.getItem("token");
@@ -356,6 +355,7 @@ class PEApplications extends Component {
             FilingDate: new Date(k.FilingDate).toLocaleDateString(),
             TenderName: k.TenderName,
             Status: k.Status,
+            ApplicationClosingDate: k.ApplicationClosingDate,
             TenderValue: k.TenderValue,
             TenderType: k.TenderType,
             TenderSubCategory: k.TenderSubCategory,
@@ -739,7 +739,8 @@ class PEApplications extends Component {
                                                     to = {{
                                                         pathname: "/PEResponse",
                                                         ApplicationNo: this.state.ApplicationNo,
-                                                        ApplicationID: this.state.ApplicationID
+                                                        ApplicationID: this.state.ApplicationID,
+                                                                ApplicationClosingDate: this.state.ApplicationClosingDate
                                                          }}>
                                                     <button className="btn btn-primary" style={{ marginTop: 30 }}>Respond Now</button>
                                                 </Link>

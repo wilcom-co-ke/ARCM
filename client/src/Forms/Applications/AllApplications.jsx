@@ -1018,31 +1018,36 @@ of Breach:</td>
                                     <thead class="thead-light">
                                     <th>Date</th>
                                     <th>Action</th>
-                                   
+                                    <th>User</th>
                                     <th>Status</th>
                                 </thead>
 
                                     {this.state.ApplicationsProgress.map((r, i) => (
                                          r.Status === "Pending" ? (
                                             <tr>
-                                                <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
+                                                <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
 
-                                                <td className="font-weight-bold">
+                                                <td >
                                                     {" "}
                                                     {r.ExpectedAction}
                                                 </td>
-
-                                                <td className="font-weight-bold">{r.Status}</td>
+                                                <td >
+                                                    {" "}
+                                                    {r.User}
+                                                </td>
+                                                <td >{r.Status}</td>
                                             </tr>): (
                                             <tr>
-                                                <td className="font-weight-bold">{new Date(r.Date).toLocaleDateString()}</td>
-
-                                                <td className="font-weight-bold">
+                                                    <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
+                                                <td >
                                                     {" "}
                                                     {r.Action}
                                                 </td>
-
-                                                <td className="font-weight-bold">{r.Status}</td>
+                                                    <td >
+                                                        {" "}
+                                                        {r.User}
+                                                    </td>
+                                                <td >{r.Status}</td>
                                             </tr>)
                                               
                                 

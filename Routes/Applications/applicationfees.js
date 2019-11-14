@@ -143,7 +143,6 @@ applicationfees.post("/", auth.validateRole("Applications"), function(
   const schema = Joi.object().keys({
     ApplicationID: Joi.number()
       .integer()
-      .min(1)
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {

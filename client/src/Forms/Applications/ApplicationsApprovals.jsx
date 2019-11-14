@@ -376,6 +376,20 @@ class ApplicationsApprovals extends Component {
                 swal("", err.message, "error");
             });
     }
+    sendDeclineNotification = (Mobile, Name, Email, ApplicationNo)=>{
+        this.SendSMS(
+            Mobile,
+            "Application " + ApplicationNo + " that you had submited to ACRB has been declined."
+        );
+        this.SendMail(
+            Name,
+            Email,
+            "Application Declined",
+            "APPLICATION DECLINED",
+            ApplicationNo,
+            this.state.Remarks
+        );
+    }
     Decline(url = ``, data = {}) {
         fetch(url, {
             method: "PUT",
@@ -388,8 +402,14 @@ class ApplicationsApprovals extends Component {
             .then(response =>
                 response.json().then(data => {
 
-                    if (data.success) {                       
-                        
+                    if (data.success) {                      
+                        if (data.results.length > 0) {
+                            let NewList = [data.results]
+                            NewList[0].map((item, key) =>
+                                this.sendDeclineNotification(item.Mobile, item.Name, item.Email, item.ApplicationNo)
+                            )
+                            
+                        }  
                         swal("", "Application Declined", "success"); 
                         this.fetchMyApplications();        
                         
@@ -409,12 +429,12 @@ class ApplicationsApprovals extends Component {
         this.setState({ summary: false });
     }
     ShowAcceptModal=e=>{
-        this.setState({ open: true });
-        this.setState({ IsAccept: true });
+        
+        this.setState({ IsAccept: true, IsAccept: false, open: true  });
     }
     ShowRejectModal = e => {
-        this.setState({ open: true });
-        this.setState({ IsDecline: true });
+       
+        this.setState({ IsDecline: true, IsAccept: false, open: true });
     }
     Resetsate() {
         const data = {
@@ -798,7 +818,7 @@ class ApplicationsApprovals extends Component {
                                                 <td>
                                                     {" "}
                                                     {this.state.ApplicantPOBox}-
-                          {this.state.ApplicantPostalCode}
+                                                    {this.state.ApplicantPostalCode}
                                                 </td>
                                             </tr>
                                             <tr>

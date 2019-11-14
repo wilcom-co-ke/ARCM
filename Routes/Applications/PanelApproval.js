@@ -262,7 +262,6 @@ PanelApproval.put("/:ID", auth.validateRole("Panels Approval"), function(
             message: error.message
           });
         } else {
-          console.log(results[0]);
           res.json({
             success: true,
             message: "updated",

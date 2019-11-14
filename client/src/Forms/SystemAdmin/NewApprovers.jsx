@@ -398,7 +398,7 @@ class NewApprovers extends Component {
           <div className="col-lg-11">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
-                <h2>APPROVERS</h2>
+                <h2>APPROVAL HIERACHY</h2>
               </li>
             </ol>
           </div>

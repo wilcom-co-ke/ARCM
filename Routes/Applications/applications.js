@@ -198,6 +198,43 @@ applications.post("/:ID", auth.validateRole("Applications"), function(
     }
   });
 });
+applications.post("/:ID/:Resubmit", auth.validateRole("Applications"), function(
+  req,
+  res
+) {
+  const ID = req.params.ID;
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call ResubmitApplication(?,?)";
+      connection.query(sp, [ID, res.locals.user], function(
+        error,
+        results,
+        fields
+      ) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            success: true,
+            message: "updated",
+            results: results[0]
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 applications.put("/:ID", auth.validateRole("Applications"), function(req, res) {
   const schema = Joi.object().keys({
     TenderID: Joi.number()

@@ -255,12 +255,12 @@ class DeadlinerequestApproval extends Component {
         this.setState({ summary: false });
     }
     ShowAcceptModal = e => {
-        this.setState({ open: true });
-        this.setState({ IsAccept: true });
+       
+        this.setState({ IsAccept: true, IsDecline: false, open: true });
     }
     ShowRejectModal = e => {
-        this.setState({ open: true });
-        this.setState({ IsDecline: true });
+       
+        this.setState({ IsDecline: true, IsAccept: false,open: true });
     }
    
     componentDidMount() {
@@ -437,7 +437,7 @@ class DeadlinerequestApproval extends Component {
               
                     Status: k.Status,
 
-                    action: (
+                    Action: (
                         <span>
                             <a
                                 className="fa fa-edit"

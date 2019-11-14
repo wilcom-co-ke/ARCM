@@ -7,7 +7,6 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./../../Styles/tablestyle.css";
 import CKEditor from "ckeditor4-react";
 import ReactHtmlParser from "react-html-parser";
@@ -109,7 +108,7 @@ class Applications extends Component {
       InterestedPartyDesignation: "",
       TenderTypeDesc: "",
       ShowPaymentDetails: false,
-
+      Status:"",
       AmountPaid: "",
       DateofPayment: "",
       PaymentReference: "",
@@ -1174,9 +1173,9 @@ class Applications extends Component {
   handleswitchMenu = e => {
     e.preventDefault();
     if (this.state.profile === false) {
-      this.setState({ profile: true });
+      this.setState({ profile: true, IsUpdate: false });
     } else {
-      this.setState({ profile: false });
+      this.setState({ profile: false, IsUpdate: false });
       this.Resetsate();
     }
   };
@@ -1634,7 +1633,70 @@ class Applications extends Component {
   AddpaymentDetails = () => {
     this.setState({ ShowPaymentDetails: !this.state.ShowPaymentDetails });
   };
-  SubmitApplication() {
+  notifyPanelmembers = (AproverMobile, Name, AproverEmail, Msg) => {
+    if (Msg === "Applicant") {
+      
+           this.SendMail(
+             this.state.ApplicationNo,
+        AproverEmail,
+        "Applicant",
+        "APPLICATION ACKNOWLEDGEMENT"
+      );
+    } else if (Msg === "Approver") {
+      this.SendSMS(
+        AproverMobile,
+        "New application has been submited and it's awaiting your review."
+      );
+      this.SendMail(
+        this.state.ApplicationNo,
+        AproverEmail,
+        "Approver",
+        "APPLICATION APPROVAL"
+      );
+    }
+   
+
+  }
+  ReSubmitApplication = () => {
+    fetch("/api/applications/" + this.state.ApplicationID+"/Resubmit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Your Application has been submited", "success");
+            let applicantMsg =
+              "Your Application with Reference:" +
+              this.state.ApplicationNo +
+              " has been Received";
+            this.SendSMS(this.state.ApplicantPhone, applicantMsg);
+            if (data.results.length > 0) {
+              let NewList = [data.results]
+              NewList[0].map((item, key) =>
+                this.notifyPanelmembers(item.Mobile, item.Name, item.Email, item.Msg)
+              )
+            }
+            this.setState({
+              profile: true,
+              summary: false,
+              openPaymentModal: false,
+              Status: "Submited"
+            });
+            this.fetchMyApplications(this.state.ApplicantID);
+          } else {
+            toast.error(data.message);
+          }
+        })
+      )
+      .catch(err => {
+        toast.error(err.message);
+      });
+  }
+  SubmitApplication=()=> {
     fetch("/api/applications/" + this.state.ApplicationID, {
       method: "POST",
       headers: {
@@ -1672,7 +1734,12 @@ class Applications extends Component {
       this.SavePaymentdetails();
       //this.SubmitApplication();
     } else {
-      this.SubmitApplication();
+      if (this.state.Status ==="DECLINED"){
+        this.ReSubmitApplication();
+      }else{
+        this.SubmitApplication();
+      }
+      
     }
   };
   sendBulkNtification = (ApproversPhone, ApproversMail) => {
@@ -2570,6 +2637,18 @@ class Applications extends Component {
                             </button>
                           ) : null
                         ) : null}
+                        {this.state.Status === "DECLINED" ? (
+                          this.state.ApplicationCreated_By ===
+                            localStorage.getItem("UserName") ? (
+                              <button
+                                type="button"
+                                onClick={this.EditApplication}
+                                className="btn btn-primary"
+                              >
+                                EDIT
+                            </button>
+                            ) : null
+                        ) : null}
                         &nbsp; &nbsp;
                         <button
                           type="button"
@@ -2650,6 +2729,7 @@ class Applications extends Component {
                                               required
                                               name="DateofPayment"
                                               className="form-control"
+                                              max={this.state.Today}
                                             />
                                           </div>
                                         </div>
@@ -3006,7 +3086,7 @@ class Applications extends Component {
                             </label>
                           </div>
                           <div class="col-sm-5">
-                            <input
+                            <textarea
                               type="text"
                               class="form-control"
                               name="TenderName"
@@ -3014,6 +3094,7 @@ class Applications extends Component {
                               value={this.state.TenderName}
                               required
                             />
+                           
                           </div>
                         </div>
                         <div class="row">
@@ -4335,6 +4416,7 @@ class Applications extends Component {
                                           required
                                           name="DateofPayment"
                                           className="form-control"
+                                          max={this.state.Today}
                                         />
                                       </div>
                                     </div>

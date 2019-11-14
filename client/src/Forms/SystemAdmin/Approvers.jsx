@@ -553,7 +553,7 @@ class Approvers extends Component {
                                             &times;
                     </a>
 
-                                        <div className={popup.header}>Approvers </div>
+                                        <div className={popup.header}>Approval Hierachy </div>
 
                                         <div className={popup.content}>
                                             <div className="container-fluid">

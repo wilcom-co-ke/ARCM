@@ -684,7 +684,7 @@ const SystemAdmin = props => {
               <li>
                 <Link to="/Approvers">
                   <i className="fa fa-user-plus " />
-                  Approvers
+                  Approval Hierachy
                 </Link>
               </li>
             ) : null}

@@ -9,6 +9,7 @@ import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import ReactHtmlParser from "react-html-parser";
 import Modal from "react-awesome-modal";
+var dateFormat = require("dateformat");
 var _ = require("lodash");
 class PEResponse extends Component {
   constructor(props) {
@@ -24,6 +25,8 @@ class PEResponse extends Component {
       GroundsDetails: [],
       BankSlips: [],
       Confidential: false,
+      ApplicationClosingDate: 
+          this.props.location.ApplicationClosingDate,
       ApplicationNo: this.props.location.ApplicationNo,
       ApplicationID: this.props.location.ApplicationID,
       NewDeadLine: "",
@@ -918,20 +921,37 @@ class PEResponse extends Component {
               let NewList = [data.results];
               if (NewList.length > 0) {
                 NewList[0].map((item, key) => {
-                  let smstext =
-                    "Dear " +
-                    item.Name +
-                    ".PE has submited payment details for Filling Preliminary Objection for application:" +
-                    this.state.ApplicationNo +
-                    ".You are required confirm the payment.";
-                  this.SendSMS(item.Mobile, smstext);
-                  this.SendMail(
-                    item.Name,
-                    item.Email,
-                    "Preliminary Objections Fees Approval",
-                    "FEES APPROVAL",
-                    this.state.ApplicationNo
-                  );
+                  if (item.Role === "Incomplete") {
+                    let smstext =
+                      "Dear " +
+                      item.Name +
+                      ".PE has submited payment details for Filling Preliminary Objection for application:" +
+                      this.state.ApplicationNo +
+                      ".You are required confirm the payment.";
+                    this.SendSMS(item.Mobile, smstext);
+                    this.SendMail(
+                      item.Name,
+                      item.Email,
+                      "Preliminary Objections Fees Approval",
+                      "FEES APPROVAL",
+                      this.state.ApplicationNo
+                    );
+                  } else {
+                    let smstext =
+                      "Dear " +
+                      item.Name +
+                      ".A response for Application" +
+                      this.state.ApplicationNo +
+                      "has been sent by the Procuring Entity.";
+                    this.SendSMS(item.Mobile, smstext);
+                    this.SendMail(
+                      item.Name,
+                      item.Email,
+                      "PEresponseOthers",
+                      "PE RESPONSE: " + this.state.ApplicationNo,
+                      this.state.ApplicationNo
+                    );
+                  }
                 });
               }
               swal("", "Your Response has been submited!", "success");
@@ -1315,15 +1335,24 @@ class PEResponse extends Component {
                                 >
                                   Requested Deadline
                                 </label>
-
-                                <input
-                                  type="date"
-                                  name="NewDeadLine"
-                                  required
-                                  defaultValue={this.state.NewDeadLine}
-                                  className="form-control"
-                                  onChange={this.handleInputChange}
-                                />
+                                  {
+                                  this.state.ApplicationClosingDate?
+                                    <input
+                                      type="date"
+                                      name="NewDeadLine"
+                                      required
+                                      defaultValue={this.state.NewDeadLine}
+                                      className="form-control"
+                                      onChange={this.handleInputChange}
+                                      max={dateFormat(
+                                        new Date(
+                                          this.state.ApplicationClosingDate
+                                        ).toLocaleDateString(),
+                                        "isoDate"
+                                      )}
+                                    />:null
+                                        }
+                                
                               </div>
                             </div>
                             <br />
@@ -1630,14 +1659,14 @@ class PEResponse extends Component {
                                     this.state.BackgroundInformation
                                   )}
                                 </td>
-                                <td>
+                                {/* <td>
                                   {" "}
                                   <span>
                                     <a style={{ color: "#f44542" }}>
                                       &nbsp; Remove
                                     </a>
                                   </span>
-                                </td>
+                                </td> */}
                               </tr>
                             </table>
                           </div>
@@ -1668,9 +1697,7 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td >
-                                    {ReactHtmlParser(r.Response)}
-                                  </td>
+                                  <td>{ReactHtmlParser(r.Response)}</td>
                                   <td>
                                     {" "}
                                     <span>
@@ -1715,9 +1742,7 @@ class PEResponse extends Component {
                                     {r.GroundNO}
                                   </td>
 
-                                  <td>
-                                    {ReactHtmlParser(r.Response)}
-                                  </td>
+                                  <td>{ReactHtmlParser(r.Response)}</td>
                                   <td>
                                     {" "}
                                     <span>
@@ -2579,14 +2604,14 @@ class PEResponse extends Component {
                                     this.state.BackgroundInformation
                                   )}
                                 </td>
-                                <td>
+                                {/* <td>
                                   {" "}
                                   <span>
                                     <a style={{ color: "#f44542" }}>
                                       &nbsp; Remove
                                     </a>
                                   </span>
-                                </td>
+                                </td> */}
                               </tr>
                             </table>
                           </div>

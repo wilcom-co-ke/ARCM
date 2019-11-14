@@ -7,7 +7,58 @@ var con = mysql.createPool(config);
 
 NotifyApprover.post("/", function(req, res) {
   const ID = req.body.ID;
+  if (ID === "Application Declined") {
+    const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>Application: <b>${req.body.ApplicationNo}</b>
+      that you had submited to PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD has been <b>DECLINED</b>, due to:  
+     <b>${req.body.ResponseTimeout}</b>.You can resubmit the same application or create a new submission.
+      <br></br>
+    This is computer generated message.Please do not reply.`;
+    con.getConnection(function(err, connection) {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          let Host = results[0][0].Host;
+          let Port = results[0][0].Port;
+          let Sender = results[0][0].Sender;
+          let Password = results[0][0].Password;
 
+          let transporter = nodeMailer.createTransport({
+            host: Host,
+            port: Port,
+            secure: true,
+            auth: {
+              // should be replaced with real sender's account
+              user: Sender,
+              pass: Password
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          let mailOptions = {
+            to: req.body.to,
+            subject: req.body.subject,
+            html: output
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(sent);
+            }
+          });
+        }
+        connection.release();
+      });
+    });
+  }
   if (ID === "New User") {
     const output = `<p>Dear <b>${req.body.Name}</b>.<br></br>
       Thank you for Registering with eARCMS. Your User Name is  <b>${req.body.Username}</b> and 

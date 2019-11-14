@@ -210,8 +210,8 @@ class caseofficers extends Component {
         event.preventDefault();
         const data = {
            Username:this.state.UserName,
-            MinValue: this.state.MinValue,
-            MaximumValue: this.state.MaximumValue,           
+            // MinValue: this.state.MinValue,
+            // MaximumValue: this.state.MaximumValue,           
             NotAvailableFrom: this.state.NotAvailableFrom,
             NotAvailableTo: this.state.NotAvailableTo,
             Active: this.state.Active
@@ -408,7 +408,7 @@ class caseofficers extends Component {
         let Rowdata1 = [];
 
         const rows = [...this.state.caseofficers];
-
+     
         if (rows.length > 0) {
             rows.forEach(k => {
                 const Rowdata = {
@@ -417,8 +417,8 @@ class caseofficers extends Component {
                   
                     OngoingCases: k.OngoingCases,
                     CumulativeCases: k.CumulativeCases,
-                    NotAvailableFrom: dateFormat(new Date(k.NotAvailableFrom).toLocaleDateString(), "isoDate"), 
-                    NotAvailableTo: dateFormat(new Date(k.NotAvailableTo).toLocaleDateString(), "isoDate"), 
+                    NotAvailableFrom: dateFormat(new Date(k.NotAvailableFrom).toLocaleDateString(), "mediumDate"), 
+                    NotAvailableTo: dateFormat(new Date(k.NotAvailableTo).toLocaleDateString(), "mediumDate"), 
                     Active: k.Active,
                     action: (
                         <span>
@@ -576,6 +576,23 @@ class caseofficers extends Component {
                                                             </div>    
                                                             <div className=" row">
                                                                 <div className="col-sm">
+
+                                                                    <div className="form-group">
+                                                                        <label htmlFor="exampleInputPassword1">
+                                                                            NotAvailable From </label>
+                                                                        <input
+                                                                            type="date"
+                                                                            name="NotAvailableFrom"
+                                                                            defaultValue={this.state.NotAvailableFrom}
+                                                                            required
+                                                                            className="form-control"
+                                                                            onChange={this.handleInputChange}
+                                                                        />
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div className="col-sm">
                                                                     <div className="form-group">
                                                                         <label htmlFor="exampleInputEmail1">
                                                                             NotAvailable To
@@ -590,23 +607,7 @@ class caseofficers extends Component {
                                                                         />
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-sm">
-                                                                   
-                                                                        <div className="form-group">
-                                                                            <label htmlFor="exampleInputPassword1">
-                                                                                NotAvailable From </label>
-                                                                            <input
-                                                                                type="date"
-                                                                                name="NotAvailableFrom"
-                                                                                defaultValue={this.state.NotAvailableFrom}
-                                                                                required
-                                                                                className="form-control"
-                                                                                onChange={this.handleInputChange}
-                                                                            />
-                                                                        </div>
-                                                                    
-                                                                  
-                                                                </div>
+                                                            
                                                             </div>
                                                             {/* <div className=" row">
                                                                 <div className="col-sm">

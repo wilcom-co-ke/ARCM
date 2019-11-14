@@ -64,12 +64,7 @@ caseofficers.post("/", auth.validateRole("Case officers"), function(req, res) {
     Username: Joi.string()
       .min(3)
       .required(),
-    MinValue: Joi.number()
-      .integer()
-      .min(1),
-    MaximumValue: Joi.number()
-      .integer()
-      .min(1),
+
     NotAvailableFrom: Joi.date()
       .allow("")
       .allow(null),
@@ -82,8 +77,7 @@ caseofficers.post("/", auth.validateRole("Case officers"), function(req, res) {
   if (!result.error) {
     let data = [
       req.body.Username,
-      req.body.MinValue,
-      req.body.MaximumValue,
+
       req.body.Active,
       req.body.NotAvailableFrom,
       req.body.NotAvailableTo,
@@ -98,7 +92,7 @@ caseofficers.post("/", auth.validateRole("Case officers"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveCaseOfficers(?,?,?,?,?,?,?)";
+        let sp = "call SaveCaseOfficers(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -131,12 +125,7 @@ caseofficers.put("/:ID", auth.validateRole("Case officers"), function(
     Username: Joi.string()
       .min(3)
       .required(),
-    MinValue: Joi.number()
-      .integer()
-      .min(1),
-    MaximumValue: Joi.number()
-      .integer()
-      .min(1),
+
     NotAvailableFrom: Joi.date()
       .allow("")
       .allow(null),
@@ -150,8 +139,7 @@ caseofficers.put("/:ID", auth.validateRole("Case officers"), function(
     const ID = req.params.ID;
     let data = [
       ID,
-      req.body.MinValue,
-      req.body.MaximumValue,
+
       req.body.Active,
       req.body.NotAvailableFrom,
       req.body.NotAvailableTo,
@@ -166,7 +154,7 @@ caseofficers.put("/:ID", auth.validateRole("Case officers"), function(
         });
       } // not connected!
       else {
-        let sp = "call UpdateCaseOfficers(?,?,?,?,?,?,?)";
+        let sp = "call UpdateCaseOfficers(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

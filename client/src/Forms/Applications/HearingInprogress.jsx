@@ -730,7 +730,7 @@ handleViewPlayeAudio=(d)=>{
             
             return (
                 <div>
-                    <Modal visible={this.state.openPlayer} width="1000" height="700" effect="fadeInUp" onClickAway={() => this.closePlyer()}>
+                    <Modal visible={this.state.openPlayer} width="1000" height="700" effect="fadeInUp" >
 
 
                         <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closePlyer()}>Close</a>
@@ -927,7 +927,7 @@ handleViewPlayeAudio=(d)=>{
                                        
                                             </div>
                                         </nav>
-                                        <Modal visible={this.state.open} width="600" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                                        <Modal visible={this.state.open} width="600" height="350" effect="fadeInUp" >
                                             <div>
 
                                                 <a style={{ float: "right",margin:"10px", color:"red"}} href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
@@ -1108,7 +1108,7 @@ handleViewPlayeAudio=(d)=>{
                                                                             <a style={{ color: "#007bff" }}
                                                                                 onClick={e => this.handleViewPlayeAudio(r, e)}
                                                                             >
-                                                                                View
+                                                                                Play
                                                                                     </a>|
                                                                                       {this.validaterole("Hearing In Progress", "Remove") ? (
                                                                                 <a
@@ -1170,7 +1170,7 @@ handleViewPlayeAudio=(d)=>{
                                                                             <a style={{ color: "#007bff" }}
                                                                                 onClick={e => this.HandleViewPlayer(r, e)}
                                                                             >
-                                                                                View
+                                                                                Play
                                                                                     </a>|
                                                                                       {this.validaterole("Hearing In Progress", "Remove") ? (
                                                                                 <a
@@ -1208,7 +1208,7 @@ handleViewPlayeAudio=(d)=>{
 
                             </div>
                         </div>
-                        <Modal visible={this.state.openViewer} width="1000" height="500" effect="fadeInUp" onClickAway={() => this.closeViewerModal()}>
+                        <Modal visible={this.state.openViewer} width="1000" height="500" effect="fadeInUp">
                             <div>
 
                                 <a style={{ float: "right", color: "red",margin:"10px" }} href="javascript:void(0);" onClick={() => this.closeViewerModal()}>Close</a>

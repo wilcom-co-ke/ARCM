@@ -254,11 +254,12 @@ class PanelApproval extends Component {
                 Phone,
                 "You have been selected to be in a Panel for Application:" + ApplicationNo + "."
             )
+            let Sub="PANEL MEMBERSHIP "+ ApplicationNo;
             this.SendMail(
                 Name,
                 Email,
                 "PanelMember",
-                "PANEL MEMBERSHIP",
+                Sub,
                 ApplicationNo
             )
         }
@@ -895,7 +896,7 @@ class PanelApproval extends Component {
                                             onClick={this.subMitPanellist}
                                             className="btn btn-success float-right "
                                         >
-                                            SUBMIT
+                                            FINALIZE
                                               </button>
                                     </div>
                                 </div>

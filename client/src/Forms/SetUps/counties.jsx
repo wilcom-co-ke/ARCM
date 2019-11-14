@@ -409,7 +409,6 @@ class counties extends Component {
                   width="600"
                   height="200"
                   effect="fadeInUp"
-                  onClickAway={() => this.closeModal()}
                 >
                   <a
                     style={{ float: "right", color: "red", margin: "10px" }}
