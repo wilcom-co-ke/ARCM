@@ -33,7 +33,7 @@ class Panels extends Component {
         this.handleSelectChange = this.handleSelectChange.bind(this)
         this.fetchPanels = this.fetchPanels.bind(this)
         this.AddUser = this.AddUser.bind(this)
-        this.fetchRespondedApplications = this.fetchRespondedApplications.bind(this)
+       // this.fetchRespondedApplications = this.fetchRespondedApplications.bind(this)
         
     }
     ToggleAdd=()=>{
@@ -289,13 +289,14 @@ class Panels extends Component {
 
                                 this.fetchRespondedApplications();
                             }
-                            toast.success("Submited successfuly");
-
-                            this.setState({ summary: false });
+                            
 
                         } else {
                             toast.error("Could not be added please try again");
                         }
+                        toast.success("Submited successfuly");
+
+                        this.setState({ summary: false });
                     })
                 )
                 .catch(err => {

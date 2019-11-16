@@ -29,7 +29,7 @@ class PanelApproval extends Component {
         this.handleSelectChange = this.handleSelectChange.bind(this)
         this.fetchPanels = this.fetchPanels.bind(this)
         this.AddUser = this.AddUser.bind(this)
-        this.fetchRespondedApplications = this.fetchRespondedApplications.bind(this)
+        //this.fetchRespondedApplications = this.fetchRespondedApplications.bind(this)
 
     }
     ToggleAdd = () => {
@@ -218,12 +218,13 @@ class PanelApproval extends Component {
                 response.json().then(data => {
                     if (data.success) {
                     } else {
-                        swal("", data.message, "error");
+                        toast.error(data.message)                       
                     }
                 })
             )
             .catch(err => {
-                swal("", err.message, "error");
+                toast.error(err.message)
+               
             });
     }
     SendMail = (Name, email, ID, subject, ApplicationNo) => {    
@@ -309,13 +310,13 @@ class PanelApproval extends Component {
                                 this.notifyPanelmembers(item.Phone, item.Name, item.Email, item.ApplicationNo, item.Msg)
                                
                             )
-                        }                     
-                       this.fetchRespondedApplications();
-                        this.setState({ summary: false });
-
+                        }                    
+                      
                     } else {
                         toast.error("Could not be added please try again");
                     }
+                    this.fetchRespondedApplications();
+                    this.setState({ summary: false });
                 })
             )
             .catch(err => {

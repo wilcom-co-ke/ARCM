@@ -197,6 +197,7 @@ Panels.put("/:ID", auth.validateRole("Panel"), function(req, res) {
   });
 });
 Panels.delete("/:ID/:Value", auth.validateRole("Panel"), function(req, res) {
+  
   const ApplicationNo = req.params.Value;
   const UserName = req.params.ID;
   let data = [ApplicationNo, UserName, res.locals.user];
@@ -226,5 +227,7 @@ Panels.delete("/:ID/:Value", auth.validateRole("Panel"), function(req, res) {
       });
     }
   });
+
+ 
 });
 module.exports = Panels;

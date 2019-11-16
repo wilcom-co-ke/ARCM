@@ -1,12 +1,12 @@
 var express = require("express");
-var findingsonissues = express();
+var PartySubmision = express();
 var mysql = require("mysql");
 var config = require("./../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("./../../auth");
 
-findingsonissues.get("/:ID", auth.validateRole("Decision"), function(req, res) {
+PartySubmision.get("/:ID", auth.validateRole("Decision"), function(req, res) {
   const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {
@@ -16,7 +16,7 @@ findingsonissues.get("/:ID", auth.validateRole("Decision"), function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call Getfindingsonissues(?)";
+      let sp = "call Getpartysubmision(?)";
       connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
@@ -33,22 +33,19 @@ findingsonissues.get("/:ID", auth.validateRole("Decision"), function(req, res) {
   });
 });
 
-findingsonissues.post("/", auth.validateRole("Decision"), function(req, res) {
+PartySubmision.post("/", auth.validateRole("Decision"), function(req, res) {
   const schema = Joi.object().keys({
-    Number: Joi.number()
-      .integer()
-      .min(1),
     ApplicationNo: Joi.string().required(),
-    Description: Joi.string().required()
+    Description: Joi.string().required(),
+    Party: Joi.string().required()
   });
 
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
     let data = [
       req.body.ApplicationNo,
-      req.body.Number,
       req.body.Description,
-
+      req.body.Party,
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -59,7 +56,7 @@ findingsonissues.post("/", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call Savefindingsonissues(?,?,?,?)";
+        let sp = "call Savepartysubmision(?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -84,10 +81,11 @@ findingsonissues.post("/", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
-findingsonissues.put("/:ID", auth.validateRole("Decision"), function(req, res) {
+PartySubmision.put("/:ID", auth.validateRole("Decision"), function(req, res) {
   const schema = Joi.object().keys({
     ApplicationNo: Joi.string().required(),
-    Description: Joi.string().required()
+    Description: Joi.string().required(),
+    Actions: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
@@ -95,6 +93,7 @@ findingsonissues.put("/:ID", auth.validateRole("Decision"), function(req, res) {
       req.body.ApplicationNo,
       req.params.ID,
       req.body.Description,
+      req.body.Actions,
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -105,7 +104,7 @@ findingsonissues.put("/:ID", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call Updatefindingsonissues(?,?,?,?)";
+        let sp = "call Updatefindingsonissues(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -130,11 +129,11 @@ findingsonissues.put("/:ID", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
-findingsonissues.delete("/:ID", auth.validateRole("Decision"), function(
+PartySubmision.delete("/:ID", auth.validateRole("Decision"), function(
   req,
   res
 ) {
-  let data = [req.body.ApplicationNo, req.params.ID, res.locals.user];
+  let data = [req.params.ID, res.locals.user];
 
   con.getConnection(function(err, connection) {
     if (err) {
@@ -144,7 +143,7 @@ findingsonissues.delete("/:ID", auth.validateRole("Decision"), function(
       });
     } // not connected!
     else {
-      let sp = "call Deletefindingsonissues(?,?,?)";
+      let sp = "call Deletepartysubmision(?,?)";
       connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({
@@ -163,4 +162,4 @@ findingsonissues.delete("/:ID", auth.validateRole("Decision"), function(
     }
   });
 });
-module.exports = findingsonissues;
+module.exports = PartySubmision;

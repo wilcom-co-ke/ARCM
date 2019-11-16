@@ -17,12 +17,15 @@ class DecisionPreparations extends Component {
     super();
     this.state = {
       Documents: [],
+      PartiesSubmissions: [],
       Applications: [],
       Findings: [],
-      Attendance:[],
-      InterestedParties:[],
-      Boardmembers:[],
+      Selectedcaption: "",
+      Attendance: [],
+      InterestedParties: [],
+      Boardmembers: [],
       TenderName: "",
+      PartySubmision: "",
       ApplicantDetails: [],
       privilages: [],
       Confidential: false,
@@ -33,10 +36,11 @@ class DecisionPreparations extends Component {
       Orders: false,
       Decisionorders: [],
       Issues: [],
-      ApplicationSuccessful:false,
+      ApplicationSuccessful: false,
       FollowUpRequired: false,
       RefertoDG: false,
       Closed: false,
+      openPartiesSubmissionsModal: false,
       DecisionDate: "",
       selectedFile: null,
       loaded: 0,
@@ -57,7 +61,16 @@ class DecisionPreparations extends Component {
       TenderSubCategory: "",
       TenderType: "",
       openBackgroundsModal: false,
-      BackgroundInformation: ""
+      BackgroundInformation: "",
+
+      Annulled:false,
+      GiveDirection:false,
+      Terminated:false,
+      ReTender:false,
+      CostsPE:false,
+      CostsApplicant:false,
+      CostsEachParty:false,
+      Substitution:false
     };
 
     this.openModal = this.openModal.bind(this);
@@ -107,6 +120,27 @@ class DecisionPreparations extends Component {
       .then(PEDetails => {
         if (PEDetails.length > 0) {
           this.setState({ Decisionorders: PEDetails });
+        } else {
+          swal("", PEDetails.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  fetchPartiesSubmision = ApplicationNo => {
+    this.setState({ PartiesSubmissions: [] });
+    fetch("/api/PartySubmision/" + ApplicationNo, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(PEDetails => {
+        if (PEDetails.length > 0) {
+          this.setState({ PartiesSubmissions: PEDetails });
         } else {
           swal("", PEDetails.message, "error");
         }
@@ -201,7 +235,7 @@ class DecisionPreparations extends Component {
   };
   fetchInterestedParties = ApplicationNo => {
     this.setState({ InterestedParties: [] });
-    fetch("/api/interestedparties/" + ApplicationNo , {
+    fetch("/api/interestedparties/" + ApplicationNo, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -243,7 +277,7 @@ class DecisionPreparations extends Component {
   };
   fetchAttendance = ApplicationNo => {
     this.setState({ Attendance: [] });
-    fetch("/api/Decision/" + ApplicationNo+"/Attendance", {
+    fetch("/api/Decision/" + ApplicationNo + "/Attendance", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -369,6 +403,12 @@ class DecisionPreparations extends Component {
   closePlyer = () => {
     this.setState({ openIssuesModal: false });
   };
+  openPartiesSubmissionsModal = () => {
+    this.setState({ openPartiesSubmissionsModal: true });
+  };
+  ClosePartiesSubmissionsModal = () => {
+    this.setState({ openPartiesSubmissionsModal: false });
+  };
   closeFindingsModal = () => {
     this.setState({ openFindingsModal: false });
   };
@@ -376,7 +416,11 @@ class DecisionPreparations extends Component {
     this.setState({ openFindingsModal: true });
   };
   openIssuesModal = () => {
-    this.setState({ openIssuesModal: true, Orders: false });
+    this.setState({
+      openIssuesModal: true,
+      Orders: false,
+      Selectedcaption: "Issues for Determination"
+    });
   };
   openBackgroundModal = () => {
     this.setState({
@@ -388,7 +432,7 @@ class DecisionPreparations extends Component {
     this.setState({ openBackgroundsModal: false });
   };
   openOrdersModal = () => {
-    this.setState({ openIssuesModal: true, Orders: true });
+    this.setState({ openIssuesModal: true, Orders: true, Selectedcaption: "orders" });
   };
   handleDeleteDocument = d => {
     swal({
@@ -413,12 +457,12 @@ class DecisionPreparations extends Component {
                 const filtereddata = rows.filter(item => item.Name !== d.Name);
                 this.setState({ Documents: filtereddata });
               } else {
-                swal("", "Remove Failed", "error");
+                toast.success("Remove Failed");
               }
             })
           )
           .catch(err => {
-            swal("", "Remove Failed", "error");
+            toast.success("Remove Failed");
           });
       }
     });
@@ -450,12 +494,12 @@ class DecisionPreparations extends Component {
                 const filtereddata = rows.filter(item => item.NO !== d.NO);
                 this.setState({ Findings: filtereddata });
               } else {
-                swal("", "Remove Failed", "error");
+                toast.success("Remove Failed");
               }
             })
           )
           .catch(err => {
-            swal("", "Remove Failed", "error");
+            toast.success("Remove Failed");
           });
       }
     });
@@ -487,12 +531,45 @@ class DecisionPreparations extends Component {
                 const filtereddata = rows.filter(item => item.NO !== d.NO);
                 this.setState({ Decisionorders: filtereddata });
               } else {
-                swal("", "Remove Failed", "error");
+                toast.success("Remove Failed");
               }
             })
           )
           .catch(err => {
-            swal("", "Remove Failed", "error");
+            toast.success("Remove Failed");
+          });
+      }
+    });
+  };
+  handleDeletePartiesSubmissions = d => {
+    swal({
+      text: "Are you sure that you want to remove this record?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/PartySubmision/" + d.ID, {
+          method: "Delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                toast.success("Removed");
+                var rows = [...this.state.PartiesSubmissions];
+                const filtereddata = rows.filter(item => item.ID !== d.ID);
+                this.setState({ PartiesSubmissions: filtereddata });
+              } else {
+                toast.error("Remove Failed");
+              }
+            })
+          )
+          .catch(err => {
+            toast.error("Remove Failed");
           });
       }
     });
@@ -524,12 +601,12 @@ class DecisionPreparations extends Component {
                 const filtereddata = rows.filter(item => item.NO !== d.NO);
                 this.setState({ Issues: filtereddata });
               } else {
-                swal("", "Remove Failed", "error");
+                toast.success("Remove Failed");
               }
             })
           )
           .catch(err => {
-            swal("", "Remove Failed", "error");
+            toast.success("Remove Failed");
           });
       }
     });
@@ -656,12 +733,13 @@ class DecisionPreparations extends Component {
     this.setState(data);
     this.fetchApplicantDetails(k.ApplicationNo);
     this.fetchInterestedParties(k.ApplicationNo);
-    this.fetchBoardMembers(k.ApplicationNo)
-    this.fetchAttendance(k.ApplicationNo)
+    this.fetchBoardMembers(k.ApplicationNo);
+    this.fetchAttendance(k.ApplicationNo);
     this.fetchBackgroundInformation(k.ApplicationNo);
     this.fetchPEDetails(k.ApplicationNo);
     this.fetchDocuments(k.ApplicationNo);
     this.fetchIssues(k.ApplicationNo);
+    this.fetchPartiesSubmision(k.ApplicationNo);
     this.fetchFindings(k.ApplicationNo);
     this.fetchOrders(k.ApplicationNo);
   };
@@ -674,7 +752,9 @@ class DecisionPreparations extends Component {
       Orders: this.state.Decisionorders,
       Findings: this.state.Findings,
       Attendance: this.state.Attendance,
-      DecisionDate: dateFormat(new Date(this.state.DecisionDate).toLocaleDateString(), "mediumDate"
+      DecisionDate: dateFormat(
+        new Date(this.state.DecisionDate).toLocaleDateString(),
+        "mediumDate"
       ),
 
       InterestedParties: this.state.InterestedParties,
@@ -717,12 +797,12 @@ class DecisionPreparations extends Component {
             this.setState({ FileURL: filepath, openViewer: true });
             //swal("", "Printed", "success");
           } else {
-            swal("", data.message, "error");
+            toast.success(data.message);
           }
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        toast.success(err.message);
       });
   };
 
@@ -748,15 +828,16 @@ class DecisionPreparations extends Component {
         response.json().then(data => {
           if (data.success) {
             this.fetchApplications();
-            swal("", "Submited", "success");
+            toast.success("Submited");
+
             this.setState({ summary: false });
           } else {
-            swal("", data.message, "error");
+            toast.error(data.message);
           }
         })
       )
       .catch(err => {
-        swal("Oops!", err.message, "error");
+        toast.error(err.message);
       });
   };
   checkMimeType = event => {
@@ -838,10 +919,11 @@ class DecisionPreparations extends Component {
           this.saveDocuments(res.data, path);
         })
         .catch(err => {
-          swal("", "upload fail", "error");
+          toast.error("upload fail");
+          //swal("", "", "error");
         });
     } else {
-      swal("", "Please select a file to upload", "error");
+      toast.error("Please select a file to upload");
     }
   };
   handleFindingsSubmit = event => {
@@ -849,8 +931,7 @@ class DecisionPreparations extends Component {
     if (this.state.IsUpdateFindings) {
       const data = {
         ApplicationNo: this.state.ApplicationNo,
-        Description: this.state.Description,
-        Actions: this.state.Action
+        Description: this.state.Description
       };
       fetch("/api/findingsonissues/" + this.state.Number, {
         method: "PUT",
@@ -883,8 +964,7 @@ class DecisionPreparations extends Component {
       const data = {
         Number: this.state.Number,
         ApplicationNo: this.state.ApplicationNo,
-        Description: this.state.Description,
-        Actions: this.state.Action
+        Description: this.state.Description
       };
       fetch("/api/findingsonissues", {
         method: "POST",
@@ -921,6 +1001,40 @@ class DecisionPreparations extends Component {
           swal("Oops!", err.message, "error");
         });
     }
+  };
+  handlePartySubmisionSubmit = event => {
+    event.preventDefault();
+
+    const data = {
+      Party: this.state.PartySubmision,
+      Description: this.state.Description,
+      ApplicationNo: this.state.ApplicationNo
+    };
+    fetch("/api/PartySubmision", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Added Successfully", "success");
+            this.setState({
+              Description: "",
+              Party: ""
+            });
+            this.fetchPartiesSubmision(this.state.ApplicationNo);
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("Oops!", err.message, "error");
+      });
   };
   handleIssuesSubmit = event => {
     event.preventDefault();
@@ -976,15 +1090,8 @@ class DecisionPreparations extends Component {
             response.json().then(data => {
               if (data.success) {
                 swal("", "Added Successfully", "success");
-                var rows = this.state.Decisionorders;
-                const datatoPush = {
-                  NO: this.state.Number,
-                  ApplicationNo: this.state.ApplicationNo,
-                  Description: this.state.Description
-                };
-                rows.push(datatoPush);
+                this.fetchOrders(this.state.ApplicationNo);
                 this.setState({
-                  Decisionorders: rows,
                   Description: "",
                   Number: "",
                   IsUpdateissues: false
@@ -1049,15 +1156,8 @@ class DecisionPreparations extends Component {
             response.json().then(data => {
               if (data.success) {
                 swal("", "Added Successfully", "success");
-                var rows = this.state.Issues;
-                const datatoPush = {
-                  NO: this.state.Number,
-                  ApplicationNo: this.state.ApplicationNo,
-                  Description: this.state.Description
-                };
-                rows.push(datatoPush);
+                this.fetchIssues(this.state.ApplicationNo);
                 this.setState({
-                  Issues: rows,
                   Description: "",
                   Number: "",
                   IsUpdateissues: false
@@ -1218,6 +1318,24 @@ class DecisionPreparations extends Component {
         label: k.NO
       };
     });
+    let PartiesOptions = [
+      {
+        value: "PE",
+        label: "PE"
+      },
+      {
+        value: "Applicant",
+        label: "Applicant"
+      },
+      {
+        value: "Interested Party",
+        label: "Interested Party"
+      },
+      {
+        value: "Applicant Rejoinder",
+        label: "Applicant Rejoinder"
+      }
+    ];
     let ActionsOptions = [
       {
         value: "Allowed",
@@ -1240,7 +1358,6 @@ class DecisionPreparations extends Component {
               width="80%"
               height="600"
               effect="fadeInUp"
-              onClickAway={() => this.closeViewerModal()}
             >
               <div>
                 <a
@@ -1261,12 +1378,94 @@ class DecisionPreparations extends Component {
                 </object>
               </div>
             </Modal>
+
+            <Modal
+              visible={this.state.openPartiesSubmissionsModal}
+              width="80%"
+              height="70%"
+              effect="fadeInUp"
+            >
+              <div>
+                <a
+                  style={{ float: "right", color: "red", margin: "10px" }}
+                  href="javascript:void(0);"
+                  onClick={() => this.ClosePartiesSubmissionsModal()}
+                >
+                  Close
+                </a>
+                <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
+                  {" "}
+                  Parties Submissions
+                </h4>
+
+                <div className="container-fluid">
+                  <div className="col-sm-12">
+                    <div className="ibox-content">
+                      <form onSubmit={this.handlePartySubmisionSubmit}>
+                        <div className=" row">
+                          <div
+                            className="col-sm-6"
+                            style={{ "margin-left": "10px" }}
+                          >
+                            <label
+                              htmlFor="exampleInputPassword1"
+                              className="font-weight-bold"
+                            >
+                              Select Party
+                            </label>
+                            <Select
+                              name="PartySubmision"
+                              value={PartiesOptions.filter(
+                                option =>
+                                  option.label === this.state.PartySubmision
+                              )}
+                              onChange={this.handleSelectChange}
+                              options={PartiesOptions}
+                              required
+                            />
+                          </div>
+                        </div>
+                        <br />
+                        <div classname="row">
+                          <div class="col-sm-12">
+                            <label for="Name" className="font-weight-bold">
+                              Description
+                            </label>
+                            <CKEditor
+                              data={this.state.Description}
+                              onChange={this.onIssuesEditorChange}
+                            />
+                          </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                          <div className="col-sm-10"></div>
+                          <div className="col-sm-2">
+                            <button className="btn btn-primary" type="submit">
+                              Save
+                            </button>
+                            &nbsp;
+                            <button
+                              className="btn btn-danger"
+                              type="button"
+                              onClick={this.ClosePartiesSubmissionsModal}
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+
             <Modal
               visible={this.state.open}
               width="700"
               height="350"
               effect="fadeInUp"
-              onClickAway={() => this.closeModal()}
             >
               <div>
                 <a
@@ -1375,7 +1574,6 @@ class DecisionPreparations extends Component {
               width="80%"
               height="550px"
               effect="fadeInUp"
-              onClickAway={() => this.closePlyer()}
             >
               <div>
                 <a
@@ -1386,8 +1584,7 @@ class DecisionPreparations extends Component {
                   Close
                 </a>
                 <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
-                  {" "}
-                  Issues for Determinations
+                  {this.state.Selectedcaption}
                 </h4>
 
                 <div className="container-fluid">
@@ -1430,15 +1627,15 @@ class DecisionPreparations extends Component {
                           <div className="col-sm-10"></div>
                           <div className="col-sm-2">
                             <button className="btn btn-primary" type="submit">
-                              Add
+                              Save
                             </button>
                             &nbsp;
                             <button
-                              className="btn btn-success"
+                              className="btn btn-danger"
                               type="button"
                               onClick={this.closePlyer}
                             >
-                              Done
+                              Close
                             </button>
                           </div>
                         </div>
@@ -1453,7 +1650,6 @@ class DecisionPreparations extends Component {
               width="80%"
               height="550px"
               effect="fadeInUp"
-              onClickAway={() => this.closeFindingsModal()}
             >
               <div>
                 <a
@@ -1473,7 +1669,10 @@ class DecisionPreparations extends Component {
                     <div className="ibox-content">
                       <form onSubmit={this.handleFindingsSubmit}>
                         <div className=" row">
-                          <div className="col-sm-6">
+                          <div
+                            className="col-sm-6"
+                            style={{ "margin-left": "10px" }}
+                          >
                             <label
                               htmlFor="exampleInputPassword1"
                               className="font-weight-bold"
@@ -1490,7 +1689,7 @@ class DecisionPreparations extends Component {
                               required
                             />
                           </div>
-                          <div className="col-sm-6">
+                          {/* <div className="col-sm-6">
                             <label
                               htmlFor="exampleInputPassword1"
                               className="font-weight-bold"
@@ -1506,7 +1705,7 @@ class DecisionPreparations extends Component {
                               options={ActionsOptions}
                               required
                             />
-                          </div>
+                          </div> */}
                         </div>
                         <div classname="row">
                           <div class="col-sm-12">
@@ -1524,15 +1723,15 @@ class DecisionPreparations extends Component {
                           <div className="col-sm-10"></div>
                           <div className="col-sm-2">
                             <button className="btn btn-primary" type="submit">
-                              Add
+                              Save
                             </button>
                             &nbsp;
                             <button
-                              className="btn btn-success"
+                              className="btn btn-danger"
                               type="button"
                               onClick={this.closeFindingsModal}
                             >
-                              Done
+                              Close
                             </button>
                           </div>
                         </div>
@@ -1547,7 +1746,6 @@ class DecisionPreparations extends Component {
               width="80%"
               height="500px"
               effect="fadeInUp"
-              onClickAway={() => this.CloseBackgroundModal()}
             >
               <div>
                 <a
@@ -1745,15 +1943,16 @@ class DecisionPreparations extends Component {
                               )}
                             </td>
                             <td>
-                              {" "}
-                              <span>
-                                <a
-                                  style={{ color: "#007bff" }}
-                                  onClick={this.openBackgroundModal}
-                                >
-                                  Edit
-                                </a>
-                              </span>
+                              {this.state.BackgroundInformation ? (
+                                <span>
+                                  <a
+                                    style={{ color: "#007bff" }}
+                                    onClick={this.openBackgroundModal}
+                                  >
+                                    Edit
+                                  </a>
+                                </span>
+                              ) : null}
                             </td>
                           </tr>
                         </tbody>
@@ -1763,6 +1962,57 @@ class DecisionPreparations extends Component {
                 </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-lg-1"></div>
+              <div className="col-lg-10 ">
+                <h3 style={headingstyle}>Parties Submissions</h3>
+                <div className="row border border-success rounded bg-white">
+                  <div class="col-sm-12">
+                    <br />
+                    <button
+                      className="btn btn-primary"
+                      onClick={this.openPartiesSubmissionsModal}
+                    >
+                      Add{" "}
+                    </button>
+                    <p></p>
+                    <div>
+                      <table class="table table-sm">
+                        <thead className="thead-light">
+                          <tr>
+                            <th scope="col">Party</th>
+                            <th scope="col"> Description</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {this.state.PartiesSubmissions.map((r, i) => (
+                            <tr>
+                              <td>{r.Party}</td>
+                              <td>{ReactHtmlParser(r.Description)}</td>
+                              <td>
+                                {" "}
+                                <span>
+                                  <a
+                                    style={{ color: "#f44542" }}
+                                    onClick={e =>
+                                      this.handleDeletePartiesSubmissions(r, e)
+                                    }
+                                  >
+                                    &nbsp; Remove
+                                  </a>
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
@@ -1837,7 +2087,6 @@ class DecisionPreparations extends Component {
                         <thead className="thead-light">
                           <tr>
                             <th scope="col">NO</th>
-                            <th scope="col">Decision</th>
                             <th scope="col"> Description</th>
                             <th scope="col">Actions</th>
                           </tr>
@@ -1846,8 +2095,6 @@ class DecisionPreparations extends Component {
                           {this.state.Findings.map((r, i) => (
                             <tr>
                               <td>{r.NO}</td>
-                              <td>{r.Actions}</td>
-
                               <td>{ReactHtmlParser(r.Description)}</td>
                               <td>
                                 {" "}
@@ -2017,17 +2264,17 @@ class DecisionPreparations extends Component {
                       <br />
                       <div className="row">
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                         <div className="col-sm-2">
+                        <div className="col-sm-2">
                           <input
                             className="checkbox"
                             id="Confidential"
                             type="checkbox"
                             name="ApplicationSuccessful"
-                            
                             defaultChecked={this.state.ApplicationSuccessful}
                             onChange={this.handleInputChange}
-                          />&nbsp; Successful
-                                                </div>
+                          />
+                          &nbsp; Successful
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2038,7 +2285,7 @@ class DecisionPreparations extends Component {
                             onChange={this.handleInputChange}
                           />
                           &nbsp;Follow Up Required
-                        </div>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2049,7 +2296,7 @@ class DecisionPreparations extends Component {
                             onChange={this.handleInputChange}
                           />
                           &nbsp;Refer to DG
-                        </div>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2063,7 +2310,114 @@ class DecisionPreparations extends Component {
                         </div>
                       </div>
                       <br />
+                    
+                      <div className="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+                            
+                            type="checkbox"
+                            name="Annulled"
+                            defaultChecked={this.state.Annulled}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp; Annulled
+                        </div>
+                      
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+                          
+                            type="checkbox"
+                            name="GiveDirection"
+                            defaultChecked={this.state.GiveDirection}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp; Give Direction
+                        </div>
+                     
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
 
+                            type="checkbox"
+                            name="Terminated"
+                            defaultChecked={this.state.Terminated}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp; Terminated
+                        </div>
+                     
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+
+                            type="checkbox"
+                            name="ReTender"
+                            defaultChecked={this.state.ReTender}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp; Re-Tender
+                        </div>
+                      </div>
+                     <br/>
+                      <div className="row">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+
+                            type="checkbox"
+                            name="CostsPE"
+                            defaultChecked={this.state.CostsPE}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp;Costs–PE
+                        </div>
+                    
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+
+                            type="checkbox"
+                            name="CostsApplicant"
+                            defaultChecked={this.state.CostsApplicant}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp;Costs–Applicant
+                        </div>
+                    
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+
+                            type="checkbox"
+                            name="CostsEachParty"
+                            defaultChecked={this.state.CostsEachParty}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp;Costs–Each Party
+                        </div>
+                     
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                          <input
+                            className="checkbox"
+                            type="checkbox"
+                            name="Substitution"
+                            defaultChecked={this.state.Substitution}
+                            onChange={this.handleInputChange}
+                          />
+                          &nbsp;Substitution
+                        </div>
+                      </div>
+                      <br/>
                       <div className="row">
                         <div className="col-sm-9"></div>
                         <div className="col-sm-3">

@@ -4,8 +4,8 @@ var mysql = require("mysql");
 var config = require("./../../DB");
 let nodeMailer = require("nodemailer");
 var con = mysql.createPool(config);
-
 NotifyApprover.post("/", function(req, res) {
+  try {
   const ID = req.body.ID;
   if (ID === "Application Declined") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>Application: <b>${req.body.ApplicationNo}</b>
@@ -49,9 +49,15 @@ NotifyApprover.post("/", function(req, res) {
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "email not sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "sent"
+              });
             }
           });
         }
@@ -104,7 +110,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -161,7 +167,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -218,7 +224,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -276,7 +282,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -333,7 +339,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -390,7 +396,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -447,7 +453,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -509,7 +515,7 @@ ARCMS – System Administrator
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               res.json({
-                success: true,
+                success: false,
                 message: "Not Sent"
               });
             } else {
@@ -565,9 +571,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -617,9 +629,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -668,9 +686,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -719,9 +743,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -770,9 +800,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -822,9 +858,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -872,9 +914,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -922,9 +970,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -971,9 +1025,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1023,9 +1083,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1071,9 +1137,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1120,9 +1192,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1169,9 +1247,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1219,9 +1303,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1269,9 +1359,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1318,9 +1414,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1367,9 +1469,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1416,9 +1524,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1465,9 +1579,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1513,9 +1633,15 @@ ARCMS – System Administrator
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              console.log(error);
+              res.json({
+                success: false,
+                message: "Not Sent"
+              });
             } else {
-              console.log(sent);
+              res.json({
+                success: true,
+                message: "Sent"
+              });
             }
           });
         }
@@ -1523,6 +1649,12 @@ ARCMS – System Administrator
       });
     });
   }
+  } catch (e) {
+    res.json({
+      success: false,
+      message: "Error occured while sending Email"
+    });
+  } 
 });
 NotifyApprover.get("/:ID", function(req, res) {
   const ID = req.params.ID;

@@ -124,10 +124,10 @@ class Login extends Component {
     })
       .then(response =>
         response.json().then(data => {
-          if (data.success) {
-          } else {
-            swal("", "Email Could not be sent", "error");
-          }
+          // if (data.success) {
+          // } else {
+          //   swal("", "Email Could not be sent", "error");
+          // }
         })
       )
       .catch(err => {

@@ -25,8 +25,7 @@ class PEResponse extends Component {
       GroundsDetails: [],
       BankSlips: [],
       Confidential: false,
-      ApplicationClosingDate: 
-          this.props.location.ApplicationClosingDate,
+      ApplicationClosingDate: this.props.location.ApplicationClosingDate,
       ApplicationNo: this.props.location.ApplicationNo,
       ApplicationID: this.props.location.ApplicationID,
       NewDeadLine: "",
@@ -1163,10 +1162,13 @@ class PEResponse extends Component {
   };
   OpenGroundsModal = e => {
     e.preventDefault();
-    this.setState({ open: true, Groundtype: "Grounds" });
+    this.setState({ open: true, Groundtype: "Grounds", grounddesc:"", GroundResponse:"" });
   };
   OpenbackgroundInformation = e => {
     e.preventDefault();
+    this.setState({ BackgroundInfo: true });
+  };
+  handleEditBackgroundInformation = () => {
     this.setState({ BackgroundInfo: true });
   };
   closebackgroundInformation = () => {
@@ -1174,7 +1176,7 @@ class PEResponse extends Component {
   };
   OpenRequestsModal = e => {
     e.preventDefault();
-    this.setState({ open: true, Groundtype: "Prayers" });
+    this.setState({ open: true, Groundtype: "Prayers", grounddesc:"", GroundResponse:"" });
   };
   openInterestedPartiesTab() {
     document.getElementById("nav-InterestedParties-tab").click();
@@ -1251,7 +1253,7 @@ class PEResponse extends Component {
           </div>
           <div className="col-lg-2">
             <div className="row wrapper ">
-              <Link to="/PEApplications">
+              {/* <Link to="/PEApplications">
                 <button
                   type="button"
                   style={{ marginTop: 40 }}
@@ -1259,7 +1261,7 @@ class PEResponse extends Component {
                 >
                   &nbsp; Back
                 </button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
@@ -1335,24 +1337,22 @@ class PEResponse extends Component {
                                 >
                                   Requested Deadline
                                 </label>
-                                  {
-                                  this.state.ApplicationClosingDate?
-                                    <input
-                                      type="date"
-                                      name="NewDeadLine"
-                                      required
-                                      defaultValue={this.state.NewDeadLine}
-                                      className="form-control"
-                                      onChange={this.handleInputChange}
-                                      max={dateFormat(
-                                        new Date(
-                                          this.state.ApplicationClosingDate
-                                        ).toLocaleDateString(),
-                                        "isoDate"
-                                      )}
-                                    />:null
-                                        }
-                                
+                                {this.state.ApplicationClosingDate ? (
+                                  <input
+                                    type="date"
+                                    name="NewDeadLine"
+                                    required
+                                    defaultValue={this.state.NewDeadLine}
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    max={dateFormat(
+                                      new Date(
+                                        this.state.ApplicationClosingDate
+                                      ).toLocaleDateString(),
+                                      "isoDate"
+                                    )}
+                                  />
+                                ) : null}
                               </div>
                             </div>
                             <br />
@@ -1438,10 +1438,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.BackgroundInfo}
                             width="80%"
-                            height="70%"
+                            height="60%"
                             effect="fadeInUp"
                           >
-                            <div style={{ overflow: "scroll" }}>
+                            <div style={{ "overflow-y": "scroll" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -1497,21 +1497,11 @@ class PEResponse extends Component {
                                         <div className="col-sm-2">
                                           <button
                                             type="submit"
-                                            className="btn btn-primary"
+                                            className="btn btn-primary float-right"
                                           >
-                                            Add
+                                            Save
                                           </button>
                                           &nbsp;&nbsp;
-                                          <button
-                                            type="button"
-                                            onClick={
-                                              this.closebackgroundInformation
-                                            }
-                                            className="btn btn-success"
-                                          >
-                                            {" "}
-                                            Done
-                                          </button>
                                         </div>
                                       </div>
                                     </form>
@@ -1523,10 +1513,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.open}
                             width="80%"
-                            height="70%"
+                            height="80%"
                             effect="fadeInUp"
                           >
-                            <div style={{ overflow: "scroll" }}>
+                            <div style={{ "overflow-y": "scroll" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -1581,16 +1571,24 @@ class PEResponse extends Component {
                                           )}
                                         </div>
                                       </div>
-
-                                      <div class="row">
-                                        <div class="col-sm-12">
-                                          <h3 style={headingstyle}>
-                                            Ground Description
-                                          </h3>
-                                          <br />
-                                          {ReactHtmlParser(
-                                            this.state.grounddesc
-                                          )}
+                                   
+                                      <h3 style={headingstyle}>
+                                        Ground Description
+                                            </h3>
+                                      <div
+                                        style={{
+                                          height: "100px",
+                                          "overflow-y": "scroll", "overflow-x": "hidden"
+                                    }}
+                                  >
+                                        <div class="row">
+                                          <div class="col-sm-12">
+                                          
+                                            <br />
+                                            {ReactHtmlParser(
+                                              this.state.grounddesc
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
 
@@ -1606,7 +1604,7 @@ class PEResponse extends Component {
                                           />
                                         </div>
                                       </div>
-                                      <br />
+                                      
                                       <div className=" row">
                                         <div className="col-sm-10" />
                                         <div className="col-sm-2">
@@ -1614,20 +1612,22 @@ class PEResponse extends Component {
                                             type="submit"
                                             className="btn btn-primary"
                                           >
-                                            Add
+                                            Save
                                           </button>
                                           &nbsp;&nbsp;
                                           <button
                                             type="button"
                                             onClick={this.closeGroundsModal}
-                                            className="btn btn-success"
+                                            className="btn btn-danger"
                                           >
                                             {" "}
-                                            Done
+                                            Close
                                           </button>
                                         </div>
                                       </div>
+                                      
                                     </form>
+                                    <br />
                                   </div>
                                 </div>
                               </div>
@@ -1659,14 +1659,22 @@ class PEResponse extends Component {
                                     this.state.BackgroundInformation
                                   )}
                                 </td>
-                                {/* <td>
-                                  {" "}
-                                  <span>
-                                    <a style={{ color: "#f44542" }}>
-                                      &nbsp; Remove
-                                    </a>
-                                  </span>
-                                </td> */}
+                                <td>
+                                  {this.state.BackgroundInformation ? (
+                                    <span>
+                                      <a
+                                        style={{ color: "#3352FF" }}
+                                        onClick={e =>
+                                          this.handleEditBackgroundInformation(
+                                            e
+                                          )
+                                        }
+                                      >
+                                        &nbsp; Edit
+                                      </a>
+                                    </span>
+                                  ) : null}
+                                </td>
                               </tr>
                             </table>
                           </div>
@@ -2299,11 +2307,20 @@ class PEResponse extends Component {
                                 <button
                                   type="button"
                                   onClick={this.CompleteSubmision}
-                                  className="btn btn-primary float-left"
+                                  className="btn btn-primary"
                                 >
                                   {" "}
                                   SUBMIT NOW
                                 </button>
+                                &nbsp;&nbsp;
+                                <Link to="/PEApplications">
+                                  <button
+                                    type="button"                                  
+                                    className="btn btn-danger"
+                                  >
+                                    &nbsp; Close
+                                </button>
+                                </Link>
                               </div>
                             </div>
                           </form>
@@ -2377,10 +2394,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.BackgroundInfo}
                             width="80%"
-                            height="70%"
+                            height="60%"
                             effect="fadeInUp"
                           >
-                            <div style={{ overflow: "scroll" }}>
+                            <div style={{ "overflow-y": "scroll" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -2436,21 +2453,11 @@ class PEResponse extends Component {
                                         <div className="col-sm-2">
                                           <button
                                             type="submit"
-                                            className="btn btn-primary"
+                                            className="btn btn-primary float-right"
                                           >
-                                            Add
+                                            Save
                                           </button>
                                           &nbsp;&nbsp;
-                                          <button
-                                            type="button"
-                                            onClick={
-                                              this.closebackgroundInformation
-                                            }
-                                            className="btn btn-success"
-                                          >
-                                            {" "}
-                                            Done
-                                          </button>
                                         </div>
                                       </div>
                                     </form>
@@ -2462,10 +2469,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.open}
                             width="80%"
-                            height="70%"
+                            height="80%"
                             effect="fadeInUp"
                           >
-                            <div style={{ overflow: "scroll" }}>
+                            <div style={{ "overflow-y": "scroll" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -2525,17 +2532,24 @@ class PEResponse extends Component {
                                             )}
                                           </div>
                                         </div>
-
+                                        <h3 style={headingstyle}>
+                                          Ground Description
+                                            </h3>
+                                        <div
+                                          style={{
+                                            height: "100px",
+                                            "overflow-y": "scroll", "overflow-x": "hidden"
+                                          }}
+                                        >
                                         <div class="row">
                                           <div class="col-sm-12">
-                                            <h3 style={headingstyle}>
-                                              Ground Description
-                                            </h3>
+                                            
                                             <br />
                                             {ReactHtmlParser(
                                               this.state.grounddesc
                                             )}
                                           </div>
+                                        </div>
                                         </div>
 
                                         <div class="row">
@@ -2558,19 +2572,20 @@ class PEResponse extends Component {
                                               type="submit"
                                               className="btn btn-primary"
                                             >
-                                              Add
+                                              Save
                                             </button>
                                             &nbsp;&nbsp;
                                             <button
                                               type="button"
                                               onClick={this.closeGroundsModal}
-                                              className="btn btn-success"
+                                              className="btn btn-danger"
                                             >
                                               {" "}
-                                              Done
+                                              Close
                                             </button>
                                           </div>
                                         </div>
+                                        <br/>
                                       </form>
                                     </div>
                                   </div>
@@ -2604,14 +2619,22 @@ class PEResponse extends Component {
                                     this.state.BackgroundInformation
                                   )}
                                 </td>
-                                {/* <td>
-                                  {" "}
-                                  <span>
-                                    <a style={{ color: "#f44542" }}>
-                                      &nbsp; Remove
-                                    </a>
-                                  </span>
-                                </td> */}
+                                <td>
+                                  {this.state.BackgroundInformation ? (
+                                    <span>
+                                      <a
+                                        style={{ color: "#3352FF" }}
+                                        onClick={e =>
+                                          this.handleEditBackgroundInformation(
+                                            e
+                                          )
+                                        }
+                                      >
+                                        &nbsp; Edit
+                                      </a>
+                                    </span>
+                                  ) : null}
+                                </td>
                               </tr>
                             </table>
                           </div>
@@ -2737,7 +2760,7 @@ class PEResponse extends Component {
                           effect="fadeInUp"
                           onClickAway={() => this.closeAddInterestedParty()}
                         >
-                          <div style={{ overflow: "scroll" }}>
+                          <div style={{ "overflow-y": "scroll" }}>
                             <a
                               style={{
                                 float: "right",
@@ -3300,7 +3323,7 @@ class PEResponse extends Component {
                             height="410"
                             effect="fadeInUp"
                           >
-                            <div style={{ overflow: "scroll" }}>
+                            <div style={{ "overflow-y": "scroll" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -3617,9 +3640,9 @@ class PEResponse extends Component {
 
                             <br />
                             <div className=" row">
-                              <div className="col-sm-10" />
+                              <div className="col-sm-9" />
 
-                              <div className="col-sm-2">
+                              <div className="col-sm-3">
                                 &nbsp;&nbsp;
                                 <button
                                   type="button"
@@ -3631,6 +3654,17 @@ class PEResponse extends Component {
                                   {" "}
                                   SUBMIT NOW
                                 </button>
+
+                                &nbsp;&nbsp;
+                                <Link to="/PEApplications">
+                                  <button
+                                    type="button"
+
+                                    className="btn btn-danger"
+                                  >
+                                    &nbsp; Close
+                                </button>
+                                </Link>
                               </div>
                             </div>
                           </form>

@@ -466,10 +466,10 @@ class createacc extends Component {
         })
             .then(response =>
                 response.json().then(data => {
-                    if (data.success) {
-                    } else {
-                        //swal("Saved!", data.message, "error");
-                    }
+                    // if (data.success) {
+                    // } else {
+                    //     //swal("Saved!", data.message, "error");
+                    // }
                 })
             )
             .catch(err => {
