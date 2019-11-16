@@ -362,61 +362,81 @@ const Reports = props => {
         </li>
         {props.showmenuvalue ? (
           <ul className="nav nav-second-level">
-            <li>
-              <Link to="/Decision">
-                <i className="fa fa-tasks" />
-                Decisions
-              </Link>
-            </li>
+            {props.validaterole("Decisions", "View") ? (
+              <li>
+                <Link to="/Decision">
+                  <i className="fa fa-tasks" />
+                  Decisions
+                </Link>
+              </li>
+            ) : null}
 
-            <li>
-              <Link to="/RB1">
-                <i className="fa fa-user-plus" />
-                RB1
-              </Link>
-            </li>
-            <li>
-              <Link to="/HearingNotices">
-                <i className="fa fa-address-card" />
-                Hearing Notices
-              </Link>
-            </li>
-            <li>
-              <Link to="/PanelList">
-                <i className="fa fa-user-plus" />
-                Panels
-              </Link>
-            </li>
-            <li>
-              <Link to="/CaseSummary">
-                <i className="fa fa-user-plus" />
-                Case Summary
-              </Link>
-            </li>
-            <li>
-              <Link to="/Attendance">
-                <i className="fa fa-address-card" />
-                Attendance
-              </Link>
-            </li>
-            <li>
-              <Link to="/Monthlycases">
-                <i className="fa fa-address-card" />
-                Monthly Cases
-              </Link>
-            </li>
-            <li>
-              <Link to="/PEAppearanceFrequencyPerCategory">
-                <i className="fa fa-address-card" />
-                PE Appearance Frequency
-              </Link>
-            </li>
-            <li>
-              <Link to="/requesthandled">
-                <i className="fa fa-address-card" />
-                Requests handled
-              </Link>
-            </li>
+            {props.validaterole("Case Summary", "View") ? (
+              <li>
+                <Link to="/CaseSummary">
+                  <i className="fa fa-user-plus" />
+                  Case Summary
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Panel List", "View") ? (
+              <li>
+                <Link to="/PanelList">
+                  <i className="fa fa-user-plus" />
+                  Panels
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Hearing Notices", "View") ? (
+              <li>
+                <Link to="/HearingNotices">
+                  <i className="fa fa-address-card" />
+                  Hearing Notices
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("RB1", "View") ? (
+              <li>
+                <Link to="/RB1">
+                  <i className="fa fa-user-plus" />
+                  RB1
+                </Link>
+              </li>
+            ) : null}
+
+            {props.validaterole("Attendance", "View") ? (
+              <li>
+                <Link to="/Attendance">
+                  <i className="fa fa-address-card" />
+                  Attendance
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("PE Appearance Frequency", "View") ? (
+              <li>
+                <Link to="/PEAppearanceFrequencyPerCategory">
+                  <i className="fa fa-address-card" />
+                  PE Appearance Frequency
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Monthly Cases", "View") ? (
+              <li>
+                <Link to="/Monthlycases">
+                  <i className="fa fa-address-card" />
+                  Monthly Cases
+                </Link>
+              </li>
+            ) : null}
+
+            {props.validaterole("Requests handled", "View") ? (
+              <li>
+                <Link to="/requesthandled">
+                  <i className="fa fa-address-card" />
+                  Requests handled
+                </Link>
+              </li>
+            ) : null}
           </ul>
         ) : null}
       </li>
