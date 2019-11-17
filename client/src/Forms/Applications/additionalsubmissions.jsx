@@ -606,7 +606,7 @@ class additionalsubmissions extends Component {
                         width="80%"
                         height="80%"
                         effect="fadeInUp"
-                        onClickAway={() => this.closeModal()}
+                        
                     >
                         <div className="ibox-content" style={{ overflow: "scroll", height: "100%" }}>
                         <a
@@ -714,17 +714,20 @@ class additionalsubmissions extends Component {
                                                     <div className="col-sm-2">
                                                         <button
                                                             type="submit"
-                                                            className="btn btn-primary float-left"
+                                                            className="btn btn-primary"
                                                         >
                                                             Submit
-                                                        </button>
+                                                        </button>&nbsp;&nbsp;
+                                                            <button onClick={this.closeModal} type="button" className="btn btn-danger">Cancel</button>
 
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br/>
                                       <div className=" row" >
-                                                <table className="table table-borderless table-sm">
-                                                        <thead className="thead-light">
+                                                    {this.state.AdditionalSubmisionsDocuments.length>0 ?
+                                                    <table className="table table-borderless table-sm">
+                                                    <thead className="thead-light">
                                                     <th>ID</th>
                                                     <th>Description</th>
                                                     <th>Date Uploaded</th>
@@ -736,7 +739,7 @@ class additionalsubmissions extends Component {
                                                                 <td>{i + 1}</td>
                                                                 <td>   {k.Description}</td>
                                                                 <td>
-                                                                    {new Date(k.Create_at).toLocaleDateString()}
+                                                                    {dateFormat(k.Create_at, "default")}
                                                                 </td>
                                                                 <td>
                                                                     <a onClick={e => ViewFile(k, e)} className="text-success">
@@ -752,12 +755,12 @@ class additionalsubmissions extends Component {
                                                                         }
                                                                     >
                                                                         &nbsp; Remove
-                                          </a>
+                                                                     </a>
                                                                 </td>
                                                             </tr>
                                                         );
                                                     })}
-                                                </table>
+                                                </table>:null}
 
                                             </div>
                                         </form>
@@ -979,7 +982,7 @@ of Breach:</td>
                                                         <td>{i + 1}</td>
                                                         <td>   {k.Description}</td>
                                                         <td>
-                                                            {new Date(k.Create_at).toLocaleDateString()}
+                                                            {dateFormat(k.Create_at, "default")}
                                                         </td>
                                                         <td>
                                                             <a onClick={e => ViewFile(k, e)} className="text-success">
@@ -1016,7 +1019,7 @@ of Breach:</td>
                         <div className="col-lg-12">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
-                                    <h2>My Applications</h2>
+                                    <h2>Additional Submission</h2>
                                 </li>
                             </ol>
                         </div>

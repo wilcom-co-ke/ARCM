@@ -954,7 +954,7 @@ of Breach:</td>
                                                         <td>{i + 1}</td>
                                                         <td>   {k.Description}</td>
                                                         <td>
-                                                            {dateFormat(new Date(k.Create_at).toLocaleDateString(), "mediumDate")}
+                                                            {dateFormat(k.Create_at, "default")}
                                                             
                                                         </td>
                                                         <td>
@@ -1025,7 +1025,8 @@ of Breach:</td>
                                     {this.state.ApplicationsProgress.map((r, i) => (
                                          r.Status === "Pending" ? (
                                             <tr>
-                                                <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
+                                                
+                                                <td >{dateFormat(r.Date, "default")}</td>
 
                                                 <td >
                                                     {" "}
@@ -1038,7 +1039,8 @@ of Breach:</td>
                                                 <td >{r.Status}</td>
                                             </tr>): (
                                             <tr>
-                                                    <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
+                                                   
+                                                    <td >{dateFormat(r.Date, "default")}</td>
                                                 <td >
                                                     {" "}
                                                     {r.Action}

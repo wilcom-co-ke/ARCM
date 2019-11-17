@@ -30,6 +30,7 @@ class Decision extends Component {
             TenderName: "",
             FilingDate: "",
             BackgroundInformation: "" ,
+            DecisionSummary:"",
             AwardDate: "",
             TenderNo: "",
             TenderValue:"",
@@ -52,7 +53,8 @@ class Decision extends Component {
             openFindingsModal:false,
             loaded: 0,
             Number:"",
-            Action:""
+            Action:"",
+            PartiesSubmissions:[]
 
         };
 
@@ -66,7 +68,7 @@ class Decision extends Component {
 
     }
     fetchBackgroundInformation = ApplicationNo => {
-        this.setState({ BackgroundInformation: "" });
+        this.setState({ BackgroundInformation: "", DecisionSummary:""});
         fetch("/api/Decision/" + ApplicationNo, {
             method: "GET",
             headers: {
@@ -78,7 +80,8 @@ class Decision extends Component {
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
                     this.setState({
-                        BackgroundInformation: ApplicantDetails[0].Backgroundinformation
+                        BackgroundInformation: ApplicantDetails[0].Backgroundinformation,
+                        DecisionSummary: ApplicantDetails[0].DecisionSummary
                     });
                 } else {
                     swal("", ApplicantDetails.message, "error");
@@ -284,8 +287,7 @@ class Decision extends Component {
         }
 
 
-    }
-    
+    }   
   
     switchMenu = e => {
         this.setState({ summary: false });
@@ -409,6 +411,27 @@ class Decision extends Component {
                 swal("", err.message, "error");
             });
     };
+    fetchPartiesSubmision = ApplicationNo => {
+        this.setState({ PartiesSubmissions: [] });
+        fetch("/api/PartySubmision/" + ApplicationNo, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(PEDetails => {
+                if (PEDetails.length > 0) {
+                    this.setState({ PartiesSubmissions: PEDetails });
+                } else {
+                    swal("", PEDetails.message, "error");
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
     fetchAttendance = ApplicationNo => {
         this.setState({ Attendance: [] });
         fetch("/api/Decision/" + ApplicationNo + "/Attendance", {
@@ -452,11 +475,20 @@ class Decision extends Component {
             FollowUpRequired: k.Followup,
             RefertoDG: k.Referral,
             Closed: k.Closed,
-            ApplicationSuccessful: k.ApplicationSuccessful
+            ApplicationSuccessful: k.ApplicationSuccessful,
+            Annulled: !!+k.Annulled,
+            GiveDirection: !!+k.GiveDirection,
+            Terminated: !!+k.ISTerminated,
+            ReTender: !!+k.ReTender,
+            CostsPE: !!+k.CostsPE,
+            CostsApplicant: !!+k.CostsApplicant,
+            CostsEachParty: !!+k.CostsEachParty,
+            Substitution: !!+k.Substitution
         };
         this.setState(data);
         this.fetchInterestedParties(k.ApplicationNo);
         this.fetchBoardMembers(k.ApplicationNo)
+        this.fetchPartiesSubmision(k.ApplicationNo);
         this.fetchAttendance(k.ApplicationNo)
         this.fetchApplicantDetails(k.ApplicationNo)
         this.fetchPEDetails(k.ApplicationNo)
@@ -485,6 +517,8 @@ class Decision extends Component {
             ApplicantName: app,
             PEName: pe,
             BackgroundInformation: this.state.BackgroundInformation,
+            PartiesSubmissions: this.state.PartiesSubmissions,
+            DecisionSummary: this.state.DecisionSummary,
             Applicationstatus: this.state.Status,
             FilingDate: dateFormat(
                 new Date(this.state.FilingDate).toLocaleDateString(),
@@ -786,6 +820,37 @@ class Decision extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="col-lg-1"></div>
+                            <div className="col-lg-10 ">
+                                <h3 style={headingstyle}>Parties Submissions</h3>
+                                <div className="row border border-success rounded bg-white">
+                                    <div class="col-sm-12">
+                                        <br />
+                                      
+                                        <div>
+                                            <table class="table table-sm">
+                                                <thead className="thead-light">
+                                                    <tr>
+                                                        <th scope="col">Party</th>
+                                                        <th scope="col"> Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.state.PartiesSubmissions.map((r, i) => (
+                                                        <tr>
+                                                            <td>{r.Party}</td>
+                                                            <td>{ReactHtmlParser(r.Description)}</td>
+                                                         
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div className="row">                            
                             <div className="col-lg-1"></div>                          
                             <div className="col-lg-10 ">
@@ -847,8 +912,7 @@ class Decision extends Component {
                                                 <thead className="thead-light">
                                                             <tr>
                                                         <th scope="col">NO</th>
-                                                                <th scope="col">Decision</th>
-                                                                <th scope="col"> Description</th>
+                                                              <th scope="col"> Description</th>
                                                                 
                                                             </tr>
                                                         </thead>
@@ -856,10 +920,7 @@ class Decision extends Component {
                                                     {this.state.Findings.map((r, i) =>
 
                                                                 <tr>
-                                                            <td>{r.NO}</td>
-                                                            <td>{r.Actions}</td>
-                                                                    
-                                                                    <td>
+                                                            <td>{r.NO}</td><td>
                                                                 {ReactHtmlParser(r.Description)}
                                                                     
                                                                     </td>
@@ -875,6 +936,21 @@ class Decision extends Component {
                                     </div>
                                 </div>
 
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-lg-1"></div>
+                            <div className="col-lg-10 ">
+                                <h3 style={headingstyle}>Decision Summary</h3>
+                                <div className="row border border-success rounded bg-white">
+                                    <div class="col-sm-12">
+                                   
+                                        <p></p>
+                                        <div>
+                                            {ReactHtmlParser(this.state.DecisionSummary)}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="row">                            
@@ -1057,7 +1133,123 @@ class Decision extends Component {
                                                 </div>
                                             </div>
                                             <br />
+                                            <br />
 
+                                            <div className="row">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="Annulled"
+                                                        defaultChecked={this.state.Annulled}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp; Annulled
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="GiveDirection"
+                                                        defaultChecked={this.state.GiveDirection}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp; Give Direction
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="Terminated"
+                                                        defaultChecked={this.state.Terminated}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp; Terminated
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="ReTender"
+                                                        defaultChecked={this.state.ReTender}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp; Re-Tender
+                        </div>
+                                            </div>
+                                            <br />
+                                            <div className="row">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="CostsPE"
+                                                        defaultChecked={this.state.CostsPE}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp;Costs–PE
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                        <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="CostsApplicant"
+                                                        defaultChecked={this.state.CostsApplicant}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp;Costs–Applicant
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+
+                                                        type="checkbox"
+                                                        name="CostsEachParty"
+                                                        defaultChecked={this.state.CostsEachParty}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp;Costs–Each Party
+                        </div>
+
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                   <div className="col-sm-2">
+                                                    <input
+                                                        className="checkbox"
+                                                        type="checkbox"
+                                                        name="Substitution"
+                                                        defaultChecked={this.state.Substitution}
+                                                        onChange={this.handleInputChange}
+                                                        disabled
+                                                    />
+                                                    &nbsp;Substitution
+                        </div>
+                                            </div>
+                                            <br />
                                             <div className="row">
                                                 <div className="col-sm-10"></div>
                                                 <div className="col-sm-2">

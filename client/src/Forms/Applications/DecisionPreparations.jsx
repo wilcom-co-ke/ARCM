@@ -62,7 +62,6 @@ class DecisionPreparations extends Component {
       TenderType: "",
       openBackgroundsModal: false,
       BackgroundInformation: "",
-
       Annulled:false,
       GiveDirection:false,
       Terminated:false,
@@ -70,7 +69,9 @@ class DecisionPreparations extends Component {
       CostsPE:false,
       CostsApplicant:false,
       CostsEachParty:false,
-      Substitution:false
+      Substitution:false,
+      DecisionSummaryModal: false ,
+      DecisionSummary:""
     };
 
     this.openModal = this.openModal.bind(this);
@@ -297,7 +298,7 @@ class DecisionPreparations extends Component {
       });
   };
   fetchBackgroundInformation = ApplicationNo => {
-    this.setState({ BackgroundInformation: "" });
+    this.setState({ BackgroundInformation: "", DecisionSummary:"" });
     fetch("/api/Decision/" + ApplicationNo, {
       method: "GET",
       headers: {
@@ -309,7 +310,8 @@ class DecisionPreparations extends Component {
       .then(ApplicantDetails => {
         if (ApplicantDetails.length > 0) {
           this.setState({
-            BackgroundInformation: ApplicantDetails[0].Backgroundinformation
+            BackgroundInformation: ApplicantDetails[0].Backgroundinformation,
+            DecisionSummary: ApplicantDetails[0].DecisionSummary
           });
         } else {
           swal("", ApplicantDetails.message, "error");
@@ -433,6 +435,12 @@ class DecisionPreparations extends Component {
   };
   openOrdersModal = () => {
     this.setState({ openIssuesModal: true, Orders: true, Selectedcaption: "orders" });
+  };
+  openDecisionSummaryModal = () => {
+    this.setState({ DecisionSummaryModal: true, Description:this.state.DecisionSummary});
+  };
+  CloseDecisionSummaryModal = () => {
+    this.setState({ DecisionSummaryModal: false });
   };
   handleDeleteDocument = d => {
     swal({
@@ -728,7 +736,15 @@ class DecisionPreparations extends Component {
       ApplicationSuccessful: !!+k.ApplicationSuccessful,
       FollowUpRequired: !!+k.Followup,
       RefertoDG: !!+k.Referral,
-      Closed: !!+k.Closed
+      Closed: !!+k.Closed,
+      Annulled: !!+k.Annulled,
+      GiveDirection: !!+k.GiveDirection,
+      Terminated: !!+k.ISTerminated,
+      ReTender: !!+k.ReTender,
+      CostsPE: !!+k.CostsPE,
+      CostsApplicant: !!+k.CostsApplicant,
+      CostsEachParty: !!+k.CostsEachParty,
+      Substitution: !!+k.Substitution
     };
     this.setState(data);
     this.fetchApplicantDetails(k.ApplicationNo);
@@ -762,6 +778,8 @@ class DecisionPreparations extends Component {
       ApplicantName: app,
       PEName: pe,
       BackgroundInformation: this.state.BackgroundInformation,
+      PartiesSubmissions: this.state.PartiesSubmissions,
+      DecisionSummary: this.state.DecisionSummary,
       Applicationstatus: this.state.Status,
       FilingDate: dateFormat(
         new Date(this.state.FilingDate).toLocaleDateString(),
@@ -814,7 +832,16 @@ class DecisionPreparations extends Component {
       Followup: this.state.FollowUpRequired,
       Referral: this.state.RefertoDG,
       Closed: this.state.Closed,
-      ApplicationSuccessful: this.state.ApplicationSuccessful
+      ApplicationSuccessful: this.state.ApplicationSuccessful,
+
+      Annulled: this.state.Annulled,
+      GiveDirection: this.state.GiveDirection,
+      Terminated: this.state.Terminated,
+      ReTender: this.state.ReTender,
+      CostsPE: this.state.CostsPE,
+      CostsApplicant: this.state.CostsApplicant,
+      CostsEachParty: this.state.CostsEachParty,
+      Substitution: this.state.Substitution
     };
     fetch("/api/Decision", {
       method: "POST",
@@ -1172,6 +1199,36 @@ class DecisionPreparations extends Component {
           });
       }
     }
+  };
+  handleDecisionSummaryModalSubmit = event => {
+    event.preventDefault();
+
+    const data = {
+      ApplicationNo: this.state.ApplicationNo,
+      Backgroundinformation: this.state.Description
+    };
+    this.setState({ DecisionSummary: this.state.Description });
+    fetch("/api/Decision/Backgroundinformation/DecisoonSummary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Added Successfully", "success");
+            this.setState({ Description: "", DecisionSummaryModal: false });
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("", err.message, "error");
+      });
   };
   handleBackgroundinformationSubmit = event => {
     event.preventDefault();
@@ -1791,7 +1848,56 @@ class DecisionPreparations extends Component {
                 </div>
               </div>
             </Modal>
+            <Modal
+              visible={this.state.DecisionSummaryModal}
+              width="80%"
+              height="500px"
+              effect="fadeInUp"
+            >
+              <div>
+                <a
+                  style={{ float: "right", color: "red", margin: "10px" }}
+                  href="javascript:void(0);"
+                  onClick={() => this.CloseDecisionSummaryModal()}
+                >
+                  Close
+                </a>
+                <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
+                  {" "}
+                  Decision Summary 
+                </h4>
 
+                <div className="container-fluid">
+                  <div className="col-sm-12">
+                    <div className="ibox-content">
+                      <form onSubmit={this.handleDecisionSummaryModalSubmit}>
+                        <div classname="row">
+                          <div class="col-sm-12">
+                            <label for="Name" className="font-weight-bold">
+                              Summary
+                            </label>
+                            <CKEditor
+                              data={this.state.Description}
+                              onChange={this.onIssuesEditorChange}
+                            />
+                          </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                          <div className="col-sm-10"></div>
+                          <div className="col-sm-2">
+                            <button className="btn btn-primary" type="submit">
+                              Submit
+                            </button>
+                            &nbsp;
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
             <div className="col-lg-10">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
@@ -2125,6 +2231,48 @@ class DecisionPreparations extends Component {
                 </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-lg-1"></div>
+              <div className="col-lg-10 ">
+                <h3 style={headingstyle}>Decision Summary</h3>
+                <div className="row border border-success rounded bg-white">
+                  <div class="col-sm-12">
+                    <br />
+                    <button
+                      className="btn btn-primary"
+                      onClick={this.openDecisionSummaryModal}
+                    >
+                      Add{" "}
+                    </button>
+                    <p></p>
+                    <div>
+                      <table class="table table-sm">
+                      <tr>
+                        
+                      <td>
+                        {ReactHtmlParser(this.state.DecisionSummary)}
+                      </td>
+                     
+                      <td>
+                        {this.state.DecisionSummary ? (
+                          <span>
+                            <a
+                              style={{ color: "#007bff" }}
+                              onClick={this.openDecisionSummaryModal}
+                            >
+                              Edit
+                                  </a>
+                          </span>
+                        ) : null}
+                      </td>
+                      </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">

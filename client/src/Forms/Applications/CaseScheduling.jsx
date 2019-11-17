@@ -52,7 +52,7 @@ class CaseScheduling extends Component {
         this.fetchcasedetails = this.fetchcasedetails.bind(this)
         this.CheckRoomAvailability = this.CheckRoomAvailability.bind(this)
         this.fetchBranches = this.fetchBranches.bind(this)
-        this.fetchBookings = this.fetchBookings.bind(this)
+       // this.fetchBookings = this.fetchBookings.bind(this)
         this.getDates = this.getDates.bind(this)
         this.HoverBtn = this.HoverBtn.bind(this)
         this.GenerateNotification = this.GenerateNotification.bind(this)
@@ -762,8 +762,8 @@ class CaseScheduling extends Component {
                        
                             swal("", "Room has been booked", "success");
                             this.fetchBookings();
-                            this.setState({ open: false });
-                            this.setState({ showNoticvebtn: true });
+                          
+                        this.setState({ showNoticvebtn: true, open: false });
                        
                        
                         

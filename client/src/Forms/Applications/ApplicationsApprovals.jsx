@@ -430,7 +430,7 @@ class ApplicationsApprovals extends Component {
     }
     ShowAcceptModal=e=>{
         
-        this.setState({ IsAccept: true, IsAccept: false, open: true  });
+        this.setState({ IsAccept: true, IsDecline: false, open: true  });
     }
     ShowRejectModal = e => {
        

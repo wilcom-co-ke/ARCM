@@ -93,7 +93,16 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
     Closed: Joi.boolean(),
     DecisionDate: Joi.date().required(),
     ApplicationSuccessful: Joi.boolean(),
-    ApplicationNo: Joi.string().required()
+    ApplicationNo: Joi.string().required(),
+
+    Annulled: Joi.boolean(),
+    GiveDirection: Joi.boolean(),
+    Terminated: Joi.boolean(),
+    ReTender: Joi.boolean(),
+    CostsPE: Joi.boolean(),
+    CostsApplicant: Joi.boolean(),
+    CostsEachParty: Joi.boolean(),
+    Substitution: Joi.boolean()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
@@ -104,7 +113,16 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
       req.body.Followup,
       req.body.Referral,
       req.body.Closed,
-      req.body.ApplicationSuccessful
+      req.body.ApplicationSuccessful,
+
+      req.body.Annulled,
+      req.body.GiveDirection,
+      req.body.Terminated,
+      req.body.ReTender,
+      req.body.CostsPE,
+      req.body.CostsApplicant,
+      req.body.CostsEachParty,
+      req.body.Substitution
     ];
 
     con.getConnection(function(err, connection) {
@@ -115,7 +133,7 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SubmitCaseDecision(?,?,?,?,?,?,?)";
+        let sp = "call SubmitCaseDecision(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -186,5 +204,50 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
+Decision.post("/:ID/:DecisionSummary", auth.validateRole("Decision"), function (req, res) {
+  const schema = Joi.object().keys({
+    ApplicationNo: Joi.string().required(),
+    Backgroundinformation: Joi.string().required()
+  });
+  const result = Joi.validate(req.body, schema);
+  if (!result.error) {
+    let data = [
+      req.body.ApplicationNo,
+      req.body.Backgroundinformation,
+      res.locals.user
+    ];
 
+    con.getConnection(function (err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call SaveDecisionSummary(?,?,?)";
+        connection.query(sp, data, function (error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "saved"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  } else {
+    res.json({
+      success: false,
+      message: result.error.details[0].message
+    });
+  }
+});
 module.exports = Decision;

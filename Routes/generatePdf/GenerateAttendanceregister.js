@@ -74,6 +74,7 @@ GenerateAttendanceregister.get("/:ID/:Value", function(req, res) {
   });
 });
 GenerateAttendanceregister.post("/", function(req, res) {
+  //console.log(req.body);
   try {
     (async () => {
       var dataBinding = req.body;
@@ -92,6 +93,7 @@ GenerateAttendanceregister.post("/", function(req, res) {
       );
       var options = {
         format: "A4",
+        landscape: true,
         headerTemplate: "<p></p>",
         footerTemplate: `<div style="width:100%; text-align: center;font-weight: 700!important;font-size:10px;"><hr/>Page <span class="pageNumber"></span> of <span class="totalPages"></span></div>`,
         displayHeaderFooter: true,

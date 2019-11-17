@@ -700,7 +700,7 @@ class CaseWithdrawal extends Component {
                             <div className="col-lg-12">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item">
-                                        <h2>My Applications</h2>
+                                        <h2>Case Withdrawals</h2>
                                     </li>
                                 </ol>
                             </div>

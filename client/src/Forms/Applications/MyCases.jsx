@@ -531,7 +531,7 @@ class MyCases extends Component {
                                         {this.state.ApplicationsProgress.map((r, i) => (
                                             r.Status === "Pending" ? (
                                                 <tr>
-                                                    <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
+                                                    <td >{dateFormat(r.Date, "default")}</td>
 
                                                     <td >
                                                         {" "}
@@ -544,7 +544,7 @@ class MyCases extends Component {
                                                     <td >{r.Status}</td>
                                                 </tr>) : (
                                                     <tr>
-                                                        <td >{dateFormat(new Date(r.Date).toLocaleDateString(), "default")}</td>
+                                                        <td >{dateFormat(r.Date, "default")}</td>
 
                                                         <td >
                                                             {" "}
