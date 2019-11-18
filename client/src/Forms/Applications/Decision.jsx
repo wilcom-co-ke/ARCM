@@ -272,8 +272,9 @@ class Decision extends Component {
                 .then(response =>
                     response.json().then(data => {
                         if (data.success) {
-                            this.fetchApplications()
+                            
                             this.ProtectRoute();
+                            this.fetchApplications()
                         } else {
                             localStorage.clear();
                             return (window.location = "/#/Logout");
@@ -638,7 +639,7 @@ class Decision extends Component {
                         width="80%"
                         height="600"
                         effect="fadeInUp"
-                        onClickAway={() => this.closeViewerModal()}
+                        
                     >
                         <div>
                             <a
@@ -1018,7 +1019,7 @@ class Decision extends Component {
                                                 </thead>
                                                 <tbody>
                                                     {this.state.Documents.map((r, i) =>
-
+                                                        r.Status ==="Approved"?
                                                         <tr>
                                                             <td>{i + 1}</td>
                                                             <td>
@@ -1035,7 +1036,7 @@ class Decision extends Component {
                                                                     </a> |
                                                                 </span>
                                                             </td>
-                                                        </tr>
+                                                        </tr>:null
 
                                                     )}
                                                 </tbody>

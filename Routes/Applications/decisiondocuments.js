@@ -88,6 +88,39 @@ decisiondocuments.post("/", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
+decisiondocuments.post("/:ID", auth.validateRole("Decision"), function(
+  req,
+  res
+) {
+  let data = [req.params.ID, res.locals.user];
+
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call Approvedecisiondocuments(?,?)";
+      connection.query(sp, data, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            success: true,
+            message: "Deleted Successfully"
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 
 decisiondocuments.delete("/:ID", auth.validateRole("Decision"), function(
   req,
@@ -122,4 +155,40 @@ decisiondocuments.delete("/:ID", auth.validateRole("Decision"), function(
     }
   });
 });
+
+decisiondocuments.post(
+  "/:ID/:SubmitDecision",
+  auth.validateRole("Decision"),
+  function(req, res) {
+    let data = [req.params.ID, res.locals.user];
+
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call SubmitApplicationdecision(?,?)";
+        connection.query(sp, data, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              results: results[0],
+              message: "Submited Successfully"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 module.exports = decisiondocuments;

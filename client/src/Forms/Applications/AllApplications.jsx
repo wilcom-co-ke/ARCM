@@ -394,7 +394,7 @@ class AllApplications extends Component {
 
     }
     ViewFile = (k, e) => {
-       
+    
         let filepath = k.Path + "/" + k.FileName;
         window.open(filepath);
         //this.setState({ openFileViewer: true });
@@ -930,20 +930,20 @@ of Breach:</td>
 
                                     {this.state.AdditionalSubmisions.map(function (k, i) {
                                         return (
-
                                             <p>
+                                                <h5> Submited By. {k.SubmitedBy} - {k.Category} ({dateFormat(k.Create_at, "default")})</h5>
                                                 {ReactHtmlParser(k.Description)}
                                             </p>
 
                                         );
                                     })}
                                     <h2>Attachments</h2>
-
                                     <table className="table table-borderless table-sm">
                                         <thead className="thead-light">
                                             <th>ID</th>
                                             <th>Description</th>
                                             <th>Date Uploaded</th>
+                                            <th>Uploaded By</th>
                                             <th>Actions</th>
 
                                         </thead>
@@ -955,8 +955,10 @@ of Breach:</td>
                                                         <td>   {k.Description}</td>
                                                         <td>
                                                             {dateFormat(k.Create_at, "default")}
-                                                            
+
                                                         </td>
+                                                        <td>   {k.SubmitedBy} - {k.Category}</td>
+
                                                         <td>
                                                             <a
                                                                 onClick={e => ViewFile(k, e)}

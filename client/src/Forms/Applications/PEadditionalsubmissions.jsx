@@ -178,6 +178,7 @@ class PEadditionalsubmissions extends Component {
             });
     };
     fetchAdditionalSubmisionsDocuments = (ApplicationID) => {
+       
         this.setState({
             AdditionalSubmisionsDocuments: []
         });
@@ -190,7 +191,7 @@ class PEadditionalsubmissions extends Component {
         })
             .then(res => res.json())
             .then(AdditionalSubmisions => {
-
+             
                 if (AdditionalSubmisions.length > 0) {
                     this.setState({
                         AdditionalSubmisionsDocuments: AdditionalSubmisions
@@ -217,11 +218,10 @@ class PEadditionalsubmissions extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const data = {
-            DocName: this.state.UploadedFilename,
+          
             ApplicationID: this.state.ApplicationID,
             Description: this.state.AdditionalDescription,
-            FilePath: process.env.REACT_APP_BASE_URL + "/Documents",
-            Category:"PE"
+           
         };
         this.postData("/api/additionalsubmissions", data);
     };
@@ -509,7 +509,7 @@ class PEadditionalsubmissions extends Component {
                         ApplicationID: this.state.ApplicationID,
                         Description: this.state.DocumentDesc,
                         FilePath: process.env.REACT_APP_BASE_URL + "/Documents",
-                        Category: "PE",
+                     
                         Confidential: this.state.Confidential
                     };
                     this.Savedocument("/api/additionalsubmissions/Documents", data);
@@ -764,7 +764,7 @@ class PEadditionalsubmissions extends Component {
                                                     <div className="col-sm-2">
                                                         <button
                                                             type="submit"
-                                                            className="btn btn-primary float-left"
+                                                            className="btn btn-primary float-right"
                                                         >
                                                             Submit
                                                         </button>
@@ -772,6 +772,7 @@ class PEadditionalsubmissions extends Component {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br/>
                                       <div className=" row" >
                                                 <table className="table table-borderless table-sm">
                                                         <thead className="thead-light">
@@ -782,6 +783,7 @@ class PEadditionalsubmissions extends Component {
                                                         </thead>
                                                         {this.state.AdditionalSubmisionsDocuments.map( (k, i)=> {
                                                         return (
+                                                            k.CreatedBy === localStorage.getItem("UserName") ?
                                                             <tr>
                                                                 <td>{i + 1}</td>
                                                                 <td>   {k.Description}</td>
@@ -802,9 +804,9 @@ class PEadditionalsubmissions extends Component {
                                                                         }
                                                                     >
                                                                         &nbsp; Remove
-                                          </a>
+                                                                          </a>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>:null
                                                         );
                                                     })}
                                                 </table>
@@ -1008,9 +1010,10 @@ of Breach:</td>
                                         {this.state.AdditionalSubmisions.map(function (k, i) {
                                             return (
                                                
-                                                 <p>
-                                                    {ReactHtmlParser(k.Description)}
-                                                 </p>                                                    
+                                                k.CreatedBy === localStorage.getItem("UserName") ?
+                                                    <p>
+                                                        {ReactHtmlParser(k.Description)}
+                                                    </p> : null                                                  
                                                
                                             );
                                         })}

@@ -78,11 +78,12 @@ var FeesApproval = require("./Routes/Applications/FeesApproval");
 var ExecutiveReports = require("./Routes/Reports/ExecutiveReports");
 var issuesfordetermination = require("./Routes/Applications/issuesfordetermination");
 var findingsonissues = require("./Routes/Applications/findingsonissues");
-var PartySubmision=require("./Routes/Applications/PartySubmision")
+var PartySubmision = require("./Routes/Applications/PartySubmision");
 var decisiondocuments = require("./Routes/Applications/decisiondocuments");
 var decisionorders = require("./Routes/Applications/decisionorders");
 var Decision = require("./Routes/Applications/Decision");
 var GenerateDecision = require("./Routes/generatePdf/GenerateDecision");
+var caseanalysis = require("./Routes/Applications/caseanalysis");
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -131,11 +132,11 @@ app.use("/api/CaseReferrals", CaseReferrals);
 
 app.use("/api/issuesfordetermination", issuesfordetermination);
 app.use("/api/findingsonissues", findingsonissues);
-app.use("/api/PartySubmision", PartySubmision)
+app.use("/api/PartySubmision", PartySubmision);
 app.use("/api/decisiondocuments", decisiondocuments);
 app.use("/api/decisionorders", decisionorders);
 app.use("/api/Decision", Decision);
-
+app.use("/api/Caseanalysis", caseanalysis);
 app.use("/api/additionalsubmissions", additionalsubmissions);
 app.use("/api/UpdateProfile", updateprofile);
 app.use("/api/users", Users);

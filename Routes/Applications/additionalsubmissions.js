@@ -33,7 +33,7 @@ additionalsubmissions.get("/:ID", function(req, res) {
 });
 additionalsubmissions.get("/:ID/:Value", function(req, res) {
   const ID = req.params.ID;
-  const Value = req.params.Value;
+  
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -42,8 +42,8 @@ additionalsubmissions.get("/:ID/:Value", function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call Getadditionalsubmissions(?,?)";
-      connection.query(sp, [ID, Value], function(error, results, fields) {
+      let sp = "call Getadditionalsubmissions(?)";
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -60,7 +60,6 @@ additionalsubmissions.get("/:ID/:Value", function(req, res) {
 });
 additionalsubmissions.get("/:ID/:Value/:Documents", function(req, res) {
   const ID = req.params.ID;
-  const Value = req.params.Value;
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -69,8 +68,8 @@ additionalsubmissions.get("/:ID/:Value/:Documents", function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call GetadditionalsubmissionsDocuments(?,?)";
-      connection.query(sp, [ID, Value], function(error, results, fields) {
+      let sp = "call GetadditionalsubmissionsDocuments(?)";
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -90,22 +89,12 @@ additionalsubmissions.post("/", function(req, res) {
     ApplicationID: Joi.number()
       .integer()
       .min(1),
-    Description: Joi.string().required(),
-    DocName: Joi.string().required(),
-    FilePath: Joi.string().required(),
-    Category: Joi.string().required()
+    Description: Joi.string().required()
   });
 
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
-    let data = [
-      req.body.ApplicationID,
-      req.body.Description,
-      req.body.DocName,
-      req.body.FilePath,
-      res.locals.user,
-      req.body.Category
-    ];
+    let data = [req.body.ApplicationID, req.body.Description, res.locals.user];
     con.getConnection(function(err, connection) {
       if (err) {
         res.json({
@@ -114,7 +103,7 @@ additionalsubmissions.post("/", function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call Saveadditionalsubmissions(?,?,?,?,?,?)";
+        let sp = "call Saveadditionalsubmissions(?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -144,10 +133,9 @@ additionalsubmissions.post("/:ID", function(req, res) {
     ApplicationID: Joi.number()
       .integer()
       .min(1),
-    Description: Joi.string().required(),
     DocName: Joi.string().required(),
+    Description: Joi.string().required(),
     FilePath: Joi.string().required(),
-    Category: Joi.string().required(),
     Confidential: Joi.boolean()
   });
 
@@ -159,7 +147,6 @@ additionalsubmissions.post("/:ID", function(req, res) {
       req.body.DocName,
       req.body.FilePath,
       res.locals.user,
-      req.body.Category,
       req.body.Confidential
     ];
     con.getConnection(function(err, connection) {
@@ -170,7 +157,7 @@ additionalsubmissions.post("/:ID", function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveadditionalsubmissionsDocuments(?,?,?,?,?,?,?)";
+        let sp = "call SaveadditionalsubmissionsDocuments(?,?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({

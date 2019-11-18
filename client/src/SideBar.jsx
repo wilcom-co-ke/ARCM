@@ -459,31 +459,40 @@ const CaseHearing = props => {
         </li>
         {props.showmenuvalue ? (
           <ul className="nav nav-second-level">
-            <li>
-              <Link to="/casesittingsregister">
-                <i className="fa fa-address-card-o" aria-hidden="true" />
-                Registration
-              </Link>
-            </li>
-            <li>
-              <Link to="/CloseRegistrations">
-                <i className="fa fa-address-card-o" aria-hidden="true" />
-                Close Registrations
-              </Link>
-            </li>
+            {props.validaterole("Registration", "View") ? (
+              <li>
+                <Link to="/casesittingsregister">
+                  <i className="fa fa-address-card-o" aria-hidden="true" />
+                  Registration
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Registration", "View") ? (
+              <li>
+                <Link to="/CloseRegistrations">
+                  <i className="fa fa-address-card-o" aria-hidden="true" />
+                  Close Registrations
+                </Link>
+              </li>
+            ) : null}
 
-            <li>
-              <Link to="/HearingInprogress">
-                <i className="fa fa-address-card-o" aria-hidden="true" />
-                Hearing In progress
-              </Link>
-            </li>
-            <li>
-              <Link to="/CaseProceedings">
-                <i className="fa fa-address-card-o" aria-hidden="true" />
-                Case Proceedings
-              </Link>
-            </li>
+            {props.validaterole("Registration", "View") ? (
+              <li>
+                <Link to="/HearingInprogress">
+                  <i className="fa fa-address-card-o" aria-hidden="true" />
+                  Hearing In progress
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Case Proceedings", "View") ? (
+              <li>
+                <Link to="/CaseProceedings">
+                  <i className="fa fa-address-card-o" aria-hidden="true" />
+                  Case Proceedings
+                </Link>
+              </li>
+            ) : null}
+
             {props.validaterole("Decision", "View") ? (
               <li>
                 <Link to="/DecisionPreparations">
@@ -492,6 +501,23 @@ const CaseHearing = props => {
                 </Link>
               </li>
             ) : null}
+            {props.validaterole("Decision", "View") ? (
+              <li>
+                <Link to="/DecisionsUploads">
+                  <i className="fa fa-tasks" />
+                  Decisions Uploads
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Decision", "View") ? (
+              <li>
+                <Link to="/DecisionsApproval">
+                  <i className="fa fa-tasks" />
+                  Decisions Approval
+                </Link>
+              </li>
+            ) : null}
+
             {props.validaterole("Case Scheduling", "View") ? (
               <li>
                 <Link to="/CaseScheduling">
@@ -576,6 +602,14 @@ const CaseManagement = props => {
                 <Link to="/Response">
                   <i className="fa fa-tasks" />
                   PE Response
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Case Analysis", "View") ? (
+              <li>
+                <Link to="/CaseAnalysis">
+                  <i className="fa fa-tasks" />
+                  Case Analysis
                 </Link>
               </li>
             ) : null}
@@ -720,7 +754,7 @@ const SystemAdmin = props => {
               <li>
                 <Link to="/casedetails">
                   <i className="fa fa-user-plus " />
-                  Officer ReAsignment
+                  Officer ReAssignment
                 </Link>
               </li>
             ) : null}

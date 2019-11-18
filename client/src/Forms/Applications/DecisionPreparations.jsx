@@ -62,16 +62,16 @@ class DecisionPreparations extends Component {
       TenderType: "",
       openBackgroundsModal: false,
       BackgroundInformation: "",
-      Annulled:false,
-      GiveDirection:false,
-      Terminated:false,
-      ReTender:false,
-      CostsPE:false,
-      CostsApplicant:false,
-      CostsEachParty:false,
-      Substitution:false,
-      DecisionSummaryModal: false ,
-      DecisionSummary:""
+      Annulled: false,
+      GiveDirection: false,
+      Terminated: false,
+      ReTender: false,
+      CostsPE: false,
+      CostsApplicant: false,
+      CostsEachParty: false,
+      Substitution: false,
+      DecisionSummaryModal: false,
+      DecisionSummary: ""
     };
 
     this.openModal = this.openModal.bind(this);
@@ -298,7 +298,7 @@ class DecisionPreparations extends Component {
       });
   };
   fetchBackgroundInformation = ApplicationNo => {
-    this.setState({ BackgroundInformation: "", DecisionSummary:"" });
+    this.setState({ BackgroundInformation: "", DecisionSummary: "" });
     fetch("/api/Decision/" + ApplicationNo, {
       method: "GET",
       headers: {
@@ -434,10 +434,17 @@ class DecisionPreparations extends Component {
     this.setState({ openBackgroundsModal: false });
   };
   openOrdersModal = () => {
-    this.setState({ openIssuesModal: true, Orders: true, Selectedcaption: "orders" });
+    this.setState({
+      openIssuesModal: true,
+      Orders: true,
+      Selectedcaption: "orders"
+    });
   };
   openDecisionSummaryModal = () => {
-    this.setState({ DecisionSummaryModal: true, Description:this.state.DecisionSummary});
+    this.setState({
+      DecisionSummaryModal: true,
+      Description: this.state.DecisionSummary
+    });
   };
   CloseDecisionSummaryModal = () => {
     this.setState({ DecisionSummaryModal: false });
@@ -1864,7 +1871,7 @@ class DecisionPreparations extends Component {
                 </a>
                 <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
                   {" "}
-                  Decision Summary 
+                  Decision Summary
                 </h4>
 
                 <div className="container-fluid">
@@ -2247,25 +2254,22 @@ class DecisionPreparations extends Component {
                     <p></p>
                     <div>
                       <table class="table table-sm">
-                      <tr>
-                        
-                      <td>
-                        {ReactHtmlParser(this.state.DecisionSummary)}
-                      </td>
-                     
-                      <td>
-                        {this.state.DecisionSummary ? (
-                          <span>
-                            <a
-                              style={{ color: "#007bff" }}
-                              onClick={this.openDecisionSummaryModal}
-                            >
-                              Edit
-                                  </a>
-                          </span>
-                        ) : null}
-                      </td>
-                      </tr>
+                        <tr>
+                          <td>{ReactHtmlParser(this.state.DecisionSummary)}</td>
+
+                          <td>
+                            {this.state.DecisionSummary ? (
+                              <span>
+                                <a
+                                  style={{ color: "#007bff" }}
+                                  onClick={this.openDecisionSummaryModal}
+                                >
+                                  Edit
+                                </a>
+                              </span>
+                            ) : null}
+                          </td>
+                        </tr>
                       </table>
                     </div>
                   </div>
@@ -2328,7 +2332,7 @@ class DecisionPreparations extends Component {
                 </div>
               </div>
             </div>
-            <div className="row">
+            {/* <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
                 <h3 style={headingstyle}>Decision Documents</h3>
@@ -2384,7 +2388,7 @@ class DecisionPreparations extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
@@ -2422,7 +2426,8 @@ class DecisionPreparations extends Component {
                             onChange={this.handleInputChange}
                           />
                           &nbsp; Successful
-                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2433,7 +2438,8 @@ class DecisionPreparations extends Component {
                             onChange={this.handleInputChange}
                           />
                           &nbsp;Follow Up Required
-                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2444,7 +2450,8 @@ class DecisionPreparations extends Component {
                             onChange={this.handleInputChange}
                           />
                           &nbsp;Refer to DG
-                        </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
@@ -2458,13 +2465,12 @@ class DecisionPreparations extends Component {
                         </div>
                       </div>
                       <br />
-                    
+
                       <div className="row">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-                            
                             type="checkbox"
                             name="Annulled"
                             defaultChecked={this.state.Annulled}
@@ -2472,12 +2478,10 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp; Annulled
                         </div>
-                      
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-                          
                             type="checkbox"
                             name="GiveDirection"
                             defaultChecked={this.state.GiveDirection}
@@ -2485,12 +2489,10 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp; Give Direction
                         </div>
-                     
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-
                             type="checkbox"
                             name="Terminated"
                             defaultChecked={this.state.Terminated}
@@ -2498,12 +2500,10 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp; Terminated
                         </div>
-                     
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-
                             type="checkbox"
                             name="ReTender"
                             defaultChecked={this.state.ReTender}
@@ -2512,13 +2512,12 @@ class DecisionPreparations extends Component {
                           &nbsp; Re-Tender
                         </div>
                       </div>
-                     <br/>
+                      <br />
                       <div className="row">
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-
                             type="checkbox"
                             name="CostsPE"
                             defaultChecked={this.state.CostsPE}
@@ -2526,12 +2525,10 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp;Costs–PE
                         </div>
-                    
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-
                             type="checkbox"
                             name="CostsApplicant"
                             defaultChecked={this.state.CostsApplicant}
@@ -2539,12 +2536,10 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp;Costs–Applicant
                         </div>
-                    
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
                             className="checkbox"
-
                             type="checkbox"
                             name="CostsEachParty"
                             defaultChecked={this.state.CostsEachParty}
@@ -2552,7 +2547,6 @@ class DecisionPreparations extends Component {
                           />
                           &nbsp;Costs–Each Party
                         </div>
-                     
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <div className="col-sm-2">
                           <input
@@ -2565,7 +2559,7 @@ class DecisionPreparations extends Component {
                           &nbsp;Substitution
                         </div>
                       </div>
-                      <br/>
+                      <br />
                       <div className="row">
                         <div className="col-sm-9"></div>
                         <div className="col-sm-3">

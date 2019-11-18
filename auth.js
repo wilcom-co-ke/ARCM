@@ -141,7 +141,7 @@ router.post("/", function(req, res) {
                 if (isemailVerified) {
                   var token = jwt.sign(
                     {
-                      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+                      exp: Math.floor(Date.now() / 1000) + 600 * 60,
                       //exp: Math.floor(Date.now() / 1000) + 5 * 5,
                       UserName: user
                     },

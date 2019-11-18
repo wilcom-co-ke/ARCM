@@ -5,7 +5,7 @@ var config = require("./../../DB");
 var con = mysql.createPool(config);
 let nodeMailer = require("nodemailer");
 function SendResetPasswordmail(Destination, Subject, emailbody) {
-  const output = `<p>Your Activation Code is :<b>${emailbody}</b></p>`;
+  const output = `<p>Your New password is: <b>${emailbody}</b></p>`;
   con.getConnection(function(err, connection) {
     let sp = "call getSMTPDetails()";
     connection.query(sp, function(error, results, fields) {

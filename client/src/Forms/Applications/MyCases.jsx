@@ -53,6 +53,7 @@ class MyCases extends Component {
             ApplicationGrounds: [],
             ApplicationDocuments: [],
             Applicationfees: [],
+            AdditionalSubmisionsDocuments: [],
             FilingDate: "",
             PEName: "",
             ApplicationNo: "",
@@ -357,6 +358,37 @@ class MyCases extends Component {
 
             });
     };
+
+    fetchAdditionalSubmisionsDocuments = (ApplicationID) => {
+        this.setState({
+            AdditionalSubmisionsDocuments: []
+        });
+        fetch("/api/additionalsubmissions/" + ApplicationID + "/Applicant/Documents", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(AdditionalSubmisions => {
+
+                if (AdditionalSubmisions.length > 0) {
+                    this.setState({
+                        AdditionalSubmisionsDocuments: AdditionalSubmisions
+                    });
+
+                } else {
+                    toast.error(AdditionalSubmisions.message);
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+
+            });
+    };
+
+    
     fetchApplicationProgress = Applicationno => {
 
         fetch("/api/applications/" + Applicationno + "/1/1", {
@@ -388,6 +420,7 @@ class MyCases extends Component {
         this.fetchApplicationDocuments(k.ID)
         this.fetchTenderAdendums(k.TenderID);
         this.fetchAdditionalSubmisions(k.ID);
+        this.fetchAdditionalSubmisionsDocuments(k.ID)
         this.fetchinterestedparties(k.ID);
         this.fetchApplicationProgress(k.ApplicationNo)
         this.fetchApplicantDetails(k.Applicantusername)
@@ -939,28 +972,47 @@ of Breach:</td>
                             <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Additional Submissions</h3>
                                 <div className="col-lg-11 border border-success rounded">
+                                    {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        return (
+                                            <p>
+                                                <h5> Submited By. {k.SubmitedBy} - {k.Category} ({dateFormat(k.Create_at, "default")})</h5>
+                                                {ReactHtmlParser(k.Description)}
+                                            </p>
+
+                                        );
+                                    })}
+                                    <h2>Attachments</h2>
                                     <table className="table table-borderless table-sm">
                                         <thead className="thead-light">
-                                        <th>ID</th>
-                                        <th>Description</th>
-                                        <th>Date Uploaded</th>
-                                        <th>Actions</th>
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Date Uploaded</th>
+                                            <th>Uploaded By</th>
+                                            <th>Actions</th>
+
                                         </thead>
-                                        {this.state.AdditionalSubmisions.map(function (k, i) {
+                                        {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
                                             return (
-                                                <tr>
-                                                    <td>{i + 1}</td>
-                                                    <td>   {ReactHtmlParser(k.Description)}</td>
-                                                    <td>
-                                                        {dateFormat(new Date(k.Create_at).toLocaleDateString(), "mediumDate")}
-                                                      
-                                                    </td>
-                                                    <td>
-                                                        <a onClick={e => ViewFile(k, e)} className="text-success">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
-                                                      </a>
-                                                    </td>
-                                                </tr>
+                                              
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td>   {k.Description}</td>
+                                                        <td>
+                                                            {dateFormat(k.Create_at, "default")}
+
+                                                        </td>
+                                                        <td>   {k.SubmitedBy} - {k.Category}</td>
+
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                                  </a>
+                                                        </td>
+
+                                                    </tr> 
                                             );
                                         })}
                                     </table>

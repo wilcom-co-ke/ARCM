@@ -14,8 +14,8 @@ Decision.get("/", auth.validateRole("Decision"), function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call GetApplicationsforDecision()";
-      connection.query(sp, function(error, results, fields) {
+      let sp = "call GetApplicationsforDecision(?)";
+      connection.query(sp, [res.locals.user], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -85,7 +85,52 @@ Decision.get("/:ID/:Attendance", auth.validateRole("Decision"), function(
     }
   });
 });
-
+Decision.get(
+  "/:ID/:Applications/:Cloased",
+  auth.validateRole("Decision"),
+  function(req, res) {
+    const ID = req.params.ID;
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        if (ID == "SubmitedDecisions") {
+          let sp = "call GetAllSubmitedDecisions()";
+          connection.query(sp, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json(results[0]);
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        } else {
+          let sp = "call GetClosedApplicationsForDecisionUploads()";
+          connection.query(sp, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json(results[0]);
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+      }
+    });
+  }
+);
 Decision.post("/", auth.validateRole("Decision"), function(req, res) {
   const schema = Joi.object().keys({
     Followup: Joi.boolean(),
@@ -204,7 +249,10 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
-Decision.post("/:ID/:DecisionSummary", auth.validateRole("Decision"), function (req, res) {
+Decision.post("/:ID/:DecisionSummary", auth.validateRole("Decision"), function(
+  req,
+  res
+) {
   const schema = Joi.object().keys({
     ApplicationNo: Joi.string().required(),
     Backgroundinformation: Joi.string().required()
@@ -217,7 +265,7 @@ Decision.post("/:ID/:DecisionSummary", auth.validateRole("Decision"), function (
       res.locals.user
     ];
 
-    con.getConnection(function (err, connection) {
+    con.getConnection(function(err, connection) {
       if (err) {
         res.json({
           success: false,
@@ -226,7 +274,7 @@ Decision.post("/:ID/:DecisionSummary", auth.validateRole("Decision"), function (
       } // not connected!
       else {
         let sp = "call SaveDecisionSummary(?,?,?)";
-        connection.query(sp, data, function (error, results, fields) {
+        connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
               success: false,

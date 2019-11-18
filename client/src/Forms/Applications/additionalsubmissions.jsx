@@ -270,11 +270,10 @@ class additionalsubmissions extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const data = {
-            DocName: this.state.UploadedFilename,
+          
             ApplicationID: this.state.ApplicationID,
             Description: this.state.AdditionalDescription,
-            FilePath: process.env.REACT_APP_BASE_URL+"/Documents",
-            Category: "Applicant"
+          
         };
         this.postData("/api/additionalsubmissions", data);
     };
@@ -467,7 +466,7 @@ class additionalsubmissions extends Component {
                         ApplicationID: this.state.ApplicationID,
                         Description: this.state.DocumentDesc,
                         FilePath: process.env.REACT_APP_BASE_URL + "/Documents",
-                        Category: "Applicant",
+                       
                         Confidential: this.state.Confidential
                     };
                     this.Savedocument("/api/additionalsubmissions/Documents", data);
@@ -735,6 +734,7 @@ class additionalsubmissions extends Component {
                                                         </thead>
                                                         {this.state.AdditionalSubmisionsDocuments.map( (k, i)=> {
                                                         return (
+                                                            k.CreatedBy === localStorage.getItem("UserName") ?
                                                             <tr>
                                                                 <td>{i + 1}</td>
                                                                 <td>   {k.Description}</td>
@@ -757,7 +757,7 @@ class additionalsubmissions extends Component {
                                                                         &nbsp; Remove
                                                                      </a>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>:null
                                                         );
                                                     })}
                                                 </table>:null}
@@ -959,10 +959,10 @@ of Breach:</td>
 
                                     {this.state.AdditionalSubmisions.map(function (k, i) {
                                         return (
-
+                                            k.CreatedBy === localStorage.getItem("UserName")?
                                             <p>
                                                 {ReactHtmlParser(k.Description)}
-                                            </p>
+                                            </p>:null
 
                                         );
                                     })}

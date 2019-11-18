@@ -1263,6 +1263,63 @@ ARCMS – System Administrator
       });
     });
   }
+    
+  if (ID === "DECISION REPORT") {
+      const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Decision report for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
+   and it's awaiting your reviw.</br>
+    </p>`;
+      con.getConnection(function (err, connection) {
+        let sp = "call getSMTPDetails()";
+        connection.query(sp, function (error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            let Host = results[0][0].Host;
+            let Port = results[0][0].Port;
+            let Sender = results[0][0].Sender;
+            let Password = results[0][0].Password;
+
+            let transporter = nodeMailer.createTransport({
+              host: Host,
+              port: Port,
+              secure: true,
+              auth: {
+                // should be replaced with real sender's account
+                user: Sender,
+                pass: Password
+              },
+              tls: {
+                rejectUnauthorized: false
+              }
+            });
+
+            let mailOptions = {
+              to: req.body.to,
+              subject: req.body.subject,
+              html: output
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                res.json({
+                  success: false,
+                  message: "Not Sent"
+                });
+              } else {
+                res.json({
+                  success: true,
+                  message: "Sent"
+                });
+              }
+            });
+          }
+          connection.release();
+        });
+      });
+    }
   if (ID === "PanelApprover") {
     const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Panel List for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
    and it's awaiting your reviw.</br>
