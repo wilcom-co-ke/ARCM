@@ -6,6 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import ReactHtmlParser from "react-html-parser";
 import Modal from 'react-awesome-modal';
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { Progress } from "reactstrap";
+import Select from "react-select";
 var dateFormat = require('dateformat');
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
@@ -80,13 +83,37 @@ class AllApplications extends Component {
 
             ApplicantPostalCode: "",
             ApplicantPOBox: "",
-            ApplicantTown: ""
+            ApplicantTown: "",
+            AddJudicialReview:false,
+
+          
+            jDateFilled:"",
+            jCaseNO:"",
+            jDescription:"",
+            jApplicant:"",
+            jCourt:"",
+            Towns:[],
+            jTown:"",
+            selectedFile: "",
+            JudicialDocuments:[],
+            loaded: 0
 
         };
         this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
         this.Resetsate = this.Resetsate.bind(this);
         this.fetchAdditionalSubmisions = this.fetchAdditionalSubmisions.bind(this)
     }
+    closeJudicialReview = () => {
+        this.setState({ AddJudicialReview: false });
+    };
+    handleSelectChange = (County, actionMeta) => {
+        this.setState({ [actionMeta.name]: County.value });
+        };
+
+ openJudicialReview = () => {
+            this.setState({ AddJudicialReview: true });
+        };
+
     checkDocumentRoles = () => {
       
         if (this.state.Board) {
@@ -98,6 +125,29 @@ class AllApplications extends Component {
         return false;
 
     }
+    fetchTowns = () => {
+
+        fetch("/api/Towns" , {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(Towns => {
+                if (Towns.length > 0) {
+                   
+                    this.setState({ Towns: Towns });
+                } else {
+                    // swal("Oops!", "Invalid Postal Code", "error");
+                }
+            })
+            .catch(err => {
+                toast.error(err.message)
+                
+            });
+    };
     fetchApplicantDetails = (Applicant) => {
         fetch("/api/applicants/" + Applicant, {
             method: "GET",
@@ -290,6 +340,7 @@ class AllApplications extends Component {
                     response.json().then(data => {
                         if (data.success) {
                             this.fetchApplications();
+                            this.fetchTowns();
                         } else {
                             localStorage.clear();
                             return (window.location = "/#/Logout");
@@ -360,6 +411,7 @@ class AllApplications extends Component {
         this.fetchinterestedparties(k.ID);
         this.fetchApplicantDetails(k.Applicantusername)
         this.fetchApplicationProgress(k.ApplicationNo)
+        this.fetchJudicialDocuments(k.ApplicationNo)
         const data = {
             PEPOBox: k.PEPOBox,
             PEPostalCode: k.PEPostalCode,
@@ -388,9 +440,11 @@ class AllApplications extends Component {
             TenderCategory: k.TenderCategory,         
             Timer: k.Timer,
             PaymentStatus: k.PaymentStatus,
+            summary: true
         };
-        this.setState({ summary: true });
+        
         this.setState(data);
+        
 
     }
     ViewFile = (k, e) => {
@@ -398,6 +452,14 @@ class AllApplications extends Component {
         let filepath = k.Path + "/" + k.FileName;
         window.open(filepath);
         //this.setState({ openFileViewer: true });
+    };
+    handleInputChange = event => {
+        // event.preventDefault();
+        // this.setState({ [event.target.name]: event.target.value });
+        const target = event.target;
+        const value = target.type === "checkbox" ? target.checked : target.value;
+        const name = target.name;
+        this.setState({ [name]: value });
     };
     fetchinterestedparties = (ApplicationID) => {
         this.setState({ interestedparties: [] });
@@ -483,8 +545,172 @@ class AllApplications extends Component {
     closeModal=()=> {
         this.setState({ openTracking: false });
     }
-    render() {
+    handleJudicialReviewSubmit = event => {
+        event.preventDefault();
+        let datatosave = {
+            ApplicationNo: this.state.ApplicationNo,
+            DateFilled: this.state.jDateFilled,
+            CaseNO: this.state.jCaseNO,
+            Description: this.state.jDescription,
+            Applicant: this.state.jApplicant,
+            Court: this.state.jCourt,
+            Town: this.state.jTown
+        };
+        fetch("/api/JudicialReview", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(datatosave)
+        })
+            .then(response =>
+                response.json().then(data => {
+                    if (data.success) {
+                        swal("", "Added successfully", "success");
+                        this.setState({ AddJudicialReview:false})
+                     
+                    } else {
+                       
+                        swal("", data.message, "error");
+                    }
+                })
+            )
+            .catch(err => {
+                toast.error("Could not be added please try again");
+               
+            });
 
+    };
+    fetchJudicialDocuments = (ApplicationNo) => {
+        this.setState({ JudicialDocuments: [] });
+
+        fetch("/api/JudicialReview/" + ApplicationNo, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(JudicialDocuments => {
+                if (JudicialDocuments.length > 0) {
+                    this.setState({ JudicialDocuments: JudicialDocuments });
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
+    SaveJudicailReviewDocs(Documentname) {
+        const data = {
+            ApplicationNo: this.state.ApplicationNo,
+            Name: Documentname,
+            Description: this.state.DocumentDesc,
+            Path: process.env.REACT_APP_BASE_URL + "/Documents"
+        };
+        fetch("/api/JudicialReview/Documents", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response =>
+                response.json().then(data => {
+                    if (data.success) {
+                        this.fetchJudicialDocuments(this.state.ApplicationNo);
+                        swal("", "Document uploaded!", "success");
+                    } else {
+                        swal("", data.message, "error");
+                    }
+                })
+            )
+            .catch(err => {
+                swal("Oops!", err.message, "error");
+            });
+    }
+    maxSelectFile = event => {
+        let files = event.target.files; // create file object
+        if (files.length > 1) {
+            const msg = "Only One file can be uploaded at a time";
+            event.target.value = null; // discard selected file
+            toast.warn(msg);
+            return false;
+        }
+        return true;
+    };
+    onChangeHandler = event => {
+        //for multiple files
+        var files = event.target.files;
+        if (this.maxSelectFile(event)) {
+            this.setState({
+                selectedFile: files,
+                loaded: 0
+            });
+        }
+    };
+    handleDocumentSubmit = event => {
+        event.preventDefault();
+        if (this.state.selectedFile) {
+            const data = new FormData();
+
+            for (var x = 0; x < this.state.selectedFile.length; x++) {
+                data.append("file", this.state.selectedFile[x]);
+            }
+            axios
+                .post("/api/upload/Document", data, {
+                    // receive two parameter endpoint url ,form data
+                    onUploadProgress: ProgressEvent => {
+                        this.setState({
+                            loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
+                        });
+                    }
+                })
+                .then(res => {
+                    this.SaveJudicailReviewDocs(res.data);
+                })
+                .catch(err => {
+                    toast.error("upload fail");
+                });
+        } else {
+            toast.warn("Please select a file to upload");
+        }
+    };
+    handleDeleteDocument = d => {
+        swal({
+            text: "Are you sure that you want to remove this document?",
+            icon: "warning",
+            dangerMode: true,
+            buttons: true
+        }).then(willDelete => {
+            if (willDelete) {
+                return fetch("/api/JudicialReview/" + d.Name, {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": localStorage.getItem("token")
+                    }
+                })
+                    .then(response =>
+                        response.json().then(data => {
+                            if (data.success) {
+                                this.fetchJudicialDocuments(this.state.ApplicationNo);
+                                toast.success("Deleted")
+                            } else {
+                                swal("", "Remove Failed", "error");
+                            }
+                        })
+                    )
+                    .catch(err => {
+                        swal("", "Remove Failed", "error");
+                    });
+            }
+        });
+    };
+    render() {
+        let handleDeleteDocument = this.handleDeleteDocument;
         const ColumnData = [
             {
                 label: "ApplicationNo",
@@ -500,11 +726,7 @@ class AllApplications extends Component {
                 field: "FilingDate",
                 sort: "asc"
             },
-            {
-                label: "ApplicationREf",
-                field: "ApplicationREf",
-                sort: "asc"
-            },
+            
             {
                 label: "Status",
                 field: "Status",
@@ -526,7 +748,7 @@ class AllApplications extends Component {
                     TenderName: k.TenderName,
                     PE: k.PEName,
                     FilingDate: dateFormat(new Date(k.FilingDate).toLocaleDateString(), "mediumDate"), 
-                    ApplicationREf: k.ApplicationREf,
+                 
                     Status: k.Status,
 
                     action: (
@@ -551,13 +773,339 @@ class AllApplications extends Component {
         }
 
         let ViewFile = this.ViewFile;
-        
+        let Courts=[{
+            value: "HIGH COURT",
+            label: "HIGH COURT"
+        },
+            {
+                value: "COURT OF APPEAL",
+                label: "COURT OF APPEAL"
+            },
+            {
+                value: "SUPREME COURT",
+                label: "SUPREME COURT"
+            }]
+        const Towns = [...this.state.Towns].map((k, i) => {
+            return {
+                value: k.Town,
+                label: k.Town
+            };
+        });
         if (this.state.summary) {
             return (
                 <div>
                     <ToastContainer/>
+                    <Modal
+                        visible={this.state.AddJudicialReview}
+                        width="70%"
+                        height="70%"
+                        effect="fadeInUp"
+                    >
+                        <div style={{ overflow: "scroll" }}>
+                        <a
+                            style={{
+                                float: "right",
+                                color: "red",
+                                margin: "10px"
+                            }}
+                            href="javascript:void(0);"
+                            onClick={() => this.closeJudicialReview()}
+                        >
+                            <i class="fa fa-close"></i>
+                        </a>
+                        <div>
+                            <h4
+                                style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                }}
+                            >
+                                Judicial Review
+                            </h4>
+                            <div className="container-fluid">
+                                    <div style={{ "overflow-y": "scroll", height: "450px" }}>
+                                <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                        <form
+                                            onSubmit={this.handleJudicialReviewSubmit}
+                                        >
+
+                                            <div className=" row">
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                CaseNO
+                                                             </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <input
+                                                                onChange={this.handleInputChange}
+                                                                value={
+                                                                    this.state.jCaseNO
+                                                                }
+                                                                type="text"
+                                                                required
+                                                                name="jCaseNO"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Date Filed
+                                            </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <input
+                                                                onChange={this.handleInputChange}
+                                                                value={
+                                                                    this.state
+                                                                        .jDateFilled
+                                                                }
+                                                                type="date"
+                                                                required
+                                                                name="jDateFilled"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div className=" row">
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Description
+                                            </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <input
+                                                                onChange={this.handleInputChange}
+                                                                value={
+                                                                    this.state
+                                                                        .jDescription
+                                                                }
+                                                                type="text"
+                                                                required
+                                                                name="jDescription"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Applicant
+                                            </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <input
+                                                                onChange={this.handleInputChange}
+                                                                value={
+                                                                    this.state.jApplicant
+                                                                }
+                                                                type="text"
+                                                                required
+                                                                name="jApplicant"
+                                                                className="form-control"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div className=" row">
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Court
+                                            </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <Select
+                                                                name="jCourt"
+                                                             
+                                                                onChange={this.handleSelectChange}
+                                                                options={Courts}
+                                                                required
+                                                            />
+                                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div className="col-md-6">
+                                                    <div className="row">
+                                                        <div className="col-md-4">
+                                                            <label
+                                                                htmlFor="exampleInputPassword1"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Town
+                                            </label>
+                                                        </div>
+                                                        <div className="col-md-8">
+                                                            <Select
+                                                                name="jTown"
+                                                            
+                                                                onChange={this.handleSelectChange}
+                                                                options={Towns}
+                                                                required
+                                                            />
+                                                         
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                           
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label
+                                                        for="Document"
+                                                        className="font-weight-bold"
+                                                    >
+                                                        Document
+                                </label>
+                                                    <input
+                                                        type="file"
+                                                        className="form-control"
+                                                        name="file"
+                                                        onChange={this.onChangeHandler}
+                                                    />
+                                                    <div class="form-group">
+                                                        <Progress
+                                                            max="100"
+                                                            color="success"
+                                                            value={this.state.loaded}
+                                                        >
+                                                            {Math.round(this.state.loaded, 2)}%
+                                  </Progress>
+                                                    </div>
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-success "
+                                                     onClick={this.handleDocumentSubmit}
+                                                    >
+                                                        Upload
+                                </button>{" "}
+                                                </div>
+                                                        <div class="col-sm-6">
+                                                            <div className="row">
+                                                            <div className="col-md-4">
+                                                                    <label
+                                                                        for="Document"
+                                                                        className="font-weight-bold"
+                                                                    >
+                                                                        Document Description
+                                                     </label>
+                                                            </div>
+                                                            <div className="col-md-8">
+
+                                                   
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="DocumentDesc"
+                                                        onChange={this.handleInputChange}
+                                                        value={this.state.DocumentDesc}
+                                                       
+                                                    />
+                                                    </div></div>
+                                                </div>
+                                          
+                                            </div>
+                                                <div className="row">
+                                                    <table className="table table-sm-7">
+                                                        <th>#</th>
+                                                        <th>Document Description</th>
+                                                        <th>FileName</th>
+                                                        <th>Actions</th>
+
+                                                        {this.state.JudicialDocuments.map(function (
+                                                            k,
+                                                            i
+                                                        ) {
+                                                            return (
+                                                                <tr>
+                                                                    <td>{i + 1}</td>
+                                                                    <td>{k.Description}</td>
+                                                                    <td>{k.Name}</td>
+                                                                    <td>
+                                                                        <span>
+                                                                            <a
+                                                                                style={{ color: "#f44542" }}
+                                                                                onClick={e =>
+                                                                                    handleDeleteDocument(k, e)
+                                                                                }
+                                                                            >
+                                                                                &nbsp; Remove
+                                          </a>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            );
+                                                        })}
+                                                    </table>
+                                                </div>
+                                                <br/>
+                                            <div className="col-sm-12 ">
+                                                <div className=" row">
+                                                    <div className="col-sm-9" />
+                                                    <div className="col-sm-3">
+                                                        <button
+                                                            type="submit"
+                                                            className="btn btn-primary"
+                                                        >
+                                                            Save
+                                          </button>
+                                                        &nbsp; &nbsp;
+                                          <button
+                                                            type="button"
+                                                            className="btn btn-danger"
+                                                            onClick={
+                                                                this.closeJudicialReview
+                                                            }
+                                                        >
+                                                            Close
+                                          </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    
+                    </div></Modal>
                     <div className="row wrapper border-bottom white-bg page-heading">
-                        <div className="col-lg-9">
+                        <div className="col-lg-8">
                             <ol className="breadcrumb">
                                 <li className="breadcrumb-item">
                                     <h2 className="font-weight-bold">
@@ -579,7 +1127,7 @@ class AllApplications extends Component {
                                 </li>
                             </ol>
                         </div>
-                        <div className="col-lg-3">
+                        <div className="col-lg-4">
                             <div className="row wrapper ">
                                
                                      <button
@@ -588,17 +1136,20 @@ class AllApplications extends Component {
                                         onClick={this.openModal}
                                     className="btn btn-success float-right"
                                 >
-                                    &nbsp; Track progress
-                             </button>
-                             
+                                    Track progress
+                             </button> &nbsp;
+                                <button type="button"
+                                    style={{ marginTop: 40 }}
+                                    onClick={this.openJudicialReview}
+                                    className="btn btn-primary"> Judicial Review</button>
                                 &nbsp;
                                 <button
                                     type="button"
                                     style={{ marginTop: 40 }}
                                     onClick={this.GoBack}
-                                    className="btn btn-primary float-left"
+                                    className="btn btn-warning float-left"
                                 >
-                                    &nbsp; Back
+                                   Back
                   </button>
                             </div>
                         </div>

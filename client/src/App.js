@@ -15,7 +15,7 @@ import NewApprovers from "./Forms/SystemAdmin/NewApprovers";
 import caseofficers from "./Forms/SystemAdmin/caseofficers";
 import casedetails from "./Forms/Applications/casedetails";
 import CaseScheduling from "./Forms/Applications/CaseScheduling";
-import CaseAnalysis from "./Forms/Applications/CaseAnalysis"
+import CaseAnalysis from "./Forms/Applications/CaseAnalysis";
 //general
 import Login from "./Login";
 import DashBoard from "./DashBoard";
@@ -84,8 +84,9 @@ import Monthlycases from "./Forms/Reports/Monthlycases";
 import PEAppearanceFrequency from "./Forms/Reports/PEAppearanceFrequency";
 import PEAppearanceFrequencyPerCategory from "./Forms/Reports/PEAppearanceFrequencyPerCategory";
 import requesthandled from "./Forms/Reports/requesthandled";
-import DecisionsUploads from "./Forms/Applications/DecisionsUploads"
-import DecisionsApproval from "./Forms/Applications/DecisionsApproval"
+import DecisionsUploads from "./Forms/Applications/DecisionsUploads";
+import DecisionsApproval from "./Forms/Applications/DecisionsApproval";
+import JudicialReview from "./Forms/Applications/JudicialReview";
 // const checkAuth = () => {
 //   let token = localStorage.getItem("token");
 //   if (!token) {
@@ -133,11 +134,22 @@ function App() {
                 <Route exact path="/CaseReferrals" component={CaseReferrals} />
                 <Route exact path="/CaseFollowUp" component={CaseFollowUp} />
                 <Route exact path="/Monthlycases" component={Monthlycases} />
-                <Route exact path="/DecisionsUploads" component={DecisionsUploads} />
-                <Route exact path="/DecisionsApproval" component={DecisionsApproval} />
+                <Route
+                  exact
+                  path="/DecisionsUploads"
+                  component={DecisionsUploads}
+                />
+                <Route
+                  exact
+                  path="/DecisionsApproval"
+                  component={DecisionsApproval}
+                />
                 <Route exact path="/CaseAnalysis" component={CaseAnalysis} />
-                
-                
+                <Route
+                  exact
+                  path="/JudicialReview"
+                  component={JudicialReview}
+                />
                 <Route
                   exact
                   path="/requesthandled"

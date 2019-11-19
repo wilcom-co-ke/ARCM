@@ -789,7 +789,7 @@ const Parameteres = props => {
           style={props.MenuStyle}
         >
           <i className="fa fa-cogs" />{" "}
-          <span className="nav-label">System parameteres</span>
+          <span className="nav-label">System Parameters</span>
         </li>
         {props.showmenuvalue ? (
           <ul className="nav nav-second-level">

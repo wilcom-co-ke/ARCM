@@ -84,6 +84,8 @@ var decisionorders = require("./Routes/Applications/decisionorders");
 var Decision = require("./Routes/Applications/Decision");
 var GenerateDecision = require("./Routes/generatePdf/GenerateDecision");
 var caseanalysis = require("./Routes/Applications/caseanalysis");
+var GenerateCaseAnalysis = require("./Routes/generatePdf/GenerateCaseAnalysis");
+var JudicialReview = require("./Routes/Applications/judicialreview");
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -189,8 +191,9 @@ app.use("/api/GeneratePanelList", GeneratePanelList);
 app.use("/api/GenerateCaseSummary", GenerateCaseSummary);
 app.use("/api/GenerateAttendanceregister", GenerateAttendanceregister);
 app.use("/api/GenerateDecision", GenerateDecision);
+app.use("/api/GenerateCaseAnalysis", GenerateCaseAnalysis);
 app.use("/api/ExecutiveReports", ExecutiveReports);
-
+app.use("/api/JudicialReview", JudicialReview);
 app.use((req, res, next) => {
   const error = new Error("resource not found");
   error.status = 404;

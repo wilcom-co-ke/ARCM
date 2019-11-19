@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissiondocuments` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissiondocuments: ~3 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissiondocuments: ~2 rows (approximately)
 /*!40000 ALTER TABLE `additionalsubmissiondocuments` DISABLE KEYS */;
 INSERT INTO `additionalsubmissiondocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `Confidential`, `SubmitedBy`) VALUES
 	(15, 15, 'Document', '1574079583705-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-18 15:19:44', 'P09875345W', 0, NULL, NULL, 'Applicant', 0, NULL),
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissions` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissions: ~5 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissions: ~4 rows (approximately)
 /*!40000 ALTER TABLE `additionalsubmissions` DISABLE KEYS */;
 INSERT INTO `additionalsubmissions` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `SubmitedBy`) VALUES
 	(5, 15, '<p>This will print all the components we have done so far in one shot. But in real application you need to create a module, divide those into functions and execute them one at a time whenever necessary.</p>\n', '1574079583705-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-18 15:19:48', 'P09875345W', 0, NULL, NULL, 'Applicant', NULL),
@@ -461,9 +461,9 @@ CREATE TABLE IF NOT EXISTS `applicationsequence` (
   `ExpectedAction` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `User` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationsequence: ~45 rows (approximately)
+-- Dumping data for table arcm.applicationsequence: ~46 rows (approximately)
 /*!40000 ALTER TABLE `applicationsequence` DISABLE KEYS */;
 INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Status`, `ExpectedAction`, `User`) VALUES
 	(21, '16 OF 2019', '2019-11-13 00:00:00', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
@@ -515,7 +515,9 @@ INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Sta
 	(67, '16 OF 2019', '2019-11-17 12:11:41', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
 	(68, '16 OF 2019', '2019-11-17 12:11:48', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
 	(69, '19 OF 2019', '2019-11-17 12:17:53', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(70, '17 OF 2019', '2019-11-18 13:45:32', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin');
+	(70, '17 OF 2019', '2019-11-18 13:45:32', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin'),
+	(71, '16 OF 2019', '2019-11-19 13:25:01', 'Uploded case Analysis Report', 'Done', 'Awaiting Hearing', 'Admin'),
+	(72, '19 OF 2019', '2019-11-19 15:11:17', 'Judicial Review', 'Done', 'Judicial Review', 'Admin');
 /*!40000 ALTER TABLE `applicationsequence` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationshistory
@@ -594,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `approvalmodules` (
   KEY `ModuleCode` (`ModuleCode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.approvalmodules: ~7 rows (approximately)
+-- Dumping data for table arcm.approvalmodules: ~6 rows (approximately)
 /*!40000 ALTER TABLE `approvalmodules` DISABLE KEYS */;
 INSERT INTO `approvalmodules` (`ID`, `ModuleCode`, `Name`, `Create_at`, `Update_at`, `Deleted`, `CreatedBy`, `UpdatedBy`, `Category`, `MaxApprovals`) VALUES
 	(1, 'APFRE', 'Applications Approval', '2019-08-21 17:58:50', NULL, 0, '', NULL, 'Application', 1),
@@ -1015,7 +1017,7 @@ CREATE TABLE IF NOT EXISTS `approvers` (
   CONSTRAINT `Module` FOREIGN KEY (`ModuleCode`) REFERENCES `approvalmodules` (`ModuleCode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.approvers: ~25 rows (approximately)
+-- Dumping data for table arcm.approvers: ~24 rows (approximately)
 /*!40000 ALTER TABLE `approvers` DISABLE KEYS */;
 INSERT INTO `approvers` (`ID`, `Username`, `ModuleCode`, `Mandatory`, `Active`, `Create_at`, `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`) VALUES
 	(1, 'Admin', 'APFRE', 0, 1, '2019-10-16 14:11:35', NULL, 'Admin', 'Admin', 0, NULL, NULL),
@@ -1108,832 +1110,41 @@ CREATE TABLE IF NOT EXISTS `audittrails` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IpAddress` bigint(20) NOT NULL,
   PRIMARY KEY (`AuditID`)
-) ENGINE=InnoDB AUTO_INCREMENT=822 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.audittrails: ~821 rows (approximately)
+-- Dumping data for table arcm.audittrails: ~30 rows (approximately)
 /*!40000 ALTER TABLE `audittrails` DISABLE KEYS */;
 INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES
-	(1, '2019-11-11 15:11:22', 'Admin', 'Cahnged User Photo for user: Admin', 'Update', 0),
-	(2, '2019-11-11 15:11:28', 'Admin', 'Updated  User with username: Admin', 'Update', 0),
-	(3, '2019-11-11 15:19:43', 'Admin', 'Added new User with username:PPRA01', 'Add', 0),
-	(4, '2019-11-11 15:22:12', 'PPRA01', 'Cahnged User Photo for user: PPRA01', 'Update', 0),
-	(5, '2019-11-11 15:22:14', 'PPRA01', 'Updated  User with username: PPRA01', 'Update', 0),
-	(6, '2019-11-11 15:25:59', 'Admin', 'Updated UserGroup with iD: 9', 'Update', 0),
-	(7, '2019-11-11 15:26:18', 'Admin', '469', 'Create', 0),
-	(8, '2019-11-11 15:26:24', 'Admin', '469', 'Update', 0),
-	(9, '2019-11-11 15:26:25', 'Admin', '469', 'Update', 0),
-	(10, '2019-11-11 15:26:26', 'Admin', '469', 'Update', 0),
-	(11, '2019-11-11 15:26:27', 'Admin', '469', 'Update', 0),
-	(12, '2019-11-11 15:26:31', 'Admin', '469', 'Update', 0),
-	(13, '2019-11-11 15:26:33', 'Admin', '469', 'Update', 0),
-	(14, '2019-11-11 15:26:35', 'Admin', '499', 'Create', 0),
-	(15, '2019-11-11 15:26:37', 'Admin', '499', 'Update', 0),
-	(16, '2019-11-11 15:26:38', 'Admin', '499', 'Update', 0),
-	(17, '2019-11-11 15:26:43', 'Admin', '539', 'Create', 0),
-	(18, '2019-11-11 15:26:44', 'Admin', '539', 'Update', 0),
-	(19, '2019-11-11 15:26:45', 'Admin', '539', 'Update', 0),
-	(20, '2019-11-11 15:26:45', 'Admin', '539', 'Update', 0),
-	(21, '2019-11-11 15:26:54', 'Admin', '609', 'Create', 0),
-	(22, '2019-11-11 15:26:55', 'Admin', '609', 'Update', 0),
-	(23, '2019-11-11 15:26:56', 'Admin', '609', 'Update', 0),
-	(24, '2019-11-11 15:26:57', 'Admin', '609', 'Update', 0),
-	(25, '2019-11-11 15:27:05', 'Admin', '339', 'Create', 0),
-	(26, '2019-11-11 15:27:06', 'Admin', '339', 'Update', 0),
-	(27, '2019-11-11 15:27:07', 'Admin', '339', 'Update', 0),
-	(28, '2019-11-11 15:27:18', 'Admin', '359', 'Create', 0),
-	(29, '2019-11-11 15:27:18', 'Admin', '359', 'Update', 0),
-	(30, '2019-11-11 15:27:19', 'Admin', '359', 'Update', 0),
-	(31, '2019-11-11 15:27:20', 'Admin', '359', 'Update', 0),
-	(32, '2019-11-11 15:27:25', 'Admin', '369', 'Create', 0),
-	(33, '2019-11-11 15:27:26', 'Admin', '369', 'Update', 0),
-	(34, '2019-11-11 15:27:27', 'Admin', '369', 'Update', 0),
-	(35, '2019-11-11 15:27:27', 'Admin', '369', 'Update', 0),
-	(36, '2019-11-11 15:27:29', 'Admin', '379', 'Create', 0),
-	(37, '2019-11-11 15:27:30', 'Admin', '379', 'Update', 0),
-	(38, '2019-11-11 15:27:31', 'Admin', '379', 'Update', 0),
-	(39, '2019-11-11 15:27:32', 'Admin', '379', 'Update', 0),
-	(40, '2019-11-11 15:27:33', 'Admin', '389', 'Create', 0),
-	(41, '2019-11-11 15:27:34', 'Admin', '389', 'Update', 0),
-	(42, '2019-11-11 15:27:36', 'Admin', '389', 'Update', 0),
-	(43, '2019-11-11 15:27:37', 'Admin', '389', 'Update', 0),
-	(44, '2019-11-11 15:27:39', 'Admin', '399', 'Create', 0),
-	(45, '2019-11-11 15:27:40', 'Admin', '399', 'Update', 0),
-	(46, '2019-11-11 15:27:40', 'Admin', '399', 'Update', 0),
-	(47, '2019-11-11 15:27:41', 'Admin', '399', 'Update', 0),
-	(48, '2019-11-11 15:27:42', 'Admin', '409', 'Create', 0),
-	(49, '2019-11-11 15:27:43', 'Admin', '409', 'Update', 0),
-	(50, '2019-11-11 15:27:44', 'Admin', '409', 'Update', 0),
-	(51, '2019-11-11 15:27:45', 'Admin', '409', 'Update', 0),
-	(52, '2019-11-11 15:27:55', 'Admin', '429', 'Create', 0),
-	(53, '2019-11-11 15:27:56', 'Admin', '429', 'Update', 0),
-	(54, '2019-11-11 15:27:57', 'Admin', '429', 'Update', 0),
-	(55, '2019-11-11 15:27:58', 'Admin', '429', 'Update', 0),
-	(56, '2019-11-11 15:28:05', 'Admin', '439', 'Create', 0),
-	(57, '2019-11-11 15:28:11', 'Admin', '449', 'Create', 0),
-	(58, '2019-11-11 15:28:14', 'Admin', '459', 'Create', 0),
-	(59, '2019-11-11 15:28:17', 'Admin', '459', 'Update', 0),
-	(60, '2019-11-11 15:28:18', 'Admin', '449', 'Update', 0),
-	(61, '2019-11-11 15:28:20', 'Admin', '509', 'Create', 0),
-	(62, '2019-11-11 15:28:22', 'Admin', '509', 'Update', 0),
-	(63, '2019-11-11 15:28:23', 'Admin', '509', 'Update', 0),
-	(64, '2019-11-11 15:28:24', 'Admin', '509', 'Update', 0),
-	(65, '2019-11-11 15:28:29', 'Admin', '559', 'Create', 0),
-	(66, '2019-11-11 15:28:30', 'Admin', '559', 'Update', 0),
-	(67, '2019-11-11 15:28:31', 'Admin', '559', 'Update', 0),
-	(68, '2019-11-11 15:28:34', 'Admin', '249', 'Create', 0),
-	(69, '2019-11-11 15:28:35', 'Admin', '249', 'Update', 0),
-	(70, '2019-11-11 15:28:37', 'Admin', '249', 'Update', 0),
-	(71, '2019-11-11 15:28:37', 'Admin', '249', 'Update', 0),
-	(72, '2019-11-11 15:28:38', 'Admin', '249', 'Update', 0),
-	(73, '2019-11-11 15:28:39', 'Admin', '259', 'Create', 0),
-	(74, '2019-11-11 15:28:42', 'Admin', '259', 'Update', 0),
-	(75, '2019-11-11 15:28:43', 'Admin', '259', 'Update', 0),
-	(76, '2019-11-11 15:28:44', 'Admin', '259', 'Update', 0),
-	(77, '2019-11-11 15:28:45', 'Admin', '259', 'Update', 0),
-	(78, '2019-11-11 15:28:46', 'Admin', '269', 'Create', 0),
-	(79, '2019-11-11 15:28:47', 'Admin', '269', 'Update', 0),
-	(80, '2019-11-11 15:28:47', 'Admin', '269', 'Update', 0),
-	(81, '2019-11-11 15:28:48', 'Admin', '269', 'Update', 0),
-	(82, '2019-11-11 15:28:49', 'Admin', '269', 'Update', 0),
-	(83, '2019-11-11 15:28:52', 'Admin', '279', 'Create', 0),
-	(84, '2019-11-11 15:28:53', 'Admin', '279', 'Update', 0),
-	(85, '2019-11-11 15:28:55', 'Admin', '279', 'Update', 0),
-	(86, '2019-11-11 15:28:56', 'Admin', '279', 'Update', 0),
-	(87, '2019-11-11 15:28:57', 'Admin', '279', 'Update', 0),
-	(88, '2019-11-11 15:28:58', 'Admin', '479', 'Create', 0),
-	(89, '2019-11-11 15:28:59', 'Admin', '479', 'Update', 0),
-	(90, '2019-11-11 15:29:00', 'Admin', '479', 'Update', 0),
-	(91, '2019-11-11 15:29:01', 'Admin', '479', 'Update', 0),
-	(92, '2019-11-11 15:29:02', 'Admin', '479', 'Update', 0),
-	(93, '2019-11-11 15:29:03', 'Admin', '489', 'Create', 0),
-	(94, '2019-11-11 15:29:04', 'Admin', '489', 'Update', 0),
-	(95, '2019-11-11 15:29:05', 'Admin', '489', 'Update', 0),
-	(96, '2019-11-11 15:29:06', 'Admin', '489', 'Update', 0),
-	(97, '2019-11-11 15:29:07', 'Admin', '489', 'Update', 0),
-	(98, '2019-11-11 15:29:10', 'Admin', '519', 'Create', 0),
-	(99, '2019-11-11 15:29:11', 'Admin', '519', 'Update', 0),
-	(100, '2019-11-11 15:29:13', 'Admin', '519', 'Update', 0),
-	(101, '2019-11-11 15:29:14', 'Admin', '519', 'Update', 0),
-	(102, '2019-11-11 15:29:15', 'Admin', '519', 'Update', 0),
-	(103, '2019-11-11 15:29:17', 'Admin', '529', 'Create', 0),
-	(104, '2019-11-11 15:29:17', 'Admin', '529', 'Update', 0),
-	(105, '2019-11-11 15:29:19', 'Admin', '529', 'Update', 0),
-	(106, '2019-11-11 15:29:20', 'Admin', '529', 'Update', 0),
-	(107, '2019-11-11 15:29:21', 'Admin', '529', 'Update', 0),
-	(108, '2019-11-11 15:29:23', 'Admin', '549', 'Create', 0),
-	(109, '2019-11-11 15:29:24', 'Admin', '549', 'Update', 0),
-	(110, '2019-11-11 15:29:26', 'Admin', '549', 'Update', 0),
-	(111, '2019-11-11 15:29:27', 'Admin', '549', 'Update', 0),
-	(112, '2019-11-11 15:29:28', 'Admin', '549', 'Update', 0),
-	(113, '2019-11-11 15:29:34', 'Admin', '569', 'Create', 0),
-	(114, '2019-11-11 15:29:36', 'Admin', '579', 'Create', 0),
-	(115, '2019-11-11 15:29:37', 'Admin', '579', 'Update', 0),
-	(116, '2019-11-11 15:29:38', 'Admin', '579', 'Update', 0),
-	(117, '2019-11-11 15:29:39', 'Admin', '579', 'Update', 0),
-	(118, '2019-11-11 15:29:41', 'Admin', '569', 'Update', 0),
-	(119, '2019-11-11 15:29:43', 'Admin', '599', 'Create', 0),
-	(120, '2019-11-11 15:29:44', 'Admin', '599', 'Update', 0),
-	(121, '2019-11-11 15:29:45', 'Admin', '599', 'Update', 0),
-	(122, '2019-11-11 15:29:45', 'Admin', '599', 'Update', 0),
-	(123, '2019-11-11 15:29:49', 'Admin', '619', 'Create', 0),
-	(124, '2019-11-11 15:29:50', 'Admin', '619', 'Update', 0),
-	(125, '2019-11-11 15:29:55', 'Admin', '619', 'Update', 0),
-	(126, '2019-11-11 15:29:56', 'Admin', '619', 'Update', 0),
-	(127, '2019-11-11 15:30:07', 'Admin', '629', 'Create', 0),
-	(128, '2019-11-11 15:30:08', 'Admin', '629', 'Update', 0),
-	(129, '2019-11-11 15:30:08', 'Admin', '629', 'Update', 0),
-	(130, '2019-11-11 15:30:10', 'Admin', '639', 'Create', 0),
-	(131, '2019-11-11 15:30:11', 'Admin', '639', 'Update', 0),
-	(132, '2019-11-11 15:30:12', 'Admin', '639', 'Update', 0),
-	(133, '2019-11-11 15:30:13', 'Admin', '639', 'Update', 0),
-	(134, '2019-11-11 15:30:14', 'Admin', '649', 'Create', 0),
-	(135, '2019-11-11 15:30:15', 'Admin', '649', 'Update', 0),
-	(136, '2019-11-11 15:30:17', 'Admin', '649', 'Update', 0),
-	(137, '2019-11-11 15:30:18', 'Admin', '649', 'Update', 0),
-	(138, '2019-11-11 15:30:22', 'Admin', '589', 'Create', 0),
-	(139, '2019-11-11 15:30:22', 'Admin', '589', 'Update', 0),
-	(140, '2019-11-11 15:30:24', 'Admin', '589', 'Update', 0),
-	(141, '2019-11-11 15:30:25', 'Admin', '589', 'Update', 0),
-	(142, '2019-11-11 15:30:36', 'Admin', 'Updated UserGroup with iD: 9', 'Update', 0),
-	(143, '2019-11-11 15:34:20', 'PPRA01', 'Added new User with username:CASEOFFICER01', 'Add', 0),
-	(144, '2019-11-11 15:41:19', 'P0123456788X', 'Added new applicant with Name: JAMES SUPPLIERS LTD', 'Add', 0),
-	(145, '2019-11-11 15:47:45', 'P0123456788X', 'Added new Tender with TenderNo:MOEST/ICT/02/2018-2019', 'Add', 0),
-	(146, '2019-11-11 15:47:45', 'P0123456788X', 'Added new Application with ApplicationNo:1', 'Add', 0),
-	(147, '2019-11-11 15:47:45', 'P0123456788X', 'Added Fee for Application: 1', 'Add', 0),
-	(148, '2019-11-11 15:47:45', 'P0123456788X', 'Added Fee for Application: 1', 'Add', 0),
-	(149, '2019-11-11 15:47:45', 'P0123456788X', 'Added Fee for Application: 1', 'Add', 0),
-	(150, '2019-11-11 15:48:54', 'P0123456788X', 'Added new Tender Addendum for TenderID:12', 'Add', 0),
-	(151, '2019-11-11 15:51:31', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(152, '2019-11-11 15:51:50', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(153, '2019-11-11 15:52:05', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(154, '2019-11-11 15:52:22', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(155, '2019-11-11 15:52:42', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(156, '2019-11-11 15:52:55', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(157, '2019-11-11 15:53:11', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(158, '2019-11-11 15:53:28', 'P0123456788X', 'Added new Ground/Request for Application:1', 'Add', 0),
-	(159, '2019-11-11 15:54:23', 'P0123456788X', 'Added new Document for application: 1', 'Add', 0),
-	(160, '2019-11-11 15:55:15', 'P0123456788X', 'Added new Document for application: 1', 'Add', 0),
-	(161, '2019-11-11 15:58:40', 'P0123456788X', 'Added new interested party for application:1', 'Add', 0),
-	(162, '2019-11-11 16:04:25', 'Admin', '0', 'Add', 0),
-	(163, '2019-11-11 16:04:37', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(164, '2019-11-11 16:04:42', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(165, '2019-11-11 16:05:05', 'Admin', '0', 'Add', 0),
-	(166, '2019-11-11 16:05:06', 'Admin', '0', 'Add', 0),
-	(167, '2019-11-11 16:05:08', 'Admin', '0', 'Add', 0),
-	(168, '2019-11-11 16:05:17', 'Admin', '0', 'Add', 0),
-	(169, '2019-11-11 16:05:23', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(170, '2019-11-11 16:05:39', 'Admin', '0', 'Add', 0),
-	(171, '2019-11-11 16:05:44', 'Admin', '0', 'Add', 0),
-	(172, '2019-11-11 16:05:45', 'Admin', '0', 'Add', 0),
-	(173, '2019-11-11 16:05:46', 'Admin', '0', 'Add', 0),
-	(174, '2019-11-11 16:05:47', 'Admin', '0', 'Add', 0),
-	(175, '2019-11-11 16:05:48', 'Admin', '0', 'Add', 0),
-	(176, '2019-11-11 16:05:51', 'Admin', '0', 'Add', 0),
-	(177, '2019-11-11 16:05:54', 'Admin', 'Updated Maximum Approvals for ModuleREXED', 'Add', 0),
-	(178, '2019-11-11 16:06:05', 'Admin', '0', 'Add', 0),
-	(179, '2019-11-11 16:06:07', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(180, '2019-11-11 16:06:15', 'Admin', '0', 'Add', 0),
-	(181, '2019-11-11 16:06:19', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(182, '2019-11-11 16:06:33', 'Admin', '0', 'Add', 0),
-	(183, '2019-11-11 16:06:34', 'Admin', '0', 'Add', 0),
-	(184, '2019-11-11 16:06:37', 'Admin', 'Updated Maximum Approvals for ModulePAREQ', 'Add', 0),
-	(185, '2019-11-11 16:06:46', 'Admin', '0', 'Add', 0),
-	(186, '2019-11-11 16:06:48', 'Admin', '0', 'Add', 0),
-	(187, '2019-11-11 16:06:49', 'Admin', '0', 'Add', 0),
-	(188, '2019-11-11 16:06:54', 'Admin', 'Updated Maximum Approvals for ModuleWIOAP', 'Add', 0),
-	(189, '2019-11-11 16:06:59', 'Admin', 'Updated Maximum Approvals for ModuleWIOAP', 'Add', 0),
-	(190, '2019-11-11 16:07:22', 'Admin', '0', 'Add', 0),
-	(191, '2019-11-11 16:07:23', 'Admin', '0', 'Add', 0),
-	(192, '2019-11-11 16:07:24', 'Admin', '0', 'Add', 0),
-	(193, '2019-11-11 16:07:26', 'Admin', 'Updated Maximum Approvals for ModuleADJRE', 'Add', 0),
-	(194, '2019-11-11 16:10:54', 'P0123456788X', 'Added new bank slip for application: 1', 'Add', 0),
-	(195, '2019-11-11 16:10:58', 'P0123456788X', 'Added new payment details for application: 1', 'Add', 0),
-	(196, '2019-11-11 16:20:11', 'Admin', ' Approved Application: 1', 'Approval', 0),
-	(197, '2019-11-11 17:35:16', 'admin', '012 OF 2019', 'Approval', 0),
-	(198, '2019-11-11 17:39:01', 'A123456789X', 'PE-212', 'Add', 0),
-	(199, '2019-11-11 17:39:02', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(200, '2019-11-11 17:39:15', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(201, '2019-11-11 17:39:24', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(202, '2019-11-11 17:39:42', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(203, '2019-11-11 17:39:52', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(204, '2019-11-11 17:40:15', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(205, '2019-11-11 17:40:35', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(206, '2019-11-11 17:40:41', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(207, '2019-11-11 17:40:48', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(208, '2019-11-11 17:42:39', 'A123456789X', 'Deleted PE Response Document : 1573494111039-2020190002762066.pdf', 'DELETE', 0),
-	(209, '2019-11-11 17:42:47', 'A123456789X', 'Deleted PE Response Document : 1573494100741-2020190002762066.pdf', 'DELETE', 0),
-	(210, '2019-11-12 10:56:24', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(211, '2019-11-12 10:56:32', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(212, '2019-11-12 10:56:51', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(213, '2019-11-12 10:58:39', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(214, '2019-11-12 10:58:39', 'P0123456788X', 'Added new Application with ApplicationNo:5', 'Add', 0),
-	(215, '2019-11-12 10:58:39', 'P0123456788X', 'Added Fee for Application: 5', 'Add', 0),
-	(216, '2019-11-12 10:58:39', 'P0123456788X', 'Added Fee for Application: 5', 'Add', 0),
-	(217, '2019-11-12 11:00:15', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(218, '2019-11-12 11:00:36', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(219, '2019-11-12 11:11:33', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(220, '2019-11-12 11:11:40', 'P0123456788X', 'Deleted Ground/Request for Application:5', 'Delete', 0),
-	(221, '2019-11-12 11:11:48', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(222, '2019-11-12 11:14:40', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(223, '2019-11-12 11:14:53', 'P0123456788X', 'Added new Ground/Request for Application:5', 'Add', 0),
-	(224, '2019-11-12 11:16:10', 'P0123456788X', 'Added new Document for application: 5', 'Add', 0),
-	(225, '2019-11-12 11:18:18', 'P0123456788X', 'Added new Document for application: 5', 'Add', 0),
-	(226, '2019-11-12 11:21:59', 'P0123456788X', 'Added new interested party for application:5', 'Add', 0),
-	(227, '2019-11-12 11:24:33', 'P0123456788X', 'Added new bank slip for application: 5', 'Add', 0),
-	(228, '2019-11-12 11:24:36', 'P0123456788X', 'Added new payment details for application: 5', 'Add', 0),
-	(229, '2019-11-12 11:51:54', 'PPRA01', ' Approved Application: 5', 'Approval', 0),
-	(230, '2019-11-12 14:20:43', 'A123456789U', 'Added new PE Response background Information for ApplicationNo:13 OF 2019', 'Add', 0),
-	(231, '2019-11-12 14:26:48', 'A123456789U', 'Added new PE Response background Information for ApplicationNo:13 OF 2019', 'Add', 0),
-	(232, '2019-11-12 14:40:06', 'A123456789U', 'PE-313', 'Add', 0),
-	(233, '2019-11-12 14:43:37', 'A123456789U', 'Added new PE Response background Information for ApplicationNo:13 OF 2019', 'Add', 0),
-	(234, '2019-11-12 14:43:43', 'A123456789U', 'Updated PE Response for Response ID: 2', 'Add', 0),
-	(235, '2019-11-12 14:45:30', 'A123456789U', 'Deleted PE Response detail: 10', 'Add', 0),
-	(236, '2019-11-12 14:55:01', 'A123456789U', 'Updated PE Response for Response ID: 2', 'Add', 0),
-	(237, '2019-11-12 14:55:07', 'A123456789U', 'Updated PE Response for Response ID: 2', 'Add', 0),
-	(238, '2019-11-12 14:56:55', 'A123456789U', 'Updated PE Response for Response ID: 2', 'Add', 0),
-	(239, '2019-11-12 14:57:01', 'A123456789U', 'Updated PE Response for Response ID: 2', 'Add', 0),
-	(240, '2019-11-12 15:24:45', 'P0123456788X', 'Cahnged User Photo for user: P0123456788X', 'Update', 0),
-	(241, '2019-11-12 15:24:48', 'P0123456788X', 'Updated  User with username: P0123456788X', 'Update', 0),
-	(242, '2019-11-12 15:45:25', 'P0123456788X', 'Added new Tender with TenderNo:UON/ICT/2019-2020', 'Add', 0),
-	(243, '2019-11-12 15:45:26', 'P0123456788X', 'Added new Application with ApplicationNo:6', 'Add', 0),
-	(244, '2019-11-12 15:45:26', 'P0123456788X', 'Added Fee for Application: 6', 'Add', 0),
-	(245, '2019-11-12 15:45:26', 'P0123456788X', 'Added Fee for Application: 6', 'Add', 0),
-	(246, '2019-11-12 15:45:26', 'P0123456788X', 'Added Fee for Application: 6', 'Add', 0),
-	(247, '2019-11-12 15:47:31', 'P0123456788X', 'Added new Ground/Request for Application:6', 'Add', 0),
-	(248, '2019-11-12 15:47:39', 'P0123456788X', 'Added new Ground/Request for Application:6', 'Add', 0),
-	(249, '2019-11-12 15:47:47', 'P0123456788X', 'Added new Ground/Request for Application:6', 'Add', 0),
-	(250, '2019-11-12 15:48:28', 'P0123456788X', 'Added new interested party for application:6', 'Add', 0),
-	(251, '2019-11-12 15:51:34', 'P0123456788X', 'Added new bank slip for application: 6', 'Add', 0),
-	(252, '2019-11-12 15:51:39', 'P0123456788X', 'Added new payment details for application: 6', 'Add', 0),
-	(253, '2019-11-12 15:54:37', 'Admin', '0', 'Add', 0),
-	(254, '2019-11-12 15:54:38', 'Admin', '0', 'Add', 0),
-	(255, '2019-11-12 15:54:39', 'Admin', '0', 'Add', 0),
-	(256, '2019-11-12 15:54:41', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(257, '2019-11-12 15:56:41', 'PPRA01', ' Approved Application: 6', 'Approval', 0),
-	(258, '2019-11-12 15:58:30', 'P0123456788X', 'Submited request for case withdrawal for application:14 OF 2019', 'Add', 0),
-	(259, '2019-11-12 16:04:21', 'Admin', 'Approved Case Withdrawal for Application : 14 OF 2019', 'Approval', 0),
-	(260, '2019-11-12 16:42:14', 'P0123456788X', 'Added new Tender with TenderNo:MOE/VTT/ICT/2018-2019', 'Add', 0),
-	(261, '2019-11-12 16:42:14', 'P0123456788X', 'Added new Application with ApplicationNo:7', 'Add', 0),
-	(262, '2019-11-12 16:42:15', 'P0123456788X', 'Added Fee for Application: 7', 'Add', 0),
-	(263, '2019-11-12 16:42:15', 'P0123456788X', 'Added Fee for Application: 7', 'Add', 0),
-	(264, '2019-11-12 16:43:21', 'P0123456788X', 'Added new Tender Addendum for TenderID:18', 'Add', 0),
-	(265, '2019-11-12 16:45:19', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(266, '2019-11-12 16:45:33', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(267, '2019-11-12 16:45:48', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(268, '2019-11-12 16:46:08', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(269, '2019-11-12 16:46:39', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(270, '2019-11-12 16:46:44', 'P0123456788X', 'Deleted Ground/Request for Application:7', 'Delete', 0),
-	(271, '2019-11-12 16:46:51', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(272, '2019-11-12 16:47:08', 'P0123456788X', 'Added new Ground/Request for Application:7', 'Add', 0),
-	(273, '2019-11-12 16:47:51', 'P0123456788X', 'Added new interested party for application:7', 'Add', 0),
-	(274, '2019-11-12 16:52:24', 'P0123456788X', 'Added new bank slip for application: 7', 'Add', 0),
-	(275, '2019-11-12 16:52:41', 'P0123456788X', 'Added new payment details for application: 7', 'Add', 0),
-	(276, '2019-11-12 17:02:36', 'Admin', ' Approved Application: 7', 'Approval', 0),
-	(277, '2019-11-12 17:06:18', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:7', 'Add', 0),
-	(278, '2019-11-12 17:06:35', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:7', 'Add', 0),
-	(279, '2019-11-12 17:06:56', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:7', 'Add', 0),
-	(280, '2019-11-12 17:17:51', 'Admin', '015 OF 2019', 'Approval', 0),
-	(281, '2019-11-12 17:19:23', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:15 OF 2019', 'Add', 0),
-	(282, '2019-11-12 17:19:56', 'A123456789X', 'PE-215', 'Add', 0),
-	(283, '2019-11-12 17:19:56', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(284, '2019-11-12 17:20:06', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(285, '2019-11-12 17:20:14', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(286, '2019-11-12 17:20:49', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(287, '2019-11-12 17:21:03', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(288, '2019-11-12 17:21:10', 'A123456789X', 'Updated PE Response for Response ID: 3', 'Add', 0),
-	(289, '2019-11-12 17:21:56', 'A123456789X', 'Added new interested party for application:7', 'Add', 0),
-	(290, '2019-11-12 17:24:31', 'A123456789X', 'Added new bank slip for application: 7', 'Add', 0),
-	(291, '2019-11-12 17:25:08', 'A123456789X', 'Added new payment details for application: 7', 'Add', 0),
-	(292, '2019-11-13 11:08:50', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(293, '2019-11-13 11:11:35', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(294, '2019-11-13 11:11:36', 'P0123456788X', 'Added new Application with ApplicationNo:8', 'Add', 0),
-	(295, '2019-11-13 11:11:36', 'P0123456788X', 'Added Fee for Application: 9', 'Add', 0),
-	(296, '2019-11-13 11:11:36', 'P0123456788X', 'Added Fee for Application: 9', 'Add', 0),
-	(297, '2019-11-13 11:14:12', 'P0123456788X', 'Added new Tender with TenderNo:CGS/SCM/WENR/OT/18-19/081', 'Add', 0),
-	(298, '2019-11-13 11:14:12', 'P0123456788X', 'Added new Application with ApplicationNo:8', 'Add', 0),
-	(299, '2019-11-13 11:14:12', 'P0123456788X', 'Added Fee for Application: 10', 'Add', 0),
-	(300, '2019-11-13 11:14:12', 'P0123456788X', 'Added Fee for Application: 10', 'Add', 0),
-	(301, '2019-11-13 11:14:42', 'P0123456788X', 'Added new Ground/Request for Application:10', 'Add', 0),
-	(302, '2019-11-13 11:14:46', 'P0123456788X', 'Added new Ground/Request for Application:10', 'Add', 0),
-	(303, '2019-11-13 11:14:56', 'P0123456788X', 'Added new Document for application: 10', 'Add', 0),
-	(304, '2019-11-13 11:20:07', 'P0123456788X', 'Added new bank slip for application: 10', 'Add', 0),
-	(305, '2019-11-13 11:20:13', 'P0123456788X', 'Added new payment details for application: 10', 'Add', 0),
-	(306, '2019-11-13 11:21:59', 'P0123456788X', 'Added new payment details for application: 10', 'Add', 0),
-	(307, '2019-11-13 11:24:41', 'P0123456788X', 'Added new payment details for application: 10', 'Add', 0),
-	(308, '2019-11-13 11:42:42', 'Admin', ' Approved Application: 8', 'Approval', 0),
-	(309, '2019-11-13 11:46:28', 'A123456789U', 'Added new PE Response background Information for ApplicationNo:16 OF 2019', 'Add', 0),
-	(310, '2019-11-13 11:53:34', 'A123456789U', 'PE-316', 'Add', 0),
-	(311, '2019-11-13 11:53:34', 'A123456789U', 'Updated PE Response for Response ID: 4', 'Add', 0),
-	(312, '2019-11-13 11:55:17', 'A123456789U', 'Updated PE Response for Response ID: 4', 'Add', 0),
-	(313, '2019-11-13 11:55:33', 'A123456789U', 'Added new interested party for application:10', 'Add', 0),
-	(314, '2019-11-13 11:55:55', 'A123456789U', 'Added new bank slip for application: 10', 'Add', 0),
-	(315, '2019-11-13 11:56:03', 'A123456789U', 'Added new payment details for application: 10', 'Add', 0),
-	(316, '2019-11-13 12:36:36', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(317, '2019-11-13 12:36:41', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(318, '2019-11-13 12:36:49', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(319, '2019-11-13 12:37:08', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(320, '2019-11-13 12:38:21', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(321, '2019-11-13 12:38:31', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(322, '2019-11-13 12:40:37', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(323, '2019-11-13 12:41:06', 'Admin', 'Deleted UserGroup with iD:0', 'Delete', 0),
-	(324, '2019-11-13 12:42:05', 'Admin', 'Deleted UserGroup with iD:10', 'Delete', 0),
-	(325, '2019-11-13 13:45:44', 'Admin', '281', 'Update', 0),
-	(326, '2019-11-13 13:45:45', 'Admin', '281', 'Update', 0),
-	(327, '2019-11-13 13:45:46', 'Admin', '281', 'Update', 0),
-	(328, '2019-11-13 13:45:47', 'Admin', '281', 'Update', 0),
-	(329, '2019-11-13 13:45:49', 'Admin', '351', 'Update', 0),
-	(330, '2019-11-13 14:30:07', 'Admin', 'Deleted UserGroup with iD:7', 'Delete', 0),
-	(331, '2019-11-13 14:30:21', 'Admin', '289', 'Create', 0),
-	(332, '2019-11-13 14:30:22', 'Admin', '289', 'Update', 0),
-	(333, '2019-11-13 14:31:04', 'Admin', 'Updated UserGroup with iD: 8', 'Update', 0),
-	(334, '2019-11-13 14:31:21', 'Admin', 'Updated UserGroup with iD: 1', 'Update', 0),
-	(335, '2019-11-13 14:33:37', 'Admin', 'Added new UserGroup with name: Financeand Decs: Finance/Accounts', 'Add', 0),
-	(336, '2019-11-13 14:33:48', 'Admin', '2511', 'Create', 0),
-	(337, '2019-11-13 14:33:49', 'Admin', '2511', 'Update', 0),
-	(338, '2019-11-13 14:33:50', 'Admin', '2411', 'Create', 0),
-	(339, '2019-11-13 14:34:10', 'Admin', '6111', 'Create', 0),
-	(340, '2019-11-13 14:34:12', 'Admin', '6111', 'Update', 0),
-	(341, '2019-11-13 14:34:12', 'Admin', '6111', 'Update', 0),
-	(342, '2019-11-13 14:34:13', 'Admin', '6111', 'Update', 0),
-	(343, '2019-11-13 14:34:14', 'Admin', '6111', 'Update', 0),
-	(344, '2019-11-13 14:34:25', 'Admin', '2811', 'Create', 0),
-	(345, '2019-11-13 14:34:26', 'Admin', '2811', 'Update', 0),
-	(346, '2019-11-13 14:34:27', 'Admin', '2811', 'Update', 0),
-	(347, '2019-11-13 14:37:13', 'Admin', 'Cahnged User Photo for user: Admin', 'Update', 0),
-	(348, '2019-11-13 14:42:26', 'Admin', 'Updated Procurement Entity: PE-2', 'Update', 0),
-	(349, '2019-11-13 14:56:01', 'P09875345W', 'Added new applicant with Name: APPLICANT LTD', 'Add', 0),
-	(350, '2019-11-13 17:01:59', 'Admin', 'Added new Case Officer: PPRA01', 'Add', 0),
-	(351, '2019-11-13 17:02:31', 'Admin', 'Deleted Case Officer: CASEOFFICER01', 'Delete', 0),
-	(352, '2019-11-13 17:04:41', 'P09875345W', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(353, '2019-11-13 17:04:41', 'P09875345W', 'Added new Application with ApplicationNo:11', 'Add', 0),
-	(354, '2019-11-13 17:04:41', 'P09875345W', 'Added Fee for Application: 11', 'Add', 0),
-	(355, '2019-11-13 17:04:41', 'P09875345W', 'Added Fee for Application: 11', 'Add', 0),
-	(356, '2019-11-13 17:05:22', 'P09875345W', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(357, '2019-11-13 17:05:23', 'P09875345W', 'Added new Application with ApplicationNo:12', 'Add', 0),
-	(358, '2019-11-13 17:05:23', 'P09875345W', 'Added Fee for Application: 12', 'Add', 0),
-	(359, '2019-11-13 17:05:23', 'P09875345W', 'Added Fee for Application: 12', 'Add', 0),
-	(360, '2019-11-13 17:05:23', 'P09875345W', 'Added Fee for Application: 12', 'Add', 0),
-	(361, '2019-11-13 17:05:54', 'P09875345W', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(362, '2019-11-13 17:05:55', 'P09875345W', 'Added new Application with ApplicationNo:13', 'Add', 0),
-	(363, '2019-11-13 17:05:55', 'P09875345W', 'Added Fee for Application: 13', 'Add', 0),
-	(364, '2019-11-13 17:05:55', 'P09875345W', 'Added Fee for Application: 13', 'Add', 0),
-	(365, '2019-11-13 17:05:55', 'P09875345W', 'Added Fee for Application: 13', 'Add', 0),
-	(366, '2019-11-13 17:05:55', 'P09875345W', 'Added Fee for Application: 13', 'Add', 0),
-	(367, '2019-11-13 17:07:39', 'P09875345W', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(368, '2019-11-13 17:07:40', 'P09875345W', 'Added new Application with ApplicationNo:14', 'Add', 0),
-	(369, '2019-11-13 17:07:40', 'P09875345W', 'Added Fee for Application: 14', 'Add', 0),
-	(370, '2019-11-13 17:07:40', 'P09875345W', 'Added Fee for Application: 14', 'Add', 0),
-	(371, '2019-11-13 17:08:00', 'P09875345W', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(372, '2019-11-13 17:08:01', 'P09875345W', 'Added new Application with ApplicationNo:15', 'Add', 0),
-	(373, '2019-11-13 17:08:01', 'P09875345W', 'Added Fee for Application: 15', 'Add', 0),
-	(374, '2019-11-13 17:08:01', 'P09875345W', 'Added Fee for Application: 15', 'Add', 0),
-	(375, '2019-11-13 17:17:02', 'P09875345W', 'Added new Ground/Request for Application:15', 'Add', 0),
-	(376, '2019-11-13 17:17:09', 'P09875345W', 'Added new Ground/Request for Application:15', 'Add', 0),
-	(377, '2019-11-13 17:17:34', 'P09875345W', 'Added new Document for application: 15', 'Add', 0),
-	(378, '2019-11-13 17:18:54', 'P09875345W', 'Added new bank slip for application: 15', 'Add', 0),
-	(379, '2019-11-13 17:19:00', 'P09875345W', 'Added new payment details for application: 15', 'Add', 0),
-	(380, '2019-11-13 17:40:43', 'Admin', '015', 'Approval', 0),
-	(381, '2019-11-13 17:40:43', 'Admin', ' Approved Application: 15', 'Approval', 0),
-	(382, '2019-11-13 17:49:21', 'P09875345W', 'Added new bank slip for application: 14', 'Add', 0),
-	(383, '2019-11-13 17:49:22', 'P09875345W', 'Added new payment details for application: 14', 'Add', 0),
-	(384, '2019-11-13 17:50:47', 'Admin', '014', 'Approval', 0),
-	(385, '2019-11-13 18:28:40', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:17 OF 2019', 'Add', 0),
-	(386, '2019-11-13 18:28:46', 'A123456789X', 'PE-217', 'Add', 0),
-	(387, '2019-11-13 18:28:47', 'A123456789X', 'Updated PE Response for Response ID: 5', 'Add', 0),
-	(388, '2019-11-13 18:28:54', 'A123456789X', 'Updated PE Response for Response ID: 5', 'Add', 0),
-	(389, '2019-11-13 18:30:00', 'A123456789X', 'Added new interested party for application:15', 'Add', 0),
-	(390, '2019-11-13 18:30:43', 'A123456789X', 'Added new bank slip for application: 15', 'Add', 0),
-	(391, '2019-11-13 18:30:45', 'A123456789X', 'Added new payment details for application: 15', 'Add', 0),
-	(392, '2019-11-13 18:34:00', 'A123456789X', 'Added new payment details for application: 15', 'Add', 0),
-	(393, '2019-11-14 07:56:52', 'Admin', 'Updated Case Officer: PPRA01', 'Update', 0),
-	(394, '2019-11-14 14:45:01', 'P0123456788X', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(395, '2019-11-14 14:45:01', 'P0123456788X', 'Added new Application with ApplicationNo:16', 'Add', 0),
-	(396, '2019-11-14 14:45:02', 'P0123456788X', 'Added Fee for Application: 16', 'Add', 0),
-	(397, '2019-11-14 14:45:02', 'P0123456788X', 'Added Fee for Application: 16', 'Add', 0),
-	(398, '2019-11-14 14:45:16', 'P0123456788X', 'Added new Ground/Request for Application:16', 'Add', 0),
-	(399, '2019-11-14 14:45:20', 'P0123456788X', 'Added new Ground/Request for Application:16', 'Add', 0),
-	(400, '2019-11-14 14:46:28', 'P0123456788X', 'Added new bank slip for application: 16', 'Add', 0),
-	(401, '2019-11-14 14:46:35', 'P0123456788X', 'Added new payment details for application: 16', 'Add', 0),
-	(402, '2019-11-14 14:49:52', 'Admin', '016', 'Approval', 0),
-	(403, '2019-11-14 14:51:46', 'Admin', '016', 'Approval', 0),
-	(404, '2019-11-14 14:52:59', 'Admin', '016', 'Approval', 0),
-	(405, '2019-11-14 15:35:50', 'Admin', '016', 'Approval', 0),
-	(406, '2019-11-14 15:40:08', 'Admin', '016', 'Approval', 0),
-	(407, '2019-11-14 15:45:45', 'Admin', 'Added new PanelMember for Application 17 OF 2019', 'Add', 0),
-	(408, '2019-11-14 15:46:12', 'Admin', 'Added new PanelMember for Application 17 OF 2019', 'Add', 0),
-	(409, '2019-11-14 15:46:34', 'Admin', 'Added new PanelMember for Application 17 OF 2019', 'Add', 0),
-	(410, '2019-11-14 15:49:37', 'Admin', '017 OF 2019', 'Delete', 0),
-	(411, '2019-11-14 15:49:45', 'Admin', 'Added new PanelMember for Application 17 OF 2019', 'Add', 0),
-	(412, '2019-11-14 15:50:39', 'Admin', '017 OF 2019', 'Delete', 0),
-	(413, '2019-11-14 15:51:18', 'Admin', 'Added new PanelMember for Application 17 OF 2019', 'Add', 0),
-	(414, '2019-11-14 15:52:11', 'Admin', 'Submited PanelList  for Application: 17 OF 2019', 'Add', 0),
-	(415, '2019-11-14 15:57:45', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(416, '2019-11-14 15:57:50', 'Admin', '017 OF 2019', 'Delete', 0),
-	(417, '2019-11-14 15:57:57', 'Admin', '17PPRA01', 'Add', 0),
-	(418, '2019-11-14 16:01:24', 'Admin', '017 OF 2019', 'Delete', 0),
-	(419, '2019-11-14 16:01:30', 'Admin', '17Admin', 'Add', 0),
-	(420, '2019-11-14 16:02:42', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(421, '2019-11-14 16:07:31', 'PPRA01', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(422, '2019-11-14 16:07:33', 'PPRA01', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(423, '2019-11-14 16:07:36', 'PPRA01', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(424, '2019-11-14 16:14:13', 'PPRA01', 'Submited PanelList  for Application: 16 OF 2019', 'Add', 0),
-	(425, '2019-11-14 16:16:32', 'Admin', 'Added new PanelMember for Application 16 OF 2019', 'Add', 0),
-	(426, '2019-11-14 16:16:37', 'Admin', 'Added new PanelMember for Application 16 OF 2019', 'Add', 0),
-	(427, '2019-11-14 16:16:41', 'Admin', 'Added new PanelMember for Application 16 OF 2019', 'Add', 0),
-	(428, '2019-11-14 16:16:43', 'Admin', 'Submited PanelList  for Application: 16 OF 2019', 'Add', 0),
-	(429, '2019-11-14 16:17:06', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(430, '2019-11-14 16:17:08', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(431, '2019-11-14 16:17:10', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(432, '2019-11-14 16:18:43', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(433, '2019-11-14 16:18:46', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(434, '2019-11-14 16:18:48', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(435, '2019-11-14 16:30:51', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(436, '2019-11-14 16:33:49', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(437, '2019-11-14 16:34:34', 'Admin', 'Generated hearing Notice for Application: 17 OF 2019', 'Add', 0),
-	(438, '2019-11-14 16:40:38', 'Admin', 'Registered hearing for Application:17 OF 2019', 'Add', 0),
-	(439, '2019-11-14 16:45:36', 'Admin', 'Attended hearing for Application:17 OF 2019', 'Add', 0),
-	(440, '2019-11-14 16:49:26', 'Admin', 'Attended hearing for Application:17 OF 2019', 'Add', 0),
-	(441, '2019-11-14 17:05:20', 'Admin', 'Uploaded hearing attachment for application:17 OF 2019', 'Add', 0),
-	(442, '2019-11-14 17:06:16', 'Admin', 'Uploaded hearing attachment for application:17 OF 2019', 'Add', 0),
-	(443, '2019-11-14 17:07:50', 'Admin', 'Uploaded hearing attachment for application:17 OF 2019', 'Add', 0),
-	(444, '2019-11-14 17:10:54', 'Admin', 'Deleted hearing attachment:1573751119773-6 OF 2019.pdf', 'Delete', 0),
-	(445, '2019-11-15 10:24:58', 'Admin', 'Added new User with username:SOdhiambo', 'Add', 0),
-	(446, '2019-11-15 10:26:26', 'Admin', 'Updated  User with username: SOdhiambo', 'Update', 0),
-	(447, '2019-11-15 10:28:49', 'Admin', 'Added new User with username:Pokumu', 'Add', 0),
-	(448, '2019-11-15 10:29:46', 'Admin', 'Updated  User with username: Pokumu', 'Update', 0),
-	(449, '2019-11-15 10:29:58', 'SOdhiambo', 'Updated  User with username: Sodhiambo', 'Update', 0),
-	(450, '2019-11-15 10:30:18', 'SOdhiambo', 'Updated  User with username: Sodhiambo', 'Update', 0),
-	(451, '2019-11-15 10:38:19', 'SOdhiambo', 'Added new User with username:pkiprop', 'Add', 0),
-	(452, '2019-11-15 10:39:06', 'P123456879Q', 'Added new applicant with Name: CMC MOTORS CORPORATION', 'Add', 0),
-	(453, '2019-11-15 10:51:14', 'admin', 'Added new PE with Name: STATE DEPARTMENT OF INTERIOR ', 'Add', 0),
-	(454, '2019-11-15 10:55:16', 'P123456879Q', 'Added new Tender with TenderNo:SDI/MISNG/004/2019-2020', 'Add', 0),
-	(455, '2019-11-15 10:55:17', 'P123456879Q', 'Added new Application with ApplicationNo:17', 'Add', 0),
-	(456, '2019-11-15 10:55:18', 'P123456879Q', 'Added Fee for Application: 17', 'Add', 0),
-	(457, '2019-11-15 10:55:18', 'P123456879Q', 'Added Fee for Application: 17', 'Add', 0),
-	(458, '2019-11-15 10:55:18', 'P123456879Q', 'Added Fee for Application: 17', 'Add', 0),
-	(459, '2019-11-15 10:55:18', 'P123456879Q', 'Added Fee for Application: 17', 'Add', 0),
-	(460, '2019-11-15 10:58:03', 'P123456879Q', 'Added new Ground/Request for Application:17', 'Add', 0),
-	(461, '2019-11-15 10:58:48', 'P123456879Q', 'Added new Ground/Request for Application:17', 'Add', 0),
-	(462, '2019-11-15 10:59:33', 'P123456879Q', 'Added new Ground/Request for Application:17', 'Add', 0),
-	(463, '2019-11-15 11:00:22', 'P123456879Q', 'Added new Ground/Request for Application:17', 'Add', 0),
-	(464, '2019-11-15 11:01:04', 'P123456879Q', 'Added new Ground/Request for Application:17', 'Add', 0),
-	(465, '2019-11-15 11:02:08', 'P123456879Q', 'Added new Document for application: 17', 'Add', 0),
-	(466, '2019-11-15 11:02:38', 'P123456879Q', 'Added new Document for application: 17', 'Add', 0),
-	(467, '2019-11-15 11:09:53', 'P123456879Q', 'Added new bank slip for application: 17', 'Add', 0),
-	(468, '2019-11-15 11:10:01', 'P123456879Q', 'Added new payment details for application: 17', 'Add', 0),
-	(469, '2019-11-15 11:12:42', 'Admin', '0', 'Add', 0),
-	(470, '2019-11-15 11:12:43', 'Admin', '0', 'Add', 0),
-	(471, '2019-11-15 11:12:44', 'Admin', '0', 'Add', 0),
-	(472, '2019-11-15 11:12:47', 'Admin', '0', 'Add', 0),
-	(473, '2019-11-15 11:13:41', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(474, '2019-11-15 11:13:45', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(475, '2019-11-15 11:14:18', 'Admin', '0', 'Add', 0),
-	(476, '2019-11-15 11:14:19', 'Admin', '0', 'Add', 0),
-	(477, '2019-11-15 11:14:19', 'Admin', '0', 'Add', 0),
-	(478, '2019-11-15 11:14:21', 'Admin', '0', 'Add', 0),
-	(479, '2019-11-15 11:14:23', 'Admin', '0', 'Add', 0),
-	(480, '2019-11-15 11:14:26', 'Admin', '0', 'Add', 0),
-	(481, '2019-11-15 11:14:32', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(482, '2019-11-15 11:29:56', 'Admin', '0', 'Add', 0),
-	(483, '2019-11-15 11:29:57', 'Admin', '0', 'Add', 0),
-	(484, '2019-11-15 11:30:06', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(485, '2019-11-15 11:30:09', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(486, '2019-11-15 11:30:09', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(487, '2019-11-15 11:36:02', 'Admin', ' Approved Application: 17', 'Approval', 0),
-	(488, '2019-11-15 11:49:58', 'P0123456788X', 'Added new Tender with TenderNo:TNDE/0001/2019', 'Add', 0),
-	(489, '2019-11-15 11:49:58', 'P0123456788X', 'Added new Application with ApplicationNo:18', 'Add', 0),
-	(490, '2019-11-15 11:49:58', 'P0123456788X', 'Added Fee for Application: 18', 'Add', 0),
-	(491, '2019-11-15 11:49:58', 'P0123456788X', 'Added Fee for Application: 18', 'Add', 0),
-	(492, '2019-11-15 11:50:05', 'P0123456788X', 'Added new Ground/Request for Application:18', 'Add', 0),
-	(493, '2019-11-15 11:50:15', 'P0123456788X', 'Added new Ground/Request for Application:18', 'Add', 0),
-	(494, '2019-11-15 11:50:57', 'P0123456788X', 'Added new payment details for application: 18', 'Add', 0),
-	(495, '2019-11-15 12:00:02', 'P65498745R', 'Added new PE Response background Information for ApplicationNo:18 OF 2019', 'Add', 0),
-	(496, '2019-11-15 12:01:35', 'P65498745R', 'PE-418', 'Add', 0),
-	(497, '2019-11-15 12:01:35', 'P65498745R', 'Updated PE Response for Response ID: 6', 'Add', 0),
-	(498, '2019-11-15 12:02:04', 'P65498745R', 'Updated PE Response for Response ID: 6', 'Add', 0),
-	(499, '2019-11-15 12:02:57', 'P65498745R', 'Updated PE Response for Response ID: 6', 'Add', 0),
-	(500, '2019-11-15 12:03:17', 'P65498745R', 'Updated PE Response for Response ID: 6', 'Add', 0),
-	(501, '2019-11-15 12:05:39', 'P65498745R', 'Added new interested party for application:17', 'Add', 0),
-	(502, '2019-11-15 12:19:45', 'Admin', 'Added new Case Officer: Pokumu', 'Add', 0),
-	(503, '2019-11-15 12:20:43', 'Admin', 'Added new PanelMember for Application 18 OF 2019', 'Add', 0),
-	(504, '2019-11-15 12:20:54', 'Admin', 'Added new PanelMember for Application 18 OF 2019', 'Add', 0),
-	(505, '2019-11-15 12:21:37', 'Admin', 'Added new PanelMember for Application 18 OF 2019', 'Add', 0),
-	(506, '2019-11-15 12:22:42', 'Admin', 'Submited PanelList  for Application: 18 OF 2019', 'Add', 0),
-	(507, '2019-11-15 12:26:42', 'Admin', 'Approved  PanelMember:SOdhiambo', 'Approval', 0),
-	(508, '2019-11-15 12:26:54', 'Admin', 'Approved  PanelMember:SOdhiambo', 'Approval', 0),
-	(509, '2019-11-15 12:27:03', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(510, '2019-11-15 12:27:20', 'Admin', '018 OF 2019', 'Delete', 0),
-	(511, '2019-11-15 12:27:31', 'Admin', '18Admin', 'Add', 0),
-	(512, '2019-11-15 12:34:32', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(513, '2019-11-15 12:34:32', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(514, '2019-11-15 12:34:32', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(515, '2019-11-15 12:34:32', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(516, '2019-11-15 12:34:58', 'Admin', 'Generated hearing Notice for Application: 18 OF 2019', 'Add', 0),
-	(517, '2019-11-15 12:41:09', 'SOdhiambo', 'Added new User with username:smiheso', 'Add', 0),
-	(518, '2019-11-15 12:46:03', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(519, '2019-11-15 12:46:03', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(520, '2019-11-15 12:46:09', 'Admin', 'Generated hearing Notice for Application: 18 OF 2019', 'Add', 0),
-	(521, '2019-11-15 12:49:31', 'SOdhiambo', 'Updated  User with username: smiheso', 'Update', 0),
-	(522, '2019-11-15 12:55:03', 'Admin', 'Added new PanelMember for Application 18 OF 2019', 'Add', 0),
-	(523, '2019-11-15 12:55:22', 'Admin', '018 OF 2019', 'Delete', 0),
-	(524, '2019-11-15 12:55:38', 'Admin', '18smiheso', 'Add', 0),
-	(525, '2019-11-15 12:57:55', 'Admin', 'Unbooked Booked Venue:6', 'Update', 0),
-	(526, '2019-11-15 12:58:22', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(527, '2019-11-15 12:58:22', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(528, '2019-11-15 12:58:23', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(529, '2019-11-15 12:58:29', 'Admin', 'Generated hearing Notice for Application: 18 OF 2019', 'Add', 0),
-	(530, '2019-11-15 13:05:22', 'Admin', 'Registered hearing for Application:18 OF 2019', 'Add', 0),
-	(531, '2019-11-15 13:11:50', 'Admin', 'Attended hearing for Application:18 OF 2019', 'Add', 0),
-	(532, '2019-11-15 13:50:02', 'Admin', 'Added new Background Information for decision for Application: 18 OF 2019', 'Add', 0),
-	(533, '2019-11-15 13:51:54', 'Admin', 'Added new issue for dertermination application: 18 OF 2019', 'Add', 0),
-	(534, '2019-11-15 13:52:20', 'Admin', 'Added new findings on issues for Application: 18 OF 2019', 'Add', 0),
-	(535, '2019-11-15 14:00:00', 'Admin', 'Added new Background Information for decision for Application: 18 OF 2019', 'Update', 0),
-	(536, '2019-11-15 14:00:14', 'Admin', 'Added new issue for dertermination application: 18 OF 2019', 'Add', 0),
-	(537, '2019-11-15 14:00:23', 'Admin', 'Added new issue for dertermination application: 18 OF 2019', 'Add', 0),
-	(538, '2019-11-15 14:00:38', 'Admin', 'Added new findings on issues for Application: 18 OF 2019', 'Add', 0),
-	(539, '2019-11-15 14:00:53', 'Admin', 'Added new decision order for Application: 18 OF 2019', 'Add', 0),
-	(540, '2019-11-15 14:01:17', 'Admin', 'Added new decision order for Application: 18 OF 2019', 'Add', 0),
-	(541, '2019-11-15 14:09:49', 'Admin', 'Submited Decision for Application: 18 OF 2019', 'Add', 0),
-	(542, '2019-11-16 10:03:52', 'Admin', '299', 'Create', 0),
-	(543, '2019-11-16 10:03:55', 'Admin', '229', 'Create', 0),
-	(544, '2019-11-16 10:03:59', 'Admin', '229', 'Update', 0),
-	(545, '2019-11-16 10:04:37', 'Admin', 'Updated  user access of role for user: Pokumu', 'Create', 0),
-	(546, '2019-11-16 10:05:17', 'Admin', '651', 'Create', 0),
-	(547, '2019-11-16 10:05:17', 'Admin', '661', 'Create', 0),
-	(548, '2019-11-16 10:05:18', 'Admin', '671', 'Create', 0),
-	(549, '2019-11-16 10:05:19', 'Admin', '681', 'Create', 0),
-	(550, '2019-11-16 10:05:19', 'Admin', '691', 'Create', 0),
-	(551, '2019-11-16 10:05:20', 'Admin', '701', 'Create', 0),
-	(552, '2019-11-16 10:05:22', 'Admin', '711', 'Create', 0),
-	(553, '2019-11-16 10:05:22', 'Admin', '721', 'Create', 0),
-	(554, '2019-11-16 10:05:23', 'Admin', '731', 'Create', 0),
-	(555, '2019-11-16 10:05:24', 'Admin', '731', 'Update', 0),
-	(556, '2019-11-16 10:05:24', 'Admin', '721', 'Update', 0),
-	(557, '2019-11-16 10:05:25', 'Admin', '711', 'Update', 0),
-	(558, '2019-11-16 10:05:26', 'Admin', '701', 'Update', 0),
-	(559, '2019-11-16 10:05:27', 'Admin', '691', 'Update', 0),
-	(560, '2019-11-16 10:05:28', 'Admin', '681', 'Update', 0),
-	(561, '2019-11-16 10:05:29', 'Admin', '671', 'Update', 0),
-	(562, '2019-11-16 10:05:30', 'Admin', '661', 'Update', 0),
-	(563, '2019-11-16 10:05:31', 'Admin', '651', 'Update', 0),
-	(564, '2019-11-16 10:05:32', 'Admin', '651', 'Update', 0),
-	(565, '2019-11-16 10:05:33', 'Admin', '661', 'Update', 0),
-	(566, '2019-11-16 10:05:34', 'Admin', '671', 'Update', 0),
-	(567, '2019-11-16 10:05:35', 'Admin', '681', 'Update', 0),
-	(568, '2019-11-16 10:05:35', 'Admin', '691', 'Update', 0),
-	(569, '2019-11-16 10:05:36', 'Admin', '701', 'Update', 0),
-	(570, '2019-11-16 10:05:37', 'Admin', '711', 'Update', 0),
-	(571, '2019-11-16 10:05:38', 'Admin', '721', 'Update', 0),
-	(572, '2019-11-16 10:05:39', 'Admin', '731', 'Update', 0),
-	(573, '2019-11-16 10:05:40', 'Admin', '731', 'Update', 0),
-	(574, '2019-11-16 10:05:40', 'Admin', '721', 'Update', 0),
-	(575, '2019-11-16 10:05:41', 'Admin', '711', 'Update', 0),
-	(576, '2019-11-16 10:05:42', 'Admin', '701', 'Update', 0),
-	(577, '2019-11-16 10:05:42', 'Admin', '691', 'Update', 0),
-	(578, '2019-11-16 10:05:43', 'Admin', '681', 'Update', 0),
-	(579, '2019-11-16 10:05:44', 'Admin', '671', 'Update', 0),
-	(580, '2019-11-16 10:05:45', 'Admin', '651', 'Update', 0),
-	(581, '2019-11-16 10:05:46', 'Admin', '661', 'Update', 0),
-	(582, '2019-11-16 10:05:47', 'Admin', '651', 'Update', 0),
-	(583, '2019-11-16 10:05:47', 'Admin', '661', 'Update', 0),
-	(584, '2019-11-16 10:05:48', 'Admin', '671', 'Update', 0),
-	(585, '2019-11-16 10:05:48', 'Admin', '681', 'Update', 0),
-	(586, '2019-11-16 10:05:49', 'Admin', '691', 'Update', 0),
-	(587, '2019-11-16 10:05:51', 'Admin', '701', 'Update', 0),
-	(588, '2019-11-16 10:05:52', 'Admin', '711', 'Update', 0),
-	(589, '2019-11-16 10:05:53', 'Admin', '721', 'Update', 0),
-	(590, '2019-11-16 10:05:53', 'Admin', '731', 'Update', 0),
-	(591, '2019-11-16 10:06:08', 'Admin', '659', 'Create', 0),
-	(592, '2019-11-16 10:06:08', 'Admin', '659', 'Update', 0),
-	(593, '2019-11-16 10:06:09', 'Admin', '659', 'Update', 0),
-	(594, '2019-11-16 10:06:10', 'Admin', '659', 'Update', 0),
-	(595, '2019-11-16 10:06:11', 'Admin', '669', 'Create', 0),
-	(596, '2019-11-16 10:06:11', 'Admin', '669', 'Update', 0),
-	(597, '2019-11-16 10:06:13', 'Admin', '669', 'Update', 0),
-	(598, '2019-11-16 10:06:13', 'Admin', '669', 'Update', 0),
-	(599, '2019-11-16 10:06:15', 'Admin', '679', 'Create', 0),
-	(600, '2019-11-16 10:06:15', 'Admin', '689', 'Create', 0),
-	(601, '2019-11-16 10:06:16', 'Admin', '699', 'Create', 0),
-	(602, '2019-11-16 10:06:18', 'Admin', '689', 'Update', 0),
-	(603, '2019-11-16 10:06:18', 'Admin', '679', 'Update', 0),
-	(604, '2019-11-16 10:06:20', 'Admin', '699', 'Update', 0),
-	(605, '2019-11-16 10:06:21', 'Admin', '679', 'Update', 0),
-	(606, '2019-11-16 10:06:21', 'Admin', '689', 'Update', 0),
-	(607, '2019-11-16 10:06:22', 'Admin', '699', 'Update', 0),
-	(608, '2019-11-16 10:06:23', 'Admin', '679', 'Update', 0),
-	(609, '2019-11-16 10:06:24', 'Admin', '689', 'Update', 0),
-	(610, '2019-11-16 10:06:25', 'Admin', '699', 'Update', 0),
-	(611, '2019-11-16 10:06:26', 'Admin', '709', 'Create', 0),
-	(612, '2019-11-16 10:06:27', 'Admin', '709', 'Update', 0),
-	(613, '2019-11-16 10:06:28', 'Admin', '709', 'Update', 0),
-	(614, '2019-11-16 10:06:28', 'Admin', '709', 'Update', 0),
-	(615, '2019-11-16 10:06:29', 'Admin', '719', 'Create', 0),
-	(616, '2019-11-16 10:06:29', 'Admin', '719', 'Update', 0),
-	(617, '2019-11-16 10:06:31', 'Admin', '719', 'Update', 0),
-	(618, '2019-11-16 10:06:32', 'Admin', '719', 'Update', 0),
-	(619, '2019-11-16 10:06:33', 'Admin', '729', 'Create', 0),
-	(620, '2019-11-16 10:06:35', 'Admin', '729', 'Update', 0),
-	(621, '2019-11-16 10:06:35', 'Admin', '729', 'Update', 0),
-	(622, '2019-11-16 10:06:36', 'Admin', '729', 'Update', 0),
-	(623, '2019-11-16 10:06:36', 'Admin', '739', 'Create', 0),
-	(624, '2019-11-16 10:06:38', 'Admin', '739', 'Update', 0),
-	(625, '2019-11-16 10:06:38', 'Admin', '739', 'Update', 0),
-	(626, '2019-11-16 10:06:39', 'Admin', '739', 'Update', 0),
-	(627, '2019-11-16 10:06:41', 'Admin', '739', 'Update', 0),
-	(628, '2019-11-16 10:06:42', 'Admin', '729', 'Update', 0),
-	(629, '2019-11-16 10:06:42', 'Admin', '719', 'Update', 0),
-	(630, '2019-11-16 10:06:43', 'Admin', '709', 'Update', 0),
-	(631, '2019-11-16 10:06:44', 'Admin', '699', 'Update', 0),
-	(632, '2019-11-16 10:06:45', 'Admin', '689', 'Update', 0),
-	(633, '2019-11-16 10:06:45', 'Admin', '679', 'Update', 0),
-	(634, '2019-11-16 10:06:47', 'Admin', '669', 'Update', 0),
-	(635, '2019-11-16 10:06:47', 'Admin', '659', 'Update', 0),
-	(636, '2019-11-16 10:06:48', 'Admin', '589', 'Update', 0),
-	(637, '2019-11-16 10:07:06', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(638, '2019-11-16 10:07:07', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(639, '2019-11-16 10:07:07', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(640, '2019-11-16 10:07:08', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(641, '2019-11-16 10:07:10', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(642, '2019-11-16 10:07:10', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(643, '2019-11-16 10:07:11', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(644, '2019-11-16 10:07:13', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(645, '2019-11-16 10:07:14', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(646, '2019-11-16 10:07:16', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(647, '2019-11-16 10:07:17', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(648, '2019-11-16 10:07:17', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(649, '2019-11-16 10:07:18', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(650, '2019-11-16 10:07:20', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(651, '2019-11-16 10:07:20', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(652, '2019-11-16 10:07:21', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(653, '2019-11-16 10:07:22', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(654, '2019-11-16 10:07:22', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(655, '2019-11-16 10:07:24', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(656, '2019-11-16 10:07:24', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(657, '2019-11-16 10:07:25', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(658, '2019-11-16 10:07:25', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(659, '2019-11-16 10:07:26', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(660, '2019-11-16 10:07:26', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(661, '2019-11-16 10:07:27', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(662, '2019-11-16 10:07:29', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(663, '2019-11-16 10:07:31', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(664, '2019-11-16 10:07:31', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(665, '2019-11-16 10:07:32', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(666, '2019-11-16 10:07:34', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(667, '2019-11-16 10:07:34', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(668, '2019-11-16 10:07:35', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(669, '2019-11-16 10:07:36', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(670, '2019-11-16 10:07:36', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(671, '2019-11-16 10:07:38', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(672, '2019-11-16 10:07:38', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(673, '2019-11-16 10:07:40', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(674, '2019-11-16 10:07:42', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(675, '2019-11-16 10:07:43', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(676, '2019-11-16 10:07:43', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(677, '2019-11-16 10:07:44', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(678, '2019-11-16 10:07:44', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(679, '2019-11-16 10:07:45', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(680, '2019-11-16 10:07:46', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(681, '2019-11-16 10:07:47', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(682, '2019-11-16 10:10:58', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(683, '2019-11-16 10:11:05', 'Admin', 'Generated hearing Notice for Application: 17 OF 2019', 'Add', 0),
-	(684, '2019-11-16 10:32:49', 'Admin', 'Updated Maximum Approvals for ModulePAREQ', 'Add', 0),
-	(685, '2019-11-16 10:33:30', 'Admin', 'Submited PanelList  for Application: 16 OF 2019', 'Add', 0),
-	(686, '2019-11-16 11:51:46', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(687, '2019-11-16 12:21:40', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(688, '2019-11-16 12:24:34', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(689, '2019-11-16 13:18:40', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(690, '2019-11-16 13:18:44', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(691, '2019-11-16 13:29:35', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(692, '2019-11-16 13:37:15', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:12 OF 2019', 'Add', 0),
-	(693, '2019-11-16 14:02:33', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(694, '2019-11-16 14:02:39', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(695, '2019-11-16 14:02:49', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(696, '2019-11-16 14:02:54', 'A123456789X', 'Updated PE Response for Response ID: 1', 'Add', 0),
-	(697, '2019-11-16 14:59:12', 'Admin', 'Added new party submision for Application: 17 OF 2019', 'Add', 0),
-	(698, '2019-11-16 14:59:24', 'Admin', 'Added new party submision for Application: 17 OF 2019', 'Add', 0),
-	(699, '2019-11-16 15:04:18', 'Admin', 'Deleted party submision : 8', 'Delete', 0),
-	(700, '2019-11-16 15:13:30', 'Admin', 'Added new issue for dertermination application: 17 OF 2019', 'Add', 0),
-	(701, '2019-11-16 15:13:44', 'Admin', 'Added new findings on issues for Application: 17 OF 2019', 'Add', 0),
-	(702, '2019-11-16 15:15:32', 'Admin', 'Deleted party submision : 9', 'Delete', 0),
-	(703, '2019-11-16 15:20:35', 'Admin', 'Added new issue for dertermination application: 17 OF 2019', 'Add', 0),
-	(704, '2019-11-16 15:22:14', 'Admin', 'Added new issue for dertermination application: 17 OF 2019', 'Add', 0),
-	(705, '2019-11-16 15:29:43', 'Admin', 'Added new issue for dertermination application: 17 OF 2019', 'Add', 0),
-	(706, '2019-11-16 15:29:56', 'Admin', 'Added new party submision for Application: 17 OF 2019', 'Add', 0),
-	(707, '2019-11-16 15:30:00', 'Admin', 'Added new party submision for Application: 17 OF 2019', 'Add', 0),
-	(708, '2019-11-16 15:30:05', 'Admin', 'Added new party submision for Application: 17 OF 2019', 'Add', 0),
-	(709, '2019-11-16 15:30:12', 'Admin', 'Deleted party submision : 11', 'Delete', 0),
-	(710, '2019-11-16 15:40:13', 'Admin', 'Added new decision order for Application: 17 OF 2019', 'Add', 0),
-	(711, '2019-11-16 15:40:20', 'Admin', 'Added new decision order for Application: 17 OF 2019', 'Add', 0),
-	(712, '2019-11-16 15:40:33', 'Admin', 'Added new findings on issues for Application: 17 OF 2019', 'Add', 0),
-	(713, '2019-11-16 17:39:20', 'Admin', 'Added new Background Information for decision for Application: 17 OF 2019', 'Add', 0),
-	(714, '2019-11-16 18:26:20', 'Admin', 'Submited Decision for Application: 17 OF 2019', 'Add', 0),
-	(715, '2019-11-17 10:53:12', 'Admin', 'Added new DecisionSummary for Application: 17 OF 2019', 'Update', 0),
-	(716, '2019-11-17 11:00:01', 'Admin', 'Added new DecisionSummary for Application: 17 OF 2019', 'Update', 0),
-	(717, '2019-11-17 11:05:30', 'Admin', 'Submited Decision for Application: 17 OF 2019', 'Add', 0),
-	(718, '2019-11-17 11:18:52', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:10', 'Add', 0),
-	(719, '2019-11-17 11:36:51', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:5', 'Add', 0),
-	(720, '2019-11-17 11:36:55', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:5', 'Add', 0),
-	(721, '2019-11-17 11:41:43', 'P0123456788X', 'Deleted additionalsubmissions Document:1573978732487-6 OF 2019.pdf', 'Delete', 0),
-	(722, '2019-11-17 11:41:53', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:10', 'Add', 0),
-	(723, '2019-11-17 11:41:57', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:10', 'Add', 0),
-	(724, '2019-11-17 12:11:41', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(725, '2019-11-17 12:11:48', 'Admin', 'Generated hearing Notice for Application: 16 OF 2019', 'Add', 0),
-	(726, '2019-11-17 12:13:09', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(727, '2019-11-17 12:13:14', 'Admin', 'Unbooked Booked Venue:5', 'Update', 0),
-	(728, '2019-11-17 12:13:17', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(729, '2019-11-17 12:13:22', 'Admin', 'Unbooked Booked Venue:5', 'Update', 0),
-	(730, '2019-11-17 12:13:25', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(731, '2019-11-17 12:13:41', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(732, '2019-11-17 12:13:41', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(733, '2019-11-17 12:13:46', 'Admin', 'Unbooked Booked Venue:5', 'Update', 0),
-	(734, '2019-11-17 12:13:48', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(735, '2019-11-17 12:17:53', 'Admin', ' Approved Application: 18', 'Approval', 0),
-	(736, '2019-11-18 09:55:54', 'Admin', 'Added new decision document application: 19 OF 2019', 'Add', 0),
-	(737, '2019-11-18 09:57:08', 'Admin', 'Added new decision document application: 19 OF 2019', 'Add', 0),
-	(738, '2019-11-18 10:02:08', 'Admin', 'Removed decision document: 1574060228210-6 OF 2019.pdf', 'Delete', 0),
-	(739, '2019-11-18 10:21:18', 'Admin', '741', 'Create', 0),
-	(740, '2019-11-18 10:21:18', 'Admin', '751', 'Create', 0),
-	(741, '2019-11-18 10:21:19', 'Admin', '761', 'Create', 0),
-	(742, '2019-11-18 10:21:19', 'Admin', '761', 'Update', 0),
-	(743, '2019-11-18 10:21:20', 'Admin', '751', 'Update', 0),
-	(744, '2019-11-18 10:21:21', 'Admin', '741', 'Update', 0),
-	(745, '2019-11-18 10:21:22', 'Admin', '741', 'Update', 0),
-	(746, '2019-11-18 10:21:22', 'Admin', '751', 'Update', 0),
-	(747, '2019-11-18 10:21:24', 'Admin', '761', 'Update', 0),
-	(748, '2019-11-18 10:21:24', 'Admin', '761', 'Update', 0),
-	(749, '2019-11-18 10:21:26', 'Admin', '751', 'Update', 0),
-	(750, '2019-11-18 10:21:27', 'Admin', '741', 'Update', 0),
-	(751, '2019-11-18 10:21:28', 'Admin', '741', 'Update', 0),
-	(752, '2019-11-18 10:21:28', 'Admin', '751', 'Update', 0),
-	(753, '2019-11-18 10:21:29', 'Admin', '761', 'Update', 0),
-	(754, '2019-11-18 10:22:29', 'Admin', '759', 'Create', 0),
-	(755, '2019-11-18 10:22:30', 'Admin', '759', 'Update', 0),
-	(756, '2019-11-18 10:22:31', 'Admin', '769', 'Create', 0),
-	(757, '2019-11-18 10:22:31', 'Admin', '769', 'Update', 0),
-	(758, '2019-11-18 10:22:32', 'Admin', '769', 'Update', 0),
-	(759, '2019-11-18 10:22:33', 'Admin', '759', 'Update', 0),
-	(760, '2019-11-18 10:22:34', 'Admin', '759', 'Update', 0),
-	(761, '2019-11-18 10:22:34', 'Admin', '769', 'Update', 0),
-	(762, '2019-11-18 10:22:35', 'Admin', '769', 'Update', 0),
-	(763, '2019-11-18 10:22:36', 'Admin', '759', 'Update', 0),
-	(764, '2019-11-18 10:23:02', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(765, '2019-11-18 10:23:02', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(766, '2019-11-18 10:23:03', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(767, '2019-11-18 10:23:04', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(768, '2019-11-18 10:23:05', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(769, '2019-11-18 10:23:05', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(770, '2019-11-18 10:23:06', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(771, '2019-11-18 10:23:06', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(772, '2019-11-18 10:23:07', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(773, '2019-11-18 10:23:08', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(774, '2019-11-18 10:23:08', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(775, '2019-11-18 10:23:09', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(776, '2019-11-18 10:23:10', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(777, '2019-11-18 10:23:11', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(778, '2019-11-18 10:23:12', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(779, '2019-11-18 10:27:12', 'Admin', 'Added new decision document application: 19 OF 2019', 'Add', 0),
-	(780, '2019-11-18 11:11:23', 'Admin', 'Added new decision document application: 17 OF 2019', 'Add', 0),
-	(781, '2019-11-18 11:11:44', 'Admin', 'Removed decision document: 1574064682826-6 OF 2019.pdf', 'Delete', 0),
-	(782, '2019-11-18 11:11:48', 'Admin', 'Added new decision document application: 17 OF 2019', 'Add', 0),
-	(783, '2019-11-18 11:52:31', 'Admin', 'Approved decision document: 1574064708541-6 OF 2019.pdf', 'Approve', 0),
-	(784, '2019-11-18 12:38:25', 'Admin', 'Approved decision document: 1574064682826-6 OF 2019.pdf', 'Approve', 0),
-	(785, '2019-11-18 13:26:21', 'Admin', '0', 'Add', 0),
-	(786, '2019-11-18 13:26:21', 'Admin', '0', 'Add', 0),
-	(787, '2019-11-18 13:26:23', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(788, '2019-11-18 13:26:25', 'Admin', '0', 'Add', 0),
-	(789, '2019-11-18 13:26:30', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(790, '2019-11-18 13:27:19', 'Admin', '0', 'Add', 0),
-	(791, '2019-11-18 13:27:21', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(792, '2019-11-18 13:27:30', 'Admin', '0', 'Add', 0),
-	(793, '2019-11-18 13:27:31', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(794, '2019-11-18 13:45:32', 'Admin', 'Submited Decision for Application: 17 OF 2019', 'Add', 0),
-	(795, '2019-11-18 13:46:59', 'Admin', 'Approved decision document: 1574060153641-6 OF 2019.pdf', 'Approve', 0),
-	(796, '2019-11-18 13:49:01', 'Admin', 'Approved decision document: 1574062032537-6 OF 2019.pdf', 'Approve', 0),
-	(797, '2019-11-18 15:19:44', 'P09875345W', 'Added new additionalsubmissions doument for ApplicationNo:15', 'Add', 0),
-	(798, '2019-11-18 15:19:48', 'P09875345W', 'Added new additionalsubmissions for ApplicationNo:15', 'Add', 0),
-	(799, '2019-11-18 15:21:50', 'P09875345W', 'Added new additionalsubmissions doument for ApplicationNo:15', 'Add', 0),
-	(800, '2019-11-18 15:46:22', 'P09875345W', 'Added new additionalsubmissions for ApplicationNo:15', 'Add', 0),
-	(801, '2019-11-18 15:47:28', 'P09875345W', 'Added new additionalsubmissions for ApplicationNo:15', 'Add', 0),
-	(802, '2019-11-18 16:05:26', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:15', 'Add', 0),
-	(803, '2019-11-18 16:12:05', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:15', 'Add', 0),
-	(804, '2019-11-18 16:12:23', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:15', 'Add', 0),
-	(805, '2019-11-18 16:46:01', 'Admin', '771', 'Create', 0),
-	(806, '2019-11-18 16:46:01', 'Admin', '771', 'Update', 0),
-	(807, '2019-11-18 16:46:02', 'Admin', '771', 'Update', 0),
-	(808, '2019-11-18 16:46:03', 'Admin', '771', 'Update', 0),
-	(809, '2019-11-18 16:46:04', 'Admin', '771', 'Update', 0),
-	(810, '2019-11-18 16:46:13', 'Admin', '779', 'Create', 0),
-	(811, '2019-11-18 16:46:15', 'Admin', '779', 'Update', 0),
-	(812, '2019-11-18 16:46:15', 'Admin', '779', 'Update', 0),
-	(813, '2019-11-18 16:46:16', 'Admin', '779', 'Update', 0),
-	(814, '2019-11-18 16:46:17', 'Admin', '779', 'Update', 0),
-	(815, '2019-11-18 16:46:59', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(816, '2019-11-18 16:46:59', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(817, '2019-11-18 16:47:00', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(818, '2019-11-18 16:47:00', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(819, '2019-11-18 16:47:01', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(820, '2019-11-18 17:47:46', 'Admin', 'Added new case analysis for Application: 17 OF 2019', 'Add', 0),
-	(821, '2019-11-18 17:48:00', 'Admin', 'Added new case analysis for Application: 17 OF 2019', 'Add', 0);
+	(1, '2019-11-19 11:23:16', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:17 OF 2019', 'Add', 0),
+	(2, '2019-11-19 13:25:01', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:16 OF 2019', 'Add', 0),
+	(3, '2019-11-19 15:08:47', 'Admin', '781', 'Create', 0),
+	(4, '2019-11-19 15:08:47', 'Admin', '781', 'Update', 0),
+	(5, '2019-11-19 15:08:49', 'Admin', '781', 'Update', 0),
+	(6, '2019-11-19 15:08:49', 'Admin', '781', 'Update', 0),
+	(7, '2019-11-19 15:08:49', 'Admin', '781', 'Update', 0),
+	(8, '2019-11-19 15:09:32', 'Admin', '789', 'Create', 0),
+	(9, '2019-11-19 15:09:33', 'Admin', '789', 'Update', 0),
+	(10, '2019-11-19 15:09:34', 'Admin', '789', 'Update', 0),
+	(11, '2019-11-19 15:09:35', 'Admin', '789', 'Update', 0),
+	(12, '2019-11-19 15:09:36', 'Admin', '789', 'Update', 0),
+	(13, '2019-11-19 15:09:59', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
+	(14, '2019-11-19 15:10:00', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
+	(15, '2019-11-19 15:10:01', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
+	(16, '2019-11-19 15:10:01', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
+	(17, '2019-11-19 15:10:03', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
+	(18, '2019-11-19 15:11:17', 'Admin', 'Added New Judicial Review  ApplicationNo:19 OF 2019', 'Add', 0),
+	(19, '2019-11-19 15:15:22', 'Admin', 'Added New Judicial Review  ApplicationNo:19 OF 2019', 'Add', 0),
+	(20, '2019-11-19 16:06:09', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(21, '2019-11-19 16:06:15', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(22, '2019-11-19 16:06:18', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(23, '2019-11-19 16:06:23', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(24, '2019-11-19 16:08:05', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(25, '2019-11-19 16:13:08', 'Admin', 'Deleted Judicial Document : 1574168884809-6 OF 2019.pdf', 'DELETE', 0),
+	(26, '2019-11-19 16:13:11', 'Admin', 'Deleted Judicial Document : 1574168783358-6 OF 2019.pdf', 'DELETE', 0),
+	(27, '2019-11-19 16:13:14', 'Admin', 'Deleted Judicial Document : 1574168778360-6 OF 2019.pdf', 'DELETE', 0),
+	(28, '2019-11-19 16:17:46', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(29, '2019-11-19 16:17:50', 'Admin', 'Submited Judicial Review Document for Application: 19 OF 2019', 'Add', 0),
+	(30, '2019-11-19 16:22:08', 'Admin', 'Deleted Judicial Document : 1574168768805-6 OF 2019.pdf', 'DELETE', 0);
 /*!40000 ALTER TABLE `audittrails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.bankslips
@@ -2032,14 +1243,43 @@ CREATE TABLE IF NOT EXISTS `caseanalysis` (
   `DeletedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.caseanalysis: ~2 rows (approximately)
+-- Dumping data for table arcm.caseanalysis: ~3 rows (approximately)
 /*!40000 ALTER TABLE `caseanalysis` DISABLE KEYS */;
 INSERT INTO `caseanalysis` (`ID`, `ApplicationNO`, `Description`, `Title`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBy`, `Deleted_At`) VALUES
 	(7, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorp</p>\n', 'Background information', '2019-11-18 17:47:46', 'Admin', 0, NULL, NULL),
-	(8, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorp</p>\n', 'Findings on issues', '2019-11-18 17:48:00', 'Admin', 0, NULL, NULL);
+	(8, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorp</p>\n', 'Findings on issues', '2019-11-18 17:48:00', 'Admin', 1, 'Admin', '2019-11-19 09:45:28.000000'),
+	(9, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>\n', 'Introduction', '2019-11-19 10:04:41', 'Admin', 0, NULL, NULL);
 /*!40000 ALTER TABLE `caseanalysis` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.caseanalysisdocuments
+DROP TABLE IF EXISTS `caseanalysisdocuments`;
+CREATE TABLE IF NOT EXISTS `caseanalysisdocuments` (
+  `ID` int(5) NOT NULL AUTO_INCREMENT,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `FileName` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `FilePath` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `Create_at` datetime NOT NULL,
+  `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Deleted` tinyint(1) NOT NULL,
+  `DeletedBY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Deleted_At` datetime(6) DEFAULT NULL,
+  `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Confidential` tinyint(1) DEFAULT NULL,
+  `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+
+-- Dumping data for table arcm.caseanalysisdocuments: ~4 rows (approximately)
+/*!40000 ALTER TABLE `caseanalysisdocuments` DISABLE KEYS */;
+INSERT INTO `caseanalysisdocuments` (`ID`, `ApplicationNo`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `Confidential`, `SubmitedBy`) VALUES
+	(18, '17 OF 2019', 'Case Analysis Document 1', '1574150233117-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis/', '2019-11-19 10:57:13', 'Admin', 1, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
+	(19, '17 OF 2019', 'Case Analysis 2', '1574150423945-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 11:00:24', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
+	(20, '17 OF 2019', 'Document 1', '1574151795833-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 11:23:16', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
+	(21, '16 OF 2019', 'Case Analysis for application1', '1574159101550-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 13:25:01', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai');
+/*!40000 ALTER TABLE `caseanalysisdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casedetails
 DROP TABLE IF EXISTS `casedetails`;
@@ -2898,6 +2138,19 @@ set lSaleDesc= CONCAT('Deleted bank slip: ', _Name);
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.Deletecaseanalysisdocuments
+DROP PROCEDURE IF EXISTS `Deletecaseanalysisdocuments`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletecaseanalysisdocuments`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
+BEGIN
+
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Deleted case analysis Document:',_DocName); 
+ Update caseanalysisdocuments set Deleted=1 where FileName=_DocName;
+call SaveAuditTrail(_userID,lSaleDesc,'Delete','0' );
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.DeletecaseAnalysisSection
 DROP PROCEDURE IF EXISTS `DeletecaseAnalysisSection`;
 DELIMITER //
@@ -3061,6 +2314,19 @@ DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted issue for dertermination: ', _NO); 
 Update issuesfordetermination set  Deleted=1 where NO=_NO and ApplicationNo=_ApplicationNo; 
 call SaveAuditTrail(_userID,lSaleDesc,'Delete','0' );
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.DeleteJudicialDocument
+DROP PROCEDURE IF EXISTS `DeleteJudicialDocument`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteJudicialDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+
+set lSaleDesc= CONCAT('Deleted Judicial Document : ',_name); 
+update judicialreviewdocuments set Deleted=1 where Name=_name;
+  call SaveAuditTrail(_UserID,lSaleDesc,'DELETE','0' );
 END//
 DELIMITER ;
 
@@ -3722,6 +2988,16 @@ SELECT * FROM tenders WHERE Deleted=0 ;
 End//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.getAllTowns
+DROP PROCEDURE IF EXISTS `getAllTowns`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `getAllTowns`()
+    NO SQL
+BEGIN
+Select DISTINCT Town from towns ;
+End//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.GetAllVenueBookings
 DROP PROCEDURE IF EXISTS `GetAllVenueBookings`;
 DELIMITER //
@@ -3869,7 +3145,7 @@ SELECT users.Name as caseOfficer, applications.ID,applications.ApplicationNo ,Te
   procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
   
-  `FilingDate`, `ApplicationREf`, applications.ApplicationNo, applications.Status,AwardDate
+  `FilingDate`, `ApplicationREf`, applications.ApplicationNo, applications.Status,AwardDate,applications.ClosingDate
   FROM `applications`
   inner join procuremententity on applications.PEID=procuremententity.PEID
   inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
@@ -4159,10 +3435,25 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `GetcaseAnalysis`(IN _ApplicationNo 
     NO SQL
 BEGIN
 
-Select ApplicationNO,Description,Title,Create_at ,Deleted,CreatedBy from caseanalysis where ApplicationNO=_ApplicationNo;
+Select ApplicationNO,Description,Title,Create_at ,Deleted,CreatedBy from caseanalysis where ApplicationNO=_ApplicationNo and Deleted=0;
  
 
   
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.getcaseanalysisdocuments
+DROP PROCEDURE IF EXISTS `getcaseanalysisdocuments`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getcaseanalysisdocuments`(IN _ApplicationNo varchar(50))
+BEGIN
+
+
+  Select  ApplicationNo,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy 
+  from caseanalysisdocuments where ApplicationNo= _ApplicationNo and Deleted=0;
+
+
+
 END//
 DELIMITER ;
 
@@ -4395,6 +3686,57 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `GetIssuesforDetermination`(IN _Appl
 BEGIN
 
  Select NO, ApplicationNo ,Description,Created_At,Deleted,Created_By from issuesfordetermination where ApplicationNo=_ApplicationNo and Deleted=0;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.GetJudicialreviewApplications
+DROP PROCEDURE IF EXISTS `GetJudicialreviewApplications`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetJudicialreviewApplications`()
+BEGIN
+select DISTINCT applications.FilingDate, applications.ApplicationNo,applications.PEID,
+procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,
+  procuremententity.Town as PETown,procuremententity.Email as PEEmail,procuremententity.Telephone as PETeleponde,
+  '' as PanelStatus 
+  from judicialreview
+  inner join applications on applications.ApplicationNo=judicialreview.ApplicationNo
+  inner join procuremententity on applications.PEID=procuremententity.PEID  
+  where judicialreview.Deleted=0 ;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.getJudicialReviewDetails
+DROP PROCEDURE IF EXISTS `getJudicialReviewDetails`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getJudicialReviewDetails`(IN _ApplicationNo VARCHAR(50))
+BEGIN
+Select  
+  ApplicationNo ,
+  DateFilled ,
+  CaseNO ,
+  Description ,
+  Applicant ,
+  Court,
+  Town ,
+  DateRecieved,
+  DateofReplyingAffidavit ,
+  DateofCourtRulling,
+  Ruling ,
+  Created_At ,
+  Created_By ,
+  Deleted from judicialreview where Deleted=0 and ApplicationNo=_ApplicationNo;
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Getjudicialreviewdocuments
+DROP PROCEDURE IF EXISTS `Getjudicialreviewdocuments`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Getjudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50))
+BEGIN
+
+Select  ApplicationNo ,Name ,Description ,Path , Created_At,Deleted 
+ From judicialreviewdocuments where ApplicationNo=_ApplicationNo and Deleted=0;
 END//
 DELIMITER ;
 
@@ -5560,7 +4902,7 @@ CREATE TABLE IF NOT EXISTS `groupaccess` (
   CONSTRAINT `groupaccess_ibfk_3` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groupaccess: ~142 rows (approximately)
+-- Dumping data for table arcm.groupaccess: ~141 rows (approximately)
 /*!40000 ALTER TABLE `groupaccess` DISABLE KEYS */;
 INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`) VALUES
 	(1, 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:34:39', '2019-07-20 14:36:43', 0),
@@ -5624,6 +4966,7 @@ INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, 
 	(1, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:21:18', '2019-11-18 10:21:28', 0),
 	(1, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:21:19', '2019-11-18 10:21:29', 0),
 	(1, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 16:46:01', '2019-11-18 16:46:04', 0),
+	(1, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:08:47', '2019-11-19 15:08:49', 0),
 	(7, 20, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:23', '2019-07-26 15:20:23', 0),
 	(7, 21, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-07-20 14:35:36', '2019-07-26 15:20:21', 0),
 	(7, 27, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:27', '2019-07-26 15:20:27', 0),
@@ -5701,6 +5044,7 @@ INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, 
 	(9, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:22:29', '2019-11-18 10:22:35', 0),
 	(9, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:22:31', '2019-11-18 10:22:35', 0),
 	(9, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 16:46:13', '2019-11-18 16:46:17', 0),
+	(9, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:09:32', '2019-11-19 15:09:36', 0),
 	(11, 24, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-13 14:33:50', '2019-11-13 14:33:50', 0),
 	(11, 25, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-11-13 14:33:48', '2019-11-13 14:33:49', 0),
 	(11, 28, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-13 14:34:25', '2019-11-13 14:34:27', 0),
@@ -5826,6 +5170,61 @@ INSERT INTO `issuesfordetermination` (`ID`, `NO`, `ApplicationNo`, `Description`
 	(20, 4, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:29:43', 0, 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `issuesfordetermination` ENABLE KEYS */;
 
+-- Dumping structure for table arcm.judicialreview
+DROP TABLE IF EXISTS `judicialreview`;
+CREATE TABLE IF NOT EXISTS `judicialreview` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DateFilled` date DEFAULT NULL,
+  `CaseNO` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Applicant` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Court` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Town` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DateRecieved` datetime DEFAULT NULL,
+  `DateofReplyingAffidavit` date DEFAULT NULL,
+  `DateofCourtRulling` date DEFAULT NULL,
+  `Ruling` text COLLATE utf8mb4_unicode_ci,
+  `Created_At` datetime DEFAULT NULL,
+  `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Deleted` tinyint(1) DEFAULT NULL,
+  `Deleted_At` datetime DEFAULT NULL,
+  `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table arcm.judicialreview: ~2 rows (approximately)
+/*!40000 ALTER TABLE `judicialreview` DISABLE KEYS */;
+INSERT INTO `judicialreview` (`ID`, `ApplicationNo`, `DateFilled`, `CaseNO`, `Description`, `Applicant`, `Court`, `Town`, `DateRecieved`, `DateofReplyingAffidavit`, `DateofCourtRulling`, `Ruling`, `Created_At`, `Created_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
+	(1, '19 OF 2019', '2019-11-19', '308', 'Case No 308', 'Wilcom Systems', 'HIGH COURT', 'NAIROBI', '2019-11-19 15:11:17', NULL, NULL, NULL, '2019-11-19 15:11:17', 'Admin', 0, NULL, NULL),
+	(2, '19 OF 2019', '2019-11-19', '333', 'CAse 2', 'ddf', 'HIGH COURT', 'MOMBASA', '2019-11-19 15:15:22', NULL, NULL, NULL, '2019-11-19 15:15:22', 'Admin', 0, NULL, NULL);
+/*!40000 ALTER TABLE `judicialreview` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.judicialreviewdocuments
+DROP TABLE IF EXISTS `judicialreviewdocuments`;
+CREATE TABLE IF NOT EXISTS `judicialreviewdocuments` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Path` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Created_At` datetime DEFAULT NULL,
+  `Deleted` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2048;
+
+-- Dumping data for table arcm.judicialreviewdocuments: ~7 rows (approximately)
+/*!40000 ALTER TABLE `judicialreviewdocuments` DISABLE KEYS */;
+INSERT INTO `judicialreviewdocuments` (`ID`, `ApplicationNo`, `Name`, `Description`, `Path`, `Created_At`, `Deleted`) VALUES
+	(10, '19 OF 2019', '1574168768805-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:09', 1),
+	(11, '19 OF 2019', '1574168775654-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:15', 0),
+	(12, '19 OF 2019', '1574168778360-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:18', 1),
+	(13, '19 OF 2019', '1574168783358-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:23', 1),
+	(14, '19 OF 2019', '1574168884809-6 OF 2019.pdf', 'Document 1', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:08:05', 1),
+	(15, '19 OF 2019', '1574169466675-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:17:46', 0),
+	(16, '19 OF 2019', '1574169469823-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:17:50', 0);
+/*!40000 ALTER TABLE `judicialreviewdocuments` ENABLE KEYS */;
+
 -- Dumping structure for procedure arcm.MarkcaseWithdrawalasfrivolous
 DROP PROCEDURE IF EXISTS `MarkcaseWithdrawalasfrivolous`;
 DELIMITER //
@@ -5896,7 +5295,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.notifications: ~175 rows (approximately)
+-- Dumping data for table arcm.notifications: ~174 rows (approximately)
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`) VALUES
 	(1, 'Admin', 'Applications Fees Approval', 'Applications pending fees approval', '2019-11-11 16:10:58', '2019-11-14 16:10:58', 'Resolved'),
@@ -6764,9 +6163,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `Deleted` tinyint(1) NOT NULL,
   `Category` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`RoleID`,`RoleName`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.roles: ~61 rows (approximately)
+-- Dumping data for table arcm.roles: ~62 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`, `Category`) VALUES
 	(17, 'System Users', 'System Users ', 'Admin', 'user', '2019-06-27 17:30:15', '2019-10-04 10:27:44', 0, 'Admin'),
@@ -6829,7 +6228,8 @@ INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `Creat
 	(74, 'Registration', 'Registration', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
 	(75, 'Case Proceedings', 'Case Proceedings', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
 	(76, 'Hearing In progress', 'Hearing In progress', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
-	(77, 'Case Analysis', 'Case Analysis', 'Admin', 'Admin', '2019-07-26 12:04:10', '2019-07-26 12:04:10', 0, 'CaseManagement');
+	(77, 'Case Analysis', 'Case Analysis', 'Admin', 'Admin', '2019-07-26 12:04:10', '2019-07-26 12:04:10', 0, 'CaseManagement'),
+	(78, 'Judicial Review', 'Judicial Review', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.Saveadditionalsubmissions
@@ -7154,6 +6554,24 @@ End if;
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0' );
 
   
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Savecaseanalysisdocuments
+DROP PROCEDURE IF EXISTS `Savecaseanalysisdocuments`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Savecaseanalysisdocuments`(IN _ApplicationNo varchar(50), IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Added new caseanalysis  doument for ApplicationNo:',_ApplicationNo); 
+
+select Name from users where Username=_userID Limit 1 INTO @Name;
+
+  INSERT INTO  caseanalysisdocuments(ApplicationNo,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
+  VALUES(_ApplicationNo,_Description,_DocName,_FilePath,now(),_userID,0,'case analysis documents',0,@Name);
+  call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
+call Saveapplicationsequence(_ApplicationNo,'Uploded case Analysis Report','Awaiting Hearing',_userID); 
+
 END//
 DELIMITER ;
 
@@ -7520,6 +6938,53 @@ Begin
 End if;
 
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0' );
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Savejudicialreview
+DROP PROCEDURE IF EXISTS `Savejudicialreview`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Savejudicialreview`(IN _ApplicationNo VARCHAR(50), IN _DateFilled DATE, _CaseNO VARCHAR(100),IN _Description VARCHAR(255),IN _Applicant VARCHAR(150),
+  IN _Court VARCHAR(100),IN _Town VARCHAR(50), IN `_userID` VARCHAR(50))
+    NO SQL
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Added New Judicial Review  ApplicationNo:',_ApplicationNo); 
+Insert Into judicialreview (
+ 
+  ApplicationNo,DateFilled,CaseNO,Description,Applicant,Court,Town,DateRecieved,Created_At,Created_By,Deleted)
+  VALUES(_ApplicationNo,_DateFilled,_CaseNO,_Description,_Applicant,_Court,_Town,now(),now(),_userID,0);
+call Saveapplicationsequence(_ApplicationNo,'Judicial Review','Judicial Review',_userID); 
+call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
+  if(_Court='HIGH COURT')THEN
+    Begin
+  update applications set Status='JR–HIGH COURT' where ApplicationNo=_ApplicationNo;
+END;
+  ENd if;
+
+  if(_Court='COURT OF APPEAL')THEN
+    Begin
+  update applications set Status='JR–COURT OF APPEAL' where ApplicationNo=_ApplicationNo;
+END;
+  ENd if;  if(_Court='SUPREME COURT')THEN
+    Begin
+  update applications set Status='JR–SUPREME COURT' where ApplicationNo=_ApplicationNo;
+END;
+  ENd if;
+End//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Savejudicialreviewdocuments
+DROP PROCEDURE IF EXISTS `Savejudicialreviewdocuments`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Savejudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50), IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _UserID VARCHAR(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+
+set lSaleDesc= CONCAT('Submited Judicial Review Document for Application: ',_ApplicationNo);
+insert into judicialreviewdocuments (ApplicationNo ,Name ,Description ,Path , Created_At,Deleted )
+  VALUES(_ApplicationNo,_Name,_Description,_Path,now(),0);
+   call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
 END//
 DELIMITER ;
 
@@ -10545,7 +10010,7 @@ CREATE TABLE IF NOT EXISTS `useraccess` (
   CONSTRAINT `useraccess_ibfk_3` FOREIGN KEY (`UpdateBy`) REFERENCES `users` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.useraccess: ~420 rows (approximately)
+-- Dumping data for table arcm.useraccess: ~417 rows (approximately)
 /*!40000 ALTER TABLE `useraccess` DISABLE KEYS */;
 INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`) VALUES
 	('A123456789U', 26, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
@@ -10647,6 +10112,7 @@ INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `Vie
 	('Admin', 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:23:02', '2019-11-18 10:23:11'),
 	('Admin', 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:23:03', '2019-11-18 10:23:12'),
 	('Admin', 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 16:46:58', '2019-11-18 16:47:01'),
+	('Admin', 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:09:59', '2019-11-19 15:10:03'),
 	('CASEOFFICER01', 24, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
 	('CASEOFFICER01', 25, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
 	('CASEOFFICER01', 26, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
