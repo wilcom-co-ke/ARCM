@@ -41,32 +41,30 @@ module.exports = ({
   </head>
   <body>
     <div class="Container"> 
-//  <span class="img-container">
-//     <img class="logo" src=${LogoPath} alt="">
-//     </span>
+
       <h2 class="headings">REPUBLIC OF KENYA</h2>
       <H3 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</H3>
       <H3 class="headings">REQUEST NO ${ApplicationNo}</H3>
       <H3 class="headings"> BETWEEN</H3>
-      <H4 class="headings"> <span class="dotted">${ApplicantName}</span> APPLICANT</H4>
+      <H4 class="headings"> ${ApplicantName}...APPLICANT</H4>
       <H3 class="headings"> AND</H3>
       <H4 class="headings">
-        <span class="dotted">${PEName}</span> RESPONDENT (<i>Procuring Entity or Director General</i>)</H4
+         ACCOUNTING OFFICER,${PEName}...RESPONDENT </H4
       >
       <h3>TO:</h3>
       <ol>
-        <li>${PEName} (<i>Procuring Entity or Director General</i>)</li>
-        <li>${ApplicantName} (<i>Applicant</i>)</li>
+        <li>${PEName} </li>
+        <li>${ApplicantName} </li>
       </ol>
       <H3 class="headings"> HEARING NOTICE</H3>
       <P
-        >Whereas <span class="dotted">${ApplicantName} </span> the applicant herein has instituted a complaint
-        against <span class="dotted">${PEName} </span> (<i>Procuring Entity or Director General</i>) on
-        <span class="dotted">${ApplicationDate} </span>(Date) particulars of which were set out in a Request for Review
-        served upon you on <span class="dotted">${PENotificationDate} </span>.
+        >Whereas ${ApplicantName}  the applicant herein has instituted a complaint
+        against  ACCOUNTING OFFICER, ${PEName}   on
+        <b>${ApplicationDate} </b>(Date) particulars of which were set out in a Request for Review
+        served upon you on <b>${PENotificationDate} </b>.
       </P>
-      <p>You are hereby required to appear on the <span class="dotted">${HearingDateAndTime} </span>. when the complaint against 
-          you will be heard by this Board sitting at <b class="dotted">${Venue} </b>.</p>
+      <p>You are hereby required to appear on the <b>${HearingDateAndTime} </b>. when the complaint against 
+          you will be heard by this Board sitting at <b>${Venue} </b>.</p>
           <p>If you fail to appear,the Applicant may proceed with the complaint and determination by order of
                the Board may be made in your absence.
               <p>Dated on ${Noticedate}.</p>

@@ -9,6 +9,7 @@ import Modal from "react-awesome-modal";
 import CKEditor from "ckeditor4-react";
 import axios from "axios";
 import { Progress } from "reactstrap";
+import { Link } from "react-router-dom";
 var dateFormat = require("dateformat");
 var _ = require("lodash");
 let userdateils = localStorage.getItem("UserData");
@@ -955,7 +956,7 @@ class CaseAnalysis extends Component {
             height="360"
             effect="fadeInUp"
           >
-            <div style={{ "overflow-y": "scroll" }}>
+            <div style={{ "overflow-y": "scroll", height: "350px" }}>
               <a
                 style={{
                   float: "right",
@@ -1073,10 +1074,10 @@ class CaseAnalysis extends Component {
           <Modal
             visible={this.state.openPartiesSubmissionsModal}
             width="80%"
-            height="70%"
+            height="600px"
             effect="fadeInUp"
           >
-            <div>
+            <div style={{ "overflow-y": "scroll", height: "570px" }}>
               <a
                 style={{ float: "right", color: "red", margin: "10px" }}
                 href="javascript:void(0);"
@@ -1189,7 +1190,7 @@ class CaseAnalysis extends Component {
           </Modal>
 
           <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-9">
+            <div className="col-lg-11">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   <h2 className="font-weight-bold">
@@ -1213,17 +1214,17 @@ class CaseAnalysis extends Component {
                 </li>
               </ol>
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-1">
               <div className="row wrapper ">
                 &nbsp;
-                {/* <button
-                                    type="button"
-                                    style={{ marginTop: 40 }}
-                                    onClick={this.GoBack}
-                                    className="btn btn-primary float-left"
-                                >
-                                    &nbsp; Back
-                  </button> */}
+               <button
+               style={{margin:"10px"}}
+                  className="btn btn-warning float-right"
+                  type="button"
+                  onClick={this.GoBack}
+                >
+                  Close
+                          </button>
               </div>
             </div>
           </div>
@@ -2026,12 +2027,24 @@ class CaseAnalysis extends Component {
         <div>
           <ToastContainer />
           <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-12">
+            <div className="col-lg-11">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   <h2> CASE ANALYSIS</h2>
                 </li>
               </ol>
+            </div>
+            <div className="col-lg-1">
+              <Link to="/">
+                <button
+                  type="button"
+                  style={{ marginTop: 40 }}
+                  onClick={this.openModal}
+                  className="btn btn-warning  "
+                >
+                  &nbsp; Close
+                    </button>
+              </Link>
             </div>
           </div>
 

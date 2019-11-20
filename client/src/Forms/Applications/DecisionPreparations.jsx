@@ -1446,10 +1446,10 @@ class DecisionPreparations extends Component {
             <Modal
               visible={this.state.openPartiesSubmissionsModal}
               width="80%"
-              height="70%"
+              height="550px"
               effect="fadeInUp"
             >
-              <div>
+              <div style={{ "overflow-y": "scroll", height: "530px" }}>
                 <a
                   style={{ float: "right", color: "red", margin: "10px" }}
                   href="javascript:void(0);"
@@ -1639,7 +1639,7 @@ class DecisionPreparations extends Component {
               height="550px"
               effect="fadeInUp"
             >
-              <div>
+              <div style={{ "overflow-y": "scroll", height: "530px" }}>
                 <a
                   style={{ float: "right", color: "red", margin: "10px" }}
                   href="javascript:void(0);"
@@ -1715,7 +1715,7 @@ class DecisionPreparations extends Component {
               height="550px"
               effect="fadeInUp"
             >
-              <div>
+              <div style={{ "overflow-y": "scroll", height: "530px" }}>
                 <a
                   style={{ float: "right", color: "red", margin: "10px" }}
                   href="javascript:void(0);"
@@ -1811,7 +1811,7 @@ class DecisionPreparations extends Component {
               height="500px"
               effect="fadeInUp"
             >
-              <div>
+              <div style={{ "overflow-y": "scroll", height: "490px" }}>
                 <a
                   style={{ float: "right", color: "red", margin: "10px" }}
                   href="javascript:void(0);"
@@ -1861,7 +1861,7 @@ class DecisionPreparations extends Component {
               height="500px"
               effect="fadeInUp"
             >
-              <div>
+              <div style={{ "overflow-y": "scroll", height: "490px" }}>
                 <a
                   style={{ float: "right", color: "red", margin: "10px" }}
                   href="javascript:void(0);"

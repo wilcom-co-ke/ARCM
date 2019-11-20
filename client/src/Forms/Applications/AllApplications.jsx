@@ -5,10 +5,11 @@ import TableWrapper from "./../../TableWrapper";
 import "react-toastify/dist/ReactToastify.css";
 import ReactHtmlParser from "react-html-parser";
 import Modal from 'react-awesome-modal';
+import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { Progress } from "reactstrap";
-import Select from "react-select";
+
 var dateFormat = require('dateformat');
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);

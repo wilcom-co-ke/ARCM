@@ -4,8 +4,10 @@ import Select from "react-select";
 import Table from "../../Table";
 import TableWrapper from "../../TableWrapper";
 import { Link } from "react-router-dom";
-
+import Modal from "react-awesome-modal";
 import { ToastContainer, toast } from "react-toastify";
+import { Progress } from "reactstrap";
+import axios from "axios";
 var dateFormat = require("dateformat");
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
@@ -16,15 +18,62 @@ class JudicialReview extends Component {
     this.state = {
       casedetails: [],
       privilages: [],
-
+      selectedFile: null,
+      loaded: 0,
       ApplicantDetails: [],
       ApplicationNo: "",
       PEDetails: [],
       summary: false,
       Unbooking: false,
       JudicialDocuments: [],
-      JudicialDetails: []
+      JudicialDetails: [],
+      AddJudicialReview: false,
+
+      jDateofCourtRulling: "",
+      jCaseNO: "",
+      jDateofReplyingAffidavit: "",
+      Ruling: "",
+      Status: ""
     };
+  }
+  closeJudicialReview = () => {
+    this.setState({ AddJudicialReview: false });
+  };
+  handleSelectChange = (County, actionMeta) => {
+    this.setState({ [actionMeta.name]: County.value });
+  };
+
+  openJudicialReview = () => {
+    this.setState({ AddJudicialReview: true });
+  };
+  SaveJudicailReviewDocs(Documentname) {
+    const data = {
+      ApplicationNo: this.state.ApplicationNo,
+      Name: Documentname,
+      Description: this.state.DocumentDesc,
+      Path: process.env.REACT_APP_BASE_URL + "/Documents"
+    };
+    fetch("/api/JudicialReview/Documents", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            this.fetchJudicialDocuments(this.state.ApplicationNo);
+            swal("", "Document uploaded!", "success");
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("Oops!", err.message, "error");
+      });
   }
   fetchJudicialDocuments = ApplicationNo => {
     this.setState({ JudicialDocuments: [] });
@@ -61,7 +110,6 @@ class JudicialReview extends Component {
       .then(res => res.json())
       .then(JudicialDetails => {
         if (JudicialDetails.length > 0) {
-          console.log(JudicialDetails);
           this.setState({ JudicialDetails: JudicialDetails });
         }
       })
@@ -111,16 +159,7 @@ class JudicialReview extends Component {
         swal("", err.message, "error");
       });
   };
-  handleSelectChange = (UserGroup, actionMeta) => {
-    if (actionMeta.name === "Branch") {
-      this.fetchVenuesPerBranch(UserGroup.value, UserGroup.label);
-    }
-    if (actionMeta.name === "VenueID") {
-      this.setState({ VenueID: UserGroup.value });
-      this.setState({ RoomName: UserGroup.label });
-    }
-    this.setState({ [actionMeta.name]: UserGroup.value });
-  };
+
   handleInputChange = event => {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
@@ -200,12 +239,126 @@ class JudicialReview extends Component {
     this.fetchJudicialDetails(k.ApplicationNo);
     this.fetchPEDetails(k.ApplicationNo);
   };
+  maxSelectFile = event => {
+    let files = event.target.files; // create file object
+    if (files.length > 1) {
+      const msg = "Only One file can be uploaded at a time";
+      event.target.value = null; // discard selected file
+      toast.warn(msg);
+      return false;
+    }
+    return true;
+  };
+  onChangeHandler = event => {
+    //for multiple files
+    var files = event.target.files;
+    if (this.maxSelectFile(event)) {
+      this.setState({
+        selectedFile: files,
+        loaded: 0
+      });
+    }
+  };
+  handleDocumentSubmit = event => {
+    event.preventDefault();
+    if (this.state.selectedFile) {
+      const data = new FormData();
 
+      for (var x = 0; x < this.state.selectedFile.length; x++) {
+        data.append("file", this.state.selectedFile[x]);
+      }
+      axios
+        .post("/api/upload/Document", data, {
+          // receive two parameter endpoint url ,form data
+          onUploadProgress: ProgressEvent => {
+            this.setState({
+              loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
+            });
+          }
+        })
+        .then(res => {
+          this.SaveJudicailReviewDocs(res.data);
+        })
+        .catch(err => {
+          toast.error("upload fail");
+        });
+    } else {
+      toast.warn("Please select a file to upload");
+    }
+  };
+  handleJudicialReviewSubmit = event => {
+    event.preventDefault();
+
+    let datatosave = {
+      ApplicationNo: this.state.ApplicationNo,
+      DateofCourtRulling: this.state.jDateofCourtRulling,
+      CaseNO: this.state.jCaseNO,
+      DateofReplyingAffidavit: this.state.jDateofReplyingAffidavit,
+      Ruling: this.state.Ruling,
+      Status: this.state.Status
+    };
+    fetch("/api/JudicialReview", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(datatosave)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+            swal("", "Added successfully", "success");
+            this.setState({ AddJudicialReview: false });
+            this.fetchJudicialDetails(this.state.ApplicationNo);
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        toast.error("Could not be added please try again");
+      });
+  };
+  handleDeleteDocument = d => {
+    swal({
+      text: "Are you sure that you want to remove this document?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true
+    }).then(willDelete => {
+      if (willDelete) {
+        return fetch("/api/JudicialReview/" + d.Name, {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (data.success) {
+                this.fetchJudicialDocuments(this.state.ApplicationNo);
+                toast.success("Deleted");
+              } else {
+                swal("", "Remove Failed", "error");
+              }
+            })
+          )
+          .catch(err => {
+            swal("", "Remove Failed", "error");
+          });
+      }
+    });
+  };
   render() {
+    let handleDeleteDocument = this.handleDeleteDocument;
     let FormStyle = {
       margin: "20px"
     };
-
+    let childdiv = {
+      margin: "30px"
+    };
     let headingstyle = {
       color: "#7094db"
     };
@@ -261,13 +414,361 @@ class JudicialReview extends Component {
     };
 
     let ViewFile = this.ViewFile;
-
+    const Courts = [...this.state.JudicialDetails].map((k, i) => {
+      return {
+        value: k.CaseNO,
+        label: k.CaseNO + "-" + k.Court
+      };
+    });
+    let StatusOptions = [
+      {
+        value: "Successful",
+        label: "Successful"
+      },
+      {
+        value: "Not Successful",
+        label: "Not Successful"
+      }
+    ];
     if (this.state.summary) {
       return (
         <div>
           <ToastContainer />
+          <Modal
+            visible={this.state.AddJudicialReview}
+            width="70%"
+            height="450px"
+            effect="fadeInUp"
+          >
+            <div style={{ "overflow-y": "scroll", height: "440px" }}>
+              <a
+                style={{
+                  float: "right",
+                  color: "red",
+                  margin: "10px"
+                }}
+                href="javascript:void(0);"
+                onClick={() => this.closeJudicialReview()}
+              >
+                <i class="fa fa-close"></i>
+              </a>
+              <div>
+                <h4
+                  style={{
+                    "text-align": "center",
+                    color: "#1c84c6"
+                  }}
+                >
+                  Judicial Review
+                </h4>
+                <div className="container-fluid">
+                  <div>
+                    <div>
+                      <div className="col-sm-12">
+                        <div className="ibox-content">
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <nav>
+                                <div
+                                  class="nav nav-tabs "
+                                  id="nav-tab"
+                                  role="tablist"
+                                >
+                                  <a
+                                    class="nav-item nav-link active font-weight-bold"
+                                    id="nav-home-tab"
+                                    data-toggle="tab"
+                                    href="#nav-home"
+                                    role="tab"
+                                    aria-controls="nav-home"
+                                    aria-selected="true"
+                                  >
+                                    Judicial Review{" "}
+                                  </a>
+                                  <a
+                                    class="nav-item nav-link font-weight-bold"
+                                    id="nav-profile-tab"
+                                    data-toggle="tab"
+                                    href="#nav-profile"
+                                    role="tab"
+                                    aria-controls="nav-profile"
+                                    aria-selected="false"
+                                  >
+                                    Judicial Attachments
+                                  </a>
+                                </div>
+                              </nav>
+                              <div class="tab-content " id="nav-tabContent">
+                                <div
+                                  class="tab-pane fade show active"
+                                  id="nav-home"
+                                  role="tabpanel"
+                                  aria-labelledby="nav-home-tab"
+                                  style={childdiv}
+                                >
+                                  <form
+                                    onSubmit={this.handleJudicialReviewSubmit}
+                                  >
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              CaseNO
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <Select
+                                              name="jCaseNO"
+                                              onChange={this.handleSelectChange}
+                                              options={Courts}
+                                              required
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Status
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <Select
+                                              name="Status"
+                                              onChange={this.handleSelectChange}
+                                              options={StatusOptions}
+                                              required
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Date of Replying Affidavit
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state
+                                                  .jDateofReplyingAffidavit
+                                              }
+                                              type="date"
+                                              required
+                                              name="jDateofReplyingAffidavit"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Date of Court Rulling
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={
+                                                this.state.jDateofCourtRulling
+                                              }
+                                              type="date"
+                                              required
+                                              name="jDateofCourtRulling"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Ruling
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <textarea
+                                              onChange={this.handleInputChange}
+                                              value={this.state.Ruling}
+                                              type="text"
+                                              required
+                                              name="Ruling"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <br />
+                                    <div className="col-sm-12 ">
+                                      <div className=" row">
+                                        <div className="col-sm-9" />
+                                        <div className="col-sm-3">
+                                          <button
+                                            type="submit"
+                                            className="btn btn-primary"
+                                          >
+                                            Save
+                                          </button>
+                                          &nbsp; &nbsp;
+                                          <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={this.closeJudicialReview}
+                                          >
+                                            Close
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div
+                                  class="tab-pane fade"
+                                  id="nav-profile"
+                                  role="tabpanel"
+                                  style={childdiv}
+                                  aria-labelledby="nav-profile-tab"
+                                >
+                                  <div class="row">
+                                    <div class="col-sm-6">
+                                      <label
+                                        for="Document"
+                                        className="font-weight-bold"
+                                      >
+                                        Document
+                                      </label>
+                                      <input
+                                        type="file"
+                                        className="form-control"
+                                        name="file"
+                                        onChange={this.onChangeHandler}
+                                      />
+                                      <div class="form-group">
+                                        <Progress
+                                          max="100"
+                                          color="success"
+                                          value={this.state.loaded}
+                                        >
+                                          {Math.round(this.state.loaded, 2)}%
+                                        </Progress>
+                                      </div>
+                                      <button
+                                        type="submit"
+                                        class="btn btn-success "
+                                        onClick={this.handleDocumentSubmit}
+                                      >
+                                        Upload
+                                      </button>{" "}
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label
+                                        for="Document"
+                                        className="font-weight-bold"
+                                      >
+                                        Document Description
+                                      </label>
+
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="DocumentDesc"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.DocumentDesc}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="row">
+                                    <table className="table table-sm-7">
+                                      <th>#</th>
+                                      <th>Document Description</th>
+                                      <th>FileName</th>
+                                      <th>Actions</th>
+
+                                      {this.state.JudicialDocuments.map(
+                                        function(k, i) {
+                                          return (
+                                            <tr>
+                                              <td>{i + 1}</td>
+                                              <td>{k.Description}</td>
+                                              <td>{k.Name}</td>
+                                              <td>
+                                                <span>
+                                                  <a
+                                                    style={{ color: "#f44542" }}
+                                                    onClick={e =>
+                                                      handleDeleteDocument(k, e)
+                                                    }
+                                                  >
+                                                    &nbsp; Remove
+                                                  </a>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      )}
+                                    </table>
+                                  </div>
+                                  <div className=" row">
+                                    <div className="col-sm-9" />
+                                    <div className="col-sm-3">
+                                      &nbsp; &nbsp;
+                                      <button
+                                        type="button"
+                                        className="btn btn-danger float-right"
+                                        onClick={this.closeJudicialReview}
+                                      >
+                                        Close
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <ToastContainer />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
+
           <div className="row wrapper border-bottom white-bg page-heading">
-            <div className="col-lg-10">
+            <div className="col-lg-9">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
                   <h2>
@@ -277,14 +778,22 @@ class JudicialReview extends Component {
                 </li>
               </ol>
             </div>
-            <div className="col-lg-2">
+            <div className="col-lg-3">
               <div className="row wrapper ">
+                <button
+                  className="btn btn-primary  "
+                  type="button"
+                  style={{ marginTop: 40 }}
+                  onClick={this.openJudicialReview}
+                >
+                  Update Judicial Review
+                </button>
+                &nbsp;
                 <button
                   type="button"
                   style={{ marginTop: 40 }}
-                  onClick={this.openModal}
                   onClick={this.switchMenu}
-                  className="btn btn-primary  "
+                  className="btn btn-warning  "
                 >
                   Back
                 </button>
@@ -352,63 +861,68 @@ class JudicialReview extends Component {
                                     <td className="font-weight-bold">
                                       Date Filed:
                                     </td>
-                                    <td>
-                                      {dateFormat(
-                                        new Date(
-                                          k.DateFilled
-                                        ).toLocaleDateString(),
-                                        "mediumDate"
-                                      )}
-                                    </td>
+                                    {k.DateFilled ? (
+                                      <td>
+                                        {dateFormat(k.DateFilled, "mediumDate")}
+                                      </td>
+                                    ) : null}
                                   </tr>
                                   <tr>
                                     <td className="font-weight-bold">
-                                      Applicant
+                                      Applicant:
                                     </td>
                                     <td>{k.Applicant}</td>
                                   </tr>
                                   <tr>
                                     <td className="font-weight-bold">
-                                      Date Recieved
+                                      Date Recieved:
                                     </td>
-                                    <td>
-                                      {dateFormat(
-                                        new Date(
-                                          k.DateRecieved
-                                        ).toLocaleDateString(),
-                                        "mediumDate"
-                                      )}
-                                    </td>
+                                    {k.DateRecieved ? (
+                                      <td>
+                                        {dateFormat(
+                                          k.DateRecieved,
+                                          "mediumDate"
+                                        )}
+                                      </td>
+                                    ) : null}
                                   </tr>
                                   <tr>
                                     <td className="font-weight-bold">
-                                      Date of Court Rulling
+                                      Date of Court Rulling:
                                     </td>
-                                    <td>
-                                      {dateFormat(
-                                        new Date(
-                                          k.DateofCourtRulling
-                                        ).toLocaleDateString(),
-                                        "mediumDate"
-                                      )}
-                                    </td>
+                                    {k.DateofCourtRulling ? (
+                                      <td>
+                                        {dateFormat(
+                                          k.DateofCourtRulling,
+                                          "mediumDate"
+                                        )}
+                                      </td>
+                                    ) : null}
                                   </tr>
                                   <tr>
                                     <td className="font-weight-bold">
-                                      Date of Replying Affidavit
+                                      Date of Replying Affidavit:
                                     </td>
-                                    <td>
-                                      {dateFormat(
-                                        new Date(
-                                          k.DateofReplyingAffidavit
-                                        ).toLocaleDateString(),
-                                        "mediumDate"
-                                      )}
-                                    </td>
+                                    {k.DateofReplyingAffidavit ? (
+                                      <td>
+                                        {dateFormat(
+                                          k.DateofReplyingAffidavit,
+                                          "mediumDate"
+                                        )}
+                                      </td>
+                                    ) : null}
                                   </tr>
                                   <tr>
-                                    <td className="font-weight-bold">Ruling</td>
+                                    <td className="font-weight-bold">
+                                      Ruling:
+                                    </td>
                                     <td>{k.Ruling}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="font-weight-bold">
+                                      Status:
+                                    </td>
+                                    <td>{k.Status}</td>
                                   </tr>
                                 </div>
                               </table>
@@ -426,8 +940,8 @@ class JudicialReview extends Component {
                       <th>#</th>
                       <th>Document Description</th>
                       <th>FileName</th>
-                      <th>Actions</th>
                       <th>Date Submited</th>
+                      <th>Actions</th>
 
                       {this.state.JudicialDocuments.map((k, i) => {
                         return (
@@ -588,7 +1102,6 @@ class JudicialReview extends Component {
                     <button
                       type="button"
                       style={{ marginTop: 40 }}
-                      onClick={this.openModal}
                       className="btn btn-warning  "
                     >
                       &nbsp; Close

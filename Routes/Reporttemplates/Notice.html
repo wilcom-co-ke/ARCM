@@ -36,73 +36,64 @@
 
   <body>
     <div class="Container">
-     
       <h2 class="headings">FOURTH SCHEDULE</h2>
-      <H3 class="headings">PART 1</H3>
-      <H3 class="headings">FORMS FOR REVIEWS</H3>
-      <H3 class="headings"> FORM RB 1</H3>
-      <H3 class="headings">REPUBLIC OF KENYA</H3>
-      <H3 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</H3>
-      <H3 class="headings"
-        >APPLICATION <span class="dotted">{{ Applicationno }}</span></H3
-      >
-      <H3 class="headings">BETWEEN</H3>
+      <h3 class="headings">PART 1</h3>
+      <h3 class="headings">FORMS FOR REVIEWS</h3>
+      <h3 class="headings">FORM RB 1</h3>
+      <h3 class="headings">REPUBLIC OF KENYA</h3>
+      <h3 class="headings">PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD</h3>
+      <h3 class="headings">
+        APPLICATION <b>{{ Applicationno }}</span>
+      </h3>
+      <h3 class="headings">BETWEEN</h3>
 
-      <H4 class="headings">
-        <span class="dotted">{{ ApplicantName }}</span> APPLICANT</H4
-      >
-      <H3 class="headings"> AND</H3>
-      <H4 class="headings">
-        <span class="dotted">{{ PEName }}</span> RESPONDENT (<i
-          >Procuring Entity or Director General</i
-        >)</H4
-      >
+      <h4 class="headings">
+        {{ ApplicantName }}.... APPLICANT
+      </h4>
+      <h3 class="headings">AND</h3>
+      <h4 class="headings">
+        ACCOUNTING OFFICER,{{ PEName }}....RESPONDENT
+      </h4>
 
-      <P
-        >Request for review of the decision of the<span class="dotted">{{
-          PEName
-        }}</span>
-        (<i>Procuring Entity or Director General</i>) of ....dated
-        <span class="dotted">{{ ApplicationDate }} </span> in the matter of
+      <p>
+        Request for review of the decision of the <b>{{ PEName }}</b> of 
+        <b>{{ ApplicationDate }} </b> in the matter of
         Tender No
-        <span class="dotted">{{ TenderNo }} </span>
-      </P>
-      <H3 class="headings">REQUEST FOR REVIEW</H3>
+        <b>{{ TenderNo }}</b>   
+      </p>
+      <h3 class="headings">REQUEST FOR REVIEW</h3>
       <p>
-        I/We <span class="dotted">{{ ApplicantName }}</span
-        >,the above named Applicant(s) of address: Physical address
-        <span class="dotted">{{ PysicalAddress }} </span>.Fax No
-        <span class="dotted">{{ Fax }}</span> Tel No
-        <span class="dotted">{{ Telephone }}</span> Email
-        <span class="dotted">{{ Email }}</span
-        >, hereby request the Public Procurement Administrative Review Board to
-        review the whole/part of the above mentioned decision on the following
-        grounds,namely:-
+        I/We <b class="dotted">{{ ApplicantName }}</b>,the above named
+        Applicant(s) of address: Physical address
+        <b>{{ PysicalAddress }} </b>.Fax No
+        <b>{{ Fax }}</b> Tel No
+        <b>{{ Telephone }}</b> Email
+        <b>{{ Email }}</b>, hereby request the Public
+        Procurement Administrative Review Board to review the whole/part of the
+        above mentioned decision on the following grounds,namely:-
       </p>
       {{#each items}}
       <p>{{ name }}.{{ price }}</p>
 
       {{/each}}
-      <P
-        >By the memorandum,the Applicant request the Board for an Order/orders
+      <p>
+        By the memorandum,the Applicant request the Board for an Order/orders
         that:-
-      </P>
+      </p>
 
       {{#each items}}
       <p>{{ name }}.{{ price }}</p>
 
       {{/each}}
 
-      <p>SIGNED<span class="dotted">(Applicant) </span>.</p>
-      <p>
-        Datede on <span class="dotted">{{ ApplicationDate }} </span>
-      </p>
+      <p>SIGNED<b>(Applicant) </span>.</p>
+      <p>Datede on <b>{{ ApplicationDate }} </span></p>
       <hr />
       <h3>FOR OFFICIAL USE ONLY</h3>
       <p>
         Lodged with the secretary Public Procurement Administrative ReviewBoard
         on
-        <span class="dotted">{{ ReceivedDate }} </span>
+        <b>{{ ReceivedDate }} </span>
       </p>
       <br />
 

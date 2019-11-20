@@ -28,6 +28,7 @@ class CaseScheduling extends Component {
             Unbooking:false,
             DaysArray:[],
             FilePath:"",
+            Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
             casedetailstatus: "",
             Bookings:[],
             VenueID:"",
@@ -66,8 +67,7 @@ class CaseScheduling extends Component {
        
     }
     closeModal=()=> {
-        this.setState({ open: false });
-        this.setState({ Unbooking: false });
+        this.setState({ Unbooking: false, open: false});
     }
     fetchBookings = () => {
         this.setState({ Bookings: [] });
@@ -790,11 +790,11 @@ class CaseScheduling extends Component {
             ApplicationNo: this.state.ApplicationNo,
             ApplicantName: this.state.ApplicantDetails[0].Name,
             PEName: this.state.PEName,
-            ApplicationDate: dateFormat(new Date(this.state.FilingDate).toLocaleDateString(), "isoDate") ,
-            PENotificationDate: dateFormat(new Date(this.state.PEServedOn).toLocaleDateString(), "isoDate") ,
-            HearingDateAndTime: this.state.SelectedDate +" at "+ this.state.FromTime,           
+            ApplicationDate: dateFormat(this.state.FilingDate, "mediumDate") ,
+            PENotificationDate: dateFormat(this.state.PEServedOn, "mediumDate") ,
+            HearingDateAndTime: dateFormat(this.state.SelectedDate, "mediumDate")  +" at "+ this.state.FromTime,           
             Venue: this.state.VenueDesc+","+ this.state.RoomName ,
-            Noticedate: dateFormat(new Date().toLocaleDateString(), "isoDate"),
+            Noticedate: dateFormat(new Date().toLocaleDateString(), "mediumDate"),
             LogoPath:  process.env.REACT_APP_BASE_URL + "/images/Harambee.png"
         }      
         fetch("api/GenerateHearingNotice", {
@@ -1017,7 +1017,7 @@ class CaseScheduling extends Component {
                     </div>
                     <Popup
                         open={this.state.open}
-                        closeOnDocumentClick
+                       
                         onClose={this.closeModal}
                     >
                         <div className={popup.modal}>
@@ -1330,7 +1330,7 @@ class CaseScheduling extends Component {
                                                         type="date"
                                                         name="FromDate"
                                                         required
-
+                                                        min={this.state.Today}
                                                         className="form-control"
                                                         onChange={this.handleInputChange}
 
@@ -1341,6 +1341,7 @@ class CaseScheduling extends Component {
                                                         type="date"
                                                         name="ToDate"
                                                         required
+                                                        min={dateFormat(this.state.FromDate, "isoDate")}
                                                         className="form-control"
                                                         onChange={this.handleInputChange}
 
@@ -1372,14 +1373,14 @@ class CaseScheduling extends Component {
                                         <th>Date</th>
                                         <th>8.00AM</th>
                                         <th>9.00AM</th>
-                                            <th>10.00AM</th>
-                                            <th>11.00AM</th>
-                                            <th>12.00PM</th>
-                                            <th>1.00PM</th>
-                                            <th>2.00PM</th>
-                                            <th>3.00PM</th>
-                                            <th>4.00PM</th>
-                                            <th>5.00PM</th>
+                                        <th>10.00AM</th>
+                                        <th>11.00AM</th>
+                                        <th>12.00PM</th>
+                                        <th>1.00PM</th>
+                                        <th>2.00PM</th>
+                                        <th>3.00PM</th>
+                                        <th>4.00PM</th>
+                                        <th>5.00PM</th>
                                         
                                         {this.state.DaysArray.map(function (r, i) {                                        
                                                 return (
@@ -1390,7 +1391,7 @@ class CaseScheduling extends Component {
                                                         </td>
                                                         {checkIfBooked("8.00AM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("8.00AM", r.Date)}>                                                          
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={()=>HoverBtn("8.00AM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                  </button>                                                           
                                                         </td>
@@ -1398,63 +1399,63 @@ class CaseScheduling extends Component {
                                                             </td>}
                                                         {checkIfBooked("9.00AM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("9.00AM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("9.00AM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("9.00AM", r.Date)}> </td>}
                                                         {checkIfBooked("10.00AM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("10.00AM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("10.00AM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("10.00AM", r.Date)}> </td>}
                                                         {checkIfBooked("11.00AM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("11.00AM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("11.00AM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("11.00AM", r.Date)}> </td>}
                                                         {checkIfBooked("12.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("12.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("12.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("12.00PM", r.Date)}> </td>}
                                                         {checkIfBooked("1.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("1.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("1.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("1.00PM", r.Date)}> </td>}
                                                         {checkIfBooked("2.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("2.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("2.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("2.00PM", r.Date)}> </td>}
                                                         {checkIfBooked("3.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("3.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("3.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("3.00PM", r.Date)}> </td>}
                                                         {checkIfBooked("4.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("4.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("4.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
                                                         ) : <td style={trstyle} onClick={() => BookRoom("4.00PM", r.Date)}> </td>}
                                                         {checkIfBooked("5.00PM", r.Date) ? (
                                                             <td style={bookedtd} onClick={() => UnBookRoom("5.00PM", r.Date)}>    
-                                                                <button className="btn btn-warning" ID="tooltip" onMouseOver={() => HoverBtn("5.00PM", r.Date)}>Booked
+                                                                <button className="btn btn-warning" ID="tooltip" >Booked
                                                                  <span class="tooltiptext">{ToolTipText}</span>
                                                                 </button>
                                                             </td>
@@ -1469,15 +1470,33 @@ class CaseScheduling extends Component {
                                        
                                    </table>
                                       
-                                            {this.state.showNoticvebtn ? (
-                                                <button style={{ float: "right" }}
-                                                    type="button"
-                                                    onClick={this.GenerateNotification}
-                                                    className="btn btn-success"
-                                                >
-                                                    Preview Notice </button>) : null}
+                                         
                                        
                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-9">
+
+                                    </div>
+                                    <div className="col-sm-3">
+
+                                    {this.state.showNoticvebtn ? (
+                                        <button
+                                            type="button"
+                                            onClick={this.GenerateNotification}
+                                            className="btn btn-success"
+                                        >
+                                            Preview Notice </button>) : null}
+                                            &nbsp;
+                                    <Link to="/">
+                                        <button
+                                            type="button"
+                                            className="btn btn-warning "
+                                        >
+                                            Close
+                                            </button>
+                                    </Link>
+</div>
                                 </div>
 
                                 <br />
@@ -1485,7 +1504,7 @@ class CaseScheduling extends Component {
                         </div>
                     </div>
 
-                    <Modal visible={this.state.openViewer} width="750" height="600" effect="fadeInUp" onClickAway={() => this.closeViewerModal()}>
+                    <Modal visible={this.state.openViewer} width="750" height="600" effect="fadeInUp" >
                         <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeViewerModal()}><i class="fa fa-close"></i></a>
                         <div>
                             <h4 style={{ "text-align": "center", color: "#1c84c6" }}>Hearing Notice</h4>

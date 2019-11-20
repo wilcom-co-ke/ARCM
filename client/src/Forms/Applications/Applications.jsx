@@ -195,6 +195,7 @@ class Applications extends Component {
       });
   };
   fetchApplicationGrounds = Applicationno => {
+    
     fetch("/api/grounds/" + Applicationno, {
       method: "GET",
       headers: {
@@ -893,14 +894,15 @@ class Applications extends Component {
         .then(response =>
           response.json().then(data => {
             if (data.success) {
-              // this.setState({ Grounds: datatosave });
+             
               var rows = this.state.ApplicationGrounds;
               rows.push(datatosave);
-              this.setState({ ApplicationGrounds: rows });
-              this.setState({ GroundDescription: "" });
-              this.setState({ GroundsAvailable: true });
-              this.setState({ open: false });
-              this.setState({ GroundNO: "" });
+              this.setState({ ApplicationGrounds: rows ,
+              GroundDescription: "" ,
+              GroundsAvailable: true ,
+               open: false ,
+              GroundNO: "" });
+              toast.success("Saved Successfuly");
             } else {
               toast.error("Could not be added please try again");
               // swal("", , "error");
@@ -963,12 +965,11 @@ class Applications extends Component {
               // this.setState({ Grounds: datatosave });
               var rows = this.state.ApplicationGrounds;
               rows.push(datatosave);
-              this.setState({ ApplicationGrounds: rows });
-              this.setState({ RequestDescription: "" });
-              this.setState({ RequestsAvailable: true });
-              this.setState({ GroundNO: "" });
-
-              this.setState({ openRequest: false });
+              this.setState({ ApplicationGrounds: rows ,
+               RequestDescription: "" ,
+               RequestsAvailable: true ,
+               GroundNO: "" , openRequest: false });
+              toast.success("Saved Successfuly");
             } else {
               toast.error("Could not be added please try again");
             }
@@ -3500,6 +3501,7 @@ class Applications extends Component {
                                 >
                                   Grounds for appeal
                                 </h4>
+                                <ToastContainer/>
                                 <div className="container-fluid">
                                   <div className="col-sm-12">
                                     <div className="ibox-con</div>tent">
@@ -3659,6 +3661,7 @@ class Applications extends Component {
                                 >
                                   Grounds for appeal
                                 </h4>
+                                <ToastContainer />
                                 <div className="container-fluid">
                                   <div className="col-sm-12">
                                     <div className="ibox-con</div>tent">

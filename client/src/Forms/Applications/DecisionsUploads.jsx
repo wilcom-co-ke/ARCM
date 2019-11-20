@@ -3,6 +3,7 @@ import swal from "sweetalert";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import Select from "react-select";
 import Modal from "react-awesome-modal";
 class DecisionsUploads extends Component {
@@ -92,6 +93,7 @@ class DecisionsUploads extends Component {
               ApplicationNo: this.state.ApplicationNo,
               Path: path,
               Name: FileName,
+              Status: "Draft",
               Description: "Decision Document"
             };
             rows.push(datapush);
@@ -494,12 +496,27 @@ class DecisionsUploads extends Component {
                   </tbody>
                 </table>
                 <br />
-                <button
-                  className="btn btn-primary float-right"
-                  onClick={this.subMitDecision}
-                >
-                  Submit For Approval
-                </button>
+                <div className="row">
+                  <div className="col-sm-9"></div>
+                  <div className="col-sm-3">
+                    <button
+                      className="btn btn-primary "
+                      onClick={this.subMitDecision}
+                    >
+                      Submit For Approval
+                    </button>
+                    &nbsp;
+                    <Link to="/">
+                      <button
+                        type="button"
+                        className="btn btn-warning float-right "
+                      >
+                        Close
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+
                 <br />
               </div>
             </div>

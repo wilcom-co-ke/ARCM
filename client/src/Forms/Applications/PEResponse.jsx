@@ -514,6 +514,7 @@ class PEResponse extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
+            this.setState({ openPaymentModal:false})
             toast.success("Payment details save successfuly");
             this.fetchPreliminaryObjectionsFeesPaymentDetails();
           } else {
@@ -1253,15 +1254,15 @@ class PEResponse extends Component {
           </div>
           <div className="col-lg-2">
             <div className="row wrapper ">
-              {/* <Link to="/PEApplications">
+              <Link to="/PEApplications">
                 <button
+                style={{margin:"10px"}}
                   type="button"
-                  style={{ marginTop: 40 }}
-                  className="btn btn-primary float-left"
+                  className="btn btn-warning float-right "
                 >
-                  &nbsp; Back
-                </button>
-              </Link> */}
+                  Close
+                      </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -1438,10 +1439,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.BackgroundInfo}
                             width="80%"
-                            height="60%"
+                            height="500px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll" }}>
+                            <div style={{ "overflow-y": "scroll",height:"450px" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -1513,10 +1514,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.open}
                             width="80%"
-                            height="80%"
+                            height="650px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll" }}>
+                            <div style={{ "overflow-y": "scroll", height: "600px" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -1575,12 +1576,7 @@ class PEResponse extends Component {
                                       <h3 style={headingstyle}>
                                         Ground Description
                                             </h3>
-                                      <div
-                                        style={{
-                                          height: "100px",
-                                          "overflow-y": "scroll", "overflow-x": "hidden"
-                                    }}
-                                  >
+                                   
                                         <div class="row">
                                           <div class="col-sm-12">
                                           
@@ -1590,7 +1586,6 @@ class PEResponse extends Component {
                                             )}
                                           </div>
                                         </div>
-                                      </div>
 
                                       <div class="row">
                                         <div class="col-sm-12">
@@ -1604,7 +1599,7 @@ class PEResponse extends Component {
                                           />
                                         </div>
                                       </div>
-                                      
+                                      <br/>
                                       <div className=" row">
                                         <div className="col-sm-10" />
                                         <div className="col-sm-2">
@@ -2301,9 +2296,9 @@ class PEResponse extends Component {
                             </div>
                             <br />
                             <div className=" row">
-                              <div className="col-sm-10" />
+                              <div className="col-sm-9" />
 
-                              <div className="col-sm-2">
+                              <div className="col-sm-3">
                                 <button
                                   type="button"
                                   onClick={this.CompleteSubmision}
@@ -2394,10 +2389,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.BackgroundInfo}
                             width="80%"
-                            height="60%"
+                            height="500px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll" }}>
+                            <div style={{ "overflow-y": "scroll", height: "450px" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -2469,10 +2464,10 @@ class PEResponse extends Component {
                           <Modal
                             visible={this.state.open}
                             width="80%"
-                            height="80%"
+                            height="650px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll" }}>
+                            <div style={{ "overflow-y": "scroll", height: "600px" }}>
                               <a
                                 style={{
                                   float: "right",
@@ -2535,12 +2530,7 @@ class PEResponse extends Component {
                                         <h3 style={headingstyle}>
                                           Ground Description
                                             </h3>
-                                        <div
-                                          style={{
-                                            height: "100px",
-                                            "overflow-y": "scroll", "overflow-x": "hidden"
-                                          }}
-                                        >
+                                       
                                         <div class="row">
                                           <div class="col-sm-12">
                                             
@@ -2549,7 +2539,6 @@ class PEResponse extends Component {
                                               this.state.grounddesc
                                             )}
                                           </div>
-                                        </div>
                                         </div>
 
                                         <div class="row">

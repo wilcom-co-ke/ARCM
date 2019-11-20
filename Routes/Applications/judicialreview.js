@@ -287,4 +287,62 @@ JudicialReview.delete("/:ID", auth.validateRole("Judicial Review"), function(
     }
   });
 });
+JudicialReview.put("/", auth.validateRole("Judicial Review"), function(
+  req,
+  res
+) {
+  const schema = Joi.object().keys({
+    ApplicationNo: Joi.string().required(),
+    DateofCourtRulling: Joi.date().required(),
+    CaseNO: Joi.string().required(),
+    DateofReplyingAffidavit: Joi.string().required(),
+    Ruling: Joi.string().required(),
+    Status: Joi.string().required()
+  });
+  const result = Joi.validate(req.body, schema);
+  if (!result.error) {
+    let data = [
+      req.body.ApplicationNo,
+      req.body.DateofCourtRulling,
+      req.body.CaseNO,
+      req.body.DateofReplyingAffidavit,
+      req.body.Ruling,
+      res.locals.user,
+      req.body.Status
+
+    ];
+
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call Updatejudicialreview(?,?,?,?,?,?,?)";
+        connection.query(sp, data, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "saved"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  } else {
+    res.json({
+      success: false,
+      message: result.error.details[0].message
+    });
+  }
+});
 module.exports = JudicialReview;

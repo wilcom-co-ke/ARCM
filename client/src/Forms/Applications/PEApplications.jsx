@@ -323,7 +323,7 @@ class PEApplications extends Component {
     };
  
     handViewApplication = k => {
-      
+      console.log(k)
         this.setState({ AddedAdendums: [] });
         this.setState({ ApplicationGrounds: [] });
         this.setState({ ApplicationDocuments: [] });
@@ -731,9 +731,9 @@ class PEApplications extends Component {
                                         </span>
                                     ) : (
                                             
-                                            this.state.TimerStatus === "Responded" ? (
-                                                    null
-                                                ):(
+                                            this.state.TimerStatus === "Submited" ? (
+                                            null
+                                        ):(
                                                     <span className = "text-success">
                                                 <Link
                                                     to = {{

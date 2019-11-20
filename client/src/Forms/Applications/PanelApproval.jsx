@@ -23,7 +23,9 @@ class PanelApproval extends Component {
             PEDetails: [],
             summary: false,
             PanelStatus: "",
-            showAdd: false
+            showAdd: false,
+            HearingNoticeGenerated:"",
+            showresendNotice: false
         };
         this.FormPanel = this.FormPanel.bind(this)
         this.handleSelectChange = this.handleSelectChange.bind(this)
@@ -315,8 +317,13 @@ class PanelApproval extends Component {
                     } else {
                         toast.error("Could not be added please try again");
                     }
-                    this.fetchRespondedApplications();
-                    this.setState({ summary: false });
+                        if(this.state.HearingNoticeGenerated ==="Yes"){
+                            this.setState({ showresendNotice: true });
+                        }else{
+                            this.fetchRespondedApplications();
+                            this.setState({ summary: false });
+                        }
+                
                 })
             )
             .catch(err => {
@@ -531,10 +538,66 @@ class PanelApproval extends Component {
             }
         });
     };
+    SendNotiveMail = (Name, email, ID, subject, ApplicationNo) => {
+        let filepath = process.env.REACT_APP_BASE_URL + "/HearingNotices/" + this.state.ApplicationNo + ".pdf";
+        
+        let fileName = this.state.ApplicationNo + ".pdf";
+        const emaildata = {
+            to: email,
+            subject: subject,
+            ID: ID,
+            Name: Name,
+            ApplicationNo: ApplicationNo,
+            AttachmentName: fileName,
+            Attachmentpath: filepath
+        };
+
+        fetch("/api/NotifyApprover", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            },
+            body: JSON.stringify(emaildata)
+        })
+            .then(response => response.json().then(data => { }))
+            .catch(err => {
+                //swal("Oops!", err.message, "error");
+            });
+    };   
+    sendAttachment = () => {
+        fetch("/api/CaseScheduling/" + this.state.ApplicationNo + "/ContactList", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-access-token": localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(List => {
+                if (List.length > 0) {
+                    let NewList = [List]
+                    
+                    NewList[0].map((item, key) =>
+                        this.SendNotiveMail(item.Name, item.Email, "Send Hearing Notice", "CASE HEARING NOTICE", this.state.ApplicationNo)
+                    )
+                   // this.UpdateSentMails();
+                    swal("", "Notice has been sent to PE,Applicant and all the panel members", "success");
+                    this.fetchRespondedApplications();
+                    this.setState({ summary: false });
+                } else {
+                    swal("", "Error getting contact list", "error");
+                }
+            })
+            .catch(err => {
+                swal("", err.message, "error");
+            });
+    };
     FormPanel = k => {
         const data = {
             ApplicationNo: k.ApplicationNo,
             PanelStatus: k.PanelStatus,
+            HearingNoticeGenerated: k.HearingNoticeGenerated,
             summary: true
         };
 
@@ -888,17 +951,34 @@ class PanelApproval extends Component {
                                     </table>
                                 </div>
                                 <div className="row">
-                                    <div class="col-sm-10"></div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-8"></div>
+                                    <div class="col-sm-4">
+                                        {this.state.showresendNotice ?
                                       
-
                                         <button
                                             type="button"
+                                            onClick={this.sendAttachment}
+                                            className="btn btn-primary "
+                                        >
+                                            RESEND NOTICE
+                                              </button>  :null}&nbsp;
+                                        <button
+                                        
+                                            type="button"
                                             onClick={this.subMitPanellist}
-                                            className="btn btn-success float-right "
+                                            className="btn btn-success  "
                                         >
                                             FINALIZE
                                               </button>
+                                              &nbsp;
+                                        <Link to="/">
+                                            <button
+                                                type="button"
+                                                className="btn btn-warning  "
+                                            >
+                                                Close
+                                            </button>
+                                        </Link>
                                     </div>
                                 </div>
                                 <br />

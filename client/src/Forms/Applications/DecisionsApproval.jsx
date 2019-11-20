@@ -109,7 +109,7 @@ class DecisionsApproval extends Component {
       });
   };
   fetchApplications = () => {
-    this.setState({ casedetails: [] });
+    this.setState({ Applications: [] });
     fetch("/api/Decision/SubmitedDecisions/1/1", {
       method: "GET",
       headers: {
@@ -542,6 +542,20 @@ class DecisionsApproval extends Component {
                     </tbody>
                   </table>
                 </div>
+                <div className="row">
+                  <div className="col-sm-9"></div>
+                  <div className="col-sm-3">
+                    <Link to="/">
+                      <button
+                        type="button"
+                        className="btn btn-warning float-right "
+                      >
+                        Close
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+                <br />
               </div>
             </div>
           </div>

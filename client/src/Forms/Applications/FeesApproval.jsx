@@ -530,7 +530,7 @@ class FeesApproval extends Component {
             return (
                 <div>
                     <ToastContainer />
-                    <Modal visible={this.state.open} width="880" height="230" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.open} width="880" height="230" effect="fadeInUp" >
                         <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeModal()}><i class="fa fa-close"></i></a>
                         <div>
                             <h4 style={{ "text-align": "center" }}>Fees Confirmation </h4>
@@ -602,7 +602,7 @@ class FeesApproval extends Component {
 
                         </div>
                     </Modal>
-                    <Modal visible={this.state.openDocPreview} width="80%" height="70%" effect="fadeInUp" onClickAway={() => this.closeDocPreview()}>
+                    <Modal visible={this.state.openDocPreview} width="80%" height="70%" effect="fadeInUp" >
                         <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeDocPreview()}><i class="fa fa-close"></i></a>
                         <div>
                             <h4 style={{ "text-align": "center" }}>Payment Confirmation </h4>

@@ -263,6 +263,13 @@ class DashBoard extends Component {
                           </Link>
                         </a>
                       ) : null}
+                      {r.Category === "Decision Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link to="/DecisionsApproval" className="text-white">
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
                       {r.Category === "Panel Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link to="/PanelApproval" className="text-white">
@@ -309,6 +316,14 @@ class DashBoard extends Component {
                           </Link>
                         </a>
                       ) : null}
+                        {r.Category === "Decision Approval" ? (
+                          <a href="/#" className="small-box-footer ">
+                            <Link to="/DecisionsApproval" className="text-white">
+                              More info <i className="fa fa-arrow-circle-right" />
+                            </Link>
+                          </a>
+                        ) : null}
+                      
                       {r.Category === "Preliminary Objecions Fees Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link
