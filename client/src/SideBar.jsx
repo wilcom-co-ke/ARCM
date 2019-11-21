@@ -550,7 +550,6 @@ const CaseHearing = props => {
                 </Link>
               </li>
             ) : null}
-            
           </ul>
         ) : null}
       </li>
@@ -895,7 +894,7 @@ const Parameteres = props => {
               <li>
                 <Link to="/PE">
                   <i className="fa fa-money" />
-                  Procurement Etitiess
+                  Procurement Entities
                 </Link>
               </li>
             ) : null}

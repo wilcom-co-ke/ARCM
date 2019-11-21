@@ -280,7 +280,11 @@ class ApplicationsApprovals extends Component {
             ID: ID,
             Name: Name,
             ApplicationNo: ApplicationNo,
-            ResponseTimeout: ResponseTimeout
+            ResponseTimeout: ResponseTimeout,
+            tendername: this.state.TenderName,
+                tenderNo: this.state.TenderNo,
+            PE: this.state.PEName ,
+            Applicant: this.state.Applicantname
         };
 
         fetch("/api/NotifyApprover", {
@@ -314,6 +318,21 @@ class ApplicationsApprovals extends Component {
             );
             this.GenerateRb1(ApplicationNo);
         }  
+        
+        if (Msg == "Interested Party") {
+            this.SendSMS(
+                AproverMobile,
+                "Application " + ApplicationNo + " has been filed and Procuring Entity has been notified to respond to it before: " + ResponseTimeout
+            );
+            this.SendMail(
+                Name,
+                AproverEmail,
+                "Notify Applicant Interested Application Approved",
+                "APPLICATION FOR REVIEW FILED",
+                ApplicationNo,
+                ResponseTimeout
+            );
+        }
         if (Msg == "Applicant") {         
             this.SendSMS(
                 AproverMobile,

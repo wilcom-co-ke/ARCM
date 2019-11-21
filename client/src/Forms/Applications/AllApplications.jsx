@@ -1249,6 +1249,37 @@ class AllApplications extends Component {
                         </div>
                         <div className="row">
                             <div className="col-lg-12 ">
+                                <h3 style={headingstyle}>Interested Parties</h3>
+                                <div className="col-lg-11 border border-success rounded">
+                                    <br />
+                                    <table className="table table-sm">
+                                        <thead className="thead-light">
+                                            <th>Org Name</th>
+                                            <th>ContactName</th>
+                                            <th>Designation</th>
+                                            <th>Email</th>
+                                            <th>TelePhone</th>
+                                            <th>Mobile</th>
+                                            <th>PhysicalAddress</th>
+                                        </thead>
+                                        {this.state.interestedparties.map((r, i) => (
+                                            <tr>
+                                                <td>{r.Name}</td>
+                                                <td> {r.ContactName} </td>
+                                                <td> {r.Designation} </td>
+                                                <td> {r.Email} </td>
+                                                <td> {r.TelePhone} </td>
+                                                <td> {r.Mobile} </td>
+                                                <td> {r.PhysicalAddress} </td>
+
+                                            </tr>
+                                        ))}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-lg-12 ">
                                 <h3 style={headingstyle}>Tender Details</h3>
                                 <div className="col-lg-11 border border-success rounded">
                                     <table className="table table-borderless table-sm">
@@ -1380,7 +1411,7 @@ of Breach:</td>
                                         <th>ID</th>
                                         <th>Document Description</th>
                                         <th>FileName</th>
-                                        <th>Date Uploaded</th>
+                                        <th>Date Submited</th>
                                         <th>Actions</th>
                                         </thead>
                                         {this.state.ApplicationDocuments.map((k, i) => {
@@ -1494,8 +1525,8 @@ of Breach:</td>
                                         <thead className="thead-light">
                                             <th>ID</th>
                                             <th>Description</th>
-                                            <th>Date Uploaded</th>
-                                            <th>Uploaded By</th>
+                                            <th>Date Submited</th>
+                                            <th>Submited By</th>
                                             <th>Actions</th>
 
                                         </thead>
@@ -1528,36 +1559,7 @@ of Breach:</td>
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-lg-12 ">
-                                <h3 style={headingstyle}>Interested Parties</h3>
-                                <div className="col-lg-11 border border-success rounded">
-                                    <table className="table table-sm">
-                                        <thead className="thead-light">
-                                        <th>Org Name</th>
-                                        <th>ContactName</th>
-                                        <th>Designation</th>
-                                        <th>Email</th>
-                                        <th>TelePhone</th>
-                                        <th>Mobile</th>
-                                        <th>PhysicalAddress</th>
-                                        </thead>
-                                        {this.state.interestedparties.map((r, i) => (
-                                            <tr>
-                                                <td>{r.Name}</td>
-                                                <td> {r.ContactName} </td>
-                                                <td> {r.Designation} </td>
-                                                <td> {r.Email} </td>
-                                                <td> {r.TelePhone} </td>
-                                                <td> {r.Mobile} </td>
-                                                <td> {r.PhysicalAddress} </td>
-
-                                            </tr>
-                                        ))}
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                     <Modal visible={this.state.openTracking} width="900" height="500" effect="fadeInUp">
                         <div style={{ overflow: "scroll" }}>

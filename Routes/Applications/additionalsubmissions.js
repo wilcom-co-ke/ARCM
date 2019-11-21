@@ -33,7 +33,7 @@ additionalsubmissions.get("/:ID", function(req, res) {
 });
 additionalsubmissions.get("/:ID/:Value", function(req, res) {
   const ID = req.params.ID;
-  
+
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({

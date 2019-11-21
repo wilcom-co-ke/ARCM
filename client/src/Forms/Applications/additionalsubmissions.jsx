@@ -729,7 +729,8 @@ class additionalsubmissions extends Component {
                                                     <thead className="thead-light">
                                                     <th>ID</th>
                                                     <th>Description</th>
-                                                    <th>Date Uploaded</th>
+                                                                <th>Date Submited</th>
+                                                                <th> Submited By</th>
                                                     <th>Actions</th>
                                                         </thead>
                                                         {this.state.AdditionalSubmisionsDocuments.map( (k, i)=> {
@@ -741,10 +742,14 @@ class additionalsubmissions extends Component {
                                                                 <td>
                                                                     {dateFormat(k.Create_at, "default")}
                                                                 </td>
+                                                                    <td>   {k.SubmitedBy}</td>
+
                                                                 <td>
                                                                     <a onClick={e => ViewFile(k, e)} className="text-success">
                                                                         <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
                                                                      </a>|
+                                                                     {k.Category === "Procuring Entity" ?
+                                                                    
                                                                       <a
                                                                         style={{ color: "#f44542" }}
                                                                         onClick={e =>
@@ -755,7 +760,7 @@ class additionalsubmissions extends Component {
                                                                         }
                                                                     >
                                                                         &nbsp; Remove
-                                                                     </a>
+                                                                     </a> : null}
                                                                 </td>
                                                             </tr>:null
                                                         );

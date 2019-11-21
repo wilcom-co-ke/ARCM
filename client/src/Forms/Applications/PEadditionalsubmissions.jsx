@@ -778,7 +778,8 @@ class PEadditionalsubmissions extends Component {
                                                         <thead className="thead-light">
                                                     <th>ID</th>
                                                     <th>Description</th>
-                                                    <th>Date Uploaded</th>
+                                                            <th>Date Submited</th>
+                                                            <th> Submited By</th>
                                                     <th>Actions</th>
                                                         </thead>
                                                         {this.state.AdditionalSubmisionsDocuments.map( (k, i)=> {
@@ -790,10 +791,15 @@ class PEadditionalsubmissions extends Component {
                                                                 <td>
                                                                     {new Date(k.Create_at).toLocaleDateString()}
                                                                 </td>
+                                                                    <td>   {k.SubmitedBy}</td>
+
                                                                 <td>
                                                                     <a onClick={e => ViewFile(k, e)} className="text-success">
                                                                         <i class="fa fa-eye" aria-hidden="true"></i>View Attachemnt
                                                                      </a>|
+                                                                     {
+                                                                            k.Category ==="Applicant"?
+                                                                     
                                                                       <a
                                                                         style={{ color: "#f44542" }}
                                                                         onClick={e =>
@@ -804,7 +810,7 @@ class PEadditionalsubmissions extends Component {
                                                                         }
                                                                     >
                                                                         &nbsp; Remove
-                                                                          </a>
+                                                                          </a>:null}
                                                                 </td>
                                                             </tr>:null
                                                         );

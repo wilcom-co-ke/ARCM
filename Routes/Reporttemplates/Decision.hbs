@@ -186,15 +186,10 @@
             <th>Parties Submissions</th>
         </table>
         <table class="customers">
-            <tr>
-                <td>Party</td>
-                <td>Description</td>
 
-            </tr>
             {{#each PartiesSubmissions}}
+            <th>{{ Party }}</th>
             <tr>
-                <td>{{ Party }}</td>
-
                 <td>
                     {{{ Description }}}
                 </td>
@@ -207,11 +202,7 @@
             <th>Issues for Determinations</th>
         </table>
         <table class="customers">
-            <tr>
-                <td>No</td>
-                <td>Description</td>
 
-            </tr>
             {{#each Issues}}
             <tr>
                 <td>{{ NO }}</td>
@@ -228,12 +219,7 @@
             <th>Findings on Issues</th>
         </table>
         <table class="customers">
-            <tr>
-                <td>No</td>
 
-                <td>Description</td>
-
-            </tr>
             {{#each Findings}}
             <tr>
                 <td>{{ NO }}</td>
@@ -259,11 +245,7 @@
             <th>Orders</th>
         </table>
         <table class="customers">
-            <tr>
-                <td>No</td>
-                <td>Description</td>
 
-            </tr>
             {{#each Orders}}
             <tr>
                 <td>{{ NO }}</td>

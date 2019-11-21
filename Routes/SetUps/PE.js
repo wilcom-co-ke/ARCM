@@ -56,9 +56,9 @@ PE.get("/:ID/:Details", function(req, res) {
     }
   });
 });
-PE.get("/:ID", function (req, res) {
+PE.get("/:ID", function(req, res) {
   const ID = req.params.ID;
-  con.getConnection(function (err, connection) {
+  con.getConnection(function(err, connection) {
     if (err) {
       res.json({
         success: false,
@@ -67,7 +67,7 @@ PE.get("/:ID", function (req, res) {
     } // not connected!
     else {
       let sp = "call getOnePE(?)";
-      connection.query(sp, [ID], function (error, results, fields) {
+      connection.query(sp, [ID], function(error, results, fields) {
         if (error) {
           res.json({
             success: false,
@@ -191,21 +191,11 @@ PE.put("/:ID", function(req, res) {
     County: Joi.string()
       .min(2)
       .required(),
-    PEType: Joi.string()
-      .min(3)
-      .required(),
-    Location: Joi.string()
-      .min(3)
-      .required(),
-    POBox: Joi.string()
-      .min(3)
-      .required(),
-    PostalCode: Joi.string()
-      .min(3)
-      .required(),
-    Town: Joi.string()
-      .min(3)
-      .required(),
+    PEType: Joi.string().required(),
+    Location: Joi.string().required(),
+    POBox: Joi.string().required(),
+    PostalCode: Joi.string().required(),
+    Town: Joi.string().required(),
     Mobile: Joi.number()
       .min(10)
       .required(),

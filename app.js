@@ -20,6 +20,9 @@ var configurations = require("./Routes/SystemAdmin/configurations");
 var casedetails = require("./Routes/Applications/casedetails");
 var CaseScheduling = require("./Routes/Applications/CaseScheduling");
 //setups
+
+var paymenttypes = require("./Routes/SetUps/paymenttypes");
+var Banks = require("./Routes/SetUps/Banks");
 var petypes = require("./Routes/SetUps/petypes");
 var committeetypes = require("./Routes/SetUps/committeetypes");
 var Branches = require("./Routes/SetUps/Branches");
@@ -131,6 +134,8 @@ app.use(auth.validateToken);
 
 app.use("/api/CaseFollowUp", CaseFollowUp);
 app.use("/api/CaseReferrals", CaseReferrals);
+app.use("/api/Banks", Banks);
+app.use("/api/paymenttypes", paymenttypes);
 
 app.use("/api/issuesfordetermination", issuesfordetermination);
 app.use("/api/findingsonissues", findingsonissues);

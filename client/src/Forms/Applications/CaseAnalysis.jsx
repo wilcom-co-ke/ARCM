@@ -867,8 +867,6 @@ class CaseAnalysis extends Component {
     });
   };
 
- 
-
   render() {
     const ColumnData = [
       {
@@ -1217,14 +1215,14 @@ class CaseAnalysis extends Component {
             <div className="col-lg-1">
               <div className="row wrapper ">
                 &nbsp;
-               <button
-               style={{margin:"10px"}}
+                <button
+                  style={{ margin: "10px" }}
                   className="btn btn-warning float-right"
                   type="button"
                   onClick={this.GoBack}
                 >
                   Close
-                          </button>
+                </button>
               </div>
             </div>
           </div>
@@ -1284,7 +1282,7 @@ class CaseAnalysis extends Component {
                       onClick={this.openopenUploadModal}
                     >
                       {" "}
-                     Upload Already writen Case Analysis
+                      Upload Already writen Case Analysis
                     </h3>
                     {this.state.CaseAnalysisDocuments.length > 0 ? (
                       <table className="table table-borderless table-sm">
@@ -1487,6 +1485,36 @@ class CaseAnalysis extends Component {
                               <td className="font-weight-bold"> Website:</td>
                               <td> {this.state.PEWebsite}</td>
                             </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-lg-12 ">
+                        <h3 style={headingstyle}>Interested Parties</h3>
+                        <div className="col-lg-11 border border-success rounded">
+                          <br />
+                          <table className="table table-sm">
+                            <thead className="thead-light">
+                              <th>Org Name</th>
+                              <th>ContactName</th>
+                              <th>Designation</th>
+                              <th>Email</th>
+                              <th>TelePhone</th>
+                              <th>Mobile</th>
+                              <th>PhysicalAddress</th>
+                            </thead>
+                            {this.state.interestedparties.map((r, i) => (
+                              <tr>
+                                <td>{r.Name}</td>
+                                <td> {r.ContactName} </td>
+                                <td> {r.Designation} </td>
+                                <td> {r.Email} </td>
+                                <td> {r.TelePhone} </td>
+                                <td> {r.Mobile} </td>
+                                <td> {r.PhysicalAddress} </td>
+                              </tr>
+                            ))}
                           </table>
                         </div>
                       </div>
@@ -1827,35 +1855,6 @@ class CaseAnalysis extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-lg-12 ">
-                        <h3 style={headingstyle}>Interested Parties</h3>
-                        <div className="col-lg-11 border border-success rounded">
-                          <table className="table table-sm">
-                            <thead className="thead-light">
-                              <th>Org Name</th>
-                              <th>ContactName</th>
-                              <th>Designation</th>
-                              <th>Email</th>
-                              <th>TelePhone</th>
-                              <th>Mobile</th>
-                              <th>PhysicalAddress</th>
-                            </thead>
-                            {this.state.interestedparties.map((r, i) => (
-                              <tr>
-                                <td>{r.Name}</td>
-                                <td> {r.ContactName} </td>
-                                <td> {r.Designation} </td>
-                                <td> {r.Email} </td>
-                                <td> {r.TelePhone} </td>
-                                <td> {r.Mobile} </td>
-                                <td> {r.PhysicalAddress} </td>
-                              </tr>
-                            ))}
-                          </table>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div
                     class="tab-pane fade"
@@ -2043,7 +2042,7 @@ class CaseAnalysis extends Component {
                   className="btn btn-warning  "
                 >
                   &nbsp; Close
-                    </button>
+                </button>
               </Link>
             </div>
           </div>

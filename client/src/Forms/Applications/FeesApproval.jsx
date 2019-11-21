@@ -183,12 +183,12 @@ class FeesApproval extends Component {
                 response.json().then(data => {
                     if (data.success) {
                     } else {
-                        swal("", data.message, "error");
+                      //  swal("", data.message, "error");
                     }
                 })
             )
             .catch(err => {
-                swal("", err.message, "error");
+             //   swal("", err.message, "error");
             });
     }
     SendMail = (Name, email, ID, subject) => {
@@ -288,7 +288,7 @@ class FeesApproval extends Component {
                     let TotalPaid = this.state.TotalPaid;
                     let Reference = this.state.Reference
                     if (data.success) {   
-                        swal("","Approved","success")   
+                        swal("","Payment Confirmed","success")   
                         
                         if (data.results.length > 0) {
                             let NewList = [data.results]  

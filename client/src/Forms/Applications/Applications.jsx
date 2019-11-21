@@ -30,6 +30,7 @@ class Applications extends Component {
       PaymentDetails: [],
       BankSlips: [],
       interestedparties: [],
+      Banks:[],
       Today: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       TenderNo: "",
       TenderID: "",
@@ -37,6 +38,7 @@ class Applications extends Component {
       TenderValue: 0,
       ApplicationID: "",
       TenderName: "",
+      PaymentType:"",
       PEID: "",
       StartDate: "",
       ClosingDate: "",
@@ -112,7 +114,11 @@ class Applications extends Component {
       AmountPaid: "",
       DateofPayment: "",
       PaymentReference: "",
-      PaidBy: ""
+      PaidBy: "",
+      paymenttypes:[],
+      PaymentType:"",
+      ChequeDate:"",
+      CHQNO:""
     };
     this.handViewApplication = this.handViewApplication.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
@@ -130,6 +136,48 @@ class Applications extends Component {
     }
 
     return false;
+  };
+  fetchBanks = () => {
+    this.setState({ Banks: [] });
+   
+    fetch("/api/Banks" , {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(Banks => {
+        if (Banks.length > 0) {
+          this.setState({ Banks: Banks });
+         
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+  fetchPaymentTypes = () => {
+    this.setState({ paymenttypes: [] });
+
+    fetch("/api/paymenttypes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(paymenttypes => {
+        if (paymenttypes.length > 0) {
+          this.setState({ paymenttypes: paymenttypes });
+
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
   };
   closeAddInterestedParty = () => {
     this.setState({ AddInterestedParty: false });
@@ -693,6 +741,10 @@ class Applications extends Component {
         // swal("", err.message, "error");
       });
   }
+  SubmitApplicationForReview = () => {
+    this.SubmitApplication();
+    this.sendApproverNotification();
+  }
   SavePaymentdetails = () => {
     if (!this.state.DateofPayment) {
       swal("", "Date of payment is required", "error");
@@ -716,8 +768,12 @@ class Applications extends Component {
       Reference: this.state.PaymentReference,
       DateOfpayment: this.state.DateofPayment,
       AmountPaid: this.state.AmountPaid,
+      PaymentType: this.state.PaymentType,
+      ChequeDate: this.state.ChequeDate,
+      CHQNO: this.state.CHQNO,
       Category: "Applicationfees"
     };
+   
     if (+this.state.TotalAmountdue > +this.state.AmountPaid) {
       swal({
         text: "Amount paid is less than amount due.Do you want to Continue",
@@ -737,10 +793,9 @@ class Applications extends Component {
             .then(response =>
               response.json().then(data => {
                 if (data.success) {
-                  toast.success("Payment details save successfuly");
-                  //swal("","Payment details save successfuly","success")
-                  this.SubmitApplication();
-                  this.sendApproverNotification();
+                  //toast.success("Payment details save successfuly");
+                  swal("","Payment details save successfuly","success")
+                 
                 } else {
                   toast.error(data.message);
                 }
@@ -1545,6 +1600,8 @@ class Applications extends Component {
               this.fetchPE();
               this.fetchTenderTypes();
               this.fetchApplicantDetails();
+              this.fetchBanks()
+              this.fetchPaymentTypes()
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -1978,6 +2035,12 @@ class Applications extends Component {
     let TenderTypes = [...this.state.TenderTypes].map((k, i) => {
       return {
         value: k.Code,
+        label: k.Description
+      };
+    });
+    let paymenttypes = [...this.state.paymenttypes].map((k, i) => {
+      return {
+        value: k.ID,
         label: k.Description
       };
     });
@@ -2524,6 +2587,7 @@ class Applications extends Component {
                 <div className="col-lg-12 ">
                   <h3 style={headingstyle}>Fees</h3>
                   <div className="col-lg-11 border border-success rounded">
+                    <div className="row">
                     <div class="col-sm-8">
                       <h3 style={headingstyle}>Fees Details </h3>
                       <table class="table table-sm">
@@ -2573,6 +2637,42 @@ class Applications extends Component {
                         </h4>
                       ) : null}
                     </div>
+                      <div class="col-sm-4 " style={{ backgroundColor:"#e9ecef"}}>
+                      <br/>                    
+                      <h3 style={headingstyle}>Payment Options</h3>
+                      {this.state.Banks.map((r, i) => (
+                        <div>
+                          <tr>
+                            <td className="font-weight-bold">Bank:</td>
+                            <td>&nbsp;&nbsp;&nbsp;{r.Name}</td>
+                          </tr>
+                          <tr>
+                            <td className="font-weight-bold">Account/NO:</td>
+                            <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
+                          </tr>
+                          <tr>
+                            <td className="font-weight-bold">Branch:</td>
+                            <td>&nbsp;&nbsp;&nbsp;{r.Branch}</td>
+                          </tr>
+                        </div>
+                      ))}
+                        <h3 style={headingstyle}>Mpesa</h3>
+                        {this.state.Banks.map((r, i) => (
+                          <div>
+                            <tr>
+                              <td className="font-weight-bold">PayBill:</td>
+                              <td>&nbsp;&nbsp;&nbsp;{r.PayBill}</td>
+                            </tr>
+                            <tr>
+                              <td className="font-weight-bold">Account/NO:</td>
+                              <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
+                            </tr>
+                           
+                          </div>
+                        ))}
+                    </div>
+                    </div>
+                  
                     <br />
                     {this.state.PaymentStatus === "Submited" ? (
                       <div class="col-sm-8">
@@ -2584,6 +2684,8 @@ class Applications extends Component {
                               <th scope="col">Amount</th>
                               <th scope="col">Refference</th>
                               <th scope="col">Paidby</th>
+                              <th scope="col">PaymentType</th>
+                              <th scope="col">CHQNO</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -2591,9 +2693,7 @@ class Applications extends Component {
                               <tr>
                                 <td>
                                   {dateFormat(
-                                    new Date(
-                                      r.DateOfpayment
-                                    ).toLocaleDateString(),
+                                      r.DateOfpayment,
                                     "mediumDate"
                                   )}
                                 </td>
@@ -2602,6 +2702,9 @@ class Applications extends Component {
 
                                 <td>{r.Refference}</td>
                                 <td>{r.Paidby}</td>
+                                <td>{r.PaymentType}</td>
+                              
+                                <td>{r.CHQNO}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -2613,7 +2716,7 @@ class Applications extends Component {
                     <div className="row">
                       <div className="col-lg-9"></div>
                       <div className="col-lg-3">
-                        {this.state.PaymentStatus === "Not Submited" ? (
+                        {
                           this.state.ApplicationCreated_By ===
                           localStorage.getItem("UserName") ? (
                             <button
@@ -2623,8 +2726,8 @@ class Applications extends Component {
                             >
                               PAY NOW
                             </button>
-                          ) : null
-                        ) : null}
+                          ) : null}
+                     
                         &nbsp;&nbsp;
                         {this.state.Status === "Not Submited" ? (
                           this.state.ApplicationCreated_By ===
@@ -2665,9 +2768,10 @@ class Applications extends Component {
                     <Modal
                       visible={this.state.openPaymentModal}
                       width="900"
-                      height="410"
+                      height="550"
                       effect="fadeInUp"
                     >
+                      <div style={{ "overflow-y": "scroll", height: "545px" }}>
                       <a
                         style={{ float: "right", color: "red", margin: "10px" }}
                         href="javascript:void(0);"
@@ -2676,6 +2780,7 @@ class Applications extends Component {
                         <i class="fa fa-close"></i>
                       </a>
                       <div>
+                        <ToastContainer/>
                         <h4
                           style={{ "text-align": "center", color: "#1c84c6" }}
                         >
@@ -2737,56 +2842,142 @@ class Applications extends Component {
                                       </div>
                                     </div>
                                     <br />
+                                    <div className=" row">                                  
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                              > Payment Type
+                                                  
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <Select
+                                                name="PaymentType"
+                                                value={this.state.PEID}
+                                                value={paymenttypes.filter(
+                                                  option => option.value === this.state.PaymentType
+                                                )}
+                                                //defaultInputValue={this.state.TenderType}
+                                                onChange={this.handleSelectChange}
+                                                options={paymenttypes}
+                                                required
+                                              />
+                                        
+                                          </div>
+                                        </div>
+                                      </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Payment Reference
+                                            </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.PaymentReference
+                                                }
+                                                type="text"
+                                                required
+                                                name="PaymentReference"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                      {this.state.PaymentType == "4" ?
+                                     <div className=" row">                                  
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                              > CHQNO
+                                                    
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.CHQNO
+                                                }
+                                                type="text"
+                                                required
+                                                name="CHQNO"
+                                                className="form-control"
+                                              />
+                                        
+                                          </div>
+                                        </div>
+                                      </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                ChequeDate
+                                            </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.ChequeDate
+                                                }
+                                                type="date"
+                                                required
+                                                name="ChequeDate"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>:null}
+                                    <br/>
                                     <div className=" row">
                                       <div className="col-md-6">
                                         <div className="row">
                                           <div className="col-md-4">
+                                              {this.state.PaymentType=="1"?
+                                              
                                             <label
                                               htmlFor="exampleInputPassword1"
                                               className="font-weight-bold"
                                             >
-                                              Payment Reference
-                                            </label>
+                                              MobileNo
+                                        </label> : <label
+                                                  htmlFor="exampleInputPassword1"
+                                                  className="font-weight-bold"
+                                                >
+                                                  Paid By
+                                        </label>}
                                           </div>
                                           <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={
-                                                this.state.PaymentReference
-                                              }
-                                              type="text"
-                                              required
-                                              name="PaymentReference"
-                                              className="form-control"
-                                            />
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={this.state.PaidBy}
+                                                type="text"
+                                                required
+                                                name="PaidBy"
+                                                className="form-control"
+                                              />
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Paid By
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={this.state.PaidBy}
-                                              type="text"
-                                              required
-                                              name="PaidBy"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div class="row">
                                       <div className="col-md-6">
                                         <div className="row">
                                           <div className="col-md-4">
@@ -2795,7 +2986,7 @@ class Applications extends Component {
                                               className="font-weight-bold"
                                             >
                                               Payment slip
-                                            </label>
+                                        </label>
                                           </div>
                                           <div className="col-md-8">
                                             <input
@@ -2811,12 +3002,8 @@ class Applications extends Component {
                                                 color="success"
                                                 value={this.state.loaded}
                                               >
-                                                {Math.round(
-                                                  this.state.loaded,
-                                                  2
-                                                )}
-                                                %
-                                              </Progress>
+                                                {Math.round(this.state.loaded, 2)}%
+                                          </Progress>
                                             </div>
                                             <button
                                               type="submit"
@@ -2824,11 +3011,22 @@ class Applications extends Component {
                                               onClick={this.UploadBankSlip}
                                             >
                                               Upload
-                                            </button>
+                                        </button>&nbsp;
+                                              <button
+                                                type="button"
+                                                onClick={this.SavePaymentdetails}
+                                                className="btn btn-primary"
+                                              >
+                                                Save
+                                         </button>
                                           </div>
                                         </div>
                                       </div>
-                                      <div className="col-md-6">
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                     
+                                      <div className="col-md-12">
                                         <table className="table table-sm">
                                           <th scope="col">Slip</th>
                                           <th scope="col">Action</th>
@@ -2859,14 +3057,16 @@ class Applications extends Component {
                                 </div>
                                 <br />
                                 <div className="row">
-                                  <div className="col-md-9"></div>
-                                  <div className="col-md-3">
+                                  <div className="col-md-7"></div>
+                                  <div className="col-md-5">
+                                     
+                                    &nbsp; &nbsp;
                                     <button
                                       type="button"
-                                      onClick={this.SavePaymentdetails}
-                                      className="btn btn-primary"
+                                      onClick={this.SubmitApplicationForReview}
+                                      className="btn btn-success"
                                     >
-                                      Submit
+                                      Submit For Review
                                     </button>
                                     &nbsp; &nbsp;
                                     <button
@@ -2883,6 +3083,7 @@ class Applications extends Component {
                           </div>
                         </div>
                       </div>
+                    </div>
                     </Modal>
                   </div>
                 </div>
@@ -3009,6 +3210,326 @@ class Applications extends Component {
                   </div>
                 </nav>
                 <ToastContainer />
+                  <Modal
+                      visible={this.state.openPaymentModal}
+                      width="900"
+                      height="550"
+                      effect="fadeInUp"
+                    >
+                      <div style={{ "overflow-y": "scroll", height: "545px" }}>
+                      <a
+                        style={{ float: "right", color: "red", margin: "10px" }}
+                        href="javascript:void(0);"
+                        onClick={() => this.ClosePaymentModal()}
+                      >
+                        <i class="fa fa-close"></i>
+                      </a>
+                      <div>
+                        <ToastContainer/>
+                        <h4
+                          style={{ "text-align": "center", color: "#1c84c6" }}
+                        >
+                          Payment Details
+                        </h4>
+                        <div className="container-fluid">
+                          <div className="col-sm-12">
+                            <div className="ibox-content">
+                              <div>
+                                <div className="col-lg-12 border border-success rounded">
+                                  <div style={FormStyle}>
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Amount Paid
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.AmountPaid}
+                                              type="number"
+                                              required
+                                              step="0.01"
+                                              min="0"
+                                              name="AmountPaid"
+                                              className="form-control"
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Date of Payment
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              onChange={this.handleInputChange}
+                                              value={this.state.DateofPayment}
+                                              type="date"
+                                              required
+                                              name="DateofPayment"
+                                              className="form-control"
+                                              max={this.state.Today}
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br />
+                                    <div className=" row">                                  
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                              > Payment Type
+                                                  
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <Select
+                                                name="PaymentType"
+                                                value={this.state.PEID}
+                                                value={paymenttypes.filter(
+                                                  option => option.value === this.state.PaymentType
+                                                )}
+                                                //defaultInputValue={this.state.TenderType}
+                                                onChange={this.handleSelectChange}
+                                                options={paymenttypes}
+                                                required
+                                              />
+                                        
+                                          </div>
+                                        </div>
+                                      </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                Payment Reference
+                                            </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.PaymentReference
+                                                }
+                                                type="text"
+                                                required
+                                                name="PaymentReference"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                      {this.state.PaymentType == "4" ?
+                                     <div className=" row">                                  
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                              > CHQNO
+                                                    
+                                            </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.CHQNO
+                                                }
+                                                type="text"
+                                                required
+                                                name="CHQNO"
+                                                className="form-control"
+                                              />
+                                        
+                                          </div>
+                                        </div>
+                                      </div>
+                                        <div className="col-md-6">
+                                          <div className="row">
+                                            <div className="col-md-4">
+                                              <label
+                                                htmlFor="exampleInputPassword1"
+                                                className="font-weight-bold"
+                                              >
+                                                ChequeDate
+                                            </label>
+                                            </div>
+                                            <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={
+                                                  this.state.ChequeDate
+                                                }
+                                                type="date"
+                                                required
+                                                name="ChequeDate"
+                                                className="form-control"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>:null}
+                                    <br/>
+                                    <div className=" row">
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                              {this.state.PaymentType=="1"?
+                                              
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              MobileNo
+                                        </label> : <label
+                                                  htmlFor="exampleInputPassword1"
+                                                  className="font-weight-bold"
+                                                >
+                                                  Paid By
+                                        </label>}
+                                          </div>
+                                          <div className="col-md-8">
+                                              <input
+                                                onChange={this.handleInputChange}
+                                                value={this.state.PaidBy}
+                                                type="text"
+                                                required
+                                                name="PaidBy"
+                                                className="form-control"
+                                              />
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-6">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <label
+                                              htmlFor="exampleInputPassword1"
+                                              className="font-weight-bold"
+                                            >
+                                              Payment slip
+                                        </label>
+                                          </div>
+                                          <div className="col-md-8">
+                                            <input
+                                              type="file"
+                                              className="form-control"
+                                              name="file"
+                                              onChange={this.onChangeHandler}
+                                              multiple
+                                            />
+                                            <div class="form-group">
+                                              <Progress
+                                                max="100"
+                                                color="success"
+                                                value={this.state.loaded}
+                                              >
+                                                {Math.round(this.state.loaded, 2)}%
+                                          </Progress>
+                                            </div>
+                                            <button
+                                              type="submit"
+                                              class="btn btn-success "
+                                              onClick={this.UploadBankSlip}
+                                            >
+                                              Upload
+                                        </button>&nbsp;
+                                              <button
+                                                type="button"
+                                                onClick={this.SavePaymentdetails}
+                                                className="btn btn-primary"
+                                              >
+                                                Save
+                                         </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                     
+                                      <div className="col-md-12">
+                                        <table className="table table-sm">
+                                          <th scope="col">Slip</th>
+                                          <th scope="col">Action</th>
+                                          {this.state.BankSlips.map((r, i) => (
+                                            <tr>
+                                              <td>{r.Name}</td>
+                                              <td>
+                                                <span>
+                                                  <a
+                                                    style={{ color: "#f44542" }}
+                                                    onClick={e =>
+                                                      this.handleDeleteBankSlip(
+                                                        r.Name,
+                                                        e
+                                                      )
+                                                    }
+                                                  >
+                                                    &nbsp; Remove
+                                                  </a>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          ))}
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <br />
+                                <div className="row">
+                                  <div className="col-md-7"></div>
+                                  <div className="col-md-5">
+                                     
+                                    &nbsp; &nbsp;
+                                    <button
+                                      type="button"
+                                      onClick={this.SubmitApplicationForReview}
+                                      className="btn btn-success"
+                                    >
+                                      Submit For Review
+                                    </button>
+                                    &nbsp; &nbsp;
+                                    <button
+                                      type="button"
+                                      className="btn btn-warning"
+                                      onClick={this.ClosePaymentModal}
+                                    >
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </Modal>
                 <div class="tab-content " id="nav-tabContent">
                   <div
                     class="tab-pane fade show active"
@@ -4368,7 +4889,42 @@ class Applications extends Component {
                                 </tbody>
                               </table>
                             </div>
+                            <div class="col-sm-4 " style={{ backgroundColor: "#e9ecef" }}>
+                              <br />
+                              <h3 style={headingstyle}>Payment Options</h3>
+                              {this.state.Banks.map((r, i) => (
+                                <div>
+                                  <tr>
+                                    <td className="font-weight-bold">Bank:</td>
+                                    <td>&nbsp;&nbsp;&nbsp;{r.Name}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="font-weight-bold">Account/NO:</td>
+                                    <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="font-weight-bold">Branch:</td>
+                                    <td>&nbsp;&nbsp;&nbsp;{r.Branch}</td>
+                                  </tr>
+                                </div>
+                              ))}
+                              <h3 style={headingstyle}>Mpesa</h3>
+                              {this.state.Banks.map((r, i) => (
+                                <div>
+                                  <tr>
+                                    <td className="font-weight-bold">PayBill:</td>
+                                    <td>&nbsp;&nbsp;&nbsp;{r.PayBill}</td>
+                                  </tr>
+                                  <tr>
+                                    <td className="font-weight-bold">Account/NO:</td>
+                                    <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
+                                  </tr>
+
+                                </div>
+                              ))}
+                            </div>
                           </div>
+                          <br/>
                         </div>
 
                         {this.state.ShowPaymentDetails ? (
@@ -4473,7 +5029,32 @@ class Applications extends Component {
                                   </div>
                                 </div>
                                 <br />
-                                <div class="row">
+                                <div className=" row">
+                                  <div className="col-md-5">
+                                    <div className="row">
+                                      <div className="col-md-4">
+                                        <label
+                                          htmlFor="exampleInputPassword1"
+                                          className="font-weight-bold"
+                                        >
+                                         Payment Type
+                                        </label>
+                                      </div>
+                                      <div className="col-md-8">
+                                        <Select
+                                          name="PaymentType"
+                                          value={this.state.PEID}
+                                          value={paymenttypes.filter(
+                                            option => option.value === this.state.PaymentType
+                                          )}
+                                          //defaultInputValue={this.state.TenderType}
+                                          onChange={this.handleSelectChange}
+                                          options={paymenttypes}
+                                          required
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
                                   <div className="col-md-5">
                                     <div className="row">
                                       <div className="col-md-4">
@@ -4511,7 +5092,11 @@ class Applications extends Component {
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-md-5">
+                                </div>
+                                <br/>
+                                <div class="row">
+                                 
+                                  <div className="col-md-10">
                                     <table className="table table-sm">
                                       <th scope="col">Slip</th>
                                       <th scope="col">Action</th>
@@ -4549,7 +5134,7 @@ class Applications extends Component {
                           <div className="col-sm-5">
                             <button
                               className="btn btn-success"
-                              onClick={this.AddpaymentDetails}
+                              onClick={this.OpenPaymentModal}
                             >
                               Already paid
                             </button>

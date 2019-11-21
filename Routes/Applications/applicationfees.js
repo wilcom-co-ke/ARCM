@@ -141,8 +141,7 @@ applicationfees.post("/", auth.validateRole("Applications"), function(
   res
 ) {
   const schema = Joi.object().keys({
-    ApplicationID: Joi.number()
-      .integer()
+    ApplicationID: Joi.number().integer()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
@@ -228,6 +227,13 @@ applicationfees.post(
       AmountPaid: Joi.number().required(),
       Reference: Joi.string().required(),
       Paidby: Joi.string().required(),
+      PaymentType: Joi.number().required(),
+      ChequeDate: Joi.date()
+        .allow(null)
+        .allow(""),
+      CHQNO: Joi.string()
+        .allow(null)
+        .allow(""),
       ApplicationID: Joi.number()
         .integer()
         .min(1)
@@ -241,7 +247,11 @@ applicationfees.post(
         req.body.DateOfpayment,
         req.body.AmountPaid,
         res.locals.user,
-        req.body.Category
+        req.body.Category,
+        req.body.PaymentType,
+
+        req.body.CHQNO,
+        req.body.ChequeDate
       ];
       con.getConnection(function(err, connection) {
         if (err) {
@@ -251,7 +261,7 @@ applicationfees.post(
           });
         } // not connected!
         else {
-          let sp = "call SavePaymentdetails(?,?,?,?,?,?,?)";
+          let sp = "call SavePaymentdetails(?,?,?,?,?,?,?,?,?,?)";
           connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
