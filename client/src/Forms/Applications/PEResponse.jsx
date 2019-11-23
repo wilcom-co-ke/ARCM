@@ -60,8 +60,8 @@ class PEResponse extends Component {
       PaymentType: "",
       ChequeDate: "",
       CHQNO: "",
-      paymenttypes:[],
-      Banks:[]
+      paymenttypes: [],
+      Banks: []
     };
     this.onEditorChange = this.onEditorChange.bind(this);
     this.SavePEResponse = this.SavePEResponse.bind(this);
@@ -84,7 +84,6 @@ class PEResponse extends Component {
       .then(paymenttypes => {
         if (paymenttypes.length > 0) {
           this.setState({ paymenttypes: paymenttypes });
-
         }
       })
       .catch(err => {
@@ -531,7 +530,6 @@ class PEResponse extends Component {
       ChequeDate: this.state.ChequeDate,
       CHQNO: this.state.CHQNO,
       Category: "PreliminaryObjectionsFees"
-      
     };
     fetch("/api/applicationfees/1/Paymentdetails", {
       method: "POST",
@@ -544,7 +542,7 @@ class PEResponse extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            this.setState({ openPaymentModal:false})
+            this.setState({ openPaymentModal: false });
             toast.success("Payment details save successfuly");
             this.fetchPreliminaryObjectionsFeesPaymentDetails();
           } else {
@@ -693,7 +691,6 @@ class PEResponse extends Component {
       .then(Banks => {
         if (Banks.length > 0) {
           this.setState({ Banks: Banks });
-
         }
       })
       .catch(err => {
@@ -724,8 +721,8 @@ class PEResponse extends Component {
               this.fetchResponseDetails();
               this.fetchBackgrounInformation();
               this.fetchBankSlips(this.state.ApplicationID);
-              this.fetchBanks()
-              this.fetchPaymentTypes()
+              this.fetchBanks();
+              this.fetchPaymentTypes();
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -856,7 +853,7 @@ class PEResponse extends Component {
       PERsponseID: this.state.ResponseID,
       Name: Documentname,
       Description: this.state.DocumentDesc,
-      Path: "Documents",
+      Path: process.env.REACT_APP_BASE_URL + "/Documents",
       Confidential: this.state.Confidential
     };
     fetch("/api/PEResponse/Documents", {
@@ -1216,7 +1213,12 @@ class PEResponse extends Component {
   };
   OpenGroundsModal = e => {
     e.preventDefault();
-    this.setState({ open: true, Groundtype: "Grounds", grounddesc:"", GroundResponse:"" });
+    this.setState({
+      open: true,
+      Groundtype: "Grounds",
+      grounddesc: "",
+      GroundResponse: ""
+    });
   };
   OpenbackgroundInformation = e => {
     e.preventDefault();
@@ -1230,7 +1232,12 @@ class PEResponse extends Component {
   };
   OpenRequestsModal = e => {
     e.preventDefault();
-    this.setState({ open: true, Groundtype: "Prayers", grounddesc:"", GroundResponse:"" });
+    this.setState({
+      open: true,
+      Groundtype: "Prayers",
+      grounddesc: "",
+      GroundResponse: ""
+    });
   };
   openInterestedPartiesTab() {
     document.getElementById("nav-InterestedParties-tab").click();
@@ -1314,12 +1321,12 @@ class PEResponse extends Component {
             <div className="row wrapper ">
               <Link to="/PEApplications">
                 <button
-                style={{margin:"10px"}}
+                  style={{ margin: "10px" }}
                   type="button"
                   className="btn btn-warning float-right "
                 >
                   Close
-                      </button>
+                </button>
               </Link>
             </div>
           </div>
@@ -1500,7 +1507,12 @@ class PEResponse extends Component {
                             height="500px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll",height:"450px" }}>
+                            <div
+                              style={{
+                                "overflow-y": "scroll",
+                                height: "450px"
+                              }}
+                            >
                               <a
                                 style={{
                                   float: "right",
@@ -1575,7 +1587,12 @@ class PEResponse extends Component {
                             height="650px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll", height: "600px" }}>
+                            <div
+                              style={{
+                                "overflow-y": "scroll",
+                                height: "600px"
+                              }}
+                            >
                               <a
                                 style={{
                                   float: "right",
@@ -1630,20 +1647,19 @@ class PEResponse extends Component {
                                           )}
                                         </div>
                                       </div>
-                                   
+
                                       <h3 style={headingstyle}>
                                         Ground Description
-                                            </h3>
-                                   
-                                        <div class="row">
-                                          <div class="col-sm-12">
-                                          
-                                            <br />
-                                            {ReactHtmlParser(
-                                              this.state.grounddesc
-                                            )}
-                                          </div>
+                                      </h3>
+
+                                      <div class="row">
+                                        <div class="col-sm-12">
+                                          <br />
+                                          {ReactHtmlParser(
+                                            this.state.grounddesc
+                                          )}
                                         </div>
+                                      </div>
 
                                       <div class="row">
                                         <div class="col-sm-12">
@@ -1657,7 +1673,7 @@ class PEResponse extends Component {
                                           />
                                         </div>
                                       </div>
-                                      <br/>
+                                      <br />
                                       <div className=" row">
                                         <div className="col-sm-10" />
                                         <div className="col-sm-2">
@@ -1678,7 +1694,6 @@ class PEResponse extends Component {
                                           </button>
                                         </div>
                                       </div>
-                                      
                                     </form>
                                     <br />
                                   </div>
@@ -2368,11 +2383,11 @@ class PEResponse extends Component {
                                 &nbsp;&nbsp;
                                 <Link to="/PEApplications">
                                   <button
-                                    type="button"                                  
+                                    type="button"
                                     className="btn btn-danger"
                                   >
                                     &nbsp; Close
-                                </button>
+                                  </button>
                                 </Link>
                               </div>
                             </div>
@@ -2450,7 +2465,12 @@ class PEResponse extends Component {
                             height="500px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll", height: "450px" }}>
+                            <div
+                              style={{
+                                "overflow-y": "scroll",
+                                height: "450px"
+                              }}
+                            >
                               <a
                                 style={{
                                   float: "right",
@@ -2525,7 +2545,12 @@ class PEResponse extends Component {
                             height="650px"
                             effect="fadeInUp"
                           >
-                            <div style={{ "overflow-y": "scroll", height: "600px" }}>
+                            <div
+                              style={{
+                                "overflow-y": "scroll",
+                                height: "600px"
+                              }}
+                            >
                               <a
                                 style={{
                                   float: "right",
@@ -2587,11 +2612,10 @@ class PEResponse extends Component {
                                         </div>
                                         <h3 style={headingstyle}>
                                           Ground Description
-                                            </h3>
-                                       
+                                        </h3>
+
                                         <div class="row">
                                           <div class="col-sm-12">
-                                            
                                             <br />
                                             {ReactHtmlParser(
                                               this.state.grounddesc
@@ -2632,7 +2656,7 @@ class PEResponse extends Component {
                                             </button>
                                           </div>
                                         </div>
-                                        <br/>
+                                        <br />
                                       </form>
                                     </div>
                                   </div>
@@ -3364,318 +3388,367 @@ class PEResponse extends Component {
                         aria-labelledby="nav-Fees-tab"
                       >
                         <div style={formcontainerStyle}>
-                         <Modal
-                      visible={this.state.openPaymentModal}
-                      width="900"
-                      height="550"
-                      effect="fadeInUp"
-                    >
-                      <div style={{ "overflow-y": "scroll", height: "545px" }}>
-                      <a
-                        style={{ float: "right", color: "red", margin: "10px" }}
-                        href="javascript:void(0);"
-                        onClick={() => this.ClosePaymentModal()}
-                      >
-                        <i class="fa fa-close"></i>
-                      </a>
-                      <div>
-                        <ToastContainer/>
-                        <h4
-                          style={{ "text-align": "center", color: "#1c84c6" }}
-                        >
-                          Payment Details
-                        </h4>
-                        <div className="container-fluid">
-                          <div className="col-sm-12">
-                            <div className="ibox-content">
+                          <Modal
+                            visible={this.state.openPaymentModal}
+                            width="900"
+                            height="550"
+                            effect="fadeInUp"
+                          >
+                            <div
+                              style={{
+                                "overflow-y": "scroll",
+                                height: "545px"
+                              }}
+                            >
+                              <a
+                                style={{
+                                  float: "right",
+                                  color: "red",
+                                  margin: "10px"
+                                }}
+                                href="javascript:void(0);"
+                                onClick={() => this.ClosePaymentModal()}
+                              >
+                                <i class="fa fa-close"></i>
+                              </a>
                               <div>
-                                <div className="col-lg-12 border border-success rounded">
-                                  <div style={FormStyle}>
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Amount Paid
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={this.state.AmountPaid}
-                                              type="number"
-                                              required
-                                              step="0.01"
-                                              min="0"
-                                              name="AmountPaid"
-                                              className="form-control"
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Date of Payment
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              onChange={this.handleInputChange}
-                                              value={this.state.DateofPayment}
-                                              type="date"
-                                              required
-                                              name="DateofPayment"
-                                              className="form-control"
-                                              max={this.state.Today}
-                                            />
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <br />
-                                    <div className=" row">                                  
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                              > Payment Type
-                                                  
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                              <Select
-                                                name="PaymentType"
-                                                value={this.state.PEID}
-                                                value={paymenttypes.filter(
-                                                  option => option.value === this.state.PaymentType
-                                                )}
-                                                //defaultInputValue={this.state.TenderType}
-                                                onChange={this.handleSelectChange}
-                                                options={paymenttypes}
-                                                required
-                                              />
-                                        
-                                          </div>
-                                        </div>
-                                      </div>
-                                        <div className="col-md-6">
-                                          <div className="row">
-                                            <div className="col-md-4">
-                                              <label
-                                                htmlFor="exampleInputPassword1"
-                                                className="font-weight-bold"
-                                              >
-                                                Payment Reference
-                                            </label>
+                                <ToastContainer />
+                                <h4
+                                  style={{
+                                    "text-align": "center",
+                                    color: "#1c84c6"
+                                  }}
+                                >
+                                  Payment Details
+                                </h4>
+                                <div className="container-fluid">
+                                  <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                      <div>
+                                        <div className="col-lg-12 border border-success rounded">
+                                          <div style={FormStyle}>
+                                            <div className=" row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Amount Paid
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state.AmountPaid
+                                                      }
+                                                      type="number"
+                                                      required
+                                                      step="0.01"
+                                                      min="0"
+                                                      name="AmountPaid"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Date of Payment
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state.DateofPayment
+                                                      }
+                                                      type="date"
+                                                      required
+                                                      name="DateofPayment"
+                                                      className="form-control"
+                                                      max={this.state.Today}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
-                                            <div className="col-md-8">
-                                              <input
-                                                onChange={this.handleInputChange}
-                                                value={
-                                                  this.state.PaymentReference
-                                                }
-                                                type="text"
-                                                required
-                                                name="PaymentReference"
-                                                className="form-control"
-                                              />
+                                            <br />
+                                            <div className=" row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      {" "}
+                                                      Payment Type
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <Select
+                                                      name="PaymentType"
+                                                      value={this.state.PEID}
+                                                      value={paymenttypes.filter(
+                                                        option =>
+                                                          option.value ===
+                                                          this.state.PaymentType
+                                                      )}
+                                                      //defaultInputValue={this.state.TenderType}
+                                                      onChange={
+                                                        this.handleSelectChange
+                                                      }
+                                                      options={paymenttypes}
+                                                      required
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Payment Reference
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={
+                                                        this.state
+                                                          .PaymentReference
+                                                      }
+                                                      type="text"
+                                                      required
+                                                      name="PaymentReference"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <br />
+                                            {this.state.PaymentType == "4" ? (
+                                              <div className=" row">
+                                                <div className="col-md-6">
+                                                  <div className="row">
+                                                    <div className="col-md-4">
+                                                      <label
+                                                        htmlFor="exampleInputPassword1"
+                                                        className="font-weight-bold"
+                                                      >
+                                                        {" "}
+                                                        CHQNO
+                                                      </label>
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                      <input
+                                                        onChange={
+                                                          this.handleInputChange
+                                                        }
+                                                        value={this.state.CHQNO}
+                                                        type="text"
+                                                        required
+                                                        name="CHQNO"
+                                                        className="form-control"
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                  <div className="row">
+                                                    <div className="col-md-4">
+                                                      <label
+                                                        htmlFor="exampleInputPassword1"
+                                                        className="font-weight-bold"
+                                                      >
+                                                        ChequeDate
+                                                      </label>
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                      <input
+                                                        onChange={
+                                                          this.handleInputChange
+                                                        }
+                                                        value={
+                                                          this.state.ChequeDate
+                                                        }
+                                                        type="date"
+                                                        required
+                                                        name="ChequeDate"
+                                                        className="form-control"
+                                                      />
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            ) : null}
+                                            <br />
+                                            <div className=" row">
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    {this.state.PaymentType ==
+                                                    "1" ? (
+                                                      <label
+                                                        htmlFor="exampleInputPassword1"
+                                                        className="font-weight-bold"
+                                                      >
+                                                        MobileNo
+                                                      </label>
+                                                    ) : (
+                                                      <label
+                                                        htmlFor="exampleInputPassword1"
+                                                        className="font-weight-bold"
+                                                      >
+                                                        Paid By
+                                                      </label>
+                                                    )}
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      onChange={
+                                                        this.handleInputChange
+                                                      }
+                                                      value={this.state.PaidBy}
+                                                      type="text"
+                                                      required
+                                                      name="PaidBy"
+                                                      className="form-control"
+                                                    />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div className="col-md-6">
+                                                <div className="row">
+                                                  <div className="col-md-4">
+                                                    <label
+                                                      htmlFor="exampleInputPassword1"
+                                                      className="font-weight-bold"
+                                                    >
+                                                      Payment slip
+                                                    </label>
+                                                  </div>
+                                                  <div className="col-md-8">
+                                                    <input
+                                                      type="file"
+                                                      className="form-control"
+                                                      name="file"
+                                                      onChange={
+                                                        this.onChangeHandler
+                                                      }
+                                                      multiple
+                                                    />
+                                                    <div class="form-group">
+                                                      <Progress
+                                                        max="100"
+                                                        color="success"
+                                                        value={
+                                                          this.state.loaded
+                                                        }
+                                                      >
+                                                        {Math.round(
+                                                          this.state.loaded,
+                                                          2
+                                                        )}
+                                                        %
+                                                      </Progress>
+                                                    </div>
+                                                    <button
+                                                      type="submit"
+                                                      class="btn btn-success "
+                                                      onClick={
+                                                        this.UploadBankSlip
+                                                      }
+                                                    >
+                                                      Upload
+                                                    </button>
+                                                    &nbsp;
+                                                    <button
+                                                      type="button"
+                                                      onClick={
+                                                        this.SavePaymentdetails
+                                                      }
+                                                      className="btn btn-primary"
+                                                    >
+                                                      Save
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                              <div className="col-md-12">
+                                                <table className="table table-sm">
+                                                  <th scope="col">Slip</th>
+                                                  <th scope="col">Action</th>
+                                                  {this.state.BankSlips.map(
+                                                    (r, i) => (
+                                                      <tr>
+                                                        <td>{r.Name}</td>
+                                                        <td>
+                                                          <span>
+                                                            <a
+                                                              style={{
+                                                                color: "#f44542"
+                                                              }}
+                                                              onClick={e =>
+                                                                this.handleDeleteBankSlip(
+                                                                  r.Name,
+                                                                  e
+                                                                )
+                                                              }
+                                                            >
+                                                              &nbsp; Remove
+                                                            </a>
+                                                          </span>
+                                                        </td>
+                                                      </tr>
+                                                    )
+                                                  )}
+                                                </table>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
-                                    </div>
-                                    <br />
-                                      {this.state.PaymentType == "4" ?
-                                     <div className=" row">                                  
-                                      <div className="col-md-6">
+                                        <br />
                                         <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                              > CHQNO
-                                                    
-                                            </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                              <input
-                                                onChange={this.handleInputChange}
-                                                value={
-                                                  this.state.CHQNO
-                                                }
-                                                type="text"
-                                                required
-                                                name="CHQNO"
-                                                className="form-control"
-                                              />
-                                        
-                                          </div>
-                                        </div>
-                                      </div>
-                                        <div className="col-md-6">
-                                          <div className="row">
-                                            <div className="col-md-4">
-                                              <label
-                                                htmlFor="exampleInputPassword1"
-                                                className="font-weight-bold"
-                                              >
-                                                ChequeDate
-                                            </label>
-                                            </div>
-                                            <div className="col-md-8">
-                                              <input
-                                                onChange={this.handleInputChange}
-                                                value={
-                                                  this.state.ChequeDate
-                                                }
-                                                type="date"
-                                                required
-                                                name="ChequeDate"
-                                                className="form-control"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </div>:null}
-                                    <br/>
-                                    <div className=" row">
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                              {this.state.PaymentType=="1"?
-                                              
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              MobileNo
-                                        </label> : <label
-                                                  htmlFor="exampleInputPassword1"
-                                                  className="font-weight-bold"
-                                                >
-                                                  Paid By
-                                        </label>}
-                                          </div>
-                                          <div className="col-md-8">
-                                              <input
-                                                onChange={this.handleInputChange}
-                                                value={this.state.PaidBy}
-                                                type="text"
-                                                required
-                                                name="PaidBy"
-                                                className="form-control"
-                                              />
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                            <label
-                                              htmlFor="exampleInputPassword1"
-                                              className="font-weight-bold"
-                                            >
-                                              Payment slip
-                                        </label>
-                                          </div>
-                                          <div className="col-md-8">
-                                            <input
-                                              type="file"
-                                              className="form-control"
-                                              name="file"
-                                              onChange={this.onChangeHandler}
-                                              multiple
-                                            />
-                                            <div class="form-group">
-                                              <Progress
-                                                max="100"
-                                                color="success"
-                                                value={this.state.loaded}
-                                              >
-                                                {Math.round(this.state.loaded, 2)}%
-                                          </Progress>
-                                            </div>
+                                          <div className="col-md-7"></div>
+                                          <div className="col-md-5">
                                             <button
-                                              type="submit"
-                                              class="btn btn-success "
-                                              onClick={this.UploadBankSlip}
+                                              type="button"
+                                              className="btn btn-warning float-right"
+                                              onClick={this.ClosePaymentModal}
                                             >
-                                              Upload
-                                        </button>&nbsp;
-                                              <button
-                                                type="button"
-                                                onClick={this.SavePaymentdetails}
-                                                className="btn btn-primary"
-                                              >
-                                                Save
-                                         </button>
+                                              Close
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    <br/>
-                                    <div class="row">
-                                     
-                                      <div className="col-md-12">
-                                        <table className="table table-sm">
-                                          <th scope="col">Slip</th>
-                                          <th scope="col">Action</th>
-                                          {this.state.BankSlips.map((r, i) => (
-                                            <tr>
-                                              <td>{r.Name}</td>
-                                              <td>
-                                                <span>
-                                                  <a
-                                                    style={{ color: "#f44542" }}
-                                                    onClick={e =>
-                                                      this.handleDeleteBankSlip(
-                                                        r.Name,
-                                                        e
-                                                      )
-                                                    }
-                                                  >
-                                                    &nbsp; Remove
-                                                  </a>
-                                                </span>
-                                              </td>
-                                            </tr>
-                                          ))}
-                                        </table>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <br />
-                                <div className="row">
-                                  <div className="col-md-7"></div>
-                                  <div className="col-md-5">
-                                     
-                                    
-                                    <button
-                                      type="button"
-                                      className="btn btn-warning float-right"
-                                      onClick={this.ClosePaymentModal}
-                                    >
-                                      Close
-                                    </button>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    </Modal>
+                          </Modal>
 
                           <form
                             style={FormStyle}
@@ -3714,21 +3787,30 @@ class PEResponse extends Component {
                                   )}
                                 </table>
                               </div>
-                              <div class="col-sm-4 " style={{ backgroundColor: "#e9ecef" }}>
+                              <div
+                                class="col-sm-4 "
+                                style={{ backgroundColor: "#e9ecef" }}
+                              >
                                 <br />
                                 <h3 style={headingstyle}>Payment Options</h3>
                                 {this.state.Banks.map((r, i) => (
                                   <div>
                                     <tr>
-                                      <td className="font-weight-bold">Bank:</td>
+                                      <td className="font-weight-bold">
+                                        Bank:
+                                      </td>
                                       <td>&nbsp;&nbsp;&nbsp;{r.Name}</td>
                                     </tr>
                                     <tr>
-                                      <td className="font-weight-bold">Account/NO:</td>
+                                      <td className="font-weight-bold">
+                                        Account/NO:
+                                      </td>
                                       <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
                                     </tr>
                                     <tr>
-                                      <td className="font-weight-bold">Branch:</td>
+                                      <td className="font-weight-bold">
+                                        Branch:
+                                      </td>
                                       <td>&nbsp;&nbsp;&nbsp;{r.Branch}</td>
                                     </tr>
                                   </div>
@@ -3737,14 +3819,17 @@ class PEResponse extends Component {
                                 {this.state.Banks.map((r, i) => (
                                   <div>
                                     <tr>
-                                      <td className="font-weight-bold">PayBill:</td>
+                                      <td className="font-weight-bold">
+                                        PayBill:
+                                      </td>
                                       <td>&nbsp;&nbsp;&nbsp;{r.PayBill}</td>
                                     </tr>
                                     <tr>
-                                      <td className="font-weight-bold">Account/NO:</td>
+                                      <td className="font-weight-bold">
+                                        Account/NO:
+                                      </td>
                                       <td>&nbsp;&nbsp;&nbsp;{r.AcountNo}</td>
                                     </tr>
-
                                   </div>
                                 ))}
                               </div>
@@ -3758,7 +3843,7 @@ class PEResponse extends Component {
                                     <th>DateOfpayment</th>
                                     <th>AmountPaid</th>
                                     <th>Reference</th>
-                                
+
                                     <th>Payment Type</th>
                                   </thead>
                                   {this.state.PreliminaryObjectionsFeesPaymentDetails.map(
@@ -3774,7 +3859,7 @@ class PEResponse extends Component {
                                         <td className="font-weight-bold">
                                           {r.Refference}
                                         </td>
-                                     
+
                                         <td>{r.PaymentType}</td>
                                       </tr>
                                     )
@@ -3799,16 +3884,14 @@ class PEResponse extends Component {
                                   {" "}
                                   SUBMIT NOW
                                 </button>
-
                                 &nbsp;&nbsp;
                                 <Link to="/PEApplications">
                                   <button
                                     type="button"
-
                                     className="btn btn-danger"
                                   >
                                     &nbsp; Close
-                                </button>
+                                  </button>
                                 </Link>
                               </div>
                             </div>

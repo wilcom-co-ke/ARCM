@@ -12,55 +12,62 @@ GenerateHearingNotice.get("/:ID", function(req, res) {
   res.download(fileName);
 });
 GenerateHearingNotice.post("/", function(req, res) {
-  var storagepath = path.join(
-    process.cwd(),
-    "Reports",
-    "HearingNotices",
-    req.body.ApplicationNo + ".pdf"
-  );
-  pdf.create(pdfTemplate(req.body), {}).toFile(storagepath, err => {
-    if (err) {
-      res.send(Promise.reject());
-    }
-
-    //save notice
-    let fileName = req.body.ApplicationNo + ".pdf";
-    let data = [
-      req.body.ApplicationNo,
-      "HearingNotices/",
-      fileName,
-      res.locals.user
-    ];
-
-    con.getConnection(function(err, connection) {
+  try {
+    var storagepath = path.join(
+      process.cwd(),
+      "Reports",
+      "HearingNotices",
+      req.body.ApplicationNo + ".pdf"
+    );
+    pdf.create(pdfTemplate(req.body), {}).toFile(storagepath, err => {
       if (err) {
-        res.json({
-          success: false,
-          message: err.message
-        });
-      } // not connected!
-      else {
-        let sp = "call SaveHearingNotice(?,?,?,?)";
-        connection.query(sp, data, function(error, results, fields) {
-          if (error) {
-            // res.json({
-            //   success: false,
-            //   message: error.message
-            // });
-          } else {
-            res.json({
-              success: true,
-              message: "Generated"
-            });
-          }
-          connection.release();
-          // Don't use the connection here, it has been returned to the pool.
-        });
+        res.send(Promise.reject());
       }
-    });
 
-    //res.send(Promise.resolve());
-  });
+      //save notice
+      let fileName = req.body.ApplicationNo + ".pdf";
+      let data = [
+        req.body.ApplicationNo,
+        "HearingNotices/",
+        fileName,
+        res.locals.user
+      ];
+
+      con.getConnection(function(err, connection) {
+        if (err) {
+          res.json({
+            success: false,
+            message: err.message
+          });
+        } // not connected!
+        else {
+          let sp = "call SaveHearingNotice(?,?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              // res.json({
+              //   success: false,
+              //   message: error.message
+              // });
+            } else {
+              res.json({
+                success: true,
+                message: "Generated"
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+      });
+
+      //res.send(Promise.resolve());
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err
+    });
+  }
 });
 
 module.exports = GenerateHearingNotice;

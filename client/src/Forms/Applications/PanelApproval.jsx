@@ -22,6 +22,7 @@ class PanelApproval extends Component {
             ApplicationNo: "",
             PEDetails: [],
             summary: false,
+            showclosebtn:false,
             PanelStatus: "",
             showAdd: false,
             HearingNoticeGenerated:"",
@@ -305,7 +306,7 @@ class PanelApproval extends Component {
             .then(response =>
                 response.json().then(data => {
                     if (data.success) {
-                        toast.success("Submited successfuly");                                                           
+                        toast.success("Submited successfuly");                                                                                
                         let NewList = [data.results]                       
                         if (NewList.length>0){ 
                             NewList[0].map((item, key) =>                         
@@ -318,10 +319,10 @@ class PanelApproval extends Component {
                         toast.error("Could not be added please try again");
                     }
                         if(this.state.HearingNoticeGenerated ==="Yes"){
-                            this.setState({ showresendNotice: true });
+                            this.setState({ showresendNotice: true, showclosebtn: true});
                         }else{
                             this.fetchRespondedApplications();
-                            this.setState({ summary: false });
+                            this.setState({ summary: false, showclosebtn: true });
                         }
                 
                 })
@@ -969,16 +970,20 @@ class PanelApproval extends Component {
                                             className="btn btn-success  "
                                         >
                                             FINALIZE
-                                              </button>
-                                              &nbsp;
-                                        <Link to="/">
-                                            <button
-                                                type="button"
-                                                className="btn btn-warning  "
-                                            >
-                                                Close
+                                              </button> &nbsp;
+                                              {
+                                                  this.state.showclosebtn?
+                                                <Link to="/">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-warning  "
+                                                    >
+                                                        Close
                                             </button>
-                                        </Link>
+                                                </Link>:null
+                                              }
+                                             
+                                       
                                     </div>
                                 </div>
                                 <br />

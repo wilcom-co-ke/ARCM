@@ -1322,7 +1322,7 @@ ARCMS – System Administrator
   }
     
   if (ID === "DECISION REPORT") {
-      const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Decision report for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
+      const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Decision  for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
    and it's awaiting your reviw.</br>
     </p>`;
       con.getConnection(function (err, connection) {

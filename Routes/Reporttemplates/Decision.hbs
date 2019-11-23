@@ -51,8 +51,7 @@
             padding-top: 5px;
             padding-bottom: 5px;
             text-align: left;
-            background-color: #4caf50;
-            color: white;
+            color: black;
         }
 
         .headercolun {
@@ -141,47 +140,79 @@
         </table>
 
         <table class="customers" cellpadding="0" cellspacing="0">
-            <th>Interested Parties</th>
+            <th><u>PRESENT BY INVITATION</u></th>
         </table>
         <table>
-            {{#each InterestedParties}}
-            <tr>
-                <td>{{ ID }}. &nbsp;</td>
-                <td>{{ Name }}</td>
-            </tr>
-            {{/each}}
-        </table>
-        <table class="customers" cellpadding="0" cellspacing="0">
-            <th>Attendance</th>
-        </table>
-        <br>
-        <table>
-            {{#group Attendance by="Date"}}
-            <b>Date:&nbsp; {{ value }}</b>&nbsp;&nbsp;
+            {{#group ApplicantAtt by="Date"}}
+            <table class="customers" cellpadding="0" cellspacing="0">
+                <th>Applicant</th>
+            </table>
+            <b style="margin-left: 15px;">Date:&nbsp; {{ value }}</b>&nbsp;&nbsp;
             {{#group items by="venue"}}
             <b>Venue:&nbsp;{{ value }}</b>
+            <ol>
+                {{#each items}}
+                <li style="margin-left: 2px;">{{ Name }} &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; -{{ FirmFrom }}</li>
 
-            {{#each items}}
-            <tr>
-                <td>{{ Name }} &nbsp;</td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp; -{{ FirmFrom }}</td>
-            </tr>
-            {{/each}}
+                {{/each}}
+            </ol>
             {{/group}}
-
             {{/group}}
-
-
         </table>
+        <table>
+            {{#group PPRAAtt by="Date"}}
+            <table class="customers" cellpadding="0" cellspacing="0">
+                <th>PROCURING ENTITY</th>
+            </table>
+            <b style="margin-left: 15px;">Date:&nbsp; {{ value }}</b>&nbsp;&nbsp;
+            {{#group items by="venue"}}
+            <b>Venue:&nbsp;{{ value }}</b>
+            <ol>
+                {{#each items}}
+                <li style="margin-left: 2px;">{{ Name }} &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; -{{ FirmFrom }}</li>
+
+                {{/each}}
+            </ol>
+            {{/group}}
+            {{/group}}
+        </table>
+        <table>
+            {{#group InterestedPartyAtt by="Date"}}
+            <table class="customers" cellpadding="0" cellspacing="0">
+                <th>INTERESTED PARTIES</th>
+            </table>
+            <b style="margin-left: 15px;">Date:&nbsp; {{ value }}</b>&nbsp;&nbsp;
+            {{#group items by="venue"}}
+            <b>Venue:&nbsp;{{ value }}</b>
+            <ol>
+                {{#each items}}
+                <li style="margin-left: 2px;">{{ Name }} &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; -{{ FirmFrom }}</li>
+                {{/each}}
+            </ol>
+            {{/group}}
+            {{/group}}
+        </table>
+
+
         <table class="customers" cellpadding="0" cellspacing="0">
-            <th>Background Information</th>
+            <th>Background </th>
             <tr>
                 <td>
                     {{{ BackgroundInformation }}}
                 </td>
             </tr>
         </table>
-
+        <table class="customers" cellpadding="0" cellspacing="0">
+            <th>THE REQUEST FOR REVIEW </th>
+            <tr>
+                <td>
+                    {{{ REQUESTFORREVIEW }}}
+                </td>
+            </tr>
+        </table>
         <table class="customers" cellpadding="0" cellspacing="0">
             <th>Parties Submissions</th>
         </table>
@@ -234,7 +265,7 @@
         <br />
 
         <table class="customers" cellpadding="0" cellspacing="0">
-            <th>Decision Summary</th>
+            <th>Holding</th>
             <tr>
                 <td>
                     {{{ DecisionSummary }}}

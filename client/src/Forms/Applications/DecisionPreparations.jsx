@@ -32,6 +32,7 @@ class DecisionPreparations extends Component {
       ApplicationNo: "",
       PEDetails: [],
       summary: false,
+      REQUESTFORREVIEW: "",
       open: false,
       Orders: false,
       Decisionorders: [],
@@ -76,7 +77,7 @@ class DecisionPreparations extends Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.HandlePrevieView = this.HandlePrevieView.bind(this);
+    // this.HandlePrevieView = this.HandlePrevieView.bind(this);
   }
   openModal = () => {
     this.setState({ open: true });
@@ -298,7 +299,11 @@ class DecisionPreparations extends Component {
       });
   };
   fetchBackgroundInformation = ApplicationNo => {
-    this.setState({ BackgroundInformation: "", DecisionSummary: "" });
+    this.setState({
+      BackgroundInformation: "",
+      DecisionSummary: "",
+      REQUESTFORREVIEW: ""
+    });
     fetch("/api/Decision/" + ApplicationNo, {
       method: "GET",
       headers: {
@@ -311,7 +316,8 @@ class DecisionPreparations extends Component {
         if (ApplicantDetails.length > 0) {
           this.setState({
             BackgroundInformation: ApplicantDetails[0].Backgroundinformation,
-            DecisionSummary: ApplicantDetails[0].DecisionSummary
+            DecisionSummary: ApplicantDetails[0].DecisionSummary,
+            REQUESTFORREVIEW: ApplicantDetails[0].RequestforReview
           });
         } else {
           swal("", ApplicantDetails.message, "error");
@@ -427,7 +433,15 @@ class DecisionPreparations extends Component {
   openBackgroundModal = () => {
     this.setState({
       openBackgroundsModal: true,
+      isBackround: true,
       Description: this.state.BackgroundInformation
+    });
+  };
+  openREQUESTFORREVIEW = () => {
+    this.setState({
+      openBackgroundsModal: true,
+      isBackround: false,
+      Description: this.state.REQUESTFORREVIEW
     });
   };
   CloseBackgroundModal = () => {
@@ -627,14 +641,17 @@ class DecisionPreparations extends Component {
     });
   };
   HandlePrevieView = d => {
+    //console.log(d);
     let filepath = d.Path + "/" + d.Name;
-    var res = filepath.split(".");
-    if (res[1] == "pdf") {
-      this.setState({ openViewer: true });
-    }
-    if (res[1] == "PDF") {
-      this.setState({ openViewer: true });
-    }
+    //let filepath = process.env.REACT_APP_BASE_URL + "/" + k.Path + "/" + k.Name;
+    window.open(filepath);
+    // var res = filepath.split(".");
+    // if (res[1] == "pdf") {
+    //   this.setState({ openViewer: true });
+    // }
+    // if (res[1] == "PDF") {
+    //   this.setState({ openViewer: true });
+    // }
 
     this.setState({ FileURL: filepath });
   };
@@ -767,6 +784,16 @@ class DecisionPreparations extends Component {
     this.fetchOrders(k.ApplicationNo);
   };
   PrintPDF = () => {
+   
+    const ComAttendance = [_.groupBy(this.state.Attendance, "Category")];
+   
+    let ApplicantAtt = ComAttendance[0].Applicant 
+    let PPRAAtt = ComAttendance[0].PPRA
+    let InterestedPartyAtt = ComAttendance[0].InterestedParty
+    let OthersAtt = ComAttendance[0].Others
+    let PressAtt = ComAttendance[0].Press
+    let PEAtt = ComAttendance[0].PE 
+ 
     let app = this.state.ApplicantDetails[0].Name;
     let pe = this.state.PEDetails[0].Name;
     const data = {
@@ -779,12 +806,12 @@ class DecisionPreparations extends Component {
         new Date(this.state.DecisionDate).toLocaleDateString(),
         "mediumDate"
       ),
-
       InterestedParties: this.state.InterestedParties,
       Boardmembers: this.state.Boardmembers,
       ApplicantName: app,
       PEName: pe,
       BackgroundInformation: this.state.BackgroundInformation,
+      REQUESTFORREVIEW: this.state.REQUESTFORREVIEW,
       PartiesSubmissions: this.state.PartiesSubmissions,
       DecisionSummary: this.state.DecisionSummary,
       Applicationstatus: this.state.Status,
@@ -801,7 +828,14 @@ class DecisionPreparations extends Component {
       TenderValue: this.state.TenderValue,
       TenderCategory: this.state.TenderCategory,
       TenderSubCategory: this.state.TenderSubCategory,
-      TenderType: this.state.TenderType
+      TenderType: this.state.TenderType,
+
+      ApplicantAtt:ApplicantAtt,
+      PPRAAtt:PPRAAtt,
+      InterestedPartyAtt:InterestedPartyAtt,
+      OthersAtt:OthersAtt,
+      PressAtt:PressAtt,
+      PEAtt:PEAtt
     };
     fetch("/api/GenerateDecision", {
       method: "POST",
@@ -830,7 +864,67 @@ class DecisionPreparations extends Component {
         toast.success(err.message);
       });
   };
+  SendSMS(MobileNumber, Msg) {
+    let data = {
+      MobileNumber: MobileNumber,
+      Message: Msg
+    };
+    return fetch("/api/sendsms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response =>
+        response.json().then(data => {
+          if (data.success) {
+          } else {
+            swal("", data.message, "error");
+          }
+        })
+      )
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  }
+  SendMail = (Name, email, ID, subject, ApplicationNo) => {
+    const emaildata = {
+      to: email,
+      subject: subject,
+      ID: ID,
+      Name: Name,
+      ApplicationNo: ApplicationNo
+    };
 
+    fetch("/api/NotifyApprover", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify(emaildata)
+    })
+      .then(response => response.json().then(data => { }))
+      .catch(err => {
+        //swal("Oops!", err.message, "error");
+      });
+  };
+  sendBulkNtification = (AproverEmail, AproverMobile, Name, ApplicationNo) => {
+    this.SendSMS(
+      AproverMobile,
+      "New Decision  for ApplicationNo:" +
+      ApplicationNo +
+      " has been submited and it's awaiting your review."
+    );
+    this.SendMail(
+      Name,
+      AproverEmail,
+      "DECISION REPORT",
+      "DECISION  APPROVAL",
+      ApplicationNo
+    );
+  };
   handleSubmit = event => {
     event.preventDefault();
     const data = {
@@ -840,7 +934,6 @@ class DecisionPreparations extends Component {
       Referral: this.state.RefertoDG,
       Closed: this.state.Closed,
       ApplicationSuccessful: this.state.ApplicationSuccessful,
-
       Annulled: this.state.Annulled,
       GiveDirection: this.state.GiveDirection,
       Terminated: this.state.Terminated,
@@ -863,7 +956,16 @@ class DecisionPreparations extends Component {
           if (data.success) {
             this.fetchApplications();
             toast.success("Submited");
-
+            if (data.results.length > 0) {
+              data.results.map((item, key) =>
+                this.sendBulkNtification(
+                  item.Email,
+                  item.Phone,
+                  item.Name,
+                  item.ApplicationNo
+                )
+              );
+            }
             this.setState({ summary: false });
           } else {
             toast.error(data.message);
@@ -1244,28 +1346,53 @@ class DecisionPreparations extends Component {
       ApplicationNo: this.state.ApplicationNo,
       Backgroundinformation: this.state.Description
     };
-    this.setState({ BackgroundInformation: this.state.Description });
-    fetch("/api/Decision/Backgroundinformation", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response =>
-        response.json().then(data => {
-          if (data.success) {
-            swal("", "Added Successfully", "success");
-            this.setState({ Description: "", openBackgroundsModal: false });
-          } else {
-            swal("", data.message, "error");
-          }
-        })
-      )
-      .catch(err => {
-        swal("Oops!", err.message, "error");
-      });
+    if (this.state.isBackround) {
+      this.setState({ BackgroundInformation: this.state.Description });
+      fetch("/api/Decision/Backgroundinformation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              swal("", "Added Successfully", "success");
+              this.setState({ Description: "", openBackgroundsModal: false });
+            } else {
+              swal("", data.message, "error");
+            }
+          })
+        )
+        .catch(err => {
+          swal("Oops!", err.message, "error");
+        });
+    } else {
+      this.setState({ REQUESTFORREVIEW: this.state.Description });
+      fetch("/api/Decision/RequestforReview", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (data.success) {
+              swal("", "Added Successfully", "success");
+              this.setState({ Description: "", openBackgroundsModal: false });
+            } else {
+              swal("", data.message, "error");
+            }
+          })
+        )
+        .catch(err => {
+          swal("Oops!", err.message, "error");
+        });
+    }
   };
   saveDocuments(FileName, path) {
     let datatosave = {
@@ -1819,10 +1946,18 @@ class DecisionPreparations extends Component {
                 >
                   Close
                 </a>
-                <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
-                  {" "}
-                  Background Information
-                </h4>
+
+                {this.state.isBackround ? (
+                  <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
+                    {" "}
+                    Background
+                  </h4>
+                ) : (
+                  <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
+                    {" "}
+                    Request for Review
+                  </h4>
+                )}
 
                 <div className="container-fluid">
                   <div className="col-sm-12">
@@ -1871,7 +2006,7 @@ class DecisionPreparations extends Component {
                 </a>
                 <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
                   {" "}
-                  Decision Summary
+                  Holding
                 </h4>
 
                 <div className="container-fluid">
@@ -2035,7 +2170,7 @@ class DecisionPreparations extends Component {
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
-                <h3 style={headingstyle}>Background Information</h3>
+                <h3 style={headingstyle}>Background </h3>
                 <div className="row border border-success rounded bg-white">
                   <div class="col-sm-12">
                     <br />
@@ -2061,6 +2196,47 @@ class DecisionPreparations extends Component {
                                   <a
                                     style={{ color: "#007bff" }}
                                     onClick={this.openBackgroundModal}
+                                  >
+                                    Edit
+                                  </a>
+                                </span>
+                              ) : null}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-1"></div>
+              <div className="col-lg-10 ">
+                <h3 style={headingstyle}>Request for Review </h3>
+                <div className="row border border-success rounded bg-white">
+                  <div class="col-sm-12">
+                    <br />
+                    <button
+                      className="btn btn-primary"
+                      onClick={this.openREQUESTFORREVIEW}
+                    >
+                      Add{" "}
+                    </button>
+                    <p></p>
+                    <div>
+                      <table class="table table-sm">
+                        <tbody>
+                          <tr>
+                            <td>
+                              {ReactHtmlParser(this.state.REQUESTFORREVIEW)}
+                            </td>
+                            <td>
+                              {this.state.REQUESTFORREVIEW ? (
+                                <span>
+                                  <a
+                                    style={{ color: "#007bff" }}
+                                    onClick={this.openREQUESTFORREVIEW}
                                   >
                                     Edit
                                   </a>
@@ -2241,7 +2417,7 @@ class DecisionPreparations extends Component {
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
-                <h3 style={headingstyle}>Decision Summary</h3>
+                <h3 style={headingstyle}>Holding</h3>
                 <div className="row border border-success rounded bg-white">
                   <div class="col-sm-12">
                     <br />
@@ -2332,10 +2508,10 @@ class DecisionPreparations extends Component {
                 </div>
               </div>
             </div>
-            {/* <div className="row">
+            <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">
-                <h3 style={headingstyle}>Decision Documents</h3>
+                <h3 style={headingstyle}>Attachments</h3>
                 <div className="row border border-success rounded bg-white">
                   <div class="col-sm-12">
                     <br />
@@ -2388,7 +2564,7 @@ class DecisionPreparations extends Component {
                   </div>
                 </div>
               </div>
-            </div> */}
+            </div>
             <div className="row">
               <div className="col-lg-1"></div>
               <div className="col-lg-10 ">

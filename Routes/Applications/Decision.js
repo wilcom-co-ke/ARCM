@@ -188,6 +188,7 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
           } else {
             res.json({
               success: true,
+              results: results[0],
               message: "saved"
             });
           }
@@ -224,22 +225,41 @@ Decision.post("/:ID", auth.validateRole("Decision"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call Savedecisions(?,?,?)";
-        connection.query(sp, data, function(error, results, fields) {
-          if (error) {
-            res.json({
-              success: false,
-              message: error.message
-            });
-          } else {
-            res.json({
-              success: true,
-              message: "saved"
-            });
-          }
-          connection.release();
-          // Don't use the connection here, it has been returned to the pool.
-        });
+        if (req.params.ID == "RequestforReview") {
+          let sp = "call SaveRequestforReview(?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "saved"
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        } else {
+          let sp = "call Savedecisions(?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "saved"
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
       }
     });
   } else {

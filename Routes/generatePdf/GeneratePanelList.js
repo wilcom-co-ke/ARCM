@@ -61,6 +61,7 @@ GeneratePanelList.get("/:ID", function(req, res) {
 GeneratePanelList.post("/", function(req, res) {
   try {
     (async () => {
+      try{
       var dataBinding = req.body;
       var templateHtml = fs.readFileSync(
         path.join(
@@ -132,7 +133,12 @@ GeneratePanelList.post("/", function(req, res) {
           });
         }
       });
-      //end save rb1
+    } catch (err) {
+      res.json({
+        success: false,
+        message: err
+      });
+    }
     })();
   } catch (err) {
     res.json({

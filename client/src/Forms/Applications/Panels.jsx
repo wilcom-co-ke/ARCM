@@ -522,9 +522,6 @@ class Panels extends Component {
         },{
                 value:"Chairperson",
                 label:"Chairperson"
-            }, {
-                value: "Vice Chairperson",
-                label: "Vice Chairperson"
             }]
         let headingstyle = {
             color: "#7094db"

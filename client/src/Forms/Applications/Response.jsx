@@ -545,7 +545,7 @@ class Response extends Component {
                                                   <tr>
                                                     <td>{i + 1}</td>
                                                     <td>{k.Description}</td>
-                                                    <td>{k.Name}</td>
+                                                            <td>{k.FileName}</td>
                                                     <td>
                                                         <a
                                                             onClick={e => ViewFile(k, e)}

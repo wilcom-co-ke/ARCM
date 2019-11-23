@@ -599,6 +599,7 @@ class CaseAnalysis extends Component {
     this.setState(data);
   };
   ViewFile = (k, e) => {
+    console.log(k);
     let filepath = k.Path + "/" + k.FileName;
     window.open(filepath);
     //this.setState({ openFileViewer: true });
@@ -1672,7 +1673,7 @@ class CaseAnalysis extends Component {
                               <th>ID</th>
                               <th>Document Description</th>
                               <th>FileName</th>
-                              <th>Date Uploaded</th>
+                              <th>Date Submited</th>
                               <th>Actions</th>
                             </thead>
                             {this.state.ApplicationDocuments.map((k, i) => {
@@ -1798,7 +1799,7 @@ class CaseAnalysis extends Component {
                       <div className="col-lg-12 ">
                         <h3 style={headingstyle}>Additional Submissions</h3>
                         <div className="col-lg-11 border border-success rounded">
-                          <h2>Background Information</h2>
+                          <h2>Background </h2>
 
                           {this.state.AdditionalSubmisions.map(function(k, i) {
                             return (
@@ -1869,7 +1870,7 @@ class CaseAnalysis extends Component {
                         <div className="col-lg-12 border border-success rounded">
                           {this.state.BackgroundInformation ? (
                             <div>
-                              <h3>Background Information</h3>
+                              <h3>Background </h3>
                               {ReactHtmlParser(
                                 this.state.BackgroundInformation
                               )}
@@ -1923,7 +1924,7 @@ class CaseAnalysis extends Component {
                                   <tr>
                                     <td>{i + 1}</td>
                                     <td>{k.Description}</td>
-                                    <td>{k.Name}</td>
+                                    <td>{k.FileName}</td>
                                     <td>
                                       <a
                                         onClick={e => ViewFile(k, e)}
@@ -1966,7 +1967,7 @@ class CaseAnalysis extends Component {
                       <div className="col-lg-12 ">
                         <h3 style={headingstyle}>Additional Submissions</h3>
                         <div className="col-lg-12 border border-success rounded">
-                          <h2>Background Information</h2>
+                          <h2>Background </h2>
 
                           {this.state.AdditionalSubmisions.map(function(k, i) {
                             return <p>{ReactHtmlParser(k.Description)}</p>;
@@ -1977,7 +1978,7 @@ class CaseAnalysis extends Component {
                             <thead className="thead-light">
                               <th>ID</th>
                               <th>Description</th>
-                              <th>Date Uploaded</th>
+                              <th>Date Submited</th>
                               <th>Actions</th>
                             </thead>
                             {this.state.AdditionalSubmisionsDocuments.map(

@@ -428,12 +428,16 @@ class casesittingsregister extends Component {
         label: "Applicant"
       },
       {
-        value: "Member of Public",
-        label: "Member of Public"
+        value: "InterestedParty",
+        label: "Interested Party"
       },
       {
         value: "Press",
         label: "Press"
+      },
+      {
+        value: "Others",
+        label: "Others"
       }
     ];
     let CategoryOptions1 = [
@@ -608,7 +612,7 @@ class casesittingsregister extends Component {
                   style={{ width: "270px" }}
                   onClick={this.handlePublicself}
                 >
-                  PE,APPELANT,MEMBERS OF PUBLIC,PRESS
+                  PE,Applicant,Interested Party,Others
                 </button>
                 <br />
                 <br />
