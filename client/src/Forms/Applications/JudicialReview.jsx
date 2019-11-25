@@ -27,6 +27,8 @@ class JudicialReview extends Component {
       Unbooking: false,
       JudicialDocuments: [],
       JudicialDetails: [],
+      JRinterestedparties: [],
+      JRUsers: [],
       AddJudicialReview: false,
 
       jDateofCourtRulling: "",
@@ -186,7 +188,31 @@ class JudicialReview extends Component {
         toast.error(err.message);
       });
   };
-
+  fetchJRUsers = ApplicationID => {
+    this.setState({
+      JRUsers: []
+    });
+    fetch("/api/JudicialReview/JrUsers/" + ApplicationID + "/Applicant", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(AdditionalSubmisions => {
+        if (AdditionalSubmisions.length > 0) {
+          this.setState({
+            JRUsers: AdditionalSubmisions
+          });
+        } else {
+          toast.error(AdditionalSubmisions.message);
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+      });
+  };
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
@@ -221,9 +247,30 @@ class JudicialReview extends Component {
     this.setState({ summary: false });
   };
   ViewFile = (k, e) => {
-    let filepath = k.Path + "/" + k.Name;
+    let filepath = k.Path + "/" + k.FileName;
     window.open(filepath);
     //this.setState({ openFileViewer: true });
+  };
+  fetchJRinterestedparties = ApplicationID => {
+    this.setState({ JRinterestedparties: [] });
+    fetch("/api/interestedparties/" + ApplicationID + "/JR", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(interestedparties => {
+        if (interestedparties.length > 0) {
+          this.setState({ JRinterestedparties: interestedparties });
+        } else {
+          toast.error(interestedparties.message);
+        }
+      })
+      .catch(err => {
+        toast.error(err.message);
+      });
   };
   ScheduleCase = k => {
     const data = {
@@ -234,6 +281,8 @@ class JudicialReview extends Component {
       PEServedOn: k.PEServedOn
     };
     this.setState(data);
+    this.fetchJRUsers(k.ApplicationNo);
+    this.fetchJRinterestedparties(k.ApplicationNo);
     this.fetchApplicantDetails(k.ApplicationNo);
     this.fetchJudicialDocuments(k.ApplicationNo);
     this.fetchJudicialDetails(k.ApplicationNo);
@@ -293,8 +342,7 @@ class JudicialReview extends Component {
       ApplicationNo: this.state.ApplicationNo,
       DateofCourtRulling: this.state.jDateofCourtRulling,
       CaseNO: this.state.jCaseNO,
-      DateofReplyingAffidavit: this.state.jDateofReplyingAffidavit,
-      Ruling: this.state.Ruling,
+
       Status: this.state.Status
     };
     fetch("/api/JudicialReview", {
@@ -354,7 +402,7 @@ class JudicialReview extends Component {
   render() {
     let handleDeleteDocument = this.handleDeleteDocument;
     let FormStyle = {
-      margin: "20px"
+      margin: "30px"
     };
     let childdiv = {
       margin: "30px"
@@ -483,7 +531,7 @@ class JudicialReview extends Component {
                                     aria-controls="nav-home"
                                     aria-selected="true"
                                   >
-                                    Judicial Review{" "}
+                                    Final Judgement{" "}
                                   </a>
                                   <a
                                     class="nav-item nav-link font-weight-bold"
@@ -517,7 +565,7 @@ class JudicialReview extends Component {
                                               htmlFor="exampleInputPassword1"
                                               className="font-weight-bold"
                                             >
-                                              CaseNO
+                                              JR-NO
                                             </label>
                                           </div>
                                           <div className="col-md-8">
@@ -553,7 +601,7 @@ class JudicialReview extends Component {
                                     </div>
                                     <br />
                                     <div className=" row">
-                                      <div className="col-md-6">
+                                      {/* <div className="col-md-6">
                                         <div className="row">
                                           <div className="col-md-4">
                                             <label
@@ -577,7 +625,7 @@ class JudicialReview extends Component {
                                             />
                                           </div>
                                         </div>
-                                      </div>
+                                      </div> */}
                                       <div className="col-md-6">
                                         <div className="row">
                                           <div className="col-md-4">
@@ -606,7 +654,7 @@ class JudicialReview extends Component {
                                     <br />
                                     <div className=" row">
                                       <div className="col-md-6">
-                                        <div className="row">
+                                        {/* <div className="row">
                                           <div className="col-md-4">
                                             <label
                                               htmlFor="exampleInputPassword1"
@@ -625,7 +673,7 @@ class JudicialReview extends Component {
                                               className="form-control"
                                             />
                                           </div>
-                                        </div>
+                                        </div> */}
                                       </div>
                                     </div>
 
@@ -666,6 +714,22 @@ class JudicialReview extends Component {
                                         for="Document"
                                         className="font-weight-bold"
                                       >
+                                        Document Description
+                                      </label>
+
+                                      <input
+                                        type="text"
+                                        className="form-control"
+                                        name="DocumentDesc"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.DocumentDesc}
+                                      />
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <label
+                                        for="Document"
+                                        className="font-weight-bold"
+                                      >
                                         Document
                                       </label>
                                       <input
@@ -685,31 +749,15 @@ class JudicialReview extends Component {
                                       </div>
                                       <button
                                         type="submit"
-                                        class="btn btn-success "
+                                        class="btn btn-success float-right"
                                         onClick={this.handleDocumentSubmit}
                                       >
                                         Upload
                                       </button>{" "}
                                     </div>
-                                    <div class="col-sm-6">
-                                      <label
-                                        for="Document"
-                                        className="font-weight-bold"
-                                      >
-                                        Document Description
-                                      </label>
-
-                                      <input
-                                        type="text"
-                                        className="form-control"
-                                        name="DocumentDesc"
-                                        onChange={this.handleInputChange}
-                                        value={this.state.DocumentDesc}
-                                      />
-                                    </div>
                                   </div>
                                   <div className="row">
-                                    <table className="table table-sm-7">
+                                    <table className="table table-sm">
                                       <th>#</th>
                                       <th>Document Description</th>
                                       <th>FileName</th>
@@ -786,7 +834,7 @@ class JudicialReview extends Component {
                   style={{ marginTop: 40 }}
                   onClick={this.openJudicialReview}
                 >
-                  Update Judicial Review
+                  Add Judicial Updates
                 </button>
                 &nbsp;
                 <button
@@ -820,7 +868,7 @@ class JudicialReview extends Component {
                             for="ApplicantID"
                             className="font-weight-bold "
                           >
-                            Case NO{" "}
+                            JR-NO{" "}
                           </label>
                         </div>
 
@@ -840,7 +888,10 @@ class JudicialReview extends Component {
                         <div class="col-sm-12">
                           <div class="col-sm-12 ">
                             <div className="row border border-success rounded ">
-                              <table className="table table-borderless table-sm">
+                              <table
+                                style={{ margin: "10px" }}
+                                className="table table-borderless table-sm"
+                              >
                                 <div>
                                   <tr>
                                     <td className="font-weight-bold">Court:</td>
@@ -899,25 +950,7 @@ class JudicialReview extends Component {
                                       </td>
                                     ) : null}
                                   </tr>
-                                  <tr>
-                                    <td className="font-weight-bold">
-                                      Date of Replying Affidavit:
-                                    </td>
-                                    {k.DateofReplyingAffidavit ? (
-                                      <td>
-                                        {dateFormat(
-                                          k.DateofReplyingAffidavit,
-                                          "mediumDate"
-                                        )}
-                                      </td>
-                                    ) : null}
-                                  </tr>
-                                  <tr>
-                                    <td className="font-weight-bold">
-                                      Ruling:
-                                    </td>
-                                    <td>{k.Ruling}</td>
-                                  </tr>
+
                                   <tr>
                                     <td className="font-weight-bold">
                                       Status:
@@ -934,15 +967,62 @@ class JudicialReview extends Component {
                   );
                 })}
                 <form style={FormStyle}>
+                  <h3 style={headingstyle}>Interested Parties</h3>
+                  <div className="row border border-success rounded">
+                    <table
+                      style={{ margin: "10px" }}
+                      className="table table-sm"
+                    >
+                      <thead className="thead-light">
+                        <th>Org Name</th>
+                        <th>ContactName</th>
+                        <th>Designation</th>
+                        <th>Email</th>
+                        <th>TelePhone</th>
+                        <th>Mobile</th>
+                        <th>PhysicalAddress</th>
+                        {/* <th>Actions</th> */}
+                      </thead>
+                      {this.state.JRinterestedparties.map((r, i) => (
+                        <tr>
+                          <td>{r.Name}</td>
+                          <td> {r.ContactName} </td>
+                          <td> {r.Designation} </td>
+                          <td> {r.Email} </td>
+                          <td> {r.TelePhone} </td>
+                          <td> {r.Mobile} </td>
+                          <td> {r.PhysicalAddress} </td>
+                          {/* <td>
+                                  <span>
+                                    <a
+                                      style={{ color: "#f44542" }}
+                                      onClick={e =>
+                                        handleDeleteJRInterestedparty(r, e)
+                                      }
+                                    >
+                                      &nbsp; Remove
+                                    </a>
+                                  </span>
+                                </td> */}
+                        </tr>
+                      ))}
+                    </table>
+                  </div>
+                </form>
+                <form style={FormStyle}>
                   <h3 style={headingstyle}>Documents</h3>
-                  <div className="row">
-                    <table className="table table-sm-7">
-                      <th>#</th>
-                      <th>Document Description</th>
-                      <th>FileName</th>
-                      <th>Date Submited</th>
-                      <th>Actions</th>
-
+                  <div className="row border border-success rounded">
+                    <table
+                      style={{ margin: "10px" }}
+                      className="table table-sm"
+                    >
+                      <thead className="thead-light">
+                        <th>#</th>
+                        <th>Document Description</th>
+                        <th>FileName</th>
+                        <th>Date Submited</th>
+                        <th>Actions</th>
+                      </thead>
                       {this.state.JudicialDocuments.map((k, i) => {
                         return (
                           <tr>
@@ -972,114 +1052,45 @@ class JudicialReview extends Component {
                       })}
                     </table>
                   </div>
-                  <br />
-                  <div className="row">
-                    <table className="table table-borderless table-sm"></table>
+                </form>
+                <form style={FormStyle}>
+                  <h3 style={headingstyle}>Staff Handling</h3>
+                  <div className="row border border-success rounded">
+                    <table
+                      style={{ margin: "10px" }}
+                      className="table table-sm"
+                    >
+                      <thead className="thead-light">
+                        <th>UserName</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        {/* <th>Actions</th> */}
+                      </thead>
+                      {this.state.JRUsers.map((r, i) => (
+                        <tr>
+                          <td>{r.UserName}</td>
+                          <td> {r.Name} </td>
+                          <td> {r.Role} </td>
+                          {/* <td>
+                            <span>
+                              <a
+                                style={{ color: "#f44542" }}
+                                onClick={e =>
+                                  handleDeleteJrUsers(r, e)
+                                }
+                              >
+                                &nbsp; Remove
+                                          </a>
+                            </span>
+                          </td> */}
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </form>
-
-                <div className="row">
-                  <div style={DivvenuesStyle}></div>
-                </div>
-
                 <br />
               </div>
             </div>
-            <br />
-            <div className="row">
-              <div className="col-lg-1"></div>
-              <div className="col-lg-10  bg-white">
-                <h3 style={headingstyle}>Application Details</h3>
-                <form style={FormStyle} onSubmit={this.SaveTenders}>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="col-sm-11 ">
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <h3 style={headingstyle}>Applicant</h3>
-                          </div>
-                        </div>
-                        <div className="row border border-success rounded">
-                          <table className="table table-borderless table-sm">
-                            {this.state.ApplicantDetails.map((r, i) => (
-                              <div>
-                                <tr>
-                                  <td className="font-weight-bold">Name:</td>
-                                  <td>{r.Name}</td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">Address:</td>
-                                  <td>
-                                    {r.POBox +
-                                      "-" +
-                                      r.PostalCode +
-                                      " " +
-                                      r.Town}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">Email:</td>
-                                  <td>{r.Email}</td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">
-                                    Telephone
-                                  </td>
-                                  <td>{r.Mobile}</td>
-                                </tr>
-                              </div>
-                            ))}
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6 ">
-                      <div class="col-sm-11 ">
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <h3 style={headingstyle}>Procuring Entity</h3>
-                          </div>
-                        </div>
-                        <div className="row border border-success rounded">
-                          <table className="table table-borderless table-sm">
-                            {this.state.PEDetails.map((r, i) => (
-                              <div>
-                                <tr>
-                                  <td className="font-weight-bold">Name:</td>
-                                  <td>{r.Name}</td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">Address:</td>
-                                  <td>
-                                    {r.POBox +
-                                      "-" +
-                                      r.PostalCode +
-                                      " " +
-                                      r.Town}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">Email:</td>
-                                  <td>{r.Email}</td>
-                                </tr>
-                                <tr>
-                                  <td className="font-weight-bold">
-                                    Telephone
-                                  </td>
-                                  <td>{r.Telephone}</td>
-                                </tr>
-                              </div>
-                            ))}
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <br />
           </div>
         </div>
       );

@@ -11,6 +11,7 @@ class SideBar extends Component {
       showMenuDecision: false,
       showMenuBoardmanagement: false,
       showMenuCaseHearing: false,
+      showMenuJudicialReview: false,
       showMenuAdmin: true,
       showMenuParameteres: false,
       showMenuFeesSettings: false,
@@ -29,6 +30,11 @@ class SideBar extends Component {
       if (this.state.showMenuCaseManagement) {
         this.setState({
           showMenuCaseManagement: !this.state.showMenuCaseManagement
+        });
+      }
+      if (this.state.showMenuJudicialReview) {
+        this.setState({
+          showMenuJudicialReview: !this.state.showMenuJudicialReview
         });
       }
       if (this.state.showMenuParameteres) {
@@ -50,7 +56,11 @@ class SideBar extends Component {
       this.setState({
         showMenuCaseManagement: !this.state.showMenuCaseManagement
       });
-
+      if (this.state.showMenuJudicialReview) {
+        this.setState({
+          showMenuJudicialReview: !this.state.showMenuJudicialReview
+        });
+      }
       if (this.state.showMenuCaseHearing) {
         this.setState({ showMenuCaseHearing: !this.state.showMenuCaseHearing });
       }
@@ -71,7 +81,11 @@ class SideBar extends Component {
       }
     } else if (Module === "Case Hearing") {
       this.setState({ showMenuCaseHearing: !this.state.showMenuCaseHearing });
-
+      if (this.state.showMenuJudicialReview) {
+        this.setState({
+          showMenuJudicialReview: !this.state.showMenuJudicialReview
+        });
+      }
       if (this.state.showMenuCaseManagement) {
         this.setState({
           showMenuCaseManagement: !this.state.showMenuCaseManagement
@@ -102,7 +116,11 @@ class SideBar extends Component {
       this.setState({
         showMenuReports: !this.state.showMenuReports
       });
-
+      if (this.state.showMenuJudicialReview) {
+        this.setState({
+          showMenuJudicialReview: !this.state.showMenuJudicialReview
+        });
+      }
       if (this.state.showMenuCaseManagement) {
         this.setState({
           showMenuCaseManagement: !this.state.showMenuCaseManagement
@@ -123,6 +141,11 @@ class SideBar extends Component {
       this.setState({
         showMenuParameteres: !this.state.showMenuParameteres
       });
+      if (this.state.showMenuJudicialReview) {
+        this.setState({
+          showMenuJudicialReview: !this.state.showMenuJudicialReview
+        });
+      }
       if (this.state.showMenuCaseManagement) {
         this.setState({
           showMenuCaseManagement: !this.state.showMenuCaseManagement
@@ -136,6 +159,31 @@ class SideBar extends Component {
       if (this.state.showMenuReports) {
         this.setState({
           showMenuReports: !this.state.showMenuReports
+        });
+      }
+    } else if (Module === "Judicial Review") {
+      this.setState({
+        showMenuJudicialReview: !this.state.showMenuJudicialReview
+      });
+
+      if (this.state.showMenuCaseManagement) {
+        this.setState({
+          showMenuCaseManagement: !this.state.showMenuCaseManagement
+        });
+      }
+      if (this.state.showMenuAdmin) {
+        this.setState({
+          showMenuAdmin: !this.state.showMenuAdmin
+        });
+      }
+      if (this.state.showMenuReports) {
+        this.setState({
+          showMenuReports: !this.state.showMenuReports
+        });
+      }
+      if (this.state.showMenuParameteres) {
+        this.setState({
+          showMenuParameteres: !this.state.showMenuParameteres
         });
       }
     }
@@ -328,6 +376,13 @@ class SideBar extends Component {
               showmenuvalue={this.state.showMenuCaseHearing}
               MenuStyle={MenuStyle}
             />
+            <JudicialReview
+              validaterole={this.validaterole}
+              showMenu={this.showMenu}
+              showmenuvalue={this.state.showMenuJudicialReview}
+              MenuStyle={MenuStyle}
+            />
+
             {/* <Decision
               validaterole={this.validaterole}
               showMenu={this.showMenu}
@@ -542,14 +597,6 @@ const CaseHearing = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Judicial Review", "View") ? (
-              <li>
-                <Link to="/JudicialReview">
-                  <i className="fa fa-tasks" />
-                  Judicial Review
-                </Link>
-              </li>
-            ) : null}
           </ul>
         ) : null}
       </li>
@@ -676,6 +723,43 @@ const CaseManagement = props => {
                 <Link to="/AllApplications">
                   <i className="fa fa-tasks" />
                   All Applications
+                </Link>
+              </li>
+            ) : null}
+          </ul>
+        ) : null}
+      </li>
+    );
+  } else {
+    return <div />;
+  }
+};
+const JudicialReview = props => {
+  if (props.validaterole("Judicial Review", "View")) {
+    return (
+      <li className="">
+        <li
+          onClick={e => props.showMenu("Judicial Review", e)}
+          style={props.MenuStyle}
+        >
+          <i className="fa fa-cogs" />{" "}
+          <span className="nav-label">Judicial Review</span>
+        </li>
+        {props.showmenuvalue ? (
+          <ul className="nav nav-second-level">
+            {props.validaterole("Applications", "View") ? (
+              <li>
+                <Link to="/AllApplications">
+                  <i className="fa fa-tasks" />
+                  Judicial registration
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Judicial Review", "View") ? (
+              <li>
+                <Link to="/JudicialReview">
+                  <i className="fa fa-tasks" />
+                  Judicial Review
                 </Link>
               </li>
             ) : null}

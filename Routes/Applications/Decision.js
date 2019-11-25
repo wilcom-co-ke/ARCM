@@ -159,7 +159,6 @@ Decision.post("/", auth.validateRole("Decision"), function(req, res) {
       req.body.Referral,
       req.body.Closed,
       req.body.ApplicationSuccessful,
-
       req.body.Annulled,
       req.body.GiveDirection,
       req.body.Terminated,

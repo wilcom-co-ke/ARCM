@@ -88,39 +88,82 @@ decisiondocuments.post("/", auth.validateRole("Decision"), function(req, res) {
     });
   }
 });
-decisiondocuments.post("/:ID", auth.validateRole("Decision"), function(
-  req,
-  res
-) {
-  let data = [req.params.ID, res.locals.user];
+decisiondocuments.post(
+  "/:ApproveDecision",
+  auth.validateRole("Decision"),
+  function(req, res) {
+    const schema = Joi.object().keys({
+      Followup: Joi.boolean(),
+      Referral: Joi.boolean(),
+      Closed: Joi.boolean(),
+      DecisionDate: Joi.date().required(),
+      ApplicationSuccessful: Joi.boolean(),
+      ApplicationNo: Joi.string().required(),
 
-  con.getConnection(function(err, connection) {
-    if (err) {
-      res.json({
-        success: false,
-        message: err.message
-      });
-    } // not connected!
-    else {
-      let sp = "call Approvedecisiondocuments(?,?)";
-      connection.query(sp, data, function(error, results, fields) {
-        if (error) {
+      Annulled: Joi.boolean(),
+      GiveDirection: Joi.boolean(),
+      Terminated: Joi.boolean(),
+      ReTender: Joi.boolean(),
+      CostsPE: Joi.boolean(),
+      CostsApplicant: Joi.boolean(),
+      CostsEachParty: Joi.boolean(),
+      Substitution: Joi.boolean()
+    });
+    const result = Joi.validate(req.body, schema);
+    if (!result.error) {
+      let data = [
+        req.body.ApplicationNo,
+        res.locals.user,
+        req.body.DecisionDate,
+        req.body.Followup,
+        req.body.Referral,
+        req.body.Closed,
+        req.body.ApplicationSuccessful,
+        req.body.Annulled,
+        req.body.GiveDirection,
+        req.body.Terminated,
+        req.body.ReTender,
+        req.body.CostsPE,
+        req.body.CostsApplicant,
+        req.body.CostsEachParty,
+        req.body.Substitution
+      ];
+      con.getConnection(function(err, connection) {
+        if (err) {
           res.json({
             success: false,
-            message: error.message
+            message: err.message
           });
-        } else {
-          res.json({
-            success: true,
-            message: "Deleted Successfully"
+        } // not connected!
+        else {
+          let sp =
+            "call Approvedecisiondocuments(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                results: results[0],
+                message: "saved"
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
           });
         }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
+      });
+    } else {
+      res.json({
+        success: false,
+        message: result.error.details[0].message
       });
     }
-  });
-});
+  }
+);
 
 decisiondocuments.delete("/:ID", auth.validateRole("Decision"), function(
   req,
@@ -155,7 +198,53 @@ decisiondocuments.delete("/:ID", auth.validateRole("Decision"), function(
     }
   });
 });
+decisiondocuments.put("/", auth.validateRole("Decision"), function(req, res) {
+  const schema = Joi.object().keys({
+    Declineremarks: Joi.string().required(),
+    ApplicationNo: Joi.string().required()
+  });
 
+  const result = Joi.validate(req.body, schema);
+  if (!result.error) {
+    let data = [
+      req.body.ApplicationNo,
+      req.body.Declineremarks,
+      res.locals.user
+    ];
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call Declinedecisiondocuments(?,?,?)";
+        connection.query(sp, data, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "saved",
+              results: results[0]
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  } else {
+    res.json({
+      success: false,
+      message: result.error.details[0].message
+    });
+  }
+});
 decisiondocuments.post(
   "/:ID/:SubmitDecision",
   auth.validateRole("Decision"),

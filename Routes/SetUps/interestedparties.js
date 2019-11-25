@@ -62,7 +62,109 @@ interestedparties.get("/:ID", auth.validateRole("Interested Parties"), function(
     }
   });
 });
-
+interestedparties.get(
+  "/:ID/:JR",
+  auth.validateRole("Interested Parties"),
+  function(req, res) {
+    const ID = req.params.ID;
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call getJRinterestedpartiesPerApplication(?)";
+        connection.query(sp, [ID], function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json(results[0]);
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
+interestedparties.post(
+  "/:Interestedparty",
+  auth.validateRole("Interested Parties"),
+  function(req, res) {
+    const schema = Joi.object().keys({
+      Name: Joi.string().required(),
+      TelePhone: Joi.string()
+        .min(10)
+        .required(),
+      Mobile: Joi.string()
+        .min(10)
+        .required(),
+      ApplicationNO: Joi.string().required(),
+      ContactName: Joi.string().required(),
+      Email: Joi.string().email({ minDomainAtoms: 2 }),
+      PhysicalAddress: Joi.string()
+        .allow(null)
+        .allow(""),
+      PostalCode: Joi.string().required(),
+      Town: Joi.string().required(),
+      Designation: Joi.string().required(),
+      POBox: Joi.string().required()
+    });
+    const result = Joi.validate(req.body, schema);
+    if (!result.error) {
+      let data = [
+        req.body.Name,
+        req.body.ApplicationNO,
+        req.body.ContactName,
+        req.body.Email,
+        req.body.TelePhone,
+        req.body.Mobile,
+        req.body.PhysicalAddress,
+        req.body.PostalCode,
+        req.body.Town,
+        req.body.POBox,
+        res.locals.user,
+        req.body.Designation
+      ];
+      con.getConnection(function(err, connection) {
+        if (err) {
+          res.json({
+            success: false,
+            message: err.message
+          });
+        } // not connected!
+        else {
+          let sp = "call Savejrinterestedparties(?,?,?,?,?,?,?,?,?,?,?,?)";
+          connection.query(sp, data, function(error, results, fields) {
+            if (error) {
+              res.json({
+                success: false,
+                message: error.message
+              });
+            } else {
+              res.json({
+                success: true,
+                message: "saved"
+              });
+            }
+            connection.release();
+            // Don't use the connection here, it has been returned to the pool.
+          });
+        }
+      });
+    } else {
+      res.json({
+        success: false,
+        message: result.error.details[0].message
+      });
+    }
+  }
+);
 interestedparties.post("/", auth.validateRole("Interested Parties"), function(
   req,
   res

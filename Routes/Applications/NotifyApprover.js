@@ -7,9 +7,72 @@ var con = mysql.createPool(config);
 NotifyApprover.post("/", function(req, res) {
   try {
   const ID = req.body.ID;
+    
     if (ID === "Notify Applicant Interested Application Approved") {
       const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
       "An Application for review: <b>${req.body.ApplicationNo}: ${req.body.Applicant} VS ${req.body.PE} </b>  with respect to Tender NO: ${req.body.tenderNo} (${req.body.tendername}) has been filed.<br></br>Login to ARCMS."          
+    <br></br>
+    This is computer generated message.Please do not reply.`;
+      con.getConnection(function (err, connection) {
+        let sp = "call getSMTPDetails()";
+        connection.query(sp, function (error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            let Host = results[0][0].Host;
+            let Port = results[0][0].Port;
+            let Sender = results[0][0].Sender;
+            let Password = results[0][0].Password;
+
+            let transporter = nodeMailer.createTransport({
+              host: Host,
+              port: Port,
+              secure: true,
+              auth: {
+                // should be replaced with real sender's account
+                user: Sender,
+                pass: Password
+              },
+              tls: {
+                rejectUnauthorized: false
+              }
+            });
+
+            let mailOptions = {
+              to: req.body.to,
+              subject: req.body.subject,
+              html: output
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                res.json({
+                  success: false,
+                  message: "Not Sent"
+                });
+              } else {
+                res.json({
+                  success: true,
+                  message: "Sent"
+                });
+              }
+            });
+          }
+          connection.release();
+        });
+      });
+    }
+    if (ID === "Judicial Review") {
+      const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>
+      "Judicial Review update for Application: <b>${req.body.ApplicationNo}</b>  has been received,Below is the details of the action required:.<br></br>
+      <b>Action:</b><b>${req.body.ActionDescription}</b>
+      </br></br>
+       <b>Action date:</b><b>${req.body.ActionDate}</b>
+      </br></br>
+      Login to ARCMS."          
     <br></br>
     This is computer generated message.Please do not reply.`;
       con.getConnection(function (err, connection) {
@@ -1320,7 +1383,63 @@ ARCMS – System Administrator
       });
     });
   }
-    
+    if (ID === "DECISION REPORT DECLINED") {
+      const output = `<p>Attention <b>${req.body.Name}</b>.<br></br> Decision for Application: <b>${req.body.ApplicationNo} </b> has been <strong>DECLINED</strong> due to:<br></br>
+       ${req.body.Remarks}.<br></br>
+   Edit and resubmit for reviw.</br>
+    </p>`;
+      con.getConnection(function (err, connection) {
+        let sp = "call getSMTPDetails()";
+        connection.query(sp, function (error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            let Host = results[0][0].Host;
+            let Port = results[0][0].Port;
+            let Sender = results[0][0].Sender;
+            let Password = results[0][0].Password;
+
+            let transporter = nodeMailer.createTransport({
+              host: Host,
+              port: Port,
+              secure: true,
+              auth: {
+                // should be replaced with real sender's account
+                user: Sender,
+                pass: Password
+              },
+              tls: {
+                rejectUnauthorized: false
+              }
+            });
+
+            let mailOptions = {
+              to: req.body.to,
+              subject: req.body.subject,
+              html: output
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error) {
+                res.json({
+                  success: false,
+                  message: "Not Sent"
+                });
+              } else {
+                res.json({
+                  success: true,
+                  message: "Sent"
+                });
+              }
+            });
+          }
+          connection.release();
+        });
+      });
+    }
   if (ID === "DECISION REPORT") {
       const output = `<p>Attention <b>${req.body.Name}</b>.<br></br>New Decision  for Application: <b>${req.body.ApplicationNo} </b> has been <strong>Submited</strong> 
    and it's awaiting your reviw.</br>
