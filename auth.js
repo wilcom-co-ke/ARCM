@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express();
-
 var role = express();
 var mysql = require("mysql");
 var config = require("./DB");

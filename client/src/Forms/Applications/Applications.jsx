@@ -819,9 +819,9 @@ class Applications extends Component {
           response.json().then(data => {
             if (data.success) {
               toast.success("Payment details save successfuly");
-              //swal("","Payment details save successfuly","success")
-              this.SubmitApplication();
-              this.sendApproverNotification();
+              swal("", "Payment details save successfuly", "success")
+              // this.SubmitApplication();
+              // this.sendApproverNotification();
             } else {
               toast.error(data.message);
             }
@@ -2767,7 +2767,7 @@ class Applications extends Component {
 
                     <Modal
                       visible={this.state.openPaymentModal}
-                      width="900"
+                      width="70%"
                       height="550"
                       effect="fadeInUp"
                     >
@@ -3057,8 +3057,8 @@ class Applications extends Component {
                                 </div>
                                 <br />
                                 <div className="row">
-                                  <div className="col-md-7"></div>
-                                  <div className="col-md-5">
+                                  <div className="col-md-8"></div>
+                                  <div className="col-md-4">
                                      
                                     &nbsp; &nbsp;
                                     <button
@@ -3212,7 +3212,7 @@ class Applications extends Component {
                 <ToastContainer />
                   <Modal
                       visible={this.state.openPaymentModal}
-                      width="900"
+                      width="70%"
                       height="550"
                       effect="fadeInUp"
                     >
@@ -3502,8 +3502,8 @@ class Applications extends Component {
                                 </div>
                                 <br />
                                 <div className="row">
-                                  <div className="col-md-7"></div>
-                                  <div className="col-md-5">
+                                  <div className="col-md-8"></div>
+                                  <div className="col-md-4">
                                      
                                     &nbsp; &nbsp;
                                     <button

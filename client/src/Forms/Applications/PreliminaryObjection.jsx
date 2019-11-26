@@ -43,7 +43,7 @@ class PreliminaryObjection extends Component {
             TenderValue: "",
             StartDate: "",
             CalculatedAAmount: "",
-
+            TotalAmountDue:"",
             Reference: "",
             TotalPaid: ""
 
@@ -163,8 +163,13 @@ class PreliminaryObjection extends Component {
             Reference: this.state.Reference,
             Category:"PreliminaryObjectionFees" 
         };
-
-        this.Approve("/api/FeesApproval", data);
+        if (+this.state.TotalAmountDue > +this.state.TotalPaid) {
+            let msg = "Amount Paid is less than Amount Due of:" + this.state.TotalAmountDue
+            swal("", msg, "error")
+        } else {
+            this.Approve("/api/FeesApproval", data);
+        }
+        
 
     };
     SendSMS(MobileNumber, Msg) {
@@ -393,16 +398,15 @@ class PreliminaryObjection extends Component {
             .then(ApplicantDetails => {
                 if (ApplicantDetails.length > 0) {
 
-                    this.setState({ TenderType: ApplicantDetails[0].TenderType });
-                    this.setState({ TenderSubCategory: ApplicantDetails[0].TenderSubCategory });
-                    this.setState({ TenderCategory: ApplicantDetails[0].TenderCategory });
-                    this.setState({ Timer: ApplicantDetails[0].Timer });
-                    this.setState({ TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc });
-
-                    this.setState({ TenderNo: ApplicantDetails[0].TenderNo });
-                    this.setState({ TenderName: ApplicantDetails[0].Name });
-                    this.setState({ TenderValue: ApplicantDetails[0].TenderValue });
-                    this.setState({ StartDate: ApplicantDetails[0].StartDate });
+                    this.setState({ TenderType: ApplicantDetails[0].TenderType ,
+                    TenderSubCategory: ApplicantDetails[0].TenderSubCategory ,
+                     TenderCategory: ApplicantDetails[0].TenderCategory ,
+                    Timer: ApplicantDetails[0].Timer ,
+                     TenderTypeDesc: ApplicantDetails[0].TenderTypeDesc ,
+                     TenderNo: ApplicantDetails[0].TenderNo ,
+                     TenderName: ApplicantDetails[0].Name ,
+                     TenderValue: ApplicantDetails[0].TenderValue ,
+                     StartDate: ApplicantDetails[0].StartDate });
                 } else {
                     swal("", ApplicantDetails.message, "error");
                 }

@@ -122,7 +122,7 @@ GenerateAttendanceregister.post("/", function(req, res) {
         });
       } catch (err) {
         res.json({
-          success: false,
+          success: true,
           message: err
         });
       }

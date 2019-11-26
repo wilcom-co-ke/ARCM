@@ -657,25 +657,25 @@ class PEResponse extends Component {
       });
   };
   fetchinterestedparties = () => {
-    this.setState({ interestedparties: [] });
-    fetch("/api/interestedparties/" + this.state.ApplicationID, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-      .then(res => res.json())
-      .then(interestedparties => {
-        if (interestedparties.length > 0) {
-          this.setState({ interestedparties: interestedparties });
-        } else {
-          toast.error(interestedparties.message);
-        }
-      })
-      .catch(err => {
-        toast.error(err.message);
-      });
+    // this.setState({ interestedparties: [] });
+    // fetch("/api/interestedparties/" + this.state.ApplicationID, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "x-access-token": localStorage.getItem("token")
+    //   }
+    // })
+    //   .then(res => res.json())
+    //   .then(interestedparties => {
+    //     if (interestedparties.length > 0) {
+    //       this.setState({ interestedparties: interestedparties });
+    //     } else {
+    //       toast.error(interestedparties.message);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     toast.error(err.message);
+    //   });
   };
   fetchBanks = () => {
     this.setState({ Banks: [] });

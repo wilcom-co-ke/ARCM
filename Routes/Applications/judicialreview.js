@@ -495,4 +495,36 @@ JudicialReview.put("/", auth.validateRole("Judicial Review"), function(
     });
   }
 });
+JudicialReview.put(
+  "/:UpdateSentMails",
+  auth.validateRole("Judicial Review"),
+  function(req, res) {
+    con.getConnection(function(err, connection) {
+      if (err) {
+        res.json({
+          success: false,
+          message: err.message
+        });
+      } // not connected!
+      else {
+        let sp = "call UpdateSentjudicialreviewUpdate()";
+        connection.query(sp, function(error, results, fields) {
+          if (error) {
+            res.json({
+              success: false,
+              message: error.message
+            });
+          } else {
+            res.json({
+              success: true,
+              message: "saved"
+            });
+          }
+          connection.release();
+          // Don't use the connection here, it has been returned to the pool.
+        });
+      }
+    });
+  }
+);
 module.exports = JudicialReview;

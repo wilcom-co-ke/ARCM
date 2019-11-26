@@ -227,39 +227,38 @@ caseanalysis.delete(
     });
   }
 );
-caseanalysis.delete(
-  "/:FileName",
-  auth.validateRole("Case Analysis"),
-  function(req, res) {
-    const FileName = req.params.FileName;
-    let data = [FileName, res.locals.user];
+caseanalysis.delete("/:FileName", auth.validateRole("Case Analysis"), function(
+  req,
+  res
+) {
+  const FileName = req.params.FileName;
+  let data = [FileName, res.locals.user];
 
-    con.getConnection(function(err, connection) {
-      if (err) {
-        res.json({
-          success: false,
-          message: err.message
-        });
-      } // not connected!
-      else {
-        let sp = "call Deletecaseanalysisdocuments(?,?)";
-        connection.query(sp, data, function(error, results, fields) {
-          if (error) {
-            res.json({
-              success: false,
-              message: error.message
-            });
-          } else {
-            res.json({
-              success: true,
-              message: "Deleted"
-            });
-          }
-          connection.release();
-          // Don't use the connection here, it has been returned to the pool.
-        });
-      }
-    });
-  }
-);
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call Deletecaseanalysisdocuments(?,?)";
+      connection.query(sp, data, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json({
+            success: true,
+            message: "Deleted"
+          });
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
 module.exports = caseanalysis;

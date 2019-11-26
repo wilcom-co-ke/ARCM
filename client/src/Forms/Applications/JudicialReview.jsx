@@ -759,8 +759,10 @@ class JudicialReview extends Component {
                                   <div className="row">
                                     <table className="table table-sm">
                                       <th>#</th>
+                                      <th>Action Description</th>
                                       <th>Document Description</th>
-                                      <th>FileName</th>
+                                      <th>Document Date</th>
+                                      <th>Date Submited</th>
                                       <th>Actions</th>
 
                                       {this.state.JudicialDocuments.map(
@@ -768,10 +770,22 @@ class JudicialReview extends Component {
                                           return (
                                             <tr>
                                               <td>{i + 1}</td>
+                                              <td>{k.ActionDescription}</td>
                                               <td>{k.Description}</td>
-                                              <td>{k.Name}</td>
+                                              <td>{k.DocumentDate}</td>
+
+                                              <td>{k.Created_At}</td>
                                               <td>
                                                 <span>
+                                                  <a
+                                                    style={{ color: "#007bff" }}
+                                                    onClick={e =>
+                                                      ViewFile(k, e)
+                                                    }
+                                                  >
+                                                    &nbsp; View
+                                                  </a>
+                                                  |
                                                   <a
                                                     style={{ color: "#f44542" }}
                                                     onClick={e =>
@@ -1016,27 +1030,22 @@ class JudicialReview extends Component {
                       style={{ margin: "10px" }}
                       className="table table-sm"
                     >
-                      <thead className="thead-light">
-                        <th>#</th>
-                        <th>Document Description</th>
-                        <th>FileName</th>
-                        <th>Date Submited</th>
-                        <th>Actions</th>
-                      </thead>
-                      {this.state.JudicialDocuments.map((k, i) => {
+                      <th>#</th>
+                      <th>Action Description</th>
+                      <th>Document Description</th>
+                      <th>Document Date</th>
+                      <th>Date Submited</th>
+                      <th>Actions</th>
+
+                      {this.state.JudicialDocuments.map(function(k, i) {
                         return (
                           <tr>
                             <td>{i + 1}</td>
+                            <td>{k.ActionDescription}</td>
                             <td>{k.Description}</td>
-                            <td>{k.Name}</td>
-                            <td>
-                              {" "}
-                              {dateFormat(
-                                new Date(k.Created_At).toLocaleDateString(),
-                                "mediumDate"
-                              )}
-                            </td>
+                            <td>{k.DocumentDate}</td>
 
+                            <td>{k.Created_At}</td>
                             <td>
                               <span>
                                 <a
@@ -1045,6 +1054,13 @@ class JudicialReview extends Component {
                                 >
                                   &nbsp; View
                                 </a>
+                                {/* |
+                                <a
+                                  style={{ color: "#f44542" }}
+                                  onClick={e => handleDeleteDocument(k, e)}
+                                >
+                                  &nbsp; Remove
+                                </a> */}
                               </span>
                             </td>
                           </tr>

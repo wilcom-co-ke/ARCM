@@ -962,7 +962,7 @@ class PEadditionalsubmissions extends Component {
                                             <td className="font-weight-bold"> TenderName:</td>
                                             <td> {this.state.TenderName}</td>
                                         </tr>
-                                        <tr>
+                                        {/* <tr>
                                             <td className="font-weight-bold"> Tender Value:</td>
                                             <td className="font-weight-bold">
                                                 {this.formatNumber(this.state.TenderValue)}
@@ -983,7 +983,7 @@ of Breach:</td>
                                                 Application Timing:
                                          </td>
                                             <td> {this.state.Timer}</td>
-                                        </tr>{" "}
+                                        </tr>{" "} */}
                                         <tr>
                                             <td className="font-weight-bold"> TenderType:</td>
                                             <td> {this.state.TenderTypeDesc}</td>
@@ -1034,7 +1034,7 @@ of Breach:</td>
                                         </thead>
                                         {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
                                             return (
-                                                this.checkDocumentRoles(k.CreatedBy)?
+                                                k.CreatedBy === localStorage.getItem("UserName") ?                                                
                                                 <tr>
                                                     <td>{i + 1}</td>
                                                     <td>   {k.Description}</td>
@@ -1054,10 +1054,9 @@ of Breach:</td>
                                                                 )
                                                             }
                                                         >
-                                                            &nbsp; Remove
-                                          </a>
+                                                            &nbsp; Remove </a>
                                                     </td>
-                                                </tr>:null
+                                                    </tr> : null
                                             );
                                         })}
                                     </table>

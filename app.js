@@ -77,8 +77,9 @@ var GeneratePanelList = require("./Routes/generatePdf/GeneratePanelList");
 var GenerateCaseSummary = require("./Routes/generatePdf/GenerateCaseSummary");
 var GenerateAttendanceregister = require("./Routes/generatePdf/GenerateAttendanceregister");
 var FeesApproval = require("./Routes/Applications/FeesApproval");
-
+var FeesReport = require("./Routes/Reports/FeesReport");
 var ExecutiveReports = require("./Routes/Reports/ExecutiveReports");
+
 var issuesfordetermination = require("./Routes/Applications/issuesfordetermination");
 var findingsonissues = require("./Routes/Applications/findingsonissues");
 var PartySubmision = require("./Routes/Applications/PartySubmision");
@@ -199,6 +200,7 @@ app.use("/api/GenerateDecision", GenerateDecision);
 app.use("/api/GenerateCaseAnalysis", GenerateCaseAnalysis);
 app.use("/api/ExecutiveReports", ExecutiveReports);
 app.use("/api/JudicialReview", JudicialReview);
+app.use("/api/FeesReport", FeesReport);
 app.use((req, res, next) => {
   const error = new Error("resource not found");
   error.status = 404;

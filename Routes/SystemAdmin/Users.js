@@ -78,13 +78,11 @@ Users.post("/", auth.validateRole("System Users"), function(req, res) {
     Signature: Joi.string()
       .allow(null)
       .allow(""),
-    IDnumber: Joi.number()
-      .integer()
-      .min(1),
+    IDnumber: Joi.string().required(),
     DOB: Joi.date().required(),
     Gender: Joi.string()
-      .min(4)
-      .required(),
+      .allow(null)
+      .allow(""),
     IsActive: Joi.boolean(),
     Board: Joi.boolean()
   });
@@ -168,14 +166,12 @@ Users.put("/:ID", auth.validateRole("System Users"), function(req, res) {
       .allow(null)
       .allow(""),
     IsActive: Joi.boolean(),
-    IDnumber: Joi.number()
-      .integer()
-      .min(1),
+    IDnumber: Joi.string().required(),
     Board: Joi.boolean(),
     DOB: Joi.date().required(),
     Gender: Joi.string()
-      .min(4)
-      .required()
+      .allow(null)
+      .allow("")
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {

@@ -45,7 +45,7 @@ class FeesApproval extends Component {
             TenderValue: "",
             StartDate: "",
             CalculatedAAmount:"",
-           
+            TotalAmountDue:"",
              Reference:"",
             TotalPaid:""
 
@@ -163,8 +163,13 @@ class FeesApproval extends Component {
             Reference: this.state.Reference,
              Category: "ApplicationFees" 
         };            
-
-        this.Approve("/api/FeesApproval", data);
+        if (+this.state.TotalAmountDue > +this.state.TotalPaid){
+            let msg = "Amount Paid is less than Amount Due of:" + this.state.TotalAmountDue
+            swal("", msg,"error")
+        }else{
+       this.Approve("/api/FeesApproval", data);
+        }
+       
        
     };
     SendSMS(MobileNumber, Msg) {

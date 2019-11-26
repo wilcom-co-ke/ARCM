@@ -978,7 +978,7 @@ class Users extends Component {
                                   ID Number{" "}
                                 </label>
                                 <input
-                                  type="number"
+                                  type="text"
                                   className="form-control"
                                   name="IDnumber"
                                   id="IDnumber"

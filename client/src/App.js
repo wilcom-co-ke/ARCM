@@ -87,6 +87,7 @@ import requesthandled from "./Forms/Reports/requesthandled";
 import DecisionsUploads from "./Forms/Applications/DecisionsUploads";
 import DecisionsApproval from "./Forms/Applications/DecisionsApproval";
 import JudicialReview from "./Forms/Applications/JudicialReview";
+import FeesReport from "./Forms/Reports/FeesReport";
 // const checkAuth = () => {
 //   let token = localStorage.getItem("token");
 //   if (!token) {
@@ -134,6 +135,7 @@ function App() {
                 <Route exact path="/CaseReferrals" component={CaseReferrals} />
                 <Route exact path="/CaseFollowUp" component={CaseFollowUp} />
                 <Route exact path="/Monthlycases" component={Monthlycases} />
+                <Route exact path="/FeesReport" component={FeesReport} />
                 <Route
                   exact
                   path="/DecisionsUploads"

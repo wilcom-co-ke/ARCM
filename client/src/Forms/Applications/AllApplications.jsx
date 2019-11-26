@@ -26,6 +26,7 @@ class AllApplications extends Component {
       ApplicationsProgress: [],
       stdtenderdocs: [],
       Board: data.Board,
+      CaseOfficerCount: data.CaseOfficerCount,
       TenderNo: "",
       TenderID: "",
       TenderValue: "",
@@ -72,7 +73,6 @@ class AllApplications extends Component {
       ApplicantEmail: "",
       ApplicantPIN: "",
       ApplicantWebsite: "",
-
       PEPOBox: "",
       PEPostalCode: "",
       PETown: "",
@@ -80,14 +80,11 @@ class AllApplications extends Component {
       PEMobile: "",
       PEEmail: "",
       PEWebsite: "",
-
       TotalAmountdue: "",
-
       ApplicantPostalCode: "",
       ApplicantPOBox: "",
       ApplicantTown: "",
       AddJudicialReview: false,
-
       jDateReceived: "",
       jDateFilled: "",
       jCaseNO: "",
@@ -117,16 +114,18 @@ class AllApplications extends Component {
   handleSelectChange = (County, actionMeta) => {
     this.setState({ [actionMeta.name]: County.value });
   };
-
   openJudicialReview = () => {
     this.setState({ AddJudicialReview: true });
   };
-
   checkDocumentRoles = () => {
+    
     if (this.state.Board) {
       return true;
+    } 
+    if (+this.state.CaseOfficerCount> +0) {
+      return true;
     }
-
+    
     return false;
   };
   fetchTowns = () => {
@@ -312,7 +311,6 @@ class AllApplications extends Component {
     };
     this.setState(data);
   }
-
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
@@ -704,6 +702,19 @@ class AllApplications extends Component {
         swal("", err.message, "error");
       });
   }
+  UpdateSentEmails = () => {
+    fetch("/api/JudicialReview/UpdateSentMails", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(response => response.json().then(data => {}))
+      .catch(err => {
+        //swal("Oops!", err.message, "error");
+      });
+  };
   SendMail = (
     Name,
     email,
@@ -775,6 +786,7 @@ class AllApplications extends Component {
         )
       );
     }
+    this.UpdateSentEmails();
   };
   SendUsersNotification = () => {
     // console.log(this.state.JRUsers);
@@ -2555,7 +2567,28 @@ class AllApplications extends Component {
                       <th>Actions</th>
                     </thead>
                     {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
-                      return this.checkDocumentRoles() ? (
+                      return k.Confidential ? (
+                        this.checkDocumentRoles() ? (
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td> {k.Description}</td>
+                            <td>{dateFormat(k.Create_at, "default")}</td>
+                            <td>
+                              {" "}
+                              {k.SubmitedBy} - {k.Category}
+                            </td>
+
+                            <td>
+                              <a
+                                onClick={e => ViewFile(k, e)}
+                                className="text-success"
+                              >
+                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                              </a>
+                            </td>
+                          </tr>
+                        ) : null
+                      ) : (
                         <tr>
                           <td>{i + 1}</td>
                           <td> {k.Description}</td>
@@ -2574,7 +2607,7 @@ class AllApplications extends Component {
                             </a>
                           </td>
                         </tr>
-                      ) : null;
+                      );
                     })}
                   </table>
                 </div>

@@ -853,7 +853,7 @@ class PEApplications extends Component {
                                                 <td className="font-weight-bold"> TenderName:</td>
                                                 <td> {this.state.TenderName}</td>
                                             </tr>
-                                            <tr>
+                                            {/* <tr>
                                                 <td className="font-weight-bold"> Tender Value:</td>
                                                 <td className="font-weight-bold">
                                                     {" "}
@@ -881,7 +881,7 @@ class PEApplications extends Component {
                                                     Application Timing:
                         </td>
                                                 <td> {this.state.Timer}</td>
-                                            </tr>{" "}
+                                            </tr>{" "} */}
                                             <tr>
                                                 <td className="font-weight-bold"> TenderType:</td>
                                                 <td> {this.state.TenderTypeDesc}</td>
@@ -902,7 +902,7 @@ class PEApplications extends Component {
                                                 </tr>
                                             ) : null}
                                         </table>
-                                        <h3 style={headingstyle}>Tender Addendums</h3>
+                                        {/* <h3 style={headingstyle}>Tender Addendums</h3>
                                         <table className="table table-borderless table-sm">
                                             <th>No</th>
                                             <th>StartDate</th>
@@ -931,6 +931,7 @@ class PEApplications extends Component {
                                                 </tr>
                                             ))}
                                         </table>
+                                   */}
                                     </div>
                                 </div>
                             </div>
@@ -975,7 +976,7 @@ class PEApplications extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <br />
+                            {/* <br />
                             <div className="row">
                                 <div className="col-lg-12 ">
                                     <h3 style={headingstyle}>Documents Attached</h3>
@@ -1038,8 +1039,8 @@ class PEApplications extends Component {
                                         </table>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
+                            </div> */}
+                            {/* <br />
                             <div className="row">
                                 <div className="col-lg-12 ">
                                     <h3 style={headingstyle}>Fees</h3>
@@ -1085,7 +1086,7 @@ class PEApplications extends Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <br />
                             <div className="row">

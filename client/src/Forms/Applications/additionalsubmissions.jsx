@@ -982,7 +982,7 @@ of Breach:</td>
                                         </thead>
                                         {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
                                             return (
-                                                this.checkDocumentRoles(k.CreatedBy) ?
+                                                k.CreatedBy === localStorage.getItem("UserName") ?
                                                     <tr>
                                                         <td>{i + 1}</td>
                                                         <td>   {k.Description}</td>

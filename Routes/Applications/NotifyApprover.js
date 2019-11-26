@@ -88,7 +88,6 @@ NotifyApprover.post("/", function(req, res) {
             let Port = results[0][0].Port;
             let Sender = results[0][0].Sender;
             let Password = results[0][0].Password;
-
             let transporter = nodeMailer.createTransport({
               host: Host,
               port: Port,

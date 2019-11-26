@@ -492,6 +492,14 @@ const Reports = props => {
                 </Link>
               </li>
             ) : null}
+            {props.validaterole("Fees Report", "View") ? (
+              <li>
+                <Link to="/FeesReport">
+                  <i className="fa fa-address-card" />
+                  Application Fees
+                </Link>
+              </li>
+            ) : null}
           </ul>
         ) : null}
       </li>
@@ -556,14 +564,14 @@ const CaseHearing = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Decision", "View") ? (
+            {/* {props.validaterole("Decision", "View") ? (
               <li>
                 <Link to="/DecisionsUploads">
                   <i className="fa fa-tasks" />
                   Decisions Uploads
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Decision", "View") ? (
               <li>
                 <Link to="/DecisionsApproval">
