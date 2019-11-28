@@ -280,11 +280,9 @@ class AdjournmentApproval extends Component {
                             this.notifyAllmembersDeclined(item.Mobile, item.Name, item.Email, this.state.ApplicationNo, this.state.ApprovalRemarks)
                         )
                         swal("", "Request has been DECLINED", "success");
-                        this.setState({ Approve: false });
-                        this.setState({ Decline: false });
-
-                        this.setState({ open: false });
-                        this.setState({ summary: false });
+                        this.setState({ Approve: false ,
+                        Decline: false ,open: false ,
+                        summary: false });
                         this.fetchPendingRequests();
                         //}
 
@@ -311,6 +309,9 @@ class AdjournmentApproval extends Component {
                 response.json().then(data => {
 
                     if (data.success) {
+                      
+                        if (data.results) {
+                           
                         let NewList = [data.results]                       
                         NewList[0].map((item, key) =>
                         {
@@ -328,13 +329,14 @@ class AdjournmentApproval extends Component {
                             }else{
                                 this.notifyPanelmembers(item.Mobile, item.Name, item.Email, this.state.ApplicationNo)
                             }}
-                        )
+                        )}else{
+                           
+                        }
                         swal("", "Request has been approved", "success");
-                        this.setState({ Approve: false });
-                        this.setState({ Decline: false });
-
-                        this.setState({ open: false });
-                        this.setState({ summary: false });
+                        this.setState({ Approve: false ,
+                         Decline: false ,
+                         open: false ,
+                         summary: false });
                         this.fetchPendingRequests();
                         //}
 

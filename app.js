@@ -79,6 +79,7 @@ var GenerateAttendanceregister = require("./Routes/generatePdf/GenerateAttendanc
 var FeesApproval = require("./Routes/Applications/FeesApproval");
 var FeesReport = require("./Routes/Reports/FeesReport");
 var ExecutiveReports = require("./Routes/Reports/ExecutiveReports");
+var CustomReport = require("./Routes/Reports/CustomReport");
 
 var issuesfordetermination = require("./Routes/Applications/issuesfordetermination");
 var findingsonissues = require("./Routes/Applications/findingsonissues");
@@ -201,6 +202,7 @@ app.use("/api/GenerateCaseAnalysis", GenerateCaseAnalysis);
 app.use("/api/ExecutiveReports", ExecutiveReports);
 app.use("/api/JudicialReview", JudicialReview);
 app.use("/api/FeesReport", FeesReport);
+app.use("/api/CustomReport", CustomReport);
 app.use((req, res, next) => {
   const error = new Error("resource not found");
   error.status = 404;

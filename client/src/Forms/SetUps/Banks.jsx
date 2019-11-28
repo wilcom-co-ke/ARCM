@@ -1,46 +1,38 @@
 import React, { Component } from "react";
 import swal from "sweetalert";
-import Table from "./../../Table";
-import TableWrapper from "./../../TableWrapper";
+import Table from "../../Table";
+import TableWrapper from "../../TableWrapper";
 import Modal from "react-awesome-modal";
-import ReactExport from "react-data-export";
+
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
-class tendertypes extends Component {
+
+class Banks extends Component {
   constructor() {
     super();
     this.state = {
-      tendertypes: [],
+      Venues: [],
       privilages: [],
-      Code: "",
+      Name: "",
+      Branch: "",
       Description: "",
+      ID: "",
       open: false,
-      loading: true,
-      redirect: false,
-      isUpdate: false
+      isUpdate: false,
+      RolesPoup: false,
+      Roles: [],
+      Branches: [],
+      AcountNo: "",
+      PayBill: ""
     };
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.Resetsate = this.Resetsate.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
-  exportpdf = () => {
-    var columns = [
-      { title: "Code", dataKey: "Code" },
-      { title: "Description", dataKey: "Description" }
-    ];
 
-    const rows = [...this.state.tendertypes];
-
-    var doc = new jsPDF("p", "pt");
-    doc.autoTable(columns, rows, {
-      margin: { top: 60 },
-      beforePageContent: function(data) {
-        doc.text("ARCM TENDER TYPES", 40, 50);
-      }
-    });
-    doc.save("ARCM Tender Types.pdf");
-  };
   ProtectRoute() {
     fetch("/api/UserAccess", {
       method: "GET",
@@ -99,10 +91,32 @@ class tendertypes extends Component {
       return false;
     }
   };
+
   openModal() {
     this.setState({ open: true });
     this.Resetsate();
   }
+  fetchBranches = () => {
+    fetch("/api/Banks", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+      .then(res => res.json())
+      .then(Branches => {
+        if (Branches.length > 0) {
+          this.setState({ Branches: Branches });
+        } else {
+          swal("", Branches.message, "error");
+        }
+      })
+      .catch(err => {
+        swal("", err.message, "error");
+      });
+  };
+
   closeModal() {
     this.setState({ open: false });
   }
@@ -112,34 +126,14 @@ class tendertypes extends Component {
   };
   Resetsate() {
     const data = {
-      Role: "",
-      Description: "",
-
-      isUpdate: false
+      Name: "",
+      PayBill: "",
+      isUpdate: false,
+      Branch: "",
+      AcountNo: ""
     };
     this.setState(data);
   }
-
-  fetchtendertypes = () => {
-    fetch("/api/tendertypes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-      .then(res => res.json())
-      .then(tendertypes => {
-        if (tendertypes.length > 0) {
-          this.setState({ tendertypes: tendertypes });
-        } else {
-          swal("", tendertypes.message, "error");
-        }
-      })
-      .catch(err => {
-        swal("", err.message, "error");
-      });
-  };
 
   componentDidMount() {
     let token = localStorage.getItem("token");
@@ -157,8 +151,8 @@ class tendertypes extends Component {
         .then(response =>
           response.json().then(data => {
             if (data.success) {
-              this.fetchtendertypes();
               this.ProtectRoute();
+              this.fetchBranches();
             } else {
               localStorage.clear();
               return (window.location = "/#/Logout");
@@ -173,23 +167,27 @@ class tendertypes extends Component {
   }
   handleSubmit = event => {
     event.preventDefault();
-    let newdesc =
-      this.state.Description.charAt(0).toUpperCase() +
-      this.state.Description.slice(1);
+
     const data = {
-      Description: newdesc
+      Name: this.state.Name,
+      PayBill: this.state.PayBill,
+      AcountNo: this.state.AcountNo,
+      Branch: this.state.Branch
     };
 
     if (this.state.isUpdate) {
-      this.UpdateData("/api/tendertypes/" + this.state.Code, data);
+      this.UpdateData("/api/Banks/" + this.state.ID, data);
     } else {
-      this.postData("/api/tendertypes", data);
+      this.postData("/api/Banks", data);
     }
   };
-  handleEdit = d => {
+  handleEdit = Name => {
     const data = {
-      Code: d.Code,
-      Description: d.Description
+      AcountNo: Name.AcountNo,
+      Name: Name.Name,
+      PayBill: Name.PayBill,
+      Branch: Name.Branch,
+      ID: Name.ID
     };
 
     this.setState(data);
@@ -205,7 +203,7 @@ class tendertypes extends Component {
       buttons: true
     }).then(willDelete => {
       if (willDelete) {
-        return fetch("/api/tendertypes/" + k, {
+        return fetch("/api/Banks/" + k, {
           method: "Delete",
           headers: {
             "Content-Type": "application/json",
@@ -217,10 +215,10 @@ class tendertypes extends Component {
               if (data.success) {
                 swal("", "Record has been deleted!", "success");
                 this.Resetsate();
+                this.fetchBranches();
               } else {
                 swal("", data.message, "error");
               }
-              this.fetchtendertypes();
             })
           )
           .catch(err => {
@@ -229,6 +227,7 @@ class tendertypes extends Component {
       }
     });
   };
+
   UpdateData(url = ``, data = {}) {
     fetch(url, {
       method: "PUT",
@@ -240,12 +239,11 @@ class tendertypes extends Component {
     })
       .then(response =>
         response.json().then(data => {
-          this.fetchtendertypes();
-
           if (data.success) {
-            swal("", "Record has been Updated!", "success");
+            swal("", "Record has been updated!", "success");
             this.setState({ open: false });
             this.Resetsate();
+            this.fetchBranches();
           } else {
             swal("", data.message, "error");
           }
@@ -266,12 +264,11 @@ class tendertypes extends Component {
     })
       .then(response =>
         response.json().then(data => {
-          this.fetchtendertypes();
-
           if (data.success) {
             swal("", "Record has been saved!", "success");
             this.setState({ open: false });
             this.Resetsate();
+            this.fetchBranches();
           } else {
             swal("", data.message, "error");
           }
@@ -282,23 +279,32 @@ class tendertypes extends Component {
       });
   }
   render() {
-    const ExcelFile = ReactExport.ExcelFile;
-    const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
     const ColumnData = [
       {
-        label: "Code",
-        field: "Code",
+        label: "Name",
+        field: "Name",
         sort: "asc",
         width: 200
       },
       {
-        label: "Description",
-        field: "Description",
+        label: "Branch",
+        field: "Branch",
         sort: "asc",
         width: 200
       },
+      {
+        label: "AcountNo",
+        field: "AcountNo",
+        sort: "asc",
+        width: 200
+      },
+      {
+        label: "PayBill",
+        field: "PayBill",
+        sort: "asc",
+        width: 200
+      },
+
       {
         label: "action",
         field: "action",
@@ -307,18 +313,18 @@ class tendertypes extends Component {
       }
     ];
     let Rowdata1 = [];
-
-    const rows = [...this.state.tendertypes];
-
+    //console.log(this.state.Branches);
+    const rows = [...this.state.Branches];
     if (rows.length > 0) {
       rows.forEach(k => {
         const Rowdata = {
-          Code: k.Code,
-          Description: k.Description,
-
+          Name: k.Name,
+          Branch: k.Branch,
+          AcountNo: k.AcountNo,
+          PayBill: k.PayBill,
           action: (
             <span>
-              {this.validaterole("Tender Types", "Edit") ? (
+              {this.validaterole("Banks", "Edit") ? (
                 <a
                   className="fa fa-edit"
                   style={{ color: "#007bff" }}
@@ -330,11 +336,11 @@ class tendertypes extends Component {
                 <i>-</i>
               )}
               &nbsp;
-              {this.validaterole("Tender Types", "Remove") ? (
+              {this.validaterole("Banks", "Remove") ? (
                 <a
                   className="fa fa-trash"
                   style={{ color: "#f44542" }}
-                  onClick={e => this.handleDelete(k.Code, e)}
+                  onClick={e => this.handleDelete(k.ID, e)}
                 >
                   Delete
                 </a>
@@ -355,58 +361,29 @@ class tendertypes extends Component {
             <div className="col-lg-9">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <h2>Tender Types</h2>
+                  <h2>Banks</h2>
                 </li>
               </ol>
             </div>
             <div className="col-lg-3">
               <div className="row wrapper ">
-                {this.validaterole("Tender Types", "AddNew") ? (
+                {this.validaterole("Banks", "AddNew") ? (
                   <button
                     type="button"
                     style={{ marginTop: 40 }}
                     onClick={this.openModal}
                     className="btn btn-primary float-left fa fa-plus"
                   >
-                    New
+                    &nbsp; New
                   </button>
                 ) : null}
-                &nbsp;
-                {this.validaterole("Tender Types", "Export") ? (
-                  <button
-                    onClick={this.exportpdf}
-                    type="button"
-                    style={{ marginTop: 40 }}
-                    className="btn btn-primary float-left fa fa-file-pdf-o fa-2x"
-                  >
-                    &nbsp;PDF
-                  </button>
-                ) : null}
-                &nbsp;
-                {this.validaterole("Tender Types", "Export") ? (
-                  <ExcelFile
-                    element={
-                      <button
-                        type="button"
-                        style={{ marginTop: 40 }}
-                        className="btn btn-primary float-left fa fa-file-excel-o fa-2x"
-                      >
-                        &nbsp; Excel
-                      </button>
-                    }
-                  >
-                    <ExcelSheet data={rows} name="Tender Types">
-                      <ExcelColumn label="ID" value="ID" />
-                      <ExcelColumn label="Code" value="Code" />
-                      <ExcelColumn label="Description" value="Description" />
-                    </ExcelSheet>
-                  </ExcelFile>
-                ) : null}
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <Modal
                   visible={this.state.open}
-                  width="600"
-                  height="250"
+                  width="700"
+                  height="330"
                   effect="fadeInUp"
+                  
                 >
                   <a
                     style={{ float: "right", color: "red", margin: "10px" }}
@@ -418,7 +395,7 @@ class tendertypes extends Component {
                   <div>
                     <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
                       {" "}
-                      Tender Types
+                      Banks
                     </h4>
                     <div className="container-fluid">
                       <div className="col-sm-12">
@@ -428,29 +405,83 @@ class tendertypes extends Component {
                               <div className="col-sm">
                                 <div className="form-group">
                                   <label
-                                    htmlFor="exampleInputPassword1"
+                                    htmlFor="exampleInputEmail1"
                                     className="font-weight-bold"
                                   >
-                                    Description
+                                    Name
                                   </label>
-                                  <textarea
-                                    onChange={this.handleInputChange}
-                                    value={this.state.Description}
+                                  <input
                                     type="text"
+                                    name="Name"
                                     required
-                                    name="Description"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.Name}
                                     className="form-control"
-                                    id="exampleInputPassword1"
-                                    placeholder="Description"
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-sm">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="exampleInputEmail1"
+                                    className="font-weight-bold"
+                                  >
+                                    Branch
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="Branch"
+                                    required
+                                    onChange={this.handleInputChange}
+                                    value={this.state.Branch}
+                                    className="form-control"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className=" row">
+                              <div className="col-sm">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="exampleInputEmail1"
+                                    className="font-weight-bold"
+                                  >
+                                    AcountNo
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="AcountNo"
+                                    required
+                                    onChange={this.handleInputChange}
+                                    value={this.state.AcountNo}
+                                    className="form-control"
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-sm">
+                                <div className="form-group">
+                                  <label
+                                    htmlFor="exampleInputEmail1"
+                                    className="font-weight-bold"
+                                  >
+                                    PayBill
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="PayBill"
+                                    required
+                                    onChange={this.handleInputChange}
+                                    value={this.state.PayBill}
+                                    className="form-control"
                                   />
                                 </div>
                               </div>
                             </div>
                             <div className="col-sm-12 ">
                               <div className=" row">
-                                <div className="col-sm-2" />
-                                <div className="col-sm-8" />
-                                <div className="col-sm-2">
+                                <div className="col-sm-11" />
+
+                                <div className="col-sm-1">
                                   <button
                                     type="submit"
                                     className="btn btn-primary float-left"
@@ -479,4 +510,4 @@ class tendertypes extends Component {
   }
 }
 
-export default tendertypes;
+export default Banks;

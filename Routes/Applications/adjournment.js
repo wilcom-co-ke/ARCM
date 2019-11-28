@@ -36,8 +36,7 @@ adjournment.get("/:ID/:Desc", auth.validateRole("Case Adjournment"), function(
 ) {
   const ID = req.params.ID;
   const Desc = req.params.Desc;
-  
-  
+
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -46,9 +45,9 @@ adjournment.get("/:ID/:Desc", auth.validateRole("Case Adjournment"), function(
       });
     } // not connected!
     else {
-      if (Desc ==="PendingRequests"){
+      if (Desc === "PendingRequests") {
         let sp = "call GetadjournmentPendingApproval(?)";
-        connection.query(sp, [ID], function (error, results, fields) {
+        connection.query(sp, [ID], function(error, results, fields) {
           if (error) {
             res.json({
               success: false,
@@ -63,7 +62,7 @@ adjournment.get("/:ID/:Desc", auth.validateRole("Case Adjournment"), function(
       }
       if (Desc === "Documents") {
         let sp = "call GetAdjournmentDocuments(?)";
-        connection.query(sp, [ID], function (error, results, fields) {
+        connection.query(sp, [ID], function(error, results, fields) {
           if (error) {
             res.json({
               success: false,
@@ -76,7 +75,6 @@ adjournment.get("/:ID/:Desc", auth.validateRole("Case Adjournment"), function(
           // Don't use the connection here, it has been returned to the pool.
         });
       }
-  
     }
   });
 });
@@ -236,7 +234,7 @@ adjournment.delete("/:ID", auth.validateRole("Case Adjournment"), function(
     }
   });
 });
-adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function (
+adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function(
   req,
   res
 ) {
@@ -258,7 +256,7 @@ adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function (
 
     const ID = req.params.ID;
     if (ID === "Approve") {
-      con.getConnection(function (err, connection) {
+      con.getConnection(function(err, connection) {
         if (err) {
           res.json({
             success: false,
@@ -267,7 +265,7 @@ adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function (
         } // not connected!
         else {
           let sp = "call ApprovecaseAdjournment(?,?,?)";
-          connection.query(sp, data, function (error, results, fields) {
+          connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
                 success: false,
@@ -286,9 +284,9 @@ adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function (
         }
       });
     }
-    
+
     if (ID === "Decline") {
-      con.getConnection(function (err, connection) {
+      con.getConnection(function(err, connection) {
         if (err) {
           res.json({
             success: false,
@@ -297,7 +295,7 @@ adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function (
         } // not connected!
         else {
           let sp = "call DeclinecaseAdjournment(?,?,?)";
-          connection.query(sp, data, function (error, results, fields) {
+          connection.query(sp, data, function(error, results, fields) {
             if (error) {
               res.json({
                 success: false,

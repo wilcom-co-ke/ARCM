@@ -472,7 +472,7 @@ class Venues extends Component {
                                     width="700"
                                     height="330"
                                     effect="fadeInUp"
-                                    onClickAway={() => this.closeModal()}
+                                   
                                 >
                                     <a
                                         style={{ float: "right", color: "red", margin: "10px" }}

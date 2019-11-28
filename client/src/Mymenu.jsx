@@ -64,11 +64,11 @@ class Mymenu extends Component {
   }
   render() {
     let photostyle = {
-      height: 130,
-      width: 170,
+      height: 140,
+      width: 200,
       background: "#a7b1c2",
       margin: 10,
-      "border-radius": 20
+      "border-radius": 2
     };
     let UserCategory = localStorage.getItem("UserCategory");
     return (
@@ -78,7 +78,6 @@ class Mymenu extends Component {
             <li className="">
               <div className="dropdown profile-element">
                 <img
-                  className="rounded-circle"
                   src={
                     process.env.REACT_APP_BASE_URL +
                     "/profilepics/" +

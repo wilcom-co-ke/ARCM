@@ -210,6 +210,16 @@ class DashBoard extends Component {
                           </Link>
                         </a>
                       ) : null}
+                      {r.Category === "Case Adjournment Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link
+                            to="/AdjournmentApproval"
+                            className="text-white"
+                          >
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
                       {r.Category === "Applications Fees Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link to="/FeesApproval" className="text-white">
@@ -323,7 +333,16 @@ class DashBoard extends Component {
                             </Link>
                           </a>
                         ) : null}
-                      
+                        {r.Category === "Case Adjournment Approval" ? (
+                          <a href="/#" className="small-box-footer ">
+                            <Link
+                              to="/AdjournmentApproval"
+                              className="text-white"
+                            >
+                              More info <i className="fa fa-arrow-circle-right" />
+                            </Link>
+                          </a>
+                        ) : null}
                       {r.Category === "Preliminary Objecions Fees Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link

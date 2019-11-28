@@ -140,11 +140,10 @@ class stdtenderdocs extends Component {
         swal("", err.message, "error");
       });
   };
- 
+
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-      
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -171,7 +170,6 @@ class stdtenderdocs extends Component {
           return (window.location = "/#/Logout");
         });
     }
-    
   }
   handleSubmit = event => {
     event.preventDefault();
@@ -412,7 +410,6 @@ class stdtenderdocs extends Component {
                   width="600"
                   height="250"
                   effect="fadeInUp"
-                  onClickAway={() => this.closeModal()}
                 >
                   <a
                     style={{ float: "right", color: "red", margin: "10px" }}

@@ -3,7 +3,7 @@ import swal from "sweetalert";
 var jsPDF = require("jspdf");
 require("jspdf-autotable");
 var dateFormat = require("dateformat");
-class FeesReport extends Component {
+class PreliminaryFeesReport extends Component {
   constructor() {
     super();
     this.state = {
@@ -128,7 +128,8 @@ class FeesReport extends Component {
           "/" +
           this.state.Todate +
           "/" +
-          +this.state.All,
+          +this.state.All +
+          "/Preliminaryfees",
         {
           method: "GET",
           headers: {
@@ -168,7 +169,7 @@ class FeesReport extends Component {
             <div className="col-lg-9">
               <ol className="breadcrumb">
                 <li className="breadcrumb-item">
-                  <h2>Application fees</h2>
+                  <h2>Preliminary objection fees</h2>
                 </li>
               </ol>
             </div>
@@ -258,8 +259,8 @@ class FeesReport extends Component {
                   <table className="table table-borderless table-sm">
                     <thead className="thead-light">
                       <th>ApplicationNo</th>
-                      <th>Applicant</th>
-                      <th>Bill Date</th>
+                      <th>Paid by</th>
+                      <th>Payment Date</th>
                       {/* <th>Date Approved</th>
                       <th>Approved By</th> */}
                       <th>Amount</th>
@@ -268,12 +269,12 @@ class FeesReport extends Component {
                       <tr>
                         <td style={{ cursor: "pointer" }}>{r.ApplicationNo}</td>
 
-                        <td style={{ cursor: "pointer" }}>{r.Applicant}</td>
-                        <td style={{ cursor: "pointer" }}>{r.BillDate}</td>
+                        <td style={{ cursor: "pointer" }}>{r.Paidby}</td>
+                        <td style={{ cursor: "pointer" }}>{r.DateOfpayment}</td>
                         {/* <td style={{ cursor: "pointer" }}>{r.DateApproved}</td>
                         <td style={{ cursor: "pointer" }}>{r.ApprovedBy}</td> */}
                         <td style={{ cursor: "pointer" }}>
-                          {this.formatNumber(r.Ampount)}
+                          {this.formatNumber(r.Amount)}
                         </td>
                       </tr>
                     ))}
@@ -295,4 +296,4 @@ class FeesReport extends Component {
   }
 }
 
-export default FeesReport;
+export default PreliminaryFeesReport;

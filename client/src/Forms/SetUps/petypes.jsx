@@ -145,7 +145,6 @@ class petypes extends Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     if (token == null) {
-    
       localStorage.clear();
       return (window.location = "/#/Logout");
     } else {
@@ -409,7 +408,6 @@ class petypes extends Component {
                   width="600"
                   height="250"
                   effect="fadeInUp"
-                  onClickAway={() => this.closeModal()}
                 >
                   <a
                     style={{ float: "right", color: "red", margin: "10px" }}

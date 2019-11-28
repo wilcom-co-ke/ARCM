@@ -7,7 +7,7 @@ import Popup from "reactjs-popup";
 import CKEditor from "ckeditor4-react";
 import popup from "./../../Styles/popup.css";
 import axios from "axios";
-
+import Modal from 'react-awesome-modal';
 import { ToastContainer, toast } from "react-toastify";
 let userdateils = localStorage.getItem("UserData");
 let data = JSON.parse(userdateils);
@@ -270,6 +270,25 @@ class adjournment extends Component {
         this.postData("/api/adjournment", data);
 
     };
+    sendBulkNtification = (ApproverMail, ApproverMobile, ApproverName) => {
+
+        let applicantMsg =
+            "New request to adjourn application:" +
+            this.state.ApplicationNo +
+            " has been submited and is awaiting your review.";
+     
+        this.SendSMS(ApproverMobile, applicantMsg);
+      
+        this.SendMail(
+            this.state.ApplicationNo,
+            ApproverMail,
+            "case adjourn Approver",
+            "CASE ADJOURNMENT REQUEST",
+            ApproverName
+        );
+
+    };
+
     postData(url = ``, data = {}) {
         fetch(url, {
             method: "POST",
@@ -288,20 +307,11 @@ class adjournment extends Component {
                             this.setState({ open: false });
                             this.setState({ summary: false });
                         } else {
-                          
-                            let ApproverMail = data.results[0].Email
-                            let ApproverMobile = data.results[0].Phone
-                            let ApproverName = data.results[0].Name
-                            let applicantMsg =
-                                "New request to adjourn application:" +
-                                this.state.ApplicationNo +
-                                " has been submited and is awaiting your review.";
                             let applicantMsg1 =
                                 "Your request to adjourn application :" +
                                 this.state.ApplicationNo +
                                 " has been received and is awaiting approval.";
                             this.SendSMS(this.state.ApplicantPhone, applicantMsg1);
-                            this.SendSMS(ApproverMobile, applicantMsg);
                             this.SendMail(
                                 this.state.ApplicationNo,
                                 this.state.ApplicantUserEmail,
@@ -309,13 +319,14 @@ class adjournment extends Component {
                                 "CASE ADJOURNMENT REQUEST",
                                 this.state.ApplicantUserName
                             );
-                            this.SendMail(
-                                this.state.ApplicationNo,
-                                ApproverMail,
-                                "case adjourn Approver",
-                                "CASE ADJOURNMENT REQUEST",
-                                ApproverName
-                            );
+                            if (data.results.length > 0) {
+                                data.results.map((item, key) =>
+                                    this.sendBulkNtification(item.Email, item.Phone, item.Name)
+
+                                );
+
+                                
+                            }                          
                             swal("", "Your request has been submited", "success");
                             this.setState({ open: false });
                             this.setState({ summary: false });
@@ -503,7 +514,7 @@ class adjournment extends Component {
             },
             {
                 label: "PE",
-                field: "PEName",
+                field: "PE",
                 sort: "asc"
             },
             {
@@ -594,9 +605,135 @@ class adjournment extends Component {
         if (this.state.summary) {
             return (
                 <div>
-                    <Popup
+                    <Modal visible={this.state.open} width="70%" height="600" effect="fadeInUp" >
+                        <a style={{ float: "right", color: "red", margin: "10px" }} href="javascript:void(0);" onClick={() => this.closeModal()}><i class="fa fa-close"></i></a>
+                        <div style={{ overflow: "scroll", height:"600px"}}>
+                            <h4 style={{ "text-align": "center", color: "#1c84c6" }}> CASE ADJOURNMENT</h4>
+                            <div className="container-fluid">
+                                <div className="col-sm-12">
+                                    <div className="ibox-content">
+                                        <form onSubmit={this.handleSubmit}>
+                                            <div className=" row">
+                                                <div className="col-sm">
+                                                    <div className="form-group">
+                                                        <label
+                                                            htmlFor="exampleInputEmail1"
+                                                            className="font-weight-bold"
+                                                        >
+                                                            Reason
+                                                                         </label>
+                                                        <CKEditor
+                                                            data={this.state.RequestDescription}
+                                                            onChange={this.onEditorChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h5 style={headingstyle} onClick={this.showupload}>Upload documents?</h5>
+                                            {this.state.DocumentsAvailable ? (
+
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-sm-5">
+                                                            <label for="Document" className="font-weight-bold">
+                                                                Document
+                                                             </label>
+                                                            <input
+                                                                type="file"
+                                                                className="form-control"
+                                                                name="file"
+                                                                onChange={this.onChangeHandler}
+                                                                multiple
+                                                            />
+
+
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label
+                                                                for="DocumentDescription"
+                                                                className="font-weight-bold"
+                                                            >
+                                                                Description{" "}
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                name="DocumentDescription"
+                                                                onChange={this.handleInputChange}
+                                                                value={this.state.DocumentDescription}
+
+                                                            />
+                                                        </div>
+                                                        <div class="col-sm-1">
+                                                            <button style={{ marginTop: "26px" }}
+                                                                type="button"
+                                                                class="btn btn-success "
+                                                                onClick={this.onClickHandler}
+                                                            >
+                                                                Upload
+                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-lg-12 ">
+
+                                                            <div className="col-lg-11 ">
+                                                                <table className="table table-sm">
+                                                                    <th>ID</th>
+                                                                    <th>Document Description</th>
+                                                                    <th>FileName</th>
+
+                                                                    <th>Actions</th>
+                                                                    {this.state.ApplicationDocuments.map((k, i) => {
+                                                                        return (
+                                                                            <tr>
+                                                                                <td>{i + 1}</td>
+                                                                                <td>{k.Description}</td>
+                                                                                <td>{k.FileName}</td>
+
+                                                                                <td>
+                                                                                    <a
+                                                                                        onClick={e =>
+                                                                                            this.handleDeleteDocument(k.FileName, e)
+                                                                                        }
+                                                                                        className="text-danger"
+                                                                                    >
+                                                                                        Remove
+                                                                                 </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        );
+                                                                    })}
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : null}
+                                            <br />
+                                            <div className=" row">
+                                                <div className="col-sm-10" />
+
+                                                <div className="col-sm-2">
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-primary"
+                                                    >
+                                                        CONFIRM
+                                                        </button>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                               </Modal>
+                    {/* <Popup
                         open={this.state.open}
-                        closeOnDocumentClick
+                      
                         onClose={this.closeModal}
                     >
                         <div className={popup.modal}>
@@ -606,7 +743,7 @@ class adjournment extends Component {
 
                             <div className={popup.header} className="font-weight-bold">
                                 {" "}
-                                CASE ADJOURNMENT{" "}
+                               {" "}
                             </div>
                             <div className={popup.content}>
                                 <div className="container-fluid">
@@ -731,7 +868,7 @@ class adjournment extends Component {
                                 </div>
                             </div>
                         </div>
-                    </Popup>
+                    </Popup> */}
 
                     <div className="row wrapper border-bottom white-bg page-heading">
                         <div className="col-lg-9">

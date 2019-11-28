@@ -88,6 +88,9 @@ import DecisionsUploads from "./Forms/Applications/DecisionsUploads";
 import DecisionsApproval from "./Forms/Applications/DecisionsApproval";
 import JudicialReview from "./Forms/Applications/JudicialReview";
 import FeesReport from "./Forms/Reports/FeesReport";
+import CustomReport from "./Forms/Reports/CustomReport";
+import PreliminaryFeesReport from "./Forms/Reports/PreliminaryFeesReport";
+import Banks from "./Forms/SetUps/Banks"
 // const checkAuth = () => {
 //   let token = localStorage.getItem("token");
 //   if (!token) {
@@ -138,6 +141,11 @@ function App() {
                 <Route exact path="/FeesReport" component={FeesReport} />
                 <Route
                   exact
+                  path="/PreliminaryFeesReport"
+                  component={PreliminaryFeesReport}
+                />
+                <Route
+                  exact
                   path="/DecisionsUploads"
                   component={DecisionsUploads}
                 />
@@ -180,6 +188,7 @@ function App() {
                 <Route exact path="/RB1" component={RB1} />
                 <Route exact path="/Attendance" component={Attendance} />
                 <Route exact path="/FeesApproval" component={FeesApproval} />
+                <Route exact path="/CustomReport" component={CustomReport} />
                 <Route
                   exact
                   path="/PreliminaryObjectionFees"
@@ -226,6 +235,8 @@ function App() {
                 <Route exact path="/Venues" component={Venues} />
                 <Route exact path="/Panels" component={Panels} />
                 <Route exact path="/MyCases" component={MyCases} />
+                <Route exact path="/Banks" component={Banks} />
+                
                 <Route
                   exact
                   path="/CloseRegistrations"

@@ -1046,13 +1046,13 @@ class CaseReferrals extends Component {
                                             <div className="row">
                                                 <div className="col-sm-10"></div>
                                                 <div className="col-sm-2">
-                                                    <button
+                                                    {/* <button
                                                         className="btn btn-success"
                                                         type="button"
                                                         onClick={this.PrintPDF}
                                                     >
                                                         Print
-                                                        </button>
+                                                        </button> */}
                                                     &nbsp;
                                                     <button
                                                         className="btn btn-warning"

@@ -317,11 +317,11 @@ class SideBar extends Component {
 
   render() {
     let photostyle = {
-      height: 130,
-      width: 170,
+      height: 140,
+      width: 200,
       background: "#a7b1c2",
       margin: 10,
-      "border-radius": 20
+      "border-radius": 2
     };
 
     let MenuStyle = {
@@ -340,7 +340,6 @@ class SideBar extends Component {
             <li className="">
               <div className="dropdown profile-element">
                 <img
-                  className="rounded-circle"
                   src={
                     process.env.REACT_APP_BASE_URL +
                     "/profilepics/" +
@@ -497,6 +496,23 @@ const Reports = props => {
                 <Link to="/FeesReport">
                   <i className="fa fa-address-card" />
                   Application Fees
+                </Link>
+              </li>
+            ) : null}
+            {props.validaterole("Fees Report", "View") ? (
+              <li>
+                <Link to="/PreliminaryFeesReport">
+                  <i className="fa fa-address-card" />
+                  Preliminary Objection Fees
+                </Link>
+              </li>
+            ) : null}
+
+            {props.validaterole("Applications Custom Report", "View") ? (
+              <li>
+                <Link to="/CustomReport">
+                  <i className="fa fa-address-card" />
+                  Applications Custom Report
                 </Link>
               </li>
             ) : null}
@@ -950,6 +966,15 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
+            {props.validaterole("Banks", "View") ? (
+              <li>
+                <Link to="/Banks">
+                  <i className="fa fa-calendar" />
+                  Banks
+                </Link>
+              </li>
+            ) : null}
+
             {/* {props.validaterole("Member types", "View") ? (
               <li>
                 <Link to="/membertypes">

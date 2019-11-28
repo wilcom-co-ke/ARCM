@@ -415,6 +415,19 @@ class PEResponse extends Component {
         //swal("Oops!", err.message, "error");
       });
   };
+  notifyPanelmembers = (AproverMobile, Name, AproverEmail) => {
+    this.SendSMS(
+      AproverMobile,
+      "New deadline extension request has been submited and it's awaiting your review."
+    );
+    this.SendMail(
+      Name,
+      AproverEmail,
+      "DeadlineExtension",
+      "REQUEST FOR DEADLINE EXTENSION",
+      "ApplicationNo"
+    );
+  }
   handleSubmitDeadlinerequest = event => {
     event.preventDefault();
     const data = {
@@ -434,21 +447,20 @@ class PEResponse extends Component {
       .then(response =>
         response.json().then(data => {
           if (data.success) {
-            swal("", "Request Submited", "success");
-            let AproverEmail = data.results[0].Email;
-            let AproverMobile = data.results[0].Phone;
-            let Name = data.results[0].Name;
-            this.SendSMS(
-              AproverMobile,
-              "New deadline extension request has been submited and it's awaiting your review."
-            );
-            this.SendMail(
-              Name,
-              AproverEmail,
-              "DeadlineExtension",
-              "REQUEST FOR DEADLINE EXTENSION",
-              "ApplicationNo"
-            );
+            swal("", "Request Submited", "success");            
+            if (data.results) {
+
+              let NewList = [data.results]
+              NewList[0].map((item, key) => {
+                
+                this.notifyPanelmembers(item.Phone, item.Name, item.Email)
+                
+              }
+              )
+            } else {
+
+            }
+
             window.location = "#/PEApplications";
           } else {
             swal("", data.message, "error");

@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissiondocuments` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissiondocuments: ~10 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissiondocuments: ~8 rows (approximately)
 DELETE FROM `additionalsubmissiondocuments`;
 /*!40000 ALTER TABLE `additionalsubmissiondocuments` DISABLE KEYS */;
 INSERT INTO `additionalsubmissiondocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `Confidential`, `SubmitedBy`) VALUES
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissions` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissions: ~12 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissions: ~10 rows (approximately)
 DELETE FROM `additionalsubmissions`;
 /*!40000 ALTER TABLE `additionalsubmissions` DISABLE KEYS */;
 INSERT INTO `additionalsubmissions` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `SubmitedBy`) VALUES
@@ -131,12 +131,44 @@ CREATE TABLE IF NOT EXISTS `adjournment` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.adjournment: ~0 rows (approximately)
+-- Dumping data for table arcm.adjournment: ~2 rows (approximately)
 DELETE FROM `adjournment`;
 /*!40000 ALTER TABLE `adjournment` DISABLE KEYS */;
+INSERT INTO `adjournment` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `Created_At`, `Created_By`, `Approver`, `ApprovalRemarks`) VALUES
+	(3, '2019-11-28 14:31:27', 'AP-17', '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'Admin', 'Approved'),
+	(4, '2019-11-28 16:59:15', 'AP-17', '30 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'Admin', 'Approved');
 /*!40000 ALTER TABLE `adjournment` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.adjournmentapprovalworkflow
+DROP TABLE IF EXISTS `adjournmentapprovalworkflow`;
+CREATE TABLE IF NOT EXISTS `adjournmentapprovalworkflow` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` datetime NOT NULL,
+  `Applicant` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `DecisionDate` date DEFAULT NULL,
+  `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Created_At` date NOT NULL,
+  `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Approver` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`,`ApplicationNo`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=16384;
+
+-- Dumping data for table arcm.adjournmentapprovalworkflow: ~6 rows (approximately)
+DELETE FROM `adjournmentapprovalworkflow`;
+/*!40000 ALTER TABLE `adjournmentapprovalworkflow` DISABLE KEYS */;
+INSERT INTO `adjournmentapprovalworkflow` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `Created_At`, `Created_By`, `Approver`, `ApprovalRemarks`) VALUES
+	(3, '2019-11-28 14:31:27', 'AP-17', '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'Admin', 'Pending Approval'),
+	(4, '2019-11-28 14:31:27', 'AP-17', '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', NULL, 'Pending Approval', '2019-11-28', 'P0123456788X', 'CASEOFFICER01', NULL),
+	(5, '2019-11-28 14:31:27', 'AP-17', '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'PPRA01', 'Approved'),
+	(6, '2019-11-28 16:59:15', 'AP-17', '30 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'Admin', 'Declined'),
+	(7, '2019-11-28 16:59:15', 'AP-17', '30 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'CASEOFFICER01', 'Approved'),
+	(8, '2019-11-28 16:59:15', 'AP-17', '30 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28', 'Approved', '2019-11-28', 'P0123456788X', 'PPRA01', 'Approved');
+/*!40000 ALTER TABLE `adjournmentapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.adjournmentdocuments
 DROP TABLE IF EXISTS `adjournmentdocuments`;
@@ -150,11 +182,13 @@ CREATE TABLE IF NOT EXISTS `adjournmentdocuments` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` date DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.adjournmentdocuments: ~0 rows (approximately)
+-- Dumping data for table arcm.adjournmentdocuments: ~1 rows (approximately)
 DELETE FROM `adjournmentdocuments`;
 /*!40000 ALTER TABLE `adjournmentdocuments` DISABLE KEYS */;
+INSERT INTO `adjournmentdocuments` (`ID`, `ApplicationNo`, `Description`, `Path`, `Filename`, `Deleted`, `Created_By`, `Created_At`) VALUES
+	(1, '28 OF 2019', 'Form of Tender', 'http://localhost:3001/Documents', '1574937991005-NHIF Register Online.pdf', 0, 'P0123456788X', '2019-11-28');
 /*!40000 ALTER TABLE `adjournmentdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicants
@@ -250,8 +284,8 @@ CREATE TABLE IF NOT EXISTS `applicationapprovalcontacts` (
 DELETE FROM `applicationapprovalcontacts`;
 /*!40000 ALTER TABLE `applicationapprovalcontacts` DISABLE KEYS */;
 INSERT INTO `applicationapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595', 'Applicant', '29 OF 2019'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086', 'PE', '29 OF 2019');
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '0122719412', 'Applicant', '30 OF 2019'),
+	('MASINDE MULIRO UNIVERSITY OF SCIENCE AND TECHNOLOGY', 'elviskimcheruiyot@gmail.com', '0705555285', 'PE', '30 OF 2019');
 /*!40000 ALTER TABLE `applicationapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocuments
@@ -370,9 +404,9 @@ CREATE TABLE IF NOT EXISTS `applicationfees` (
   `DateApproved` datetime DEFAULT NULL,
   `Narration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationfees: ~89 rows (approximately)
+-- Dumping data for table arcm.applicationfees: ~98 rows (approximately)
 DELETE FROM `applicationfees`;
 /*!40000 ALTER TABLE `applicationfees` DISABLE KEYS */;
 INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, `RefNo`, `BillDate`, `AmountPaid`, `PaidDate`, `PaymentRef`, `PaymentMode`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `CalculatedAmount`, `FeesStatus`, `ApprovedBy`, `DateApproved`, `Narration`) VALUES
@@ -464,7 +498,16 @@ INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, 
 	(86, 31, 1, 20000, '31', '2019-11-26 14:35:28', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-26 14:35:28', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
 	(87, 31, 2, 120000, '31', '2019-11-26 14:35:28', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-26 14:35:28', NULL, NULL, 0, NULL, NULL, 120000, 'Pending Approval', NULL, NULL, NULL),
 	(88, 32, 14, 5000, '32', '2019-11-26 15:21:11', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-26 15:21:11', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(89, 32, 1, 20000, '32', '2019-11-26 15:21:12', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-26 15:21:12', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL);
+	(89, 32, 1, 20000, '32', '2019-11-26 15:21:12', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-26 15:21:12', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
+	(90, 33, 14, 5000, '33', '2019-11-28 15:34:36', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:34:36', NULL, NULL, 1, '2019-11-28 15:42:07', 'P0123456788X', 5000, 'Pending Approval', NULL, NULL, NULL),
+	(91, 33, 1, 20000, '33', '2019-11-28 15:34:36', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:34:36', NULL, NULL, 1, '2019-11-28 15:42:07', 'P0123456788X', 20000, 'Pending Approval', NULL, NULL, NULL),
+	(92, 33, 2, 120000, '33', '2019-11-28 15:34:36', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:34:36', NULL, NULL, 1, '2019-11-28 15:42:08', 'P0123456788X', 120000, 'Pending Approval', NULL, NULL, NULL),
+	(93, 33, 14, 5000, '33', '2019-11-28 15:42:07', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:42:07', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
+	(94, 33, 1, 20000, '33', '2019-11-28 15:42:07', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:42:07', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
+	(95, 33, 2, 45000, '33', '2019-11-28 15:42:08', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:42:08', NULL, NULL, 0, NULL, NULL, 45000, 'Pending Approval', NULL, NULL, NULL),
+	(96, 34, 14, 5000, '34', '2019-11-28 15:47:17', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:47:17', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-28 16:01:06', 'REF123'),
+	(97, 34, 1, 20000, '34', '2019-11-28 15:47:17', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:47:17', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-28 16:01:06', 'REF123'),
+	(98, 34, 2, 7500, '34', '2019-11-28 15:47:18', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:47:18', NULL, NULL, 0, NULL, NULL, 7500, 'Approved', 'Admin', '2019-11-28 16:01:06', 'REF123');
 /*!40000 ALTER TABLE `applicationfees` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfeeshistory
@@ -533,9 +576,9 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `HearingNoticeGenerated` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'No',
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications: ~27 rows (approximately)
+-- Dumping data for table arcm.applications: ~29 rows (approximately)
 DELETE FROM `applications`;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
 INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `ClosingDate`, `PaymentStatus`, `DecisionDate`, `Followup`, `Referral`, `WithdrawalDate`, `FileNumber`, `Closed`, `ApplicationSuccessful`, `Annulled`, `GiveDirection`, `ISTerminated`, `ReTender`, `CostsApplicant`, `CostsPE`, `CostsEachParty`, `Substitution`, `HearingNoticeGenerated`) VALUES
@@ -561,11 +604,13 @@ INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate
 	(25, 36, 8, 'PE-2', '2019-11-21 14:27:18', '25', '22 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 14:27:18', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
 	(26, 37, 8, 'PE-2', '2019-11-21 16:27:25', '26', '23 OF 2019', 'Closed', 'P0123456788X', '2019-11-21 16:27:25', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', '2019-11-21', 1, 0, NULL, NULL, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 'Yes'),
 	(27, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '27 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 21:14:46', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(28, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 21:39:44', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+	(28, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28 OF 2019', 'ADJOURNED', 'P0123456788X', '2019-11-21 21:39:44', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
 	(29, 40, 10, 'PE-4', '2019-11-22 11:16:50', '29', '29', 'Submited', 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
 	(30, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '29 OF 2019', 'Closed', 'P123456879Q', '2019-11-22 11:26:40', '2019-11-22 11:32:56', 'P123456879Q', 0, NULL, NULL, '2019-12-13', 'Approved', '2019-11-22', 0, 0, NULL, NULL, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 'Yes'),
 	(31, 42, 8, 'PE-2', '2019-11-26 14:35:28', '31', '31', 'Submited', 'P0123456788X', '2019-11-26 14:35:28', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(32, 43, 8, 'PE-1', '2019-11-26 15:21:11', '32', '32', 'Submited', 'P0123456788X', '2019-11-26 15:21:11', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No');
+	(32, 43, 8, 'PE-1', '2019-11-26 15:21:11', '32', '32', 'Submited', 'P0123456788X', '2019-11-26 15:21:11', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+	(33, 44, 8, 'PE-1', '2019-11-28 15:34:35', '33', '33', 'Submited', 'P0123456788X', '2019-11-28 15:34:35', '2019-11-28 15:42:07', 'P0123456788X', 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+	(34, 45, 8, 'PE-1', '2019-11-28 15:47:17', '34', '30 OF 2019', 'ADJOURNED', 'P0123456788X', '2019-11-28 15:47:17', NULL, NULL, 0, NULL, NULL, '2019-12-19', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationsequence
@@ -579,9 +624,9 @@ CREATE TABLE IF NOT EXISTS `applicationsequence` (
   `ExpectedAction` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `User` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationsequence: ~129 rows (approximately)
+-- Dumping data for table arcm.applicationsequence: ~148 rows (approximately)
 DELETE FROM `applicationsequence`;
 /*!40000 ALTER TABLE `applicationsequence` DISABLE KEYS */;
 INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Status`, `ExpectedAction`, `User`) VALUES
@@ -716,7 +761,23 @@ INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Sta
 	(149, '31', '2019-11-26 14:35:28', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
 	(150, '31', '2019-11-26 14:37:04', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
 	(151, '32', '2019-11-26 15:21:11', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(152, '32', '2019-11-26 15:21:50', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X');
+	(152, '32', '2019-11-26 15:21:50', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
+	(153, '28 OF 2019', '2019-11-28 13:36:55', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
+	(154, '28 OF 2019', '2019-11-28 13:52:10', 'Submited Request for Adjournment', 'Done', 'Awaiting Approval', 'P0123456788X'),
+	(155, '28 OF 2019', '2019-11-28 14:53:53', 'Approved Request for Adjournment', 'Done', 'Awaiting Approval', 'PPRA01'),
+	(156, '33', '2019-11-28 15:34:35', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
+	(157, '33', '2019-11-28 15:42:57', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
+	(158, '30 OF 2019', '2019-11-28 15:47:17', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
+	(159, '30 OF 2019', '2019-11-28 15:51:25', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
+	(160, '30 OF 2019', '2019-11-28 15:58:50', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
+	(161, '30 OF 2019', '2019-11-28 16:01:49', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
+	(162, '28 OF 2019', '2019-11-28 16:06:11', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'A123456789X'),
+	(163, '30 OF 2019', '2019-11-28 16:08:30', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
+	(164, '30 OF 2019', '2019-11-28 16:09:45', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
+	(165, '30 OF 2019', '2019-11-28 16:10:39', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
+	(166, '28 OF 2019', '2019-11-28 16:13:01', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
+	(167, '30 OF 2019', '2019-11-28 16:59:15', 'Submited Request for Adjournment', 'Done', 'Awaiting Approval', 'P0123456788X'),
+	(168, '30 OF 2019', '2019-11-28 17:01:55', 'Approved Request for Adjournment', 'Done', 'Awaiting Approval', 'PPRA01');
 /*!40000 ALTER TABLE `applicationsequence` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationshistory
@@ -763,9 +824,9 @@ CREATE TABLE IF NOT EXISTS `applications_approval_workflow` (
   `Created_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications_approval_workflow: ~18 rows (approximately)
+-- Dumping data for table arcm.applications_approval_workflow: ~19 rows (approximately)
 DELETE FROM `applications_approval_workflow`;
 /*!40000 ALTER TABLE `applications_approval_workflow` DISABLE KEYS */;
 INSERT INTO `applications_approval_workflow` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Approver`, `Remarks`, `Created_By`, `Approved_At`, `Created_At`) VALUES
@@ -786,7 +847,8 @@ INSERT INTO `applications_approval_workflow` (`ID`, `TenderID`, `ApplicantID`, `
 	(15, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '25 OF 2019', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:34:40', '2019-11-21 21:34:40'),
 	(16, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '26 OF 2019', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:37:14', '2019-11-21 21:37:14'),
 	(17, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:44:12', '2019-11-21 21:44:12'),
-	(18, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '30', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-22 11:47:04', '2019-11-22 11:47:04');
+	(18, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '30', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-22 11:47:04', '2019-11-22 11:47:04'),
+	(19, 45, 8, 'PE-1', '2019-11-28 15:47:17', '34', '34', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-28 16:01:49', '2019-11-28 16:01:49');
 /*!40000 ALTER TABLE `applications_approval_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.approvalmodules
@@ -859,7 +921,7 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
           if @CountApproved >= @MaxApprovals  THEN
           BEGIN
                 update applications set Status='Approved',ClosingDate=NOW() + INTERVAL @CaseClosingDate DAY where ApplicationNo=_ApplicationNo;
-                update notifications set Status='Resolved' where Category='Applications Approval';                  
+                update notifications set Status='Resolved' where Category='Applications Approval' and  ApplicationNo=_ApplicationNo;                  
                 call Saveapplicationsequence(_ApplicationNo,'Application Approved','Awaiting PE Response',_Approver);
                 select IFNULL(Year,Year(now())) from configurations   INTO @Currentyear; 
                 if(@Currentyear <> Year(now())) then
@@ -881,10 +943,8 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
                     select ApplicantID from applications where  ApplicationNo=_NewApplicationNo LIMIT 1 into @ApplicantID;
                     insert into ApplicationApprovalContacts select Name,Email,Mobile,'Applicant',_NewApplicationNo from applicants where  ID=@ApplicantID; 
                     insert into ApplicationApprovalContacts select Name,Email,Mobile,'PE',_NewApplicationNo from  procuremententity where PEID=@PEID; 
-                    
                     insert into ApplicationApprovalContacts select  Name,Email,Mobile,'Interested Party',_NewApplicationNo from  interestedparties where ApplicationID= @AppID; 
-                   
-                   
+                                      
                 
                 End;
                 else
@@ -928,7 +988,7 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
       End;
     End IF;
 
-call ResolveMyNotification(_Approver,'Application Approval');
+call ResolveMyNotification(_Approver,'Application Approval',_ApplicationNo);
 
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
 select Name ,Email ,Mobile ,Msg ,ApplicationNo,NOW() + INTERVAL @PEResponseTimeOut DAY as ResponseTimeout from ApplicationApprovalContacts;
@@ -966,11 +1026,11 @@ BEGIN
               select PEID from applications where ID=_ApplicationID LIMIT 1 into @PEID;
               select UserName from peusers where PEID=@PEID LIMIT 1 into @Applicant;
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username =@Applicant;
-              update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval'; 
+              update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval' and ApplicationNo=_ApplicationID; 
                if(select count(*) from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0)>0 THEN
                 Begin
-                      INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                     select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                      INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                     select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
                      from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
                End;
              End if;
@@ -982,7 +1042,7 @@ BEGIN
              update applications set PaymentStatus='Approved',Status='Pending Approval' where ID=_ApplicationID;
              Update applicationfees set  FeesStatus='Approved', Narration=_Reff ,ApprovedBy=_Approver,
              DateApproved=NOW() where ApplicationID=_ApplicationID;
-              update notifications set Status='Resolved' where Category='Applications Fees Approval'; 
+              update notifications set Status='Resolved' where Category='Applications Fees Approval' and  ApplicationNo=_ApplicationID; 
               select Created_By from applications where ID=_ApplicationID LIMIT 1 into @Applicant;
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username =@Applicant;
               select ApplicantID from applications where ID=_ApplicationID LIMIT 1 into @ApplicantID;
@@ -993,8 +1053,8 @@ BEGIN
              
               if(select count(*) from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0)>0 THEN
               Begin
-                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
                   from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
               End;
               End if;                    
@@ -1035,7 +1095,7 @@ END;
      call Saveapplicationsequence(@App,'Application Fees Payment Confirmed','Awaiting Application Approval',_Approver);
     End;
     End if;
-  call ResolveMyNotification(_Approver,'Applications Fees Approval');
+  call ResolveMyNotification(_Approver,'Applications Fees Approval',_ApplicationID);
   select * from caseWithdrawalContacts;
 END//
 DELIMITER ;
@@ -1047,28 +1107,65 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovecaseAdjournment`(IN _Applica
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Approved Case Adjournment for Application : ', _ApplicationNo); 
-Update adjournment set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
-update applications set Status='ADJOURNED' where ApplicationNo=_ApplicationNo;
 
-call Saveapplicationsequence(_ApplicationNo,'Approved Request for Adjournment','Awaiting Approval');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment'); 
+Update adjournmentApprovalWorkFlow set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks 
+where ApplicationNo=_ApplicationNo and Approver=_userID and Status='Pending Approval';
+
+select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='ADJRE' LIMIT 1 into @MaxApprovals;
+select IFNULL(count(*),0) from adjournmentApprovalWorkFlow  WHERE ApplicationNo=_ApplicationNo  and (Status='Approved' or Status='Fully Approved') and 
+   Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='ADJRE')
+  into @CountApproved;
+  -- check mandatory approvers
+select IFNULL(count(*),0) from approvers WHERE Mandatory=1 and ModuleCode='ADJRE' and Deleted=0 into @CountMandatory;
+select IFNULL(count(*),0) from adjournmentApprovalWorkFlow  WHERE  ApplicationNo=_ApplicationNo and (Status='Approved' or Status='Fully Approved') and 
+  Approver in (select Username from approvers WHERE Mandatory=1 and ModuleCode='ADJRE' and Deleted=0) into @CountMandatoryApproved;
+
+  if @CountMandatoryApproved >= @CountMandatory  THEN
+BEGIN
+    if @CountApproved >= @MaxApprovals  THEN
+    BEGIN
+      Update adjournment set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
+      update applications set Status='ADJOURNED' where ApplicationNo=_ApplicationNo;
+      update notifications set Status='Resolved' where   Category='Case Adjournment Approval' and ApplicationNo=_ApplicationNo;
+      Update adjournmentApprovalWorkFlow set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks 
+      where ApplicationNo=_ApplicationNo  and Status='Pending Approval';
+
+      call Saveapplicationsequence(_ApplicationNo,'Approved Request for Adjournment','Awaiting Approval',_userID);
+      DROP TABLE IF EXISTS caseWithdrawalContacts;
+      create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Role varchar(50));
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Panel' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Case officer' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
+      
+      select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'PE' from users where Username in (select UserName from peusers where PEID=@PEID);
+      insert into caseWithdrawalContacts select Name,Email,Mobile,'PE' from procuremententity where PEID=@PEID;
+      select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Applicant' from users where Username =@Applicant;
+      select ApplicantID from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @ApplicantID;
+      insert into caseWithdrawalContacts select Name,Email,Mobile,'Applicant' from applicants where  ID=@ApplicantID;
+      select * from caseWithdrawalContacts;
+
+    END;
+    ELSE
+    Begin
+     
+
+   END;
+   END if;
+END;
+ELSE
+Begin
+    
+END;
+END if;
+
+-- end of my new aproval
+
 
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-call ResolveMyNotification(_userID,'Case Adjournment Approval');
+call ResolveMyNotification(_userID,'Case Adjournment Approval',_ApplicationNo);
 
- DROP TABLE IF EXISTS caseWithdrawalContacts;
-  create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Role varchar(50));
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Panel' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Case officer' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
 
-  select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'PE' from users where Username in (select UserName from peusers where PEID=@PEID);
-  insert into caseWithdrawalContacts select Name,Email,Mobile,'PE' from procuremententity where PEID=@PEID;
-  select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Applicant' from users where Username =@Applicant;
-  select ApplicantID from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @ApplicantID;
-  insert into caseWithdrawalContacts select Name,Email,Mobile,'Applicant' from applicants where  ID=@ApplicantID;
-  select * from caseWithdrawalContacts;
 
 END//
 DELIMITER ;
@@ -1103,9 +1200,9 @@ select IFNULL(count(*),0) from casewithdrawalapprovalworkflow  WHERE   Applicati
               Update casewithdrawal set  DecisionDate= now(), Status='Approved', RejectionReason =_RejectionReason,Frivolous =0 where ApplicationNo=_ApplicationNo;
               update applications set Status='WITHDRAWN' where ApplicationNo=_ApplicationNo;
               call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-              call ResolveMyNotification(_userID,'Case withdrawal Approval');
-              call Saveapplicationsequence(_ApplicationNo,'WITHDRAWN','  ');
-              call Resolveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal');
+          update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
+              call Saveapplicationsequence(_ApplicationNo,'WITHDRAWN','  ',_userID);
+            
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' );
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
               select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
@@ -1150,37 +1247,57 @@ DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255), IN _Newdate DATETIME)
 BEGIN
 DECLARE lSaleDesc varchar(200);
-
-
-set lSaleDesc= CONCAT(_Approver +' Approved Deadline Extension Request for Application:',_ApplicationNo); 
+set lSaleDesc= CONCAT('Approved Deadline Extension Request for Application:',_ApplicationNo); 
 UPDATE deadlineapprovalworkflow
 SET Status='Approved',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
-select Level from approvers  where ModuleCode ='REXED' and Username=_Approver LIMIT 1 INTO @CurentLevel;
-if(SELECT count(*)  from approvers where ModuleCode ='REXED'  and  Level=@CurentLevel + 1)>0 THEN
-BEGIN
-  select Username from approvers  where ModuleCode ='REXED' and Level=@CurentLevel+1 and Deleted=0 and Active=1 LIMIT 1 INTO @Approver2 ; 
-  insert into deadlineapprovalworkflow ( PEID , ApplicationNo , Reason , RequestedDate,Created_At ,Created_By ,  Status , Approver )
-  Select PEID , ApplicationNo , Reason , _Newdate,now() ,_Approver ,  'Pending Approval' , @Approver2 from deadlineapprovalworkflow 
-  WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ;
-    CALL SaveNotification(@Approver2 ,'Deadline Approval','Deadline Approval Request', NOW() + INTERVAL 3 DAY);
-  select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+-- select Level from approvers  where ModuleCode ='REXED' and Username=_Approver LIMIT 1 INTO @CurentLevel;
 
+select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='REXED' LIMIT 1 into @MaxApprovals;
+select IFNULL(count(*),0) from deadlineapprovalworkflow  WHERE ApplicationNo=_ApplicationNo  and (Status='Approved' or Status='Fully Approved') and 
+   Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='REXED')
+  into @CountApproved;
+  -- check mandatory approvers
+select IFNULL(count(*),0) from approvers WHERE Mandatory=1 and ModuleCode='REXED' and Deleted=0 into @CountMandatory;
+select IFNULL(count(*),0) from deadlineapprovalworkflow  WHERE  ApplicationNo=_ApplicationNo and (Status='Approved' or Status='Fully Approved') and 
+  Approver in (select Username from approvers WHERE Mandatory=1 and ModuleCode='REXED' and Deleted=0) into @CountMandatoryApproved;
+
+if @CountMandatoryApproved >= @CountMandatory  THEN
+BEGIN
+    if @CountApproved >= @MaxApprovals  THEN
+    BEGIN
+      update notifications set Status='Resolved' where Category='Deadline Approval' and ApplicationNo=_ApplicationNo; 
+
+      UPDATE deadlineapprovalworkflow SET Status='Fully Approved',Approved_At=now(),Remarks=_Remarks
+      WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
+      update pedeadlineextensionsrequests SET Status='Fully Approved'
+      WHERE ApplicationNo=_ApplicationNo ;    
+      update peresponsetimer set DueOn=_Newdate where ApplicationNo=_ApplicationNo;    
+      select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
+      select Name,Email,Mobile,_Newdate as NewDeadline, 'Fully Approved' as msg from procuremententity where PEID=@PEID;
+
+    END;
+    ELSE
+    Begin
+      select Username from approvers  where ModuleCode ='REXED' and  Deleted=0 and Active=1 and Username
+      NOT IN (Select Approver deadlineapprovalworkflow where Status='Approved' and ApplicationNo=_ApplicationNo )
+      LIMIT 1 INTO @Approver2;   
+     
+      select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+
+   END;
+   END if;
 END;
 ELSE
-	Begin
-		UPDATE deadlineapprovalworkflow SET Status='Fully Approved',Approved_At=now(),Remarks=_Remarks
-		WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
-    update pedeadlineextensionsrequests SET Status='Fully Approved'
-		WHERE ApplicationNo=_ApplicationNo ;    
-    update peresponsetimer set DueOn=_Newdate where ApplicationNo=_ApplicationNo;
-    
-    select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
-    select Name,Email,Mobile,_Newdate as NewDeadline, 'Fully Approved' as msg from procuremententity where PEID=@PEID;
-
-	END;
-END IF;
-call ResolveMyNotification(_Approver,'Deadline Approval');
+Begin
+      select Username from approvers  where ModuleCode ='REXED' and  Deleted=0 and Active=1 and Username
+      NOT IN (Select Approver deadlineapprovalworkflow where Status='Approved' and ApplicationNo=_ApplicationNo )
+      LIMIT 1 INTO @Approver2;    
+     
+      select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+END;
+END if;
+call ResolveMyNotification(_Approver,'Deadline Approval',_ApplicationNo);
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
 END//
 DELIMITER ;
@@ -1258,7 +1375,7 @@ INSERT INTO `approvers` (`ID`, `Username`, `ModuleCode`, `Mandatory`, `Active`, 
 	(7, 'Admin', 'PAREQ', 0, 1, '2019-10-17 09:41:24', NULL, 'Admin', 'Admin2', 0, NULL, NULL),
 	(8, 'Admin', 'WIOAP', 0, 1, '2019-10-28 14:27:20', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(10, 'PPRA01', 'PAYMT', 0, 1, '2019-11-11 16:04:25', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(11, 'PPRA01', 'APFRE', 0, 1, '2019-11-11 16:05:05', NULL, 'Admin', 'Admin', 0, NULL, NULL),
+	(11, 'PPRA01', 'APFRE', 0, 0, '2019-11-11 16:05:05', NULL, 'Admin', 'PPRA01', 0, NULL, NULL),
 	(12, 'CASEOFFICER01', 'REXED', 0, 1, '2019-11-11 16:05:44', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(13, 'PPRA01', 'REXED', 0, 1, '2019-11-11 16:05:46', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(14, 'CASEOFFICER01', 'APFRE', 0, 1, '2019-11-11 16:06:05', NULL, 'Admin', NULL, 0, NULL, NULL),
@@ -1267,22 +1384,22 @@ INSERT INTO `approvers` (`ID`, `Username`, `ModuleCode`, `Mandatory`, `Active`, 
 	(17, 'PPRA01', 'PAREQ', 0, 1, '2019-11-11 16:06:34', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(18, 'CASEOFFICER01', 'WIOAP', 0, 1, '2019-11-11 16:06:48', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(19, 'PPRA01', 'WIOAP', 0, 1, '2019-11-11 16:06:49', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(20, 'Admin', 'ADJRE', 0, 1, '2019-11-11 16:07:22', NULL, 'Admin', NULL, 0, NULL, NULL),
+	(20, 'Admin', 'ADJRE', 1, 1, '2019-11-11 16:07:22', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(21, 'CASEOFFICER01', 'ADJRE', 0, 1, '2019-11-11 16:07:23', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(22, 'PPRA01', 'ADJRE', 0, 1, '2019-11-11 16:07:24', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(23, 'pkiprop', 'APFRE', 0, 0, '2019-11-15 11:12:42', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(24, 'SOdhiambo', 'APFRE', 0, 1, '2019-11-15 11:12:47', NULL, 'Admin', 'Admin', 0, NULL, NULL),
+	(24, 'SOdhiambo', 'APFRE', 0, 0, '2019-11-15 11:12:47', NULL, 'Admin', 'PPRA01', 0, NULL, NULL),
 	(25, 'pkiprop', 'PAYMT', 0, 0, '2019-11-15 11:14:18', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(26, 'Pokumu', 'PAYMT', 0, 0, '2019-11-15 11:14:21', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(27, 'SOdhiambo', 'PAYMT', 0, 0, '2019-11-15 11:14:26', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(28, 'Admin', 'DCAPR', 0, 1, '2019-11-18 13:26:21', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(29, 'Pokumu', 'PAREQ', 0, 1, '2019-11-22 11:42:22', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(30, 'SOdhiambo', 'PAREQ', 0, 1, '2019-11-22 11:42:29', NULL, 'Admin', NULL, 0, NULL, NULL),
+	(29, 'Pokumu', 'PAREQ', 0, 0, '2019-11-22 11:42:22', NULL, 'Admin', 'Admin', 0, NULL, NULL),
+	(30, 'SOdhiambo', 'PAREQ', 0, 0, '2019-11-22 11:42:29', NULL, 'Admin', 'Admin', 0, NULL, NULL),
 	(31, 'Pokumu', 'DCAPR', 0, 1, '2019-11-22 11:43:12', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(32, 'smiheso', 'DCAPR', 0, 1, '2019-11-22 11:43:15', NULL, 'Admin', NULL, 0, NULL, NULL),
 	(33, 'SOdhiambo', 'DCAPR', 0, 1, '2019-11-22 11:43:17', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(34, 'smiheso', 'APFRE', 0, 1, '2019-11-22 11:43:41', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(35, 'Pokumu', 'APFRE', 0, 1, '2019-11-22 11:43:43', NULL, 'Admin', NULL, 0, NULL, NULL);
+	(34, 'smiheso', 'APFRE', 0, 0, '2019-11-22 11:43:41', NULL, 'Admin', 'PPRA01', 0, NULL, NULL),
+	(35, 'Pokumu', 'APFRE', 0, 0, '2019-11-22 11:43:43', NULL, 'Admin', 'PPRA01', 0, NULL, NULL);
 /*!40000 ALTER TABLE `approvers` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.AssignCaseOfficer
@@ -1328,9 +1445,9 @@ CREATE TABLE IF NOT EXISTS `attendanceregister` (
   `Designation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `FirmFrom` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.attendanceregister: ~11 rows (approximately)
+-- Dumping data for table arcm.attendanceregister: ~12 rows (approximately)
 DELETE FROM `attendanceregister`;
 /*!40000 ALTER TABLE `attendanceregister` DISABLE KEYS */;
 INSERT INTO `attendanceregister` (`ID`, `RegisterID`, `IDNO`, `MobileNo`, `Name`, `Email`, `Category`, `Created_At`, `Created_By`, `Designation`, `FirmFrom`) VALUES
@@ -1344,7 +1461,8 @@ INSERT INTO `attendanceregister` (`ID`, `RegisterID`, `IDNO`, `MobileNo`, `Name`
 	(8, 5, '123456', '0722955458', 'Philemon Kiprop', 'philchem2009@gmail.com', 'PPRA', '2019-11-22 13:51:45', 'Admin', 'Staff', 'PPRA'),
 	(9, 6, '123456', '0722955458', 'Philemon Kiprop', 'philchem2009@gmail.com', 'PPRA', '2019-11-23 13:00:43', 'Admin', 'Staff', 'PPRA'),
 	(10, 6, '1234567', '0705555285', 'KIMUTAI', 'info@wilcom.co.ke', 'Applicant', '2019-11-23 13:00:56', 'Admin', 'ENG', 'WILCOM SYSTEMS'),
-	(11, 6, '12399', '0705555285', 'KIM KIM', 'philchem2009@gmail.com', 'InterestedParty', '2019-11-23 13:49:49', 'Admin', 'md', 'Interested party1');
+	(11, 6, '12399', '0705555285', 'KIM KIM', 'philchem2009@gmail.com', 'InterestedParty', '2019-11-23 13:49:49', 'Admin', 'md', 'Interested party1'),
+	(12, 7, '123456', '0722719412', 'WILSON B. KEREBEI', 'wkerebei@gmail.com', 'PE', '2019-11-28 16:13:10', 'Admin', 'md', 'W');
 /*!40000 ALTER TABLE `attendanceregister` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.audittrails
@@ -1357,338 +1475,40 @@ CREATE TABLE IF NOT EXISTS `audittrails` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IpAddress` bigint(20) NOT NULL,
   PRIMARY KEY (`AuditID`)
-) ENGINE=InnoDB AUTO_INCREMENT=604 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=692 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.audittrails: ~326 rows (approximately)
+-- Dumping data for table arcm.audittrails: ~28 rows (approximately)
 DELETE FROM `audittrails`;
 /*!40000 ALTER TABLE `audittrails` DISABLE KEYS */;
 INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES
-	(278, '2019-11-21 16:27:25', 'P0123456788X', 'Added new Tender with TenderNo:MOE/PRA/UAT/01/2019-2020', 'Add', 0),
-	(279, '2019-11-21 16:27:25', 'P0123456788X', 'Added new Application with ApplicationNo:26', 'Add', 0),
-	(280, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(281, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(282, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(283, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(284, '2019-11-21 16:28:11', 'P0123456788X', 'Added new Tender Addendum for TenderID:37', 'Add', 0),
-	(285, '2019-11-21 16:30:20', 'Admin', 'Added new bank Account', 'Add', 0),
-	(286, '2019-11-21 16:30:48', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(287, '2019-11-21 16:30:56', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(288, '2019-11-21 16:31:08', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(289, '2019-11-21 16:31:40', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(290, '2019-11-21 16:32:03', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(291, '2019-11-21 16:32:09', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(292, '2019-11-21 16:32:18', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(293, '2019-11-21 16:33:05', 'P0123456788X', 'Added new Document for application: 26', 'Add', 0),
-	(294, '2019-11-21 16:33:19', 'P0123456788X', 'Added new Document for application: 26', 'Add', 0),
-	(295, '2019-11-21 16:35:27', 'P0123456788X', 'Added new interested party for application:26', 'Add', 0),
-	(296, '2019-11-21 16:37:58', 'P0123456788X', 'Added new bank slip for application: 26', 'Add', 0),
-	(297, '2019-11-21 16:46:17', 'P0123456788X', 'Added new payment details for application: 26', 'Add', 0),
-	(298, '2019-11-21 16:49:05', 'P0123456788X', 'Added new bank slip for application: 26', 'Add', 0),
-	(299, '2019-11-21 16:49:18', 'P0123456788X', 'Added new payment details for application: 26', 'Add', 0),
-	(300, '2019-11-21 17:01:00', 'admin', ' Approved Application: 26', 'Approval', 0),
-	(301, '2019-11-21 17:33:51', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:23 OF 2019', 'Add', 0),
-	(302, '2019-11-21 17:34:10', 'A123456789X', 'PE-223', 'Add', 0),
-	(303, '2019-11-21 17:34:10', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(304, '2019-11-21 17:34:19', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(305, '2019-11-21 17:34:26', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(306, '2019-11-21 17:34:33', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(307, '2019-11-21 17:34:50', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(308, '2019-11-21 17:34:58', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(309, '2019-11-21 17:35:05', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(310, '2019-11-21 17:42:18', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(311, '2019-11-21 17:48:25', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(312, '2019-11-21 17:48:51', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(313, '2019-11-21 17:58:35', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(314, '2019-11-21 18:00:15', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(315, '2019-11-21 18:00:20', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(316, '2019-11-21 18:01:36', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(317, '2019-11-21 18:01:43', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(318, '2019-11-21 18:11:50', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:23 OF 2019', 'Add', 0),
-	(319, '2019-11-21 18:12:49', 'Admin', 'Added new case analysis for Application: 23 OF 2019', 'Add', 0),
-	(320, '2019-11-21 18:13:02', 'Admin', 'Added new case analysis for Application: 23 OF 2019', 'Add', 0),
-	(321, '2019-11-21 18:18:02', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(322, '2019-11-21 18:18:08', 'Admin', '023 OF 2019', 'Delete', 0),
-	(323, '2019-11-21 18:21:34', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(324, '2019-11-21 18:21:42', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(325, '2019-11-21 18:21:55', 'Admin', '023 OF 2019', 'Delete', 0),
-	(326, '2019-11-21 18:21:58', 'Admin', '023 OF 2019', 'Delete', 0),
-	(327, '2019-11-21 18:22:37', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(328, '2019-11-21 18:23:39', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(329, '2019-11-21 18:23:50', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(330, '2019-11-21 18:24:40', 'Admin', 'Submited PanelList  for Application: 23 OF 2019', 'Add', 0),
-	(331, '2019-11-21 18:25:51', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(332, '2019-11-21 18:25:54', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(333, '2019-11-21 18:25:57', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(334, '2019-11-21 18:26:02', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(335, '2019-11-21 18:28:52', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(336, '2019-11-21 18:30:33', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(337, '2019-11-21 18:30:47', 'Admin', 'Generated hearing Notice for Application: 23 OF 2019', 'Add', 0),
-	(338, '2019-11-21 18:33:24', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(339, '2019-11-21 18:33:32', 'Admin', 'Submited PanelList  for Application: 23 OF 2019', 'Add', 0),
-	(340, '2019-11-21 18:33:46', 'Admin', 'Approved  PanelMember:smiheso', 'Approval', 0),
-	(341, '2019-11-21 18:38:20', 'Admin', 'Registered hearing for Application:23 OF 2019', 'Add', 0),
-	(342, '2019-11-21 18:38:34', 'Admin', 'Attended hearing for Application:23 OF 2019', 'Add', 0),
-	(343, '2019-11-21 18:39:38', 'Admin', 'Attended hearing for Application:23 OF 2019', 'Add', 0),
-	(344, '2019-11-21 18:41:15', 'Admin', 'Added new Background Information for decision for Application: 23 OF 2019', 'Add', 0),
-	(345, '2019-11-21 18:41:27', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(346, '2019-11-21 18:41:36', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(347, '2019-11-21 18:41:43', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(348, '2019-11-21 18:41:54', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(349, '2019-11-21 18:42:06', 'Admin', 'Added new issue for dertermination application: 23 OF 2019', 'Add', 0),
-	(350, '2019-11-21 18:42:12', 'Admin', 'Added new issue for dertermination application: 23 OF 2019', 'Add', 0),
-	(351, '2019-11-21 18:42:24', 'Admin', 'Added new findings on issues for Application: 23 OF 2019', 'Add', 0),
-	(352, '2019-11-21 18:42:35', 'Admin', 'Added new DecisionSummary for Application: 23 OF 2019', 'Update', 0),
-	(353, '2019-11-21 18:42:44', 'Admin', 'Added new decision order for Application: 23 OF 2019', 'Add', 0),
-	(354, '2019-11-21 18:51:38', 'Admin', 'Submited Decision for Application: 23 OF 2019', 'Add', 0),
-	(355, '2019-11-21 18:52:16', 'Admin', 'Added new decision document application: 23 OF 2019', 'Add', 0),
-	(356, '2019-11-21 18:52:19', 'Admin', 'Submited Decision for Application: 23 OF 2019', 'Add', 0),
-	(357, '2019-11-21 18:53:02', 'Admin', 'Approved decision document: 1574362336520-Requirements_for_review.pdf', 'Approve', 0),
-	(358, '2019-11-21 18:56:27', 'Admin', 'Submited Judicial Review Document for Application: 23 OF 2019', 'Add', 0),
-	(359, '2019-11-21 18:56:34', 'Admin', 'Added New Judicial Review  ApplicationNo:23 OF 2019', 'Add', 0),
-	(360, '2019-11-21 19:00:43', 'Admin', 'Updated Judicial Review  ApplicationNo:23 OF 2019', 'Add', 0),
-	(361, '2019-11-21 21:14:46', 'P0123456788X', 'Added new Tender with TenderNo:KAA/OT/JKIA/1343/2017-2018', 'Add', 0),
-	(362, '2019-11-21 21:14:46', 'P0123456788X', 'Added new Application with ApplicationNo:27', 'Add', 0),
-	(363, '2019-11-21 21:14:47', 'P0123456788X', 'Added Fee for Application: 27', 'Add', 0),
-	(364, '2019-11-21 21:14:47', 'P0123456788X', 'Added Fee for Application: 27', 'Add', 0),
-	(365, '2019-11-21 21:15:30', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(366, '2019-11-21 21:15:39', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(367, '2019-11-21 21:15:52', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(368, '2019-11-21 21:16:02', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(369, '2019-11-21 21:18:06', 'P0123456788X', 'Added new Document for application: 27', 'Add', 0),
-	(370, '2019-11-21 21:19:13', 'P0123456788X', 'Added new interested party for application:27', 'Add', 0),
-	(371, '2019-11-21 21:21:40', 'P0123456788X', 'Added new bank slip for application: 27', 'Add', 0),
-	(372, '2019-11-21 21:21:42', 'P0123456788X', 'Added new payment details for application: 27', 'Add', 0),
-	(373, '2019-11-21 21:23:54', 'Admin', '0', 'Add', 0),
-	(374, '2019-11-21 21:23:56', 'Admin', '0', 'Add', 0),
-	(375, '2019-11-21 21:23:58', 'Admin', '0', 'Add', 0),
-	(376, '2019-11-21 21:24:03', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(377, '2019-11-21 21:24:12', 'Admin', '0', 'Add', 0),
-	(378, '2019-11-21 21:24:16', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(379, '2019-11-21 21:34:41', 'Admin', ' Approved Application: 25 OF 2019', 'Approval', 0),
-	(380, '2019-11-21 21:37:14', 'Admin', ' Approved Application: 26 OF 2019', 'Approval', 0),
-	(381, '2019-11-21 21:39:44', 'P0123456788X', 'Added new Tender with TenderNo:Tender 1', 'Add', 0),
-	(382, '2019-11-21 21:39:44', 'P0123456788X', 'Added new Application with ApplicationNo:28', 'Add', 0),
-	(383, '2019-11-21 21:39:45', 'P0123456788X', 'Added Fee for Application: 28', 'Add', 0),
-	(384, '2019-11-21 21:39:45', 'P0123456788X', 'Added Fee for Application: 28', 'Add', 0),
-	(385, '2019-11-21 21:39:53', 'P0123456788X', 'Added new Ground/Request for Application:28', 'Add', 0),
-	(386, '2019-11-21 21:40:02', 'P0123456788X', 'Added new Ground/Request for Application:28', 'Add', 0),
-	(387, '2019-11-21 21:40:53', 'P0123456788X', 'Added new interested party for application:28', 'Add', 0),
-	(388, '2019-11-21 21:41:46', 'P0123456788X', 'Added new bank slip for application: 28', 'Add', 0),
-	(389, '2019-11-21 21:41:49', 'P0123456788X', 'Added new payment details for application: 28', 'Add', 0),
-	(390, '2019-11-21 21:44:12', 'Admin', ' Approved Application: 28', 'Approval', 0),
-	(391, '2019-11-21 21:51:30', 'A123456789X', 'Deleted PE Response detail: 40', 'Add', 0),
-	(392, '2019-11-21 21:53:09', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:27 OF 2019', 'Add', 0),
-	(393, '2019-11-21 21:59:00', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(394, '2019-11-21 21:59:03', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(395, '2019-11-21 21:59:07', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(396, '2019-11-21 21:59:09', 'Admin', 'Submited PanelList  for Application: 28 OF 2019', 'Add', 0),
-	(397, '2019-11-21 21:59:20', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(398, '2019-11-21 21:59:22', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(399, '2019-11-21 21:59:25', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(400, '2019-11-22 10:54:21', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Create', 0),
-	(401, '2019-11-22 10:54:22', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Create', 0),
-	(402, '2019-11-22 10:54:28', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(403, '2019-11-22 10:55:25', 'Admin', '291', 'Update', 0),
-	(404, '2019-11-22 10:55:27', 'Admin', '291', 'Update', 0),
-	(405, '2019-11-22 10:55:28', 'Admin', '291', 'Update', 0),
-	(406, '2019-11-22 10:55:30', 'Admin', '291', 'Update', 0),
-	(407, '2019-11-22 10:57:22', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(408, '2019-11-22 10:57:25', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(409, '2019-11-22 11:03:34', 'Admin', 'Updated  user access of role for user: P65498745R', 'Update', 0),
-	(410, '2019-11-22 11:16:49', 'P123456879Q', 'Added new Tender with TenderNo:Lorem ipsum dolor sit amet, consectetuer adipiscing elit', 'Add', 0),
-	(411, '2019-11-22 11:16:50', 'P123456879Q', 'Added new Application with ApplicationNo:29', 'Add', 0),
-	(412, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(413, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(414, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(415, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(416, '2019-11-22 11:17:11', 'P123456879Q', 'Added new Tender Addendum for TenderID:40', 'Add', 0),
-	(417, '2019-11-22 11:17:34', 'P123456879Q', 'Added new Ground/Request for Application:29', 'Add', 0),
-	(418, '2019-11-22 11:17:42', 'P123456879Q', 'Added new Ground/Request for Application:29', 'Add', 0),
-	(419, '2019-11-22 11:18:02', 'P123456879Q', 'Added new Document for application: 29', 'Add', 0),
-	(420, '2019-11-22 11:18:22', 'P123456879Q', 'Added new Document for application: 29', 'Add', 0),
-	(421, '2019-11-22 11:20:27', 'P123456879Q', 'Added new interested party for application:29', 'Add', 0),
-	(422, '2019-11-22 11:26:40', 'P123456879Q', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
-	(423, '2019-11-22 11:26:40', 'P123456879Q', 'Added new Application with ApplicationNo:30', 'Add', 0),
-	(424, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(425, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(426, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(427, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(428, '2019-11-22 11:27:19', 'P123456879Q', 'Added new Ground/Request for Application:30', 'Add', 0),
-	(429, '2019-11-22 11:27:35', 'P123456879Q', 'Added new Ground/Request for Application:30', 'Add', 0),
-	(430, '2019-11-22 11:28:05', 'P123456879Q', 'Added new Document for application: 30', 'Add', 0),
-	(431, '2019-11-22 11:31:00', 'P123456879Q', 'Updated Tender with TenderNo:TENDER/0001/2019/2020', 'Update', 0),
-	(432, '2019-11-22 11:31:01', 'P123456879Q', 'Updated Application :30', 'Update', 0),
-	(433, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(434, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(435, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(436, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(437, '2019-11-22 11:32:55', 'P123456879Q', 'Updated Tender with TenderNo:TENDER/0001/2019/2020', 'Update', 0),
-	(438, '2019-11-22 11:32:56', 'P123456879Q', 'Updated Application :30', 'Update', 0),
-	(439, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(440, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(441, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(442, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(443, '2019-11-22 11:35:29', 'P123456879Q', 'Added new bank slip for application: 30', 'Add', 0),
-	(444, '2019-11-22 11:35:32', 'P123456879Q', 'Added new payment details for application: 30', 'Add', 0),
-	(445, '2019-11-22 11:42:22', 'Admin', '0', 'Add', 0),
-	(446, '2019-11-22 11:42:29', 'Admin', '0', 'Add', 0),
-	(447, '2019-11-22 11:42:33', 'Admin', 'Updated Maximum Approvals for ModulePAREQ', 'Add', 0),
-	(448, '2019-11-22 11:43:12', 'Admin', '0', 'Add', 0),
-	(449, '2019-11-22 11:43:15', 'Admin', '0', 'Add', 0),
-	(450, '2019-11-22 11:43:17', 'Admin', '0', 'Add', 0),
-	(451, '2019-11-22 11:43:20', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(452, '2019-11-22 11:43:40', 'Admin', '0', 'Add', 0),
-	(453, '2019-11-22 11:43:41', 'Admin', '0', 'Add', 0),
-	(454, '2019-11-22 11:43:43', 'Admin', '0', 'Add', 0),
-	(455, '2019-11-22 11:43:44', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(456, '2019-11-22 11:47:05', 'Admin', ' Approved Application: 30', 'Approval', 0),
-	(457, '2019-11-22 12:18:00', 'P65498745R', 'Added new PE Response background Information for ApplicationNo:29 OF 2019', 'Add', 0),
-	(458, '2019-11-22 12:18:20', 'P65498745R', 'PE-429', 'Add', 0),
-	(459, '2019-11-22 12:18:21', 'P65498745R', 'Updated PE Response for Response ID: 9', 'Add', 0),
-	(460, '2019-11-22 12:18:52', 'P65498745R', 'Updated PE Response for Response ID: 9', 'Add', 0),
-	(461, '2019-11-22 12:36:04', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:29 OF 2019', 'Add', 0),
-	(462, '2019-11-22 12:38:32', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(463, '2019-11-22 12:39:05', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(464, '2019-11-22 12:39:27', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(465, '2019-11-22 12:40:03', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(466, '2019-11-22 12:55:31', 'Admin', '179', 'Create', 0),
-	(467, '2019-11-22 12:55:51', 'Admin', 'Updated  user access of role for user: Pokumu', 'Create', 0),
-	(468, '2019-11-22 12:56:48', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(469, '2019-11-22 12:56:55', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(470, '2019-11-22 12:57:40', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(471, '2019-11-22 12:59:03', 'Admin', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(472, '2019-11-22 13:00:34', 'Admin', 'Approved  PanelMember:SOdhiambo', 'Approval', 0),
-	(473, '2019-11-22 13:00:40', 'Admin', 'Approved  PanelMember:smiheso', 'Approval', 0),
-	(474, '2019-11-22 13:00:42', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(475, '2019-11-22 13:05:44', 'Pokumu', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(476, '2019-11-22 13:07:40', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(477, '2019-11-22 13:07:41', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(478, '2019-11-22 13:07:42', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(479, '2019-11-22 13:07:43', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(480, '2019-11-22 13:07:45', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(481, '2019-11-22 13:07:45', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(482, '2019-11-22 13:07:46', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(483, '2019-11-22 13:07:47', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(484, '2019-11-22 13:07:50', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(485, '2019-11-22 13:07:51', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(486, '2019-11-22 13:07:52', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(487, '2019-11-22 13:07:53', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(488, '2019-11-22 13:11:02', 'Admin', 'Added new Branch with Name: Kitale', 'Add', 0),
-	(489, '2019-11-22 13:11:44', 'Admin', 'Added new Venue with Name: DC\'s Office', 'Add', 0),
-	(490, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(491, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(492, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(493, '2019-11-22 13:17:51', 'Admin', 'Generated hearing Notice for Application: 29 OF 2019', 'Add', 0),
-	(494, '2019-11-22 13:29:02', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(495, '2019-11-22 13:29:06', 'Admin', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(496, '2019-11-22 13:29:32', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(497, '2019-11-22 13:48:21', 'Admin', 'Registered hearing for Application:29 OF 2019', 'Add', 0),
-	(498, '2019-11-22 13:51:24', 'Admin', 'Attended hearing for Application:29 OF 2019', 'Add', 0),
-	(499, '2019-11-22 13:51:45', 'Admin', 'Attended hearing for Application:29 OF 2019', 'Add', 0),
-	(500, '2019-11-22 13:56:08', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(501, '2019-11-22 13:56:41', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(502, '2019-11-22 14:07:33', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(503, '2019-11-22 14:08:46', 'Admin', 'Added new Background Information for decision for Application: 29 OF 2019', 'Add', 0),
-	(504, '2019-11-22 14:09:14', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(505, '2019-11-22 14:09:21', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(506, '2019-11-22 14:09:29', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(507, '2019-11-22 14:11:29', 'Admin', 'Added new issue for dertermination application: 29 OF 2019', 'Add', 0),
-	(508, '2019-11-22 14:11:34', 'Admin', 'Added new issue for dertermination application: 29 OF 2019', 'Add', 0),
-	(509, '2019-11-22 14:11:46', 'Admin', 'Added new findings on issues for Application: 29 OF 2019', 'Add', 0),
-	(510, '2019-11-22 14:11:51', 'Admin', 'Added new findings on issues for Application: 29 OF 2019', 'Add', 0),
-	(511, '2019-11-22 14:12:35', 'Admin', 'Added new DecisionSummary for Application: 29 OF 2019', 'Update', 0),
-	(512, '2019-11-22 14:12:44', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(513, '2019-11-22 14:12:49', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(514, '2019-11-22 14:12:54', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(515, '2019-11-22 14:30:07', 'Admin', 'Submited Decision for Application: 29 OF 2019', 'Add', 0),
-	(516, '2019-11-22 14:31:25', 'Admin', 'Added new decision document application: 29 OF 2019', 'Add', 0),
-	(517, '2019-11-22 14:31:58', 'Admin', 'Submited Decision for Application: 29 OF 2019', 'Add', 0),
-	(518, '2019-11-22 14:48:28', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(519, '2019-11-22 14:48:41', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(520, '2019-11-22 14:48:50', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(521, '2019-11-22 15:01:27', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(522, '2019-11-23 11:06:53', 'Admin', 'Added new decision document application: 12 OF 2019', 'Add', 0),
-	(523, '2019-11-23 12:12:18', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Add', 0),
-	(524, '2019-11-23 12:12:34', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Update', 0),
-	(525, '2019-11-23 12:18:24', 'Admin', 'Added new party submision for Application: 12 OF 2019', 'Add', 0),
-	(526, '2019-11-23 12:18:28', 'Admin', 'Added new party submision for Application: 12 OF 2019', 'Add', 0),
-	(527, '2019-11-23 12:18:34', 'Admin', 'Added new issue for dertermination application: 12 OF 2019', 'Add', 0),
-	(528, '2019-11-23 12:18:40', 'Admin', 'Added new findings on issues for Application: 12 OF 2019', 'Add', 0),
-	(529, '2019-11-23 12:18:45', 'Admin', 'Added new DecisionSummary for Application: 12 OF 2019', 'Update', 0),
-	(530, '2019-11-23 12:18:52', 'Admin', 'Added new decision order for Application: 12 OF 2019', 'Add', 0),
-	(531, '2019-11-23 12:18:57', 'Admin', 'Added new decision order for Application: 12 OF 2019', 'Add', 0),
-	(532, '2019-11-23 12:27:12', 'Admin', 'Added new PanelMember for Application 12 OF 2019', 'Add', 0),
-	(533, '2019-11-23 12:27:16', 'Admin', 'Added new PanelMember for Application 12 OF 2019', 'Add', 0),
-	(534, '2019-11-23 12:27:24', 'Admin', 'Added new PanelMember for Application 12 OF 2019', 'Add', 0),
-	(535, '2019-11-23 12:27:26', 'Admin', 'Submited PanelList  for Application: 12 OF 2019', 'Add', 0),
-	(536, '2019-11-23 12:27:39', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(537, '2019-11-23 12:27:41', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(538, '2019-11-23 12:27:44', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(539, '2019-11-23 12:30:41', 'Admin', 'Submited PanelList  for Application: 12 OF 2019', 'Add', 0),
-	(540, '2019-11-23 12:43:28', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Update', 0),
-	(541, '2019-11-23 12:44:15', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Update', 0),
-	(542, '2019-11-23 12:45:00', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Update', 0),
-	(543, '2019-11-23 12:47:22', 'Admin', 'Added new Background Information for decision for Application: 12 OF 2019', 'Update', 0),
-	(544, '2019-11-23 12:53:52', 'Admin', 'Booked Venue:5', 'Add', 0),
-	(545, '2019-11-23 12:54:02', 'Admin', 'Generated hearing Notice for Application: 12 OF 2019', 'Add', 0),
-	(546, '2019-11-23 12:54:20', 'Admin', 'Generated hearing Notice for Application: 12 OF 2019', 'Add', 0),
-	(547, '2019-11-23 12:54:27', 'Admin', 'Generated hearing Notice for Application: 12 OF 2019', 'Add', 0),
-	(548, '2019-11-23 12:57:27', 'Admin', 'Registered hearing for Application:12 OF 2019', 'Add', 0),
-	(549, '2019-11-23 13:00:43', 'Admin', 'Attended hearing for Application:12 OF 2019', 'Add', 0),
-	(550, '2019-11-23 13:00:56', 'Admin', 'Attended hearing for Application:12 OF 2019', 'Add', 0),
-	(551, '2019-11-23 13:49:49', 'Admin', 'Attended hearing for Application:12 OF 2019', 'Add', 0),
-	(552, '2019-11-23 14:00:32', 'Admin', 'Submited Decision for Application: 12 OF 2019', 'Add', 0),
-	(553, '2019-11-25 09:55:20', 'Admin', 'Submited Decision for Application: 12 OF 2019', 'Add', 0),
-	(554, '2019-11-25 10:50:16', 'Admin', 'Declined decision for application: 12 OF 2019', 'Approve', 0),
-	(555, '2019-11-25 10:54:19', 'Admin', 'Submited Decision for Application: 12 OF 2019', 'Add', 0),
-	(556, '2019-11-25 10:55:20', 'Admin', 'Declined decision for application: 12 OF 2019', 'Approve', 0),
-	(557, '2019-11-25 10:55:47', 'Admin', 'Submited Decision for Application: 12 OF 2019', 'Add', 0),
-	(558, '2019-11-25 10:56:12', 'Admin', 'Approved decision for application: 12 OF 2019', 'Approve', 0),
-	(559, '2019-11-25 10:57:40', 'Admin', 'Submited Decision for Application: 12 OF 2019', 'Add', 0),
-	(560, '2019-11-25 10:59:13', 'Admin', 'Approved decision for application: 12 OF 2019', 'Approve', 0),
-	(561, '2019-11-25 12:12:59', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(562, '2019-11-25 13:35:21', 'Admin', 'Added new jrinterested  party for application:29 OF 2019', 'Add', 0),
-	(563, '2019-11-25 14:52:14', 'Admin', 'Deleted jruser:29 OF 2019', 'Add', 0),
-	(564, '2019-11-25 14:53:33', 'Admin', 'Deleted jruser:Admin', 'Add', 0),
-	(565, '2019-11-25 14:53:40', 'Admin', 'Added new jruser for application:29 OF 2019', 'Add', 0),
-	(566, '2019-11-25 15:13:35', 'Admin', 'Deleted jrInterested Party:Home', 'Add', 0),
-	(567, '2019-11-25 15:19:03', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(568, '2019-11-25 15:46:39', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(569, '2019-11-25 16:00:34', 'Admin', 'Updated Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(570, '2019-11-25 17:02:41', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(571, '2019-11-25 17:08:11', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(572, '2019-11-26 11:17:01', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:28', 'Add', 0),
-	(573, '2019-11-26 11:17:09', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:28', 'Add', 0),
-	(574, '2019-11-26 14:35:28', 'P0123456788X', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
-	(575, '2019-11-26 14:35:28', 'P0123456788X', 'Added new Application with ApplicationNo:31', 'Add', 0),
-	(576, '2019-11-26 14:35:28', 'P0123456788X', 'Added Fee for Application: 31', 'Add', 0),
-	(577, '2019-11-26 14:35:28', 'P0123456788X', 'Added Fee for Application: 31', 'Add', 0),
-	(578, '2019-11-26 14:35:28', 'P0123456788X', 'Added Fee for Application: 31', 'Add', 0),
-	(579, '2019-11-26 14:35:44', 'P0123456788X', 'Added new Ground/Request for Application:31', 'Add', 0),
-	(580, '2019-11-26 14:35:55', 'P0123456788X', 'Added new Ground/Request for Application:31', 'Add', 0),
-	(581, '2019-11-26 14:37:02', 'P0123456788X', 'Added new bank slip for application: 31', 'Add', 0),
-	(582, '2019-11-26 14:37:04', 'P0123456788X', 'Added new payment details for application: 31', 'Add', 0),
-	(583, '2019-11-26 14:52:38', 'Admin', '811', 'Create', 0),
-	(584, '2019-11-26 14:52:39', 'Admin', '811', 'Update', 0),
-	(585, '2019-11-26 14:52:40', 'Admin', '811', 'Update', 0),
-	(586, '2019-11-26 14:52:40', 'Admin', '811', 'Update', 0),
-	(587, '2019-11-26 14:52:41', 'Admin', '811', 'Update', 0),
-	(588, '2019-11-26 14:53:00', 'Admin', 'Updated  user access of role for user: Admin', 'Create', 0),
-	(589, '2019-11-26 14:53:01', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(590, '2019-11-26 14:53:02', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(591, '2019-11-26 14:53:02', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(592, '2019-11-26 14:53:03', 'Admin', 'Updated  user access of role for user: Admin', 'Update', 0),
-	(593, '2019-11-26 14:56:46', 'Admin', 'Updated  User with username: P0000000001', 'Update', 0),
-	(594, '2019-11-26 14:56:57', 'Admin', 'Updated  User with username: Admin', 'Update', 0),
-	(595, '2019-11-26 15:04:14', 'Admin', 'Updated  User with username: A123456789X', 'Update', 0),
-	(596, '2019-11-26 15:21:11', 'P0123456788X', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
-	(597, '2019-11-26 15:21:11', 'P0123456788X', 'Added new Application with ApplicationNo:32', 'Add', 0),
-	(598, '2019-11-26 15:21:12', 'P0123456788X', 'Added Fee for Application: 32', 'Add', 0),
-	(599, '2019-11-26 15:21:12', 'P0123456788X', 'Added Fee for Application: 32', 'Add', 0),
-	(600, '2019-11-26 15:21:50', 'P0123456788X', 'Added new payment details for application: 32', 'Add', 0),
-	(601, '2019-11-26 15:31:47', 'Admin', 'Updated  User with username: A123456789X', 'Update', 0),
-	(602, '2019-11-26 15:52:04', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:28', 'Add', 0),
-	(603, '2019-11-26 15:52:09', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:28', 'Add', 0);
+	(664, '2019-11-28 15:47:17', 'P0123456788X', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
+	(665, '2019-11-28 15:47:17', 'P0123456788X', 'Added new Application with ApplicationNo:34', 'Add', 0),
+	(666, '2019-11-28 15:47:17', 'P0123456788X', 'Added Fee for Application: 34', 'Add', 0),
+	(667, '2019-11-28 15:47:17', 'P0123456788X', 'Added Fee for Application: 34', 'Add', 0),
+	(668, '2019-11-28 15:47:18', 'P0123456788X', 'Added Fee for Application: 34', 'Add', 0),
+	(669, '2019-11-28 15:47:36', 'P0123456788X', 'Added new Ground/Request for Application:34', 'Add', 0),
+	(670, '2019-11-28 15:51:25', 'P0123456788X', 'Added new payment details for application: 34', 'Add', 0),
+	(671, '2019-11-28 16:01:50', 'Admin', ' Approved Application: 34', 'Approval', 0),
+	(672, '2019-11-28 16:04:39', 'Admin', 'Deleted Case Officer: Pokumu', 'Delete', 0),
+	(673, '2019-11-28 16:05:58', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:28 OF 2019', 'Add', 0),
+	(674, '2019-11-28 16:06:03', 'A123456789X', ' Responded to application:28 OF 2019', 'Add', 0),
+	(675, '2019-11-28 16:06:04', 'A123456789X', 'Updated PE Response for Response ID: 10', 'Add', 0),
+	(676, '2019-11-28 16:06:52', 'Admin', 'Added new PanelMember for Application 30 OF 2019', 'Add', 0),
+	(677, '2019-11-28 16:06:55', 'Admin', 'Added new PanelMember for Application 30 OF 2019', 'Add', 0),
+	(678, '2019-11-28 16:06:58', 'Admin', 'Added new PanelMember for Application 30 OF 2019', 'Add', 0),
+	(679, '2019-11-28 16:07:00', 'Admin', 'Submited PanelList  for Application: 30 OF 2019', 'Add', 0),
+	(680, '2019-11-28 16:07:28', 'Admin', 'Submited PanelList  for Application: 30 OF 2019', 'Add', 0),
+	(681, '2019-11-28 16:08:30', 'Admin', 'Submited PanelList  for Application: 30 OF 2019', 'Add', 0),
+	(682, '2019-11-28 16:09:02', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
+	(683, '2019-11-28 16:09:31', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
+	(684, '2019-11-28 16:09:40', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
+	(685, '2019-11-28 16:10:39', 'Admin', 'Booked Venue:5', 'Add', 0),
+	(686, '2019-11-28 16:12:40', 'Admin', 'Booked Venue:5', 'Add', 0),
+	(687, '2019-11-28 16:13:01', 'Admin', 'Registered hearing for Application:28 OF 2019', 'Add', 0),
+	(688, '2019-11-28 16:13:10', 'Admin', 'Attended hearing for Application:28 OF 2019', 'Add', 0),
+	(689, '2019-11-28 16:59:15', 'P0123456788X', 'Submited request for case withdrawal for application:30 OF 2019', 'Add', 0),
+	(690, '2019-11-28 17:00:34', 'Admin', 'Approved Case Adjournment for Application : 30 OF 2019', 'Approval', 0),
+	(691, '2019-11-28 17:01:56', 'PPRA01', 'Approved Case Adjournment for Application : 30 OF 2019', 'Approval', 0);
 /*!40000 ALTER TABLE `audittrails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.banks
@@ -1707,13 +1527,14 @@ CREATE TABLE IF NOT EXISTS `banks` (
   `Delete_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.banks: ~0 rows (approximately)
+-- Dumping data for table arcm.banks: ~2 rows (approximately)
 DELETE FROM `banks`;
 /*!40000 ALTER TABLE `banks` DISABLE KEYS */;
 INSERT INTO `banks` (`ID`, `Name`, `Branch`, `AcountNo`, `PayBill`, `Created_By`, `Created_At`, `Update_By`, `Updated_At`, `Deleted`, `Delete_By`, `Deleted_At`) VALUES
-	(2, 'National bank', 'Harambee Avenue', '0789876544321', '123456', 'Admin', '2019-11-21 16:30:20', NULL, NULL, 0, NULL, NULL);
+	(2, 'National Bank', 'Harambee Avenue', '0789876544321', '7575', 'Admin', '2019-11-21 16:30:20', 'Admin', '2019-11-28 12:06:26', 0, NULL, NULL),
+	(3, 'KCB Bank', 'KenCom', '0789876544321', '7575', 'Admin', '2019-11-28 12:07:11', NULL, NULL, 1, 'Admin', '2019-11-28 12:07:14');
 /*!40000 ALTER TABLE `banks` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.bankslips
@@ -1732,7 +1553,7 @@ CREATE TABLE IF NOT EXISTS `bankslips` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
 -- Dumping data for table arcm.bankslips: ~23 rows (approximately)
 DELETE FROM `bankslips`;
@@ -1760,7 +1581,8 @@ INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `C
 	(20, 27, '1574371300137-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 21:21:40', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
 	(21, 28, '1574372506083-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 21:41:46', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
 	(22, 30, '1574422529278-6 OF 2019.pdf', 'uploads/BankSlips', 'P123456879Q', '2019-11-22 11:35:29', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(23, 31, '1574768222065-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-26 14:37:02', NULL, NULL, 0, NULL, NULL, 'ApplicationFees');
+	(23, 31, '1574768222065-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-26 14:37:02', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
+	(24, 33, '1574944976619-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-28 15:42:56', NULL, NULL, 0, NULL, NULL, 'ApplicationFees');
 /*!40000 ALTER TABLE `bankslips` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.BookVenue
@@ -1775,7 +1597,8 @@ BEGIN
     VALUES(_VenueID,_Date,_Slot,_UserID,_Content,now(),0);
   call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
   update applications set Status='HEARING IN PROGRESS' where ApplicationNo=_Content;
-  call ResolveMyNotification(_UserID,'Case Scheduling');
+    update notifications set Status='Resolved' where Category='Case Scheduling'; 
+
 
   if(select Count(*) from applicationsequence where ApplicationNo=_Content and Action='Scheduled Hearing Date and Venue')<1 THEN
   Begin
@@ -1895,9 +1718,9 @@ CREATE TABLE IF NOT EXISTS `casedetails` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casedetails: ~18 rows (approximately)
+-- Dumping data for table arcm.casedetails: ~19 rows (approximately)
 DELETE FROM `casedetails`;
 /*!40000 ALTER TABLE `casedetails` DISABLE KEYS */;
 INSERT INTO `casedetails` (`ID`, `UserName`, `ApplicationNo`, `DateAsigned`, `Status`, `PrimaryOfficer`, `ReassignedTo`, `DateReasigned`, `Reason`, `Created_At`, `Created_By`, `Updated_By`, `Deleted_At`, `Deleted`) VALUES
@@ -1918,7 +1741,8 @@ INSERT INTO `casedetails` (`ID`, `UserName`, `ApplicationNo`, `DateAsigned`, `St
 	(15, 'Admin', '26 OF 2019', '2019-11-21 21:34:41', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:34:41', 'Admin', NULL, NULL, 0),
 	(16, 'PPRA01', '27 OF 2019', '2019-11-21 21:37:14', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:37:14', 'Admin', NULL, NULL, 0),
 	(17, 'Pokumu', '28 OF 2019', '2019-11-21 21:44:12', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:44:12', 'Admin', NULL, NULL, 0),
-	(18, 'Admin', '29 OF 2019', '2019-11-22 11:47:05', 'Open', 1, NULL, NULL, NULL, '2019-11-22 11:47:05', 'Admin', NULL, NULL, 0);
+	(18, 'Admin', '29 OF 2019', '2019-11-22 11:47:05', 'Open', 1, NULL, NULL, NULL, '2019-11-22 11:47:05', 'Admin', NULL, NULL, 0),
+	(19, 'PPRA01', '30 OF 2019', '2019-11-28 16:01:50', 'Open', 1, NULL, NULL, NULL, '2019-11-28 16:01:50', 'Admin', NULL, NULL, 0);
 /*!40000 ALTER TABLE `casedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.caseofficers
@@ -1943,13 +1767,12 @@ CREATE TABLE IF NOT EXISTS `caseofficers` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.caseofficers: ~3 rows (approximately)
+-- Dumping data for table arcm.caseofficers: ~2 rows (approximately)
 DELETE FROM `caseofficers`;
 /*!40000 ALTER TABLE `caseofficers` DISABLE KEYS */;
 INSERT INTO `caseofficers` (`ID`, `Username`, `MinValue`, `MaximumValue`, `Active`, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, `Create_at`, `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`) VALUES
 	(1, 'Admin', 1, 100000000, 1, '2019-09-06 00:00:00', '2019-09-06 00:00:00', 6, 6, '2019-09-13 17:05:06', '2019-09-13 17:05:12', 'Admin', 'Admin', 0, NULL, NULL),
-	(4, 'PPRA01', NULL, NULL, 1, '2019-11-13 00:00:00', '2019-11-14 00:00:00', 5, 5, '2019-11-13 17:01:59', '2019-11-14 07:56:52', 'Admin', 'Admin', 0, NULL, NULL),
-	(6, 'Pokumu', NULL, NULL, 1, '2019-11-14 00:00:00', '2019-11-14 00:00:00', 5, 5, '2019-11-15 12:19:45', NULL, 'Admin', NULL, 0, NULL, NULL);
+	(4, 'PPRA01', NULL, NULL, 1, '2019-11-13 00:00:00', '2019-11-14 00:00:00', 6, 6, '2019-11-13 17:01:59', '2019-11-14 07:56:52', 'Admin', 'Admin', 0, NULL, NULL);
 /*!40000 ALTER TABLE `caseofficers` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casesittingsregister
@@ -1964,9 +1787,9 @@ CREATE TABLE IF NOT EXISTS `casesittingsregister` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Open` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casesittingsregister: ~5 rows (approximately)
+-- Dumping data for table arcm.casesittingsregister: ~6 rows (approximately)
 DELETE FROM `casesittingsregister`;
 /*!40000 ALTER TABLE `casesittingsregister` DISABLE KEYS */;
 INSERT INTO `casesittingsregister` (`ID`, `ApplicationNo`, `VenueID`, `Date`, `SittingNo`, `Created_At`, `Created_By`, `Open`) VALUES
@@ -1975,7 +1798,8 @@ INSERT INTO `casesittingsregister` (`ID`, `ApplicationNo`, `VenueID`, `Date`, `S
 	(3, '20 OF 2019', 5, '2019-11-20', 1, '2019-11-20 16:22:06', 'Admin', 1),
 	(4, '23 OF 2019', 6, '2019-11-21', 1, '2019-11-21 18:38:20', 'Admin', 0),
 	(5, '29 OF 2019', 8, '2019-11-22', 1, '2019-11-22 13:48:21', 'Admin', 0),
-	(6, '12 OF 2019', 5, '2019-11-23', 1, '2019-11-23 12:57:27', 'Admin', 1);
+	(6, '12 OF 2019', 5, '2019-11-23', 1, '2019-11-23 12:57:27', 'Admin', 1),
+	(7, '28 OF 2019', 8, '2019-11-28', 1, '2019-11-28 16:13:01', 'Admin', 1);
 /*!40000 ALTER TABLE `casesittingsregister` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawal
@@ -2038,22 +1862,21 @@ DROP TABLE IF EXISTS `casewithdrawalcontacts`;
 CREATE TABLE IF NOT EXISTS `casewithdrawalcontacts` (
   `Name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `Mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Role` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawalcontacts: ~9 rows (approximately)
+-- Dumping data for table arcm.casewithdrawalcontacts: ~7 rows (approximately)
 DELETE FROM `casewithdrawalcontacts`;
 /*!40000 ALTER TABLE `casewithdrawalcontacts` DISABLE KEYS */;
-INSERT INTO `casewithdrawalcontacts` (`Name`, `Email`, `Mobile`) VALUES
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285'),
-	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121'),
-	('Stanley Miheso', 'mihesosc@yahoo.com', '0722607127'),
-	('Samson Odhiambo', 'x2press@gmail.com', '0721382630'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595');
+INSERT INTO `casewithdrawalcontacts` (`Name`, `Email`, `Mobile`, `Role`) VALUES
+	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel'),
+	('CASE OFFICER', 'cmkikungu@gmail.com', '070110292812', 'Panel'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Panel'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Case officer'),
+	('MASINDE MULIRO UNIVERSITY OF SCIENCE AND TECHNOLOGY', 'elviskimcheruiyot@gmail.com', '0705555285', 'PE'),
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '07184030861', 'Applicant'),
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '0122719412', 'Applicant');
 /*!40000 ALTER TABLE `casewithdrawalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.CheckifregistrationIsOpen
@@ -2249,7 +2072,7 @@ Begin
                             End;
                          Else
                             Begin
-                              select @Rate * @SlabDiff into @Value1;
+                              select @Rate * @Tendervalue into @Value1;
                               call SaveApplicationFees(_ApplicationID,@Description,@Value1,@ApplicationREf, _UserID);
                             End;
                       End if;
@@ -2348,7 +2171,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
 DELETE FROM `configurations`;
 /*!40000 ALTER TABLE `configurations` DISABLE KEYS */;
 INSERT INTO `configurations` (`ID`, `Code`, `Name`, `PhysicalAdress`, `Street`, `PoBox`, `PostalCode`, `Town`, `Telephone1`, `Telephone2`, `Mobile`, `Fax`, `Email`, `Website`, `PIN`, `Logo`, `NextPE`, `NextComm`, `NextSupplier`, `NextMember`, `NextProcMeth`, `NextStdDoc`, `NextApplication`, `NextRev`, `Created_At`, `Updated_At`, `Created_By`, `Updated_By`, `Deleted`, `Deleted_By`, `NextPEType`, `NextMemberType`, `NextFeeCode`, `NextTenderType`, `Year`, `PeResponseDays`, `CaseClosingDate`) VALUES
-	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke', 'https://www.ppra.go.ke', '123456789098', '1574333847311-PPRA_Logo.png', '6', '7', '20', '1', '1', '1', '30', '1', '2019-07-29 14:14:38', '2019-11-21 10:57:31', 'Admin', 'Admin', 0, ' ', '14', '1', '1', '3', '2019', NULL, 21);
+	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke', 'https://www.ppra.go.ke', '123456789098', '1574933357639-PPRALogo.png', '6', '7', '20', '1', '1', '1', '31', '1', '2019-07-29 14:14:38', '2019-11-28 12:29:19', 'Admin', 'Admin', 0, ' ', '14', '1', '1', '3', '2019', NULL, 21);
 /*!40000 ALTER TABLE `configurations` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.counties
@@ -2434,14 +2257,13 @@ CREATE TABLE IF NOT EXISTS `deadlineapprovalworkflow` (
   `Remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.deadlineapprovalworkflow: ~2 rows (approximately)
+-- Dumping data for table arcm.deadlineapprovalworkflow: ~1 rows (approximately)
 DELETE FROM `deadlineapprovalworkflow`;
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `deadlineapprovalworkflow` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`, `Approver`, `Remarks`, `Approved_At`) VALUES
-	(1, 'PE-2', '12 OF 2019', '<p>New Request 2</p>\n', '2019-11-15 00:00:00', '2019-11-11 17:31:46', 'A123456789X', 'Pending Approval', 'Admin', 'Rejected ', '2019-11-11 17:35:16'),
-	(2, 'PE-2', '15 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 00:00:00', '2019-11-12 17:15:50', 'A123456789X', 'DECLINED', 'Admin', 'Rejected', '2019-11-12 17:17:51');
+	(4, 'PE-2', '28 OF 2019', '<p>pedeadlineextensionsrequests</p>\n', '2019-11-28 00:00:00', '2019-11-28 11:39:11', 'A123456789X', 'Fully Approved', 'Admin', 'Approved', '2019-11-28 11:40:52');
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.decisiondocuments
@@ -2578,7 +2400,7 @@ SET Status='Declined',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
 update applications set Status='DECLINED' where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
-  call ResolveMyNotification(_Approver,'Applications Approval');
+   update notifications set Status='Resolved' where Category='Applications Approval' and  ApplicationNo=_ApplicationNo;   
 
 select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
 insert into ApplicationApprovalContacts select Name,Email,Phone,'Applicant',_ApplicationNo from users where Username =@Applicant;
@@ -2597,11 +2419,12 @@ BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Adjournment for Application : ', _ApplicationNo); 
 Update adjournment set  DecisionDate= now(), Status='Declined', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
-call Saveapplicationsequence(_ApplicationNo,'Declined Request for Adjournment','Awaiting Approval');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment'); 
+call Saveapplicationsequence(_ApplicationNo,'Declined Request for Adjournment','Awaiting Approval',_userID);
+    
 
   call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-  call ResolveMyNotification(_userID,'Case Adjournment Approval');
+  
+    update notifications set Status='Resolved' where   Category='Case Adjournment Approval' and ApplicationNo=_ApplicationNo;
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
   insert into caseWithdrawalContacts select Name,Email,Phone from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
@@ -2628,8 +2451,8 @@ DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
 Update casewithdrawal set  DecisionDate= now(), Status='Declined', RejectionReason =_RejectionReason,Frivolous =0 where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-call Saveapplicationsequence(_ApplicationNo,'Declined request for case withdrawal','  ');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal'); 
+call Saveapplicationsequence(_ApplicationNo,'Declined request for case withdrawal','  ',_userID);
+  update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
   insert into caseWithdrawalContacts select Name,Email,Phone from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
@@ -2655,7 +2478,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclineDeadlineRequestExtension`(IN
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
-set lSaleDesc= CONCAT(_Approver +' Declined Deadline Extension Request for Application:',_ApplicationNo); 
+set lSaleDesc= CONCAT(' Declined Deadline Extension Request for Application:',_ApplicationNo); 
 UPDATE deadlineapprovalworkflow
 SET Status='DECLINED',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
@@ -2664,7 +2487,7 @@ WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
 		WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
     update pedeadlineextensionsrequests SET Status='DECLINED'
 		WHERE ApplicationNo=_ApplicationNo ;
-	call ResolveMyNotification(_Approver,'Deadline Approval');
+ update notifications set Status='Resolved' where Category='Deadline Approval' and ApplicationNo=_ApplicationNo; 
  call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
   select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
   SELECT DueOn FROM  peresponsetimer  where ApplicationNo=_ApplicationNo AND PEID=@PEID LIMIT 1 into @requestedDeadline;
@@ -3318,9 +3141,9 @@ CREATE TABLE IF NOT EXISTS `feesapprovalworkflow` (
   `DateApproved` datetime NOT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
 
--- Dumping data for table arcm.feesapprovalworkflow: ~25 rows (approximately)
+-- Dumping data for table arcm.feesapprovalworkflow: ~27 rows (approximately)
 DELETE FROM `feesapprovalworkflow`;
 /*!40000 ALTER TABLE `feesapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `feesapprovalworkflow` (`ID`, `ApplicationID`, `Amount`, `RefNo`, `Status`, `ApprovedBy`, `DateApproved`, `Category`) VALUES
@@ -3348,7 +3171,9 @@ INSERT INTO `feesapprovalworkflow` (`ID`, `ApplicationID`, `Amount`, `RefNo`, `S
 	(22, 26, 205000, '1574354278238-PAYMENT SLIP.pdf', 'Approved', 'admin', '2019-11-21 16:55:24', 'ApplicationFees'),
 	(23, 27, 25000, 'REF123', 'Approved', 'Admin', '2019-11-21 21:25:10', 'ApplicationFees'),
 	(24, 28, 15000, 'REF123', 'Approved', 'Admin', '2019-11-21 21:43:39', 'ApplicationFees'),
-	(25, 30, 205000, 'REF00001', 'Approved', 'Admin', '2019-11-22 11:40:43', 'ApplicationFees');
+	(25, 30, 205000, 'REF00001', 'Approved', 'Admin', '2019-11-22 11:40:43', 'ApplicationFees'),
+	(26, 34, 32500, 'REF123', 'Approved', 'Admin', '2019-11-28 15:58:49', 'ApplicationFees'),
+	(27, 34, 32500, 'REF123', 'Approved', 'Admin', '2019-11-28 16:01:06', 'ApplicationFees');
 /*!40000 ALTER TABLE `feesapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.feescomputations
@@ -3541,6 +3366,46 @@ End if;
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.GeneratePreliminaryFeesReport
+DROP PROCEDURE IF EXISTS `GeneratePreliminaryFeesReport`;
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePreliminaryFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
+BEGIN
+if(_All=1) THEn
+Begin
+select sum(AmountPaid) from  paymentdetails where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' ) into @Total;
+select SUM(AmountPaid) as Amount,@Total as Total, applications.ApplicationNo,paymentdetails.Paidby,
+  DATE_FORMAT(paymentdetails.DateOfpayment,'%d-%m-%Y') as DateOfpayment
+  from paymentdetails 
+  inner join applications on applications.ID=paymentdetails.ApplicationID
+  where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )
+  GROUP BY paymentdetails.ApplicationID;
+
+  ENd;
+Else
+Begin
+select sum(AmountPaid) from  paymentdetails where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )  
+and 
+  CAST(paymentdetails.DateOfpayment AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)
+    into @Total;
+
+select SUM(AmountPaid) as Amount ,@Total as Total, applications.ApplicationNo,paymentdetails.Paidby,
+  DATE_FORMAT(paymentdetails.DateOfpayment,'%d-%m-%Y') as DateOfpayment
+  from paymentdetails 
+  inner join applications on applications.ID=paymentdetails.ApplicationID
+  where paymentdetails.Category='PreliminaryObjectionsFees'and 
+  CAST(paymentdetails.DateOfpayment AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  
+  and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )
+  GROUP BY paymentdetails.ApplicationID;
+   End;
+End if;
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.Generaterequesthandled
 DROP PROCEDURE IF EXISTS `Generaterequesthandled`;
 DELIMITER //
@@ -3629,7 +3494,10 @@ DROP PROCEDURE IF EXISTS `GetadjournmentPendingApproval`;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
-select * from adjournment where Approver=_UserID and Status='Pending Approval';
+select * from adjournment where _UserID 
+  in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) and 
+  ApplicationNo not in (Select ApplicationNo from adjournmentApprovalWorkFlow where Status='Approved' and Approver=_UserID)  
+  and Status='Pending Approval';
 END//
 DELIMITER ;
 
@@ -3964,14 +3832,14 @@ SELECT users.Name as caseOfficer, applications.ID,applications.ApplicationNo ,Te
   procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
   
-  `FilingDate`, `ApplicationREf`, applications.ApplicationNo, applications.Status,AwardDate,applications.ClosingDate
+  `FilingDate`, `ApplicationREf`,  applications.Status,AwardDate,applications.ClosingDate
   FROM `applications`
   inner join procuremententity on applications.PEID=procuremententity.PEID
   inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
   inner join tenders on applications.TenderID=tenders.ID
   inner join tendertypes on tenders.TenderType=tendertypes.Code
   inner join users on users.Username=casedetails.UserName
-  WHERE applications.Deleted=0  ORDER by applications.Created_At DESC;
+  WHERE applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
 End//
 DELIMITER ;
 
@@ -4363,6 +4231,190 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `getcounties`()
     NO SQL
 BEGIN
 SELECT `ID`, `Code`, `Name` FROM `counties` WHERE Deleted=0;
+End//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.getCustomReport
+DROP PROCEDURE IF EXISTS `getCustomReport`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `getCustomReport`(IN _Status VARCHAR(50), IN _FromDate DATE, IN _ToDate DATE, IN _AllDates BOOLEAN)
+    NO SQL
+BEGIN
+
+  if(_AllDates=1) THEN
+  Begin
+      if(_Status='Closed') THEN
+      Begin
+          SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate ,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and applications.Status='Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+      ENd;   
+      End if;
+      if(_Status='Withdrawn') THEN
+      Begin
+        SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate , `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and applications.Status='WITHDRAWN' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      ENd  ;   
+      End if;
+       if(_Status='Pending Determination') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0  and applications.Status<>'WITHDRAWN' and applications.Status<>'Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+      
+       if(_Status='All') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+  ENd;
+  Else
+  Begin
+   if(_Status='Closed') THEN
+      Begin
+          SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and applications.Deleted=0 and applications.Status='Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+      ENd;   
+      End if;
+      if(_Status='Withdrawn') THEN
+      Begin
+        SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and applications.Deleted=0 and applications.Status='WITHDRAWN' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      ENd  ;   
+      End if;
+       if(_Status='Pending Determination') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate, DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and  applications.Deleted=0  and applications.Status<>'WITHDRAWN' and applications.Status<>'Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+      
+       if(_Status='All') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,AwardDate,applications.ClosingDate
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and  applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+
+  End;
+  End if;
+
+
 End//
 DELIMITER ;
 
@@ -5710,9 +5762,9 @@ CREATE TABLE IF NOT EXISTS `groundsandrequestedorders` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `GroundNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groundsandrequestedorders: ~70 rows (approximately)
+-- Dumping data for table arcm.groundsandrequestedorders: ~71 rows (approximately)
 DELETE FROM `groundsandrequestedorders`;
 /*!40000 ALTER TABLE `groundsandrequestedorders` DISABLE KEYS */;
 INSERT INTO `groundsandrequestedorders` (`ID`, `ApplicationID`, `Description`, `EntryType`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `GroundNO`) VALUES
@@ -5785,7 +5837,10 @@ INSERT INTO `groundsandrequestedorders` (`ID`, `ApplicationID`, `Description`, `
 	(67, 30, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede jus</p>\n', 'Grounds for Appeal', 'Pending Review', 'P123456879Q', '2019-11-22 11:27:19', NULL, NULL, 0, NULL, NULL, '1'),
 	(68, 30, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede jus</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-22 11:27:35', NULL, NULL, 0, NULL, NULL, '1'),
 	(69, 31, '<p>W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">terms of use</a>,&nbsp;<a href="https://www.w3schools.com/about/about_privacy.asp">cookie and privacy policy</a>.&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">Copyright 1999-2019</a>&nbsp;by Refsnes Data. All Rights Reserved.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-26 14:35:44', NULL, NULL, 0, NULL, NULL, '1'),
-	(70, 31, '<p>W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">terms of use</a>,&nbsp;<a href="https://www.w3schools.com/about/about_privacy.asp">cookie and privacy policy</a>.&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">Copyright 1999-2019</a>&nbsp;by Refsnes Data. All Rights Reserved.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-26 14:35:55', NULL, NULL, 0, NULL, NULL, '1');
+	(70, 31, '<p>W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">terms of use</a>,&nbsp;<a href="https://www.w3schools.com/about/about_privacy.asp">cookie and privacy policy</a>.&nbsp;<a href="https://www.w3schools.com/about/about_copyright.asp">Copyright 1999-2019</a>&nbsp;by Refsnes Data. All Rights Reserved.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-26 14:35:55', NULL, NULL, 0, NULL, NULL, '1'),
+	(71, 33, '<p>TENDER/0001/2019/2020</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-28 15:34:44', NULL, NULL, 0, NULL, NULL, '2'),
+	(72, 33, '<p>TENDER/0001/2019/2020</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-28 15:34:49', NULL, NULL, 0, NULL, NULL, '2'),
+	(73, 34, '<p>TENDER/0001/2019/2020</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-28 15:47:36', NULL, NULL, 0, NULL, NULL, '1');
 /*!40000 ALTER TABLE `groundsandrequestedorders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.groundsandrequestedordershistory
@@ -5832,7 +5887,7 @@ CREATE TABLE IF NOT EXISTS `groupaccess` (
   CONSTRAINT `groupaccess_ibfk_3` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groupaccess: ~150 rows (approximately)
+-- Dumping data for table arcm.groupaccess: ~149 rows (approximately)
 DELETE FROM `groupaccess`;
 /*!40000 ALTER TABLE `groupaccess` DISABLE KEYS */;
 INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`) VALUES
@@ -5901,6 +5956,7 @@ INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, 
 	(1, 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:20', '2019-11-21 16:07:25', 0),
 	(1, 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:26', '2019-11-21 16:07:29', 0),
 	(1, 81, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-26 14:52:38', '2019-11-26 14:52:41', 0),
+	(1, 82, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-27 16:57:04', '2019-11-27 16:57:07', 0),
 	(7, 20, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:23', '2019-07-26 15:20:23', 0),
 	(7, 21, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-07-20 14:35:36', '2019-07-26 15:20:21', 0),
 	(7, 27, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:27', '2019-07-26 15:20:27', 0),
@@ -6338,123 +6394,17 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Created_At` datetime NOT NULL,
   `DueDate` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=541 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=596 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.notifications: ~109 rows (approximately)
+-- Dumping data for table arcm.notifications: ~3 rows (approximately)
 DELETE FROM `notifications`;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`) VALUES
-	(401, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(402, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(403, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(404, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(405, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(406, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(408, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(409, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(410, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(411, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(412, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(413, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(415, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(416, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(417, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(418, 'SOdhiambo', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(422, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(423, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Resolved'),
-	(424, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(425, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(429, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(430, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Resolved'),
-	(431, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(432, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(436, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 18:26:19', '2019-11-24 18:26:19', 'Resolved'),
-	(437, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(438, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Resolved'),
-	(439, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(440, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(444, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 18:33:50', '2019-11-24 18:33:50', 'Resolved'),
-	(445, 'Admin', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-21 18:52:19', '2019-11-24 18:52:19', 'Resolved'),
-	(446, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(447, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(448, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(449, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(450, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(451, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(453, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(454, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(455, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(456, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(457, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(458, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(459, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(460, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(461, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(462, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(463, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Resolved'),
-	(464, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(465, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(469, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(470, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Resolved'),
-	(471, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(472, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(476, 'Pokumu', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 21:59:27', '2019-11-24 21:59:27', 'Not Resolved'),
-	(477, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(478, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(479, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(480, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(481, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(482, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(483, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(484, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Resolved'),
-	(485, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(486, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(487, 'Pokumu', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Resolved'),
-	(488, 'SOdhiambo', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(490, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(491, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Resolved'),
-	(492, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(493, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(494, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(495, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(497, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-22 13:01:49', '2019-11-25 13:01:49', 'Resolved'),
-	(498, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(499, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Resolved'),
-	(500, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(501, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(502, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(503, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(505, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(506, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Resolved'),
-	(507, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(508, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(509, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(510, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(512, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-22 13:29:34', '2019-11-25 13:29:34', 'Resolved'),
-	(513, 'Admin', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Resolved'),
-	(514, 'Pokumu', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Resolved'),
-	(515, 'smiheso', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Resolved'),
-	(516, 'SOdhiambo', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Resolved'),
-	(520, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(521, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(522, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(523, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(524, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(525, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:27:26', '2019-11-26 12:27:26', 'Not Resolved'),
-	(527, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(528, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(529, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(530, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(531, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(532, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-23 12:30:41', '2019-11-26 12:30:41', 'Not Resolved'),
-	(534, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-23 12:31:01', '2019-11-26 12:31:01', 'Not Resolved'),
-	(535, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 14:37:04', '2019-11-29 14:37:04', 'Not Resolved'),
-	(536, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 14:37:04', '2019-11-29 14:37:04', 'Not Resolved'),
-	(537, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 14:37:04', '2019-11-29 14:37:04', 'Not Resolved'),
-	(538, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 15:21:50', '2019-11-29 15:21:50', 'Not Resolved'),
-	(539, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 15:21:50', '2019-11-29 15:21:50', 'Not Resolved'),
-	(540, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-26 15:21:50', '2019-11-29 15:21:50', 'Not Resolved');
+INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`, `ApplicationNo`) VALUES
+	(593, 'Admin', 'Case Adjournment Approval', 'Case Adjournment pending approval', '2019-11-28 16:59:15', '2019-12-01 16:59:15', 'Resolved', '30 OF 2019'),
+	(594, 'CASEOFFICER01', 'Case Adjournment Approval', 'Case Adjournment pending approval', '2019-11-28 16:59:15', '2019-12-01 16:59:15', 'Resolved', '30 OF 2019'),
+	(595, 'PPRA01', 'Case Adjournment Approval', 'Case Adjournment pending approval', '2019-11-28 16:59:15', '2019-12-01 16:59:15', 'Resolved', '30 OF 2019');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelapprovalcontacts
@@ -6467,14 +6417,14 @@ CREATE TABLE IF NOT EXISTS `panelapprovalcontacts` (
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.panelapprovalcontacts: ~3 rows (approximately)
+-- Dumping data for table arcm.panelapprovalcontacts: ~4 rows (approximately)
 DELETE FROM `panelapprovalcontacts`;
 /*!40000 ALTER TABLE `panelapprovalcontacts` DISABLE KEYS */;
 INSERT INTO `panelapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Case Officer', '12 OF 2019'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel', '12 OF 2019'),
-	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Panel', '12 OF 2019'),
-	('CASE OFFICER', 'cmkikungu@gmail.com', '070110292812', 'Panel', '12 OF 2019');
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Case Officer', '30 OF 2019'),
+	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel', '30 OF 2019'),
+	('CASE OFFICER', 'cmkikungu@gmail.com', '070110292812', 'Panel', '30 OF 2019'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Panel', '30 OF 2019');
 /*!40000 ALTER TABLE `panelapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panellist
@@ -6511,9 +6461,9 @@ CREATE TABLE IF NOT EXISTS `panels` (
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.panels: ~17 rows (approximately)
+-- Dumping data for table arcm.panels: ~20 rows (approximately)
 DELETE FROM `panels`;
 /*!40000 ALTER TABLE `panels` DISABLE KEYS */;
 INSERT INTO `panels` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Deleted`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`) VALUES
@@ -6536,7 +6486,10 @@ INSERT INTO `panels` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Dele
 	(39, '29 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-22 13:29:02', 'Admin', NULL, NULL),
 	(40, '12 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-23 12:27:12', 'Admin', NULL, NULL),
 	(41, '12 OF 2019', 'PPRA01', 'Approved', 'Chairperson', 0, '2019-11-23 12:27:16', 'Admin', NULL, NULL),
-	(42, '12 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-23 12:27:24', 'Admin', NULL, NULL);
+	(42, '12 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-23 12:27:24', 'Admin', NULL, NULL),
+	(43, '30 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-28 16:06:52', 'Admin', NULL, NULL),
+	(44, '30 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-28 16:06:55', 'Admin', NULL, NULL),
+	(45, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `panels` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelsapprovalworkflow
@@ -6555,9 +6508,9 @@ CREATE TABLE IF NOT EXISTS `panelsapprovalworkflow` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
 
--- Dumping data for table arcm.panelsapprovalworkflow: ~35 rows (approximately)
+-- Dumping data for table arcm.panelsapprovalworkflow: ~47 rows (approximately)
 DELETE FROM `panelsapprovalworkflow`;
 /*!40000 ALTER TABLE `panelsapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `panelsapprovalworkflow` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Deleted`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Approver`, `Approved_At`) VALUES
@@ -6595,7 +6548,19 @@ INSERT INTO `panelsapprovalworkflow` (`ID`, `ApplicationNo`, `UserName`, `Status
 	(69, '12 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-23 12:27:24', 'Admin', NULL, NULL, 'Admin', '2019-11-23 12:27:44'),
 	(70, '12 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-23 12:27:12', 'Admin', NULL, NULL, 'Admin', '2019-11-23 12:31:01'),
 	(71, '12 OF 2019', 'PPRA01', 'Approved', 'Chairperson', 0, '2019-11-23 12:27:16', 'Admin', NULL, NULL, 'Admin', '2019-11-23 12:31:01'),
-	(72, '12 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-23 12:27:24', 'Admin', NULL, NULL, 'Admin', '2019-11-23 12:31:01');
+	(72, '12 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-23 12:27:24', 'Admin', NULL, NULL, 'Admin', '2019-11-23 12:31:01'),
+	(73, '28 OF 2019', 'Admin', 'Pending Approval', 'Member', 0, '2019-11-21 21:59:00', 'Admin', NULL, NULL, NULL, NULL),
+	(74, '28 OF 2019', 'CASEOFFICER01', 'Pending Approval', 'Member', 0, '2019-11-21 21:59:03', 'Admin', NULL, NULL, NULL, NULL),
+	(75, '28 OF 2019', 'PPRA01', 'Pending Approval', 'Member', 0, '2019-11-21 21:59:07', 'Admin', NULL, NULL, NULL, NULL),
+	(76, '30 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-28 16:06:52', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:02'),
+	(77, '30 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-28 16:06:55', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:31'),
+	(78, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:40'),
+	(79, '30 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-28 16:06:52', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:02'),
+	(80, '30 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-28 16:06:55', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:31'),
+	(81, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:40'),
+	(82, '30 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-28 16:06:52', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:02'),
+	(83, '30 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-28 16:06:55', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:31'),
+	(84, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:40');
 /*!40000 ALTER TABLE `panelsapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.partysubmision
@@ -6652,9 +6617,9 @@ CREATE TABLE IF NOT EXISTS `paymentdetails` (
   `ChequeDate` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CHQNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.paymentdetails: ~28 rows (approximately)
+-- Dumping data for table arcm.paymentdetails: ~29 rows (approximately)
 DELETE FROM `paymentdetails`;
 /*!40000 ALTER TABLE `paymentdetails` DISABLE KEYS */;
 INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `DateOfpayment`, `AmountPaid`, `Created_By`, `Created_At`, `Category`, `PaymentType`, `ChequeDate`, `CHQNO`) VALUES
@@ -6685,7 +6650,9 @@ INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `Da
 	(25, 28, 'Kim', '1234', '2019-11-21', 15000, 'P0123456788X', '2019-11-21 21:41:49', 'Applicationfees', 1, '', ''),
 	(26, 30, 'kimutai', 'REf10002', '2019-11-22', 205000, 'P123456879Q', '2019-11-22 11:35:32', 'Applicationfees', 2, '', ''),
 	(27, 31, '0705555284', '1234', '2019-11-26', 10000, 'P0123456788X', '2019-11-26 14:37:04', 'Applicationfees', 1, '', ''),
-	(28, 32, 'Kim', '1234', '2019-11-26', 25007, 'P0123456788X', '2019-11-26 15:21:50', 'Applicationfees', 1, '', '');
+	(28, 32, 'Kim', '1234', '2019-11-26', 25007, 'P0123456788X', '2019-11-26 15:21:50', 'Applicationfees', 1, '', ''),
+	(29, 33, 'Kim', '1234', '2019-11-28', 70000, 'P0123456788X', '2019-11-28 15:42:57', 'Applicationfees', 1, '', ''),
+	(30, 34, 'Kim', '1234', '2019-11-28', 32500, 'P0123456788X', '2019-11-28 15:51:25', 'Applicationfees', 3, '', '');
 /*!40000 ALTER TABLE `paymentdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.paymenttypes
@@ -6725,14 +6692,13 @@ CREATE TABLE IF NOT EXISTS `pedeadlineextensionsrequests` (
   `Created_By` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.pedeadlineextensionsrequests: ~2 rows (approximately)
+-- Dumping data for table arcm.pedeadlineextensionsrequests: ~1 rows (approximately)
 DELETE FROM `pedeadlineextensionsrequests`;
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` DISABLE KEYS */;
 INSERT INTO `pedeadlineextensionsrequests` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`) VALUES
-	(1, 'PE-2', '12 OF 2019', '<p>New Request 2</p>\n', '2019-11-15 00:00:00', '2019-11-11 17:31:46', 'A123456789X', 'Pending Approval'),
-	(2, 'PE-2', '15 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 00:00:00', '2019-11-12 17:15:50', 'A123456789X', 'DECLINED');
+	(4, 'PE-2', '28 OF 2019', '<p>pedeadlineextensionsrequests</p>\n', '2019-11-28 00:00:00', '2019-11-28 11:39:11', 'A123456789X', 'Fully Approved');
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponse
@@ -6748,9 +6714,9 @@ CREATE TABLE IF NOT EXISTS `peresponse` (
   `Status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `PanelStatus` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`,`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponse: ~9 rows (approximately)
+-- Dumping data for table arcm.peresponse: ~10 rows (approximately)
 DELETE FROM `peresponse`;
 /*!40000 ALTER TABLE `peresponse` DISABLE KEYS */;
 INSERT INTO `peresponse` (`ID`, `ApplicationNo`, `PEID`, `ResponseType`, `ResponseDate`, `Created_By`, `Created_At`, `Status`, `PanelStatus`) VALUES
@@ -6762,7 +6728,8 @@ INSERT INTO `peresponse` (`ID`, `ApplicationNo`, `PEID`, `ResponseType`, `Respon
 	(6, '18 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-15 12:01:35', 'P65498745R', '2019-11-15 12:01:35', 'Submited', 'Submited'),
 	(7, '20 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-20 15:16:48', 'A123456789X', '2019-11-20 15:16:48', 'Submited', 'Submited'),
 	(8, '23 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-21 17:34:10', 'A123456789X', '2019-11-21 17:34:10', 'Submited', 'Submited'),
-	(9, '29 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-22 12:18:20', 'P65498745R', '2019-11-22 12:18:20', 'Submited', 'Submited');
+	(9, '29 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-22 12:18:20', 'P65498745R', '2019-11-22 12:18:20', 'Submited', 'Submited'),
+	(10, '28 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-28 16:06:03', 'A123456789X', '2019-11-28 16:06:03', 'Submited', 'Undefined');
 /*!40000 ALTER TABLE `peresponse` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsebackgroundinformation
@@ -6777,9 +6744,9 @@ CREATE TABLE IF NOT EXISTS `peresponsebackgroundinformation` (
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsebackgroundinformation: ~10 rows (approximately)
+-- Dumping data for table arcm.peresponsebackgroundinformation: ~11 rows (approximately)
 DELETE FROM `peresponsebackgroundinformation`;
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` DISABLE KEYS */;
 INSERT INTO `peresponsebackgroundinformation` (`ID`, `ApplicationNo`, `BackgroundInformation`, `ResponseType`, `Created_At`, `Updated_At`, `Updated_By`, `Created_By`) VALUES
@@ -6792,7 +6759,8 @@ INSERT INTO `peresponsebackgroundinformation` (`ID`, `ApplicationNo`, `Backgroun
 	(7, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Preliminary Objection', '2019-11-20 15:04:19', '2019-11-20 15:12:30', 'A123456789X', 'A123456789X'),
 	(8, '23 OF 2019', '<p>On behalf of the Procuring Entity, Mr. Rapando fully relied on its Response to Request for Review No. 78/2019 and Response to Request for Review No. 79 of 2019, both dated and filed on 1st August 2019.<br />\nMr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', 'Memorandum of Response', '2019-11-21 17:33:51', NULL, NULL, 'A123456789X'),
 	(9, '27 OF 2019', '<p>The source is corresponding to &#39;PBS NewsHour, PBS NewsHour, Rivet&#39; I Think inverted comma is missing which leads to 12 values instead of 14&nbsp;&ndash;&nbsp;<a href="https://stackoverflow.com/users/2614719/prateek-mishra">Prateek Mishra</a>&nbsp;<a href="https://stackoverflow.com/questions/24773064/error-er-wrong-value-count-on-row-column-count-doesnt-match-value-count-at-ro#comment38443009_24773161">Jul 16 &#39;14 at 6:35</a></p>\n', 'Memorandum of Response', '2019-11-21 21:53:09', NULL, NULL, 'A123456789X'),
-	(10, '29 OF 2019', '<p>abcd</p>\n', 'Memorandum of Response', '2019-11-22 12:18:00', NULL, NULL, 'P65498745R');
+	(10, '29 OF 2019', '<p>abcd</p>\n', 'Memorandum of Response', '2019-11-22 12:18:00', NULL, NULL, 'P65498745R'),
+	(11, '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', 'Memorandum of Response', '2019-11-28 16:05:58', NULL, NULL, 'A123456789X');
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsecontacts
@@ -6804,13 +6772,14 @@ CREATE TABLE IF NOT EXISTS `peresponsecontacts` (
   `Role` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsecontacts: ~3 rows (approximately)
+-- Dumping data for table arcm.peresponsecontacts: ~4 rows (approximately)
 DELETE FROM `peresponsecontacts`;
 /*!40000 ALTER TABLE `peresponsecontacts` DISABLE KEYS */;
 INSERT INTO `peresponsecontacts` (`Name`, `Email`, `Mobile`, `Role`) VALUES
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086', 'PE'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Case officer'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595', 'Applicant');
+	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0701102928', 'PE'),
+	('Home', 'elviskimcheruiyot@gmail.com', '0705555285', 'Interested Parties'),
+	('Philip Okumu', 'okumupj@yahoo.com', '0720768894', 'Case officer'),
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '07184030861', 'Applicant');
 /*!40000 ALTER TABLE `peresponsecontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsedetails
@@ -6828,9 +6797,9 @@ CREATE TABLE IF NOT EXISTS `peresponsedetails` (
   `BackgrounInformation` text COLLATE utf8mb4_unicode_ci,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsedetails: ~31 rows (approximately)
+-- Dumping data for table arcm.peresponsedetails: ~32 rows (approximately)
 DELETE FROM `peresponsedetails`;
 /*!40000 ALTER TABLE `peresponsedetails` DISABLE KEYS */;
 INSERT INTO `peresponsedetails` (`ID`, `PEResponseID`, `GroundNO`, `GroundType`, `Response`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `BackgrounInformation`, `Deleted`) VALUES
@@ -6864,7 +6833,8 @@ INSERT INTO `peresponsedetails` (`ID`, `PEResponseID`, `GroundNO`, `GroundType`,
 	(38, 7, '2', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:18:37', 'A123456789X', NULL, NULL, NULL, 0),
 	(39, 7, '3', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:18:44', 'A123456789X', NULL, NULL, NULL, 0),
 	(47, 9, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pelle</p>\n', '2019-11-22 12:18:21', 'P65498745R', NULL, NULL, NULL, 0),
-	(48, 9, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pelle</p>\n', '2019-11-22 12:18:52', 'P65498745R', NULL, NULL, NULL, 0);
+	(48, 9, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pelle</p>\n', '2019-11-22 12:18:52', 'P65498745R', NULL, NULL, NULL, 0),
+	(49, 10, '1', 'Grounds', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', '2019-11-28 16:06:04', 'A123456789X', NULL, NULL, NULL, 0);
 /*!40000 ALTER TABLE `peresponsedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsedocuments
@@ -6908,13 +6878,13 @@ CREATE TABLE IF NOT EXISTS `peresponsetimer` (
   `DueOn` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`,`PEID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsetimer: ~18 rows (approximately)
+-- Dumping data for table arcm.peresponsetimer: ~19 rows (approximately)
 DELETE FROM `peresponsetimer`;
 /*!40000 ALTER TABLE `peresponsetimer` DISABLE KEYS */;
 INSERT INTO `peresponsetimer` (`ID`, `PEID`, `ApplicationNo`, `RegisteredOn`, `DueOn`, `Status`) VALUES
-	(1, 'PE-2', '12 OF 2019', '2019-11-11 16:20:11', '2019-11-16 16:20:11', 'Submited'),
+	(1, 'PE-2', '12 OF 2019', '2019-11-11 16:20:11', '2019-11-15 00:00:00', 'Submited'),
 	(2, 'PE-3', '13 OF 2019', '2019-11-12 11:51:53', '2019-11-17 11:51:53', 'Awaiting Response'),
 	(3, 'PE-3', '14 OF 2019', '2019-11-12 15:56:41', '2019-11-17 15:56:41', 'Pending Acknowledgement'),
 	(4, 'PE-2', '15 OF 2019', '2019-11-12 17:02:35', '2019-11-17 17:02:35', 'Submited'),
@@ -6930,8 +6900,9 @@ INSERT INTO `peresponsetimer` (`ID`, `PEID`, `ApplicationNo`, `RegisteredOn`, `D
 	(14, 'PE-2', '25 OF 2019', '2019-11-21 21:31:33', '2019-11-26 21:31:33', 'Pending Acknowledgement'),
 	(15, 'PE-2', '26 OF 2019', '2019-11-21 21:34:40', '2019-11-26 21:34:40', 'Pending Acknowledgement'),
 	(16, 'PE-2', '27 OF 2019', '2019-11-21 21:37:14', '2019-11-26 21:37:14', 'Submited'),
-	(17, 'PE-2', '28 OF 2019', '2019-11-21 21:44:12', '2019-11-26 21:44:12', 'Awaiting Response'),
-	(18, 'PE-4', '29 OF 2019', '2019-11-22 11:47:04', '2019-11-27 11:47:04', 'Submited');
+	(17, 'PE-2', '28 OF 2019', '2019-11-21 21:44:12', '2019-11-28 00:00:00', 'Submited'),
+	(18, 'PE-4', '29 OF 2019', '2019-11-22 11:47:04', '2019-11-27 11:47:04', 'Submited'),
+	(19, 'PE-1', '30 OF 2019', '2019-11-28 16:01:49', '2019-12-03 16:01:49', 'Pending Acknowledgement');
 /*!40000 ALTER TABLE `peresponsetimer` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.petypes
@@ -7068,9 +7039,9 @@ CREATE TABLE IF NOT EXISTS `rb1forms` (
   `GeneratedOn` datetime DEFAULT NULL,
   `GeneratedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.rb1forms: ~15 rows (approximately)
+-- Dumping data for table arcm.rb1forms: ~16 rows (approximately)
 DELETE FROM `rb1forms`;
 /*!40000 ALTER TABLE `rb1forms` DISABLE KEYS */;
 INSERT INTO `rb1forms` (`ID`, `ApplicationNo`, `Path`, `FileName`, `GeneratedOn`, `GeneratedBy`) VALUES
@@ -7088,7 +7059,8 @@ INSERT INTO `rb1forms` (`ID`, `ApplicationNo`, `Path`, `FileName`, `GeneratedOn`
 	(12, '26 OF 2019', 'RB1FORMS/', '26 OF 2019.pdf', '2019-11-21 21:34:43', 'Admin'),
 	(13, '27 OF 2019', 'RB1FORMS/', '27 OF 2019.pdf', '2019-11-21 21:37:17', 'Admin'),
 	(14, '28 OF 2019', 'RB1FORMS/', '28 OF 2019.pdf', '2019-11-21 21:44:14', 'Admin'),
-	(15, '29 OF 2019', 'RB1FORMS/', '29 OF 2019.pdf', '2019-11-22 11:47:08', 'Admin');
+	(15, '29 OF 2019', 'RB1FORMS/', '29 OF 2019.pdf', '2019-11-22 11:47:08', 'Admin'),
+	(16, '30 OF 2019', 'RB1FORMS/', '30 OF 2019.pdf', '2019-11-28 16:01:56', 'Admin');
 /*!40000 ALTER TABLE `rb1forms` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.ReasignCaseOfficer
@@ -7242,10 +7214,10 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ResolveMyNotification
 DROP PROCEDURE IF EXISTS `ResolveMyNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50),IN _ApplicationNo VARCHAR(50))
 BEGIN
-select ID from notifications where Username=_UserName and Category=_Category and Status='Not Resolved' LIMIT 1 into @UnresolvedID;
-update notifications set Status='Resolved' where Username=_UserName and Category=_Category and ID=@UnresolvedID;
+-- select ID from notifications where Username=_UserName and Category=_Category and Status='Not Resolved' LIMIT 1 into @UnresolvedID;
+update notifications set Status='Resolved' where Username=_UserName and Category=_Category and ApplicationNo=_ApplicationNo;
 END//
 DELIMITER ;
 
@@ -7270,8 +7242,8 @@ call Saveapplicationsequence(@App,'Resubmited Application','Awaiting fees confir
               where approvers.ModuleCode='APFRE' and approvers.Deleted=0 and Active=1;  
    if(select count(*) from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0)>0 THEN
               Begin
-                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
                   from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
               End;
               End if;    
@@ -7293,9 +7265,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `Deleted` tinyint(1) NOT NULL,
   `Category` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`RoleID`,`RoleName`)
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.roles: ~65 rows (approximately)
+-- Dumping data for table arcm.roles: ~64 rows (approximately)
 DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`, `Category`) VALUES
@@ -7363,7 +7335,8 @@ INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `Creat
 	(78, 'Judicial Review', 'Judicial Review', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'Menus'),
 	(79, 'Banks', 'Banks', NULL, 'Admin', NULL, NULL, 0, 'Systemparameteres'),
 	(80, 'Payment Types', 'Payment Types', NULL, 'Admin', NULL, NULL, 0, 'Systemparameteres'),
-	(81, 'Fees Report', 'Fees Report', 'user', 'user', '2019-06-27 17:31:29', '2019-06-27 17:31:29', 0, 'Reports');
+	(81, 'Fees Report', 'Fees Report', 'user', 'user', '2019-06-27 17:31:29', '2019-06-27 17:31:29', 0, 'Reports'),
+	(82, 'Applications Custom Report', 'Applications Custom Report', 'user', 'user', '2019-06-27 17:31:29', '2019-06-27 17:31:29', 0, 'Reports');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.Saveadditionalsubmissions
@@ -7475,13 +7448,16 @@ set lSaleDesc= CONCAT('Submited request for case withdrawal for application:',_A
 select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 LIMIT 1 into @Approver;
 insert into adjournment(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
   VALUES(now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,@Approver);
- call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-call SaveNotification(@Approver,'Case Adjournment Approval','Case Adjournment pending approval',DATE_ADD(NOW(), INTERVAL 3 DAY));
+insert into adjournmentApprovalWorkFlow(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
+select now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 ;
 
-  call Saveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment','Awaiting Approval');
+call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
  
+select Username,'Case Adjournment Approval','Case Adjournment pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 ;
+call Saveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment','Awaiting Approval',_UserID);
 
-Select 'Success' as msg,Email,Name,Phone from users where Username=@Approver;
+Select 'Success' as msg,Email,Name,Phone from users where Username in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) ;
   End;
   End if;
 END//
@@ -7752,10 +7728,10 @@ set lSaleDesc= CONCAT('Submited request for case withdrawal for application:',_A
 insert into casewithdrawal(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By ) 
   VALUES(now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID);
  call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-select Username,'Case withdrawal Approval','Case withdrawal pending approval',NOW(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved' 
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+select Username,'Case withdrawal Approval','Case withdrawal pending approval',NOW(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo 
 from approvers where Deleted=0 and Active=1 and ModuleCode='WIOAP';
-call Saveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal','Awaiting Approval'); 
+call Saveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal','Awaiting Approval',_UserID); 
 Select 'Success' as msg,Email,Name,Phone from users where Username in (select Username from approvers where Deleted=0 and Active=1 and ModuleCode='WIOAP');
   End;
   End if;
@@ -8259,11 +8235,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveNotification
 DROP PROCEDURE IF EXISTS `SaveNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME,IN _ApplicationNo VARCHAR(50))
     NO SQL
 BEGIN
-INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-  VALUES (_Username,_Category,_Description,NOW(),_DueDate,'Not Resolved');
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+  VALUES (_Username,_Category,_Description,NOW(),_DueDate,'Not Resolved',_ApplicationNo);
 
 END//
 DELIMITER ;
@@ -8334,15 +8310,16 @@ set lSaleDesc= CONCAT('Added new payment details for application: ', _Applicatio
 
   if(_Category='PreliminaryObjectionsFees')THEN
     Begin
-      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status)
-     select Username,'Preliminary Objecions Fees Approval','Preliminary objection fees pending confirmation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+      select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @AppNo;
+      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+     select Username,'Preliminary Objecions Fees Approval','Preliminary objection fees pending confirmation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',@AppNo
      from approvers where ModuleCode ='PAYMT' and Active=1 and Deleted=0;
   End;
     Else
       update applications set PaymentStatus='Submited' where ID=_ApplicationID;
-      call CompleteApplication(_ApplicationID,_userID);
-      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status)
-      select Username,'Applications Fees Approval','Applications pending fees confirmaion',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+     -- call CompleteApplication(_ApplicationID,_userID);
+      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+      select Username,'Applications Fees Approval','Applications pending fees confirmaion',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
       from approvers where ModuleCode ='PAYMT' and Active=1 and Deleted=0;
   Begin
     End;
@@ -8396,7 +8373,7 @@ BEGIN
 DECLARE lSaleDesc varchar(200);
 
 select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
-set lSaleDesc= CONCAT(@PEID,' Responded to application:'+_ApplicationNo); 
+set lSaleDesc= CONCAT(' Responded to application:' ,_ApplicationNo); 
 
 if(SELECT count(*)  from peresponse where ApplicationNo=_ApplicationNo)>0 THEN
 BEGIN
@@ -8553,19 +8530,32 @@ BEGIN
   select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
   insert into pedeadlineextensionsrequests(PEID ,ApplicationNo ,Reason ,RequestedDate,Created_At,Created_By ,Status)
   VALUES(@PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval');
+
   select Username from approvers where ModuleCode='REXED' and Deleted=0 and Active=1 LIMIT 1 into @Approver;
   insert into deadlineapprovalworkflow(PEID ,ApplicationNo ,Reason ,RequestedDate,Created_At,Created_By ,Status,Approver)
-  VALUES(@PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval',@Approver);
-  select Name,Email,Phone from users where Username=@Approver;
-  CALL SaveNotification(@Approver ,'Deadline Approval','Deadline Approval Request', NOW() + INTERVAL 3 DAY);
+  Select @PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval',Username 
+  from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0;
+ 
+  
+
+    if(select count(*) from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0)>0 THEN
+    Begin
+      INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+      select Username,'Deadline Approval','Deadline Approval Request',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
+      from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0;
+    End;
+    End if; 
+     select Name,Email,Phone from users where Username in (Select Username from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0);
+
+
 END;
 ELSE
 
 Begin
 Update pedeadlineextensionsrequests set Reason=_Reason,RequestedDate=_Newdate where ApplicationNo=_ApplicationNo; 
 Update deadlineapprovalworkflow set Reason=_Reason,RequestedDate=_Newdate,Status='Pending Approval' where ApplicationNo=_ApplicationNo; 
-  select Username from approvers where ModuleCode='REXED' and Deleted=0 and Active=1 LIMIT 1 into @Approver;
-  select Name,Email,Phone from users where Username=@Approver;
+   select Name,Email,Phone from users where Username in (Select Username from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0);
+
 END;
 
  END IF;
@@ -9187,7 +9177,7 @@ CREATE TABLE IF NOT EXISTS `smsdetails` (
 DELETE FROM `smsdetails`;
 /*!40000 ALTER TABLE `smsdetails` DISABLE KEYS */;
 INSERT INTO `smsdetails` (`ID`, `SenderID`, `UserName`, `URL`, `Key`) VALUES
-	(1, 'WILCOM-TVET', 'ARCM', 'http://api.mspace.co.ke/mspaceservice/wr/sms/sendtext/', '123456');
+	(1, 'WILCOM-TVET', 'ARCM', 'http://api.mspace.co.ke/mspaceservice/wr/sms/sendtext/', '1234561');
 /*!40000 ALTER TABLE `smsdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.smtpdetails
@@ -9272,7 +9262,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitApprovedPanelList`(IN _UserID
 BEGIN
  DECLARE lSaleDesc varchar(200);
 
-call ResolveMyNotification(_UserID,'Panel Approval');
+call ResolveMyNotification(_UserID,'Panel Approval',_ApplicationNo);
  DROP TABLE IF EXISTS PanelApprovalContacts;
  create table PanelApprovalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Msg varchar(50),ApplicationNo varchar(50));
 
@@ -9293,8 +9283,9 @@ Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and 
           if @CountApproved >= @MaxApprovals  THEN
             update panelsapprovalworkflow  set Status='Approved',Approver=_UserID, Approved_At=now() where ApplicationNo=_ApplicationNo  and Status='Pending Approval'; 
            BEGIN
+            update notifications set Status='Resolved' where Category='Panel Approval' and  ApplicationNo=_ApplicationNo;  
               select ifnull(UserName,_UserID) from casedetails where ApplicationNo=_ApplicationNo and PrimaryOfficer=1 and Status='Open' LIMIT 1 into @Approver;
-              call SaveNotification(@Approver,'Case Scheduling','Applications Hearing date scheduling',DATE_ADD(NOW(), INTERVAL 3 DAY));                
+              call SaveNotification(@Approver,'Case Scheduling','Applications Hearing date scheduling',DATE_ADD(NOW(), INTERVAL 3 DAY),_ApplicationNo);                
               call Saveapplicationsequence(_ApplicationNo,'Approved PanelList','Awaiting Hearing Date scheduling',_UserID);           
               insert into PanelApprovalContacts select Name,Email,Phone,'Case Officer',_ApplicationNo from users where Username=@Approver;              
               insert into PanelApprovalContacts select Name,Email,Phone,'Panel',_ApplicationNo from users inner join panels on panels.UserName=users.Username 
@@ -9372,12 +9363,12 @@ BEGIN
 
   -- call SaveNotification(@Approver,'Panel Approval','Panel Lists Awiting Approval',DATE_ADD(NOW(), INTERVAL 3 DAY));  
 
-    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-    select Username,'Panel Approval','Panel Lists Awiting Approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+    select Username,'Panel Approval','Panel Lists Awiting Approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
     from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
 
    call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-   call ResolveMyNotification(_UserID,'Panel Formation');
+   call ResolveMyNotification(_UserID,'Panel Formation',_ApplicationNo);
 
    call Saveapplicationsequence(_ApplicationNo,'Submited Hearing Panel','Awaiting Panel Approval',_UserID);
   select Name,Email,Phone, _ApplicationNo as ApplicationNo from users where Username in 
@@ -9428,8 +9419,8 @@ BEGIN
 
    if(select count(*) from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0)>0 THEN
               Begin
-                    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                 select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                 select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
                  from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
    End;
    End if;
@@ -9528,7 +9519,7 @@ CREATE TABLE IF NOT EXISTS `tenders` (
   KEY `ID` (`ID`),
   KEY `FK_PEID` (`PEID`),
   CONSTRAINT `FK_PEID` FOREIGN KEY (`PEID`) REFERENCES `procuremententity` (`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.tenders: ~27 rows (approximately)
 DELETE FROM `tenders`;
@@ -9560,7 +9551,9 @@ INSERT INTO `tenders` (`ID`, `TenderNo`, `Name`, `PEID`, `TenderValue`, `StartDa
 	(40, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa', 'PE-4', 500000000, '2019-11-21 00:00:00', '2019-11-21 00:00:00', '2019-11-22 00:00:00', 'P123456879Q', '2019-11-22 11:16:49', '2019-11-22 11:16:49', NULL, 0, NULL, NULL, 'A', NULL, 'Pre-qualification', 'Submited within 14 days'),
 	(41, 'TENDER/0001/2019/2020', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean', 'PE-4', 500000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P123456879Q', '2019-11-22 11:26:40', '2019-11-22 11:32:55', 'P123456879Q', 0, NULL, NULL, 'A', NULL, 'Pre-qualification', 'Submited within 14 days'),
 	(42, 'TENDER/0001/2019/2020', 'Tender Name 2', 'PE-2', 5000000, '2019-11-26 00:00:00', '2019-11-26 00:00:00', '2019-11-26 00:00:00', 'P0123456788X', '2019-11-26 14:35:27', '2019-11-26 14:35:27', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(43, 'TENDER/0001/2019/2020', 'Tender 3', 'PE-1', 2000000, '2019-11-26 00:00:00', '2019-11-26 00:00:00', '2019-11-26 00:00:00', 'P0123456788X', '2019-11-26 15:21:11', '2019-11-26 15:21:11', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days');
+	(43, 'TENDER/0001/2019/2020', 'Tender 3', 'PE-1', 2000000, '2019-11-26 00:00:00', '2019-11-26 00:00:00', '2019-11-26 00:00:00', 'P0123456788X', '2019-11-26 15:21:11', '2019-11-26 15:21:11', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
+	(44, 'TENDER/0001/2019/2020', 'TENDER/0001/2019/2020', 'PE-1', 20000000, '2019-11-28 00:00:00', '2019-11-28 00:00:00', '2019-11-28 00:00:00', 'P0123456788X', '2019-11-28 15:34:35', '2019-11-28 15:42:06', 'P0123456788X', 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
+	(45, 'TENDER/0001/2019/2020', 'TENDER/0001/2019/2020', 'PE-1', 5000000, '2019-11-28 00:00:00', '2019-11-28 00:00:00', '2019-11-28 00:00:00', 'P0123456788X', '2019-11-28 15:47:17', '2019-11-28 15:47:17', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days');
 /*!40000 ALTER TABLE `tenders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tendertypes
@@ -11342,7 +11335,7 @@ CREATE TABLE IF NOT EXISTS `useraccess` (
   CONSTRAINT `useraccess_ibfk_3` FOREIGN KEY (`UpdateBy`) REFERENCES `users` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.useraccess: ~464 rows (approximately)
+-- Dumping data for table arcm.useraccess: ~463 rows (approximately)
 DELETE FROM `useraccess`;
 /*!40000 ALTER TABLE `useraccess` DISABLE KEYS */;
 INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`) VALUES
@@ -11451,6 +11444,7 @@ INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `Vie
 	('Admin', 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:57', '2019-11-21 16:08:02'),
 	('Admin', 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:57', '2019-11-21 16:08:03'),
 	('Admin', 81, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-26 14:53:00', '2019-11-26 14:53:03'),
+	('Admin', 82, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-27 16:57:20', '2019-11-27 16:57:22'),
 	('CASEOFFICER01', 24, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
 	('CASEOFFICER01', 25, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
 	('CASEOFFICER01', 26, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
@@ -11908,9 +11902,9 @@ CREATE TABLE IF NOT EXISTS `venuebookings` (
   `Booked_On` datetime DEFAULT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.venuebookings: ~36 rows (approximately)
+-- Dumping data for table arcm.venuebookings: ~39 rows (approximately)
 DELETE FROM `venuebookings`;
 /*!40000 ALTER TABLE `venuebookings` DISABLE KEYS */;
 INSERT INTO `venuebookings` (`ID`, `VenueID`, `Date`, `Slot`, `Booked_By`, `Content`, `Booked_On`, `Deleted`) VALUES
@@ -11950,7 +11944,10 @@ INSERT INTO `venuebookings` (`ID`, `VenueID`, `Date`, `Slot`, `Booked_By`, `Cont
 	(34, 8, '2019-11-22', '2.00PM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0),
 	(35, 8, '2019-11-22', '4.00AM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0),
 	(36, 8, '2019-11-22', '3.00AM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0),
-	(37, 5, '2019-11-23', '8.00AM', 'Admin', '12 OF 2019', '2019-11-23 12:53:52', 0);
+	(37, 5, '2019-11-23', '8.00AM', 'Admin', '12 OF 2019', '2019-11-23 12:53:52', 0),
+	(38, 8, '2019-11-28', '8.00AM', 'Admin', '28 OF 2019', '2019-11-28 13:36:55', 0),
+	(39, 5, '2019-11-28', '8.00AM', 'Admin', '30 OF 2019', '2019-11-28 16:10:39', 0),
+	(40, 5, '2019-11-28', '9.00AM', 'Admin', '30 OF 2019', '2019-11-28 16:12:40', 0);
 /*!40000 ALTER TABLE `venuebookings` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.venues

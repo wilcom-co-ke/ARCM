@@ -478,7 +478,7 @@ computeenddate(date){
                                     width="750"
                                     height="300"
                                     effect="fadeInUp"
-                                    onClickAway={() => this.closeModal()}
+                                   
                                 >
                                     <a
                                         style={{ float: "right", color: "red", margin: "10px" }}

@@ -412,7 +412,7 @@ class committeetypes extends Component {
                   width="600"
                   height="250"
                   effect="fadeInUp"
-                  onClickAway={() => this.closeModal()}
+                  
                 >
                   <a
                     style={{ float: "right", color: "red", margin: "10px" }}

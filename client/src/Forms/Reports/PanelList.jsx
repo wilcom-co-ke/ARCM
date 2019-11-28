@@ -203,7 +203,6 @@ class PanelList extends Component {
                     </button>
                   </div>
                   <div class="col-sm-1">
-                    &nbsp;&nbsp;
                     <button
                       onClick={this.PrintFile}
                       className="btn btn-success"

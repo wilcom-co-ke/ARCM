@@ -584,51 +584,69 @@ class Response extends Component {
 
                                     {this.state.AdditionalSubmisions.map(function (k, i) {
                                         return (
-
                                             <p>
+                                                <h5>
+                                                    {" "}
+                                                    Submited By. {k.SubmitedBy} - {k.Category} (
+                          {dateFormat(k.Create_at, "default")})
+                        </h5>
                                                 {ReactHtmlParser(k.Description)}
                                             </p>
-
                                         );
                                     })}
                                     <h2>Attachments</h2>
-
                                     <table className="table table-borderless table-sm">
                                         <thead className="thead-light">
                                             <th>ID</th>
                                             <th>Description</th>
-                                            <th>Date Uploaded</th>
+                                            <th>Date Submited</th>
+                                            <th>Submited By</th>
                                             <th>Actions</th>
-                                           
                                         </thead>
                                         {this.state.AdditionalSubmisionsDocuments.map((k, i) => {
-                                            return (
-                                                this.checkDocumentRoles() ?
+                                            return k.Confidential ? (
+                                                this.checkDocumentRoles() ? (
                                                     <tr>
                                                         <td>{i + 1}</td>
-                                                        <td>   {k.Description}</td>
+                                                        <td> {k.Description}</td>
+                                                        <td>{dateFormat(k.Create_at, "default")}</td>
                                                         <td>
-                                                            {dateFormat(
-                                                                new Date(
-                                                                    k.Create_at
-                                                                ).toLocaleDateString(),
-                                                                "mediumDate"
-                                                            )}
-                                                          
+                                                            {" "}
+                                                            {k.SubmitedBy} - {k.Category}
                                                         </td>
+
                                                         <td>
                                                             <a
                                                                 onClick={e => ViewFile(k, e)}
                                                                 className="text-success"
                                                             >
                                                                 <i class="fa fa-eye" aria-hidden="true"></i>View
-                                  </a>
+                              </a>
                                                         </td>
-                                                    </tr> : null
-                                            );
+                                                    </tr>
+                                                ) : null
+                                            ) : (
+                                                    <tr>
+                                                        <td>{i + 1}</td>
+                                                        <td> {k.Description}</td>
+                                                        <td>{dateFormat(k.Create_at, "default")}</td>
+                                                        <td>
+                                                            {" "}
+                                                            {k.SubmitedBy} - {k.Category}
+                                                        </td>
+
+                                                        <td>
+                                                            <a
+                                                                onClick={e => ViewFile(k, e)}
+                                                                className="text-success"
+                                                            >
+                                                                <i class="fa fa-eye" aria-hidden="true"></i>View
+                            </a>
+                                                        </td>
+                                                    </tr>
+                                                );
                                         })}
                                     </table>
-
                                 </div>
                             </div>
                         </div>
