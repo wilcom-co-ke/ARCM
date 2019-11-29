@@ -494,7 +494,7 @@ class NewApprovers extends Component {
           width="900"
           height="450"
           effect="fadeInUp"
-          onClickAway={() => this.closeModal()}
+         
         >
           <a
             style={{ float: "right", color: "red", margin: "10px" }}
@@ -504,6 +504,7 @@ class NewApprovers extends Component {
             <i class="fa fa-close"></i>
           </a>
           <div>
+            <ToastContainer/>
             <h4 style={{ "text-align": "center", color: "#1c84c6" }}>
               Approvers
             </h4>

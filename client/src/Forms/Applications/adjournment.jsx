@@ -719,7 +719,7 @@ class adjournment extends Component {
                                                         type="submit"
                                                         className="btn btn-primary"
                                                     >
-                                                        CONFIRM
+                                                        Submit
                                                         </button>
 
                                                 </div>

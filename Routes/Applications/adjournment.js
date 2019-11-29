@@ -234,7 +234,7 @@ adjournment.delete("/:ID", auth.validateRole("Case Adjournment"), function(
     }
   });
 });
-adjournment.put("/:ID", auth.validateRole("Case Withdrawal"), function(
+adjournment.put("/:ID", auth.validateRole("Case Adjournment"), function(
   req,
   res
 ) {

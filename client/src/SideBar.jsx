@@ -799,7 +799,7 @@ const JudicialReview = props => {
 const SystemAdmin = props => {
   if (props.validaterole("System Administration", "View")) {
     return (
-      <div>
+      <li>
         <li
           className=""
           onClick={e => props.showMenu("System Administration", e)}
@@ -876,7 +876,7 @@ const SystemAdmin = props => {
             ) : null}
           </ul>
         ) : null}
-      </div>
+      </li>
     );
   } else {
     return <div />;
