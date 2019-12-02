@@ -41,6 +41,7 @@ class AdjournmentApproval extends Component {
     };
 
     fetchPendingRequests = () => {
+        this.setState({ Applications: [] });
         fetch("/api/adjournment/" + localStorage.getItem("UserName")+"/PendingRequests", {
             method: "GET",
             headers: {

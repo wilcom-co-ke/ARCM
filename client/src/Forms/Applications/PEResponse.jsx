@@ -111,6 +111,9 @@ class PEResponse extends Component {
       });
   };
   fetchBackgrounInformation = () => {
+    this.setState({
+      BackgroundInformation: []
+    });
     fetch("/api/PEResponse/BackgrounInformation/" + this.state.ApplicationNo, {
       method: "GET",
       headers: {
@@ -131,8 +134,8 @@ class PEResponse extends Component {
       });
   };
   fetchResponseDetails = () => {
-    this.setState({ PrayersDetails: [] });
-    this.setState({ GroundsDetails: [] });
+    this.setState({ PrayersDetails: [],
+    GroundsDetails: [] });
     fetch(
       "/api/PEResponse/GetPEResponseDetailsPerApplication/" +
         this.state.ApplicationNo,
@@ -298,6 +301,15 @@ class PEResponse extends Component {
   };
   handleSelectChange = (UserGroup, actionMeta) => {
     this.setState({ [actionMeta.name]: UserGroup.value });
+    if (this.state.ApplicationNo){
+      this.fetchApplicationGrounds();
+      this.fetchApplicationPrayers();
+      this.fetchPreliminaryObjectionsFeesPaymentDetails();
+      this.fetchResponseDetails();
+      this.fetchBackgrounInformation();
+      this.fetchBankSlips(this.state.ApplicationID);
+    }
+   
     if (actionMeta.name === "GroundNo") {
       const filtereddata = this.state.ApplicationGrounds.filter(
         item => item.GroundNO == UserGroup.value
@@ -725,14 +737,11 @@ class PEResponse extends Component {
         .then(response =>
           response.json().then(data => {
             if (data.success) {
-              this.fetchApplicationGrounds();
-              this.fetchApplicationPrayers();
               this.fetchinterestedparties();
               this.fetchPreliminaryObjectionsFees();
-              this.fetchPreliminaryObjectionsFeesPaymentDetails();
-              this.fetchResponseDetails();
-              this.fetchBackgrounInformation();
-              this.fetchBankSlips(this.state.ApplicationID);
+
+
+           
               this.fetchBanks();
               this.fetchPaymentTypes();
             } else {

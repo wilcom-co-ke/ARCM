@@ -42,7 +42,7 @@ class DecisionPreparations extends Component {
       RefertoDG: false,
       Closed: false,
       openPartiesSubmissionsModal: false,
-      DecisionDate: "",
+      DecisionDate: dateFormat(new Date().toLocaleDateString(), "isoDate"),
       selectedFile: null,
       loaded: 0,
       IsUpdateFindings: false,
@@ -741,6 +741,7 @@ class DecisionPreparations extends Component {
     }
   };
   HandleView = k => {
+    
     const data = {
       ApplicationNo: k.ApplicationNo,
       summary: true,
@@ -753,8 +754,11 @@ class DecisionPreparations extends Component {
       TenderCategory: k.TenderCategory,
       TenderSubCategory: k.TenderSubCategory,
       TenderType: k.TenderType,
-      DecisionDate: dateFormat(
+      DecisionDate: k.DecisionDate? dateFormat(
         new Date(k.DecisionDate).toLocaleDateString(),
+        "isoDate"
+      ) : dateFormat(
+        new Date().toLocaleDateString(),
         "isoDate"
       ),
       ApplicationSuccessful: !!+k.ApplicationSuccessful,

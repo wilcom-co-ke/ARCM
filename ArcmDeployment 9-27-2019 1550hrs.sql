@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissiondocuments` (
   `Confidential` tinyint(1) DEFAULT NULL,
   `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
 -- Dumping data for table arcm.additionalsubmissiondocuments: ~9 rows (approximately)
 DELETE FROM `additionalsubmissiondocuments`;
@@ -62,7 +62,8 @@ INSERT INTO `additionalsubmissiondocuments` (`ID`, `ApplicationID`, `Description
 	(22, 26, 'Additional Submissions - Applicant 2', '1574359295706-Tender Security.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-21 18:01:36', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD'),
 	(23, 28, 'Desc 4', '1574756221312-6 OF 2019.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-26 11:17:01', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD'),
 	(24, 28, 'Desc 4', '1574772724063-6 OF 2019.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-26 15:52:04', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 1, 'MINISTRY OF EDUCATION'),
-	(25, 35, 'ADDITIONAL SUBMISSION', '1575010203858-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-29 09:50:04', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD');
+	(25, 35, 'ADDITIONAL SUBMISSION', '1575010203858-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-29 09:50:04', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD'),
+	(26, 36, 'Desc 4', '1575293355526-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-12-02 16:29:15', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 0, 'MINISTRY OF EDUCATION');
 /*!40000 ALTER TABLE `additionalsubmissiondocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.additionalsubmissions
@@ -81,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissions` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
 -- Dumping data for table arcm.additionalsubmissions: ~11 rows (approximately)
 DELETE FROM `additionalsubmissions`;
@@ -99,7 +100,8 @@ INSERT INTO `additionalsubmissions` (`ID`, `ApplicationID`, `Description`, `File
 	(14, 26, '<p>Mr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', NULL, NULL, '2019-11-21 18:01:43', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD'),
 	(15, 28, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,</p>\n', NULL, NULL, '2019-11-26 11:17:09', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD'),
 	(16, 28, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula</p>\n', NULL, NULL, '2019-11-26 15:52:10', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION'),
-	(17, 35, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', NULL, NULL, '2019-11-29 09:50:07', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD');
+	(17, 35, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', NULL, NULL, '2019-11-29 09:50:07', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD'),
+	(18, 36, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae,&nbsp;</p>\n', NULL, NULL, '2019-12-02 16:29:18', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION');
 /*!40000 ALTER TABLE `additionalsubmissions` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.AddPanelMember
@@ -133,13 +135,14 @@ CREATE TABLE IF NOT EXISTS `adjournment` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.adjournment: ~1 rows (approximately)
 DELETE FROM `adjournment`;
 /*!40000 ALTER TABLE `adjournment` DISABLE KEYS */;
 INSERT INTO `adjournment` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `Created_At`, `Created_By`, `Approver`, `ApprovalRemarks`) VALUES
-	(6, '2019-11-29 11:31:30', 'AP-17', '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29', 'Declined', '2019-11-29', 'P0123456788X', 'Admin', 'Declined');
+	(6, '2019-11-29 11:31:30', 'AP-17', '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29', 'Declined', '2019-11-29', 'P0123456788X', 'Admin', 'Declined'),
+	(7, '2019-12-02 16:37:38', 'AP-17', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae,&nbsp;</p>\n', '2019-12-02', 'Declined', '2019-12-02', 'P0123456788X', 'Admin', 'Declined');
 /*!40000 ALTER TABLE `adjournment` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.adjournmentapprovalworkflow
@@ -157,15 +160,17 @@ CREATE TABLE IF NOT EXISTS `adjournmentapprovalworkflow` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=16384;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=16384;
 
--- Dumping data for table arcm.adjournmentapprovalworkflow: ~3 rows (approximately)
+-- Dumping data for table arcm.adjournmentapprovalworkflow: ~5 rows (approximately)
 DELETE FROM `adjournmentapprovalworkflow`;
 /*!40000 ALTER TABLE `adjournmentapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `adjournmentapprovalworkflow` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `Created_At`, `Created_By`, `Approver`, `ApprovalRemarks`) VALUES
 	(4, '2019-11-28 14:31:27', 'AP-17', '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', NULL, 'Pending Approval', '2019-11-28', 'P0123456788X', 'CASEOFFICER01', NULL),
 	(12, '2019-11-29 11:31:30', 'AP-17', '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29', 'Declined', '2019-11-29', 'P0123456788X', 'Admin', 'Declined'),
-	(13, '2019-11-29 11:31:30', 'AP-17', '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29', 'Declined', '2019-11-29', 'P0123456788X', 'CASEOFFICER01', 'Declined');
+	(13, '2019-11-29 11:31:30', 'AP-17', '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29', 'Declined', '2019-11-29', 'P0123456788X', 'CASEOFFICER01', 'Declined'),
+	(14, '2019-12-02 16:37:38', 'AP-17', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae,&nbsp;</p>\n', '2019-12-02', 'Declined', '2019-12-02', 'P0123456788X', 'Admin', 'Declined'),
+	(15, '2019-12-02 16:37:38', 'AP-17', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae,&nbsp;</p>\n', '2019-12-02', 'Declined', '2019-12-02', 'P0123456788X', 'CASEOFFICER01', 'Declined');
 /*!40000 ALTER TABLE `adjournmentapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.adjournmentdocuments
@@ -180,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `adjournmentdocuments` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` date DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.adjournmentdocuments: ~0 rows (approximately)
 DELETE FROM `adjournmentdocuments`;
@@ -276,12 +281,13 @@ CREATE TABLE IF NOT EXISTS `applicationapprovalcontacts` (
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationapprovalcontacts: ~2 rows (approximately)
+-- Dumping data for table arcm.applicationapprovalcontacts: ~3 rows (approximately)
 DELETE FROM `applicationapprovalcontacts`;
 /*!40000 ALTER TABLE `applicationapprovalcontacts` DISABLE KEYS */;
 INSERT INTO `applicationapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '0122719412', 'Applicant', '31 OF 2019'),
-	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0705555285', 'PE', '31 OF 2019');
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '0122719412', 'Applicant', '32 OF 2019'),
+	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0705555285', 'PE', '32 OF 2019'),
+	('Home', 'elviskimcheruiyot@gmail.com', '0705555285', 'Interested Party', '32 OF 2019');
 /*!40000 ALTER TABLE `applicationapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocuments
@@ -302,9 +308,9 @@ CREATE TABLE IF NOT EXISTS `applicationdocuments` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Confidential` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocuments: ~19 rows (approximately)
+-- Dumping data for table arcm.applicationdocuments: ~20 rows (approximately)
 DELETE FROM `applicationdocuments`;
 /*!40000 ALTER TABLE `applicationdocuments` DISABLE KEYS */;
 INSERT INTO `applicationdocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `Confidential`) VALUES
@@ -326,7 +332,8 @@ INSERT INTO `applicationdocuments` (`ID`, `ApplicationID`, `Description`, `FileN
 	(16, 27, 'Form of Tender', '1574371086253-6 OF 2019.pdf', '2019-11-21 21:18:06', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 21:18:06', NULL, NULL, 0, NULL, NULL, 0),
 	(17, 29, 'Form of Tender', '1574421482022-6 OF 2019.pdf', '2019-11-22 11:18:02', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:02', NULL, NULL, 0, NULL, NULL, 0),
 	(18, 29, 'Form of Tender2', '1574421502230-6 OF 2019.pdf', '2019-11-22 11:18:22', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:22', NULL, NULL, 0, NULL, NULL, 0),
-	(19, 30, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL, 0);
+	(19, 30, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL, 0),
+	(20, 36, 'Form of Tender', '1575286322171-29 OF 2019 (1).pdf', '2019-12-02 14:32:02', 'http://localhost:3001/Documents', 'P0123456788X', '2019-12-02 14:32:02', NULL, NULL, 0, NULL, NULL, 1);
 /*!40000 ALTER TABLE `applicationdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocumentshistory
@@ -347,9 +354,9 @@ CREATE TABLE IF NOT EXISTS `applicationdocumentshistory` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocumentshistory: ~19 rows (approximately)
+-- Dumping data for table arcm.applicationdocumentshistory: ~20 rows (approximately)
 DELETE FROM `applicationdocumentshistory`;
 /*!40000 ALTER TABLE `applicationdocumentshistory` DISABLE KEYS */;
 INSERT INTO `applicationdocumentshistory` (`ID`, `ApplicationID`, `DocType`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
@@ -371,7 +378,8 @@ INSERT INTO `applicationdocumentshistory` (`ID`, `ApplicationID`, `DocType`, `De
 	(16, 27, NULL, 'Form of Tender', '1574371086253-6 OF 2019.pdf', '2019-11-21 21:18:06', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 21:18:06', NULL, NULL, 0, NULL, NULL),
 	(17, 29, NULL, 'Form of Tender', '1574421482022-6 OF 2019.pdf', '2019-11-22 11:18:02', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:02', NULL, NULL, 0, NULL, NULL),
 	(18, 29, NULL, 'Form of Tender2', '1574421502230-6 OF 2019.pdf', '2019-11-22 11:18:22', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:22', NULL, NULL, 0, NULL, NULL),
-	(19, 30, NULL, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL);
+	(19, 30, NULL, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL),
+	(20, 36, NULL, 'Form of Tender', '1575286322171-29 OF 2019 (1).pdf', '2019-12-02 14:32:02', 'http://localhost:3001/Documents', 'P0123456788X', '2019-12-02 14:32:02', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `applicationdocumentshistory` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfees
@@ -400,9 +408,9 @@ CREATE TABLE IF NOT EXISTS `applicationfees` (
   `DateApproved` datetime DEFAULT NULL,
   `Narration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationfees: ~97 rows (approximately)
+-- Dumping data for table arcm.applicationfees: ~96 rows (approximately)
 DELETE FROM `applicationfees`;
 /*!40000 ALTER TABLE `applicationfees` DISABLE KEYS */;
 INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, `RefNo`, `BillDate`, `AmountPaid`, `PaidDate`, `PaymentRef`, `PaymentMode`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `CalculatedAmount`, `FeesStatus`, `ApprovedBy`, `DateApproved`, `Narration`) VALUES
@@ -506,7 +514,9 @@ INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, 
 	(98, 34, 2, 7500, '34', '2019-11-28 15:47:18', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-28 15:47:18', NULL, NULL, 0, NULL, NULL, 7500, 'Approved', 'Admin', '2019-11-28 16:01:06', 'REF123'),
 	(99, 35, 14, 5000, '35', '2019-11-29 09:16:32', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-29 09:28:19', 'REF00001'),
 	(100, 35, 1, 20000, '35', '2019-11-29 09:16:32', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-29 09:28:19', 'REF00001'),
-	(101, 35, 2, 1250, '35', '2019-11-29 09:16:32', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, 1250, 'Approved', 'Admin', '2019-11-29 09:28:19', 'REF00001');
+	(101, 35, 2, 1250, '35', '2019-11-29 09:16:32', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, 1250, 'Approved', 'Admin', '2019-11-29 09:28:19', 'REF00001'),
+	(102, 36, 14, 5000, '36', '2019-12-02 14:31:22', 0, NULL, NULL, NULL, 'P0123456788X', '2019-12-02 14:31:22', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-12-02 14:52:10', 'REF00001'),
+	(103, 36, 1, 12000, '36', '2019-12-02 14:31:22', 0, NULL, NULL, NULL, 'P0123456788X', '2019-12-02 14:31:22', NULL, NULL, 0, NULL, NULL, 12000, 'Approved', 'Admin', '2019-12-02 14:52:10', 'REF00001');
 /*!40000 ALTER TABLE `applicationfees` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfeeshistory
@@ -575,9 +585,9 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `HearingNoticeGenerated` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'No',
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications: ~30 rows (approximately)
+-- Dumping data for table arcm.applications: ~31 rows (approximately)
 DELETE FROM `applications`;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
 INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `ClosingDate`, `PaymentStatus`, `DecisionDate`, `Followup`, `Referral`, `WithdrawalDate`, `FileNumber`, `Closed`, `ApplicationSuccessful`, `Annulled`, `GiveDirection`, `ISTerminated`, `ReTender`, `CostsApplicant`, `CostsPE`, `CostsEachParty`, `Substitution`, `HearingNoticeGenerated`) VALUES
@@ -609,8 +619,9 @@ INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate
 	(31, 42, 8, 'PE-2', '2019-11-26 14:35:28', '31', '31', 'Submited', 'P0123456788X', '2019-11-26 14:35:28', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
 	(32, 43, 8, 'PE-1', '2019-11-26 15:21:11', '32', '32', 'Submited', 'P0123456788X', '2019-11-26 15:21:11', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
 	(33, 44, 8, 'PE-1', '2019-11-28 15:34:35', '33', '33', 'Submited', 'P0123456788X', '2019-11-28 15:34:35', '2019-11-28 15:42:07', 'P0123456788X', 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(34, 45, 8, 'PE-1', '2019-11-28 15:47:17', '34', '30 OF 2019', 'ADJOURNED', 'P0123456788X', '2019-11-28 15:47:17', NULL, NULL, 0, NULL, NULL, '2019-12-19', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(35, 46, 8, 'PE-2', '2019-11-29 09:16:32', '35', '31 OF 2019', 'WITHDRAWN', 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, '2019-12-20', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes');
+	(34, 45, 8, 'PE-1', '2019-11-28 15:47:17', '34', '30 OF 2019', 'WITHDRAWN', 'P0123456788X', '2019-11-28 15:47:17', NULL, NULL, 0, NULL, NULL, '2019-12-19', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+	(35, 46, 8, 'PE-2', '2019-11-29 09:16:32', '35', '31 OF 2019', 'WITHDRAWN', 'P0123456788X', '2019-11-29 09:16:32', NULL, NULL, 0, NULL, NULL, '2019-12-20', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+	(36, 47, 8, 'PE-2', '2019-12-02 14:31:22', '36', '32 OF 2019', 'WITHDRAWN', 'P0123456788X', '2019-12-02 14:31:22', NULL, NULL, 0, NULL, NULL, '2019-12-23', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationsequence
@@ -624,9 +635,9 @@ CREATE TABLE IF NOT EXISTS `applicationsequence` (
   `ExpectedAction` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `User` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationsequence: ~165 rows (approximately)
+-- Dumping data for table arcm.applicationsequence: ~183 rows (approximately)
 DELETE FROM `applicationsequence`;
 /*!40000 ALTER TABLE `applicationsequence` DISABLE KEYS */;
 INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Status`, `ExpectedAction`, `User`) VALUES
@@ -794,7 +805,25 @@ INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Sta
 	(182, '31 OF 2019', '2019-11-29 12:04:00', 'Submited request for case withdrawal', 'Done', 'Awaiting Approval', 'P0123456788X'),
 	(183, '31 OF 2019', '2019-11-29 12:12:25', 'WITHDRAWN', 'Done', '  ', 'Admin'),
 	(184, '22 OF 2019', '2019-11-29 15:48:32', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Pleriminary Fees Confirmation', 'A123456789X'),
-	(185, '22 OF 2019', '2019-11-29 15:49:40', 'Preliminary Objection Fees Payment Confirmed', 'Done', 'Awaiting Panel Formation', 'Admin');
+	(185, '22 OF 2019', '2019-11-29 15:49:40', 'Preliminary Objection Fees Payment Confirmed', 'Done', 'Awaiting Panel Formation', 'Admin'),
+	(186, '30 OF 2019', '2019-12-02 09:45:16', 'Submited request for case withdrawal', 'Done', 'Awaiting Approval', 'P0123456788X'),
+	(187, '30 OF 2019', '2019-12-02 13:48:57', 'Declined request for case withdrawal', 'Done', '  ', 'Admin'),
+	(188, '30 OF 2019', '2019-12-02 14:24:43', 'WITHDRAWN', 'Done', '  ', 'Admin'),
+	(189, '32 OF 2019', '2019-12-02 14:31:22', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
+	(190, '32 OF 2019', '2019-12-02 14:34:02', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
+	(191, '32 OF 2019', '2019-12-02 14:52:11', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
+	(192, '32 OF 2019', '2019-12-02 14:56:01', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
+	(193, '32 OF 2019', '2019-12-02 15:59:20', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Pleriminary Fees Confirmation', 'A123456789X'),
+	(194, '32 OF 2019', '2019-12-02 16:04:38', 'Preliminary Objection Fees Payment Confirmed', 'Done', 'Awaiting Panel Formation', 'Admin'),
+	(195, '32 OF 2019', '2019-12-02 16:19:35', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
+	(196, '32 OF 2019', '2019-12-02 16:20:08', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
+	(197, '32 OF 2019', '2019-12-02 16:20:54', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
+	(198, '32 OF 2019', '2019-12-02 16:20:59', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
+	(199, '32 OF 2019', '2019-12-02 16:21:42', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
+	(200, '32 OF 2019', '2019-12-02 16:37:38', 'Submited Request for Adjournment', 'Done', 'Awaiting Approval', 'P0123456788X'),
+	(201, '32 OF 2019', '2019-12-02 16:39:26', 'Declined Request for Adjournment', 'Done', 'Awaiting Approval', 'Admin'),
+	(202, '32 OF 2019', '2019-12-02 16:44:01', 'Submited request for case withdrawal', 'Done', 'Awaiting Approval', 'P0123456788X'),
+	(203, '32 OF 2019', '2019-12-02 16:44:57', 'WITHDRAWN', 'Done', '  ', 'Admin');
 /*!40000 ALTER TABLE `applicationsequence` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationshistory
@@ -841,7 +870,7 @@ CREATE TABLE IF NOT EXISTS `applications_approval_workflow` (
   `Created_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.applications_approval_workflow: ~19 rows (approximately)
 DELETE FROM `applications_approval_workflow`;
@@ -866,7 +895,8 @@ INSERT INTO `applications_approval_workflow` (`ID`, `TenderID`, `ApplicantID`, `
 	(17, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:44:12', '2019-11-21 21:44:12'),
 	(18, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '30', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-22 11:47:04', '2019-11-22 11:47:04'),
 	(19, 45, 8, 'PE-1', '2019-11-28 15:47:17', '34', '34', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-28 16:01:49', '2019-11-28 16:01:49'),
-	(20, 46, 8, 'PE-2', '2019-11-29 09:16:32', '35', '35', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-29 09:30:12', '2019-11-29 09:30:12');
+	(20, 46, 8, 'PE-2', '2019-11-29 09:16:32', '35', '35', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-29 09:30:12', '2019-11-29 09:30:12'),
+	(21, 47, 8, 'PE-2', '2019-12-02 14:31:22', '36', '36', 'Approved', 'Admin', 'Approved', 'Admin', '2019-12-02 14:56:00', '2019-12-02 14:56:00');
 /*!40000 ALTER TABLE `applications_approval_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.approvalmodules
@@ -1041,7 +1071,7 @@ BEGIN
           Begin
              select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @RespondedApplicationNo;
              update peresponse set status='Submited' where ApplicationNo=@RespondedApplicationNo;
-               update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval' and  ApplicationNo=_ApplicationID;
+               update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval' and  ApplicationNo=@RespondedApplicationNo;
 
               select PEID from applications where ID=_ApplicationID LIMIT 1 into @PEID;
               select UserName from peusers where PEID=@PEID LIMIT 1 into @Applicant;
@@ -1497,9 +1527,9 @@ CREATE TABLE IF NOT EXISTS `audittrails` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IpAddress` bigint(20) NOT NULL,
   PRIMARY KEY (`AuditID`)
-) ENGINE=InnoDB AUTO_INCREMENT=772 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=816 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.audittrails: ~108 rows (approximately)
+-- Dumping data for table arcm.audittrails: ~152 rows (approximately)
 DELETE FROM `audittrails`;
 /*!40000 ALTER TABLE `audittrails` DISABLE KEYS */;
 INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES
@@ -1610,7 +1640,51 @@ INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Catego
 	(768, '2019-11-29 15:47:23', 'A123456789X', 'Updated PE Response for Response ID: 12', 'Add', 0),
 	(769, '2019-11-29 15:47:32', 'A123456789X', 'Updated PE Response for Response ID: 12', 'Add', 0),
 	(770, '2019-11-29 15:48:09', 'A123456789X', 'Added new interested party for application:25', 'Add', 0),
-	(771, '2019-11-29 15:48:29', 'A123456789X', 'Added new payment details for application: 25', 'Add', 0);
+	(771, '2019-11-29 15:48:29', 'A123456789X', 'Added new payment details for application: 25', 'Add', 0),
+	(772, '2019-12-02 09:45:16', 'P0123456788X', 'Submited request for case withdrawal for application:30 OF 2019', 'Add', 0),
+	(773, '2019-12-02 09:47:33', 'Admin', 'Declined Case Withdrawal for Application : 30 OF 2019', 'Approval', 0),
+	(774, '2019-12-02 13:45:06', 'P0123456788X', 'Submited request for case withdrawal for application:30 OF 2019', 'Add', 0),
+	(775, '2019-12-02 13:48:57', 'Admin', 'Declined Case Withdrawal for Application : 30 OF 2019', 'Approval', 0),
+	(776, '2019-12-02 14:24:04', 'P0123456788X', 'Submited request for case withdrawal for application:30 OF 2019', 'Add', 0),
+	(777, '2019-12-02 14:24:43', 'Admin', 'Approved Case Withdrawal for Application : 30 OF 2019', 'Approval', 0),
+	(778, '2019-12-02 14:31:21', 'P0123456788X', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
+	(779, '2019-12-02 14:31:22', 'P0123456788X', 'Added new Application with ApplicationNo:36', 'Add', 0),
+	(780, '2019-12-02 14:31:22', 'P0123456788X', 'Added Fee for Application: 36', 'Add', 0),
+	(781, '2019-12-02 14:31:22', 'P0123456788X', 'Added Fee for Application: 36', 'Add', 0),
+	(782, '2019-12-02 14:31:37', 'P0123456788X', 'Added new Ground/Request for Application:36', 'Add', 0),
+	(783, '2019-12-02 14:31:46', 'P0123456788X', 'Added new Ground/Request for Application:36', 'Add', 0),
+	(784, '2019-12-02 14:32:02', 'P0123456788X', 'Added new Document for application: 36', 'Add', 0),
+	(785, '2019-12-02 14:32:29', 'P0123456788X', 'Added new interested party for application:36', 'Add', 0),
+	(786, '2019-12-02 14:34:31', 'P0123456788X', 'Added new bank slip for application: 36', 'Add', 0),
+	(787, '2019-12-02 14:34:34', 'P0123456788X', 'Added new payment details for application: 36', 'Add', 0),
+	(788, '2019-12-02 14:35:04', 'P0123456788X', 'Added new bank slip for application: 36', 'Add', 0),
+	(789, '2019-12-02 14:35:08', 'P0123456788X', 'Added new payment details for application: 36', 'Add', 0),
+	(790, '2019-12-02 14:56:02', 'Admin', ' Approved Application: 36', 'Approval', 0),
+	(791, '2019-12-02 15:17:26', 'Admin', ' Declined Deadline Extension Request for Application:32 OF 2019', 'Approval', 0),
+	(792, '2019-12-02 15:23:13', 'Admin', 'Approved Deadline Extension Request for Application:32 OF 2019', 'Approval', 0),
+	(793, '2019-12-02 15:58:13', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:32 OF 2019', 'Add', 0),
+	(794, '2019-12-02 15:58:21', 'A123456789X', ' Responded to application:32 OF 2019', 'Add', 0),
+	(795, '2019-12-02 15:58:22', 'A123456789X', 'Updated PE Response for Response ID: 13', 'Add', 0),
+	(796, '2019-12-02 15:58:29', 'A123456789X', 'Updated PE Response for Response ID: 13', 'Add', 0),
+	(797, '2019-12-02 15:59:11', 'A123456789X', 'Added new bank slip for application: 36', 'Add', 0),
+	(798, '2019-12-02 15:59:16', 'A123456789X', 'Added new payment details for application: 36', 'Add', 0),
+	(799, '2019-12-02 16:03:45', 'A123456789X', 'Added new payment details for application: 36', 'Add', 0),
+	(800, '2019-12-02 16:19:22', 'Admin', 'Added new PanelMember for Application 32 OF 2019', 'Add', 0),
+	(801, '2019-12-02 16:19:26', 'Admin', 'Added new PanelMember for Application 32 OF 2019', 'Add', 0),
+	(802, '2019-12-02 16:19:29', 'Admin', 'Added new PanelMember for Application 32 OF 2019', 'Add', 0),
+	(803, '2019-12-02 16:19:35', 'Admin', 'Submited PanelList  for Application: 32 OF 2019', 'Add', 0),
+	(804, '2019-12-02 16:20:02', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
+	(805, '2019-12-02 16:20:03', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
+	(806, '2019-12-02 16:20:06', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
+	(807, '2019-12-02 16:20:54', 'Admin', 'Booked Venue:5', 'Add', 0),
+	(808, '2019-12-02 16:20:59', 'Admin', 'Generated hearing Notice for Application: 32 OF 2019', 'Add', 0),
+	(809, '2019-12-02 16:21:42', 'Admin', 'Registered hearing for Application:32 OF 2019', 'Add', 0),
+	(810, '2019-12-02 16:29:15', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:36', 'Add', 0),
+	(811, '2019-12-02 16:29:18', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:36', 'Add', 0),
+	(812, '2019-12-02 16:37:38', 'P0123456788X', 'Submited request for case withdrawal for application:32 OF 2019', 'Add', 0),
+	(813, '2019-12-02 16:39:26', 'Admin', 'Declined Case Adjournment for Application : 32 OF 2019', 'Approval', 0),
+	(814, '2019-12-02 16:44:01', 'P0123456788X', 'Submited request for case withdrawal for application:32 OF 2019', 'Add', 0),
+	(815, '2019-12-02 16:44:57', 'Admin', 'Approved Case Withdrawal for Application : 32 OF 2019', 'Approval', 0);
 /*!40000 ALTER TABLE `audittrails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.banks
@@ -1655,9 +1729,9 @@ CREATE TABLE IF NOT EXISTS `bankslips` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.bankslips: ~23 rows (approximately)
+-- Dumping data for table arcm.bankslips: ~25 rows (approximately)
 DELETE FROM `bankslips`;
 /*!40000 ALTER TABLE `bankslips` DISABLE KEYS */;
 INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `Category`) VALUES
@@ -1685,7 +1759,10 @@ INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `C
 	(22, 30, '1574422529278-6 OF 2019.pdf', 'uploads/BankSlips', 'P123456879Q', '2019-11-22 11:35:29', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
 	(23, 31, '1574768222065-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-26 14:37:02', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
 	(24, 33, '1574944976619-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-28 15:42:56', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(25, 35, '1575008749045-Capture.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-11-29 09:25:49', NULL, NULL, 0, NULL, NULL, 'ApplicationFees');
+	(25, 35, '1575008749045-Capture.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-11-29 09:25:49', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
+	(26, 36, '1575286470814-Capture.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-12-02 14:34:31', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
+	(27, 36, '1575286504638-Capture1.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-12-02 14:35:04', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
+	(28, 36, '1575291550713-6 OF 2019.pdf', 'uploads/BankSlips', 'A123456789X', '2019-12-02 15:59:11', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection');
 /*!40000 ALTER TABLE `bankslips` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.BookVenue
@@ -1823,7 +1900,7 @@ CREATE TABLE IF NOT EXISTS `casedetails` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.casedetails: ~19 rows (approximately)
 DELETE FROM `casedetails`;
@@ -1848,7 +1925,8 @@ INSERT INTO `casedetails` (`ID`, `UserName`, `ApplicationNo`, `DateAsigned`, `St
 	(17, 'Pokumu', '28 OF 2019', '2019-11-21 21:44:12', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:44:12', 'Admin', NULL, NULL, 0),
 	(18, 'Admin', '29 OF 2019', '2019-11-22 11:47:05', 'Open', 1, NULL, NULL, NULL, '2019-11-22 11:47:05', 'Admin', NULL, NULL, 0),
 	(19, 'PPRA01', '30 OF 2019', '2019-11-28 16:01:50', 'Open', 1, NULL, NULL, NULL, '2019-11-28 16:01:50', 'Admin', NULL, NULL, 0),
-	(20, 'Admin', '31 OF 2019', '2019-11-29 09:30:13', 'Open', 1, NULL, NULL, NULL, '2019-11-29 09:30:13', 'Admin', NULL, NULL, 0);
+	(20, 'Admin', '31 OF 2019', '2019-11-29 09:30:13', 'Open', 1, NULL, NULL, NULL, '2019-11-29 09:30:13', 'Admin', NULL, NULL, 0),
+	(21, 'PPRA01', '32 OF 2019', '2019-12-02 14:56:01', 'Open', 1, NULL, NULL, NULL, '2019-12-02 14:56:01', 'Admin', NULL, NULL, 0);
 /*!40000 ALTER TABLE `casedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.caseofficers
@@ -1871,13 +1949,13 @@ CREATE TABLE IF NOT EXISTS `caseofficers` (
   `DeletedBY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
 -- Dumping data for table arcm.caseofficers: ~1 rows (approximately)
 DELETE FROM `caseofficers`;
 /*!40000 ALTER TABLE `caseofficers` DISABLE KEYS */;
 INSERT INTO `caseofficers` (`ID`, `Username`, `MinValue`, `MaximumValue`, `Active`, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, `Create_at`, `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`) VALUES
-	(4, 'PPRA01', NULL, NULL, 1, '2019-11-13 00:00:00', '2019-11-14 00:00:00', 6, 6, '2019-11-13 17:01:59', '2019-11-14 07:56:52', 'Admin', 'Admin', 0, NULL, NULL);
+	(4, 'PPRA01', NULL, NULL, 1, '2019-11-13 00:00:00', '2019-11-14 00:00:00', 7, 7, '2019-11-13 17:01:59', '2019-11-14 07:56:52', 'Admin', 'Admin', 0, NULL, NULL);
 /*!40000 ALTER TABLE `caseofficers` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casesittingsregister
@@ -1892,7 +1970,7 @@ CREATE TABLE IF NOT EXISTS `casesittingsregister` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Open` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.casesittingsregister: ~6 rows (approximately)
 DELETE FROM `casesittingsregister`;
@@ -1905,7 +1983,8 @@ INSERT INTO `casesittingsregister` (`ID`, `ApplicationNo`, `VenueID`, `Date`, `S
 	(5, '29 OF 2019', 8, '2019-11-22', 1, '2019-11-22 13:48:21', 'Admin', 0),
 	(6, '12 OF 2019', 5, '2019-11-23', 1, '2019-11-23 12:57:27', 'Admin', 1),
 	(7, '28 OF 2019', 8, '2019-11-28', 1, '2019-11-28 16:13:01', 'Admin', 1),
-	(8, '31 OF 2019', 5, '2019-11-29', 1, '2019-11-29 10:31:58', 'Admin', 1);
+	(8, '31 OF 2019', 5, '2019-11-29', 1, '2019-11-29 10:31:58', 'Admin', 1),
+	(9, '32 OF 2019', 5, '2019-12-02', 1, '2019-12-02 16:21:42', 'Admin', 1);
 /*!40000 ALTER TABLE `casesittingsregister` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawal
@@ -1924,14 +2003,18 @@ CREATE TABLE IF NOT EXISTS `casewithdrawal` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawal: ~1 rows (approximately)
+-- Dumping data for table arcm.casewithdrawal: ~6 rows (approximately)
 DELETE FROM `casewithdrawal`;
 /*!40000 ALTER TABLE `casewithdrawal` DISABLE KEYS */;
 INSERT INTO `casewithdrawal` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `RejectionReason`, `Frivolous`, `Created_At`, `Created_By`, `Approver`) VALUES
 	(1, '2019-11-12 15:58:30', 'AP-17', '14 OF 2019', 'WILL TRY AGAIN LATER', '2019-11-12', 'Approved', 'Approved', 0, '2019-11-12', 'P0123456788X', NULL),
-	(2, '2019-11-29 12:04:00', 'AP-17', '31 OF 2019', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo lig', '2019-11-29', 'Approved', 'Approved', 0, '2019-11-29', 'P0123456788X', NULL);
+	(2, '2019-11-29 12:04:00', 'AP-17', '31 OF 2019', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo lig', '2019-11-29', 'Approved', 'Approved', 0, '2019-11-29', 'P0123456788X', NULL),
+	(3, '2019-12-02 09:45:16', 'AP-17', '30 OF 2019', 'Withdraw', '2019-12-02', 'Approved', 'Approved', 0, '2019-12-02', 'P0123456788X', NULL),
+	(4, '2019-12-02 13:45:06', 'AP-17', '30 OF 2019', 'Withdraw', '2019-12-02', 'Approved', 'Approved', 0, '2019-12-02', 'P0123456788X', NULL),
+	(5, '2019-12-02 14:24:04', 'AP-17', '30 OF 2019', 'Withdraw', '2019-12-02', 'Approved', 'Approved', 0, '2019-12-02', 'P0123456788X', NULL),
+	(6, '2019-12-02 16:44:01', 'AP-17', '32 OF 2019', 'Withdraw', '2019-12-02', 'Approved', 'Approved', 0, '2019-12-02', 'P0123456788X', NULL);
 /*!40000 ALTER TABLE `casewithdrawal` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawalapprovalworkflow
@@ -1950,9 +2033,9 @@ CREATE TABLE IF NOT EXISTS `casewithdrawalapprovalworkflow` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawalapprovalworkflow: ~7 rows (approximately)
+-- Dumping data for table arcm.casewithdrawalapprovalworkflow: ~11 rows (approximately)
 DELETE FROM `casewithdrawalapprovalworkflow`;
 /*!40000 ALTER TABLE `casewithdrawalapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `casewithdrawalapprovalworkflow` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `RejectionReason`, `Frivolous`, `Created_At`, `Created_By`, `Approver`) VALUES
@@ -1962,7 +2045,11 @@ INSERT INTO `casewithdrawalapprovalworkflow` (`ID`, `Date`, `Applicant`, `Applic
 	(4, '2019-11-01 12:33:37', 'AP-11', '6 OF 2019', '561064', '2019-11-01', 'Approved', NULL, 0, '2019-11-01', 'Admin2', 'Admin2'),
 	(5, '2019-11-12 16:00:13', 'AP-17', '14 OF 2019', 'Approved', '2019-11-12', 'Approved', NULL, 0, '2019-11-12', 'PPRA01', 'PPRA01'),
 	(6, '2019-11-12 16:04:21', 'AP-17', '14 OF 2019', 'Approved', '2019-11-12', 'Approved', NULL, 0, '2019-11-12', 'Admin', 'Admin'),
-	(7, '2019-11-29 12:12:25', 'AP-17', '31 OF 2019', 'Approved', '2019-11-29', 'Approved', NULL, 0, '2019-11-29', 'Admin', 'Admin');
+	(7, '2019-11-29 12:12:25', 'AP-17', '31 OF 2019', 'Approved', '2019-11-29', 'Approved', NULL, 0, '2019-11-29', 'Admin', 'Admin'),
+	(8, '2019-12-02 14:24:42', 'AP-17', '30 OF 2019', 'Approved', '2019-12-02', 'Approved', NULL, 0, '2019-12-02', 'Admin', 'Admin'),
+	(9, '2019-12-02 14:24:42', 'AP-17', '30 OF 2019', 'Approved', '2019-12-02', 'Approved', NULL, 0, '2019-12-02', 'Admin', 'Admin'),
+	(10, '2019-12-02 14:24:42', 'AP-17', '30 OF 2019', 'Approved', '2019-12-02', 'Approved', NULL, 0, '2019-12-02', 'Admin', 'Admin'),
+	(11, '2019-12-02 16:44:56', 'AP-17', '32 OF 2019', 'Approved', '2019-12-02', 'Approved', NULL, 0, '2019-12-02', 'Admin', 'Admin');
 /*!40000 ALTER TABLE `casewithdrawalapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawalcontacts
@@ -1974,11 +2061,19 @@ CREATE TABLE IF NOT EXISTS `casewithdrawalcontacts` (
   `Msg` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawalcontacts: ~1 rows (approximately)
+-- Dumping data for table arcm.casewithdrawalcontacts: ~9 rows (approximately)
 DELETE FROM `casewithdrawalcontacts`;
 /*!40000 ALTER TABLE `casewithdrawalcontacts` DISABLE KEYS */;
 INSERT INTO `casewithdrawalcontacts` (`Name`, `Email`, `Mobile`, `Msg`) VALUES
-	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0701102928', 'Complete');
+	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Complete'),
+	('CASE OFFICER', 'cmkikungu@gmail.com1', '070110292812', 'Complete'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com1', '07227194121', 'Complete'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com1', '07227194121', 'Complete'),
+	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0701102928', 'Complete'),
+	('MINISTRY OF EDUCATION', 'elviskimcheruiyot@gmail.com', '0705555285', 'Complete'),
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM1', '07184030861', 'Complete'),
+	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '0122719412', 'Complete'),
+	('Home', 'elviskimcheruiyot@gmail.com', '0705555285', 'Complete');
 /*!40000 ALTER TABLE `casewithdrawalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.CheckifregistrationIsOpen
@@ -2273,7 +2368,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
 DELETE FROM `configurations`;
 /*!40000 ALTER TABLE `configurations` DISABLE KEYS */;
 INSERT INTO `configurations` (`ID`, `Code`, `Name`, `PhysicalAdress`, `Street`, `PoBox`, `PostalCode`, `Town`, `Telephone1`, `Telephone2`, `Mobile`, `Fax`, `Email`, `Website`, `PIN`, `Logo`, `NextPE`, `NextComm`, `NextSupplier`, `NextMember`, `NextProcMeth`, `NextStdDoc`, `NextApplication`, `NextRev`, `Created_At`, `Updated_At`, `Created_By`, `Updated_By`, `Deleted`, `Deleted_By`, `NextPEType`, `NextMemberType`, `NextFeeCode`, `NextTenderType`, `Year`, `PeResponseDays`, `CaseClosingDate`) VALUES
-	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke', 'https://www.ppra.go.ke', '123456789098', '1574933357639-PPRALogo.png', '6', '7', '20', '1', '1', '1', '32', '1', '2019-07-29 14:14:38', '2019-11-28 12:29:19', 'Admin', 'Admin', 0, ' ', '14', '1', '1', '3', '2019', NULL, 21);
+	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke1', 'https://www.ppra.go.ke', '123456789098', '1574933357639-PPRALogo.png', '6', '7', '20', '1', '1', '1', '33', '1', '2019-07-29 14:14:38', '2019-12-02 14:25:09', 'Admin', 'Admin', 0, ' ', '14', '1', '1', '3', '2019', NULL, 21);
 /*!40000 ALTER TABLE `configurations` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.counties
@@ -2359,15 +2454,17 @@ CREATE TABLE IF NOT EXISTS `deadlineapprovalworkflow` (
   `Remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.deadlineapprovalworkflow: ~3 rows (approximately)
+-- Dumping data for table arcm.deadlineapprovalworkflow: ~5 rows (approximately)
 DELETE FROM `deadlineapprovalworkflow`;
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` DISABLE KEYS */;
 INSERT INTO `deadlineapprovalworkflow` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`, `Approver`, `Remarks`, `Approved_At`) VALUES
 	(4, 'PE-2', '28 OF 2019', '<p>pedeadlineextensionsrequests</p>\n', '2019-11-28 00:00:00', '2019-11-28 11:39:11', 'A123456789X', 'Fully Approved', 'Admin', 'Approved', '2019-11-28 11:40:52'),
 	(5, 'PE-2', '22 OF 2019', '<p>682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712</p>\n', '2019-11-29 00:00:00', '2019-11-29 15:42:31', 'A123456789X', 'DECLINED', 'Admin', 'Rejected', '2019-11-29 15:43:40'),
-	(6, 'PE-2', '22 OF 2019', '<p>682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712</p>\n', '2019-11-29 00:00:00', '2019-11-29 15:42:31', 'A123456789X', 'Pending Approval', 'CASEOFFICER01', NULL, NULL);
+	(6, 'PE-2', '22 OF 2019', '<p>682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712</p>\n', '2019-11-29 00:00:00', '2019-11-29 15:42:31', 'A123456789X', 'Pending Approval', 'CASEOFFICER01', NULL, NULL),
+	(7, 'PE-2', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', '2019-12-23 00:00:00', '2019-12-02 15:13:49', 'A123456789X', 'Fully Approved', 'Admin', 'Accepted', '2019-12-02 15:23:13'),
+	(8, 'PE-2', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', '2019-12-23 00:00:00', '2019-12-02 15:13:49', 'A123456789X', 'Pending Approval', 'CASEOFFICER01', NULL, NULL);
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.decisiondocuments
@@ -3248,7 +3345,7 @@ CREATE TABLE IF NOT EXISTS `feesapprovalworkflow` (
   `DateApproved` datetime NOT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
 
 -- Dumping data for table arcm.feesapprovalworkflow: ~27 rows (approximately)
 DELETE FROM `feesapprovalworkflow`;
@@ -3282,7 +3379,9 @@ INSERT INTO `feesapprovalworkflow` (`ID`, `ApplicationID`, `Amount`, `RefNo`, `S
 	(26, 34, 32500, 'REF123', 'Approved', 'Admin', '2019-11-28 15:58:49', 'ApplicationFees'),
 	(27, 34, 32500, 'REF123', 'Approved', 'Admin', '2019-11-28 16:01:06', 'ApplicationFees'),
 	(28, 35, 26500, 'REF00001', 'Approved', 'Admin', '2019-11-29 09:28:19', 'ApplicationFees'),
-	(29, 25, 5000, 'REF123', 'Approved', 'Admin', '2019-11-29 15:49:40', 'PreliminaryObjectionFees');
+	(29, 25, 5000, 'REF123', 'Approved', 'Admin', '2019-11-29 15:49:40', 'PreliminaryObjectionFees'),
+	(30, 36, 17000, 'REF00001', 'Approved', 'Admin', '2019-12-02 14:52:10', 'ApplicationFees'),
+	(31, 36, 5000, 'REF123', 'Approved', 'Admin', '2019-12-02 16:04:38', 'PreliminaryObjectionFees');
 /*!40000 ALTER TABLE `feesapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.feescomputations
@@ -5871,7 +5970,7 @@ CREATE TABLE IF NOT EXISTS `groundsandrequestedorders` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `GroundNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.groundsandrequestedorders: ~70 rows (approximately)
 DELETE FROM `groundsandrequestedorders`;
@@ -5951,7 +6050,9 @@ INSERT INTO `groundsandrequestedorders` (`ID`, `ApplicationID`, `Description`, `
 	(72, 33, '<p>TENDER/0001/2019/2020</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-28 15:34:49', NULL, NULL, 0, NULL, NULL, '2'),
 	(73, 34, '<p>TENDER/0001/2019/2020</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-28 15:47:36', NULL, NULL, 0, NULL, NULL, '1'),
 	(74, 35, '<h3><a href="https://www.devart.com/dbforge/postgresql/datacompare/">dbForge Data Compare for PostgreSQL</a></h3>\n\n<p>The tool for PostgreSQL is intended for quick and safe data comparison and synchronization, convenient management of data differences in a well-designed user interface, and customizable synchronization.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-29 09:16:51', NULL, NULL, 0, NULL, NULL, '1'),
-	(75, 35, '<p>The tool for PostgreSQL is intended for quick and safe data comparison and synchronization, convenient management of data differences in a well-designed user interface, and customizable synchronization.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-29 09:16:58', NULL, NULL, 0, NULL, NULL, '1');
+	(75, 35, '<p>The tool for PostgreSQL is intended for quick and safe data comparison and synchronization, convenient management of data differences in a well-designed user interface, and customizable synchronization.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-29 09:16:58', NULL, NULL, 0, NULL, NULL, '1'),
+	(76, 36, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-12-02 14:31:37', NULL, NULL, 0, NULL, NULL, '1'),
+	(77, 36, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-12-02 14:31:45', NULL, NULL, 0, NULL, NULL, '1');
 /*!40000 ALTER TABLE `groundsandrequestedorders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.groundsandrequestedordershistory
@@ -5998,7 +6099,7 @@ CREATE TABLE IF NOT EXISTS `groupaccess` (
   CONSTRAINT `groupaccess_ibfk_3` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groupaccess: ~152 rows (approximately)
+-- Dumping data for table arcm.groupaccess: ~149 rows (approximately)
 DELETE FROM `groupaccess`;
 /*!40000 ALTER TABLE `groupaccess` DISABLE KEYS */;
 INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`) VALUES
@@ -6197,7 +6298,7 @@ CREATE TABLE IF NOT EXISTS `hearingnotices` (
   `Filename` varchar(105) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.hearingnotices: ~19 rows (approximately)
 DELETE FROM `hearingnotices`;
@@ -6221,7 +6322,8 @@ INSERT INTO `hearingnotices` (`ID`, `ApplicationNo`, `DateGenerated`, `DateSent`
 	(16, '12 OF 2019', '2019-11-23 12:54:02', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
 	(17, '12 OF 2019', '2019-11-23 12:54:20', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
 	(18, '12 OF 2019', '2019-11-23 12:54:27', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(19, '31 OF 2019', '2019-11-29 10:28:40', '2019-11-29 10:29:11', 'HearingNotices/', '31 OF 2019.pdf', 'Admin');
+	(19, '31 OF 2019', '2019-11-29 10:28:40', '2019-11-29 10:29:11', 'HearingNotices/', '31 OF 2019.pdf', 'Admin'),
+	(20, '32 OF 2019', '2019-12-02 16:20:59', '2019-12-02 16:21:13', 'HearingNotices/', '32 OF 2019.pdf', 'Admin');
 /*!40000 ALTER TABLE `hearingnotices` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.interestedparties
@@ -6245,7 +6347,7 @@ CREATE TABLE IF NOT EXISTS `interestedparties` (
   `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Designation` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
 -- Dumping data for table arcm.interestedparties: ~15 rows (approximately)
 DELETE FROM `interestedparties`;
@@ -6265,7 +6367,8 @@ INSERT INTO `interestedparties` (`ID`, `Name`, `ApplicationID`, `ContactName`, `
 	(12, 'Home', 27, 'Interestd Partyu', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '1001', 'Nairobi', '123', '2019-11-21 21:19:13', NULL, 0, 'P0123456788X', NULL, 'Dr'),
 	(13, 'Home', 28, 'Interested party', 'elviskimcheruiyot@gmail.com', '0705555285', '0705555285', 'Nairobi', '1001', 'Nairobi', '123', '2019-11-21 21:40:53', NULL, 0, 'P0123456788X', NULL, 'Dr'),
 	(14, 'PPRA', 29, 'Sam Sam', 'x2press@gmail.com', '0721382630', '0721382630', 'Nairobi', '1001', 'Nairobi', '1234', '2019-11-22 11:20:27', NULL, 0, 'P123456879Q', NULL, 'Eng'),
-	(15, 'Home', 25, 'Interestd Partyu', 'elviskimcheruiyot@gmail.com', '12345678899', '12345678977', 'Nairobi', '1001', 'Nairobi', '234', '2019-11-29 15:48:08', NULL, 0, 'A123456789X', NULL, 'Eng');
+	(15, 'Home', 25, 'Interestd Partyu', 'elviskimcheruiyot@gmail.com', '12345678899', '12345678977', 'Nairobi', '1001', 'Nairobi', '234', '2019-11-29 15:48:08', NULL, 0, 'A123456789X', NULL, 'Eng'),
+	(16, 'Home', 36, 'Interestd Partyu', 'elviskimcheruiyot@gmail.com', '0705555285', '0705555285', 'Nairobi', '1001', 'Nairobi', '123', '2019-12-02 14:32:29', NULL, 0, 'P0123456788X', NULL, 'Dr');
 /*!40000 ALTER TABLE `interestedparties` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.issuesfordetermination
@@ -6450,6 +6553,8 @@ DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
 Update casewithdrawal set  DecisionDate= now(), Status='Declined',Frivolous =1 where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
+  update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
+          
 END//
 DELIMITER ;
 
@@ -6512,9 +6617,9 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=627 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=665 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.notifications: ~24 rows (approximately)
+-- Dumping data for table arcm.notifications: ~51 rows (approximately)
 DELETE FROM `notifications`;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
 INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`, `ApplicationNo`) VALUES
@@ -6541,7 +6646,34 @@ INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Creat
 	(621, 'Admin', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-11-29 15:48:29', '2019-12-02 15:48:29', 'Not Resolved', '22 OF 2019'),
 	(622, 'CASEOFFICER01', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-11-29 15:48:29', '2019-12-02 15:48:29', 'Not Resolved', '22 OF 2019'),
 	(624, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-29 15:49:40', '2019-12-02 15:49:40', 'Not Resolved', '25'),
-	(625, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-29 15:49:40', '2019-12-02 15:49:40', 'Not Resolved', '25');
+	(625, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-29 15:49:40', '2019-12-02 15:49:40', 'Not Resolved', '25'),
+	(626, 'Admin', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 09:45:16', '2019-12-05 09:45:16', 'Resolved', '30 OF 2019'),
+	(627, 'CASEOFFICER01', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 09:45:16', '2019-12-05 09:45:16', 'Resolved', '30 OF 2019'),
+	(628, 'Admin', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 13:45:06', '2019-12-05 13:45:06', 'Resolved', '30 OF 2019'),
+	(629, 'CASEOFFICER01', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 13:45:06', '2019-12-05 13:45:06', 'Resolved', '30 OF 2019'),
+	(631, 'Admin', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 14:24:04', '2019-12-05 14:24:04', 'Resolved', '30 OF 2019'),
+	(632, 'CASEOFFICER01', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 14:24:04', '2019-12-05 14:24:04', 'Resolved', '30 OF 2019'),
+	(634, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-12-02 14:34:34', '2019-12-05 14:34:34', 'Resolved', '36'),
+	(635, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-12-02 14:34:34', '2019-12-05 14:34:34', 'Resolved', '36'),
+	(637, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-12-02 14:35:08', '2019-12-05 14:35:08', 'Resolved', '36'),
+	(638, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-12-02 14:35:08', '2019-12-05 14:35:08', 'Resolved', '36'),
+	(640, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-12-02 14:52:10', '2019-12-05 14:52:10', 'Resolved', '36'),
+	(641, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-12-02 14:52:10', '2019-12-05 14:52:10', 'Resolved', '36'),
+	(643, 'Admin', 'Deadline Approval', 'Deadline Approval Request', '2019-12-02 15:13:49', '2019-12-05 15:13:49', 'Resolved', '32 OF 2019'),
+	(644, 'CASEOFFICER01', 'Deadline Approval', 'Deadline Approval Request', '2019-12-02 15:13:49', '2019-12-05 15:13:49', 'Resolved', '32 OF 2019'),
+	(646, 'Admin', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-12-02 15:59:16', '2019-12-05 15:59:16', 'Resolved', '32 OF 2019'),
+	(647, 'CASEOFFICER01', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-12-02 15:59:16', '2019-12-05 15:59:16', 'Resolved', '32 OF 2019'),
+	(649, 'Admin', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-12-02 16:03:45', '2019-12-05 16:03:45', 'Resolved', '32 OF 2019'),
+	(650, 'CASEOFFICER01', 'Preliminary Objecions Fees Approval', 'Preliminary objection fees pending confirmation', '2019-12-02 16:03:45', '2019-12-05 16:03:45', 'Resolved', '32 OF 2019'),
+	(652, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-12-02 16:04:38', '2019-12-05 16:04:38', 'Resolved', '32 OF 2019'),
+	(653, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-12-02 16:04:38', '2019-12-05 16:04:38', 'Resolved', '32 OF 2019'),
+	(655, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-12-02 16:19:35', '2019-12-05 16:19:35', 'Resolved', '32 OF 2019'),
+	(656, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-12-02 16:19:35', '2019-12-05 16:19:35', 'Resolved', '32 OF 2019'),
+	(658, 'PPRA01', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-12-02 16:20:08', '2019-12-05 16:20:08', 'Resolved', '32 OF 2019'),
+	(659, 'Admin', 'Case Adjournment Approval', 'Case Adjournment pending approval', '2019-12-02 16:37:38', '2019-12-05 16:37:38', 'Resolved', '32 OF 2019'),
+	(660, 'CASEOFFICER01', 'Case Adjournment Approval', 'Case Adjournment pending approval', '2019-12-02 16:37:38', '2019-12-05 16:37:38', 'Resolved', '32 OF 2019'),
+	(662, 'Admin', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 16:44:01', '2019-12-05 16:44:01', 'Resolved', '32 OF 2019'),
+	(663, 'CASEOFFICER01', 'Case withdrawal Approval', 'Case withdrawal pending approval', '2019-12-02 16:44:01', '2019-12-05 16:44:01', 'Resolved', '32 OF 2019');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelapprovalcontacts
@@ -6558,10 +6690,10 @@ CREATE TABLE IF NOT EXISTS `panelapprovalcontacts` (
 DELETE FROM `panelapprovalcontacts`;
 /*!40000 ALTER TABLE `panelapprovalcontacts` DISABLE KEYS */;
 INSERT INTO `panelapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Case Officer', '31 OF 2019'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel', '31 OF 2019'),
-	('CASE OFFICER', 'cmkikungu@gmail.com', '070110292812', 'Panel', '31 OF 2019'),
-	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Panel', '31 OF 2019');
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com1', '07227194121', 'Case Officer', '32 OF 2019'),
+	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel', '32 OF 2019'),
+	('CASE OFFICER', 'cmkikungu@gmail.com1', '070110292812', 'Panel', '32 OF 2019'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com1', '07227194121', 'Panel', '32 OF 2019');
 /*!40000 ALTER TABLE `panelapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panellist
@@ -6598,7 +6730,7 @@ CREATE TABLE IF NOT EXISTS `panels` (
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.panels: ~20 rows (approximately)
 DELETE FROM `panels`;
@@ -6629,7 +6761,10 @@ INSERT INTO `panels` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Dele
 	(45, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL),
 	(46, '31 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-29 10:09:41', 'Admin', NULL, NULL),
 	(47, '31 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-29 10:09:44', 'Admin', NULL, NULL),
-	(48, '31 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-29 10:09:47', 'Admin', NULL, NULL);
+	(48, '31 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-29 10:09:47', 'Admin', NULL, NULL),
+	(49, '32 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-12-02 16:19:21', 'Admin', NULL, NULL),
+	(50, '32 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-12-02 16:19:26', 'Admin', NULL, NULL),
+	(51, '32 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-12-02 16:19:29', 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `panels` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelsapprovalworkflow
@@ -6648,7 +6783,7 @@ CREATE TABLE IF NOT EXISTS `panelsapprovalworkflow` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
 
 -- Dumping data for table arcm.panelsapprovalworkflow: ~47 rows (approximately)
 DELETE FROM `panelsapprovalworkflow`;
@@ -6703,7 +6838,10 @@ INSERT INTO `panelsapprovalworkflow` (`ID`, `ApplicationNo`, `UserName`, `Status
 	(84, '30 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-28 16:06:58', 'Admin', NULL, NULL, 'Admin', '2019-11-28 16:09:40'),
 	(85, '31 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-29 10:09:41', 'Admin', NULL, NULL, 'Admin', '2019-11-29 10:10:51'),
 	(86, '31 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-29 10:09:44', 'Admin', NULL, NULL, 'Admin', '2019-11-29 10:10:53'),
-	(87, '31 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-29 10:09:47', 'Admin', NULL, NULL, 'Admin', '2019-11-29 10:10:55');
+	(87, '31 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-29 10:09:47', 'Admin', NULL, NULL, 'Admin', '2019-11-29 10:10:55'),
+	(88, '32 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-12-02 16:19:21', 'Admin', NULL, NULL, 'Admin', '2019-12-02 16:20:02'),
+	(89, '32 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-12-02 16:19:26', 'Admin', NULL, NULL, 'Admin', '2019-12-02 16:20:03'),
+	(90, '32 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-12-02 16:19:29', 'Admin', NULL, NULL, 'Admin', '2019-12-02 16:20:06');
 /*!40000 ALTER TABLE `panelsapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.partysubmision
@@ -6760,9 +6898,9 @@ CREATE TABLE IF NOT EXISTS `paymentdetails` (
   `ChequeDate` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CHQNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.paymentdetails: ~29 rows (approximately)
+-- Dumping data for table arcm.paymentdetails: ~31 rows (approximately)
 DELETE FROM `paymentdetails`;
 /*!40000 ALTER TABLE `paymentdetails` DISABLE KEYS */;
 INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `DateOfpayment`, `AmountPaid`, `Created_By`, `Created_At`, `Category`, `PaymentType`, `ChequeDate`, `CHQNO`) VALUES
@@ -6797,7 +6935,11 @@ INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `Da
 	(29, 33, 'Kim', '1234', '2019-11-28', 70000, 'P0123456788X', '2019-11-28 15:42:57', 'Applicationfees', 1, '', ''),
 	(30, 34, 'Kim', '1234', '2019-11-28', 32500, 'P0123456788X', '2019-11-28 15:51:25', 'Applicationfees', 3, '', ''),
 	(31, 35, 'Kim Elvis', '1000267', '2019-11-29', 26500, 'P0123456788X', '2019-11-29 09:25:51', 'Applicationfees', 4, '2019-11-29', '035'),
-	(32, 25, 'Kim', '1234', '2019-11-29', 5000, 'A123456789X', '2019-11-29 15:48:29', 'PreliminaryObjectionsFees', 1, '', '');
+	(32, 25, 'Kim', '1234', '2019-11-29', 5000, 'A123456789X', '2019-11-29 15:48:29', 'PreliminaryObjectionsFees', 1, '', ''),
+	(33, 36, 'Kim', '1234', '2019-12-02', 12000, 'P0123456788X', '2019-12-02 14:34:34', 'Applicationfees', 1, '', ''),
+	(34, 36, 'Kim', '1234', '2019-12-02', 5000, 'P0123456788X', '2019-12-02 14:35:08', 'Applicationfees', 4, '2019-12-02', '035'),
+	(35, 36, 'Kim', '1234', '2019-12-02', 4000, 'A123456789X', '2019-12-02 15:59:16', 'PreliminaryObjectionsFees', 1, '', ''),
+	(36, 36, 'Kim', '1234', '2019-12-02', 1000, 'A123456789X', '2019-12-02 16:03:45', 'PreliminaryObjectionsFees', 1, '', '');
 /*!40000 ALTER TABLE `paymentdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.paymenttypes
@@ -6837,14 +6979,15 @@ CREATE TABLE IF NOT EXISTS `pedeadlineextensionsrequests` (
   `Created_By` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.pedeadlineextensionsrequests: ~2 rows (approximately)
 DELETE FROM `pedeadlineextensionsrequests`;
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` DISABLE KEYS */;
 INSERT INTO `pedeadlineextensionsrequests` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`) VALUES
 	(4, 'PE-2', '28 OF 2019', '<p>pedeadlineextensionsrequests</p>\n', '2019-11-28 00:00:00', '2019-11-28 11:39:11', 'A123456789X', 'Fully Approved'),
-	(5, 'PE-2', '22 OF 2019', '<p>682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712</p>\n', '2019-11-29 00:00:00', '2019-11-29 15:42:31', 'A123456789X', 'DECLINED');
+	(5, 'PE-2', '22 OF 2019', '<p>682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712682712</p>\n', '2019-11-29 00:00:00', '2019-11-29 15:42:31', 'A123456789X', 'DECLINED'),
+	(6, 'PE-2', '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', '2019-12-23 00:00:00', '2019-12-02 15:13:49', 'A123456789X', 'Fully Approved');
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponse
@@ -6860,9 +7003,9 @@ CREATE TABLE IF NOT EXISTS `peresponse` (
   `Status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `PanelStatus` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`,`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponse: ~12 rows (approximately)
+-- Dumping data for table arcm.peresponse: ~13 rows (approximately)
 DELETE FROM `peresponse`;
 /*!40000 ALTER TABLE `peresponse` DISABLE KEYS */;
 INSERT INTO `peresponse` (`ID`, `ApplicationNo`, `PEID`, `ResponseType`, `ResponseDate`, `Created_By`, `Created_At`, `Status`, `PanelStatus`) VALUES
@@ -6877,7 +7020,8 @@ INSERT INTO `peresponse` (`ID`, `ApplicationNo`, `PEID`, `ResponseType`, `Respon
 	(9, '29 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-22 12:18:20', 'P65498745R', '2019-11-22 12:18:20', 'Submited', 'Submited'),
 	(10, '28 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-28 16:06:03', 'A123456789X', '2019-11-28 16:06:03', 'Submited', 'Undefined'),
 	(11, '31 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-29 09:59:06', 'A123456789X', '2019-11-29 09:59:06', 'Submited', 'Submited'),
-	(12, '22 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-29 15:47:22', 'A123456789X', '2019-11-29 15:47:22', 'Submited', 'Undefined');
+	(12, '22 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-29 15:47:22', 'A123456789X', '2019-11-29 15:47:22', 'Submited', 'Undefined'),
+	(13, '32 OF 2019', 'PE-2', 'Preliminary Objection', '2019-12-02 15:58:21', 'A123456789X', '2019-12-02 15:58:21', 'Submited', 'Submited');
 /*!40000 ALTER TABLE `peresponse` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsebackgroundinformation
@@ -6892,9 +7036,9 @@ CREATE TABLE IF NOT EXISTS `peresponsebackgroundinformation` (
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsebackgroundinformation: ~12 rows (approximately)
+-- Dumping data for table arcm.peresponsebackgroundinformation: ~11 rows (approximately)
 DELETE FROM `peresponsebackgroundinformation`;
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` DISABLE KEYS */;
 INSERT INTO `peresponsebackgroundinformation` (`ID`, `ApplicationNo`, `BackgroundInformation`, `ResponseType`, `Created_At`, `Updated_At`, `Updated_By`, `Created_By`) VALUES
@@ -6910,7 +7054,8 @@ INSERT INTO `peresponsebackgroundinformation` (`ID`, `ApplicationNo`, `Backgroun
 	(10, '29 OF 2019', '<p>abcd</p>\n', 'Memorandum of Response', '2019-11-22 12:18:00', NULL, NULL, 'P65498745R'),
 	(11, '28 OF 2019', '<p>WCF stands for Windows Communication Foundation. It is a framework for building, configuring, and deploying network-distributed services. Earlier known as Indigo, it enables hosting services in any type of operating system process. This tutorial explains the fundamentals of WCF and is conveniently divided into various sections. Every section of this tutorial has adequate number of examples to explain different concepts of WCF</p>\n', 'Memorandum of Response', '2019-11-28 16:05:58', NULL, NULL, 'A123456789X'),
 	(12, '31 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', 'Memorandum of Response', '2019-11-29 09:58:57', NULL, NULL, 'A123456789X'),
-	(13, '22 OF 2019', '<p>PRAGIM is known for placements in major IT companies. Major MNC&#39;s visit PRAGIM campus every week for interviews.You can contact our old students who are placed with in 1 week of completing their Training and are getting a salary ranging from Rs. 25,000 to</p>\n', 'Preliminary Objection', '2019-11-29 15:47:15', NULL, NULL, 'A123456789X');
+	(13, '22 OF 2019', '<p>PRAGIM is known for placements in major IT companies. Major MNC&#39;s visit PRAGIM campus every week for interviews.You can contact our old students who are placed with in 1 week of completing their Training and are getting a salary ranging from Rs. 25,000 to</p>\n', 'Preliminary Objection', '2019-11-29 15:47:15', NULL, NULL, 'A123456789X'),
+	(14, '32 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', 'Preliminary Objection', '2019-12-02 15:58:13', NULL, NULL, 'A123456789X');
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsecontacts
@@ -6927,8 +7072,8 @@ DELETE FROM `peresponsecontacts`;
 /*!40000 ALTER TABLE `peresponsecontacts` DISABLE KEYS */;
 INSERT INTO `peresponsecontacts` (`Name`, `Email`, `Mobile`, `Role`) VALUES
 	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Incomplete'),
-	('CASE OFFICER', 'cmkikungu@gmail.com', '070110292812', 'Incomplete'),
-	('Philip Okumu', 'okumupj@yahoo.com', '0720768894', 'Case officer'),
+	('CASE OFFICER', 'cmkikungu@gmail.com1', '070110292812', 'Incomplete'),
+	('WILSON B. KEREBEI', 'wkerebei@gmail.com1', '07227194121', 'Case officer'),
 	('JAMES SUPPLIERS LTD', 'KEREBEI@HOTMAIL.COM', '07184030861', 'Applicant');
 /*!40000 ALTER TABLE `peresponsecontacts` ENABLE KEYS */;
 
@@ -6947,9 +7092,9 @@ CREATE TABLE IF NOT EXISTS `peresponsedetails` (
   `BackgrounInformation` text COLLATE utf8mb4_unicode_ci,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsedetails: ~35 rows (approximately)
+-- Dumping data for table arcm.peresponsedetails: ~33 rows (approximately)
 DELETE FROM `peresponsedetails`;
 /*!40000 ALTER TABLE `peresponsedetails` DISABLE KEYS */;
 INSERT INTO `peresponsedetails` (`ID`, `PEResponseID`, `GroundNO`, `GroundType`, `Response`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `BackgrounInformation`, `Deleted`) VALUES
@@ -6988,7 +7133,9 @@ INSERT INTO `peresponsedetails` (`ID`, `PEResponseID`, `GroundNO`, `GroundType`,
 	(50, 11, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29 09:59:06', 'A123456789X', NULL, NULL, NULL, 0),
 	(51, 11, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n', '2019-11-29 09:59:15', 'A123456789X', NULL, NULL, NULL, 0),
 	(52, 12, '1', 'Grounds', '<p>PRAGIM is known for placements in major IT companies. Major MNC&#39;s visit PRAGIM campus every week for interviews.You can contact our old students who are placed with in 1 week of completing their Training and are getting a salary ranging from Rs. 25,000 to</p>\n', '2019-11-29 15:47:23', 'A123456789X', NULL, NULL, NULL, 0),
-	(53, 12, '2', 'Prayers', '<p>PRAGIM is known for placements in major IT companies. Major MNC&#39;s visit PRAGIM campus every week for interviews.You can contact our old students who are placed with in 1 week of completing their Training and are getting a salary ranging from Rs. 25,000 to</p>\n', '2019-11-29 15:47:32', 'A123456789X', NULL, NULL, NULL, 0);
+	(53, 12, '2', 'Prayers', '<p>PRAGIM is known for placements in major IT companies. Major MNC&#39;s visit PRAGIM campus every week for interviews.You can contact our old students who are placed with in 1 week of completing their Training and are getting a salary ranging from Rs. 25,000 to</p>\n', '2019-11-29 15:47:32', 'A123456789X', NULL, NULL, NULL, 0),
+	(54, 13, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', '2019-12-02 15:58:21', 'A123456789X', NULL, NULL, NULL, 0),
+	(55, 13, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>\n', '2019-12-02 15:58:29', 'A123456789X', NULL, NULL, NULL, 0);
 /*!40000 ALTER TABLE `peresponsedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsedocuments
@@ -7005,7 +7152,7 @@ CREATE TABLE IF NOT EXISTS `peresponsedocuments` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsedocuments: ~12 rows (approximately)
+-- Dumping data for table arcm.peresponsedocuments: ~11 rows (approximately)
 DELETE FROM `peresponsedocuments`;
 /*!40000 ALTER TABLE `peresponsedocuments` DISABLE KEYS */;
 INSERT INTO `peresponsedocuments` (`ID`, `PEResponseID`, `Name`, `Description`, `Path`, `Created_At`, `Deleted`, `Confidential`) VALUES
@@ -7033,7 +7180,7 @@ CREATE TABLE IF NOT EXISTS `peresponsetimer` (
   `DueOn` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`,`PEID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.peresponsetimer: ~20 rows (approximately)
 DELETE FROM `peresponsetimer`;
@@ -7058,7 +7205,8 @@ INSERT INTO `peresponsetimer` (`ID`, `PEID`, `ApplicationNo`, `RegisteredOn`, `D
 	(17, 'PE-2', '28 OF 2019', '2019-11-21 21:44:12', '2019-11-28 00:00:00', 'Submited'),
 	(18, 'PE-4', '29 OF 2019', '2019-11-22 11:47:04', '2019-11-27 11:47:04', 'Submited'),
 	(19, 'PE-1', '30 OF 2019', '2019-11-28 16:01:49', '2019-12-03 16:01:49', 'Pending Acknowledgement'),
-	(20, 'PE-2', '31 OF 2019', '2019-11-29 09:30:13', '2019-12-04 09:30:13', 'Submited');
+	(20, 'PE-2', '31 OF 2019', '2019-11-29 09:30:13', '2019-12-04 09:30:13', 'Submited'),
+	(21, 'PE-2', '32 OF 2019', '2019-12-02 14:56:01', '2019-12-23 00:00:00', 'Submited');
 /*!40000 ALTER TABLE `peresponsetimer` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.petypes
@@ -7195,7 +7343,7 @@ CREATE TABLE IF NOT EXISTS `rb1forms` (
   `GeneratedOn` datetime DEFAULT NULL,
   `GeneratedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.rb1forms: ~16 rows (approximately)
 DELETE FROM `rb1forms`;
@@ -7217,7 +7365,8 @@ INSERT INTO `rb1forms` (`ID`, `ApplicationNo`, `Path`, `FileName`, `GeneratedOn`
 	(14, '28 OF 2019', 'RB1FORMS/', '28 OF 2019.pdf', '2019-11-21 21:44:14', 'Admin'),
 	(15, '29 OF 2019', 'RB1FORMS/', '29 OF 2019.pdf', '2019-11-22 11:47:08', 'Admin'),
 	(16, '30 OF 2019', 'RB1FORMS/', '30 OF 2019.pdf', '2019-11-28 16:01:56', 'Admin'),
-	(17, '31 OF 2019', 'RB1FORMS/', '31 OF 2019.pdf', '2019-11-29 09:30:20', 'Admin');
+	(17, '31 OF 2019', 'RB1FORMS/', '31 OF 2019.pdf', '2019-11-29 09:30:20', 'Admin'),
+	(18, '32 OF 2019', 'RB1FORMS/', '32 OF 2019.pdf', '2019-12-02 14:56:10', 'Admin');
 /*!40000 ALTER TABLE `rb1forms` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.ReasignCaseOfficer
@@ -7305,7 +7454,7 @@ CREATE TABLE IF NOT EXISTS `requesthandledbuffer` (
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.requesthandledbuffer: ~29 rows (approximately)
+-- Dumping data for table arcm.requesthandledbuffer: ~30 rows (approximately)
 DELETE FROM `requesthandledbuffer`;
 /*!40000 ALTER TABLE `requesthandledbuffer` DISABLE KEYS */;
 INSERT INTO `requesthandledbuffer` (`Applicationno`, `ApplicationDate`, `Status`) VALUES
@@ -7317,7 +7466,9 @@ INSERT INTO `requesthandledbuffer` (`Applicationno`, `ApplicationDate`, `Status`
 	('18 OF 2019', '2019-11-15', 'Unsuccessful'),
 	('20 OF 2019', '2019-11-20', 'Unsuccessful'),
 	('14 OF 2019', '2019-11-12', 'Withdrawn'),
+	('30 OF 2019', '2019-11-28', 'Withdrawn'),
 	('31 OF 2019', '2019-11-29', 'Withdrawn'),
+	('32 OF 2019', '2019-12-02', 'Withdrawn'),
 	('13 OF 2019', '2019-11-12', 'Pending Determination'),
 	('15 OF 2019', '2019-11-12', 'Pending Determination'),
 	('11', '2019-11-13', 'Pending Determination'),
@@ -7336,8 +7487,7 @@ INSERT INTO `requesthandledbuffer` (`Applicationno`, `ApplicationDate`, `Status`
 	('29', '2019-11-22', 'Pending Determination'),
 	('31', '2019-11-26', 'Pending Determination'),
 	('32', '2019-11-26', 'Pending Determination'),
-	('33', '2019-11-28', 'Pending Determination'),
-	('30 OF 2019', '2019-11-28', 'Pending Determination');
+	('33', '2019-11-28', 'Pending Determination');
 /*!40000 ALTER TABLE `requesthandledbuffer` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.Resetpassword
@@ -7877,7 +8027,7 @@ DROP PROCEDURE IF EXISTS `SaveCaseWithdrawal`;
 DELIMITER //
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveCaseWithdrawal`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason VARCHAR(255),IN _UserID varchar(50))
 BEGIN
-if(SELECT count(*)  from casewithdrawal where ApplicationNo=_ApplicationNo)>0 THEN
+if(SELECT count(*)  from casewithdrawal where ApplicationNo=_ApplicationNo and Status='Approved')>0 THEN
 BEGIN
 Select 'Already submited' as msg;
 END;
@@ -9679,7 +9829,7 @@ CREATE TABLE IF NOT EXISTS `tenders` (
   KEY `ID` (`ID`),
   KEY `FK_PEID` (`PEID`),
   CONSTRAINT `FK_PEID` FOREIGN KEY (`PEID`) REFERENCES `procuremententity` (`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.tenders: ~26 rows (approximately)
 DELETE FROM `tenders`;
@@ -9714,7 +9864,8 @@ INSERT INTO `tenders` (`ID`, `TenderNo`, `Name`, `PEID`, `TenderValue`, `StartDa
 	(43, 'TENDER/0001/2019/2020', 'Tender 3', 'PE-1', 2000000, '2019-11-26 00:00:00', '2019-11-26 00:00:00', '2019-11-26 00:00:00', 'P0123456788X', '2019-11-26 15:21:11', '2019-11-26 15:21:11', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
 	(44, 'TENDER/0001/2019/2020', 'TENDER/0001/2019/2020', 'PE-1', 20000000, '2019-11-28 00:00:00', '2019-11-28 00:00:00', '2019-11-28 00:00:00', 'P0123456788X', '2019-11-28 15:34:35', '2019-11-28 15:42:06', 'P0123456788X', 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
 	(45, 'TENDER/0001/2019/2020', 'TENDER/0001/2019/2020', 'PE-1', 5000000, '2019-11-28 00:00:00', '2019-11-28 00:00:00', '2019-11-28 00:00:00', 'P0123456788X', '2019-11-28 15:47:17', '2019-11-28 15:47:17', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(46, 'dbForge Data Compare for PostgreSQL', 'dbForge Data Compare for PostgreSQL', 'PE-2', 2500000, '2019-11-29 00:00:00', '2019-11-29 00:00:00', '2019-11-29 00:00:00', 'P0123456788X', '2019-11-29 09:16:32', '2019-11-29 09:16:32', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days');
+	(46, 'dbForge Data Compare for PostgreSQL', 'dbForge Data Compare for PostgreSQL', 'PE-2', 2500000, '2019-11-29 00:00:00', '2019-11-29 00:00:00', '2019-11-29 00:00:00', 'P0123456788X', '2019-11-29 09:16:32', '2019-11-29 09:16:32', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
+	(47, 'TENDER/0001/2019/2020', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean', 'PE-2', 1200000, '2019-12-02 00:00:00', '2019-12-02 00:00:00', '2019-12-02 00:00:00', 'P0123456788X', '2019-12-02 14:31:21', '2019-12-02 14:31:21', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days');
 /*!40000 ALTER TABLE `tenders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tendertypes
@@ -12037,18 +12188,18 @@ INSERT INTO `users` (`Name`, `Username`, `Email`, `Password`, `Phone`, `Create_a
 	('University of Nairobi', 'A123456789U', 'kserem20@gmail.com', '$2b$10$/xdWc9xaT227CFc8yXK3XuLCPat.kpSL63We0nrSQOxsKhhB/HY4G', '0700392599', '2019-11-12 13:41:58', NULL, NULL, 0, 1, 1, 'lXkDW', NULL, 8, 'A123456789U', NULL, 'default.png', 'PE', NULL, 'A123456789U', NULL, '2019-09-01 00:00:00', 0, 0),
 	('MINISTRY OF EDUCATION', 'A123456789X', 'elviskimcheruiyot@gmail.com', '$2b$10$wnGcZGX.rgUqB1lEVU2kleMogBMyQkHwc7cesgoGFIHa3mccBSs0e', '0701102928', '2019-11-11 16:26:50', '2019-11-26 15:31:47', NULL, 0, 1, 1, 'Xz1rd', NULL, 8, 'A123456789X', 'Admin', 'default.png', 'PE', NULL, 'A123456789X', NULL, '1963-12-12 00:00:00', 0, 0),
 	('Elvis kimutai', 'Admin', 'elviskcheruiyot@gmail.com', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '0705555285', '2019-07-12 15:50:56', '2019-11-26 14:56:57', '2019-07-12 15:50:56', 0, 1, 1, 'QDrts', '', 1, 'kim', 'Admin', '1573655832969-download.jpg', 'System_User', '1565251011001-signature.jpg', '31547833', 'Male', '1994-12-31 00:00:00', NULL, 1),
-	('CASE OFFICER', 'CASEOFFICER01', 'cmkikungu@gmail.com', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '070110292812', '2019-11-11 15:34:20', NULL, NULL, 0, 1, 1, '0c3R5', NULL, 9, 'PPRA01', NULL, 'default.png', 'System_User', '', '23456789', 'Male', '2019-10-28 00:00:00', 1, 1),
+	('CASE OFFICER', 'CASEOFFICER01', 'cmkikungu@gmail.com1', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '070110292812', '2019-11-11 15:34:20', NULL, NULL, 0, 1, 1, '0c3R5', NULL, 9, 'PPRA01', NULL, 'default.png', 'System_User', '', '23456789', 'Male', '2019-10-28 00:00:00', 1, 1),
 	('KENYA POLICE SERVICE', 'P0000000001', 'sales@Wilcom.co.ke', '$2b$10$K6bemATl6bhF8aIzhrt7AOMxyjN1OOZiboWaaAXlbTt.vdNOIfgnG', '0766944664', '2019-11-21 11:31:03', '2019-11-26 14:56:46', NULL, 0, 1, 0, 'AXwwC', NULL, 8, 'P0000000001', 'Admin', 'default.png', 'PE', NULL, '0', NULL, '1963-12-12 00:00:00', 0, 0),
-	('JAMES SUPPLIERS LTD', 'P0123456788X', 'KEREBEI@HOTMAIL.COM', '$2b$10$xlt0b6DmhvHrO1XrmLjp9O78NkSjzo40Dcs1vc07BANYUpXdtaBbe', '07184030861', '2019-11-11 15:41:19', '2019-11-21 11:52:42', NULL, 0, 1, 1, 'AymPi', NULL, 8, 'P0123456788X', 'P0123456788X', '1574337159446-Kerebei PP Photo.jpg', 'Applicant', NULL, 'P0123456788X', NULL, '2000-12-08 00:00:00', 0, 0),
+	('JAMES SUPPLIERS LTD', 'P0123456788X', 'KEREBEI@HOTMAIL.COM1', '$2b$10$xlt0b6DmhvHrO1XrmLjp9O78NkSjzo40Dcs1vc07BANYUpXdtaBbe', '07184030861', '2019-11-11 15:41:19', '2019-11-21 11:52:42', NULL, 0, 1, 1, 'AymPi', NULL, 8, 'P0123456788X', 'P0123456788X', '1574337159446-Kerebei PP Photo.jpg', 'Applicant', NULL, 'P0123456788X', NULL, '2000-12-08 00:00:00', 0, 0),
 	('APPLICANT LTD', 'P09875345W', 'info@wilcom.co.ke', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '0722114567', '2019-11-13 14:56:01', NULL, NULL, 0, 1, 1, 'l7XVZ', NULL, 8, 'P09875345W', NULL, 'default.png', 'Applicant', NULL, 'P09875345W', NULL, '2019-10-01 00:00:00', 1, 0),
-	('ECTA KENYA LIMITED', 'P121212121L', 'pjokumu@hotmail.com', '$2b$10$SdLj45h5bK7eqsLEz3LpTu95mIaGygUjTODe.ATYDFMeh89b0dyxK', '0734479491', '2019-11-15 12:12:49', NULL, NULL, 0, 0, 0, 'wfLdf', NULL, 8, 'P121212121L', NULL, 'default.png', 'Applicant', NULL, 'P121212121L', NULL, '2014-10-10 00:00:00', 1, 0),
-	('CMC MOTORS CORPORATION', 'P123456879Q', 'judiejuma@gmail.com', '$2b$10$W1Z/ojsrv9vvHjZ7.WB5UOlRxhIUrsFrpISvjV3Nb0sPXjfKymDQO', '0705128595', '2019-11-15 10:39:06', NULL, NULL, 0, 1, 1, 'x1RNQ', NULL, 8, 'P123456879Q', NULL, 'default.png', 'Applicant', NULL, 'P123456879Q', NULL, '1980-08-12 00:00:00', 0, 0),
-	('STATE DEPARTMENT OF INTERIOR ', 'P65498745R', 'judyjay879@gmail.com', '$2b$10$gO.U6rOmx94CG.xF8dZJcea0P8BBAdvFtLUg31Y4h8VQjLr2LR3JS', '0718403086', '2019-11-15 11:46:48', NULL, NULL, 0, 1, 1, '8cj9S', NULL, 8, 'P65498745R', NULL, 'default.png', 'PE', NULL, 'P65498745R', NULL, '1963-12-12 00:00:00', 1, 0),
-	('Philemon Kiprop', 'pkiprop', 'philchem2009@gmail.com', '$2b$10$2vVCH1AbRn3gRUaNcsFzIeEO2bmSw9aGRDBwRiqC91a/JEDeb6sQu', '0722955458', '2019-11-15 10:38:19', NULL, NULL, 0, 1, 0, 'Zhvpe', NULL, 9, 'SOdhiambo', NULL, 'default.png', 'System_User', '', '123456', 'Male', '2019-11-15 00:00:00', 1, 0),
-	('Philip Okumu', 'Pokumu', 'okumupj@yahoo.com', '$2b$10$zy83GCav50YXdXDIGr1uq.q3eNTGdRQWFc0CJfqY1VI63xbDMfDnq', '0720768894', '2019-11-15 10:28:49', '2019-11-15 10:29:46', NULL, 0, 1, 1, 'MwEe2', NULL, 9, 'Admin', 'Admin', 'default.png', 'System_User', '', '10811856', 'Male', '1970-01-01 00:00:00', 1, 0),
-	('WILSON B. KEREBEI', 'PPRA01', 'wkerebei@gmail.com', '$2b$10$ICLCDuzBJpmhS5msvd1KwOTbg8NmbaZlEg62iHOhwLzhPWQg9P.pC', '07227194121', '2019-11-11 15:19:43', '2019-11-11 15:22:14', NULL, 0, 1, 1, 'tyCON', NULL, 1, 'Admin', 'PPRA01', '1573485732625-IMG_20190705_162423_7.jpg', 'System_User', '', '123456789', 'Male', '1980-12-12 00:00:00', 1, 1),
-	('Stanley Miheso', 'smiheso', 'mihesosc@yahoo.com', '$2b$10$.2VIwiMBs4xGuPrwdp7IOupE0YK1FExuQ3fFuxQOT8Weh7zYLtCHK', '0722607127', '2019-11-15 12:41:09', '2019-11-15 12:49:31', NULL, 0, 1, 1, 'SQFjZ', NULL, 9, 'SOdhiambo', 'SOdhiambo', 'default.png', 'System_User', '', '9136339', 'Male', '2004-09-07 00:00:00', 1, 1),
-	('Samson Odhiambo', 'SOdhiambo', 'x2press@gmail.com', '$2b$10$IVW/TndrqUkbsuh3AhxCqeRrbetmP.TZyXRTZylbMsZjNDLfJScjK', '0721382630', '2019-11-15 10:24:58', '2019-11-15 10:30:18', NULL, 0, 1, 1, 'GbO8J', NULL, 1, 'Admin', 'SOdhiambo', 'default.png', 'System_User', '', '20566933', 'Male', '1983-01-01 00:00:00', 1, 1);
+	('ECTA KENYA LIMITED', 'P121212121L', 'pjokumu@hotmail.com1', '$2b$10$SdLj45h5bK7eqsLEz3LpTu95mIaGygUjTODe.ATYDFMeh89b0dyxK', '0734479491', '2019-11-15 12:12:49', NULL, NULL, 0, 0, 0, 'wfLdf', NULL, 8, 'P121212121L', NULL, 'default.png', 'Applicant', NULL, 'P121212121L', NULL, '2014-10-10 00:00:00', 1, 0),
+	('CMC MOTORS CORPORATION', 'P123456879Q', 'judiejuma@gmail.com1', '$2b$10$W1Z/ojsrv9vvHjZ7.WB5UOlRxhIUrsFrpISvjV3Nb0sPXjfKymDQO', '0705128595', '2019-11-15 10:39:06', NULL, NULL, 0, 1, 1, 'x1RNQ', NULL, 8, 'P123456879Q', NULL, 'default.png', 'Applicant', NULL, 'P123456879Q', NULL, '1980-08-12 00:00:00', 0, 0),
+	('STATE DEPARTMENT OF INTERIOR ', 'P65498745R', 'judyjay879@gmail.com1', '$2b$10$gO.U6rOmx94CG.xF8dZJcea0P8BBAdvFtLUg31Y4h8VQjLr2LR3JS', '0718403086', '2019-11-15 11:46:48', NULL, NULL, 0, 1, 1, '8cj9S', NULL, 8, 'P65498745R', NULL, 'default.png', 'PE', NULL, 'P65498745R', NULL, '1963-12-12 00:00:00', 1, 0),
+	('Philemon Kiprop', 'pkiprop', 'philchem2009@gmail.com1', '$2b$10$2vVCH1AbRn3gRUaNcsFzIeEO2bmSw9aGRDBwRiqC91a/JEDeb6sQu', '07229554581', '2019-11-15 10:38:19', NULL, NULL, 0, 1, 0, 'Zhvpe', NULL, 9, 'SOdhiambo', NULL, 'default.png', 'System_User', '', '123456', 'Male', '2019-11-15 00:00:00', 1, 0),
+	('Philip Okumu', 'Pokumu', 'okumupj@yahoo.com1', '$2b$10$zy83GCav50YXdXDIGr1uq.q3eNTGdRQWFc0CJfqY1VI63xbDMfDnq', '07207688941', '2019-11-15 10:28:49', '2019-11-15 10:29:46', NULL, 0, 1, 1, 'MwEe2', NULL, 9, 'Admin', 'Admin', 'default.png', 'System_User', '', '10811856', 'Male', '1970-01-01 00:00:00', 1, 0),
+	('WILSON B. KEREBEI', 'PPRA01', 'wkerebei@gmail.com1', '$2b$10$ICLCDuzBJpmhS5msvd1KwOTbg8NmbaZlEg62iHOhwLzhPWQg9P.pC', '07227194121', '2019-11-11 15:19:43', '2019-11-11 15:22:14', NULL, 0, 1, 1, 'tyCON', NULL, 1, 'Admin', 'PPRA01', '1573485732625-IMG_20190705_162423_7.jpg', 'System_User', '', '123456789', 'Male', '1980-12-12 00:00:00', 1, 1),
+	('Stanley Miheso', 'smiheso', 'mihesosc@yahoo.com1', '$2b$10$.2VIwiMBs4xGuPrwdp7IOupE0YK1FExuQ3fFuxQOT8Weh7zYLtCHK', '07226071271', '2019-11-15 12:41:09', '2019-11-15 12:49:31', NULL, 0, 1, 1, 'SQFjZ', NULL, 9, 'SOdhiambo', 'SOdhiambo', 'default.png', 'System_User', '', '9136339', 'Male', '2004-09-07 00:00:00', 1, 1),
+	('Samson Odhiambo', 'SOdhiambo', 'x2press@gmail.com1', '$2b$10$IVW/TndrqUkbsuh3AhxCqeRrbetmP.TZyXRTZylbMsZjNDLfJScjK', '07213826301', '2019-11-15 10:24:58', '2019-11-15 10:30:18', NULL, 0, 1, 1, 'GbO8J', NULL, 1, 'Admin', 'SOdhiambo', 'default.png', 'System_User', '', '20566933', 'Male', '1983-01-01 00:00:00', 1, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.venuebookings
@@ -12063,7 +12214,7 @@ CREATE TABLE IF NOT EXISTS `venuebookings` (
   `Booked_On` datetime DEFAULT NULL,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.venuebookings: ~37 rows (approximately)
 DELETE FROM `venuebookings`;
@@ -12109,7 +12260,8 @@ INSERT INTO `venuebookings` (`ID`, `VenueID`, `Date`, `Slot`, `Booked_By`, `Cont
 	(38, 8, '2019-11-28', '8.00AM', 'Admin', '28 OF 2019', '2019-11-28 13:36:55', 0),
 	(39, 5, '2019-11-28', '8.00AM', 'Admin', '30 OF 2019', '2019-11-28 16:10:39', 0),
 	(40, 5, '2019-11-28', '9.00AM', 'Admin', '30 OF 2019', '2019-11-28 16:12:40', 0),
-	(41, 5, '2019-11-29', '8.00AM', 'Admin', '31 OF 2019', '2019-11-29 10:28:34', 0);
+	(41, 5, '2019-11-29', '8.00AM', 'Admin', '31 OF 2019', '2019-11-29 10:28:34', 0),
+	(42, 5, '2019-12-02', '8.00AM', 'Admin', '32 OF 2019', '2019-12-02 16:20:54', 0);
 /*!40000 ALTER TABLE `venuebookings` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.venues

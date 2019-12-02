@@ -58,6 +58,7 @@ PEResponse.get("/:ID", function(req, res) {
 PEResponse.get("/:ID/:Value", function(req, res) {
   const ID = req.params.ID;
   const Value = req.params.Value;
+  //console.log(ID, Value);
   if (ID === "GetPEResponseDetailsPerApplication") {
     con.getConnection(function(err, connection) {
       if (err) {

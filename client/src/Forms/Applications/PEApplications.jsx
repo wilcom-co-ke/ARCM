@@ -80,8 +80,8 @@ class PEApplications extends Component {
 
             alert: null
         };
-        this.handViewApplication = this.handViewApplication.bind(this);
-        this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
+       // this.handViewApplication = this.handViewApplication.bind(this);
+      //  this.fetchApplicantDetails = this.fetchApplicantDetails.bind(this)
        
     }
     fetchinterestedparties = (ApplicationID) => {
@@ -323,7 +323,7 @@ class PEApplications extends Component {
     };
  
     handViewApplication = k => {
-      console.log(k)
+    
         this.setState({ AddedAdendums: [] });
         this.setState({ ApplicationGrounds: [] });
         this.setState({ ApplicationDocuments: [] });
@@ -740,7 +740,7 @@ class PEApplications extends Component {
                                                         pathname: "/PEResponse",
                                                         ApplicationNo: this.state.ApplicationNo,
                                                         ApplicationID: this.state.ApplicationID,
-                                                                ApplicationClosingDate: this.state.ApplicationClosingDate
+                                                        ApplicationClosingDate: this.state.ApplicationClosingDate
                                                          }}>
                                                     <button className="btn btn-primary" style={{ marginTop: 30 }}>Respond Now</button>
                                                 </Link>
