@@ -5,7 +5,7 @@ var config = require("./../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("./../../auth");
-paymenttypes.get("/", auth.validateRole("Payment Types"), function(req, res) {
+paymenttypes.get("/", function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({

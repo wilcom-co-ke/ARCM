@@ -283,7 +283,12 @@ class createacc extends Component {
             DOB: this.state.Companyregistrationdate,
         };
         if (this.state.LoginPassword == this.state.ConfirmPassword) {
-            this.postloginData("/api/Signup", Logindata);
+            if (this.state.County){
+                this.postloginData("/api/Signup", Logindata);
+            }else{
+                swal("", "County is required", "error");
+            }
+           
         } else {
             swal("","Password and Confirm password do not match","error");
         }
@@ -396,7 +401,6 @@ class createacc extends Component {
                             Logo: this.state.Logo,
                             Website: this.state.Website,
                             County: this.state.County,
-                            UserName: this.state.LoginUsername,
                             Companyregistrationdate: this.state.Companyregistrationdate,
                             PIN: this.state.PIN,
                             RegistrationNo: this.state.RegistrationNo,
@@ -405,7 +409,22 @@ class createacc extends Component {
                         if (this.state.LoginCategory==="PE"){
                             let pedata={
                                 UserName: this.state.PIN, 
-                                Procuringentity: this.state.Procuringentity
+                                Procuringentity: this.state.Procuringentity,
+                                Name: this.state.Name,
+                                Location: this.state.Location,
+                                POBox: this.state.POBox,
+                                PostalCode: this.state.PostalCode,
+                                Town: this.state.Town,
+                                Mobile: this.state.Mobile,
+                                Telephone: this.state.Telephone,
+                                Email: this.state.Email,
+                                Logo: this.state.Logo,
+                                Website: this.state.Website,
+                                County: this.state.County,
+                                Companyregistrationdate: this.state.Companyregistrationdate,
+                                PIN: this.state.PIN,
+                                RegistrationNo: this.state.RegistrationNo
+                               
                             }
                             localStorage.setItem("Unverifiedusername", this.state.PIN);
                             this.SendMail(response.activationCode);

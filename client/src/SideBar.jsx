@@ -314,7 +314,12 @@ class SideBar extends Component {
       return false;
     }
   };
-
+  ViewFile = (k, e) => {
+    let filepath =
+      process.env.REACT_APP_BASE_URL + "/profilepics/ARCMS-UserGuide.pdf";
+    window.open(filepath);
+    //this.setState({ openFileViewer: true });
+  };
   render() {
     let photostyle = {
       height: 140,
@@ -400,6 +405,7 @@ class SideBar extends Component {
               showmenuvalue={this.state.showMenuReports}
               MenuStyle={MenuStyle}
             />
+            <Help ViewFile={this.ViewFile} />
           </ul>
         </div>
       </nav>
@@ -882,6 +888,20 @@ const SystemAdmin = props => {
     return <div />;
   }
 };
+const Help = props => {
+  return (
+    <li
+      className=""
+      onClick={props.ViewFile}
+      style={{ marginLeft: "25px", color: "white", cursor: "pointer" }}
+    >
+      <li>
+        <i className="fa fa-cogs" />{" "}
+        <span className="nav-label">User Manual</span>
+      </li>
+    </li>
+  );
+};
 const DashBoards = props => {
   if (props.validaterole("DashBoards", "View")) {
     return (
@@ -934,22 +954,22 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
-            {/* {props.validaterole("Procurement Methods", "View") ? (
+            {props.validaterole("SMS Details", "View") ? (
               <li>
-                <Link to="/procurementmethods">
+                <Link to="/SMSdetails">
                   <i className="fa fa-user-plus " />
-                  Procurement Types
+                  SMS Details
                 </Link>
               </li>
-            ) : null} */}
-            {/* {props.validaterole("Standard Tender Documents", "View") ? (
+            ) : null}
+            {props.validaterole("SMTP Details", "View") ? (
               <li>
-                <Link to="/STDDocs">
+                <Link to="/smtpdetails">
                   <i className="fa fa-folder" />
-                  Tender Documents
+                  SMTP Details
                 </Link>
               </li>
-            ) : null} */}
+            ) : null}
             {/* {props.validaterole("Committee Types", "View") ? (
               <li>
                 <Link to="/CommitteesTypes">
@@ -958,14 +978,14 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null} */}
-            {props.validaterole("Financial Year", "View") ? (
+            {/* {props.validaterole("Financial Year", "View") ? (
               <li>
                 <Link to="/financialyear">
                   <i className="fa fa-calendar" />
                   Financial year
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Banks", "View") ? (
               <li>
                 <Link to="/Banks">
@@ -999,14 +1019,14 @@ const Parameteres = props => {
                 </Link>
               </li>
             ) : null}
-            {props.validaterole("Counties", "View") ? (
+            {/* {props.validaterole("Counties", "View") ? (
               <li>
                 <Link to="/counties">
                   <i className="fa fa-money" />
                   Counties
                 </Link>
               </li>
-            ) : null}
+            ) : null} */}
             {props.validaterole("Procurement Entities", "View") ? (
               <li>
                 <Link to="/PE">

@@ -1578,7 +1578,7 @@ class Applications extends Component {
         }
       })
       .catch(err => {
-        toast.err(err.message);
+      //  toast.err(err.message);
       });
   };
   componentDidMount() {

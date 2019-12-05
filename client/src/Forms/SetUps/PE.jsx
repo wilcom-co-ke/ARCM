@@ -874,7 +874,7 @@ class PE extends Component {
                         name="Website"
                         onChange={this.handleInputChange}
                         value={this.state.Website}
-                        required
+                        
                       />
                     </div>
                   </div>

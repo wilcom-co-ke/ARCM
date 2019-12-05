@@ -60,31 +60,23 @@ applicants.get("/:ID", function(req, res) {
 applicants.post("/", function(req, res) {
   const schema = Joi.object().keys({
     Name: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     County: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
 
     Location: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     POBox: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     PostalCode: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     Town: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     Mobile: Joi.number()
-      .min(10)
-      .required(),
+    .required(),
     Telephone: Joi.number()
-      .min(10)
-      .required(),
-    Email: Joi.string().email({ minDomainAtoms: 2 }),
+    .required(),
+    Email: Joi.string(),
     Logo: Joi.string()
       .allow(null)
       .allow(""),
@@ -92,15 +84,12 @@ applicants.post("/", function(req, res) {
       .allow(null)
       .allow(""),
     UserName: Joi.string()
-      .min(1)
-      .required(),
+    .required(),
     Companyregistrationdate: Joi.date().required(),
     PIN: Joi.string()
-      .min(10)
-      .required(),
+    .required(),
     RegistrationNo: Joi.string()
-      .min(1)
-      .required()
+    .required()
   });
 
   const result = Joi.validate(req.body, schema);

@@ -5,7 +5,25 @@ var config = require("../../DB");
 var con = mysql.createPool(config);
 
 PEUsers.post("/", function(req, res) {
-  let data = [req.body.UserName, req.body.Procuringentity];
+  let data = [
+    req.body.UserName,
+    req.body.Procuringentity,
+    req.body.Name,
+    req.body.Location,
+    req.body.POBox,
+    req.body.PostalCode,
+    req.body.Town,
+    req.body.Mobile,
+    req.body.Telephone,
+    req.body.Email,
+    req.body.Logo,
+    req.body.Website,
+    req.body.County,
+    req.body.Companyregistrationdate,
+    req.body.PIN,
+    req.body.RegistrationNo
+  ];
+
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -14,7 +32,7 @@ PEUsers.post("/", function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call SavePeUsers(?,?)";
+      let sp = "call SavePeUsers(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       connection.query(sp, data, function(error, results, fields) {
         if (error) {
           res.json({

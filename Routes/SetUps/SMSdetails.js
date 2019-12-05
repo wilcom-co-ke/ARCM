@@ -1,11 +1,11 @@
 var express = require("express");
-var Banks = express();
+var SMSdetails = express();
 var mysql = require("mysql");
 var config = require("./../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("./../../auth");
-Banks.get("/",  function(req, res) {
+SMSdetails.get("/", auth.validateRole("SMS Details"), function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -14,7 +14,7 @@ Banks.get("/",  function(req, res) {
       });
     } // not connected!
     else {
-      let sp = "call Getbanks()";
+      let sp = "call getSMSSenderDetails()";
       connection.query(sp, function(error, results, fields) {
         if (error) {
           res.json({
@@ -30,21 +30,45 @@ Banks.get("/",  function(req, res) {
     }
   });
 });
-
-Banks.post("/", auth.validateRole("Banks"), function(req, res) {
+SMSdetails.get("/:SMTP", auth.validateRole("SMTP Details"), function(req, res) {
+  con.getConnection(function(err, connection) {
+    if (err) {
+      res.json({
+        success: false,
+        message: err.message
+      });
+    } // not connected!
+    else {
+      let sp = "call getSMTPDetails()";
+      connection.query(sp, function(error, results, fields) {
+        if (error) {
+          res.json({
+            success: false,
+            message: error.message
+          });
+        } else {
+          res.json(results[0]);
+        }
+        connection.release();
+        // Don't use the connection here, it has been returned to the pool.
+      });
+    }
+  });
+});
+SMSdetails.post("/", auth.validateRole("SMS Details"), function(req, res) {
   const schema = Joi.object().keys({
-    Name: Joi.string().required(),
-    Branch: Joi.string().required(),
-    AcountNo: Joi.string().required(),
-    PayBill: Joi.string().required()
+    SenderID: Joi.string().required(),
+    UserName: Joi.string().required(),
+    URL: Joi.string().required(),
+    Key: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
     let data = [
-      req.body.Name,
-      req.body.Branch,
-      req.body.AcountNo,
-      req.body.PayBill,
+      req.body.SenderID,
+      req.body.UserName,
+      req.body.URL,
+      req.body.Key,
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -55,7 +79,7 @@ Banks.post("/", auth.validateRole("Banks"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call SaveBank(?,?,?,?,?)";
+        let sp = "call UpdateSMSDetails(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -80,22 +104,20 @@ Banks.post("/", auth.validateRole("Banks"), function(req, res) {
     });
   }
 });
-Banks.put("/:ID", auth.validateRole("Banks"), function(req, res) {
+SMSdetails.put("/", auth.validateRole("SMTP Details"), function(req, res) {
   const schema = Joi.object().keys({
-    Name: Joi.string().required(),
-    Branch: Joi.string().required(),
-    AcountNo: Joi.string().required(),
-    PayBill: Joi.string().required()
+    Host: Joi.string().required(),
+    Port: Joi.number().required(),
+    Sender: Joi.string().required(),
+    Password: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {
-    const ID = req.params.ID;
     let data = [
-      ID,
-      req.body.Name,
-      req.body.Branch,
-      req.body.AcountNo,
-      req.body.PayBill,
+      req.body.Host,
+      req.body.Port,
+      req.body.Sender,
+      req.body.Password,
       res.locals.user
     ];
     con.getConnection(function(err, connection) {
@@ -106,7 +128,7 @@ Banks.put("/:ID", auth.validateRole("Banks"), function(req, res) {
         });
       } // not connected!
       else {
-        let sp = "call UpdateBank(?,?,?,?,?,?)";
+        let sp = "call Updatesmtpdetails(?,?,?,?,?)";
         connection.query(sp, data, function(error, results, fields) {
           if (error) {
             res.json({
@@ -116,7 +138,7 @@ Banks.put("/:ID", auth.validateRole("Banks"), function(req, res) {
           } else {
             res.json({
               success: true,
-              message: "updated"
+              message: "saved"
             });
           }
           connection.release();
@@ -131,35 +153,4 @@ Banks.put("/:ID", auth.validateRole("Banks"), function(req, res) {
     });
   }
 });
-Banks.delete("/:ID", auth.validateRole("Banks"), function(req, res) {
-  const ID = req.params.ID;
-
-  let data = [ID, res.locals.user];
-  con.getConnection(function(err, connection) {
-    if (err) {
-      res.json({
-        success: false,
-        message: err.message
-      });
-    } // not connected!
-    else {
-      let sp = "call DeleteBank(?,?)";
-      connection.query(sp, data, function(error, results, fields) {
-        if (error) {
-          res.json({
-            success: false,
-            message: error.message
-          });
-        } else {
-          res.json({
-            success: true,
-            message: "Deleted Successfully"
-          });
-        }
-        connection.release();
-        // Don't use the connection here, it has been returned to the pool.
-      });
-    }
-  });
-});
-module.exports = Banks;
+module.exports = SMSdetails;

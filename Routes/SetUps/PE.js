@@ -84,50 +84,28 @@ PE.get("/:ID", function(req, res) {
 });
 PE.post("/", function(req, res) {
   const schema = Joi.object().keys({
-    Name: Joi.string()
-      .min(2)
-      .required(),
-    County: Joi.string()
-      .min(2)
-      .required(),
-    PEType: Joi.string()
-      .min(3)
-      .required(),
-    Location: Joi.string()
-      .min(3)
-      .required(),
-    POBox: Joi.string()
-      .min(3)
-      .required(),
-    PostalCode: Joi.string()
-      .min(3)
-      .required(),
-    Town: Joi.string()
-      .min(3)
-      .required(),
+    Name: Joi.string().required(),
+    County: Joi.string().required(),
+    PEType: Joi.string().required(),
+    Location: Joi.string().required(),
+    POBox: Joi.string().required(),
+    PostalCode: Joi.string().required(),
+    Town: Joi.string().required(),
     Mobile: Joi.number()
-      .min(10)
-      .required(),
+    .required(),
     Telephone: Joi.number()
-      .min(10)
-      .required(),
-    Email: Joi.string().email({ minDomainAtoms: 2 }),
+    .required(),
+    Email: Joi.string().required(),
     Logo: Joi.string()
       .allow(null)
       .allow(""),
     Website: Joi.string()
-      .min(3)
-      .required(),
+      .allow(null)
+      .allow(""),
     Companyregistrationdate: Joi.date().required(),
-    PIN: Joi.string()
-      .min(3)
-      .required(),
-    RegistrationNo: Joi.string()
-      .min(3)
-      .required(),
-    Username: Joi.string()
-      .min(2)
-      .required()
+    PIN: Joi.string().required(),
+    RegistrationNo: Joi.string().required(),
+    Username: Joi.string().required()
   });
 
   const result = Joi.validate(req.body, schema);

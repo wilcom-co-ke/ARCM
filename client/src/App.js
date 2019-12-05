@@ -90,7 +90,10 @@ import JudicialReview from "./Forms/Applications/JudicialReview";
 import FeesReport from "./Forms/Reports/FeesReport";
 import CustomReport from "./Forms/Reports/CustomReport";
 import PreliminaryFeesReport from "./Forms/Reports/PreliminaryFeesReport";
-import Banks from "./Forms/SetUps/Banks"
+import Banks from "./Forms/SetUps/Banks";
+import SMSdetails from "./Forms/SetUps/SMSdetails";
+import smtpdetails from "./Forms/SetUps/smtpdetails";
+
 // const checkAuth = () => {
 //   let token = localStorage.getItem("token");
 //   if (!token) {
@@ -236,7 +239,8 @@ function App() {
                 <Route exact path="/Panels" component={Panels} />
                 <Route exact path="/MyCases" component={MyCases} />
                 <Route exact path="/Banks" component={Banks} />
-                
+                <Route exact path="/SMSdetails" component={SMSdetails} />
+                <Route exact path="/smtpdetails" component={smtpdetails} />
                 <Route
                   exact
                   path="/CloseRegistrations"

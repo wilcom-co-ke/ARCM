@@ -5,7 +5,7 @@ var config = require("../../DB");
 var con = mysql.createPool(config);
 var randomstring = require("randomstring");
 var mailer = require("./Mailer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 ResetPassword.put("/", function(req, res) {
   let Newpassword = req.body.Password;
   bcrypt.hash(Newpassword, 10, function(err, hash) {
@@ -109,7 +109,6 @@ ResetPassword.get("/:ID/:Pass", function(req, res) {
             message: error.message
           });
         } else {
-         
           if (results[0].length > 0) {
             let Password = results[0][0].Password;
             bcrypt.compare(req.params.Pass, Password, function(err, data) {

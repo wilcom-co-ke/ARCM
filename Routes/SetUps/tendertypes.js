@@ -5,7 +5,7 @@ var config = require("./../../DB");
 var Joi = require("joi");
 var con = mysql.createPool(config);
 var auth = require("./../../auth");
-tendertypes.get("/", auth.validateRole("Tender Types"), function(req, res) {
+tendertypes.get("/", function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) {
       res.json({
@@ -30,7 +30,7 @@ tendertypes.get("/", auth.validateRole("Tender Types"), function(req, res) {
     }
   });
 });
-tendertypes.get("/:ID", auth.validateRole("Tender Types"), function(req, res) {
+tendertypes.get("/:ID", function(req, res) {
   const ID = req.params.ID;
   con.getConnection(function(err, connection) {
     if (err) {

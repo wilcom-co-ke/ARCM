@@ -1,16 +1,17 @@
 var express = require("express");
 var app = express();
 var Users = require("./Routes/SystemAdmin/Users");
-var usergroups = require("./Routes/SystemAdmin/usergroups");
+var usergroups = require("./Routes/SystemAdmin/UserGroups");
 var Signup = require("./Routes/SystemAdmin/Signup");
 var Mailer = require("./Routes/SystemAdmin/Mailer");
 var auth = require("./auth");
 var ValidateTokenExpiry = require("./Routes/SystemAdmin/ValidateTokenExpiry");
 
 var Roles = require("./Routes/SystemAdmin/Roles");
+var SMSdetails=require("./Routes/SetUps/SMSdetails")
 var Auditrails = require("./Routes/SystemAdmin/Auditrails");
 
-var bodyParser = require("body-Parser");
+var bodyParser = require("body-parser");
 var Uploadfiles = require("./Routes/SystemAdmin/Uploadfiles");
 var updateprofile = require("./Routes/SystemAdmin/updateprofile");
 var UserAccess = require("./Routes/SystemAdmin/UserAccess");
@@ -138,6 +139,7 @@ app.use("/api/CaseFollowUp", CaseFollowUp);
 app.use("/api/CaseReferrals", CaseReferrals);
 app.use("/api/Banks", Banks);
 app.use("/api/paymenttypes", paymenttypes);
+app.use("/api/SMSdetails", SMSdetails);
 
 app.use("/api/issuesfordetermination", issuesfordetermination);
 app.use("/api/findingsonissues", findingsonissues);

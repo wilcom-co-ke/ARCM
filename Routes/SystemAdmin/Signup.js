@@ -3,7 +3,7 @@ var Signup = express();
 var mysql = require("mysql");
 var config = require("../../DB");
 var con = mysql.createPool(config);
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 var randomstring = require("randomstring");
 var Joi = require("joi");
 Signup.post("/", function(req, res) {
@@ -21,12 +21,11 @@ Signup.post("/", function(req, res) {
       .min(1)
       .required(),
     Category: Joi.string()
-      .min(2)
-      .required(),
+    .required(),
     IDnumber: Joi.string().min(1),
     DOB: Joi.date().required(),
     Password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-    Email: Joi.string().email({ minDomainAtoms: 2 })
+    Email: Joi.string().required()
   });
   const result = Joi.validate(req.body, schema);
   if (!result.error) {

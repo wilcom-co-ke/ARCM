@@ -5,7 +5,7 @@ var mysql = require("mysql");
 var config = require("./DB");
 var con = mysql.createPool(config);
 var jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 var mysql = require("mysql");
 var con = mysql.createPool(config);
 

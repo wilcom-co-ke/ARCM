@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.3.14-MariaDB - mariadb.org binary distribution
--- Server OS:                    Win64
--- HeidiSQL Version:             9.5.0.5196
+-- Server version:               10.1.37-MariaDB - mariadb.org binary distribution
+-- Server OS:                    Win32
+-- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -20,7 +20,7 @@ USE `arcm`;
 -- Dumping structure for procedure arcm.Activation
 DROP PROCEDURE IF EXISTS `Activation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Activation`(IN `_IsEmailverified` BOOLEAN, IN `_Email` VARCHAR(100), IN `_ActivationCode` VARCHAR(100))
+CREATE  PROCEDURE `Activation`(IN `_IsEmailverified` BOOLEAN, IN `_Email` VARCHAR(100), IN `_ActivationCode` VARCHAR(100))
     NO SQL
 BEGIN
 
@@ -46,20 +46,11 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissiondocuments` (
   `Confidential` tinyint(1) DEFAULT NULL,
   `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissiondocuments: ~8 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissiondocuments: ~0 rows (approximately)
 DELETE FROM `additionalsubmissiondocuments`;
 /*!40000 ALTER TABLE `additionalsubmissiondocuments` DISABLE KEYS */;
-INSERT INTO `additionalsubmissiondocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `Confidential`, `SubmitedBy`) VALUES
-	(15, 15, 'Document', '1574079583705-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-18 15:19:44', 'P09875345W', 0, NULL, NULL, 'Applicant', 0, NULL),
-	(16, 15, 'Document', '1574079709756-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-18 15:21:50', 'P09875345W', 0, NULL, NULL, 'Applicant', 0, NULL),
-	(17, 15, 'Document 1', '1574082725510-Capture.PNG', 'http://localhost:3001/Documents', '2019-11-18 16:12:05', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 0, 'MINISTRY OF EDUCATION'),
-	(18, 23, 'Document', '1574253580917-6 OF 2019.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-20 15:39:41', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 0, 'MINISTRY OF EDUCATION'),
-	(19, 26, 'Additional Submissions', '1574358504672-Tender Security.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-21 17:48:25', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 0, 'MINISTRY OF EDUCATION'),
-	(20, 26, 'Additional Submissions', '1574358531455-Tender Security.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-21 17:48:51', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 0, 'MINISTRY OF EDUCATION'),
-	(21, 26, 'Additional Submissions - Applicant', '1574359215432-Tender Security.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-21 18:00:15', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD'),
-	(22, 26, 'Additional Submissions - Applicant 2', '1574359295706-Tender Security.pdf', 'http://74.208.157.60:3001/Documents', '2019-11-21 18:01:36', 'P0123456788X', 0, NULL, NULL, 'Applicant', 0, 'JAMES SUPPLIERS LTD');
 /*!40000 ALTER TABLE `additionalsubmissiondocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.additionalsubmissions
@@ -67,7 +58,7 @@ DROP TABLE IF EXISTS `additionalsubmissions`;
 CREATE TABLE IF NOT EXISTS `additionalsubmissions` (
   `ID` int(5) NOT NULL AUTO_INCREMENT,
   `ApplicationID` int(11) DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `FileName` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `FilePath` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Create_at` datetime NOT NULL,
@@ -78,31 +69,20 @@ CREATE TABLE IF NOT EXISTS `additionalsubmissions` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.additionalsubmissions: ~10 rows (approximately)
+-- Dumping data for table arcm.additionalsubmissions: ~0 rows (approximately)
 DELETE FROM `additionalsubmissions`;
 /*!40000 ALTER TABLE `additionalsubmissions` DISABLE KEYS */;
-INSERT INTO `additionalsubmissions` (`ID`, `ApplicationID`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `SubmitedBy`) VALUES
-	(5, 15, '<p>This will print all the components we have done so far in one shot. But in real application you need to create a module, divide those into functions and execute them one at a time whenever necessary.</p>\n', '1574079583705-6 OF 2019.pdf', 'http://localhost:3001/Documents', '2019-11-18 15:19:48', 'P09875345W', 0, NULL, NULL, 'Applicant', NULL),
-	(6, 15, '<p>&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;</p>\n', '', '0', '2019-11-18 15:46:22', 'P09875345W', 0, NULL, NULL, 'Applicant', 'APPLICANT LTD'),
-	(7, 15, '<p>&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;&#39;Procuring Entity&#39;</p>\n', NULL, NULL, '2019-11-18 15:47:28', 'P09875345W', 0, NULL, NULL, 'Applicant', 'APPLICANT LTD'),
-	(8, 15, '<p>PE Add</p>\n\n<p>This will print all the components we have done so far in one shot. But in real application you need to create a module, divide those into functions and execute them one at a time whenever necessary.</p>\n', NULL, NULL, '2019-11-18 16:05:26', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION'),
-	(9, 15, '<p>DescriptionDescriptionDescriptionDescriptionDescription</p>\n', NULL, NULL, '2019-11-18 16:12:23', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION'),
-	(10, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', NULL, NULL, '2019-11-20 15:39:44', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION'),
-	(11, 26, '<p>Mr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', NULL, NULL, '2019-11-21 17:42:18', 'A123456789X', 0, NULL, NULL, 'Procuring Entity', 'MINISTRY OF EDUCATION'),
-	(12, 26, '<p>Mr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', NULL, NULL, '2019-11-21 17:58:35', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD'),
-	(13, 26, '<p>Mr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', NULL, NULL, '2019-11-21 18:00:20', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD'),
-	(14, 26, '<p>Mr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', NULL, NULL, '2019-11-21 18:01:43', 'P0123456788X', 0, NULL, NULL, 'Applicant', 'JAMES SUPPLIERS LTD');
 /*!40000 ALTER TABLE `additionalsubmissions` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.AddPanelMember
 DROP PROCEDURE IF EXISTS `AddPanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddPanelMember`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `AddPanelMember`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
-  set lSaleDesc= CONCAT('Added new PanelMember for Application '+_ApplicationNo+': ', _UserName); 
+  set lSaleDesc= CONCAT('Added new PanelMember for Application: ', _UserName); 
   insert into panels (ApplicationNo , UserName ,Status,Role , Deleted , Created_At,Created_By)
   Values (_ApplicationNo,_UserName,'Approved',_Role,0,now(),_UserID);
 
@@ -133,6 +113,28 @@ CREATE TABLE IF NOT EXISTS `adjournment` (
 DELETE FROM `adjournment`;
 /*!40000 ALTER TABLE `adjournment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `adjournment` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.adjournmentapprovalworkflow
+DROP TABLE IF EXISTS `adjournmentapprovalworkflow`;
+CREATE TABLE IF NOT EXISTS `adjournmentapprovalworkflow` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Date` datetime NOT NULL,
+  `Applicant` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `DecisionDate` date DEFAULT NULL,
+  `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Created_At` date NOT NULL,
+  `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Approver` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`,`ApplicationNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=16384;
+
+-- Dumping data for table arcm.adjournmentapprovalworkflow: ~0 rows (approximately)
+DELETE FROM `adjournmentapprovalworkflow`;
+/*!40000 ALTER TABLE `adjournmentapprovalworkflow` DISABLE KEYS */;
+/*!40000 ALTER TABLE `adjournmentapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.adjournmentdocuments
 DROP TABLE IF EXISTS `adjournmentdocuments`;
@@ -183,15 +185,13 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   PRIMARY KEY (`ID`,`ApplicantCode`) USING BTREE,
   KEY `financialyear_ibfk_1` (`Created_By`),
   KEY `financialyear_ibfk_2` (`Updated_By`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicants: ~3 rows (approximately)
+-- Dumping data for table arcm.applicants: ~1 rows (approximately)
 DELETE FROM `applicants`;
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
 INSERT INTO `applicants` (`ID`, `ApplicantCode`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`, `RegistrationDate`, `PIN`, `RegistrationNo`) VALUES
-	(8, 'AP-17', 'JAMES SUPPLIERS LTD', '', '001', 'Nairobi', '00101', '00101', 'Nairobi', '0122719412', '0122719412', 'KEREBEI@HOTMAIL.COM', '', 'www.wilcom.co.ke', 'P0123456788X', '2019-11-11 15:41:19', NULL, NULL, 0, NULL, NULL, '2000-12-08 00:00:00', 'P0123456788X', 'C1887432'),
-	(9, 'AP-18', 'APPLICANT LTD', '', '001', 'Nairobi', '123', '00100', 'NAIROBI', '0722114567', '0722114567', 'info@wilcom.co.ke', '1573656756638-logoLister.png', '', 'P09875345W', '2019-11-13 14:56:01', NULL, NULL, 0, NULL, NULL, '2019-10-01 00:00:00', 'P09875345W', '12345'),
-	(10, 'AP-19', 'CMC MOTORS CORPORATION', '', '047', 'LUSAKA ROAD', '1234', '00101', 'NAIROBI', '0705128595', '0705128595', 'judiejuma@gmail.com', '', 'CMC.CO.KE', 'P123456879Q', '2019-11-15 10:39:06', NULL, NULL, 0, NULL, NULL, '1980-08-12 00:00:00', 'P123456879Q', 'C1234568');
+	(2, 'AP-21', 'WILSON B. KEREBEI', '', '001', 'Nairobi', '123', '01000', 'THIKA  ', '0701102928', '0701102928', 'cmkikungu@gmail.com', '', 'N/A', '0701102928', '2019-12-05 13:42:08', NULL, NULL, 0, NULL, NULL, '2019-12-05 00:00:00', '0701102928', '0701102928');
 /*!40000 ALTER TABLE `applicants` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicantshistory
@@ -221,15 +221,14 @@ CREATE TABLE IF NOT EXISTS `applicantshistory` (
   PRIMARY KEY (`ID`,`ApplicantCode`) USING BTREE,
   KEY `financialyear_ibfk_1` (`Created_By`),
   KEY `financialyear_ibfk_2` (`Updated_By`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicantshistory: ~3 rows (approximately)
+-- Dumping data for table arcm.applicantshistory: ~2 rows (approximately)
 DELETE FROM `applicantshistory`;
 /*!40000 ALTER TABLE `applicantshistory` DISABLE KEYS */;
 INSERT INTO `applicantshistory` (`ID`, `ApplicantCode`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`) VALUES
-	(1, 'AP-17', 'JAMES SUPPLIERS LTD', '', '001', 'Nairobi', '00101', '00101', 'Nairobi', '0122719412', '0122719412', 'KEREBEI@HOTMAIL.COM', '', 'www.wilcom.co.ke', 'P0123456788X', '2019-11-11 15:41:19', NULL, NULL, NULL, NULL, NULL),
-	(2, 'AP-18', 'APPLICANT LTD', '', '001', 'Nairobi', '123', '00100', 'NAIROBI', '0722114567', '0722114567', 'info@wilcom.co.ke', '1573656756638-logoLister.png', '', 'P09875345W', '2019-11-13 14:56:01', NULL, NULL, NULL, NULL, NULL),
-	(3, 'AP-19', 'CMC MOTORS CORPORATION', '', '047', 'LUSAKA ROAD', '1234', '00101', 'NAIROBI', '0705128595', '0705128595', 'judiejuma@gmail.com', '', 'CMC.CO.KE', 'P123456879Q', '2019-11-15 10:39:06', NULL, NULL, NULL, NULL, NULL);
+	(1, 'AP-20', 'WILSON B. KEREBEI', '', '001', 'Nairobi', '123', '01000', 'THIKA  ', '0701102928', '0701102928', 'cmkikungu@gmail.com', '', '', '0701102928', '2019-12-05 13:15:59', NULL, NULL, NULL, NULL, NULL),
+	(2, 'AP-21', 'WILSON B. KEREBEI', '', '001', 'Nairobi', '123', '01000', 'THIKA  ', '0701102928', '0701102928', 'cmkikungu@gmail.com', '', 'N/A', '0701102928', '2019-12-05 13:42:08', NULL, NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `applicantshistory` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationapprovalcontacts
@@ -242,12 +241,9 @@ CREATE TABLE IF NOT EXISTS `applicationapprovalcontacts` (
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationapprovalcontacts: ~2 rows (approximately)
+-- Dumping data for table arcm.applicationapprovalcontacts: ~0 rows (approximately)
 DELETE FROM `applicationapprovalcontacts`;
 /*!40000 ALTER TABLE `applicationapprovalcontacts` DISABLE KEYS */;
-INSERT INTO `applicationapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595', 'Applicant', '29 OF 2019'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086', 'PE', '29 OF 2019');
 /*!40000 ALTER TABLE `applicationapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocuments
@@ -266,33 +262,13 @@ CREATE TABLE IF NOT EXISTS `applicationdocuments` (
   `Deleted` tinyint(4) DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Confidential` tinyint(1) NOT NULL DEFAULT 0,
+  `Confidential` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocuments: ~19 rows (approximately)
+-- Dumping data for table arcm.applicationdocuments: ~0 rows (approximately)
 DELETE FROM `applicationdocuments`;
 /*!40000 ALTER TABLE `applicationdocuments` DISABLE KEYS */;
-INSERT INTO `applicationdocuments` (`ID`, `ApplicationID`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `Confidential`) VALUES
-	(1, 1, 'Form of Tender', '1573487662790-FORM OF TENDER.docx', '2019-11-11 15:54:23', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-11 15:54:23', NULL, NULL, 0, NULL, NULL, 0),
-	(2, 1, 'Price Schedule', '1573487715016-Price Schedule.pdf', '2019-11-11 15:55:15', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-11 15:55:15', NULL, NULL, 0, NULL, NULL, 1),
-	(3, 5, 'Tender document', '1573546570554-rptSalesSummaryReportcs.pdf', '2019-11-12 11:16:10', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-12 11:16:10', NULL, NULL, 0, NULL, NULL, 0),
-	(4, 5, 'document', '1573546697849-6 OF 2019.pdf', '2019-11-12 11:18:18', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-12 11:18:18', NULL, NULL, 0, NULL, NULL, 0),
-	(5, 10, 'Tender document', '1573632895965-6 OF 2019.pdf', '2019-11-13 11:14:56', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-13 11:14:56', NULL, NULL, 0, NULL, NULL, 0),
-	(6, 15, 'Form of tender', '1573665453738-6 OF 2019.pdf', '2019-11-13 17:17:34', 'http://74.208.157.60:3001/Documents', 'P09875345W', '2019-11-13 17:17:34', NULL, NULL, 0, NULL, NULL, 1),
-	(7, 17, 'Form of Tender', '1573815727889-Online Store.vsdx', '2019-11-15 11:02:08', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-15 11:02:08', NULL, NULL, 0, NULL, NULL, 0),
-	(8, 17, 'Tender Document', '1573815758130-DECISION 54 OF 2019 KAREN Infrastructure Vs SD Irrigation.pdf', '2019-11-15 11:02:38', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-15 11:02:38', NULL, NULL, 0, NULL, NULL, 1),
-	(9, 23, 'Form of tender', '1574250051412-6 OF 2019.pdf', '2019-11-20 14:40:51', 'http://74.208.157.60:3001/Documents', 'P09875345W', '2019-11-20 14:40:51', NULL, NULL, 0, NULL, NULL, 0),
-	(10, 24, 'Form of Tender', '1574345527924-Form of Tender 2.pdf', '2019-11-21 14:12:08', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:12:08', NULL, NULL, 0, NULL, NULL, 0),
-	(11, 24, 'Price Schedule', '1574345552934-Price Schedule 2.pdf', '2019-11-21 14:12:33', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:12:33', NULL, NULL, 0, NULL, NULL, 0),
-	(12, 25, 'Form of Tender', '1574346578674-Form of Tender 2.pdf', '2019-11-21 14:29:39', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:29:39', NULL, NULL, 0, NULL, NULL, 0),
-	(13, 25, 'Price Schedule', '1574346597315-Price Schedule 2.pdf', '2019-11-21 14:29:57', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:29:57', NULL, NULL, 0, NULL, NULL, 0),
-	(14, 26, 'Form of Tender', '1574353985380-Tender Security.pdf', '2019-11-21 16:33:05', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 16:33:05', NULL, NULL, 0, NULL, NULL, 0),
-	(15, 26, 'Tender Document', '1574353998754-RFP- Provision of Consultancy   Services on Comprehensive ICT Needs Assessment.pdf', '2019-11-21 16:33:19', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 16:33:19', NULL, NULL, 0, NULL, NULL, 0),
-	(16, 27, 'Form of Tender', '1574371086253-6 OF 2019.pdf', '2019-11-21 21:18:06', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 21:18:06', NULL, NULL, 0, NULL, NULL, 0),
-	(17, 29, 'Form of Tender', '1574421482022-6 OF 2019.pdf', '2019-11-22 11:18:02', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:02', NULL, NULL, 0, NULL, NULL, 0),
-	(18, 29, 'Form of Tender2', '1574421502230-6 OF 2019.pdf', '2019-11-22 11:18:22', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:22', NULL, NULL, 0, NULL, NULL, 0),
-	(19, 30, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL, 0);
 /*!40000 ALTER TABLE `applicationdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationdocumentshistory
@@ -313,31 +289,11 @@ CREATE TABLE IF NOT EXISTS `applicationdocumentshistory` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Path`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationdocumentshistory: ~19 rows (approximately)
+-- Dumping data for table arcm.applicationdocumentshistory: ~0 rows (approximately)
 DELETE FROM `applicationdocumentshistory`;
 /*!40000 ALTER TABLE `applicationdocumentshistory` DISABLE KEYS */;
-INSERT INTO `applicationdocumentshistory` (`ID`, `ApplicationID`, `DocType`, `Description`, `FileName`, `DateUploaded`, `Path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`) VALUES
-	(1, 1, NULL, 'Form of Tender', '1573487662790-FORM OF TENDER.docx', '2019-11-11 15:54:23', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-11 15:54:23', NULL, NULL, 0, NULL, NULL),
-	(2, 1, NULL, 'Price Schedule', '1573487715016-Price Schedule.pdf', '2019-11-11 15:55:15', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-11 15:55:15', NULL, NULL, 0, NULL, NULL),
-	(3, 5, NULL, 'Tender document', '1573546570554-rptSalesSummaryReportcs.pdf', '2019-11-12 11:16:10', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-12 11:16:10', NULL, NULL, 0, NULL, NULL),
-	(4, 5, NULL, 'document', '1573546697849-6 OF 2019.pdf', '2019-11-12 11:18:18', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-12 11:18:18', NULL, NULL, 0, NULL, NULL),
-	(5, 10, NULL, 'Tender document', '1573632895965-6 OF 2019.pdf', '2019-11-13 11:14:56', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-13 11:14:56', NULL, NULL, 0, NULL, NULL),
-	(6, 15, NULL, 'Form of tender', '1573665453738-6 OF 2019.pdf', '2019-11-13 17:17:34', 'http://74.208.157.60:3001/Documents', 'P09875345W', '2019-11-13 17:17:34', NULL, NULL, 0, NULL, NULL),
-	(7, 17, NULL, 'Form of Tender', '1573815727889-Online Store.vsdx', '2019-11-15 11:02:08', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-15 11:02:08', NULL, NULL, 0, NULL, NULL),
-	(8, 17, NULL, 'Tender Document', '1573815758130-DECISION 54 OF 2019 KAREN Infrastructure Vs SD Irrigation.pdf', '2019-11-15 11:02:38', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-15 11:02:38', NULL, NULL, 0, NULL, NULL),
-	(9, 23, NULL, 'Form of tender', '1574250051412-6 OF 2019.pdf', '2019-11-20 14:40:51', 'http://74.208.157.60:3001/Documents', 'P09875345W', '2019-11-20 14:40:51', NULL, NULL, 0, NULL, NULL),
-	(10, 24, NULL, 'Form of Tender', '1574345527924-Form of Tender 2.pdf', '2019-11-21 14:12:08', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:12:08', NULL, NULL, 0, NULL, NULL),
-	(11, 24, NULL, 'Price Schedule', '1574345552934-Price Schedule 2.pdf', '2019-11-21 14:12:33', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:12:33', NULL, NULL, 0, NULL, NULL),
-	(12, 25, NULL, 'Form of Tender', '1574346578674-Form of Tender 2.pdf', '2019-11-21 14:29:39', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:29:39', NULL, NULL, 0, NULL, NULL),
-	(13, 25, NULL, 'Price Schedule', '1574346597315-Price Schedule 2.pdf', '2019-11-21 14:29:57', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 14:29:57', NULL, NULL, 0, NULL, NULL),
-	(14, 26, NULL, 'Form of Tender', '1574353985380-Tender Security.pdf', '2019-11-21 16:33:05', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 16:33:05', NULL, NULL, 0, NULL, NULL),
-	(15, 26, NULL, 'Tender Document', '1574353998754-RFP- Provision of Consultancy   Services on Comprehensive ICT Needs Assessment.pdf', '2019-11-21 16:33:19', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 16:33:19', NULL, NULL, 0, NULL, NULL),
-	(16, 27, NULL, 'Form of Tender', '1574371086253-6 OF 2019.pdf', '2019-11-21 21:18:06', 'http://74.208.157.60:3001/Documents', 'P0123456788X', '2019-11-21 21:18:06', NULL, NULL, 0, NULL, NULL),
-	(17, 29, NULL, 'Form of Tender', '1574421482022-6 OF 2019.pdf', '2019-11-22 11:18:02', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:02', NULL, NULL, 0, NULL, NULL),
-	(18, 29, NULL, 'Form of Tender2', '1574421502230-6 OF 2019.pdf', '2019-11-22 11:18:22', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:18:22', NULL, NULL, 0, NULL, NULL),
-	(19, 30, NULL, 'Form of Tender', '1574422085246-6 OF 2019.pdf', '2019-11-22 11:28:05', 'http://74.208.157.60:3001/Documents', 'P123456879Q', '2019-11-22 11:28:05', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `applicationdocumentshistory` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfees
@@ -366,96 +322,11 @@ CREATE TABLE IF NOT EXISTS `applicationfees` (
   `DateApproved` datetime DEFAULT NULL,
   `Narration` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationfees: ~84 rows (approximately)
+-- Dumping data for table arcm.applicationfees: ~0 rows (approximately)
 DELETE FROM `applicationfees`;
 /*!40000 ALTER TABLE `applicationfees` DISABLE KEYS */;
-INSERT INTO `applicationfees` (`ID`, `ApplicationID`, `EntryType`, `AmountDue`, `RefNo`, `BillDate`, `AmountPaid`, `PaidDate`, `PaymentRef`, `PaymentMode`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `CalculatedAmount`, `FeesStatus`, `ApprovedBy`, `DateApproved`, `Narration`) VALUES
-	(1, 1, 14, 5000, '1', '2019-11-11 15:47:45', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-11 15:47:45', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'CASEOFFICER01', '2019-11-11 16:15:44', '12334444'),
-	(2, 1, 1, 20000, '1', '2019-11-11 15:47:45', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-11 15:47:45', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'CASEOFFICER01', '2019-11-11 16:15:44', '12334444'),
-	(3, 1, 2, 3800, '1', '2019-11-11 15:47:45', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-11 15:47:45', NULL, NULL, 0, NULL, NULL, 3800, 'Approved', 'CASEOFFICER01', '2019-11-11 16:15:44', '12334444'),
-	(4, 5, 14, 5000, '5', '2019-11-12 10:58:39', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 10:58:39', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'PPRA01', '2019-11-12 11:42:38', '12344545'),
-	(5, 5, 4, 10000, '5', '2019-11-12 10:58:39', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 10:58:39', NULL, NULL, 0, NULL, NULL, 10000, 'Approved', 'PPRA01', '2019-11-12 11:42:38', '12344545'),
-	(6, 6, 14, 5000, '6', '2019-11-12 15:45:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 15:45:26', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'PPRA01', '2019-11-12 15:55:25', '12344545'),
-	(7, 6, 1, 20000, '6', '2019-11-12 15:45:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 15:45:26', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'PPRA01', '2019-11-12 15:55:25', '12344545'),
-	(8, 6, 2, 500, '6', '2019-11-12 15:45:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 15:45:26', NULL, NULL, 0, NULL, NULL, 500, 'Approved', 'PPRA01', '2019-11-12 15:55:25', '12344545'),
-	(9, 7, 14, 5000, '7', '2019-11-12 16:42:15', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 16:42:15', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-12 17:00:55', '12344545'),
-	(10, 7, 6, 40000, '7', '2019-11-12 16:42:15', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-12 16:42:15', NULL, NULL, 0, NULL, NULL, 40000, 'Approved', 'Admin', '2019-11-12 17:00:55', '12344545'),
-	(11, 9, 14, 5000, '8', '2019-11-13 11:11:36', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-13 11:11:36', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(12, 9, 8, 20000, '8', '2019-11-13 11:11:36', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-13 11:11:36', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(13, 10, 14, 5000, '8', '2019-11-13 11:14:12', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-13 11:14:12', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-13 11:32:12', '12344545'),
-	(14, 10, 8, 20000, '8', '2019-11-13 11:14:12', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-13 11:14:12', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-13 11:32:12', '12344545'),
-	(15, 11, 14, 5000, '11', '2019-11-13 17:04:41', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:04:41', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(16, 11, 1, 12000, '11', '2019-11-13 17:04:41', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:04:41', NULL, NULL, 0, NULL, NULL, 12000, 'Pending Approval', NULL, NULL, NULL),
-	(17, 12, 14, 5000, '12', '2019-11-13 17:05:23', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:23', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(18, 12, 1, 20000, '12', '2019-11-13 17:05:23', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:23', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(19, 12, 2, 40000, '12', '2019-11-13 17:05:23', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:23', NULL, NULL, 0, NULL, NULL, 40000, 'Pending Approval', NULL, NULL, NULL),
-	(20, 13, 14, 5000, '13', '2019-11-13 17:05:55', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:55', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(21, 13, 1, 20000, '13', '2019-11-13 17:05:55', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:55', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(22, 13, 2, 48000, '13', '2019-11-13 17:05:55', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:55', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(23, 13, 3, 13000, '13', '2019-11-13 17:05:55', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:05:55', NULL, NULL, 0, NULL, NULL, 13000, 'Pending Approval', NULL, NULL, NULL),
-	(24, 14, 14, 5000, '14', '2019-11-13 17:07:40', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:07:40', NULL, NULL, 1, '2019-11-13 17:07:40', 'P09875345W', 5000, 'Approved', 'Admin', '2019-11-13 17:49:50', 'Reff123'),
-	(25, 14, 14, 5000, '14', '2019-11-13 17:07:40', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:07:40', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-13 17:49:50', 'Reff123'),
-	(26, 15, 14, 5000, '15', '2019-11-13 17:08:01', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:08:01', NULL, NULL, 1, '2019-11-13 17:08:01', 'P09875345W', 5000, 'Approved', 'Admin', '2019-11-13 17:31:36', 'Reff123'),
-	(27, 15, 14, 5000, '15', '2019-11-13 17:08:01', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-13 17:08:01', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-13 17:31:36', 'Reff123'),
-	(28, 16, 14, 5000, '16', '2019-11-14 14:45:02', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-14 14:45:02', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 5000, 'Approved', 'Admin', '2019-11-14 14:48:40', 'Reff123'),
-	(29, 16, 10, 20000, '16', '2019-11-14 14:45:02', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-14 14:45:02', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 20000, 'Approved', 'Admin', '2019-11-14 14:48:40', 'Reff123'),
-	(30, 17, 14, 5000, '17', '2019-11-15 10:55:18', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-15 10:55:18', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Pokumu', '2019-11-15 11:17:24', 'ARB0001/19'),
-	(31, 17, 1, 20000, '17', '2019-11-15 10:55:18', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-15 10:55:18', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Pokumu', '2019-11-15 11:17:24', 'ARB0001/19'),
-	(32, 17, 2, 48000, '17', '2019-11-15 10:55:18', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-15 10:55:18', NULL, NULL, 0, NULL, NULL, 48000, 'Approved', 'Pokumu', '2019-11-15 11:17:24', 'ARB0001/19'),
-	(33, 17, 3, 237500, '17', '2019-11-15 10:55:18', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-15 10:55:18', NULL, NULL, 0, NULL, NULL, 237500, 'Approved', 'Pokumu', '2019-11-15 11:17:24', 'ARB0001/19'),
-	(34, 18, 14, 5000, '18', '2019-11-15 11:49:58', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-15 11:49:58', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-15 11:51:56', 'Reff123'),
-	(35, 18, 1, 10000, '18', '2019-11-15 11:49:58', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-15 11:49:58', NULL, NULL, 0, NULL, NULL, 10000, 'Approved', 'Admin', '2019-11-15 11:51:56', 'Reff123'),
-	(36, 19, 14, 5000, '19', '2019-11-20 10:47:42', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:47:42', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(37, 19, 1, 20000, '19', '2019-11-20 10:47:42', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:47:42', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(38, 19, 2, 48000, '19', '2019-11-20 10:47:42', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:47:42', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(39, 19, 3, 142000, '19', '2019-11-20 10:47:42', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:47:42', NULL, NULL, 0, NULL, NULL, 142000, 'Pending Approval', NULL, NULL, NULL),
-	(40, 20, 14, 5000, '20', '2019-11-20 10:51:53', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:51:53', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(41, 20, 1, 20000, '20', '2019-11-20 10:51:53', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:51:53', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(42, 20, 2, 48000, '20', '2019-11-20 10:51:53', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:51:53', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(43, 20, 3, 132000, '20', '2019-11-20 10:51:54', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:51:54', NULL, NULL, 0, NULL, NULL, 132000, 'Pending Approval', NULL, NULL, NULL),
-	(44, 21, 14, 5000, '21', '2019-11-20 10:52:30', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:52:30', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(45, 21, 1, 20000, '21', '2019-11-20 10:52:30', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:52:30', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(46, 22, 14, 5000, '22', '2019-11-20 10:52:50', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:52:50', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(47, 22, 1, 10000, '22', '2019-11-20 10:52:50', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:52:50', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(48, 23, 14, 5000, '23', '2019-11-20 10:53:17', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:53:17', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-20 14:53:33', 'Reff123'),
-	(49, 23, 1, 20000, '23', '2019-11-20 10:53:17', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:53:17', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-20 14:53:33', 'Reff123'),
-	(50, 23, 2, 48000, '23', '2019-11-20 10:53:17', 0, NULL, NULL, NULL, 'P09875345W', '2019-11-20 10:53:17', NULL, NULL, 0, NULL, NULL, 48000, 'Approved', 'Admin', '2019-11-20 14:53:33', 'Reff123'),
-	(51, 16, 14, 5000, '16', '2019-11-21 11:53:24', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:53:24', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 5000, 'Pending Approval', NULL, NULL, NULL),
-	(52, 16, 9, 10000, '16', '2019-11-21 11:53:24', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:53:24', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 10000, 'Pending Approval', NULL, NULL, NULL),
-	(53, 16, 14, 5000, '16', '2019-11-21 11:55:29', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:55:29', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 5000, 'Pending Approval', NULL, NULL, NULL),
-	(54, 16, 5, 20000, '16', '2019-11-21 11:55:29', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:55:29', NULL, NULL, 1, '2019-11-21 11:55:53', 'P0123456788X', 20000, 'Pending Approval', NULL, NULL, NULL),
-	(55, 16, 14, 5000, '16', '2019-11-21 11:55:53', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:55:53', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(56, 16, 9, 10000, '16', '2019-11-21 11:55:53', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 11:55:53', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(57, 24, 14, 5000, '24', '2019-11-21 14:09:34', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 14:09:34', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(58, 24, 1, 10000, '24', '2019-11-21 14:09:34', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 14:09:34', NULL, NULL, 0, NULL, NULL, 10000, 'Pending Approval', NULL, NULL, NULL),
-	(59, 25, 14, 5000, '25', '2019-11-21 14:27:18', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 14:27:18', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'admin', '2019-11-21 14:35:14', 'Confirmed REF 0001'),
-	(60, 25, 1, 10000, '25', '2019-11-21 14:27:18', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 14:27:18', NULL, NULL, 0, NULL, NULL, 10000, 'Approved', 'admin', '2019-11-21 14:35:14', 'Confirmed REF 0001'),
-	(61, 26, 14, 5000, '26', '2019-11-21 16:27:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 16:27:26', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'admin', '2019-11-21 16:55:24', '1574354278238-PAYMENT SLIP.pdf'),
-	(62, 26, 1, 20000, '26', '2019-11-21 16:27:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 16:27:26', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'admin', '2019-11-21 16:55:24', '1574354278238-PAYMENT SLIP.pdf'),
-	(63, 26, 2, 48000, '26', '2019-11-21 16:27:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 16:27:26', NULL, NULL, 0, NULL, NULL, 48000, 'Approved', 'admin', '2019-11-21 16:55:24', '1574354278238-PAYMENT SLIP.pdf'),
-	(64, 26, 3, 132000, '26', '2019-11-21 16:27:26', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 16:27:26', NULL, NULL, 0, NULL, NULL, 132000, 'Approved', 'admin', '2019-11-21 16:55:24', '1574354278238-PAYMENT SLIP.pdf'),
-	(65, 27, 14, 5000, '27', '2019-11-21 21:14:47', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 21:14:47', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-21 21:25:10', 'REF123'),
-	(66, 27, 10, 20000, '27', '2019-11-21 21:14:47', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 21:14:47', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-21 21:25:10', 'REF123'),
-	(67, 28, 14, 5000, '28', '2019-11-21 21:39:45', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 21:39:45', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-21 21:43:39', 'REF123'),
-	(68, 28, 1, 10000, '28', '2019-11-21 21:39:45', 0, NULL, NULL, NULL, 'P0123456788X', '2019-11-21 21:39:45', NULL, NULL, 0, NULL, NULL, 10000, 'Approved', 'Admin', '2019-11-21 21:43:39', 'REF123'),
-	(69, 29, 14, 5000, '29', '2019-11-22 11:16:50', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, 5000, 'Pending Approval', NULL, NULL, NULL),
-	(70, 29, 1, 20000, '29', '2019-11-22 11:16:50', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, 20000, 'Pending Approval', NULL, NULL, NULL),
-	(71, 29, 2, 48000, '29', '2019-11-22 11:16:50', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, 48000, 'Pending Approval', NULL, NULL, NULL),
-	(72, 29, 3, 112500, '29', '2019-11-22 11:16:50', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, 112500, 'Pending Approval', NULL, NULL, NULL),
-	(73, 30, 14, 5000, '30', '2019-11-22 11:26:41', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:26:41', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 5000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(74, 30, 1, 20000, '30', '2019-11-22 11:26:41', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:26:41', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 20000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(75, 30, 2, 48000, '30', '2019-11-22 11:26:41', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:26:41', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 48000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(76, 30, 3, 112500, '30', '2019-11-22 11:26:41', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:26:41', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 112500, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(77, 30, 14, 5000, '30', '2019-11-22 11:31:01', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:31:01', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 5000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(78, 30, 1, 20000, '30', '2019-11-22 11:31:01', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:31:01', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 20000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(79, 30, 2, 120000, '30', '2019-11-22 11:31:01', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:31:01', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 120000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(80, 30, 3, 112500, '30', '2019-11-22 11:31:01', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:31:01', NULL, NULL, 1, '2019-11-22 11:32:56', 'P123456879Q', 112500, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(81, 30, 14, 5000, '30', '2019-11-22 11:32:56', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:32:56', NULL, NULL, 0, NULL, NULL, 5000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(82, 30, 1, 20000, '30', '2019-11-22 11:32:56', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:32:56', NULL, NULL, 0, NULL, NULL, 20000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(83, 30, 2, 120000, '30', '2019-11-22 11:32:56', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:32:56', NULL, NULL, 0, NULL, NULL, 120000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001'),
-	(84, 30, 3, 60000, '30', '2019-11-22 11:32:56', 0, NULL, NULL, NULL, 'P123456879Q', '2019-11-22 11:32:56', NULL, NULL, 0, NULL, NULL, 60000, 'Approved', 'Admin', '2019-11-22 11:40:43', 'REF00001');
 /*!40000 ALTER TABLE `applicationfees` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationfeeshistory
@@ -524,37 +395,11 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `HearingNoticeGenerated` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'No',
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications: ~25 rows (approximately)
+-- Dumping data for table arcm.applications: ~0 rows (approximately)
 DELETE FROM `applications`;
 /*!40000 ALTER TABLE `applications` DISABLE KEYS */;
-INSERT INTO `applications` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `ClosingDate`, `PaymentStatus`, `DecisionDate`, `Followup`, `Referral`, `WithdrawalDate`, `FileNumber`, `Closed`, `ApplicationSuccessful`, `Annulled`, `GiveDirection`, `ISTerminated`, `ReTender`, `CostsApplicant`, `CostsPE`, `CostsEachParty`, `Substitution`, `HearingNoticeGenerated`) VALUES
-	(1, 12, 8, 'PE-2', '2019-11-11 15:47:45', '1', '12 OF 2019', 'HEARING IN PROGRESS', 'P0123456788X', '2019-11-11 15:47:45', NULL, NULL, 0, NULL, NULL, '2019-12-02', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
-	(5, 16, 8, 'PE-3', '2019-11-12 10:58:39', '5', '13 OF 2019', 'Approved', 'P0123456788X', '2019-11-12 10:58:39', NULL, NULL, 0, NULL, NULL, '2019-12-03', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(6, 17, 8, 'PE-3', '2019-11-12 15:45:26', '6', '14 OF 2019', 'WITHDRAWN', 'P0123456788X', '2019-11-12 15:45:26', NULL, NULL, 0, NULL, NULL, '2019-12-03', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(7, 18, 8, 'PE-2', '2019-11-12 16:42:14', '7', '15 OF 2019', 'Submited', 'P0123456788X', '2019-11-12 16:42:14', NULL, NULL, 0, NULL, NULL, '2019-12-03', 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(10, 21, 8, 'PE-3', '2019-11-13 11:14:12', '8', '16 OF 2019', 'Closed', 'P0123456788X', '2019-11-13 11:14:12', NULL, NULL, 0, NULL, NULL, '2019-12-04', 'Approved', '1970-01-01', 0, 0, NULL, NULL, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 'No'),
-	(11, 22, 9, 'PE-2', '2019-11-13 17:04:41', '11', '11', 'Not Submited', 'P09875345W', '2019-11-13 17:04:41', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(12, 23, 9, 'PE-2', '2019-11-13 17:05:23', '12', '12', 'Not Submited', 'P09875345W', '2019-11-13 17:05:23', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(13, 24, 9, 'PE-2', '2019-11-13 17:05:55', '13', '13', 'Not Submited', 'P09875345W', '2019-11-13 17:05:55', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(14, 25, 9, 'PE-2', '2019-11-13 17:07:40', '14', '14', 'DECLINED', 'P09875345W', '2019-11-13 17:07:40', NULL, NULL, 0, NULL, NULL, NULL, 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(15, 26, 9, 'PE-2', '2019-11-13 17:08:01', '15', '17 OF 2019', 'Closed', 'P09875345W', '2019-11-13 17:08:01', NULL, NULL, 0, NULL, NULL, '2019-12-04', 'Approved', '1970-01-01', 0, 0, NULL, NULL, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 'No'),
-	(16, 27, 8, 'PE-3', '2019-11-14 14:45:01', '16', '21 OF 2019', 'Approved', 'P0123456788X', '2019-11-14 14:45:01', '2019-11-21 11:55:53', 'P0123456788X', 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(17, 28, 10, 'PE-4', '2019-11-15 10:55:17', '17', '18 OF 2019', 'Closed', 'P123456879Q', '2019-11-15 10:55:17', NULL, NULL, 0, NULL, NULL, '2019-12-06', 'Approved', '1970-01-01', 0, 0, NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(18, 29, 8, 'PE-2', '2019-11-15 11:49:58', '18', '19 OF 2019', 'Closed', 'P0123456788X', '2019-11-15 11:49:58', NULL, NULL, 0, NULL, NULL, '2019-12-08', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(19, 30, 9, 'PE-2', '2019-11-20 10:47:42', '19', '19', 'Not Submited', 'P09875345W', '2019-11-20 10:47:42', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(20, 31, 9, 'PE-2', '2019-11-20 10:51:53', '20', '20', 'Not Submited', 'P09875345W', '2019-11-20 10:51:53', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(21, 32, 9, 'PE-2', '2019-11-20 10:52:29', '21', '21', 'Not Submited', 'P09875345W', '2019-11-20 10:52:29', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(22, 33, 9, 'PE-2', '2019-11-20 10:52:50', '22', '22', 'Not Submited', 'P09875345W', '2019-11-20 10:52:50', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(23, 34, 9, 'PE-2', '2019-11-20 10:53:17', '23', '20 OF 2019', 'Closed', 'P09875345W', '2019-11-20 10:53:17', NULL, NULL, 0, NULL, NULL, '2019-12-11', 'Approved', '2019-11-20', 0, 1, NULL, NULL, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 'Yes'),
-	(24, 35, 8, 'PE-1', '2019-11-21 14:09:33', '24', '24', 'Submited', 'P0123456788X', '2019-11-21 14:09:33', NULL, NULL, 0, NULL, NULL, NULL, 'Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(25, 36, 8, 'PE-2', '2019-11-21 14:27:18', '25', '22 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 14:27:18', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(26, 37, 8, 'PE-2', '2019-11-21 16:27:25', '26', '23 OF 2019', 'Closed', 'P0123456788X', '2019-11-21 16:27:25', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', '2019-11-21', 1, 0, NULL, NULL, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 'Yes'),
-	(27, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '27 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 21:14:46', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(28, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28 OF 2019', 'Approved', 'P0123456788X', '2019-11-21 21:39:44', NULL, NULL, 0, NULL, NULL, '2019-12-12', 'Approved', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(29, 40, 10, 'PE-4', '2019-11-22 11:16:50', '29', '29', 'Submited', 'P123456879Q', '2019-11-22 11:16:50', NULL, NULL, 0, NULL, NULL, NULL, 'Not Submited', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-	(30, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '29 OF 2019', 'JR–HIGH COURT', 'P123456879Q', '2019-11-22 11:26:40', '2019-11-22 11:32:56', 'P123456879Q', 0, NULL, NULL, '2019-12-13', 'Approved', '2019-11-22', 0, 0, NULL, NULL, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 'Yes');
 /*!40000 ALTER TABLE `applications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationsequence
@@ -568,137 +413,11 @@ CREATE TABLE IF NOT EXISTS `applicationsequence` (
   `ExpectedAction` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `User` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicationsequence: ~125 rows (approximately)
+-- Dumping data for table arcm.applicationsequence: ~0 rows (approximately)
 DELETE FROM `applicationsequence`;
 /*!40000 ALTER TABLE `applicationsequence` DISABLE KEYS */;
-INSERT INTO `applicationsequence` (`ID`, `ApplicationNo`, `Date`, `Action`, `Status`, `ExpectedAction`, `User`) VALUES
-	(21, '16 OF 2019', '2019-11-13 00:00:00', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(22, '16 OF 2019', '2019-11-13 00:00:00', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(23, '16 OF 2019', '2019-11-13 00:00:00', 'Application Fees Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(24, '16 OF 2019', '2019-11-13 00:00:00', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(25, '16 OF 2019', '2019-11-13 00:00:00', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Pleriminary Fees Confirmation', 'A123456789U'),
-	(26, '16 OF 2019', '2019-11-13 00:00:00', 'Pleriminary Fees Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(27, '11', '2019-11-13 17:04:41', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(28, '12', '2019-11-13 17:05:23', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(29, '13', '2019-11-13 17:05:55', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(30, '14', '2019-11-13 17:07:40', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(31, '17 OF 2019', '2019-11-13 17:08:01', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(32, '17 OF 2019', '2019-11-13 17:19:00', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P09875345W'),
-	(33, '17 OF 2019', '2019-11-13 17:31:36', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(34, '17 OF 2019', '2019-11-13 17:40:43', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(35, '14', '2019-11-13 17:49:22', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P09875345W'),
-	(36, '14', '2019-11-13 17:49:51', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(37, '17 OF 2019', '2019-11-13 18:34:06', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Pleriminary Fees Confirmation', 'A123456789X'),
-	(38, '17 OF 2019', '2019-11-13 18:38:25', 'Preliminary Objection Fees Payment Confirmed', 'Done', 'Awaiting Panel Formation', 'Admin'),
-	(39, '15 OF 2019', '2019-11-14 07:37:50', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'A123456789X'),
-	(40, '21 OF 2019', '2019-11-14 14:45:01', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(41, '21 OF 2019', '2019-11-14 14:45:57', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(42, '21 OF 2019', '2019-11-14 14:48:40', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(43, '21 OF 2019', '2019-11-14 15:17:28', 'Resubmited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(44, '17 OF 2019', '2019-11-14 15:52:11', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(45, '17 OF 2019', '2019-11-14 16:07:38', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'PPRA01'),
-	(46, '16 OF 2019', '2019-11-14 16:14:13', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'PPRA01'),
-	(47, '16 OF 2019', '2019-11-14 16:18:53', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(48, '17 OF 2019', '2019-11-14 16:33:49', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(49, '17 OF 2019', '2019-11-14 16:34:34', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(50, '17 OF 2019', '2019-11-14 16:40:38', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
-	(51, '18 OF 2019', '2019-11-15 10:55:17', 'Created New Application', 'Done', 'Not Submited Application', 'P123456879Q'),
-	(52, '18 OF 2019', '2019-11-15 11:10:01', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P123456879Q'),
-	(53, '18 OF 2019', '2019-11-15 11:17:24', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Pokumu'),
-	(54, '18 OF 2019', '2019-11-15 11:36:02', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(55, '19 OF 2019', '2019-11-15 11:49:58', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(56, '19 OF 2019', '2019-11-15 11:50:57', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(57, '19 OF 2019', '2019-11-15 11:51:56', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(58, '18 OF 2019', '2019-11-15 12:06:43', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'P65498745R'),
-	(59, '18 OF 2019', '2019-11-15 12:22:42', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(60, '18 OF 2019', '2019-11-15 12:28:47', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(61, '18 OF 2019', '2019-11-15 12:34:32', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(62, '18 OF 2019', '2019-11-15 12:34:58', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(63, '18 OF 2019', '2019-11-15 13:05:22', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
-	(64, '18 OF 2019', '2019-11-15 13:50:02', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(65, '12 OF 2019', '2019-11-16 14:03:39', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'A123456789X'),
-	(66, '17 OF 2019', '2019-11-16 17:39:20', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(67, '16 OF 2019', '2019-11-17 12:11:41', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(68, '16 OF 2019', '2019-11-17 12:11:48', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(69, '19 OF 2019', '2019-11-17 12:17:53', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(70, '17 OF 2019', '2019-11-18 13:45:32', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin'),
-	(71, '16 OF 2019', '2019-11-19 13:25:01', 'Uploded case Analysis Report', 'Done', 'Awaiting Hearing', 'Admin'),
-	(72, '19 OF 2019', '2019-11-19 15:11:17', 'Judicial Review', 'Done', 'Judicial Review', 'Admin'),
-	(73, '19 OF 2019', '2019-11-20 10:29:39', 'Judicial Review Closed', 'Done', 'Judicial Review Closed', 'Admin'),
-	(74, '19', '2019-11-20 10:47:42', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(75, '20', '2019-11-20 10:51:53', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(76, '21', '2019-11-20 10:52:29', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(77, '22', '2019-11-20 10:52:50', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(78, '20 OF 2019', '2019-11-20 10:53:17', 'Created New Application', 'Done', 'Not Submited Application', 'P09875345W'),
-	(79, '12 OF 2019', '2019-11-20 11:00:00', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(80, '16 OF 2019', '2019-11-20 12:15:04', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(81, '16 OF 2019', '2019-11-20 12:20:27', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin'),
-	(82, '12 OF 2019', '2019-11-20 12:24:53', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(83, '12 OF 2019', '2019-11-20 12:53:36', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(84, '12 OF 2019', '2019-11-20 13:49:14', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(85, '20 OF 2019', '2019-11-20 14:41:24', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P09875345W'),
-	(86, '20 OF 2019', '2019-11-20 14:53:33', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(87, '20 OF 2019', '2019-11-20 14:59:58', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(88, '20 OF 2019', '2019-11-20 15:24:01', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Pleriminary Fees Confirmation', 'A123456789X'),
-	(89, '20 OF 2019', '2019-11-20 15:32:26', 'Preliminary Objection Fees Payment Confirmed', 'Done', 'Awaiting Panel Formation', 'Admin'),
-	(90, '20 OF 2019', '2019-11-20 15:43:23', 'Uploded case Analysis Report', 'Done', 'Awaiting Hearing', 'Admin'),
-	(91, '20 OF 2019', '2019-11-20 15:50:16', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(92, '20 OF 2019', '2019-11-20 15:50:21', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(93, '20 OF 2019', '2019-11-20 15:52:01', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(94, '20 OF 2019', '2019-11-20 15:53:03', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(95, '20 OF 2019', '2019-11-20 16:22:07', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
-	(96, '20 OF 2019', '2019-11-20 16:31:42', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(97, '24', '2019-11-21 14:09:33', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(98, '24', '2019-11-21 14:13:12', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(99, '21 OF 2019', '2019-11-21 14:19:16', 'Application Approved', 'Done', 'Awaiting PE Response', 'admin'),
-	(100, '22 OF 2019', '2019-11-21 14:27:18', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(101, '22 OF 2019', '2019-11-21 14:31:58', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(102, '22 OF 2019', '2019-11-21 14:35:14', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'admin'),
-	(103, '22 OF 2019', '2019-11-21 14:36:22', 'Application Approved', 'Done', 'Awaiting PE Response', 'admin'),
-	(104, '23 OF 2019', '2019-11-21 16:27:25', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(105, '23 OF 2019', '2019-11-21 16:46:17', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(106, '23 OF 2019', '2019-11-21 16:55:24', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'admin'),
-	(107, '23 OF 2019', '2019-11-21 17:00:59', 'Application Approved', 'Done', 'Awaiting PE Response', 'admin'),
-	(108, '23 OF 2019', '2019-11-21 17:36:16', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'A123456789X'),
-	(109, '23 OF 2019', '2019-11-21 18:11:50', 'Uploded case Analysis Report', 'Done', 'Awaiting Hearing', 'Admin'),
-	(110, '23 OF 2019', '2019-11-21 18:24:40', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(111, '23 OF 2019', '2019-11-21 18:26:19', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(112, '23 OF 2019', '2019-11-21 18:28:52', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(113, '23 OF 2019', '2019-11-21 18:30:47', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(114, '23 OF 2019', '2019-11-21 18:38:20', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
-	(115, '23 OF 2019', '2019-11-21 18:41:15', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(116, '23 OF 2019', '2019-11-21 18:52:19', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin'),
-	(117, '23 OF 2019', '2019-11-21 18:56:34', 'Judicial Review', 'Done', 'Judicial Review', 'Admin'),
-	(118, '23 OF 2019', '2019-11-21 19:00:43', 'Judicial Review Closed', 'Done', 'Judicial Review Closed', 'Admin'),
-	(119, '27 OF 2019', '2019-11-21 21:14:46', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(120, '27 OF 2019', '2019-11-21 21:21:42', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(121, '27 OF 2019', '2019-11-21 21:25:10', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(122, '27 OF 2019', '2019-11-21 21:26:16', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(123, '28 OF 2019', '2019-11-21 21:39:44', 'Created New Application', 'Done', 'Not Submited Application', 'P0123456788X'),
-	(124, '28 OF 2019', '2019-11-21 21:40:58', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P0123456788X'),
-	(125, '28 OF 2019', '2019-11-21 21:43:39', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(126, '28 OF 2019', '2019-11-21 21:44:12', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(127, '27 OF 2019', '2019-11-21 21:53:41', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'A123456789X'),
-	(128, '28 OF 2019', '2019-11-21 21:59:09', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(129, '28 OF 2019', '2019-11-21 21:59:27', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(130, '29', '2019-11-22 11:16:50', 'Created New Application', 'Done', 'Not Submited Application', 'P123456879Q'),
-	(131, '29', '2019-11-22 11:25:11', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P123456879Q'),
-	(132, '29 OF 2019', '2019-11-22 11:26:40', 'Created New Application', 'Done', 'Not Submited Application', 'P123456879Q'),
-	(133, '29 OF 2019', '2019-11-22 11:35:32', 'Submited Application', 'Done', 'Awaiting fees confirmation', 'P123456879Q'),
-	(134, '29 OF 2019', '2019-11-22 11:40:44', 'Application Fees Payment Confirmed', 'Done', 'Awaiting Application Approval', 'Admin'),
-	(135, '29 OF 2019', '2019-11-22 11:47:04', 'Application Approved', 'Done', 'Awaiting PE Response', 'Admin'),
-	(136, '29 OF 2019', '2019-11-22 12:27:02', 'Procuring Entity Submited her Response', 'Done', 'Awaiting Panel Formation', 'P65498745R'),
-	(137, '29 OF 2019', '2019-11-22 12:36:04', 'Uploded case Analysis Report', 'Done', 'Awaiting Hearing', 'Admin'),
-	(138, '29 OF 2019', '2019-11-22 12:59:03', 'Submited Hearing Panel', 'Done', 'Awaiting Panel Approval', 'Admin'),
-	(139, '29 OF 2019', '2019-11-22 13:01:49', 'Approved PanelList', 'Done', 'Awaiting Hearing Date scheduling', 'Admin'),
-	(140, '29 OF 2019', '2019-11-22 13:17:19', 'Scheduled Hearing Date and Venue', 'Done', 'HEARING IN PROGRESS', 'Admin'),
-	(141, '29 OF 2019', '2019-11-22 13:17:51', 'Case Scheduled and hearing notice generated', 'Done', 'Hearing', 'Admin'),
-	(142, '29 OF 2019', '2019-11-22 13:48:21', 'Case hearing', 'Done', 'Decision preparation', 'Admin'),
-	(143, '29 OF 2019', '2019-11-22 14:08:46', 'Decision preparation', 'Done', 'Closed', 'Admin'),
-	(144, '29 OF 2019', '2019-11-22 14:31:58', 'Decision Report', 'Done', 'Awaiting Decision Report Approval', 'Admin'),
-	(145, '29 OF 2019', '2019-11-22 14:48:50', 'Judicial Review', 'Done', 'Judicial Review', 'Admin');
 /*!40000 ALTER TABLE `applicationsequence` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.applicationshistory
@@ -745,30 +464,11 @@ CREATE TABLE IF NOT EXISTS `applications_approval_workflow` (
   `Created_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`) USING BTREE,
   KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applications_approval_workflow: ~18 rows (approximately)
+-- Dumping data for table arcm.applications_approval_workflow: ~0 rows (approximately)
 DELETE FROM `applications_approval_workflow`;
 /*!40000 ALTER TABLE `applications_approval_workflow` DISABLE KEYS */;
-INSERT INTO `applications_approval_workflow` (`ID`, `TenderID`, `ApplicantID`, `PEID`, `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`, `Approver`, `Remarks`, `Created_By`, `Approved_At`, `Created_At`) VALUES
-	(1, 12, 8, 'PE-2', '2019-11-11 15:47:45', '1', '1', 'Approved', 'Admin', 'APPROVED', 'Admin', '2019-11-11 16:20:11', '2019-11-11 16:20:11'),
-	(2, 16, 8, 'PE-3', '2019-11-12 10:58:39', '5', '5', 'Approved', 'PPRA01', 'DateUploaded', 'PPRA01', '2019-11-12 11:51:53', '2019-11-12 11:51:53'),
-	(3, 17, 8, 'PE-3', '2019-11-12 15:45:26', '6', '6', 'Approved', 'PPRA01', '593428', 'PPRA01', '2019-11-12 15:56:41', '2019-11-12 15:56:41'),
-	(4, 18, 8, 'PE-2', '2019-11-12 16:42:14', '7', '7', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-12 17:02:35', '2019-11-12 17:02:35'),
-	(5, 21, 8, 'PE-3', '2019-11-13 11:14:12', '8', '8', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-13 11:42:41', '2019-11-13 11:42:41'),
-	(6, 26, 9, 'PE-2', '2019-11-13 17:08:01', '15', '15', 'Approved', 'Admin', 'Declined', 'Admin', '2019-11-13 17:40:43', '2019-11-13 17:40:43'),
-	(7, 28, 10, 'PE-4', '2019-11-15 10:55:17', '17', '17', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-15 11:36:02', '2019-11-15 11:36:02'),
-	(8, 29, 8, 'PE-2', '2019-11-15 11:49:58', '18', '18', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-17 12:17:53', '2019-11-17 12:17:53'),
-	(9, 34, 9, 'PE-2', '2019-11-20 10:53:17', '23', '23', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-20 14:59:58', '2019-11-20 14:59:58'),
-	(10, 27, 8, 'PE-3', '2019-11-14 14:45:01', '16', '16', 'Approved', 'admin', 'Approved', 'admin', '2019-11-21 14:19:16', '2019-11-21 14:19:16'),
-	(11, 36, 8, 'PE-2', '2019-11-21 14:27:18', '25', '25', 'Approved', 'admin', 'Approved', 'admin', '2019-11-21 14:36:22', '2019-11-21 14:36:22'),
-	(12, 37, 8, 'PE-2', '2019-11-21 16:27:25', '26', '26', 'Approved', 'admin', 'Approved By WK', 'admin', '2019-11-21 17:00:59', '2019-11-21 17:00:59'),
-	(13, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '27', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:26:16', '2019-11-21 21:26:16'),
-	(14, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '24 OF 2019', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:31:33', '2019-11-21 21:31:33'),
-	(15, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '25 OF 2019', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:34:40', '2019-11-21 21:34:40'),
-	(16, 38, 8, 'PE-2', '2019-11-21 21:14:46', '27', '26 OF 2019', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:37:14', '2019-11-21 21:37:14'),
-	(17, 39, 8, 'PE-2', '2019-11-21 21:39:44', '28', '28', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-21 21:44:12', '2019-11-21 21:44:12'),
-	(18, 41, 10, 'PE-4', '2019-11-22 11:26:40', '30', '30', 'Approved', 'Admin', 'Approved', 'Admin', '2019-11-22 11:47:04', '2019-11-22 11:47:04');
 /*!40000 ALTER TABLE `applications_approval_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.approvalmodules
@@ -783,7 +483,7 @@ CREATE TABLE IF NOT EXISTS `approvalmodules` (
   `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `MaxApprovals` int(11) NOT NULL DEFAULT 1,
+  `MaxApprovals` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID`,`ModuleCode`) USING BTREE,
   UNIQUE KEY `UK_approvalmodules_ModuleCode` (`ModuleCode`),
   KEY `ModuleCode` (`ModuleCode`)
@@ -841,7 +541,7 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
           if @CountApproved >= @MaxApprovals  THEN
           BEGIN
                 update applications set Status='Approved',ClosingDate=NOW() + INTERVAL @CaseClosingDate DAY where ApplicationNo=_ApplicationNo;
-                update notifications set Status='Resolved' where Category='Applications Approval';                  
+                update notifications set Status='Resolved' where Category='Applications Approval' and  ApplicationNo=_ApplicationNo;                  
                 call Saveapplicationsequence(_ApplicationNo,'Application Approved','Awaiting PE Response',_Approver);
                 select IFNULL(Year,Year(now())) from configurations   INTO @Currentyear; 
                 if(@Currentyear <> Year(now())) then
@@ -863,10 +563,8 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
                     select ApplicantID from applications where  ApplicationNo=_NewApplicationNo LIMIT 1 into @ApplicantID;
                     insert into ApplicationApprovalContacts select Name,Email,Mobile,'Applicant',_NewApplicationNo from applicants where  ID=@ApplicantID; 
                     insert into ApplicationApprovalContacts select Name,Email,Mobile,'PE',_NewApplicationNo from  procuremententity where PEID=@PEID; 
-                    
                     insert into ApplicationApprovalContacts select  Name,Email,Mobile,'Interested Party',_NewApplicationNo from  interestedparties where ApplicationID= @AppID; 
-                   
-                   
+                                      
                 
                 End;
                 else
@@ -910,7 +608,7 @@ select IFNULL(count(*),0) from `applications_approval_workflow`  WHERE   `Applic
       End;
     End IF;
 
-call ResolveMyNotification(_Approver,'Application Approval');
+call ResolveMyNotification(_Approver,'Application Approval',_ApplicationNo);
 
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
 select Name ,Email ,Mobile ,Msg ,ApplicationNo,NOW() + INTERVAL @PEResponseTimeOut DAY as ResponseTimeout from ApplicationApprovalContacts;
@@ -920,16 +618,13 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApproveApplicationFees
 DROP PROCEDURE IF EXISTS `ApproveApplicationFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _Amount FLOAT, IN _Reff VARCHAR(100), IN _Category VARCHAR(50))
+CREATE  PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _Amount FLOAT, IN _Reff VARCHAR(100), IN _Category VARCHAR(50))
 BEGIN
 -- new
  DROP TABLE IF EXISTS caseWithdrawalContacts;
  create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Msg varchar(50));
-
  insert into feesapprovalworkflow (ApplicationID ,Amount , RefNo ,Status,ApprovedBy,  DateApproved, Category)
  VALUES(_ApplicationID,_Amount,_Reff,'Approved',_Approver,now(),_Category);
-
-
 select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='PAYMT' LIMIT 1 into @MaxApprovals;
 select IFNULL(count(*),0) from feesapprovalworkflow  WHERE  ApplicationID=_ApplicationID and Category=_Category  and Status='Approved' and 
    ApprovedBy in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='PAYMT')
@@ -948,14 +643,17 @@ BEGIN
           Begin
              select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @RespondedApplicationNo;
              update peresponse set status='Submited' where ApplicationNo=@RespondedApplicationNo;
+               update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval' and  ApplicationNo=@RespondedApplicationNo;
+
               select PEID from applications where ID=_ApplicationID LIMIT 1 into @PEID;
               select UserName from peusers where PEID=@PEID LIMIT 1 into @Applicant;
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username =@Applicant;
-              update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval'; 
+              update notifications set Status='Resolved' where Category='Preliminary Objecions Fees Approval' and ApplicationNo=_ApplicationID; 
                if(select count(*) from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0)>0 THEN
                 Begin
-                      INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                     select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                  select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @appNo;
+                     INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                     select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',@appNo
                      from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
                End;
              End if;
@@ -967,7 +665,7 @@ BEGIN
              update applications set PaymentStatus='Approved',Status='Pending Approval' where ID=_ApplicationID;
              Update applicationfees set  FeesStatus='Approved', Narration=_Reff ,ApprovedBy=_Approver,
              DateApproved=NOW() where ApplicationID=_ApplicationID;
-              update notifications set Status='Resolved' where Category='Applications Fees Approval'; 
+              update notifications set Status='Resolved' where Category='Applications Fees Approval' and  ApplicationNo=_ApplicationID; 
               select Created_By from applications where ID=_ApplicationID LIMIT 1 into @Applicant;
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username =@Applicant;
               select ApplicantID from applications where ID=_ApplicationID LIMIT 1 into @ApplicantID;
@@ -978,8 +676,8 @@ BEGIN
              
               if(select count(*) from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0)>0 THEN
               Begin
-                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
                   from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
               End;
               End if;                    
@@ -1020,7 +718,7 @@ END;
      call Saveapplicationsequence(@App,'Application Fees Payment Confirmed','Awaiting Application Approval',_Approver);
     End;
     End if;
-  call ResolveMyNotification(_Approver,'Applications Fees Approval');
+  call ResolveMyNotification(_Approver,'Applications Fees Approval',_ApplicationID);
   select * from caseWithdrawalContacts;
 END//
 DELIMITER ;
@@ -1028,32 +726,69 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApprovecaseAdjournment
 DROP PROCEDURE IF EXISTS `ApprovecaseAdjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `ApprovecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Approved Case Adjournment for Application : ', _ApplicationNo); 
-Update adjournment set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
-update applications set Status='ADJOURNED' where ApplicationNo=_ApplicationNo;
 
-call Saveapplicationsequence(_ApplicationNo,'Approved Request for Adjournment','Awaiting Approval');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment'); 
+Update adjournmentApprovalWorkFlow set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks 
+where ApplicationNo=_ApplicationNo and Approver=_userID and Status='Pending Approval';
+
+select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='ADJRE' LIMIT 1 into @MaxApprovals;
+select IFNULL(count(*),0) from adjournmentApprovalWorkFlow  WHERE ApplicationNo=_ApplicationNo  and (Status='Approved' or Status='Fully Approved') and 
+   Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='ADJRE')
+  into @CountApproved;
+  -- check mandatory approvers
+select IFNULL(count(*),0) from approvers WHERE Mandatory=1 and ModuleCode='ADJRE' and Deleted=0 into @CountMandatory;
+select IFNULL(count(*),0) from adjournmentApprovalWorkFlow  WHERE  ApplicationNo=_ApplicationNo and (Status='Approved' or Status='Fully Approved') and 
+  Approver in (select Username from approvers WHERE Mandatory=1 and ModuleCode='ADJRE' and Deleted=0) into @CountMandatoryApproved;
+
+  if @CountMandatoryApproved >= @CountMandatory  THEN
+BEGIN
+    if @CountApproved >= @MaxApprovals  THEN
+    BEGIN
+      Update adjournment set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
+     -- update applications set Status='ADJOURNED' where ApplicationNo=_ApplicationNo;
+      update notifications set Status='Resolved' where   Category='Case Adjournment Approval' and ApplicationNo=_ApplicationNo;
+      Update adjournmentApprovalWorkFlow set  DecisionDate= now(), Status='Approved', ApprovalRemarks =_ApprovalRemarks 
+      where ApplicationNo=_ApplicationNo  and Status='Pending Approval';
+
+      call Saveapplicationsequence(_ApplicationNo,'Approved Request for Adjournment','Awaiting Approval',_userID);
+      DROP TABLE IF EXISTS caseWithdrawalContacts;
+      create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Role varchar(50));
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Panel' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Case officer' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
+      
+      select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'PE' from users where Username in (select UserName from peusers where PEID=@PEID);
+      insert into caseWithdrawalContacts select Name,Email,Mobile,'PE' from procuremententity where PEID=@PEID;
+      select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
+      insert into caseWithdrawalContacts select Name,Email,Phone,'Applicant' from users where Username =@Applicant;
+      select ApplicantID from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @ApplicantID;
+      insert into caseWithdrawalContacts select Name,Email,Mobile,'Applicant' from applicants where  ID=@ApplicantID;
+      select * from caseWithdrawalContacts;
+
+    END;
+    ELSE
+    Begin
+     
+
+   END;
+   END if;
+END;
+ELSE
+Begin
+    
+END;
+END if;
+
+-- end of my new aproval
+
 
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-call ResolveMyNotification(_userID,'Case Adjournment Approval');
+call ResolveMyNotification(_userID,'Case Adjournment Approval',_ApplicationNo);
 
- DROP TABLE IF EXISTS caseWithdrawalContacts;
-  create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Role varchar(50));
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Panel' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Case officer' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
 
-  select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'PE' from users where Username in (select UserName from peusers where PEID=@PEID);
-  insert into caseWithdrawalContacts select Name,Email,Mobile,'PE' from procuremententity where PEID=@PEID;
-  select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
-  insert into caseWithdrawalContacts select Name,Email,Phone,'Applicant' from users where Username =@Applicant;
-  select ApplicantID from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @ApplicantID;
-  insert into caseWithdrawalContacts select Name,Email,Mobile,'Applicant' from applicants where  ID=@ApplicantID;
-  select * from caseWithdrawalContacts;
 
 END//
 DELIMITER ;
@@ -1061,7 +796,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApprovecaseWithdrawal
 DROP PROCEDURE IF EXISTS `ApprovecaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255), IN _userID varchar(50))
+CREATE  PROCEDURE `ApprovecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255), IN _userID varchar(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -1088,9 +823,9 @@ select IFNULL(count(*),0) from casewithdrawalapprovalworkflow  WHERE   Applicati
               Update casewithdrawal set  DecisionDate= now(), Status='Approved', RejectionReason =_RejectionReason,Frivolous =0 where ApplicationNo=_ApplicationNo;
               update applications set Status='WITHDRAWN' where ApplicationNo=_ApplicationNo;
               call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-              call ResolveMyNotification(_userID,'Case withdrawal Approval');
-              call Saveapplicationsequence(_ApplicationNo,'WITHDRAWN','  ');
-              call Resolveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal');
+          update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
+              call Saveapplicationsequence(_ApplicationNo,'WITHDRAWN','  ',_userID);
+            
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' );
               insert into caseWithdrawalContacts select Name,Email,Phone,'Complete' from users where Username in (select UserName from casedetails where  ApplicationNo=_ApplicationNo and Deleted=0);
               select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
@@ -1132,40 +867,60 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApproveDeadlineRequestExtension
 DROP PROCEDURE IF EXISTS `ApproveDeadlineRequestExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255), IN _Newdate DATETIME)
+CREATE  PROCEDURE `ApproveDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255), IN _Newdate DATETIME)
 BEGIN
 DECLARE lSaleDesc varchar(200);
-
-
-set lSaleDesc= CONCAT(_Approver +' Approved Deadline Extension Request for Application:',_ApplicationNo); 
+set lSaleDesc= CONCAT('Approved Deadline Extension Request for Application:',_ApplicationNo); 
 UPDATE deadlineapprovalworkflow
 SET Status='Approved',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
-select Level from approvers  where ModuleCode ='REXED' and Username=_Approver LIMIT 1 INTO @CurentLevel;
-if(SELECT count(*)  from approvers where ModuleCode ='REXED'  and  Level=@CurentLevel + 1)>0 THEN
-BEGIN
-  select Username from approvers  where ModuleCode ='REXED' and Level=@CurentLevel+1 and Deleted=0 and Active=1 LIMIT 1 INTO @Approver2 ; 
-  insert into deadlineapprovalworkflow ( PEID , ApplicationNo , Reason , RequestedDate,Created_At ,Created_By ,  Status , Approver )
-  Select PEID , ApplicationNo , Reason , _Newdate,now() ,_Approver ,  'Pending Approval' , @Approver2 from deadlineapprovalworkflow 
-  WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ;
-    CALL SaveNotification(@Approver2 ,'Deadline Approval','Deadline Approval Request', NOW() + INTERVAL 3 DAY);
-  select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+-- select Level from approvers  where ModuleCode ='REXED' and Username=_Approver LIMIT 1 INTO @CurentLevel;
 
+select IFNULL(MaxApprovals,0) from approvalmodules where  ModuleCode ='REXED' LIMIT 1 into @MaxApprovals;
+select IFNULL(count(*),0) from deadlineapprovalworkflow  WHERE ApplicationNo=_ApplicationNo  and (Status='Approved' or Status='Fully Approved') and 
+   Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and ModuleCode='REXED')
+  into @CountApproved;
+  -- check mandatory approvers
+select IFNULL(count(*),0) from approvers WHERE Mandatory=1 and ModuleCode='REXED' and Deleted=0 into @CountMandatory;
+select IFNULL(count(*),0) from deadlineapprovalworkflow  WHERE  ApplicationNo=_ApplicationNo and (Status='Approved' or Status='Fully Approved') and 
+  Approver in (select Username from approvers WHERE Mandatory=1 and ModuleCode='REXED' and Deleted=0) into @CountMandatoryApproved;
+
+if @CountMandatoryApproved >= @CountMandatory  THEN
+BEGIN
+    if @CountApproved >= @MaxApprovals  THEN
+    BEGIN
+      update notifications set Status='Resolved' where Category='Deadline Approval' and ApplicationNo=_ApplicationNo; 
+
+      UPDATE deadlineapprovalworkflow SET Status='Fully Approved',Approved_At=now(),Remarks=_Remarks
+      WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
+      update pedeadlineextensionsrequests SET Status='Fully Approved'
+      WHERE ApplicationNo=_ApplicationNo ;    
+      update peresponsetimer set DueOn=_Newdate where ApplicationNo=_ApplicationNo;    
+      select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
+      select Name,Email,Mobile,_Newdate as NewDeadline, 'Fully Approved' as msg from procuremententity where PEID=@PEID;
+
+    END;
+    ELSE
+    Begin
+      select Username from approvers  where ModuleCode ='REXED' and  Deleted=0 and Active=1 and Username
+      NOT IN (Select Approver deadlineapprovalworkflow where Status='Approved' and ApplicationNo=_ApplicationNo )
+      LIMIT 1 INTO @Approver2;   
+     
+      select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+
+   END;
+   END if;
 END;
 ELSE
-	Begin
-		UPDATE deadlineapprovalworkflow SET Status='Fully Approved',Approved_At=now(),Remarks=_Remarks
-		WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
-    update pedeadlineextensionsrequests SET Status='Fully Approved'
-		WHERE ApplicationNo=_ApplicationNo ;    
-    update peresponsetimer set DueOn=_Newdate where ApplicationNo=_ApplicationNo;
-    
-    select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
-    select Name,Email,Mobile,_Newdate as NewDeadline, 'Fully Approved' as msg from procuremententity where PEID=@PEID;
-
-	END;
-END IF;
-call ResolveMyNotification(_Approver,'Deadline Approval');
+Begin
+      select Username from approvers  where ModuleCode ='REXED' and  Deleted=0 and Active=1 and Username
+      NOT IN (Select Approver deadlineapprovalworkflow where Status='Approved' and ApplicationNo=_ApplicationNo )
+      LIMIT 1 INTO @Approver2;    
+     
+      select Name,Email,Phone, 'Partially Approved' as msg from users where Username=@Approver2;
+END;
+END if;
+call ResolveMyNotification(_Approver,'Deadline Approval',_ApplicationNo);
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
 END//
 DELIMITER ;
@@ -1173,21 +928,36 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Approvedecisiondocuments
 DROP PROCEDURE IF EXISTS `Approvedecisiondocuments`;
 DELIMITER //
-CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Approvedecisiondocuments`(IN _Name VARCHAR(150),IN _userID VARCHAR(50))
-    NO SQL
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Approvedecisiondocuments`(IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50), IN _DecisionDate DATE, IN _Followup BOOLEAN, IN _Referral BOOLEAN, IN _Closed BOOLEAN, IN _ApplicationSuccessful BOOLEAN, IN _Annulled BOOLEAN, IN _GiveDirection BOOLEAN, IN _Terminated BOOLEAN, IN _ReTender BOOLEAN, IN _CostsPE BOOLEAN, IN _CostsApplicant BOOLEAN, IN _CostsEachParty BOOLEAN, IN _Substitution BOOLEAN)
 BEGIN
 DECLARE lSaleDesc varchar(200);
-set lSaleDesc= CONCAT('Approved decision document: ', _Name); 
-Update decisiondocuments set Status='Approved' where Name=_Name;
-call SaveAuditTrail(_userID,lSaleDesc,'Approve','0' );
-  update notifications set Status='Resolved' where Category='Decision Approval';
+set lSaleDesc= CONCAT('Approved decision for application: ', _ApplicationNo); 
+UPDATE applications set  DecisionDate =_DecisionDate,
+  Followup =_Followup,
+  Referral =_Referral, 
+  Status='Closed',  
+  Closed=1,
+  Annulled=_Annulled,
+  GiveDirection=_GiveDirection,
+  ISTerminated=_Terminated,
+  ReTender=_ReTender,
+  CostsPE=_CostsPE,
+  CostsEachParty=_CostsEachParty,
+  CostsApplicant=_CostsApplicant,
+  Substitution=_Substitution,
+  ApplicationSuccessful=_ApplicationSuccessful where ApplicationNo=_ApplicationNo;
+  update decisions set Status='Approved',ApprovalRemarks='Approved' where ApplicationNo=_ApplicationNo;
+  call SaveAuditTrail(_UserID,lSaleDesc,'Approve','0' );
+   update notifications set Status='Resolved' where Category='Decision Approval';
+   Update decisiondocuments set Status='Approved' where ApplicationNo=_ApplicationNo;
+
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.ApprovePanelMember
 DROP PROCEDURE IF EXISTS `ApprovePanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovePanelMember`(IN _ApplicationNo VARCHAR(50),  IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `ApprovePanelMember`(IN _ApplicationNo VARCHAR(50),  IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Approved  PanelMember:', _UserName); 
@@ -1203,7 +973,7 @@ CREATE TABLE IF NOT EXISTS `approvers` (
   `ID` int(5) NOT NULL AUTO_INCREMENT,
   `Username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ModuleCode` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Mandatory` tinyint(1) NOT NULL DEFAULT 0,
+  `Mandatory` tinyint(1) NOT NULL DEFAULT '0',
   `Active` tinyint(1) DEFAULT NULL,
   `Create_at` datetime NOT NULL,
   `Update_at` datetime DEFAULT NULL,
@@ -1215,50 +985,17 @@ CREATE TABLE IF NOT EXISTS `approvers` (
   PRIMARY KEY (`ID`) USING BTREE,
   KEY `Module` (`ModuleCode`),
   CONSTRAINT `Module` FOREIGN KEY (`ModuleCode`) REFERENCES `approvalmodules` (`ModuleCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.approvers: ~32 rows (approximately)
+-- Dumping data for table arcm.approvers: ~0 rows (approximately)
 DELETE FROM `approvers`;
 /*!40000 ALTER TABLE `approvers` DISABLE KEYS */;
-INSERT INTO `approvers` (`ID`, `Username`, `ModuleCode`, `Mandatory`, `Active`, `Create_at`, `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`) VALUES
-	(1, 'Admin', 'APFRE', 0, 1, '2019-10-16 14:11:35', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(3, 'Admin', 'REXED', 0, 1, '2019-10-16 14:38:31', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(4, 'Admin', 'PAYMT', 0, 1, '2019-10-16 16:32:58', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(6, 'PPRA01', 'PAREQ', 0, 1, '2019-10-17 09:41:23', NULL, 'Admin', 'Admin2', 0, NULL, NULL),
-	(7, 'Admin', 'PAREQ', 0, 1, '2019-10-17 09:41:24', NULL, 'Admin', 'Admin2', 0, NULL, NULL),
-	(8, 'Admin', 'WIOAP', 0, 1, '2019-10-28 14:27:20', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(10, 'PPRA01', 'PAYMT', 0, 1, '2019-11-11 16:04:25', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(11, 'PPRA01', 'APFRE', 0, 1, '2019-11-11 16:05:05', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(12, 'CASEOFFICER01', 'REXED', 0, 1, '2019-11-11 16:05:44', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(13, 'PPRA01', 'REXED', 0, 1, '2019-11-11 16:05:46', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(14, 'CASEOFFICER01', 'APFRE', 0, 1, '2019-11-11 16:06:05', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(15, 'CASEOFFICER01', 'PAYMT', 0, 1, '2019-11-11 16:06:15', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(16, 'CASEOFFICER01', 'PAREQ', 0, 1, '2019-11-11 16:06:33', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(17, 'PPRA01', 'PAREQ', 0, 1, '2019-11-11 16:06:34', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(18, 'CASEOFFICER01', 'WIOAP', 0, 1, '2019-11-11 16:06:48', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(19, 'PPRA01', 'WIOAP', 0, 1, '2019-11-11 16:06:49', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(20, 'Admin', 'ADJRE', 0, 1, '2019-11-11 16:07:22', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(21, 'CASEOFFICER01', 'ADJRE', 0, 1, '2019-11-11 16:07:23', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(22, 'PPRA01', 'ADJRE', 0, 1, '2019-11-11 16:07:24', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(23, 'pkiprop', 'APFRE', 0, 0, '2019-11-15 11:12:42', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(24, 'SOdhiambo', 'APFRE', 0, 1, '2019-11-15 11:12:47', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(25, 'pkiprop', 'PAYMT', 0, 0, '2019-11-15 11:14:18', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(26, 'Pokumu', 'PAYMT', 0, 0, '2019-11-15 11:14:21', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(27, 'SOdhiambo', 'PAYMT', 0, 0, '2019-11-15 11:14:26', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(28, 'Admin', 'DCAPR', 0, 1, '2019-11-18 13:26:21', NULL, 'Admin', 'Admin', 0, NULL, NULL),
-	(29, 'Pokumu', 'PAREQ', 0, 1, '2019-11-22 11:42:22', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(30, 'SOdhiambo', 'PAREQ', 0, 1, '2019-11-22 11:42:29', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(31, 'Pokumu', 'DCAPR', 0, 1, '2019-11-22 11:43:12', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(32, 'smiheso', 'DCAPR', 0, 1, '2019-11-22 11:43:15', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(33, 'SOdhiambo', 'DCAPR', 0, 1, '2019-11-22 11:43:17', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(34, 'smiheso', 'APFRE', 0, 1, '2019-11-22 11:43:41', NULL, 'Admin', NULL, 0, NULL, NULL),
-	(35, 'Pokumu', 'APFRE', 0, 1, '2019-11-22 11:43:43', NULL, 'Admin', NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `approvers` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.AssignCaseOfficer
 DROP PROCEDURE IF EXISTS `AssignCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AssignCaseOfficer`(IN _Applicationno VARCHAR(50), IN _PEID VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `AssignCaseOfficer`(IN _Applicationno VARCHAR(50), IN _PEID VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 
 select TenderID from applications WHERE ApplicationNo=_Applicationno  LIMIT  1 into @TenderID ;
@@ -1298,20 +1035,11 @@ CREATE TABLE IF NOT EXISTS `attendanceregister` (
   `Designation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `FirmFrom` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.attendanceregister: ~8 rows (approximately)
+-- Dumping data for table arcm.attendanceregister: ~0 rows (approximately)
 DELETE FROM `attendanceregister`;
 /*!40000 ALTER TABLE `attendanceregister` DISABLE KEYS */;
-INSERT INTO `attendanceregister` (`ID`, `RegisterID`, `IDNO`, `MobileNo`, `Name`, `Email`, `Category`, `Created_At`, `Created_By`, `Designation`, `FirmFrom`) VALUES
-	(1, 1, '1234567', '0705555285', 'KIMUTAI', 'info@wilcom.co.ke', 'Applicant', '2019-11-14 16:45:36', 'Admin', 'ENG', 'WILCOM SYSTEMS'),
-	(2, 1, '123456789', '0722719412', 'WILSON B. KEREBEI', 'wkerebei@gmail.com', 'PPRA', '2019-11-14 16:49:26', 'Admin', 'Staff', 'PPRA'),
-	(3, 2, '123456', '0722719412', 'WILSON B. KEREBEI', 'wkerebei@gmail.com', 'Applicant', '2019-11-15 13:11:50', 'Admin', 'md', 'W'),
-	(4, 3, '123456', '0722719412', 'WILSON B. KEREBEI', 'wkerebei@gmail.com', 'PE', '2019-11-20 16:22:16', 'Admin', 'md', 'W'),
-	(5, 4, '123456', '0722955458', 'Philemon Kiprop', 'philchem2009@gmail.com', 'PPRA', '2019-11-21 18:38:34', 'Admin', 'Staff', 'PPRA'),
-	(6, 4, '10000', '0722719412', 'WILSON B. KEREBEI', 'wkerebei@gmail.com', 'PE', '2019-11-21 18:39:38', 'Admin', 'MD', 'SUPPLIERS LTD'),
-	(7, 5, '1234567', '0705555285', 'KIMUTAI', 'info@wilcom.co.ke', 'Press', '2019-11-22 13:51:24', 'Admin', 'ENG', 'WILCOM SYSTEMS'),
-	(8, 5, '123456', '0722955458', 'Philemon Kiprop', 'philchem2009@gmail.com', 'PPRA', '2019-11-22 13:51:45', 'Admin', 'Staff', 'PPRA');
 /*!40000 ALTER TABLE `attendanceregister` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.audittrails
@@ -1324,256 +1052,11 @@ CREATE TABLE IF NOT EXISTS `audittrails` (
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IpAddress` bigint(20) NOT NULL,
   PRIMARY KEY (`AuditID`)
-) ENGINE=InnoDB AUTO_INCREMENT=522 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.audittrails: ~244 rows (approximately)
+-- Dumping data for table arcm.audittrails: ~0 rows (approximately)
 DELETE FROM `audittrails`;
 /*!40000 ALTER TABLE `audittrails` DISABLE KEYS */;
-INSERT INTO `audittrails` (`AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES
-	(278, '2019-11-21 16:27:25', 'P0123456788X', 'Added new Tender with TenderNo:MOE/PRA/UAT/01/2019-2020', 'Add', 0),
-	(279, '2019-11-21 16:27:25', 'P0123456788X', 'Added new Application with ApplicationNo:26', 'Add', 0),
-	(280, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(281, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(282, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(283, '2019-11-21 16:27:26', 'P0123456788X', 'Added Fee for Application: 26', 'Add', 0),
-	(284, '2019-11-21 16:28:11', 'P0123456788X', 'Added new Tender Addendum for TenderID:37', 'Add', 0),
-	(285, '2019-11-21 16:30:20', 'Admin', 'Added new bank Account', 'Add', 0),
-	(286, '2019-11-21 16:30:48', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(287, '2019-11-21 16:30:56', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(288, '2019-11-21 16:31:08', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(289, '2019-11-21 16:31:40', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(290, '2019-11-21 16:32:03', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(291, '2019-11-21 16:32:09', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(292, '2019-11-21 16:32:18', 'P0123456788X', 'Added new Ground/Request for Application:26', 'Add', 0),
-	(293, '2019-11-21 16:33:05', 'P0123456788X', 'Added new Document for application: 26', 'Add', 0),
-	(294, '2019-11-21 16:33:19', 'P0123456788X', 'Added new Document for application: 26', 'Add', 0),
-	(295, '2019-11-21 16:35:27', 'P0123456788X', 'Added new interested party for application:26', 'Add', 0),
-	(296, '2019-11-21 16:37:58', 'P0123456788X', 'Added new bank slip for application: 26', 'Add', 0),
-	(297, '2019-11-21 16:46:17', 'P0123456788X', 'Added new payment details for application: 26', 'Add', 0),
-	(298, '2019-11-21 16:49:05', 'P0123456788X', 'Added new bank slip for application: 26', 'Add', 0),
-	(299, '2019-11-21 16:49:18', 'P0123456788X', 'Added new payment details for application: 26', 'Add', 0),
-	(300, '2019-11-21 17:01:00', 'admin', ' Approved Application: 26', 'Approval', 0),
-	(301, '2019-11-21 17:33:51', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:23 OF 2019', 'Add', 0),
-	(302, '2019-11-21 17:34:10', 'A123456789X', 'PE-223', 'Add', 0),
-	(303, '2019-11-21 17:34:10', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(304, '2019-11-21 17:34:19', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(305, '2019-11-21 17:34:26', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(306, '2019-11-21 17:34:33', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(307, '2019-11-21 17:34:50', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(308, '2019-11-21 17:34:58', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(309, '2019-11-21 17:35:05', 'A123456789X', 'Updated PE Response for Response ID: 8', 'Add', 0),
-	(310, '2019-11-21 17:42:18', 'A123456789X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(311, '2019-11-21 17:48:25', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(312, '2019-11-21 17:48:51', 'A123456789X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(313, '2019-11-21 17:58:35', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(314, '2019-11-21 18:00:15', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(315, '2019-11-21 18:00:20', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(316, '2019-11-21 18:01:36', 'P0123456788X', 'Added new additionalsubmissions doument for ApplicationNo:26', 'Add', 0),
-	(317, '2019-11-21 18:01:43', 'P0123456788X', 'Added new additionalsubmissions for ApplicationNo:26', 'Add', 0),
-	(318, '2019-11-21 18:11:50', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:23 OF 2019', 'Add', 0),
-	(319, '2019-11-21 18:12:49', 'Admin', 'Added new case analysis for Application: 23 OF 2019', 'Add', 0),
-	(320, '2019-11-21 18:13:02', 'Admin', 'Added new case analysis for Application: 23 OF 2019', 'Add', 0),
-	(321, '2019-11-21 18:18:02', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(322, '2019-11-21 18:18:08', 'Admin', '023 OF 2019', 'Delete', 0),
-	(323, '2019-11-21 18:21:34', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(324, '2019-11-21 18:21:42', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(325, '2019-11-21 18:21:55', 'Admin', '023 OF 2019', 'Delete', 0),
-	(326, '2019-11-21 18:21:58', 'Admin', '023 OF 2019', 'Delete', 0),
-	(327, '2019-11-21 18:22:37', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(328, '2019-11-21 18:23:39', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(329, '2019-11-21 18:23:50', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(330, '2019-11-21 18:24:40', 'Admin', 'Submited PanelList  for Application: 23 OF 2019', 'Add', 0),
-	(331, '2019-11-21 18:25:51', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(332, '2019-11-21 18:25:54', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(333, '2019-11-21 18:25:57', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(334, '2019-11-21 18:26:02', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(335, '2019-11-21 18:28:52', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(336, '2019-11-21 18:30:33', 'Admin', 'Booked Venue:6', 'Add', 0),
-	(337, '2019-11-21 18:30:47', 'Admin', 'Generated hearing Notice for Application: 23 OF 2019', 'Add', 0),
-	(338, '2019-11-21 18:33:24', 'Admin', 'Added new PanelMember for Application 23 OF 2019', 'Add', 0),
-	(339, '2019-11-21 18:33:32', 'Admin', 'Submited PanelList  for Application: 23 OF 2019', 'Add', 0),
-	(340, '2019-11-21 18:33:46', 'Admin', 'Approved  PanelMember:smiheso', 'Approval', 0),
-	(341, '2019-11-21 18:38:20', 'Admin', 'Registered hearing for Application:23 OF 2019', 'Add', 0),
-	(342, '2019-11-21 18:38:34', 'Admin', 'Attended hearing for Application:23 OF 2019', 'Add', 0),
-	(343, '2019-11-21 18:39:38', 'Admin', 'Attended hearing for Application:23 OF 2019', 'Add', 0),
-	(344, '2019-11-21 18:41:15', 'Admin', 'Added new Background Information for decision for Application: 23 OF 2019', 'Add', 0),
-	(345, '2019-11-21 18:41:27', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(346, '2019-11-21 18:41:36', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(347, '2019-11-21 18:41:43', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(348, '2019-11-21 18:41:54', 'Admin', 'Added new party submision for Application: 23 OF 2019', 'Add', 0),
-	(349, '2019-11-21 18:42:06', 'Admin', 'Added new issue for dertermination application: 23 OF 2019', 'Add', 0),
-	(350, '2019-11-21 18:42:12', 'Admin', 'Added new issue for dertermination application: 23 OF 2019', 'Add', 0),
-	(351, '2019-11-21 18:42:24', 'Admin', 'Added new findings on issues for Application: 23 OF 2019', 'Add', 0),
-	(352, '2019-11-21 18:42:35', 'Admin', 'Added new DecisionSummary for Application: 23 OF 2019', 'Update', 0),
-	(353, '2019-11-21 18:42:44', 'Admin', 'Added new decision order for Application: 23 OF 2019', 'Add', 0),
-	(354, '2019-11-21 18:51:38', 'Admin', 'Submited Decision for Application: 23 OF 2019', 'Add', 0),
-	(355, '2019-11-21 18:52:16', 'Admin', 'Added new decision document application: 23 OF 2019', 'Add', 0),
-	(356, '2019-11-21 18:52:19', 'Admin', 'Submited Decision for Application: 23 OF 2019', 'Add', 0),
-	(357, '2019-11-21 18:53:02', 'Admin', 'Approved decision document: 1574362336520-Requirements_for_review.pdf', 'Approve', 0),
-	(358, '2019-11-21 18:56:27', 'Admin', 'Submited Judicial Review Document for Application: 23 OF 2019', 'Add', 0),
-	(359, '2019-11-21 18:56:34', 'Admin', 'Added New Judicial Review  ApplicationNo:23 OF 2019', 'Add', 0),
-	(360, '2019-11-21 19:00:43', 'Admin', 'Updated Judicial Review  ApplicationNo:23 OF 2019', 'Add', 0),
-	(361, '2019-11-21 21:14:46', 'P0123456788X', 'Added new Tender with TenderNo:KAA/OT/JKIA/1343/2017-2018', 'Add', 0),
-	(362, '2019-11-21 21:14:46', 'P0123456788X', 'Added new Application with ApplicationNo:27', 'Add', 0),
-	(363, '2019-11-21 21:14:47', 'P0123456788X', 'Added Fee for Application: 27', 'Add', 0),
-	(364, '2019-11-21 21:14:47', 'P0123456788X', 'Added Fee for Application: 27', 'Add', 0),
-	(365, '2019-11-21 21:15:30', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(366, '2019-11-21 21:15:39', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(367, '2019-11-21 21:15:52', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(368, '2019-11-21 21:16:02', 'P0123456788X', 'Added new Ground/Request for Application:27', 'Add', 0),
-	(369, '2019-11-21 21:18:06', 'P0123456788X', 'Added new Document for application: 27', 'Add', 0),
-	(370, '2019-11-21 21:19:13', 'P0123456788X', 'Added new interested party for application:27', 'Add', 0),
-	(371, '2019-11-21 21:21:40', 'P0123456788X', 'Added new bank slip for application: 27', 'Add', 0),
-	(372, '2019-11-21 21:21:42', 'P0123456788X', 'Added new payment details for application: 27', 'Add', 0),
-	(373, '2019-11-21 21:23:54', 'Admin', '0', 'Add', 0),
-	(374, '2019-11-21 21:23:56', 'Admin', '0', 'Add', 0),
-	(375, '2019-11-21 21:23:58', 'Admin', '0', 'Add', 0),
-	(376, '2019-11-21 21:24:03', 'Admin', 'Updated Maximum Approvals for ModulePAYMT', 'Add', 0),
-	(377, '2019-11-21 21:24:12', 'Admin', '0', 'Add', 0),
-	(378, '2019-11-21 21:24:16', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(379, '2019-11-21 21:34:41', 'Admin', ' Approved Application: 25 OF 2019', 'Approval', 0),
-	(380, '2019-11-21 21:37:14', 'Admin', ' Approved Application: 26 OF 2019', 'Approval', 0),
-	(381, '2019-11-21 21:39:44', 'P0123456788X', 'Added new Tender with TenderNo:Tender 1', 'Add', 0),
-	(382, '2019-11-21 21:39:44', 'P0123456788X', 'Added new Application with ApplicationNo:28', 'Add', 0),
-	(383, '2019-11-21 21:39:45', 'P0123456788X', 'Added Fee for Application: 28', 'Add', 0),
-	(384, '2019-11-21 21:39:45', 'P0123456788X', 'Added Fee for Application: 28', 'Add', 0),
-	(385, '2019-11-21 21:39:53', 'P0123456788X', 'Added new Ground/Request for Application:28', 'Add', 0),
-	(386, '2019-11-21 21:40:02', 'P0123456788X', 'Added new Ground/Request for Application:28', 'Add', 0),
-	(387, '2019-11-21 21:40:53', 'P0123456788X', 'Added new interested party for application:28', 'Add', 0),
-	(388, '2019-11-21 21:41:46', 'P0123456788X', 'Added new bank slip for application: 28', 'Add', 0),
-	(389, '2019-11-21 21:41:49', 'P0123456788X', 'Added new payment details for application: 28', 'Add', 0),
-	(390, '2019-11-21 21:44:12', 'Admin', ' Approved Application: 28', 'Approval', 0),
-	(391, '2019-11-21 21:51:30', 'A123456789X', 'Deleted PE Response detail: 40', 'Add', 0),
-	(392, '2019-11-21 21:53:09', 'A123456789X', 'Added new PE Response background Information for ApplicationNo:27 OF 2019', 'Add', 0),
-	(393, '2019-11-21 21:59:00', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(394, '2019-11-21 21:59:03', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(395, '2019-11-21 21:59:07', 'Admin', 'Added new PanelMember for Application 28 OF 2019', 'Add', 0),
-	(396, '2019-11-21 21:59:09', 'Admin', 'Submited PanelList  for Application: 28 OF 2019', 'Add', 0),
-	(397, '2019-11-21 21:59:20', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(398, '2019-11-21 21:59:22', 'Admin', 'Approved  PanelMember:CASEOFFICER01', 'Approval', 0),
-	(399, '2019-11-21 21:59:25', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(400, '2019-11-22 10:54:21', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Create', 0),
-	(401, '2019-11-22 10:54:22', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Create', 0),
-	(402, '2019-11-22 10:54:28', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(403, '2019-11-22 10:55:25', 'Admin', '291', 'Update', 0),
-	(404, '2019-11-22 10:55:27', 'Admin', '291', 'Update', 0),
-	(405, '2019-11-22 10:55:28', 'Admin', '291', 'Update', 0),
-	(406, '2019-11-22 10:55:30', 'Admin', '291', 'Update', 0),
-	(407, '2019-11-22 10:57:22', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(408, '2019-11-22 10:57:25', 'Admin', 'Updated  user access of role for user: P123456879Q', 'Update', 0),
-	(409, '2019-11-22 11:03:34', 'Admin', 'Updated  user access of role for user: P65498745R', 'Update', 0),
-	(410, '2019-11-22 11:16:49', 'P123456879Q', 'Added new Tender with TenderNo:Lorem ipsum dolor sit amet, consectetuer adipiscing elit', 'Add', 0),
-	(411, '2019-11-22 11:16:50', 'P123456879Q', 'Added new Application with ApplicationNo:29', 'Add', 0),
-	(412, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(413, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(414, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(415, '2019-11-22 11:16:50', 'P123456879Q', 'Added Fee for Application: 29', 'Add', 0),
-	(416, '2019-11-22 11:17:11', 'P123456879Q', 'Added new Tender Addendum for TenderID:40', 'Add', 0),
-	(417, '2019-11-22 11:17:34', 'P123456879Q', 'Added new Ground/Request for Application:29', 'Add', 0),
-	(418, '2019-11-22 11:17:42', 'P123456879Q', 'Added new Ground/Request for Application:29', 'Add', 0),
-	(419, '2019-11-22 11:18:02', 'P123456879Q', 'Added new Document for application: 29', 'Add', 0),
-	(420, '2019-11-22 11:18:22', 'P123456879Q', 'Added new Document for application: 29', 'Add', 0),
-	(421, '2019-11-22 11:20:27', 'P123456879Q', 'Added new interested party for application:29', 'Add', 0),
-	(422, '2019-11-22 11:26:40', 'P123456879Q', 'Added new Tender with TenderNo:TENDER/0001/2019/2020', 'Add', 0),
-	(423, '2019-11-22 11:26:40', 'P123456879Q', 'Added new Application with ApplicationNo:30', 'Add', 0),
-	(424, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(425, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(426, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(427, '2019-11-22 11:26:41', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(428, '2019-11-22 11:27:19', 'P123456879Q', 'Added new Ground/Request for Application:30', 'Add', 0),
-	(429, '2019-11-22 11:27:35', 'P123456879Q', 'Added new Ground/Request for Application:30', 'Add', 0),
-	(430, '2019-11-22 11:28:05', 'P123456879Q', 'Added new Document for application: 30', 'Add', 0),
-	(431, '2019-11-22 11:31:00', 'P123456879Q', 'Updated Tender with TenderNo:TENDER/0001/2019/2020', 'Update', 0),
-	(432, '2019-11-22 11:31:01', 'P123456879Q', 'Updated Application :30', 'Update', 0),
-	(433, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(434, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(435, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(436, '2019-11-22 11:31:01', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(437, '2019-11-22 11:32:55', 'P123456879Q', 'Updated Tender with TenderNo:TENDER/0001/2019/2020', 'Update', 0),
-	(438, '2019-11-22 11:32:56', 'P123456879Q', 'Updated Application :30', 'Update', 0),
-	(439, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(440, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(441, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(442, '2019-11-22 11:32:56', 'P123456879Q', 'Added Fee for Application: 30', 'Add', 0),
-	(443, '2019-11-22 11:35:29', 'P123456879Q', 'Added new bank slip for application: 30', 'Add', 0),
-	(444, '2019-11-22 11:35:32', 'P123456879Q', 'Added new payment details for application: 30', 'Add', 0),
-	(445, '2019-11-22 11:42:22', 'Admin', '0', 'Add', 0),
-	(446, '2019-11-22 11:42:29', 'Admin', '0', 'Add', 0),
-	(447, '2019-11-22 11:42:33', 'Admin', 'Updated Maximum Approvals for ModulePAREQ', 'Add', 0),
-	(448, '2019-11-22 11:43:12', 'Admin', '0', 'Add', 0),
-	(449, '2019-11-22 11:43:15', 'Admin', '0', 'Add', 0),
-	(450, '2019-11-22 11:43:17', 'Admin', '0', 'Add', 0),
-	(451, '2019-11-22 11:43:20', 'Admin', 'Updated Maximum Approvals for ModuleDCAPR', 'Add', 0),
-	(452, '2019-11-22 11:43:40', 'Admin', '0', 'Add', 0),
-	(453, '2019-11-22 11:43:41', 'Admin', '0', 'Add', 0),
-	(454, '2019-11-22 11:43:43', 'Admin', '0', 'Add', 0),
-	(455, '2019-11-22 11:43:44', 'Admin', 'Updated Maximum Approvals for ModuleAPFRE', 'Add', 0),
-	(456, '2019-11-22 11:47:05', 'Admin', ' Approved Application: 30', 'Approval', 0),
-	(457, '2019-11-22 12:18:00', 'P65498745R', 'Added new PE Response background Information for ApplicationNo:29 OF 2019', 'Add', 0),
-	(458, '2019-11-22 12:18:20', 'P65498745R', 'PE-429', 'Add', 0),
-	(459, '2019-11-22 12:18:21', 'P65498745R', 'Updated PE Response for Response ID: 9', 'Add', 0),
-	(460, '2019-11-22 12:18:52', 'P65498745R', 'Updated PE Response for Response ID: 9', 'Add', 0),
-	(461, '2019-11-22 12:36:04', 'Admin', 'Added new caseanalysis  doument for ApplicationNo:29 OF 2019', 'Add', 0),
-	(462, '2019-11-22 12:38:32', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(463, '2019-11-22 12:39:05', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(464, '2019-11-22 12:39:27', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(465, '2019-11-22 12:40:03', 'Admin', 'Added new case analysis for Application: 29 OF 2019', 'Add', 0),
-	(466, '2019-11-22 12:55:31', 'Admin', '179', 'Create', 0),
-	(467, '2019-11-22 12:55:51', 'Admin', 'Updated  user access of role for user: Pokumu', 'Create', 0),
-	(468, '2019-11-22 12:56:48', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(469, '2019-11-22 12:56:55', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(470, '2019-11-22 12:57:40', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(471, '2019-11-22 12:59:03', 'Admin', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(472, '2019-11-22 13:00:34', 'Admin', 'Approved  PanelMember:SOdhiambo', 'Approval', 0),
-	(473, '2019-11-22 13:00:40', 'Admin', 'Approved  PanelMember:smiheso', 'Approval', 0),
-	(474, '2019-11-22 13:00:42', 'Admin', 'Approved  PanelMember:PPRA01', 'Approval', 0),
-	(475, '2019-11-22 13:05:44', 'Pokumu', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(476, '2019-11-22 13:07:40', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(477, '2019-11-22 13:07:41', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(478, '2019-11-22 13:07:42', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(479, '2019-11-22 13:07:43', 'Admin', 'Updated  user access of role for user: smiheso', 'Create', 0),
-	(480, '2019-11-22 13:07:45', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(481, '2019-11-22 13:07:45', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(482, '2019-11-22 13:07:46', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(483, '2019-11-22 13:07:47', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(484, '2019-11-22 13:07:50', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(485, '2019-11-22 13:07:51', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(486, '2019-11-22 13:07:52', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(487, '2019-11-22 13:07:53', 'Admin', 'Updated  user access of role for user: smiheso', 'Update', 0),
-	(488, '2019-11-22 13:11:02', 'Admin', 'Added new Branch with Name: Kitale', 'Add', 0),
-	(489, '2019-11-22 13:11:44', 'Admin', 'Added new Venue with Name: DC\'s Office', 'Add', 0),
-	(490, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(491, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(492, '2019-11-22 13:17:19', 'Admin', 'Booked Venue:8', 'Add', 0),
-	(493, '2019-11-22 13:17:51', 'Admin', 'Generated hearing Notice for Application: 29 OF 2019', 'Add', 0),
-	(494, '2019-11-22 13:29:02', 'Admin', 'Added new PanelMember for Application 29 OF 2019', 'Add', 0),
-	(495, '2019-11-22 13:29:06', 'Admin', 'Submited PanelList  for Application: 29 OF 2019', 'Add', 0),
-	(496, '2019-11-22 13:29:32', 'Admin', 'Approved  PanelMember:Admin', 'Approval', 0),
-	(497, '2019-11-22 13:48:21', 'Admin', 'Registered hearing for Application:29 OF 2019', 'Add', 0),
-	(498, '2019-11-22 13:51:24', 'Admin', 'Attended hearing for Application:29 OF 2019', 'Add', 0),
-	(499, '2019-11-22 13:51:45', 'Admin', 'Attended hearing for Application:29 OF 2019', 'Add', 0),
-	(500, '2019-11-22 13:56:08', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(501, '2019-11-22 13:56:41', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(502, '2019-11-22 14:07:33', 'Admin', 'Uploaded hearing attachment for application:29 OF 2019', 'Add', 0),
-	(503, '2019-11-22 14:08:46', 'Admin', 'Added new Background Information for decision for Application: 29 OF 2019', 'Add', 0),
-	(504, '2019-11-22 14:09:14', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(505, '2019-11-22 14:09:21', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(506, '2019-11-22 14:09:29', 'Admin', 'Added new party submision for Application: 29 OF 2019', 'Add', 0),
-	(507, '2019-11-22 14:11:29', 'Admin', 'Added new issue for dertermination application: 29 OF 2019', 'Add', 0),
-	(508, '2019-11-22 14:11:34', 'Admin', 'Added new issue for dertermination application: 29 OF 2019', 'Add', 0),
-	(509, '2019-11-22 14:11:46', 'Admin', 'Added new findings on issues for Application: 29 OF 2019', 'Add', 0),
-	(510, '2019-11-22 14:11:51', 'Admin', 'Added new findings on issues for Application: 29 OF 2019', 'Add', 0),
-	(511, '2019-11-22 14:12:35', 'Admin', 'Added new DecisionSummary for Application: 29 OF 2019', 'Update', 0),
-	(512, '2019-11-22 14:12:44', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(513, '2019-11-22 14:12:49', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(514, '2019-11-22 14:12:54', 'Admin', 'Added new decision order for Application: 29 OF 2019', 'Add', 0),
-	(515, '2019-11-22 14:30:07', 'Admin', 'Submited Decision for Application: 29 OF 2019', 'Add', 0),
-	(516, '2019-11-22 14:31:25', 'Admin', 'Added new decision document application: 29 OF 2019', 'Add', 0),
-	(517, '2019-11-22 14:31:58', 'Admin', 'Submited Decision for Application: 29 OF 2019', 'Add', 0),
-	(518, '2019-11-22 14:48:28', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(519, '2019-11-22 14:48:41', 'Admin', 'Submited Judicial Review Document for Application: 29 OF 2019', 'Add', 0),
-	(520, '2019-11-22 14:48:50', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0),
-	(521, '2019-11-22 15:01:27', 'Admin', 'Added New Judicial Review  ApplicationNo:29 OF 2019', 'Add', 0);
 /*!40000 ALTER TABLE `audittrails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.banks
@@ -1592,13 +1075,14 @@ CREATE TABLE IF NOT EXISTS `banks` (
   `Delete_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.banks: ~1 rows (approximately)
+-- Dumping data for table arcm.banks: ~2 rows (approximately)
 DELETE FROM `banks`;
 /*!40000 ALTER TABLE `banks` DISABLE KEYS */;
 INSERT INTO `banks` (`ID`, `Name`, `Branch`, `AcountNo`, `PayBill`, `Created_By`, `Created_At`, `Update_By`, `Updated_At`, `Deleted`, `Delete_By`, `Deleted_At`) VALUES
-	(2, 'National bank', 'Harambee Avenue', '0789876544321', '123456', 'Admin', '2019-11-21 16:30:20', NULL, NULL, 0, NULL, NULL);
+	(2, 'National Bank', 'Harambee Avenue', '0789876544321', '7575', 'Admin', '2019-11-21 16:30:20', 'Admin', '2019-11-28 12:06:26', 0, NULL, NULL),
+	(3, 'KCB Bank', 'KenCom', '0789876544321', '7575', 'Admin', '2019-11-28 12:07:11', NULL, NULL, 1, 'Admin', '2019-11-28 12:07:14');
 /*!40000 ALTER TABLE `banks` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.bankslips
@@ -1617,40 +1101,17 @@ CREATE TABLE IF NOT EXISTS `bankslips` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.bankslips: ~22 rows (approximately)
+-- Dumping data for table arcm.bankslips: ~0 rows (approximately)
 DELETE FROM `bankslips`;
 /*!40000 ALTER TABLE `bankslips` DISABLE KEYS */;
-INSERT INTO `bankslips` (`ID`, `ApplicationID`, `Name`, `path`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `Category`) VALUES
-	(1, 1, '1573488654509-WHT Certificate (7).pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-11 16:10:54', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(2, 5, '1573547073305-Capture.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-11-12 11:24:33', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(3, 6, '1573573894355-MERU NP- PAYMENT SLIP.jpg', 'uploads/BankSlips', 'P0123456788X', '2019-11-12 15:51:34', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(4, 7, '1573577544506-KCPE CERTIFICATE.jpg', 'uploads/BankSlips', 'P0123456788X', '2019-11-12 16:52:24', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(5, 7, '1573579471376-CD Label.jpg', 'uploads/BankSlips', 'A123456789X', '2019-11-12 17:24:31', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection'),
-	(6, 10, '1573633207292-Capture.PNG', 'uploads/BankSlips', 'P0123456788X', '2019-11-13 11:20:07', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(7, 10, '1573635354868-Capture.PNG', 'uploads/BankSlips', 'A123456789U', '2019-11-13 11:55:55', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection'),
-	(8, 15, '1573665533807-Capture.PNG', 'uploads/BankSlips', 'P09875345W', '2019-11-13 17:18:54', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(9, 14, '1573667360757-6 OF 2019.pdf', 'uploads/BankSlips', 'P09875345W', '2019-11-13 17:49:21', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(10, 15, '1573669842870-6 OF 2019.pdf', 'uploads/BankSlips', 'A123456789X', '2019-11-13 18:30:43', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection'),
-	(11, 16, '1573731987873-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-14 14:46:28', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(12, 17, '1573816192637-Price List - DEC 2015.pdf', 'uploads/BankSlips', 'P123456879Q', '2019-11-15 11:09:53', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(13, 23, '1574250127614-Capture1.PNG', 'uploads/BankSlips', 'P09875345W', '2019-11-20 14:42:07', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(14, 23, '1574252363528-Capture1.PNG', 'uploads/BankSlips', 'A123456789X', '2019-11-20 15:19:23', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection'),
-	(15, 23, '1574252621629-Capture.PNG', 'uploads/BankSlips', 'A123456789X', '2019-11-20 15:23:41', NULL, NULL, 0, NULL, NULL, 'PreliminaryObjection'),
-	(16, 24, '1574345795384-Job Card - EFT.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 14:16:35', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(17, 25, '1574346824786-Letter of Acceptance.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 14:33:45', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(18, 26, '1574354278238-PAYMENT SLIP.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 16:37:58', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(19, 26, '1574354945019-PAYMENT SLIP.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 16:49:05', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(20, 27, '1574371300137-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 21:21:40', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(21, 28, '1574372506083-6 OF 2019.pdf', 'uploads/BankSlips', 'P0123456788X', '2019-11-21 21:41:46', NULL, NULL, 0, NULL, NULL, 'ApplicationFees'),
-	(22, 30, '1574422529278-6 OF 2019.pdf', 'uploads/BankSlips', 'P123456879Q', '2019-11-22 11:35:29', NULL, NULL, 0, NULL, NULL, 'ApplicationFees');
 /*!40000 ALTER TABLE `bankslips` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.BookVenue
 DROP PROCEDURE IF EXISTS `BookVenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `BookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
+CREATE  PROCEDURE `BookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Booked Venue:',_VenueID); 
@@ -1659,7 +1120,8 @@ BEGIN
     VALUES(_VenueID,_Date,_Slot,_UserID,_Content,now(),0);
   call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
   update applications set Status='HEARING IN PROGRESS' where ApplicationNo=_Content;
-  call ResolveMyNotification(_UserID,'Case Scheduling');
+    update notifications set Status='Resolved' where Category='Case Scheduling'; 
+
 
   if(select Count(*) from applicationsequence where ApplicationNo=_Content and Action='Scheduled Hearing Date and Venue')<1 THEN
   Begin
@@ -1684,17 +1146,11 @@ CREATE TABLE IF NOT EXISTS `branches` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2730;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2730;
 
--- Dumping data for table arcm.branches: ~5 rows (approximately)
+-- Dumping data for table arcm.branches: ~0 rows (approximately)
 DELETE FROM `branches`;
 /*!40000 ALTER TABLE `branches` DISABLE KEYS */;
-INSERT INTO `branches` (`ID`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(12, 'MOMBASA', '2019-09-18 10:25:17', 'Admin', '2019-11-21 10:53:40', 'Admin', 0, NULL),
-	(13, 'Head office,National bank Building', '2019-09-18 10:25:26', 'Admin', '2019-09-18 10:25:44', 'Admin', 1, 'Admin'),
-	(14, 'KISUMU', '2019-09-18 10:29:11', 'Admin', '2019-11-21 10:53:50', 'Admin', 0, NULL),
-	(15, 'HEAD OFFICE', '2019-09-18 10:29:21', 'Admin', '2019-11-21 10:53:28', 'Admin', 0, NULL),
-	(16, 'Kitale', '2019-11-22 13:11:02', 'Admin', '2019-11-22 13:11:02', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `branches` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.caseanalysis
@@ -1702,31 +1158,19 @@ DROP TABLE IF EXISTS `caseanalysis`;
 CREATE TABLE IF NOT EXISTS `caseanalysis` (
   `ID` int(5) NOT NULL AUTO_INCREMENT,
   `ApplicationNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Title` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
+  `Title` text COLLATE utf8mb4_unicode_ci,
   `Create_at` datetime NOT NULL,
   `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Deleted` tinyint(1) NOT NULL,
   `DeletedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.caseanalysis: ~11 rows (approximately)
+-- Dumping data for table arcm.caseanalysis: ~0 rows (approximately)
 DELETE FROM `caseanalysis`;
 /*!40000 ALTER TABLE `caseanalysis` DISABLE KEYS */;
-INSERT INTO `caseanalysis` (`ID`, `ApplicationNO`, `Description`, `Title`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBy`, `Deleted_At`) VALUES
-	(7, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorp</p>\n', 'Background information', '2019-11-18 17:47:46', 'Admin', 0, NULL, NULL),
-	(8, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorp</p>\n', 'Findings on issues', '2019-11-18 17:48:00', 'Admin', 1, 'Admin', '2019-11-19 09:45:28.000000'),
-	(9, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>\n', 'Introduction', '2019-11-19 10:04:41', 'Admin', 0, NULL, NULL),
-	(10, '20 OF 2019', '<h2>Lorem ipsum dolor sit amet, consectetuer adipiscing</h2>\n\n<p>elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>\n', 'Background information', '2019-11-20 15:48:37', 'Admin', 0, NULL, NULL),
-	(11, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>\n', 'Introduction', '2019-11-20 15:48:46', 'Admin', 0, NULL, NULL),
-	(12, '23 OF 2019', '<ol>\n	<li>Add <strong>ACCOUNTING OFFICER</strong> &ndash; to the PE in all reports and Notices</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Re-Scheduling Option: - To enable user re-schedule a hearing</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>When a New member of the Panel is added an option to Re-sent the Hearing Notice should be provided</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Attendance List &ndash; To include Organization and Designation</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Deadline for Submission of Documents :- Add Deadline for Submission of Documents (This can be added at the Approval of Application)</li>\n</ol>\n', 'Background', '2019-11-21 18:12:49', 'Admin', 0, NULL, NULL),
-	(13, '23 OF 2019', '<ol>\n	<li>Add <strong>ACCOUNTING OFFICER</strong> &ndash; to the PE in all reports and Notices</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Re-Scheduling Option: - To enable user re-schedule a hearing</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>When a New member of the Panel is added an option to Re-sent the Hearing Notice should be provided</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Attendance List &ndash; To include Organization and Designation</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li>Deadline for Submission of Documents :- Add Deadline for Submission of Documents (This can be added at the Approval of Application)</li>\n</ol>\n', 'Introduction', '2019-11-21 18:13:02', 'Admin', 0, NULL, NULL),
-	(14, '29 OF 2019', '<p>The Kenya Airports Authority (KAA) seeks to contract a reputable insurance company (Underwriter) to provide Medical Insurance cover for its staff, their dependents and board members for a period of one (1) year with effect from 1st January, 2020 on a framework basis. KAA may at its own discretion renew the cover for a further period of two (2) years subject to satisfactory performance.The Kenya Airports Authority (KAA) seeks to contract a reputable insurance company (Underwriter) to provide Medical Insurance cover for its staff, their dependents and board members for a period of one (1) year with effect from 1st January, 2020 on a framework basis. KAA may at its own discretion renew the cover for a further period of two (2) years subject to satisfactory performance.</p>\n', 'BACKGROUND OF AWARD', '2019-11-22 12:38:32', 'Admin', 0, NULL, NULL),
-	(15, '29 OF 2019', '<p>T<strong>he Tender was advertised through approval from</strong></p>\n\n<p><em>MyGov</em> publication (<em>Standard</em> and <em>Star</em> newspapers) and appeared in the print media on 17th July, 2019 and published on KAA website and PPIP portal.</p>\n\n<p>The tender closed on 1st August, 2019 in which the technical proposals were opened and thereafter the financial proposals were opened on 19th August 2019.</p>\n\n<p>Four (4) tenderers submitted their bids by the closing date and time as recorded and listed below:-</p>\n', 'ADVERTISEMENT AND OPENING OF TENDER', '2019-11-22 12:39:05', 'Admin', 0, NULL, NULL),
-	(16, '29 OF 2019', '<table cellspacing="0" style="border-collapse:collapse; width:100.0%">\n	<thead>\n		<tr>\n			<td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; height:28px; width:6%px">\n			<p><strong>Bid No.</strong></p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; height:28px; width:37%px">\n			<p><strong>Bidder Name</strong></p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; height:28px; width:24%px">\n			<p><strong>Two Envelope Bid</strong></p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; height:28px; width:31%px">\n			<p><strong>Bid price</strong></p>\n			</td>\n		</tr>\n	</thead>\n	<tbody>\n		<tr>\n			<td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; height:31px; width:6%px">\n			<p>1</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:31px; width:37%px">\n			<p>Resolution Insurance Company Limited</p>\n\n			<p>P.O Box 4469-00100 Nairobi</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:31px; width:24%px">\n			<p>Original Technical&nbsp; and a Copy</p>\n\n			<p>Financial Envelope</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:31px; vertical-align:top; width:31%px">\n			<p>&nbsp;</p>\n\n			<p>Financial envelope returned un-opened</p>\n			</td>\n		</tr>\n		<tr>\n			<td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; height:19px; width:6%px">\n			<p>2</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:37%px">\n			<p>AAR Insurance Company Limited</p>\n\n			<p>P.O Box 41766-00100</p>\n\n			<p>Nairobi</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:24%px">\n			<p>Original Technical&nbsp; and a Copy</p>\n\n			<p>Financial Envelope</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; vertical-align:top; width:31%px">\n			<p>&nbsp;</p>\n\n			<p>Year 1: Ksh. 449,620,860</p>\n\n			<p>Year 2: Ksh. 493,702,622</p>\n\n			<p>Year 3: Ksh.542,192,560</p>\n			</td>\n		</tr>\n		<tr>\n			<td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; height:19px; width:6%px">\n			<p>3</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:37%px">\n			<p>Jubilee Insurance Company of Kenya Limited</p>\n\n			<p>P.O Box 30376-00100 Nairobi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:24%px">\n			<p>Original Technical&nbsp; and a Copy</p>\n\n			<p>Financial Envelope</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; vertical-align:top; width:31%px">\n			<p>&nbsp;</p>\n\n			<p>Year 1: Ksh. 478,613,578</p>\n\n			<p>Year 2: Ksh. 540,169,582</p>\n\n			<p>Year 3: Ksh. 609,727,866</p>\n			</td>\n		</tr>\n		<tr>\n			<td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; height:19px; width:6%px">\n			<p>4</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:37%px">\n			<p>UAP Insurance Company Limited</p>\n\n			<p>P.O Box 43013-00100 Nairobi</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; width:24%px">\n			<p>Original Technical&nbsp; and a Copy</p>\n\n			<p>Financial Envelope</p>\n			</td>\n			<td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:19px; vertical-align:top; width:31%px">\n			<p>&nbsp;</p>\n\n			<p>Year 1: Ksh. 423,000,006</p>\n\n			<p>Year 2: Ksh. 454,725,007</p>\n\n			<p>Year 3: Ksh.500,197,507</p>\n\n			<p>&nbsp;</p>\n			</td>\n		</tr>\n	</tbody>\n</table>\n', 'Another title', '2019-11-22 12:39:27', 'Admin', 0, NULL, NULL),
-	(17, '29 OF 2019', '<p><strong>EVALUATION CRITERIA&nbsp; </strong></p>\n\n<p>The bids shall be evaluated based on their responsiveness to the following Mandatory and Technical requirements. KAA will award the contract to the successful tenderer whose tender has been determined to be the most responsive to the tender. Bidders who will pass the Mandatory requirements will be considered for technical evaluation</p>\n', 'TECHNICAL EVALUATION', '2019-11-22 12:40:03', 'Admin', 0, NULL, NULL);
 /*!40000 ALTER TABLE `caseanalysis` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.caseanalysisdocuments
@@ -1746,19 +1190,11 @@ CREATE TABLE IF NOT EXISTS `caseanalysisdocuments` (
   `Confidential` tinyint(1) DEFAULT NULL,
   `SubmitedBy` varchar(155) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.caseanalysisdocuments: ~7 rows (approximately)
+-- Dumping data for table arcm.caseanalysisdocuments: ~0 rows (approximately)
 DELETE FROM `caseanalysisdocuments`;
 /*!40000 ALTER TABLE `caseanalysisdocuments` DISABLE KEYS */;
-INSERT INTO `caseanalysisdocuments` (`ID`, `ApplicationNo`, `Description`, `FileName`, `FilePath`, `Create_at`, `CreatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`, `Category`, `Confidential`, `SubmitedBy`) VALUES
-	(18, '17 OF 2019', 'Case Analysis Document 1', '1574150233117-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis/', '2019-11-19 10:57:13', 'Admin', 1, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(19, '17 OF 2019', 'Case Analysis 2', '1574150423945-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 11:00:24', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(20, '17 OF 2019', 'Document 1', '1574151795833-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 11:23:16', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(21, '16 OF 2019', 'Case Analysis for application1', '1574159101550-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-19 13:25:01', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(22, '20 OF 2019', 'Case Analysis', '1574253803370-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-20 15:43:23', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(23, '23 OF 2019', 'Case Analysis', '1574359909870-ARCMS Update – 15th November 2019.docx', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-21 18:11:50', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai'),
-	(24, '29 OF 2019', 'Case Report', '1574426164094-6 OF 2019.pdf', 'http://74.208.157.60:3001/CaseAnalysis', '2019-11-22 12:36:04', 'Admin', 0, NULL, NULL, 'case analysis documents', 0, 'Elvis kimutai');
 /*!40000 ALTER TABLE `caseanalysisdocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casedetails
@@ -1779,30 +1215,11 @@ CREATE TABLE IF NOT EXISTS `casedetails` (
   `Deleted_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casedetails: ~18 rows (approximately)
+-- Dumping data for table arcm.casedetails: ~0 rows (approximately)
 DELETE FROM `casedetails`;
 /*!40000 ALTER TABLE `casedetails` DISABLE KEYS */;
-INSERT INTO `casedetails` (`ID`, `UserName`, `ApplicationNo`, `DateAsigned`, `Status`, `PrimaryOfficer`, `ReassignedTo`, `DateReasigned`, `Reason`, `Created_At`, `Created_By`, `Updated_By`, `Deleted_At`, `Deleted`) VALUES
-	(1, 'Admin', '12 OF 2019', '2019-11-11 16:20:11', 'Open', 1, NULL, NULL, NULL, '2019-11-11 16:20:11', 'Admin', NULL, NULL, 0),
-	(2, 'CASEOFFICER01', '13 OF 2019', '2019-11-12 11:51:53', 'Open', 1, NULL, NULL, NULL, '2019-11-12 11:51:53', 'PPRA01', NULL, NULL, 0),
-	(3, 'Admin', '14 OF 2019', '2019-11-12 15:56:41', 'Open', 1, NULL, NULL, NULL, '2019-11-12 15:56:41', 'PPRA01', NULL, NULL, 0),
-	(4, 'CASEOFFICER01', '15 OF 2019', '2019-11-12 17:02:36', 'Open', 1, NULL, NULL, NULL, '2019-11-12 17:02:36', 'Admin', NULL, NULL, 0),
-	(5, 'Admin', '16 OF 2019', '2019-11-13 11:42:41', 'Open', 1, NULL, NULL, NULL, '2019-11-13 11:42:41', 'Admin', NULL, NULL, 0),
-	(6, 'Admin', '17 OF 2019', '2019-11-13 17:40:43', 'Open', 1, NULL, NULL, NULL, '2019-11-13 17:40:43', 'Admin', NULL, NULL, 0),
-	(7, 'PPRA01', '18 OF 2019', '2019-11-15 11:36:02', 'Open', 1, NULL, NULL, NULL, '2019-11-15 11:36:02', 'Admin', NULL, NULL, 0),
-	(8, 'Pokumu', '19 OF 2019', '2019-11-17 12:17:53', 'Open', 1, NULL, NULL, NULL, '2019-11-17 12:17:53', 'Admin', NULL, NULL, 0),
-	(9, 'Admin', '20 OF 2019', '2019-11-20 14:59:58', 'Open', 1, NULL, NULL, NULL, '2019-11-20 14:59:58', 'Admin', NULL, NULL, 0),
-	(10, 'PPRA01', '21 OF 2019', '2019-11-21 14:19:16', 'Open', 1, NULL, NULL, NULL, '2019-11-21 14:19:16', 'admin', NULL, NULL, 0),
-	(11, 'Pokumu', '22 OF 2019', '2019-11-21 14:36:22', 'Open', 1, NULL, NULL, NULL, '2019-11-21 14:36:22', 'admin', NULL, NULL, 0),
-	(12, 'Admin', '23 OF 2019', '2019-11-21 17:01:00', 'Open', 1, NULL, NULL, NULL, '2019-11-21 17:01:00', 'admin', NULL, NULL, 0),
-	(13, 'PPRA01', '24 OF 2019', '2019-11-21 21:26:16', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:26:16', 'Admin', NULL, NULL, 0),
-	(14, 'Pokumu', '25 OF 2019', '2019-11-21 21:31:33', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:31:33', 'Admin', NULL, NULL, 0),
-	(15, 'Admin', '26 OF 2019', '2019-11-21 21:34:41', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:34:41', 'Admin', NULL, NULL, 0),
-	(16, 'PPRA01', '27 OF 2019', '2019-11-21 21:37:14', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:37:14', 'Admin', NULL, NULL, 0),
-	(17, 'Pokumu', '28 OF 2019', '2019-11-21 21:44:12', 'Open', 1, NULL, NULL, NULL, '2019-11-21 21:44:12', 'Admin', NULL, NULL, 0),
-	(18, 'Admin', '29 OF 2019', '2019-11-22 11:47:05', 'Open', 1, NULL, NULL, NULL, '2019-11-22 11:47:05', 'Admin', NULL, NULL, 0);
 /*!40000 ALTER TABLE `casedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.caseofficers
@@ -1815,8 +1232,8 @@ CREATE TABLE IF NOT EXISTS `caseofficers` (
   `Active` tinyint(1) DEFAULT NULL,
   `NotAvailableFrom` datetime DEFAULT NULL,
   `NotAvailableTo` datetime DEFAULT NULL,
-  `OngoingCases` int(11) DEFAULT 0,
-  `CumulativeCases` int(11) DEFAULT 0,
+  `OngoingCases` int(11) DEFAULT '0',
+  `CumulativeCases` int(11) DEFAULT '0',
   `Create_at` datetime NOT NULL,
   `Update_at` datetime DEFAULT NULL,
   `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1825,15 +1242,11 @@ CREATE TABLE IF NOT EXISTS `caseofficers` (
   `DeletedBY` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2340;
 
--- Dumping data for table arcm.caseofficers: ~3 rows (approximately)
+-- Dumping data for table arcm.caseofficers: ~0 rows (approximately)
 DELETE FROM `caseofficers`;
 /*!40000 ALTER TABLE `caseofficers` DISABLE KEYS */;
-INSERT INTO `caseofficers` (`ID`, `Username`, `MinValue`, `MaximumValue`, `Active`, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, `Create_at`, `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At`) VALUES
-	(1, 'Admin', 1, 100000000, 1, '2019-09-06 00:00:00', '2019-09-06 00:00:00', 6, 6, '2019-09-13 17:05:06', '2019-09-13 17:05:12', 'Admin', 'Admin', 0, NULL, NULL),
-	(4, 'PPRA01', NULL, NULL, 1, '2019-11-13 00:00:00', '2019-11-14 00:00:00', 5, 5, '2019-11-13 17:01:59', '2019-11-14 07:56:52', 'Admin', 'Admin', 0, NULL, NULL),
-	(6, 'Pokumu', NULL, NULL, 1, '2019-11-14 00:00:00', '2019-11-14 00:00:00', 5, 5, '2019-11-15 12:19:45', NULL, 'Admin', NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `caseofficers` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casesittingsregister
@@ -1846,19 +1259,13 @@ CREATE TABLE IF NOT EXISTS `casesittingsregister` (
   `SittingNo` int(11) DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Open` tinyint(1) DEFAULT 1,
+  `Open` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casesittingsregister: ~5 rows (approximately)
+-- Dumping data for table arcm.casesittingsregister: ~0 rows (approximately)
 DELETE FROM `casesittingsregister`;
 /*!40000 ALTER TABLE `casesittingsregister` DISABLE KEYS */;
-INSERT INTO `casesittingsregister` (`ID`, `ApplicationNo`, `VenueID`, `Date`, `SittingNo`, `Created_At`, `Created_By`, `Open`) VALUES
-	(1, '17 OF 2019', 6, '2019-11-14', 1, '2019-11-14 16:40:38', 'Admin', 0),
-	(2, '18 OF 2019', 6, '2019-11-15', 1, '2019-11-15 13:05:22', 'Admin', 0),
-	(3, '20 OF 2019', 5, '2019-11-20', 1, '2019-11-20 16:22:06', 'Admin', 1),
-	(4, '23 OF 2019', 6, '2019-11-21', 1, '2019-11-21 18:38:20', 'Admin', 0),
-	(5, '29 OF 2019', 8, '2019-11-22', 1, '2019-11-22 13:48:21', 'Admin', 0);
 /*!40000 ALTER TABLE `casesittingsregister` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawal
@@ -1877,13 +1284,11 @@ CREATE TABLE IF NOT EXISTS `casewithdrawal` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.casewithdrawal: ~0 rows (approximately)
 DELETE FROM `casewithdrawal`;
 /*!40000 ALTER TABLE `casewithdrawal` DISABLE KEYS */;
-INSERT INTO `casewithdrawal` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `RejectionReason`, `Frivolous`, `Created_At`, `Created_By`, `Approver`) VALUES
-	(1, '2019-11-12 15:58:30', 'AP-17', '14 OF 2019', 'WILL TRY AGAIN LATER', '2019-11-12', 'Approved', 'Approved', 0, '2019-11-12', 'P0123456788X', NULL);
 /*!40000 ALTER TABLE `casewithdrawal` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawalapprovalworkflow
@@ -1902,18 +1307,11 @@ CREATE TABLE IF NOT EXISTS `casewithdrawalapprovalworkflow` (
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawalapprovalworkflow: ~6 rows (approximately)
+-- Dumping data for table arcm.casewithdrawalapprovalworkflow: ~0 rows (approximately)
 DELETE FROM `casewithdrawalapprovalworkflow`;
 /*!40000 ALTER TABLE `casewithdrawalapprovalworkflow` DISABLE KEYS */;
-INSERT INTO `casewithdrawalapprovalworkflow` (`ID`, `Date`, `Applicant`, `ApplicationNo`, `Reason`, `DecisionDate`, `Status`, `RejectionReason`, `Frivolous`, `Created_At`, `Created_By`, `Approver`) VALUES
-	(1, '2019-10-28 16:53:43', 'AP-11', '10 OF 2019', 'Approved', '2019-10-28', 'Approved', NULL, 0, '2019-10-28', 'Admin', 'Admin'),
-	(2, '2019-10-28 16:55:01', 'AP-11', '10 OF 2019', 'Approved', '2019-10-28', 'Approved', NULL, 0, '2019-10-28', 'Admin', 'Admin'),
-	(3, '2019-11-01 12:32:50', 'AP-11', '6 OF 2019', 'Approved', '2019-11-01', 'Approved', NULL, 0, '2019-11-01', 'Admin', 'Admin'),
-	(4, '2019-11-01 12:33:37', 'AP-11', '6 OF 2019', '561064', '2019-11-01', 'Approved', NULL, 0, '2019-11-01', 'Admin2', 'Admin2'),
-	(5, '2019-11-12 16:00:13', 'AP-17', '14 OF 2019', 'Approved', '2019-11-12', 'Approved', NULL, 0, '2019-11-12', 'PPRA01', 'PPRA01'),
-	(6, '2019-11-12 16:04:21', 'AP-17', '14 OF 2019', 'Approved', '2019-11-12', 'Approved', NULL, 0, '2019-11-12', 'Admin', 'Admin');
 /*!40000 ALTER TABLE `casewithdrawalapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.casewithdrawalcontacts
@@ -1921,28 +1319,19 @@ DROP TABLE IF EXISTS `casewithdrawalcontacts`;
 CREATE TABLE IF NOT EXISTS `casewithdrawalcontacts` (
   `Name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `Mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Msg` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.casewithdrawalcontacts: ~9 rows (approximately)
+-- Dumping data for table arcm.casewithdrawalcontacts: ~0 rows (approximately)
 DELETE FROM `casewithdrawalcontacts`;
 /*!40000 ALTER TABLE `casewithdrawalcontacts` DISABLE KEYS */;
-INSERT INTO `casewithdrawalcontacts` (`Name`, `Email`, `Mobile`) VALUES
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285'),
-	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121'),
-	('Stanley Miheso', 'mihesosc@yahoo.com', '0722607127'),
-	('Samson Odhiambo', 'x2press@gmail.com', '0721382630'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086'),
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595');
 /*!40000 ALTER TABLE `casewithdrawalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.CheckifregistrationIsOpen
 DROP PROCEDURE IF EXISTS `CheckifregistrationIsOpen`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckifregistrationIsOpen`(IN _Applicationno VARCHAR(50))
+CREATE  PROCEDURE `CheckifregistrationIsOpen`(IN _Applicationno VARCHAR(50))
 BEGIN
 if(select count(*) from  casesittingsregister    where ApplicationNo=_Applicationno)>0 THEN
 BEGIN
@@ -1959,7 +1348,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.CloseRegistrations
 DROP PROCEDURE IF EXISTS `CloseRegistrations`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CloseRegistrations`(IN _Applicationno VARCHAR(50))
+CREATE  PROCEDURE `CloseRegistrations`(IN _Applicationno VARCHAR(50))
 BEGIN
 update casesittingsregister set  Open=0 where ApplicationNo=_Applicationno;
 END//
@@ -1978,24 +1367,17 @@ CREATE TABLE IF NOT EXISTS `committeetypes` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.committeetypes: ~6 rows (approximately)
+-- Dumping data for table arcm.committeetypes: ~0 rows (approximately)
 DELETE FROM `committeetypes`;
 /*!40000 ALTER TABLE `committeetypes` DISABLE KEYS */;
-INSERT INTO `committeetypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(6, 'COMT-1', 'Tender Opening Committee Updated', '2019-08-01 10:23:03', 'Admin', '2019-08-01 10:23:42', 'Admin', 1, 'Admin'),
-	(7, 'COMT-2', 'Disposal Committee', '2019-08-01 11:10:39', 'Admin', '2019-10-04 09:51:37', 'Admin', 0, NULL),
-	(8, 'COMT-3', 'Disposal Committee', '2019-08-01 11:11:30', 'Admin', '2019-08-01 11:11:30', 'Admin', 1, 'Admin'),
-	(9, 'COMT-4', 'Accounting Officer', '2019-08-01 11:11:47', 'Admin', '2019-08-27 17:40:15', 'Admin', 0, NULL),
-	(10, 'COMT-5', 'Special committees', '2019-08-08 12:30:36', 'Admin', '2019-08-08 12:30:36', 'Admin', 0, NULL),
-	(11, 'COMT-6', 'Test', '2019-08-27 17:35:10', 'Admin', '2019-08-27 17:40:18', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `committeetypes` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.CompleteApplication
 DROP PROCEDURE IF EXISTS `CompleteApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CompleteApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
+CREATE  PROCEDURE `CompleteApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
 BEGIN
 Update applications set Status='Submited' where ID=_ApplicationID;
  select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @App; 
@@ -2006,10 +1388,12 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ComprehensiveAttendanceRegister
 DROP PROCEDURE IF EXISTS `ComprehensiveAttendanceRegister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ComprehensiveAttendanceRegister`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `ComprehensiveAttendanceRegister`(IN _ApplicationNo varchar(50))
 BEGIN
  
-select CONCAT(branches.Description,' ' ,venues.Name , ' - ', venues.Description)as venue, DATE_FORMAT(casesittingsregister.Date, "%d-%m-%Y") as Date, casesittingsregister.VenueID,attendanceregister.RegisterID,attendanceregister.IDNO,attendanceregister.MobileNo,attendanceregister.Name,attendanceregister.Email,attendanceregister.Category,FirmFrom from attendanceregister 
+select CONCAT(branches.Description,' ' ,venues.Name , ' - ', venues.Description)as venue, DATE_FORMAT(casesittingsregister.Date, '%d-%m-%Y') as Date, casesittingsregister.VenueID,
+  attendanceregister.RegisterID,attendanceregister.IDNO,
+  attendanceregister.MobileNo,attendanceregister.Name,attendanceregister.Email,attendanceregister.Category,FirmFrom from attendanceregister 
     inner join casesittingsregister on casesittingsregister.ID=attendanceregister.RegisterID
   inner join venues on venues.ID=casesittingsregister.VenueID
   inner join branches on branches.ID=venues.Branch
@@ -2020,7 +1404,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Computefeestest
 DROP PROCEDURE IF EXISTS `Computefeestest`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Computefeestest`(IN _ApplicationID Int, IN _UserID varchar(50))
+CREATE  PROCEDURE `Computefeestest`(IN _ApplicationID Int, IN _UserID varchar(50))
 BEGIN
    select TenderID from applications where ID=_ApplicationID LIMIT 1 INTO @TenderID;
     select TenderType from tenders where ID=@TenderID limit 1 into @TenderType;
@@ -2130,7 +1514,7 @@ Begin
                             End;
                          Else
                             Begin
-                              select @Rate * @SlabDiff into @Value1;
+                              select @Rate * @Tendervalue into @Value1;
                               call SaveApplicationFees(_ApplicationID,@Description,@Value1,@ApplicationREf, _UserID);
                             End;
                       End if;
@@ -2217,8 +1601,8 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `NextFeeCode` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '1',
   `NextTenderType` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '1',
   `Year` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `PeResponseDays` int(11) DEFAULT 5,
-  `CaseClosingDate` int(11) DEFAULT 21,
+  `PeResponseDays` int(11) DEFAULT '5',
+  `CaseClosingDate` int(11) DEFAULT '21',
   PRIMARY KEY (`ID`,`Code`),
   KEY `Configurations_Users` (`Deleted_By`),
   KEY `Configurations_Updateduser` (`Updated_By`),
@@ -2229,7 +1613,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
 DELETE FROM `configurations`;
 /*!40000 ALTER TABLE `configurations` DISABLE KEYS */;
 INSERT INTO `configurations` (`ID`, `Code`, `Name`, `PhysicalAdress`, `Street`, `PoBox`, `PostalCode`, `Town`, `Telephone1`, `Telephone2`, `Mobile`, `Fax`, `Email`, `Website`, `PIN`, `Logo`, `NextPE`, `NextComm`, `NextSupplier`, `NextMember`, `NextProcMeth`, `NextStdDoc`, `NextApplication`, `NextRev`, `Created_At`, `Updated_At`, `Created_By`, `Updated_By`, `Deleted`, `Deleted_By`, `NextPEType`, `NextMemberType`, `NextFeeCode`, `NextTenderType`, `Year`, `PeResponseDays`, `CaseClosingDate`) VALUES
-	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke', 'https://www.ppra.go.ke', '123456789098', '1574333847311-PPRA_Logo.png', '6', '7', '20', '1', '1', '1', '30', '1', '2019-07-29 14:14:38', '2019-11-21 10:57:31', 'Admin', 'Admin', 0, ' ', '14', '1', '1', '3', '2019', NULL, 21);
+	(3, 'PPARB', 'PUBLIC PROCUREMENT ADMINISTRATIVE REVIEW BOARD', 'National Bank Building', 'Harambee Avenue', '58535', '00200', 'Nairobi', '0203244214', '0203244241', '0724562264', 'fax', 'pparb@ppra.go.ke1', 'https://www.ppra.go.ke', '123456789098', '1574933357639-PPRALogo.png', '413', '7', '22', '1', '1', '1', '33', '1', '2019-07-29 14:14:38', '2019-12-02 14:25:09', 'Admin', 'Admin', 0, ' ', '19', '1', '1', '5', '2019', 5, 21);
 /*!40000 ALTER TABLE `configurations` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.counties
@@ -2306,7 +1690,7 @@ CREATE TABLE IF NOT EXISTS `deadlineapprovalworkflow` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `PEID` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Reason` text COLLATE utf8mb4_unicode_ci,
   `RequestedDate` datetime DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2315,14 +1699,11 @@ CREATE TABLE IF NOT EXISTS `deadlineapprovalworkflow` (
   `Remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.deadlineapprovalworkflow: ~2 rows (approximately)
+-- Dumping data for table arcm.deadlineapprovalworkflow: ~0 rows (approximately)
 DELETE FROM `deadlineapprovalworkflow`;
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` DISABLE KEYS */;
-INSERT INTO `deadlineapprovalworkflow` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`, `Approver`, `Remarks`, `Approved_At`) VALUES
-	(1, 'PE-2', '12 OF 2019', '<p>New Request 2</p>\n', '2019-11-15 00:00:00', '2019-11-11 17:31:46', 'A123456789X', 'Pending Approval', 'Admin', 'Rejected ', '2019-11-11 17:35:16'),
-	(2, 'PE-2', '15 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 00:00:00', '2019-11-12 17:15:50', 'A123456789X', 'DECLINED', 'Admin', 'Rejected', '2019-11-12 17:17:51');
 /*!40000 ALTER TABLE `deadlineapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.decisiondocuments
@@ -2341,26 +1722,11 @@ CREATE TABLE IF NOT EXISTS `decisiondocuments` (
   `Deleted_At` datetime DEFAULT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'Draft',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.decisiondocuments: ~14 rows (approximately)
+-- Dumping data for table arcm.decisiondocuments: ~0 rows (approximately)
 DELETE FROM `decisiondocuments`;
 /*!40000 ALTER TABLE `decisiondocuments` DISABLE KEYS */;
-INSERT INTO `decisiondocuments` (`ID`, `ApplicationNo`, `Name`, `Description`, `Path`, `Created_At`, `Deleted`, `Confidential`, `Created_By`, `Deleted_By`, `Deleted_At`, `Status`) VALUES
-	(6, '7 OF 2019', '1572957522072-EFT.docx', 'Does Not Exceed 2M', 'http://localhost:3001/HearingAttachments/Documents', '2019-11-05 15:38:43', 1, 0, 'Admin', 'Admin', '2019-11-05 16:13:19', 'Draft'),
-	(7, '7 OF 2019', '1572957788405-EFT.docx', 'Does Not Exceed 2M', 'http://localhost:3001/HearingAttachments/Documents', '2019-11-05 15:43:10', 1, 0, 'Admin', 'Admin', '2019-11-05 16:14:12', 'Draft'),
-	(8, '7 OF 2019', '1572958662011-6 OF 2019.pdf', 'Does Not Exceed 2M', 'http://localhost:3001/HearingAttachments/Documents', '2019-11-05 15:57:43', 1, 0, 'Admin', 'Admin', '2019-11-05 16:14:57', 'Draft'),
-	(9, '7 OF 2019', '1572959891503-6 OF 2019.pdf', 'Does Not Exceed 2M', 'http://localhost:3001/HearingAttachments/Documents', '2019-11-05 16:18:11', 1, 1, 'Admin', 'Admin', '2019-11-06 09:51:49', 'Draft'),
-	(10, '19 OF 2019', '1574060153641-6 OF 2019.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-18 09:55:53', 0, 0, 'Admin', NULL, NULL, 'Approved'),
-	(11, '19 OF 2019', '1574060228210-6 OF 2019.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-18 09:57:08', 1, 0, 'Admin', 'Admin', '2019-11-18 10:02:08', 'Draft'),
-	(12, '19 OF 2019', '1574062032537-6 OF 2019.pdf', 'Decision document', 'http://localhost:3001/Decisions', '2019-11-18 10:27:12', 0, 0, 'Admin', NULL, NULL, 'Approved'),
-	(13, '17 OF 2019', '1574064682826-6 OF 2019.pdf', 'Decision document', 'http://localhost:3001/Decisions', '2019-11-18 11:11:23', 0, 0, 'Admin', 'Admin', '2019-11-18 11:11:44', 'Approved'),
-	(14, '17 OF 2019', '1574064708541-6 OF 2019.pdf', 'Decision document', 'http://localhost:3001/Decisions', '2019-11-18 11:11:48', 0, 0, 'Admin', NULL, NULL, 'Approved'),
-	(15, '16 OF 2019', '1574241488497-6 OF 2019.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-20 12:18:09', 0, 0, 'Admin', NULL, NULL, 'Approved'),
-	(16, '16 OF 2019', '1574241596760-6 OF 2019.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-20 12:19:57', 1, 0, 'Admin', 'Admin', '2019-11-20 12:20:51', 'Draft'),
-	(17, '16 OF 2019', '1574241605021-6 OF 2019.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-20 12:20:05', 1, 0, 'Admin', 'Admin', '2019-11-20 12:20:50', 'Draft'),
-	(18, '23 OF 2019', '1574362336520-Requirements_for_review.pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-21 18:52:16', 0, 0, 'Admin', NULL, NULL, 'Approved'),
-	(19, '29 OF 2019', '1574433085567-29 OF 2019 (2).pdf', 'Decision document', 'http://74.208.157.60:3001/Decisions', '2019-11-22 14:31:25', 0, 0, 'Admin', NULL, NULL, 'Draft');
 /*!40000 ALTER TABLE `decisiondocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.decisionorders
@@ -2369,7 +1735,7 @@ CREATE TABLE IF NOT EXISTS `decisionorders` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NO` int(11) DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2378,32 +1744,11 @@ CREATE TABLE IF NOT EXISTS `decisionorders` (
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.decisionorders: ~20 rows (approximately)
+-- Dumping data for table arcm.decisionorders: ~0 rows (approximately)
 DELETE FROM `decisionorders`;
 /*!40000 ALTER TABLE `decisionorders` DISABLE KEYS */;
-INSERT INTO `decisionorders` (`ID`, `NO`, `ApplicationNo`, `Description`, `Created_At`, `Deleted`, `Created_By`, `Deleted_By`, `Deleted_At`, `Updated_At`, `Updated_By`) VALUES
-	(1, 1, '7 OF 2019', '<p>sss updated</p>\n', '2019-11-06 10:17:36', 1, 'Admin', 'Admin', '2019-11-06 10:34:46', '2019-11-06 10:29:49', 'Admin'),
-	(2, 1, '7 OF 2019', '<p>sss updated</p>\n', '2019-11-06 10:18:23', 1, 'Admin', 'Admin', '2019-11-06 10:34:46', '2019-11-06 10:29:49', 'Admin'),
-	(3, 1, '7 OF 2019', '<p>sss updated</p>\n', '2019-11-06 10:23:05', 1, 'Admin', 'Admin', '2019-11-06 10:34:46', '2019-11-06 10:29:49', 'Admin'),
-	(4, 1, '7 OF 2019', '<p>sss updated</p>\n', '2019-11-06 10:29:31', 1, 'Admin', 'Admin', '2019-11-06 10:34:46', '2019-11-06 10:29:49', 'Admin'),
-	(5, 2, '7 OF 2019', '<p>sss fff</p>\n', '2019-11-06 10:29:38', 1, 'Admin', 'Admin', '2019-11-06 15:11:05', '2019-11-06 10:31:23', 'Admin'),
-	(6, 1, '7 OF 2019', '<p>1</p>\n', '2019-11-06 10:31:35', 1, 'Admin', 'Admin', '2019-11-06 10:34:46', NULL, NULL),
-	(7, 1, '7 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n', '2019-11-06 15:10:54', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(8, 2, '7 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n', '2019-11-06 15:11:00', 1, 'Admin', 'Admin', '2019-11-06 15:11:05', NULL, NULL),
-	(9, 1, '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', '2019-11-11 11:58:13', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(10, 1, '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', '2019-11-15 14:00:53', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(11, 1, '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', '2019-11-15 14:01:17', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(12, 1, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:40:13', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(13, 2, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:40:20', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(14, 1, '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 12:15:57', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(15, 1, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:40:37', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(16, 2, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:40:41', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(17, 1, '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:42:44', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(18, 1, '29 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.&nbsp;</p>\n', '2019-11-22 14:12:44', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(19, 2, '29 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.&nbsp;</p>\n', '2019-11-22 14:12:49', 0, 'Admin', NULL, NULL, NULL, NULL),
-	(20, 3, '29 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.&nbsp;</p>\n', '2019-11-22 14:12:54', 0, 'Admin', NULL, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `decisionorders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.decisions
@@ -2412,29 +1757,22 @@ CREATE TABLE IF NOT EXISTS `decisions` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Backgroundinformation` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Backgroundinformation` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `DecisionSummary` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DecisionSummary` text COLLATE utf8mb4_unicode_ci,
+  `RequestforReview` text COLLATE utf8mb4_unicode_ci,
+  `ApprovalRemarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.decisions: ~8 rows (approximately)
+-- Dumping data for table arcm.decisions: ~0 rows (approximately)
 DELETE FROM `decisions`;
 /*!40000 ALTER TABLE `decisions` DISABLE KEYS */;
-INSERT INTO `decisions` (`ID`, `Status`, `ApplicationNo`, `Backgroundinformation`, `Created_At`, `Created_By`, `Deleted_By`, `Deleted_At`, `Updated_At`, `Updated_By`, `DecisionSummary`) VALUES
-	(9, 'Submited', '7 OF 2019', '<p>Cool Text is a&nbsp;<strong>FREE</strong>&nbsp;graphics generator for web pages and anywhere else you need an impressive logo without a lot of design work. Simply choose what kind of image you would like. Then fill out a form and you&#39;ll have your own custom image created on the fly.</p>\n', '2019-11-06 16:31:57', 'Admin', NULL, NULL, '2019-11-06 17:14:21', 'Admin', NULL),
-	(10, 'Submited', '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', '2019-11-11 11:57:37', 'Admin', NULL, NULL, NULL, NULL, NULL),
-	(11, 'Submited', '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', '2019-11-15 13:50:02', 'Admin', NULL, NULL, '2019-11-15 14:00:00', 'Admin', NULL),
-	(12, 'Submited', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla v</p>\n', '2019-11-16 17:39:20', 'Admin', NULL, NULL, '2019-11-17 11:00:01', 'Admin', '<p><em>Summary</em>&nbsp;of the&nbsp;<em>Decision</em>&nbsp;on the admissibility of the&nbsp;<em>case</em>&nbsp;against Mr Gaddafi. The Pre-Trial Chamber I of the International Criminal Court today issued its.Attention&nbsp;<strong>MINISTRY OF EDUCATION</strong>.<br />\nYour response for Application:&nbsp;<strong>12 OF 2019.</strong>&nbsp;has been received.You will be notified when hearing date will be set.<br />\nThis is computer generated message.Please do not reply.</p>\n'),
-	(13, 'Submited', '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 12:15:04', 'Admin', NULL, NULL, '2019-11-20 12:15:52', 'Admin', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n'),
-	(14, 'Submited', '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:31:42', 'Admin', NULL, NULL, '2019-11-20 16:40:31', 'Admin', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n'),
-	(15, 'Submited', '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Re-Scheduling Option: - To enable user re-schedule a hearing</strong></li>\n</ol>\n\n<ol>\n	<li><strong>When a New member of the Panel is added an option to Re-sent the Hearing Notice should be provided</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Attendance List &ndash; To include Organization and Designation</strong></li>\n</ol>\n\n<ol>\n	<li>Deadline for Submission of Documents :- Add Deadline for Submission of Documents (This can be added at the Approval of Application)</li>\n</ol>\n', '2019-11-21 18:41:15', 'Admin', NULL, NULL, '2019-11-21 18:42:35', 'Admin', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n\n<p>&nbsp;</p>\n\n<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n'),
-	(16, 'Submited', '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:08:46', 'Admin', NULL, NULL, '2019-11-22 14:12:35', 'Admin', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.&nbsp;</p>\n');
 /*!40000 ALTER TABLE `decisions` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.DeclineApplication
@@ -2447,13 +1785,13 @@ DECLARE lSaleDesc varchar(200);
  DROP TABLE IF EXISTS ApplicationApprovalContacts;
  create table ApplicationApprovalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Msg varchar(50),ApplicationNo varchar(50));
 
-set lSaleDesc= CONCAT(_Approver +' Declined Application: ',_ApplicationNo); 
+set lSaleDesc= CONCAT(' Declined Application: ',_ApplicationNo); 
 UPDATE applications_approval_workflow
 SET Status='Declined',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
 update applications set Status='DECLINED' where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
-  call ResolveMyNotification(_Approver,'Applications Approval');
+   update notifications set Status='Resolved' where Category='Applications Approval' and  ApplicationNo=_ApplicationNo;   
 
 select Created_By from applications where ApplicationNo=_ApplicationNo LIMIT 1 into @Applicant;
 insert into ApplicationApprovalContacts select Name,Email,Phone,'Applicant',_ApplicationNo from users where Username =@Applicant;
@@ -2467,16 +1805,18 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclinecaseAdjournment
 DROP PROCEDURE IF EXISTS `DeclinecaseAdjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclinecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `DeclinecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Adjournment for Application : ', _ApplicationNo); 
 Update adjournment set  DecisionDate= now(), Status='Declined', ApprovalRemarks =_ApprovalRemarks where ApplicationNo=_ApplicationNo;
-call Saveapplicationsequence(_ApplicationNo,'Declined Request for Adjournment','Awaiting Approval');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment'); 
+call Saveapplicationsequence(_ApplicationNo,'Declined Request for Adjournment','Awaiting Approval',_userID);
+     Update adjournmentApprovalWorkFlow set  DecisionDate= now(), Status='Declined', ApprovalRemarks =_ApprovalRemarks 
+      where ApplicationNo=_ApplicationNo  and Status='Pending Approval';
 
   call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-  call ResolveMyNotification(_userID,'Case Adjournment Approval');
+  
+    update notifications set Status='Resolved' where   Category='Case Adjournment Approval' and ApplicationNo=_ApplicationNo;
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
   insert into caseWithdrawalContacts select Name,Email,Phone from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
@@ -2497,14 +1837,14 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclinecaseWithdrawal
 DROP PROCEDURE IF EXISTS `DeclinecaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclinecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255),IN _userID varchar(50))
+CREATE  PROCEDURE `DeclinecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255),IN _userID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
 Update casewithdrawal set  DecisionDate= now(), Status='Declined', RejectionReason =_RejectionReason,Frivolous =0 where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
-call Saveapplicationsequence(_ApplicationNo,'Declined request for case withdrawal','  ');
-    call Resolveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal'); 
+call Saveapplicationsequence(_ApplicationNo,'Declined request for case withdrawal','  ',_userID);
+  update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
   insert into caseWithdrawalContacts select Name,Email,Phone from users where Username in (select UserName from panels where ApplicationNo=_ApplicationNo and Status='Approved' ) ;
@@ -2526,11 +1866,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclineDeadlineRequestExtension
 DROP PROCEDURE IF EXISTS `DeclineDeadlineRequestExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclineDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255))
+CREATE  PROCEDURE `DeclineDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
-set lSaleDesc= CONCAT(_Approver +' Declined Deadline Extension Request for Application:',_ApplicationNo); 
+set lSaleDesc= CONCAT(' Declined Deadline Extension Request for Application:',_ApplicationNo); 
 UPDATE deadlineapprovalworkflow
 SET Status='DECLINED',Approved_At=now(),Remarks=_Remarks
 WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
@@ -2539,11 +1879,28 @@ WHERE Approver=_Approver and ApplicationNo=_ApplicationNo;
 		WHERE Approver=_Approver and ApplicationNo=_ApplicationNo ; 
     update pedeadlineextensionsrequests SET Status='DECLINED'
 		WHERE ApplicationNo=_ApplicationNo ;
-	call ResolveMyNotification(_Approver,'Deadline Approval');
+ update notifications set Status='Resolved' where Category='Deadline Approval' and ApplicationNo=_ApplicationNo; 
  call SaveAuditTrail(_Approver,lSaleDesc,'Approval','0' );
   select PEID from deadlineapprovalworkflow WHERE Approver=_Approver and ApplicationNo=_ApplicationNo LIMIT 1 INTO @PEID;
   SELECT DueOn FROM  peresponsetimer  where ApplicationNo=_ApplicationNo AND PEID=@PEID LIMIT 1 into @requestedDeadline;
   select Name,Email,Mobile,@requestedDeadline as NewDeadline, 'DECLINED' as msg,_Remarks as Reason from procuremententity where PEID=@PEID;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Declinedecisiondocuments
+DROP PROCEDURE IF EXISTS `Declinedecisiondocuments`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Declinedecisiondocuments`(IN _ApplicationNo VARCHAR(50),IN _Remarks VARCHAR(255), IN _UserID VARCHAR(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Declined decision for application: ', _ApplicationNo); 
+  update decisions set Status='Draft',ApprovalRemarks=_Remarks where ApplicationNo=_ApplicationNo;
+  UPDATE applications set Status='HEARING IN PROGRESS'where ApplicationNo=_ApplicationNo;
+  call SaveAuditTrail(_UserID,lSaleDesc,'Approve','0' );
+   update notifications set Status='Resolved' where Category='Decision Approval';
+  select UserName from casedetails where ApplicationNo=_ApplicationNo and PrimaryOfficer=1 and Deleted=0 LIMIT 1 into @CaseOff;
+  select Name,Email,Phone,_ApplicationNo as ApplicationNo, _Remarks as Remarks from users where Username=@CaseOff;
+
 END//
 DELIMITER ;
 
@@ -2576,7 +1933,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deleteadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Deleteadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deleteadditionalsubmissions`(IN `_ApplicationID` INT,IN _userID varchar(50) )
+CREATE  PROCEDURE `Deleteadditionalsubmissions`(IN `_ApplicationID` INT,IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2589,7 +1946,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteadditionalsubmissionsDocument
 DROP PROCEDURE IF EXISTS `DeleteadditionalsubmissionsDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteadditionalsubmissionsDocument`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
+CREATE  PROCEDURE `DeleteadditionalsubmissionsDocument`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2602,7 +1959,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteadjournmentDocuments
 DROP PROCEDURE IF EXISTS `DeleteadjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteadjournmentDocuments`(IN _File VARCHAR(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `DeleteadjournmentDocuments`(IN _File VARCHAR(50),IN _UserID varchar(50))
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2661,7 +2018,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteAttachments
 DROP PROCEDURE IF EXISTS `DeleteAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAttachments`(IN _Name VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteAttachments`(IN _Name VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted hearing attachment:',_Name); 
@@ -2676,9 +2033,11 @@ DELIMITER //
 CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `DeleteBank`( IN _ID INT,  IN _userID VARCHAR(50))
     NO SQL
 BEGIN
-
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Deleted Bank: '+ _ID ); 
 Update banks set Deleted=1,Delete_By=_userID,Deleted_At=NOW() WHERE ID=_ID;
 call SaveAuditTrail(_userID,'Deleted bank Account','Add','0' );
+  call SaveAuditTrail(_userID,lSaleDesc,'DELETE','0' );
 END//
 DELIMITER ;
 
@@ -2698,7 +2057,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deletecaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `Deletecaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletecaseanalysisdocuments`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
+CREATE  PROCEDURE `Deletecaseanalysisdocuments`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2727,7 +2086,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteCaseOfficers
 DROP PROCEDURE IF EXISTS `DeleteCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteCaseOfficers`(IN _Username VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteCaseOfficers`(IN _Username VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted Case Officer: ',_Username); 
@@ -2851,7 +2210,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteInterestedParty
 DROP PROCEDURE IF EXISTS `DeleteInterestedParty`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteInterestedParty`(IN _ID INT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteInterestedParty`(IN _ID INT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -2874,10 +2233,34 @@ call SaveAuditTrail(_userID,lSaleDesc,'Delete','0' );
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.Deletejrcontactusers
+DROP PROCEDURE IF EXISTS `Deletejrcontactusers`;
+DELIMITER //
+CREATE  PROCEDURE `Deletejrcontactusers`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Deleted jruser:',_UserName); 
+  Update jrcontactusers set Deleted=1 where ApplicationNO=_ApplicationNO and jrcontactusers.UserName=_UserName;
+  call SaveAuditTrail(_UserID,lSaleDesc,'Add','0');
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.DeletejrInterestedparty
+DROP PROCEDURE IF EXISTS `DeletejrInterestedparty`;
+DELIMITER //
+CREATE  PROCEDURE `DeletejrInterestedparty`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Deleted jrInterested Party:',_UserName); 
+  Update jrinterestedparties set Deleted=1 where ApplicationNO=_ApplicationNO and jrinterestedparties.Name=_UserName;
+  call SaveAuditTrail(_UserID,lSaleDesc,'Add','0');
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.DeleteJudicialDocument
 DROP PROCEDURE IF EXISTS `DeleteJudicialDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteJudicialDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteJudicialDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -2946,7 +2329,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeletePEResponseDocument
 DROP PROCEDURE IF EXISTS `DeletePEResponseDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeletePEResponseDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeletePEResponseDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -2959,7 +2342,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteRole
 DROP PROCEDURE IF EXISTS `DeleteRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteRole`(IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteRole`(IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -3003,7 +2386,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deleteuser
 DROP PROCEDURE IF EXISTS `Deleteuser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deleteuser`(IN `_UserName` VARCHAR(50), IN `_UserID` VARCHAR(20))
+CREATE  PROCEDURE `Deleteuser`(IN `_UserName` VARCHAR(50), IN `_UserID` VARCHAR(20))
     NO SQL
 BEGIN
 
@@ -3018,7 +2401,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteuserGroup
 DROP PROCEDURE IF EXISTS `DeleteuserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteuserGroup`(IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteuserGroup`(IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -3031,7 +2414,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deletevenues
 DROP PROCEDURE IF EXISTS `Deletevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletevenues`(IN _ID int,IN _UserID varchar(50))
+CREATE  PROCEDURE `Deletevenues`(IN _ID int,IN _UserID varchar(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Deleted  Venue with ID: ', _ID); 
@@ -3152,37 +2535,11 @@ CREATE TABLE IF NOT EXISTS `feesapprovalworkflow` (
   `DateApproved` datetime NOT NULL,
   `Category` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=910;
 
--- Dumping data for table arcm.feesapprovalworkflow: ~25 rows (approximately)
+-- Dumping data for table arcm.feesapprovalworkflow: ~0 rows (approximately)
 DELETE FROM `feesapprovalworkflow`;
 /*!40000 ALTER TABLE `feesapprovalworkflow` DISABLE KEYS */;
-INSERT INTO `feesapprovalworkflow` (`ID`, `ApplicationID`, `Amount`, `RefNo`, `Status`, `ApprovedBy`, `DateApproved`, `Category`) VALUES
-	(1, 1, 28800, '12344545', 'Approved', 'Admin', '2019-11-11 16:12:40', 'ApplicationFees'),
-	(2, 1, 28800, '12334444', 'Approved', 'CASEOFFICER01', '2019-11-11 16:15:44', 'ApplicationFees'),
-	(3, 5, 15000, '12344545', 'Approved', 'Admin', '2019-11-12 11:39:40', 'ApplicationFees'),
-	(4, 5, 15000, '12344545', 'Approved', 'PPRA01', '2019-11-12 11:42:37', 'ApplicationFees'),
-	(5, 6, 26000, '12344545', 'Approved', 'Admin', '2019-11-12 15:54:11', 'ApplicationFees'),
-	(6, 6, 26000, '12344545', 'Approved', 'PPRA01', '2019-11-12 15:55:25', 'ApplicationFees'),
-	(7, 7, 45000, '12344545', 'Approved', 'Admin', '2019-11-12 17:00:55', 'ApplicationFees'),
-	(8, 7, 5000, '5000', 'Approved', 'Admin', '2019-11-12 17:32:57', 'PreliminaryObjectionFees'),
-	(9, 10, 75000, '12344545', 'Approved', 'Admin', '2019-11-13 11:28:09', 'ApplicationFees'),
-	(10, 10, 75000, '12344545', 'Approved', 'Admin', '2019-11-13 11:32:12', 'ApplicationFees'),
-	(11, 10, 5000, '12344545', 'Approved', 'Admin', '2019-11-13 12:26:37', 'PreliminaryObjectionFees'),
-	(12, 15, 5000, 'Reff123', 'Approved', 'Admin', '2019-11-13 17:31:36', 'ApplicationFees'),
-	(13, 14, 5000, 'Reff123', 'Approved', 'Admin', '2019-11-13 17:49:50', 'ApplicationFees'),
-	(14, 15, 10000, 'Reff123', 'Approved', 'Admin', '2019-11-13 18:38:25', 'PreliminaryObjectionFees'),
-	(15, 16, 25000, 'Reff123', 'Approved', 'Admin', '2019-11-14 14:48:40', 'ApplicationFees'),
-	(16, 16, 25000, 'Reff123', 'Approved', 'Admin', '2019-11-14 14:48:40', 'ApplicationFees'),
-	(17, 17, 310500, 'ARB0001/19', 'Approved', 'Pokumu', '2019-11-15 11:17:24', 'ApplicationFees'),
-	(18, 18, 15000, 'Reff123', 'Approved', 'Admin', '2019-11-15 11:51:56', 'ApplicationFees'),
-	(19, 23, 73000, 'Reff123', 'Approved', 'Admin', '2019-11-20 14:53:32', 'ApplicationFees'),
-	(20, 23, 6000, 'Reff123', 'Approved', 'Admin', '2019-11-20 15:32:26', 'PreliminaryObjectionFees'),
-	(21, 25, 15000, 'Confirmed REF 0001', 'Approved', 'admin', '2019-11-21 14:35:14', 'ApplicationFees'),
-	(22, 26, 205000, '1574354278238-PAYMENT SLIP.pdf', 'Approved', 'admin', '2019-11-21 16:55:24', 'ApplicationFees'),
-	(23, 27, 25000, 'REF123', 'Approved', 'Admin', '2019-11-21 21:25:10', 'ApplicationFees'),
-	(24, 28, 15000, 'REF123', 'Approved', 'Admin', '2019-11-21 21:43:39', 'ApplicationFees'),
-	(25, 30, 205000, 'REF00001', 'Approved', 'Admin', '2019-11-22 11:40:43', 'ApplicationFees');
 /*!40000 ALTER TABLE `feesapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.feescomputations
@@ -3209,11 +2566,11 @@ CREATE TABLE IF NOT EXISTS `feesstructure` (
   `TenderType` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `MinAmount` float NOT NULL DEFAULT 0,
-  `MaxAmount` float NOT NULL DEFAULT 0,
-  `Rate1` float NOT NULL DEFAULT 1,
-  `MinFee` float NOT NULL DEFAULT 0,
-  `MaxFee` float NOT NULL DEFAULT 0,
+  `MinAmount` float NOT NULL DEFAULT '0',
+  `MaxAmount` float NOT NULL DEFAULT '0',
+  `Rate1` float NOT NULL DEFAULT '1',
+  `MinFee` float NOT NULL DEFAULT '0',
+  `MaxFee` float NOT NULL DEFAULT '0',
   `Refundable` tinyint(1) DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3262,30 +2619,17 @@ CREATE TABLE IF NOT EXISTS `financialyear` (
   PRIMARY KEY (`ID`,`Code`),
   KEY `financialyear_ibfk_1` (`Created_By`),
   KEY `financialyear_ibfk_2` (`Updated_By`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.financialyear: ~12 rows (approximately)
+-- Dumping data for table arcm.financialyear: ~0 rows (approximately)
 DELETE FROM `financialyear`;
 /*!40000 ALTER TABLE `financialyear` DISABLE KEYS */;
-INSERT INTO `financialyear` (`ID`, `Code`, `StartDate`, `EndDate`, `IsCurrentYear`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`) VALUES
-	(1, 2019, '2019-01-01 00:00:00', '2019-12-31 00:00:00', 1, 'Admin', '2019-08-06 12:11:28', '2019-11-21 10:46:27', '', 0, NULL, NULL),
-	(2, 2020, '2019-08-01 00:00:00', '2020-07-31 00:00:00', 0, 'Admin', '2019-08-06 12:11:55', '2019-08-27 17:13:02', '', 0, NULL, NULL),
-	(3, 2021, '2019-08-02 00:00:00', '2020-07-31 00:00:00', 0, 'Admin', '2019-08-06 12:12:10', '2019-08-06 12:18:23', '', 0, NULL, NULL),
-	(4, 2022, '2022-01-01 00:00:00', '2022-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:46:05', '2019-11-21 10:46:20', '', 0, NULL, NULL),
-	(5, 2023, '2023-01-01 00:00:00', '2023-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:47:01', NULL, NULL, 0, NULL, NULL),
-	(6, 2024, '2024-01-01 00:00:00', '2024-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:47:19', NULL, NULL, 0, NULL, NULL),
-	(7, 2025, '2025-01-01 00:00:00', '2025-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:47:38', NULL, NULL, 0, NULL, NULL),
-	(8, 2026, '2026-01-01 00:00:00', '2026-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:47:55', NULL, NULL, 0, NULL, NULL),
-	(9, 2027, '2027-01-01 00:00:00', '2027-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:48:25', NULL, NULL, 0, NULL, NULL),
-	(10, 2028, '2028-01-01 00:00:00', '2028-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:48:39', NULL, NULL, 0, NULL, NULL),
-	(11, 2029, '2029-01-01 00:00:00', '2029-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:48:53', NULL, NULL, 0, NULL, NULL),
-	(12, 2030, '2030-01-01 00:00:00', '2030-12-31 00:00:00', 0, 'Admin', '2019-11-21 10:49:04', NULL, NULL, 0, NULL, NULL);
 /*!40000 ALTER TABLE `financialyear` ENABLE KEYS */;
 
 -- Dumping structure for function arcm.FindCaseOfficer
 DROP FUNCTION IF EXISTS `FindCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` FUNCTION `FindCaseOfficer`(_ApplicationNo Varchar(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
+CREATE  FUNCTION `FindCaseOfficer`(_ApplicationNo Varchar(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
     DETERMINISTIC
 BEGIN
 DECLARE TenderID int;
@@ -3307,7 +2651,7 @@ CREATE TABLE IF NOT EXISTS `findingsonissues` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NO` int(11) DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `Actions` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
@@ -3315,32 +2659,94 @@ CREATE TABLE IF NOT EXISTS `findingsonissues` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.findingsonissues: ~14 rows (approximately)
+-- Dumping data for table arcm.findingsonissues: ~0 rows (approximately)
 DELETE FROM `findingsonissues`;
 /*!40000 ALTER TABLE `findingsonissues` DISABLE KEYS */;
-INSERT INTO `findingsonissues` (`ID`, `NO`, `ApplicationNo`, `Description`, `Actions`, `Created_At`, `Deleted`, `Created_By`, `Deleted_By`, `Deleted_At`) VALUES
-	(1, 1, '7 OF 2019', '<p>Updated</p>\n', 'Allowed', '2019-11-05 17:57:49', 1, 'Admin', NULL, NULL),
-	(2, 1, '7 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n', 'Allowed', '2019-11-06 15:10:41', 0, 'Admin', NULL, NULL),
-	(3, 2, '7 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n', 'Not Allowed', '2019-11-06 15:10:46', 0, 'Admin', NULL, NULL),
-	(4, 1, '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', 'Allowed', '2019-11-11 11:58:00', 0, 'Admin', NULL, NULL),
-	(5, 2, '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', 'Not Allowed', '2019-11-11 11:58:05', 0, 'Admin', NULL, NULL),
-	(6, 1, '18 OF 2019', '<p>Alowed</p>\n', 'Allowed', '2019-11-15 13:52:20', 0, 'Admin', NULL, NULL),
-	(7, 1, '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', 'Allowed', '2019-11-15 14:00:38', 0, 'Admin', NULL, NULL),
-	(8, 1, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', NULL, '2019-11-16 15:13:44', 0, 'Admin', NULL, NULL),
-	(9, 2, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', NULL, '2019-11-16 15:40:32', 0, 'Admin', NULL, NULL),
-	(10, 1, '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', NULL, '2019-11-20 12:15:47', 0, 'Admin', NULL, NULL),
-	(11, 1, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', NULL, '2019-11-20 16:40:11', 0, 'Admin', NULL, NULL),
-	(12, 1, '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', NULL, '2019-11-21 18:42:24', 0, 'Admin', NULL, NULL),
-	(13, 1, '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', NULL, '2019-11-22 14:11:46', 0, 'Admin', NULL, NULL),
-	(14, 2, '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', NULL, '2019-11-22 14:11:51', 0, 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `findingsonissues` ENABLE KEYS */;
+
+-- Dumping structure for procedure arcm.GenerateApplicationFeesReport
+DROP PROCEDURE IF EXISTS `GenerateApplicationFeesReport`;
+DELIMITER //
+CREATE  PROCEDURE `GenerateApplicationFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
+BEGIN
+if(_All=1) THEn
+Begin
+select SUM(AmountDue)   from applicationfees where FeesStatus='Approved' and applicationfees.Deleted=0 into @Total;
+select SUM(AmountDue) as Ampount, @Total as Total,applications.ApplicationNo,applicants.Name as Applicant,
+  DATE_FORMAT(applicationfees.BillDate,'%d-%m-%Y') as BillDate,DATE_FORMAT(applicationfees.DateApproved,'%d-%m-%Y')as DateApproved ,
+  users.Name as ApprovedBy
+  from applicationfees 
+  inner join applications on ApplicationID=applications.ID 
+  inner join applicants on applicants.ID=applications.ApplicantID
+  inner join users on users.Username=applicationfees.ApprovedBy
+  where FeesStatus='Approved' and applicationfees.Deleted =0 GROUP BY applications.ApplicationNo;
+  ENd;
+Else
+Begin
+select SUM(AmountDue)   from applicationfees where FeesStatus='Approved' and applicationfees.Deleted=0 and
+CAST(applicationfees.BillDate AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE) into @Total;
+select SUM(AmountDue) as Ampount,@Total as Total,applications.ApplicationNo,applicants.Name as Applicant,
+   DATE_FORMAT(applicationfees.BillDate,'%d-%m-%Y') as BillDate,DATE_FORMAT(applicationfees.DateApproved,'%d-%m-%Y')as DateApproved ,
+  users.Name as ApprovedBy
+  from applicationfees 
+  inner join applications on ApplicationID=applications.ID 
+  inner join applicants on applicants.ID=applications.ApplicantID
+  inner join users on users.Username=applicationfees.ApprovedBy
+  where FeesStatus='Approved' and applicationfees.Deleted=0 and
+CAST(applicationfees.BillDate AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  
+ GROUP BY applications.ApplicationNo;
+
+   End;
+End if;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.GeneratePreliminaryFeesReport
+DROP PROCEDURE IF EXISTS `GeneratePreliminaryFeesReport`;
+DELIMITER //
+CREATE  PROCEDURE `GeneratePreliminaryFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
+BEGIN
+if(_All=1) THEn
+Begin
+select sum(AmountPaid) from  paymentdetails where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' ) into @Total;
+select SUM(AmountPaid) as Amount,@Total as Total, applications.ApplicationNo,paymentdetails.Paidby,
+  DATE_FORMAT(paymentdetails.DateOfpayment,'%d-%m-%Y') as DateOfpayment
+  from paymentdetails 
+  inner join applications on applications.ID=paymentdetails.ApplicationID
+  where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )
+  GROUP BY paymentdetails.ApplicationID;
+
+  ENd;
+Else
+Begin
+select sum(AmountPaid) from  paymentdetails where paymentdetails.Category='PreliminaryObjectionsFees' and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )  
+and 
+  CAST(paymentdetails.DateOfpayment AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)
+    into @Total;
+
+select SUM(AmountPaid) as Amount ,@Total as Total, applications.ApplicationNo,paymentdetails.Paidby,
+  DATE_FORMAT(paymentdetails.DateOfpayment,'%d-%m-%Y') as DateOfpayment
+  from paymentdetails 
+  inner join applications on applications.ID=paymentdetails.ApplicationID
+  where paymentdetails.Category='PreliminaryObjectionsFees'and 
+  CAST(paymentdetails.DateOfpayment AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  
+  and paymentdetails.ApplicationID in 
+  (select ApplicationID from feesapprovalworkflow where Category='PreliminaryObjectionFees' and Status='Approved' )
+  GROUP BY paymentdetails.ApplicationID;
+   End;
+End if;
+END//
+DELIMITER ;
 
 -- Dumping structure for procedure arcm.Generaterequesthandled
 DROP PROCEDURE IF EXISTS `Generaterequesthandled`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Generaterequesthandled`(IN _FromDate DATE, IN _ToDate DATE, IN _All BOOLEAN)
+CREATE  PROCEDURE `Generaterequesthandled`(IN _FromDate DATE, IN _ToDate DATE, IN _All BOOLEAN)
 BEGIN
   if(_All=1) Then
     Begin
@@ -3370,7 +2776,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Getadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getadditionalsubmissions`(IN _ApplicationID INT)
+CREATE  PROCEDURE `Getadditionalsubmissions`(IN _ApplicationID INT)
 BEGIN
 
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,
@@ -3385,7 +2791,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadditionalsubmissionsDocuments
 DROP PROCEDURE IF EXISTS `GetadditionalsubmissionsDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadditionalsubmissionsDocuments`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetadditionalsubmissionsDocuments`(IN _ApplicationID INT)
 BEGIN
 
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,
@@ -3401,7 +2807,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadditionalsubmissionsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetadditionalsubmissionsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadditionalsubmissionsPerApplicationNo`(IN `_ApplicationID` varchar(50))
+CREATE  PROCEDURE `GetadditionalsubmissionsPerApplicationNo`(IN `_ApplicationID` varchar(50))
 BEGIN
 select ID from applications where ApplicationNo=_ApplicationID LIMIT 1 into @Application;
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,  Category,
@@ -3414,7 +2820,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAdjournmentDocuments
 DROP PROCEDURE IF EXISTS `GetAdjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAdjournmentDocuments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetAdjournmentDocuments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select  ApplicationNo, Description,Path ,Filename from adjournmentdocuments where Deleted=0 and ApplicationNo=_ApplicationNo;
 END//
@@ -3423,16 +2829,19 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadjournmentPendingApproval
 DROP PROCEDURE IF EXISTS `GetadjournmentPendingApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
-select * from adjournment where Approver=_UserID and Status='Pending Approval';
+select * from adjournment where _UserID 
+  in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) and 
+  ApplicationNo not in (Select ApplicationNo from adjournmentApprovalWorkFlow where Status='Approved'  and Approver=_UserID)  
+  and Status='Pending Approval';
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.GetAllCaseDetails
 DROP PROCEDURE IF EXISTS `GetAllCaseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCaseDetails`()
+CREATE  PROCEDURE `GetAllCaseDetails`()
 BEGIN
 SELECT DISTINCT casedetails.UserName,users.Name, casedetails.ApplicationNo, casedetails.DateAsigned, casedetails.Status, casedetails.PrimaryOfficer, casedetails.ReassignedTo,
   casedetails.DateReasigned, casedetails.Reason
@@ -3443,7 +2852,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllCaseOfficers
 DROP PROCEDURE IF EXISTS `GetAllCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCaseOfficers`()
+CREATE  PROCEDURE `GetAllCaseOfficers`()
 BEGIN
 SELECT caseofficers.ID, caseofficers.Username,users.Name, `MinValue`, MaximumValue , caseofficers.Active, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, caseofficers.Create_at FROM `caseofficers`
   inner join users on users.Username=caseofficers.Username WHERE  caseofficers.Deleted=0 order by caseofficers.OngoingCases ASC;
@@ -3453,7 +2862,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllcasesittingsregister
 DROP PROCEDURE IF EXISTS `getAllcasesittingsregister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllcasesittingsregister`()
+CREATE  PROCEDURE `getAllcasesittingsregister`()
 BEGIN
 select * from attendanceregister;
 END//
@@ -3488,13 +2897,13 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllHearingInProgressApplications
 DROP PROCEDURE IF EXISTS `GetAllHearingInProgressApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllHearingInProgressApplications`()
+CREATE  PROCEDURE `GetAllHearingInProgressApplications`()
 BEGIN
 SELECT applications.ID,ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
   procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   
-  `FilingDate`, `ApplicationREf`, `ApplicationNo`, `Status`,AwardDate,TenderCategory,TenderSubCategory,tendertypes.Description as TenderType,
+  `FilingDate`, `ApplicationREf`,  `Status`,AwardDate,TenderCategory,TenderSubCategory,tendertypes.Description as TenderType,
     applications.DecisionDate ,
   applications.Followup ,
   applications.Referral ,
@@ -3519,7 +2928,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllinterestedparties
 DROP PROCEDURE IF EXISTS `getAllinterestedparties`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllinterestedparties`()
+CREATE  PROCEDURE `getAllinterestedparties`()
 BEGIN
  Select  ID,Name,ApplicationID,ContactName ,Email,TelePhone,Mobile,PhysicalAddress,PostalCode,Town,POBox,Designation
   from interestedparties where Deleted=0;
@@ -3529,7 +2938,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllPEResponse
 DROP PROCEDURE IF EXISTS `getAllPEResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllPEResponse`()
+CREATE  PROCEDURE `getAllPEResponse`()
 BEGIN
 
 select applications.ID, peresponse.ID as ResponseID, peresponse.ApplicationNo,peresponse.ResponseType,peresponse.ResponseDate,tenders.TenderNo,tenders.Name ,tenders.TenderValue as TenderValue
@@ -3544,19 +2953,34 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllSubmitedDecisions
 DROP PROCEDURE IF EXISTS `GetAllSubmitedDecisions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllSubmitedDecisions`()
+CREATE  PROCEDURE `GetAllSubmitedDecisions`()
 BEGIN
-SELECT applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
+
+  SELECT applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
-  procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,
-  procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+  procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   
-  `FilingDate`, `ApplicationREf`, AwardDate,TenderCategory,TenderSubCategory,tendertypes.Description as TenderType,
-    applications.DecisionDate 
+  `FilingDate`, `ApplicationREf`,  decisions.Status,AwardDate,TenderCategory,TenderSubCategory,tendertypes.Description as TenderType,
+    applications.DecisionDate ,
+  applications.Followup ,
+  applications.Referral ,
+ 
+  applications.Closed
+   ,
+  applications.Annulled,
+  applications.GiveDirection,
+  applications.ISTerminated,
+  applications.ReTender,
+  applications.CostsPE,
+  applications.CostsEachParty,
+  applications.CostsApplicant,
+  applications.Substitution
   FROM `applications` inner join procuremententity on procuremententity.PEID=applications.PEID inner join tenders on tenders.ID=applications.TenderID
   inner join tendertypes on tendertypes.Code=tenders.TenderType
-  
-  WHERE applications.Deleted=0 and applications.ApplicationNo in (select DISTINCT ApplicationNo from decisiondocuments where Status='Draft' and Deleted=0 )  ORDER by applications.Created_At DESC;
+    inner join decisions on decisions.ApplicationNo=applications.ApplicationNo
+  WHERE applications.Deleted=0 and decisions.Status='Pending Approval' ORDER by applications.Created_At DESC;
+
+
 END//
 DELIMITER ;
 
@@ -3597,7 +3021,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllVenueBookings
 DROP PROCEDURE IF EXISTS `GetAllVenueBookings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllVenueBookings`()
+CREATE  PROCEDURE `GetAllVenueBookings`()
 BEGIN
 select ID,VenueID,DATE_FORMAT(Date, "%Y-%m-%d") as Date ,Slot,Booked_By,Content,Booked_On from venuebookings where Deleted=0;
 END//
@@ -3606,10 +3030,10 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllvenues
 DROP PROCEDURE IF EXISTS `GetAllvenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllvenues`()
+CREATE  PROCEDURE `GetAllvenues`()
 BEGIN
  
-  Select Venues.ID,Branches.Description as Branch,  Venues.Name,Venues.Description from Venues inner join Branches on Branches.ID=Venues.Branch where Venues.deleted=0;
+  Select venues.ID,branches.Description as Branch,  venues.Name,venues.Description from venues  inner join branches on branches.ID=venues.Branch where venues.deleted=0;
 
 END//
 DELIMITER ;
@@ -3617,7 +3041,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicantPerApplicationno
 DROP PROCEDURE IF EXISTS `GetApplicantPerApplicationno`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicantPerApplicationno`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicantPerApplicationno`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select ApplicantID from applications where ApplicationNo=_ApplicationNo limit 1 into @ApplicantID;
   
@@ -3640,7 +3064,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationDecisionsBackgroundinformation
 DROP PROCEDURE IF EXISTS `GetApplicationDecisionsBackgroundinformation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationDecisionsBackgroundinformation`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationDecisionsBackgroundinformation`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select * from decisions where ApplicationNo=_ApplicationNo;
 END//
@@ -3673,7 +3097,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationForHearing
 DROP PROCEDURE IF EXISTS `GetApplicationForHearing`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationForHearing`()
+CREATE  PROCEDURE `GetApplicationForHearing`()
 BEGIN
 select DISTINCT venues.Name as VenueName,venues.Description as venuesDescription,branches.Description as BranchName ,venuebookings.VenueID, 
   date(venuebookings.Date),applications.ApplicationNo 
@@ -3700,7 +3124,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationGroundsOnly
 DROP PROCEDURE IF EXISTS `GetApplicationGroundsOnly`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationGroundsOnly`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationGroundsOnly`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select * FROM groundsandrequestedorders
 WHERE Deleted=0 and ApplicationID in (select ID from applications where ApplicationNo=_ApplicationNo) and EntryType='Grounds for Appeal';
@@ -3710,7 +3134,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationPaymentDetails
 DROP PROCEDURE IF EXISTS `GetApplicationPaymentDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationPaymentDetails`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetApplicationPaymentDetails`(IN _ApplicationID INT)
 BEGIN
 select sum(AmountPaid) from paymentdetails WHERE ApplicationID=_ApplicationID and Category='Applicationfees' into @Total;
   select  @Total  as TotalPaid,paymentdetails.ApplicationID,paymentdetails.Paidby,paymentdetails.Refference,paymentdetails.DateOfpayment,paymentdetails.AmountPaid,
@@ -3725,7 +3149,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationRequestsOnly
 DROP PROCEDURE IF EXISTS `GetApplicationRequestsOnly`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationRequestsOnly`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationRequestsOnly`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select * FROM groundsandrequestedorders
 WHERE Deleted=0 and ApplicationID in (select ID from applications where ApplicationNo=_ApplicationNo) and EntryType='Requested Orders';
@@ -3745,21 +3169,21 @@ SELECT users.Name as caseOfficer, applications.ID,applications.ApplicationNo ,Te
   procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
   TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
   
-  `FilingDate`, `ApplicationREf`, applications.ApplicationNo, applications.Status,AwardDate,applications.ClosingDate
+  `FilingDate`, `ApplicationREf`,  applications.Status,AwardDate,applications.ClosingDate
   FROM `applications`
   inner join procuremententity on applications.PEID=procuremententity.PEID
   inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
   inner join tenders on applications.TenderID=tenders.ID
   inner join tendertypes on tenders.TenderType=tendertypes.Code
   inner join users on users.Username=casedetails.UserName
-  WHERE applications.Deleted=0  ORDER by applications.Created_At DESC;
+  WHERE applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
 End//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.GetApplicationsforDecision
 DROP PROCEDURE IF EXISTS `GetApplicationsforDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsforDecision`(IN _userName varchar(50))
+CREATE  PROCEDURE `GetApplicationsforDecision`(IN _userName varchar(50))
 BEGIN
 
   
@@ -3788,7 +3212,7 @@ Begin
     FROM `applications` inner join procuremententity on procuremententity.PEID=applications.PEID inner join tenders on tenders.ID=applications.TenderID
     inner join tendertypes on tendertypes.Code=tenders.TenderType
     WHERE  applications.ApplicationNo  in
-    (select ApplicationNo from decisions where Status='Submited')
+    (select ApplicationNo from decisions where Status='Approved')
       and (applications.Created_By=_userName 
   or applications.ID in (select  ApplicationID from interestedparties where Email=@Email))     
     ORDER by applications.Created_At DESC;
@@ -3818,7 +3242,7 @@ Begin
       FROM `applications` inner join procuremententity on procuremententity.PEID=applications.PEID inner join tenders on tenders.ID=applications.TenderID
       inner join tendertypes on tendertypes.Code=tenders.TenderType
       WHERE  applications.ApplicationNo  in
-      (select ApplicationNo from decisions where Status='Submited') and applications.PEID=@PEID ORDER by applications.Created_At DESC;
+      (select ApplicationNo from decisions where Status='Approved') and applications.PEID=@PEID ORDER by applications.Created_At DESC;
   End;
   End if;
 
@@ -3845,7 +3269,7 @@ Begin
     FROM `applications` inner join procuremententity on procuremententity.PEID=applications.PEID inner join tenders on tenders.ID=applications.TenderID
     inner join tendertypes on tendertypes.Code=tenders.TenderType
     WHERE  applications.ApplicationNo  in
-    (select ApplicationNo from decisions where Status='Submited') ORDER by applications.Created_At DESC;
+    (select ApplicationNo from decisions where Status='Approved') ORDER by applications.Created_At DESC;
   End;
   End if;
 
@@ -3857,7 +3281,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationsForEachPE
 DROP PROCEDURE IF EXISTS `GetApplicationsForEachPE`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsForEachPE`(IN _LoggedInuser VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationsForEachPE`(IN _LoggedInuser VARCHAR(50))
 BEGIN
 Select PEID from peusers where UserName=_LoggedInuser LIMIT 1 into @PEID;
 SELECT applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
@@ -3921,7 +3345,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationsHeard
 DROP PROCEDURE IF EXISTS `GetApplicationsHeard`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsHeard`()
+CREATE  PROCEDURE `GetApplicationsHeard`()
 BEGIN
 Select DISTINCT casesittingsregister.ApplicationNo,applications.PEID,procuremententity.Name from casesittingsregister inner JOIN applications on applications.ApplicationNo=casesittingsregister.ApplicationNo
   inner JOIN procuremententity on applications.PEID=procuremententity.PEID;
@@ -3956,7 +3380,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApprovalModules
 DROP PROCEDURE IF EXISTS `GetApprovalModules`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApprovalModules`()
+CREATE  PROCEDURE `GetApprovalModules`()
     NO SQL
 BEGIN
 SELECT * from approvalmodules;
@@ -3967,7 +3391,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApproverDetails
 DROP PROCEDURE IF EXISTS `GetApproverDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApproverDetails`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApproverDetails`(IN _ApplicationNo VARCHAR(50))
 BEGIN
  -- SELECT Username from approvers where ModuleCode='PAYMT' and Deleted=0 and Active=1 and level=1 LIMIT 1 into @Approver;
   select Phone as ApproversPhone,Email as ApproversMail from users where Username in 
@@ -3992,7 +3416,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAttendanceRegister
 DROP PROCEDURE IF EXISTS `GetAttendanceRegister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAttendanceRegister`(IN _RegisterID int)
+CREATE  PROCEDURE `GetAttendanceRegister`(IN _RegisterID int)
 BEGIN
 SET @row_number = 0; 
 select (@row_number:=@row_number + 1) AS ID,RegisterID,IDNO,MobileNo,Name,Email,Category,FirmFrom,Designation from attendanceregister where RegisterID=_RegisterID order BY ID ASC;
@@ -4002,7 +3426,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAuditrails
 DROP PROCEDURE IF EXISTS `getAuditrails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAuditrails`()
+CREATE  PROCEDURE `getAuditrails`()
     NO SQL
 SELECT `AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress` FROM `audittrails`//
 DELIMITER ;
@@ -4010,7 +3434,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getbanks
 DROP PROCEDURE IF EXISTS `Getbanks`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getbanks`()
+CREATE  PROCEDURE `Getbanks`()
 BEGIN
 Select  
   ID,
@@ -4067,7 +3491,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getcaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `getcaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getcaseanalysisdocuments`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `getcaseanalysisdocuments`(IN _ApplicationNo varchar(50))
 BEGIN
 
 
@@ -4082,7 +3506,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetCaseProceedings
 DROP PROCEDURE IF EXISTS `GetCaseProceedings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetCaseProceedings`()
+CREATE  PROCEDURE `GetCaseProceedings`()
 BEGIN
 SELECT applications.ID,ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
@@ -4099,10 +3523,10 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getCaseWithdrawalPendingApproval
 DROP PROCEDURE IF EXISTS `getCaseWithdrawalPendingApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getCaseWithdrawalPendingApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `getCaseWithdrawalPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
-select * from CaseWithdrawal where _UserID in (select Username from approvers WHERE ModuleCode='WIOAP' and Deleted=0 and Active=1)
-  and CaseWithdrawal.ApplicationNo not in (select ApplicationNo from casewithdrawalapprovalworkflow where Approver=_UserID )
+select * from caseWithdrawal where _UserID in (select Username from approvers WHERE ModuleCode='WIOAP' and Deleted=0 and Active=1)
+  and caseWithdrawal.ApplicationNo not in (select ApplicationNo from casewithdrawalapprovalworkflow where Approver=_UserID )
   and status='Pending Approval';
 END//
 DELIMITER ;
@@ -4110,7 +3534,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetClosedApplicationsForDecisionUploads
 DROP PROCEDURE IF EXISTS `GetClosedApplicationsForDecisionUploads`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClosedApplicationsForDecisionUploads`()
+CREATE  PROCEDURE `GetClosedApplicationsForDecisionUploads`()
 BEGIN
 select * from applications where Closed=1 and applications.ApplicationNo Not in (select DISTINCT ApplicationNo from decisiondocuments where Status='Approved' and Deleted=0 );
 END//
@@ -4147,10 +3571,194 @@ SELECT `ID`, `Code`, `Name` FROM `counties` WHERE Deleted=0;
 End//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.getCustomReport
+DROP PROCEDURE IF EXISTS `getCustomReport`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `getCustomReport`(IN _Status VARCHAR(50), IN _FromDate DATE, IN _ToDate DATE, IN _AllDates BOOLEAN)
+    NO SQL
+BEGIN
+
+  if(_AllDates=1) THEN
+  Begin
+      if(_Status='Closed') THEN
+      Begin
+          SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate ,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and applications.Status='Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+      ENd;   
+      End if;
+      if(_Status='Withdrawn') THEN
+      Begin
+        SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate , `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and applications.Status='WITHDRAWN' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      ENd  ;   
+      End if;
+       if(_Status='Pending Determination') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0  and applications.Status<>'WITHDRAWN' and applications.Status<>'Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+      
+       if(_Status='All') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(FilingDate, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+  ENd;
+  Else
+  Begin
+   if(_Status='Closed') THEN
+      Begin
+          SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and applications.Deleted=0 and applications.Status='Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+      ENd;   
+      End if;
+      if(_Status='Withdrawn') THEN
+      Begin
+        SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(AwardDate, '%d-%m-%Y') as AwardDate,DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and applications.Deleted=0 and applications.Status='WITHDRAWN' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      ENd  ;   
+      End if;
+       if(_Status='Pending Determination') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate, DATE_FORMAT(applications.ClosingDate, '%d-%m-%Y') as ClosingDate 
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and  applications.Deleted=0  and applications.Status<>'WITHDRAWN' and applications.Status<>'Closed' and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+      
+       if(_Status='All') THEN
+      Begin
+         SELECT users.Name as Applicant, applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,
+          tenders.ClosingDate, DATE_FORMAT(tenders.AwardDate, '%d-%m-%Y') as AwardDate,
+          `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
+          procuremententity.POBox as PEPOBox,procuremententity.Website as PEWebsite ,procuremententity.PostalCode as PEPostalCode,
+          procuremententity.Town as PETown,procuremententity.PostalCode as PEPostalCode ,procuremententity.Mobile as PEMobile,procuremententity.Email as PEEmail,
+          TenderType,TenderSubCategory,TenderCategory,Timer,applications.PaymentStatus,tendertypes.Description as TenderTypeDesc,
+          
+          DATE_FORMAT(tenders.Created_At, '%d-%m-%Y') as FilingDate , DATE_FORMAT(applications.DecisionDate, '%d-%m-%Y') as DecisionDate, `ApplicationREf`,  applications.Status,AwardDate,applications.ClosingDate
+          FROM `applications`
+          inner join procuremententity on applications.PEID=procuremententity.PEID
+          inner join casedetails on applications.ApplicationNo=casedetails.ApplicationNo
+          inner join tenders on applications.TenderID=tenders.ID
+          inner join tendertypes on tenders.TenderType=tendertypes.Code
+          inner join users on users.Username=applications.Created_By
+          WHERE CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  and  applications.Deleted=0 and casedetails.PrimaryOfficer=1 and casedetails.Deleted=0  ORDER by applications.Created_At DESC;
+     
+      
+      ENd;      
+      End if;
+
+  End;
+  End if;
+
+
+End//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.getdeadLineRequestApprovals
 DROP PROCEDURE IF EXISTS `getdeadLineRequestApprovals`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getdeadLineRequestApprovals`(IN _Approver VARCHAR(50))
+CREATE  PROCEDURE `getdeadLineRequestApprovals`(IN _Approver VARCHAR(50))
 BEGIN
 select deadlineapprovalworkflow.PEID,deadlineapprovalworkflow.ApplicationNo,deadlineapprovalworkflow.Reason,deadlineapprovalworkflow.RequestedDate,
   procuremententity.Name,Status,deadlineapprovalworkflow.Created_At as FilingDate,procuremententity.Mobile,
@@ -4221,7 +3829,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetGenereatedPanels
 DROP PROCEDURE IF EXISTS `GetGenereatedPanels`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGenereatedPanels`()
+CREATE  PROCEDURE `GetGenereatedPanels`()
 BEGIN
 select DISTINCT panels.ApplicationNo,applicants.Name as ApplicantName,procuremententity.Name as PEName from panels inner join applications on applications.ApplicationNo=panels.ApplicationNo
   inner join procuremententity on applications.PEID=procuremententity.PEID inner join applicants on applicants.ID=applications.ApplicantID;
@@ -4231,16 +3839,16 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetGenereatedRB1Forms
 DROP PROCEDURE IF EXISTS `GetGenereatedRB1Forms`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGenereatedRB1Forms`()
+CREATE  PROCEDURE `GetGenereatedRB1Forms`()
 BEGIN
-select   ApplicationNo,Path , FileName, GeneratedOn,GeneratedBy from rb1forms;
+select   ApplicationNo,Path , FileName, GeneratedOn,GeneratedBy from rb1forms order by ApplicationNo DESC;
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.GetGroupRoles
 DROP PROCEDURE IF EXISTS `GetGroupRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGroupRoles`(IN `_UserGroupID` BIGINT)
+CREATE  PROCEDURE `GetGroupRoles`(IN `_UserGroupID` BIGINT)
     NO SQL
 SELECT roles.RoleID, RoleName,`Edit`, `Remove`, `AddNew`, `View`, `Export`,Category FROM roles LEFT JOIN groupaccess 
     ON groupaccess.RoleID = roles.RoleID AND groupaccess.UserGroupID=_UserGroupID//
@@ -4249,7 +3857,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingAttachments
 DROP PROCEDURE IF EXISTS `GetHearingAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingAttachments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetHearingAttachments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
  
 Select  ApplicationNo,Name ,Description ,Path ,Category from hearingattachments
@@ -4261,7 +3869,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingNotices
 DROP PROCEDURE IF EXISTS `GetHearingNotices`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingNotices`()
+CREATE  PROCEDURE `GetHearingNotices`()
 BEGIN
 select DISTINCT ApplicationNo,Path,Filename  from hearingnotices order by DateGenerated desc;
 END//
@@ -4270,7 +3878,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingNotificationContacts
 DROP PROCEDURE IF EXISTS `GetHearingNotificationContacts`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingNotificationContacts`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetHearingNotificationContacts`(IN _ApplicationNo VARCHAR(50))
 BEGIN
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
@@ -4291,7 +3899,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getinterestedpartiesPerApplication
 DROP PROCEDURE IF EXISTS `getinterestedpartiesPerApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getinterestedpartiesPerApplication`(IN _ApplicationID VARCHAR(50))
+CREATE  PROCEDURE `getinterestedpartiesPerApplication`(IN _ApplicationID VARCHAR(50))
 BEGIN
   select ID from applications where ApplicationNo=_ApplicationID limit 1 into @Application;
 SET @row_number = 0; 
@@ -4311,10 +3919,39 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.Getjrcontactusers
+DROP PROCEDURE IF EXISTS `Getjrcontactusers`;
+DELIMITER //
+CREATE  PROCEDURE `Getjrcontactusers`(_ApplicationNO VARCHAR(50))
+BEGIN
+Select 
+  
+  jrcontactusers.UserName ,
+  jrcontactusers.ApplicationNO ,
+  jrcontactusers.Role ,
+  users.Name,
+users.Email,users.Phone
+  from jrcontactusers
+ inner join users on jrcontactusers.Username=users.Username where ApplicationNO=_ApplicationNO and jrcontactusers.Deleted=0;
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.getJRinterestedpartiesPerApplication
+DROP PROCEDURE IF EXISTS `getJRinterestedpartiesPerApplication`;
+DELIMITER //
+CREATE  PROCEDURE `getJRinterestedpartiesPerApplication`(IN _ApplicationNO VARCHAR(50))
+BEGIN
+SET @row_number = 0; 
+select (@row_number:=@row_number + 1) AS ID,Name,ApplicationNO,ContactName ,Email,TelePhone,Mobile,PhysicalAddress,PostalCode,Town,POBox,Designation
+  from jrinterestedparties where Deleted=0 and ApplicationNO=_ApplicationNO ;
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.GetJudicialreviewApplications
 DROP PROCEDURE IF EXISTS `GetJudicialreviewApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetJudicialreviewApplications`()
+CREATE  PROCEDURE `GetJudicialreviewApplications`()
 BEGIN
 select DISTINCT applications.FilingDate, applications.ApplicationNo,applications.PEID,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,
@@ -4323,14 +3960,14 @@ procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremente
   from judicialreview
   inner join applications on applications.ApplicationNo=judicialreview.ApplicationNo
   inner join procuremententity on applications.PEID=procuremententity.PEID  
-  where judicialreview.Deleted=0 ;
+  where judicialreview.Deleted=0 order by applications.Created_At DESC ;
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.getJudicialReviewDetails
 DROP PROCEDURE IF EXISTS `getJudicialReviewDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getJudicialReviewDetails`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `getJudicialReviewDetails`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select  
   ApplicationNo ,
@@ -4355,10 +3992,10 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getjudicialreviewdocuments
 DROP PROCEDURE IF EXISTS `Getjudicialreviewdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getjudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `Getjudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 
-Select  ApplicationNo ,Name ,Description ,Path , Created_At,Deleted 
+Select  ApplicationNo ,Name as FileName,Description ,Path , Created_At,Deleted ,DocumentDate ,ActionDate,ActionDescription,ActionSent
  From judicialreviewdocuments where ApplicationNo=_ApplicationNo and Deleted=0;
 END//
 DELIMITER ;
@@ -4366,7 +4003,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetLoogedinCompany
 DROP PROCEDURE IF EXISTS `GetLoogedinCompany`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetLoogedinCompany`(IN _Username VARCHAR(50), IN _Category VARCHAR(50))
+CREATE  PROCEDURE `GetLoogedinCompany`(IN _Username VARCHAR(50), IN _Category VARCHAR(50))
 BEGIN
   if(_Category='Applicant') THEn
     Begin
@@ -4396,7 +4033,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMonthlyCasesDistributions
 DROP PROCEDURE IF EXISTS `GetMonthlyCasesDistributions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMonthlyCasesDistributions`(IN _Year Date)
+CREATE  PROCEDURE `GetMonthlyCasesDistributions`(IN _Year Date)
 BEGIN
 select count(*) as Count,FilingDate,ApplicationREf,Status,MONTHNAME(FilingDate) as Month from applications where YEAR(FilingDate)=YEAR(_Year)  GROUP by MONTH(FilingDate);
 END//
@@ -4439,14 +4076,16 @@ SELECT DISTINCT users.Name as caseOfficer,applications.ID,applications.Applicati
   inner join casedetails on casedetails.ApplicationNo=applications.ApplicationNo
   inner join tendertypes on tendertypes.Code=tenders.TenderType
   inner join users on users.Username=casedetails.UserName
-  WHERE applications.Deleted=0 and casedetails.UserName=_UserName and casedetails.PrimaryOfficer=1 and casedetails.Status='Open' ORDER by applications.Created_At DESC;
+  WHERE applications.ApplicationNo in (select ApplicationNo from panels where UserName=_UserName and Status='Approved') or applications.Deleted=0 and casedetails.UserName=_UserName and casedetails.PrimaryOfficer=1 and casedetails.Status='Open' 
+  
+  ORDER by applications.Created_At DESC;
 End//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.GetMyDecision
 DROP PROCEDURE IF EXISTS `GetMyDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyDecision`(IN _userName varchar(50))
+CREATE  PROCEDURE `GetMyDecision`(IN _userName varchar(50))
 BEGIN
 
   select Category from users where Username=_userName Limit 1 INTO @Category;
@@ -4543,7 +4182,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMyPendingNotification
 DROP PROCEDURE IF EXISTS `GetMyPendingNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyPendingNotification`(IN `_UserName` VARCHAR(50))
+CREATE  PROCEDURE `GetMyPendingNotification`(IN `_UserName` VARCHAR(50))
     NO SQL
 BEGIN
 SELECT  Username,COUNT(*) As Total, Category, Description, Created_At, DueDate, Status  from  notifications where Username=_Username
@@ -4554,7 +4193,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMyresolveedNotifications
 DROP PROCEDURE IF EXISTS `GetMyresolveedNotifications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyresolveedNotifications`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GetMyresolveedNotifications`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 Select * from  notifications where Username=_Username and status='Resolved';
@@ -4565,7 +4204,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getMyResponse
 DROP PROCEDURE IF EXISTS `getMyResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMyResponse`(IN _PEID VARCHAR(50))
+CREATE  PROCEDURE `getMyResponse`(IN _PEID VARCHAR(50))
 BEGIN
 select PEID from peusers where UserName=_PEID limit 1 into @PEID;
 select applications.ID as ApplicationID, peresponse.ID as ResponseID,peresponse.Status, peresponse.ApplicationNo,peresponse.ResponseType,peresponse.ResponseDate,tenders.TenderNo,tenders.Name ,
@@ -4581,7 +4220,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getMySchedules
 DROP PROCEDURE IF EXISTS `getMySchedules`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMySchedules`(IN _Username VARCHAR(50))
+CREATE  PROCEDURE `getMySchedules`(IN _Username VARCHAR(50))
 BEGIN
 select start,end,title from schedules where UserName = _Username;
 END//
@@ -4630,7 +4269,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getOneCaseOfficer
 DROP PROCEDURE IF EXISTS `getOneCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneCaseOfficer`(IN _Username VARCHAR(50))
+CREATE  PROCEDURE `getOneCaseOfficer`(IN _Username VARCHAR(50))
 BEGIN
 SELECT `ID`, `Username`, `MinValue`, MaximumValue, `Active`, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, `Create_at`, 
   `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At` FROM `caseofficers` 
@@ -4787,11 +4426,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetOnevenue
 DROP PROCEDURE IF EXISTS `GetOnevenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOnevenue`(IN _ID int)
+CREATE  PROCEDURE `GetOnevenue`(IN _ID int)
 BEGIN
  
-  Select Venues.ID,  Venues.ID,Branches.Description as Branch,  Venues.Name,Venues.Description 
-  from Venues inner join Branches on Branches.ID=Venues.Branch where Venues.deleted=0 and ID=_ID;
+  Select venues.ID,  venues.ID,branches.Description as Branch,  venues.Name,venues.Description 
+  from venues inner join branches on branches.ID=venues.Branch where venues.deleted=0 and ID=_ID;
 
 END//
 DELIMITER ;
@@ -4799,7 +4438,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPanelMembers
 DROP PROCEDURE IF EXISTS `GetPanelMembers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPanelMembers`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetPanelMembers`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 SET @row_number = 0; 
 select (@row_number:=@row_number + 1) AS ID, panels.ApplicationNo,panels.UserName,users.Name,users.Email,users.Phone ,panels.Status,Role from panels
@@ -4810,7 +4449,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetpanelsApproval
 DROP PROCEDURE IF EXISTS `GetpanelsApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetpanelsApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `GetpanelsApproval`(IN _UserID VARCHAR(50))
 BEGIN
 select DISTINCT applications.HearingNoticeGenerated, applications.ApplicationNo,applications.PEID,'' as ResponseType,'' as ResponseDate,
   procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,
@@ -4870,19 +4509,21 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEAppearanceFrequency
 DROP PROCEDURE IF EXISTS `GetPEAppearanceFrequency`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEAppearanceFrequency`(IN _FromDate Date,IN _ToDate Date ,IN _ALl Boolean)
+CREATE  PROCEDURE `GetPEAppearanceFrequency`(IN _FromDate Date,IN _ToDate Date ,IN _ALl Boolean)
 BEGIN
 if(_ALl=1) THEn
 Begin
 select count(applications.ID) as Count,procuremententity.PEType,petypes.Description as PEDesc from applications 
   inner join procuremententity on procuremententity.PEID=applications.PEID 
-  inner join petypes on procuremententity.PEType=petypes.Code   GROUP by MONTH(procuremententity.PEType);
+  inner join petypes on procuremententity.PEType=petypes.Code   GROUP by (procuremententity.PEType);
   ENd;
 Else
 Begin
 select count(applications.ID) as Count,procuremententity.PEType,petypes.Description as PEDesc from applications 
   inner join procuremententity on procuremententity.PEID=applications.PEID 
-  inner join petypes on procuremententity.PEType=petypes.Code where FilingDate BETWEEN  _FromDate AND  DATE_ADD(_ToDate, INTERVAL 1 DAY) GROUP by MONTH(procuremententity.PEType);
+  inner join petypes on procuremententity.PEType=petypes.Code 
+  where CAST(applications.Created_At AS DATE)  BETWEEN   CAST(_FromDate AS DATE)  AND   CAST(DATE_ADD(_ToDate, INTERVAL 1 DAY) AS DATE)  
+GROUP by procuremententity.PEType;
   End;
 End if;
 
@@ -4892,7 +4533,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEAppearanceFrequencyPercategory
 DROP PROCEDURE IF EXISTS `GetPEAppearanceFrequencyPercategory`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEAppearanceFrequencyPercategory`(IN _Category varchar(50))
+CREATE  PROCEDURE `GetPEAppearanceFrequencyPercategory`(IN _Category varchar(50))
 BEGIN
 select Code from petypes WHERE Description=_Category LIMIT 1 into @PEType;
 select count(applications.ID) as Count,procuremententity.Name,applications.PEID from applications 
@@ -4906,7 +4547,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEApplications
 DROP PROCEDURE IF EXISTS `GetPEApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEApplications`(IN _PEID varchar(50))
+CREATE  PROCEDURE `GetPEApplications`(IN _PEID varchar(50))
 BEGIN
 
 select ApplicationNo,Status,tenders.TenderNo,tenders.Name,FilingDate,applicants.Name from applications 
@@ -4923,7 +4564,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingApplicationFees
 DROP PROCEDURE IF EXISTS `GetPendingApplicationFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingApplicationFees`(IN _UserName VARCHAR(50))
+CREATE  PROCEDURE `GetPendingApplicationFees`(IN _UserName VARCHAR(50))
 BEGIN
 select DISTINCT applications.ID ,applications.ApplicantID,    
   procuremententity.Name,applications.PaymentStatus as FeesStatus,applications.Created_At  as FilingDate,procuremententity.Mobile,
@@ -4943,7 +4584,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingFeesApprovals
 DROP PROCEDURE IF EXISTS `GetPendingFeesApprovals`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingFeesApprovals`(IN _ApplicationID int)
+CREATE  PROCEDURE `GetPendingFeesApprovals`(IN _ApplicationID int)
 BEGIN
 select sum(AmountDue)  from applicationfees where ApplicationID=_ApplicationID and applicationfees.Deleted=0 INTO @Totall;
   select @Totall as Total, applicationfees.ID, applicationfees.ApplicationID,feesstructure.Description as EntryType, applicationfees.AmountDue, applicationfees.RefNo, applicationfees.BillDate, applicationfees.AmountPaid
@@ -4958,7 +4599,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingPreliminaryObjectionFees
 DROP PROCEDURE IF EXISTS `GetPendingPreliminaryObjectionFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingPreliminaryObjectionFees`(IN _UserName VARCHAR(50))
+CREATE  PROCEDURE `GetPendingPreliminaryObjectionFees`(IN _UserName VARCHAR(50))
 BEGIN
 select DISTINCT applications.ID ,applications.ApplicantID,    
   procuremententity.Name,peresponse.Status as FeesStatus,applications.Created_At  as FilingDate,procuremententity.Mobile,
@@ -4978,7 +4619,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPEPerApplicationNo
 DROP PROCEDURE IF EXISTS `getPEPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPEPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `getPEPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select PEID FROM  applications where ApplicationNo=_ApplicationNo into @PEID;
   select PEID,Name,PEType,County,Location,POBox,PostalCode,Town,Mobile,Telephone,Email,Website from procuremententity where PEID=@PEID;
@@ -4989,7 +4630,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseBackgrounInformation
 DROP PROCEDURE IF EXISTS `GetPEResponseBackgrounInformation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseBackgrounInformation`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `GetPEResponseBackgrounInformation`(IN _ApplicationNo varchar(50))
 BEGIN
 select BackgroundInformation from peresponsebackgroundinformation where ApplicationNo=_ApplicationNo;
 END//
@@ -4998,7 +4639,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDetails
 DROP PROCEDURE IF EXISTS `GetPEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDetails`(IN _ResponseID INT)
+CREATE  PROCEDURE `GetPEResponseDetails`(IN _ResponseID INT)
 BEGIN
 Select * from peresponsedetails where PEResponseID=_ResponseID and Deleted=0;
 END//
@@ -5007,7 +4648,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDetailsPerApplication
 DROP PROCEDURE IF EXISTS `GetPEResponseDetailsPerApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDetailsPerApplication`(IN _Application varchar(50))
+CREATE  PROCEDURE `GetPEResponseDetailsPerApplication`(IN _Application varchar(50))
 BEGIN
 select ID from peresponse where ApplicationNo=_Application LIMIT 1 into @ResponseID; 
 Select peresponsedetails.ID,peresponsedetails.PEResponseID,peresponsedetails.GroundNO,peresponsedetails.GroundType,peresponsedetails.Response,peresponsedetails.Created_At,
@@ -5020,10 +4661,10 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDocuments
 DROP PROCEDURE IF EXISTS `GetPEResponseDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDocuments`(IN _ResponseID VARCHAR(50))
+CREATE  PROCEDURE `GetPEResponseDocuments`(IN _ResponseID VARCHAR(50))
 BEGIN
 select ID from peresponse where ApplicationNo=_ResponseID LIMIT 1 into @ResponseID; 
-Select * from peresponsedocuments where (PEResponseID=_ResponseID or PEResponseID=@ResponseID ) and Deleted=0;
+Select ID,PEResponseID,Name as FileName,Description,Path,Created_At,Deleted,Confidential from peresponsedocuments where (PEResponseID=_ResponseID or PEResponseID=@ResponseID ) and Deleted=0;
 END//
 DELIMITER ;
 
@@ -5040,7 +4681,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEUserdetails
 DROP PROCEDURE IF EXISTS `GetPEUserdetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEUserdetails`(IN _User VARCHAR(50))
+CREATE  PROCEDURE `GetPEUserdetails`(IN _User VARCHAR(50))
 BEGIN
 select PEID from peusers where UserName=_User limit 1 into @PEID ;
 SELECT procuremententity.ID ,procuremententity.PEID as ApplicantCode, procuremententity.Name, procuremententity.Location, procuremententity.POBox,
@@ -5055,7 +4696,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPreliminaryObjections
 DROP PROCEDURE IF EXISTS `getPreliminaryObjections`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPreliminaryObjections`()
+CREATE  PROCEDURE `getPreliminaryObjections`()
 BEGIN
 select ID,Name,Description,MaxFee,SUM(MaxFee) as Total from feesstructure where Name='Filling Preliminary Objections' and Deleted=0;
  
@@ -5065,7 +4706,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPreliminaryObjectionsFeesPaymentDetails
 DROP PROCEDURE IF EXISTS `GetPreliminaryObjectionsFeesPaymentDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPreliminaryObjectionsFeesPaymentDetails`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetPreliminaryObjectionsFeesPaymentDetails`(IN _ApplicationID INT)
 BEGIN
  select sum(AmountPaid) from paymentdetails WHERE ApplicationID=_ApplicationID and Category='PreliminaryObjectionsFees' into @Total;
   select  @Total  as TotalPaid,paymentdetails.ApplicationID,paymentdetails.Paidby,paymentdetails.Refference,paymentdetails.DateOfpayment,paymentdetails.AmountPaid,
@@ -5080,7 +4721,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPrimaryCaseOfficer
 DROP PROCEDURE IF EXISTS `getPrimaryCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPrimaryCaseOfficer`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `getPrimaryCaseOfficer`(IN _ApplicationNo varchar(50))
 BEGIN
 select casedetails.UserName,ApplicationNo,Email,Phone,Name from casedetails inner join users on users.Username=casedetails.UserName 
   where casedetails.ApplicationNo=_ApplicationNo and casedetails.Status='Open' LIMIT 1;
@@ -5100,7 +4741,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRespondedApplications
 DROP PROCEDURE IF EXISTS `GetRespondedApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRespondedApplications`()
+CREATE  PROCEDURE `GetRespondedApplications`()
 BEGIN
 select DISTINCT applications.ApplicationNo,applications.PEID,'' as ResponseType,'' as ResponseDate,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,
@@ -5118,7 +4759,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRespondedApplicationsToBeScheduled
 DROP PROCEDURE IF EXISTS `GetRespondedApplicationsToBeScheduled`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRespondedApplicationsToBeScheduled`()
+CREATE  PROCEDURE `GetRespondedApplicationsToBeScheduled`()
 BEGIN
 select applications.FilingDate,peresponsetimer.RegisteredOn as PEServedOn, applications.ApplicationNo,applications.PEID,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,
@@ -5134,7 +4775,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRole
 DROP PROCEDURE IF EXISTS `GetRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRole`(IN `_RoleId` BIGINT)
+CREATE  PROCEDURE `GetRole`(IN `_RoleId` BIGINT)
     NO SQL
 BEGIN
 Select * from roles where RoleID=_RoleID ;
@@ -5144,7 +4785,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRoles
 DROP PROCEDURE IF EXISTS `GetRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRoles`()
+CREATE  PROCEDURE `GetRoles`()
     NO SQL
 BEGIN
 Select RoleID,RoleName,RoleDescription from roles where Deleted=0;
@@ -5154,7 +4795,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetSittingsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetSittingsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSittingsPerApplicationNo`(IN _Applicationno varchar(50))
+CREATE  PROCEDURE `GetSittingsPerApplicationNo`(IN _Applicationno varchar(50))
 BEGIN
 select casesittingsregister.ID as SittingID,casesittingsregister.VenueID,casesittingsregister.Date,casesittingsregister.SittingNo,venues.Name as VenueName,branches.Description as Branch from casesittingsregister
 INNER JOIN venues on casesittingsregister.VenueID=venues.ID INNER JOIN branches on branches.ID=venues.Branch
@@ -5195,7 +4836,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetsuccessfullApplications
 DROP PROCEDURE IF EXISTS `GetsuccessfullApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetsuccessfullApplications`(IN _FromDate DATE, IN _ToDate DATE, IN _Category VARCHAR(50), IN _All BOOLEAN)
+CREATE  PROCEDURE `GetsuccessfullApplications`(IN _FromDate DATE, IN _ToDate DATE, IN _Category VARCHAR(50), IN _All BOOLEAN)
 BEGIN
 -- Successful Applications
 if(_Category='Successful')then
@@ -5294,7 +4935,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetTenderDetailsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetTenderDetailsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTenderDetailsPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetTenderDetailsPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select TenderID from applications where ApplicationNo=_ApplicationNo or ID=_ApplicationNo limit 1 into @Tender;
 select TenderNo,Name,TenderValue,tendertypes.Description as TenderTypeDesc,StartDate,tenders.Created_At as FilingDate,  TenderType,
@@ -5328,18 +4969,22 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getuser
 DROP PROCEDURE IF EXISTS `getuser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getuser`(IN `_Username` VARCHAR(128))
+CREATE  PROCEDURE `getuser`(IN `_Username` VARCHAR(128))
     NO SQL
 BEGIN
-SELECT users.Name, users.Username, users.Email, users.Password, users.Phone, users.Create_at,ChangePassword,users.Board, users.Update_at, users.Login_at, users.Deleted, users.IsActive, users.IsEmailverified, usergroups.Name as UserGroupID, users.Photo, users.Category, users.Signature, users.IDnumber, users.Gender, users.DOB,users.ActivationCode
-from users inner join usergroups on usergroups.UserGroupID=users.UserGroupID where (UserName=_UserName or Email=_UserName);
+select COUNT(*) from casedetails where UserName=_Username  into @caseOfficer;
+SELECT users.Name, users.Username, users.Email, users.Password, users.Phone, users.Create_at,ChangePassword,users.Board, users.Update_at, 
+  users.Login_at, users.Deleted, @caseOfficer as CaseOfficerCount,
+  users.IsActive, users.IsEmailverified, usergroups.Name as UserGroupID, users.Photo, users.Category, users.Signature, 
+  users.IDnumber, users.Gender, users.DOB,users.ActivationCode
+from users inner join usergroups on usergroups.UserGroupID=users.UserGroupID where (UserName=_UserName or Email=_UserName) and users.IsActive=1 and users.Deleted=0;
 End//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.GetuserAccess
 DROP PROCEDURE IF EXISTS `GetuserAccess`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetuserAccess`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GetuserAccess`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 
@@ -5358,7 +5003,7 @@ insert into Rolesbuffer select _Username,RoleID,Edit,Remove,AddNew,View,Export f
 
 insert into Rolesbuffer (Username,RoleID) select _Username,RoleID from groupaccess where UserGroupID in (Select UserGroupID from users where Username=_Username) and RoleID not IN(select RoleID from useraccess where Username=_Username);
 
-SELECT Username,Rolesbuffer.RoleID,RoleName,Edit,Remove,AddNew,View,Export,Category from Rolesbuffer inner join Roles on Rolesbuffer.RoleID=Roles.RoleID  ;
+SELECT Username,Rolesbuffer.RoleID,RoleName,Edit,Remove,AddNew,View,Export,Category from Rolesbuffer inner join roles on Rolesbuffer.RoleID=roles.RoleID  ;
 DROP TABLE Rolesbuffer; 
 END//
 DELIMITER ;
@@ -5366,7 +5011,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getusergroup
 DROP PROCEDURE IF EXISTS `getusergroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getusergroup`(IN `_UserGroupID` INT(128))
+CREATE  PROCEDURE `getusergroup`(IN `_UserGroupID` INT(128))
     NO SQL
 BEGIN
 Select * from usergroups where Deleted=0 and UserGroupID=_UserGroupID;
@@ -5376,7 +5021,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUsergroups
 DROP PROCEDURE IF EXISTS `GetUsergroups`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUsergroups`()
+CREATE  PROCEDURE `GetUsergroups`()
     NO SQL
 BEGIN
 Select * from usergroups where Deleted=0;
@@ -5386,7 +5031,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUserRoles
 DROP PROCEDURE IF EXISTS `GetUserRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUserRoles`(IN `_Username` VARCHAR(100))
+CREATE  PROCEDURE `GetUserRoles`(IN `_Username` VARCHAR(100))
     NO SQL
 BEGIN
 SELECT `Username`, useraccess.RoleID,RoleName, useraccess.Edit, useraccess.Remove, useraccess.AddNew, useraccess.View, useraccess.Export FROM `useraccess`
@@ -5398,7 +5043,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUsers
 DROP PROCEDURE IF EXISTS `GetUsers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUsers`()
+CREATE  PROCEDURE `GetUsers`()
     NO SQL
 BEGIN
 SELECT users.Name, Username,users.Board, Email,Phone,IsActive,usergroups.Name as UserGroup,users.UserGroupID,Photo,Signature,IDnumber,DOB,Gender,Category from users
@@ -5410,11 +5055,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetvenuesPerBranch
 DROP PROCEDURE IF EXISTS `GetvenuesPerBranch`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetvenuesPerBranch`(IN _Branch int)
+CREATE  PROCEDURE `GetvenuesPerBranch`(IN _Branch int)
 BEGIN
  
-  Select Venues.ID,  Venues.ID,Branches.Description as Branch,  Venues.Name,Venues.Description 
-  from Venues inner join Branches on Branches.ID=Venues.Branch where Venues.deleted=0 and Venues.Branch=_Branch;
+  Select venues.ID,  venues.ID,branches.Description as branch,  venues.Name,venues.Description 
+  from venues inner join branches on branches.ID=venues.Branch where Venues.deleted=0 and venues.Branch=_Branch;
 
 END//
 DELIMITER ;
@@ -5422,7 +5067,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GiveUserAllRoles
 DROP PROCEDURE IF EXISTS `GiveUserAllRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GiveUserAllRoles`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GiveUserAllRoles`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 UPDATE useraccess SET
@@ -5442,7 +5087,7 @@ DROP TABLE IF EXISTS `groundsandrequestedorders`;
 CREATE TABLE IF NOT EXISTS `groundsandrequestedorders` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ApplicationID` int(100) NOT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `EntryType` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -5454,80 +5099,11 @@ CREATE TABLE IF NOT EXISTS `groundsandrequestedorders` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `GroundNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groundsandrequestedorders: ~68 rows (approximately)
+-- Dumping data for table arcm.groundsandrequestedorders: ~0 rows (approximately)
 DELETE FROM `groundsandrequestedorders`;
 /*!40000 ALTER TABLE `groundsandrequestedorders` DISABLE KEYS */;
-INSERT INTO `groundsandrequestedorders` (`ID`, `ApplicationID`, `Description`, `EntryType`, `Status`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `GroundNO`) VALUES
-	(1, 1, '<p>The Applicant was only awarded a score of 20 out of 30 on relevant experience despite having provided evidence of experience of a similar nature related to the subject tender</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-11 15:51:31', NULL, NULL, 0, NULL, NULL, '1'),
-	(2, 1, '<p>The Applicant provide equipment to demonstrate that it is ready to execute the works of the subject tender. Mr. Njuguna submitted that the Applicant demonstrated the equipments that it owns and those that were leased but only managed to score 6 out of 15 marks</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-11 15:51:50', NULL, NULL, 0, NULL, NULL, '2'),
-	(3, 1, '<p>The Applicant was awarded 23 out of 24 marks on its Key personnel despite them being qualified on the criteria for Key Personnel provided for in the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-11 15:52:05', NULL, NULL, 0, NULL, NULL, '3'),
-	(4, 1, '<p>On financial capacity, the Applicant satisfied the sub-criteria of; audited accounts, line of credit of over 20 million and Annual turnover but was still not awarded the full marks for this criterion</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-11 15:52:22', NULL, NULL, 0, NULL, NULL, '4'),
-	(5, 1, '<p>An order setting aside the Procuring Entity&rsquo;s award</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-11 15:52:42', NULL, NULL, 0, NULL, NULL, '1'),
-	(6, 1, '<p>An order awarding the tender to the Applicant at its Bid Price of Kshs. 70,027,204.50</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-11 15:52:55', NULL, NULL, 0, NULL, NULL, '2'),
-	(7, 1, '<p>A further order or direction as the Board may deem appropriate in the circumstances</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-11 15:53:11', NULL, NULL, 0, NULL, NULL, '3'),
-	(8, 1, '<p>An order awarding costs of the proceedings to the Applicant</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-11 15:53:28', NULL, NULL, 0, NULL, NULL, '4'),
-	(9, 5, '<p>That the Procuring Entity declined to furnish the Applicant with a summary of the due diligence report as the same was part of confidential documents which remain in the custody of the Procuring Entity pursuant to section 67 of the Act</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 11:00:15', NULL, NULL, 0, NULL, NULL, '1'),
-	(10, 5, '<p>That the Procuring Entity conducted a fresh due diligence process as directed in the decision of the Board in Request for Review No. 149/2018 and a report of the process was submitted to the Board as part of the Procuring Entity&rsquo;s confidential file pursuant to section 67 (3) (e) of the Act;</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 11:00:36', NULL, NULL, 0, NULL, NULL, '2'),
-	(11, 5, '<p>Grounds&nbsp;for&nbsp;appeal</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 11:11:33', NULL, NULL, 1, '2019-11-12 11:11:39', 'P0123456788X', '3'),
-	(12, 5, '<p>That the Procuring Entity conducted a fresh due diligence process as directed in the decision of the Board in Request for Review No. 149/2018 and a report of the process was submitted to the Board as part of the Procuring Entity&rsquo;s confidential file pursuant to section 67 (3) (e) of the Act;</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 11:11:47', NULL, NULL, 0, NULL, NULL, '3'),
-	(13, 5, '<p>An order cancelling the award of tender and/or contract made to Kenya Airports Parking Services;</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 11:14:40', NULL, NULL, 0, NULL, NULL, '1'),
-	(14, 5, '<p>An order substituting the award of the Respondent of the tender with an award of tender by the Board to M/s Mason Services Limited &amp; Qntra Technology Limited (JV);</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 11:14:53', NULL, NULL, 0, NULL, NULL, '2'),
-	(15, 6, '<p><strong>Post-conditions: </strong></p>\n\n<p>User is validated with database and successfully login to account. The account session details are logged in database</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 15:47:31', NULL, NULL, 0, NULL, NULL, '1'),
-	(16, 6, '<p><strong>Post-conditions: </strong></p>\n\n<p>User is validated with database and successfully login to account. The account session details are logged in database</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 15:47:39', NULL, NULL, 0, NULL, NULL, '2'),
-	(17, 6, '<p><strong>Post-conditions: </strong></p>\n\n<p>User is validated with database and successfully login to account. The account session details are logged in database</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 15:47:47', NULL, NULL, 0, NULL, NULL, '1'),
-	(18, 7, '<p>The Applicant was only awarded a score of 20 out of 30 on relevant experience despite having provided evidence of experience of a similar nature related to the subject tender;</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 16:45:19', NULL, NULL, 0, NULL, NULL, '1'),
-	(19, 7, '<p>The Applicant provide equipment to demonstrate that it is ready to execute the works of the subject tender. Mr. Njuguna submitted that the Applicant demonstrated the equipments that it owns and those that were leased but only managed to score 6 out of 15 marks</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 16:45:33', NULL, NULL, 0, NULL, NULL, '2'),
-	(20, 7, '<p>The Applicant was awarded 23 out of 24 marks on its Key personnel despite them being qualified on the criteria for Key Personnel provided for in the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-12 16:45:48', NULL, NULL, 0, NULL, NULL, '3'),
-	(21, 7, '<p>An order setting aside the Procuring Entity&rsquo;s award</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 16:46:08', NULL, NULL, 0, NULL, NULL, '1'),
-	(22, 7, '<p>An order awarding the tender to the Applicant at its Bid Price of Kshs. 70,027,204.50</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 16:46:39', NULL, NULL, 1, '2019-11-12 16:46:44', 'P0123456788X', '3'),
-	(23, 7, '<p>An order awarding the tender to the Applicant at its Bid Price of Kshs. 70,027,204.50</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 16:46:51', NULL, NULL, 0, NULL, NULL, '2'),
-	(24, 7, '<p>A further order or direction as the Board may deem appropriate in the circumstances</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-12 16:47:08', NULL, NULL, 0, NULL, NULL, '3'),
-	(25, 10, '<p><em>Preparation</em>&nbsp;definition is - the action or process of making something ready for use or service or of getting ready for some occasion, test, or duty. How to use&nbsp;.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-13 11:14:42', NULL, NULL, 0, NULL, NULL, '1'),
-	(26, 10, '<p><em>Preparation</em>&nbsp;definition is - the action or process of making something ready for use or service or of getting ready for some occasion, test, or duty. How to use&nbsp;.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-13 11:14:46', NULL, NULL, 0, NULL, NULL, '1'),
-	(27, 15, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Don</p>\n', 'Grounds for Appeal', 'Pending Review', 'P09875345W', '2019-11-13 17:17:02', NULL, NULL, 0, NULL, NULL, '1'),
-	(28, 15, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Don</p>\n', 'Requested Orders', 'Pending Review', 'P09875345W', '2019-11-13 17:17:09', NULL, NULL, 0, NULL, NULL, '2'),
-	(29, 16, '<p><em>he applicant risks losing his deposit, and in addition to this if found to be corrupt/ fraudulent, the DG of PPRA may initiate case proceedings against the applicant in a court of law.</em></p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-14 14:45:16', NULL, NULL, 0, NULL, NULL, '1'),
-	(30, 16, '<p><em>he applicant risks losing his deposit, and in addition to this if found to be corrupt/ fraudulent, the DG of PPRA may initiate case proceedings against the applicant in a court of law.</em></p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-14 14:45:20', NULL, NULL, 0, NULL, NULL, '1'),
-	(31, 17, '<p>&nbsp;Challanging the Content of Tender documents</p>\n', 'Grounds for Appeal', 'Pending Review', 'P123456879Q', '2019-11-15 10:58:03', NULL, NULL, 0, NULL, NULL, '1'),
-	(32, 17, '<p>Challanging termination of process</p>\n', 'Grounds for Appeal', 'Pending Review', 'P123456879Q', '2019-11-15 10:58:48', NULL, NULL, 0, NULL, NULL, '2'),
-	(33, 17, '<p>Termination to be anuled</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-15 10:59:33', NULL, NULL, 0, NULL, NULL, '1'),
-	(34, 17, '<p>Cancellation of the tender documentt</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-15 11:00:22', NULL, NULL, 0, NULL, NULL, '2'),
-	(35, 17, '<p>&nbsp; Cost of the review Application</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-15 11:01:04', NULL, NULL, 0, NULL, NULL, '2'),
-	(36, 18, '<p>P0123456788X</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-15 11:50:05', NULL, NULL, 0, NULL, NULL, '1'),
-	(37, 18, '<p>P0123456788X</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-15 11:50:15', NULL, NULL, 0, NULL, NULL, '3'),
-	(38, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Grounds for Appeal', 'Pending Review', 'P09875345W', '2019-11-20 14:29:05', NULL, NULL, 0, NULL, NULL, '1'),
-	(39, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Grounds for Appeal', 'Pending Review', 'P09875345W', '2019-11-20 14:29:22', NULL, NULL, 0, NULL, NULL, '2'),
-	(40, 23, '<p>&nbsp;&nbsp;&nbsp;toast.success(&quot;Saved&nbsp;Successfuly&quot;);</p>\n', 'Grounds for Appeal', 'Pending Review', 'P09875345W', '2019-11-20 14:33:11', NULL, NULL, 0, NULL, NULL, '3'),
-	(41, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Requested Orders', 'Pending Review', 'P09875345W', '2019-11-20 14:35:21', NULL, NULL, 0, NULL, NULL, '1'),
-	(42, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Requested Orders', 'Pending Review', 'P09875345W', '2019-11-20 14:35:44', NULL, NULL, 0, NULL, NULL, '2'),
-	(43, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Requested Orders', 'Pending Review', 'P09875345W', '2019-11-20 14:38:08', NULL, NULL, 0, NULL, NULL, '3'),
-	(44, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Requested Orders', 'Pending Review', 'P09875345W', '2019-11-20 14:40:28', NULL, NULL, 0, NULL, NULL, '4'),
-	(45, 23, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Grounds for Appeal', 'Pending Review', 'P09875345W', '2019-11-20 14:40:38', NULL, NULL, 0, NULL, NULL, '4'),
-	(46, 24, '<p>Following the User Acceptance Testing (UAT) Meeting held on Friday, November 15th 2019 a few issues were raised from the user testing and the consultant agreed to incorporate them into the system.</p>\n\n<p>It was also agreed that we resume with the UAT on Friday, 22nd November, 2019 and conduct user training thereafter.</p>\n\n<p>This is to remind you of the UAT meeting scheduled for Tomorrow, Friday 22nd November, 2019 from 9.00AM at the 10th Floor Board Room.</p>\n\n<p>You are kindly requested to attend.</p>\n\n<p>Regards SAMSON. &nbsp;</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 14:11:23', NULL, NULL, 0, NULL, NULL, '1'),
-	(47, 24, '<p>Following the User Acceptance Testing (UAT) Meeting held on Friday, November 15th 2019 a few issues were raised from the user testing and the consultant agreed to incorporate them into the system.</p>\n\n<p>It was also agreed that we resume with the UAT on Friday, 22nd November, 2019 and conduct user training thereafter.</p>\n\n<p>This is to remind you of the UAT meeting scheduled for Tomorrow, Friday 22nd November, 2019 from 9.00AM at the 10th Floor Board Room.</p>\n\n<p>You are kindly requested to attend.</p>\n\n<p>Regards SAMSON. &nbsp;</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 14:11:30', NULL, NULL, 0, NULL, NULL, '1'),
-	(48, 25, '<ol>\n	<li>In accordance with the Conditions of Contract, Specifications, Drawings and Bills of Quantities/Schedule of Rates for the execution of the above named Works, we, the undersigned offer to construct, install and complete such Works and remedy any defects therein for the sum of Kshs <strong>3,532,374.00</strong> Kenya Shillings <strong>Three Million Five Hundred and Thirty-Two Thousand Three Hundred and Seventy Four.</strong></li>\n</ol>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 14:28:37', NULL, NULL, 0, NULL, NULL, '1'),
-	(49, 25, '<ol>\n	<li>In accordance with the Conditions of Contract, Specifications, Drawings and Bills of Quantities/Schedule of Rates for the execution of the above named Works, we, the undersigned offer to construct, install and complete such Works and remedy any defects therein for the sum of Kshs <strong>3,532,374.00</strong> Kenya Shillings <strong>Three Million Five Hundred and Thirty-Two Thousand Three Hundred and Seventy Four.</strong></li>\n</ol>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 14:28:44', NULL, NULL, 0, NULL, NULL, '2'),
-	(50, 25, '<ol>\n	<li>In accordance with the Conditions of Contract, Specifications, Drawings and Bills of Quantities/Schedule of Rates for the execution of the above named Works, we, the undersigned offer to construct, install and complete such Works and remedy any defects therein for the sum of Kshs <strong>3,532,374.00</strong> Kenya Shillings <strong>Three Million Five Hundred and Thirty-Two Thousand Three Hundred and Seventy Four.</strong></li>\n</ol>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 14:28:56', NULL, NULL, 0, NULL, NULL, '2'),
-	(51, 25, '<ol>\n	<li>In accordance with the Conditions of Contract, Specifications, Drawings and Bills of Quantities/Schedule of Rates for the execution of the above named Works, we, the undersigned offer to construct, install and complete such Works and remedy any defects therein for the sum of Kshs <strong>3,532,374.00</strong> Kenya Shillings <strong>Three Million Five Hundred and Thirty-Two Thousand Three Hundred and Seventy Four.</strong></li>\n</ol>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 14:29:04', NULL, NULL, 0, NULL, NULL, '3'),
-	(52, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 16:30:48', NULL, NULL, 0, NULL, NULL, '1'),
-	(53, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 16:30:56', NULL, NULL, 0, NULL, NULL, '2'),
-	(54, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 16:31:08', NULL, NULL, 0, NULL, NULL, '3'),
-	(55, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 16:31:40', NULL, NULL, 0, NULL, NULL, '4'),
-	(56, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 16:32:03', NULL, NULL, 0, NULL, NULL, '1'),
-	(57, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 16:32:09', NULL, NULL, 0, NULL, NULL, '2'),
-	(58, 26, '<p>A responsive bid was considered as one which meets all the completeness criteria and which is at minimum consistent with the requirements of the Tender Document</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 16:32:18', NULL, NULL, 0, NULL, NULL, '3'),
-	(59, 27, '<p>/s Mason Services Limited &amp; Qntra Technology Limited (hereinafter referred to as &ldquo;the Applicant&rdquo;) lodged a Request for Review dated 4th October 2018 against the decision of Kenya Airports Authority (hereinafter referred to as &ldquo;the Procuring Entity&rsquo;&rsquo;) in respect of Tender No.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 21:15:30', NULL, NULL, 0, NULL, NULL, '1'),
-	(60, 27, '<p>/s Mason Services Limited &amp; Qntra Technology Limited (hereinafter referred to as &ldquo;the Applicant&rdquo;) lodged a Request for Review dated 4th October 2018 against the decision of Kenya Airports Authority (hereinafter referred to as &ldquo;the Procuring Entity&rsquo;&rsquo;) in respect of Tender No.</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 21:15:39', NULL, NULL, 0, NULL, NULL, '2'),
-	(61, 27, '<p>/s Mason Services Limited &amp; Qntra Technology Limited (hereinafter referred to as &ldquo;the Applicant&rdquo;) lodged a Request for Review dated 4th October 2018 against the decision of Kenya Airports Authority (hereinafter referred to as &ldquo;the Procuring Entity&rsquo;&rsquo;) in respect of Tender No.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 21:15:52', NULL, NULL, 0, NULL, NULL, '1'),
-	(62, 27, '<p>/s Mason Services Limited &amp; Qntra Technology Limited (hereinafter referred to as &ldquo;the Applicant&rdquo;) lodged a Request for Review dated 4th October 2018 against the decision of Kenya Airports Authority (hereinafter referred to as &ldquo;the Procuring Entity&rsquo;&rsquo;) in respect of Tender No.</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 21:16:02', NULL, NULL, 0, NULL, NULL, '2'),
-	(63, 28, '<p>P0123456788X</p>\n', 'Grounds for Appeal', 'Pending Review', 'P0123456788X', '2019-11-21 21:39:53', NULL, NULL, 0, NULL, NULL, '1'),
-	(64, 28, '<p>P0123456788X</p>\n', 'Requested Orders', 'Pending Review', 'P0123456788X', '2019-11-21 21:40:02', NULL, NULL, 0, NULL, NULL, '1'),
-	(65, 29, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncu</p>\n', 'Grounds for Appeal', 'Pending Review', 'P123456879Q', '2019-11-22 11:17:34', NULL, NULL, 0, NULL, NULL, '1'),
-	(66, 29, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncu</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-22 11:17:42', NULL, NULL, 0, NULL, NULL, '1'),
-	(67, 30, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede jus</p>\n', 'Grounds for Appeal', 'Pending Review', 'P123456879Q', '2019-11-22 11:27:19', NULL, NULL, 0, NULL, NULL, '1'),
-	(68, 30, '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede jus</p>\n', 'Requested Orders', 'Pending Review', 'P123456879Q', '2019-11-22 11:27:35', NULL, NULL, 0, NULL, NULL, '1');
 /*!40000 ALTER TABLE `groundsandrequestedorders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.groundsandrequestedordershistory
@@ -5574,159 +5150,109 @@ CREATE TABLE IF NOT EXISTS `groupaccess` (
   CONSTRAINT `groupaccess_ibfk_3` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groupaccess: ~149 rows (approximately)
+-- Dumping data for table arcm.groupaccess: ~99 rows (approximately)
 DELETE FROM `groupaccess`;
 /*!40000 ALTER TABLE `groupaccess` DISABLE KEYS */;
 INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`) VALUES
-	(1, 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:34:39', '2019-07-20 14:36:43', 0),
-	(1, 18, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:36:13', '2019-07-20 14:36:44', 0),
-	(1, 19, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:36:14', '2019-07-20 14:36:44', 0),
-	(1, 20, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:36:17', '2019-07-20 14:36:45', 0),
-	(1, 21, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-20 14:35:08', '2019-07-20 14:36:46', 0),
-	(1, 22, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:11', '2019-09-06 16:41:10', 0),
-	(1, 23, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-07-26 12:05:12', '2019-07-26 12:05:12', 0),
-	(1, 24, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:13', '2019-09-11 11:12:56', 0),
-	(1, 25, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:14', '2019-09-11 11:12:56', 0),
-	(1, 26, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:14', '2019-09-11 11:12:57', 0),
-	(1, 27, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:14', '2019-09-11 11:12:57', 0),
-	(1, 28, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 12:05:15', '2019-11-13 13:45:47', 0),
-	(1, 29, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-29 09:48:18', '2019-11-22 10:55:30', 0),
-	(1, 30, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-09 11:42:39', '2019-09-06 16:41:08', 0),
-	(1, 31, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-07-29 14:07:57', '2019-07-29 14:08:04', 0),
-	(1, 32, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-31 16:59:31', '2019-09-06 16:41:14', 0),
-	(1, 33, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-01 10:22:15', '2019-09-06 16:41:18', 0),
-	(1, 34, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-08-01 10:25:32', '2019-09-06 16:41:30', 0),
-	(1, 35, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-01 10:49:22', '2019-11-13 13:45:49', 0),
-	(1, 36, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-08-01 11:41:41', '2019-09-06 16:41:31', 0),
-	(1, 37, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-08-01 13:32:59', '2019-09-06 16:41:32', 0),
-	(1, 38, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-08-05 14:07:05', '2019-09-06 16:41:33', 0),
-	(1, 39, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-05 14:44:42', '2019-09-11 11:13:06', 0),
-	(1, 40, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-06 14:20:38', '2019-09-11 11:13:06', 0),
-	(1, 41, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-06 14:34:37', '2019-09-11 11:13:07', 0),
-	(1, 42, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-09 11:42:39', '2019-09-11 11:13:13', 0),
-	(1, 43, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-14 10:23:35', '2019-09-11 11:13:12', 0),
-	(1, 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-14 15:57:42', '2019-09-11 11:13:11', 0),
-	(1, 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-14 15:57:43', '2019-09-11 11:13:10', 0),
-	(1, 46, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-21 18:01:27', '2019-09-06 16:41:08', 0),
-	(1, 47, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-23 12:01:49', '2019-09-11 11:13:00', 0),
-	(1, 48, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-23 12:01:50', '2019-09-11 11:12:51', 0),
-	(1, 49, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-09 09:47:19', '2019-09-09 09:47:50', 0),
-	(1, 50, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-11 10:46:42', '2019-09-11 10:46:45', 0),
-	(1, 51, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-11 11:12:47', '2019-09-11 11:12:50', 0),
-	(1, 52, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-12 09:47:41', '2019-09-12 09:47:44', 0),
-	(1, 53, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-13 10:05:09', '2019-09-13 10:05:13', 0),
-	(1, 54, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-17 09:41:39', '2019-09-17 09:41:43', 0),
-	(1, 55, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-18 10:04:16', '2019-09-18 10:04:20', 0),
-	(1, 56, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-23 14:28:51', '2019-09-23 14:28:57', 0),
-	(1, 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-24 11:09:37', '2019-09-24 11:09:41', 0),
-	(1, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-27 12:21:03', '2019-09-27 12:21:06', 0),
-	(1, 59, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-01 11:03:32', '2019-10-01 11:03:36', 0),
-	(1, 60, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-09 10:57:15', '2019-10-09 10:57:20', 0),
-	(1, 61, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-15 17:09:17', '2019-10-15 17:09:21', 0),
-	(1, 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-22 14:57:23', '2019-10-22 14:57:25', 0),
-	(1, 63, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-07 15:55:53', '2019-11-07 15:55:57', 0),
-	(1, 64, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-07 15:53:55', '2019-11-07 15:53:59', 0),
-	(1, 65, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:17', '2019-11-16 10:05:47', 0),
-	(1, 66, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:17', '2019-11-16 10:05:47', 0),
-	(1, 67, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:18', '2019-11-16 10:05:48', 0),
-	(1, 68, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:18', '2019-11-16 10:05:48', 0),
-	(1, 69, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:19', '2019-11-16 10:05:49', 0),
-	(1, 70, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:20', '2019-11-16 10:05:51', 0),
-	(1, 71, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:22', '2019-11-16 10:05:52', 0),
-	(1, 72, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:22', '2019-11-16 10:05:53', 0),
-	(1, 73, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:05:23', '2019-11-16 10:05:53', 0),
-	(1, 74, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:21:17', '2019-11-18 10:21:28', 0),
-	(1, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:21:18', '2019-11-18 10:21:28', 0),
-	(1, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:21:19', '2019-11-18 10:21:29', 0),
-	(1, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 16:46:01', '2019-11-18 16:46:04', 0),
-	(1, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:08:47', '2019-11-19 15:08:49', 0),
-	(1, 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:20', '2019-11-21 16:07:25', 0),
-	(1, 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:26', '2019-11-21 16:07:29', 0),
-	(7, 20, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:23', '2019-07-26 15:20:23', 0),
-	(7, 21, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-07-20 14:35:36', '2019-07-26 15:20:21', 0),
-	(7, 27, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:27', '2019-07-26 15:20:27', 0),
-	(7, 29, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-07-26 15:20:25', '2019-07-26 15:20:25', 0),
-	(7, 36, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-08-08 10:07:07', '2019-08-08 10:07:07', 0),
-	(7, 37, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-08-08 10:07:08', '2019-08-08 10:07:08', 0),
-	(7, 38, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-08-08 10:07:09', '2019-08-08 10:07:09', 0),
-	(7, 39, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-08-08 10:07:10', '2019-08-08 10:07:10', 0),
-	(7, 40, 0, 0, 1, 0, 0, 'Admin', 'Admin', '2019-08-08 10:07:10', '2019-08-08 10:07:10', 0),
-	(8, 26, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-07 13:54:55', '2019-11-07 13:54:55', 0),
-	(8, 32, 1, 1, 0, 1, 1, 'Admin', 'Admin', '2019-08-16 17:21:00', '2019-08-16 17:22:55', 0),
-	(8, 33, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-10-29 10:55:41', '2019-10-29 10:55:42', 0),
-	(8, 36, 1, 1, 0, 1, 1, 'Admin', 'Admin', '2019-08-16 17:22:19', '2019-08-16 17:22:57', 0),
-	(8, 38, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-08-16 17:22:31', '2019-08-16 17:22:34', 0),
-	(8, 40, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-08-16 17:22:40', '2019-08-16 17:22:40', 0),
-	(8, 41, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-08-16 17:22:42', '2019-08-16 17:22:42', 0),
-	(8, 42, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-08-16 17:22:45', '2019-08-16 17:22:45', 0),
-	(8, 43, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-08-16 17:22:49', '2019-08-16 17:22:49', 0),
-	(8, 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-16 17:02:21', '2019-08-16 17:02:29', 0),
-	(8, 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-08-16 17:02:20', '2019-08-16 17:02:29', 0),
-	(8, 47, 1, 0, 1, 1, 1, 'Admin', 'Admin', '2019-10-29 10:56:15', '2019-10-29 10:56:20', 0),
-	(8, 50, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-07 14:01:08', '2019-11-07 14:01:08', 0),
-	(8, 51, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-07 14:01:20', '2019-11-07 14:01:20', 0),
-	(8, 55, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-07 14:01:09', '2019-11-07 14:01:09', 0),
-	(8, 56, 1, 0, 1, 1, 1, 'Admin', 'Admin', '2019-09-23 11:59:42', '2019-09-23 11:59:48', 0),
-	(8, 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-09-24 11:10:20', '2019-09-24 11:10:25', 0),
-	(8, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-22 14:57:57', '2019-10-22 14:58:00', 0),
-	(8, 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-10-22 14:57:51', '2019-10-22 14:57:54', 0),
-	(8, 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:07:41', '2019-11-21 16:07:41', 0),
-	(8, 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:07:42', '2019-11-21 16:07:42', 0),
-	(9, 17, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-22 12:55:31', '2019-11-22 12:55:31', 0),
-	(9, 22, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-11-16 10:03:55', '2019-11-16 10:03:59', 0),
-	(9, 24, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:28:34', '2019-11-11 15:28:38', 0),
-	(9, 25, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:28:39', '2019-11-11 15:28:45', 0),
-	(9, 26, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:28:46', '2019-11-11 15:28:49', 0),
-	(9, 27, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:28:52', '2019-11-11 15:28:57', 0),
-	(9, 28, 0, 0, 1, 1, 0, 'Admin', 'Admin', '2019-11-13 14:30:21', '2019-11-13 14:30:22', 0),
-	(9, 29, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-16 10:03:52', '2019-11-16 10:03:52', 0),
-	(9, 33, 0, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:05', '2019-11-11 15:27:07', 0),
-	(9, 35, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:18', '2019-11-11 15:27:20', 0),
-	(9, 36, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:25', '2019-11-11 15:27:27', 0),
-	(9, 37, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:29', '2019-11-11 15:27:32', 0),
-	(9, 38, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:33', '2019-11-11 15:27:37', 0),
-	(9, 39, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:39', '2019-11-11 15:27:41', 0),
-	(9, 40, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:42', '2019-11-11 15:27:45', 0),
-	(9, 42, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:27:55', '2019-11-11 15:27:58', 0),
-	(9, 43, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:28:04', '2019-11-11 15:28:04', 0),
-	(9, 44, 0, 1, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:28:11', '2019-11-11 15:28:18', 0),
-	(9, 45, 0, 1, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:28:14', '2019-11-11 15:28:17', 0),
-	(9, 46, 1, 1, 0, 0, 1, 'Admin', 'Admin', '2019-11-11 15:26:18', '2019-11-11 15:26:33', 0),
-	(9, 47, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:28:58', '2019-11-11 15:29:02', 0),
-	(9, 48, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:29:03', '2019-11-11 15:29:07', 0),
-	(9, 49, 0, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:26:35', '2019-11-11 15:26:38', 0),
-	(9, 50, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:28:20', '2019-11-11 15:28:24', 0),
-	(9, 51, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:29:10', '2019-11-11 15:29:15', 0),
-	(9, 52, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:29:17', '2019-11-11 15:29:21', 0),
-	(9, 53, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:26:43', '2019-11-11 15:26:45', 0),
-	(9, 54, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:29:23', '2019-11-11 15:29:28', 0),
-	(9, 55, 0, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:28:29', '2019-11-11 15:28:31', 0),
-	(9, 56, 0, 1, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:29:34', '2019-11-11 15:29:41', 0),
-	(9, 57, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:29:36', '2019-11-11 15:29:39', 0),
-	(9, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:30:22', '2019-11-16 10:06:48', 0),
-	(9, 59, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:29:43', '2019-11-11 15:29:45', 0),
-	(9, 60, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:26:54', '2019-11-11 15:26:57', 0),
-	(9, 61, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:29:49', '2019-11-11 15:29:56', 0),
-	(9, 62, 0, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:30:07', '2019-11-11 15:30:08', 0),
-	(9, 63, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:30:10', '2019-11-11 15:30:13', 0),
-	(9, 64, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:30:14', '2019-11-11 15:30:18', 0),
-	(9, 65, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:08', '2019-11-16 10:06:47', 0),
-	(9, 66, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:11', '2019-11-16 10:06:47', 0),
-	(9, 67, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:15', '2019-11-16 10:06:45', 0),
-	(9, 68, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:15', '2019-11-16 10:06:45', 0),
-	(9, 69, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:16', '2019-11-16 10:06:44', 0),
-	(9, 70, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:26', '2019-11-16 10:06:43', 0),
-	(9, 71, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:29', '2019-11-16 10:06:42', 0),
-	(9, 72, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:33', '2019-11-16 10:06:42', 0),
-	(9, 73, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-16 10:06:36', '2019-11-16 10:06:41', 0),
-	(9, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:22:29', '2019-11-18 10:22:35', 0),
-	(9, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 10:22:31', '2019-11-18 10:22:35', 0),
-	(9, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-18 16:46:13', '2019-11-18 16:46:17', 0),
-	(9, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:09:32', '2019-11-19 15:09:36', 0),
-	(11, 24, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-13 14:33:50', '2019-11-13 14:33:50', 0),
-	(11, 25, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-11-13 14:33:48', '2019-11-13 14:33:49', 0),
-	(11, 28, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-13 14:34:25', '2019-11-13 14:34:27', 0),
-	(11, 61, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-13 14:34:10', '2019-11-13 14:34:14', 0);
+	(1, 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:50', '2019-12-05 11:30:53', 0),
+	(1, 18, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:54', '2019-12-05 11:30:56', 0),
+	(1, 19, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:57', '2019-12-05 11:31:00', 0),
+	(1, 20, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:01', '2019-12-05 11:31:04', 0),
+	(1, 21, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:05', '2019-12-05 11:31:08', 0),
+	(1, 22, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:19', '2019-12-05 11:30:22', 0),
+	(1, 24, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:23', '2019-12-05 11:30:28', 0),
+	(1, 25, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:28', '2019-12-05 11:30:32', 0),
+	(1, 26, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:21', '2019-12-05 11:34:38', 0),
+	(1, 27, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:22', '2019-12-05 11:34:38', 0),
+	(1, 28, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:33', '2019-12-05 11:30:36', 0),
+	(1, 29, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:37', '2019-12-05 11:30:40', 0),
+	(1, 30, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:10', '2019-12-05 11:31:13', 0),
+	(1, 31, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:13', '2019-12-05 11:31:15', 0),
+	(1, 32, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:32', '2019-12-05 11:31:35', 0),
+	(1, 33, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:35', '2019-12-05 11:31:37', 0),
+	(1, 34, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:38', '2019-12-05 11:31:42', 0),
+	(1, 35, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:41', '2019-12-05 11:30:44', 0),
+	(1, 36, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:43', '2019-12-05 11:31:47', 0),
+	(1, 37, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:50', '2019-12-05 11:31:58', 0),
+	(1, 38, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:51', '2019-12-05 11:31:59', 0),
+	(1, 39, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:53', '2019-12-05 11:32:00', 0),
+	(1, 40, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:50', '2019-12-05 11:34:14', 0),
+	(1, 41, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:50', '2019-12-05 11:34:15', 0),
+	(1, 42, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:51', '2019-12-05 11:34:11', 0),
+	(1, 43, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:52', '2019-12-05 11:34:08', 0),
+	(1, 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:53', '2019-12-05 11:34:06', 0),
+	(1, 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:52', '2019-12-05 11:34:03', 0),
+	(1, 46, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:16', '2019-12-05 11:31:18', 0),
+	(1, 47, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:22', '2019-12-05 11:34:39', 0),
+	(1, 48, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:25', '2019-12-05 11:34:39', 0),
+	(1, 49, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:19', '2019-12-05 11:31:23', 0),
+	(1, 50, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:55', '2019-12-05 11:33:58', 0),
+	(1, 51, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:24', '2019-12-05 11:34:40', 0),
+	(1, 52, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:26', '2019-12-05 11:34:41', 0),
+	(1, 53, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:24', '2019-12-05 11:31:27', 0),
+	(1, 54, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:43', '2019-12-05 11:33:46', 0),
+	(1, 55, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:54', '2019-12-05 11:34:01', 0),
+	(1, 56, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:39', '2019-12-05 11:33:43', 0),
+	(1, 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:34', '2019-12-05 11:33:37', 0),
+	(1, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:52', '2019-12-05 11:32:56', 0),
+	(1, 59, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:31', '2019-12-05 11:33:33', 0),
+	(1, 60, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:28', '2019-12-05 11:31:30', 0),
+	(1, 61, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:27', '2019-12-05 11:33:31', 0),
+	(1, 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:19', '2019-12-05 11:33:25', 0),
+	(1, 63, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:18', '2019-12-05 11:33:26', 0),
+	(1, 64, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:14', '2019-12-05 11:33:17', 0),
+	(1, 65, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:47', '2019-12-05 11:32:50', 0),
+	(1, 66, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:42', '2019-12-05 11:32:46', 0),
+	(1, 67, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:15', '2019-12-05 11:32:40', 0),
+	(1, 68, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:15', '2019-12-05 11:32:39', 0),
+	(1, 69, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:13', '2019-12-05 11:32:39', 0),
+	(1, 70, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:12', '2019-12-05 11:32:38', 0),
+	(1, 71, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:12', '2019-12-05 11:32:38', 0),
+	(1, 72, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:09', '2019-12-05 11:32:37', 0),
+	(1, 73, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:09', '2019-12-05 11:32:36', 0),
+	(1, 74, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:10', '2019-12-05 11:33:14', 0),
+	(1, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:06', '2019-12-05 11:33:09', 0),
+	(1, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:02', '2019-12-05 11:33:05', 0),
+	(1, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:57', '2019-12-05 11:33:01', 0),
+	(1, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:44', '2019-12-05 11:30:47', 0),
+	(1, 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:20', '2019-12-05 11:34:52', 0),
+	(1, 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:21', '2019-12-05 11:34:53', 0),
+	(1, 81, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:06', '2019-12-05 11:32:35', 0),
+	(1, 82, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:06', '2019-12-05 11:32:35', 0),
+	(1, 83, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:10:01', '2019-12-05 12:10:04', 0),
+	(1, 84, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:23:26', '2019-12-05 12:23:28', 0),
+	(8, 26, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:54', '2019-12-05 13:21:54', 0),
+	(8, 27, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:56', '2019-12-05 13:21:59', 0),
+	(8, 32, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:15', '2019-12-05 13:21:15', 0),
+	(8, 33, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:18', '2019-12-05 13:21:18', 0),
+	(8, 34, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:19', '2019-12-05 13:21:19', 0),
+	(8, 36, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:21', '2019-12-05 13:21:21', 0),
+	(8, 37, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:23', '2019-12-05 13:21:23', 0),
+	(8, 38, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:24', '2019-12-05 13:21:24', 0),
+	(8, 39, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:25', '2019-12-05 13:21:25', 0),
+	(8, 40, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:31', '2019-12-05 13:21:31', 0),
+	(8, 41, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:33', '2019-12-05 13:21:33', 0),
+	(8, 42, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:35', '2019-12-05 13:21:35', 0),
+	(8, 43, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:41', '2019-12-05 13:21:41', 0),
+	(8, 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:21:45', '2019-12-05 13:24:37', 0),
+	(8, 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:21:43', '2019-12-05 13:24:38', 0),
+	(8, 47, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:00', '2019-12-05 13:22:00', 0),
+	(8, 50, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:45', '2019-12-05 13:21:45', 0),
+	(8, 54, 0, 0, 0, 0, 0, 'Admin', 'Admin', '2019-12-05 13:25:13', '2019-12-05 13:25:13', 0),
+	(8, 55, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:46', '2019-12-05 13:21:46', 0),
+	(8, 56, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:25:14', '2019-12-05 13:25:17', 0),
+	(8, 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:22:05', '2019-12-05 13:22:08', 0),
+	(8, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:22:32', '2019-12-05 13:25:35', 0),
+	(8, 59, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:12', '2019-12-05 13:22:12', 0),
+	(8, 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 13:22:14', '2019-12-05 13:22:17', 0),
+	(8, 69, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:38', '2019-12-05 13:22:38', 0),
+	(8, 74, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:23', '2019-12-05 13:22:23', 0),
+	(8, 75, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:26', '2019-12-05 13:22:26', 0),
+	(8, 76, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:22:28', '2019-12-05 13:22:28', 0),
+	(8, 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:47', '2019-12-05 13:21:47', 0),
+	(8, 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:49', '2019-12-05 13:21:49', 0),
+	(8, 83, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:50', '2019-12-05 13:21:50', 0),
+	(8, 84, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:51', '2019-12-05 13:21:51', 0);
 /*!40000 ALTER TABLE `groupaccess` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.hearingattachments
@@ -5743,18 +5269,11 @@ CREATE TABLE IF NOT EXISTS `hearingattachments` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `DeletedBy` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.hearingattachments: ~6 rows (approximately)
+-- Dumping data for table arcm.hearingattachments: ~0 rows (approximately)
 DELETE FROM `hearingattachments`;
 /*!40000 ALTER TABLE `hearingattachments` DISABLE KEYS */;
-INSERT INTO `hearingattachments` (`ID`, `ApplicationNo`, `Name`, `Description`, `Path`, `Category`, `UploadedOn`, `UploadedBy`, `Deleted`, `DeletedBy`) VALUES
-	(1, '17 OF 2019', '1573751119773-6 OF 2019.pdf', 'REPORT', 'http://74.208.157.60:3001/HearingAttachments/Documents', 'Documents', '2019-11-14 17:05:20', 'Admin', 1, 'Admin'),
-	(2, '17 OF 2019', '1573751176263-Kanye West - -128.mp3', 'AUDIO', 'http://74.208.157.60:3001/HearingAttachments/Audios', 'Audio', '2019-11-14 17:06:16', 'Admin', 0, NULL),
-	(3, '17 OF 2019', '1573751270229-Short video clip-nature.mp4-SD.mp4', 'VIDEO', 'http://74.208.157.60:3001/HearingAttachments/Vedios', 'Vedio', '2019-11-14 17:07:50', 'Admin', 0, NULL),
-	(4, '29 OF 2019', '1574430968673-29 OF 2019 (1).pdf', 'Document1', 'http://74.208.157.60:3001/HearingAttachments/Documents', 'Documents', '2019-11-22 13:56:08', 'Admin', 0, NULL),
-	(5, '29 OF 2019', '1574431000662-Kanye West - -128.mp3', 'Aud1', 'http://74.208.157.60:3001/HearingAttachments/Audios', 'Audio', '2019-11-22 13:56:40', 'Admin', 0, NULL),
-	(6, '29 OF 2019', '1574431653192-Short video clip-nature.mp4-SD.mp4', 'Vid1', 'http://74.208.157.60:3001/HearingAttachments/Vedios', 'Vedio', '2019-11-22 14:07:33', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `hearingattachments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.hearingnotices
@@ -5768,27 +5287,11 @@ CREATE TABLE IF NOT EXISTS `hearingnotices` (
   `Filename` varchar(105) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.hearingnotices: ~15 rows (approximately)
+-- Dumping data for table arcm.hearingnotices: ~0 rows (approximately)
 DELETE FROM `hearingnotices`;
 /*!40000 ALTER TABLE `hearingnotices` DISABLE KEYS */;
-INSERT INTO `hearingnotices` (`ID`, `ApplicationNo`, `DateGenerated`, `DateSent`, `Path`, `Filename`, `Created_By`) VALUES
-	(1, '17 OF 2019', '2019-11-14 16:34:34', '2019-11-14 16:36:36', 'HearingNotices/', '17 OF 2019.pdf', 'Admin'),
-	(2, '18 OF 2019', '2019-11-15 12:34:58', '2019-11-15 12:58:37', 'HearingNotices/', '18 OF 2019.pdf', 'Admin'),
-	(3, '18 OF 2019', '2019-11-15 12:46:09', '2019-11-15 12:58:37', 'HearingNotices/', '18 OF 2019.pdf', 'Admin'),
-	(4, '18 OF 2019', '2019-11-15 12:58:29', '2019-11-15 12:58:37', 'HearingNotices/', '18 OF 2019.pdf', 'Admin'),
-	(5, '17 OF 2019', '2019-11-16 10:11:04', NULL, 'HearingNotices/', '17 OF 2019.pdf', 'Admin'),
-	(6, '16 OF 2019', '2019-11-17 12:11:48', NULL, 'HearingNotices/', '16 OF 2019.pdf', 'Admin'),
-	(7, '16 OF 2019', '2019-11-20 11:05:45', NULL, 'HearingNotices/', '16 OF 2019.pdf', 'Admin'),
-	(8, '12 OF 2019', '2019-11-20 12:53:36', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(9, '12 OF 2019', '2019-11-20 12:57:17', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(10, '12 OF 2019', '2019-11-20 13:42:29', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(11, '12 OF 2019', '2019-11-20 13:44:28', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(12, '12 OF 2019', '2019-11-20 13:45:51', NULL, 'HearingNotices/', '12 OF 2019.pdf', 'Admin'),
-	(13, '20 OF 2019', '2019-11-20 15:50:21', '2019-11-20 15:51:01', 'HearingNotices/', '20 OF 2019.pdf', 'Admin'),
-	(14, '23 OF 2019', '2019-11-21 18:30:47', '2019-11-21 18:32:29', 'HearingNotices/', '23 OF 2019.pdf', 'Admin'),
-	(15, '29 OF 2019', '2019-11-22 13:17:51', '2019-11-22 13:27:54', 'HearingNotices/', '29 OF 2019.pdf', 'Admin');
 /*!40000 ALTER TABLE `hearingnotices` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.interestedparties
@@ -5812,26 +5315,11 @@ CREATE TABLE IF NOT EXISTS `interestedparties` (
   `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Designation` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.interestedparties: ~14 rows (approximately)
+-- Dumping data for table arcm.interestedparties: ~0 rows (approximately)
 DELETE FROM `interestedparties`;
 /*!40000 ALTER TABLE `interestedparties` DISABLE KEYS */;
-INSERT INTO `interestedparties` (`ID`, `Name`, `ApplicationID`, `ContactName`, `Email`, `TelePhone`, `Mobile`, `PhysicalAddress`, `PostalCode`, `Town`, `POBox`, `Create_at`, `Update_at`, `Deleted`, `CreatedBy`, `UpdatedBy`, `Designation`) VALUES
-	(1, 'INTERESTED PARTY LTD', 1, 'WILSON K', 'wkerebei@wilcom.co.ke', '0122718412', '0122718412', '2nd Floor, Elysee Plaza', '00101', 'Nairobi', '10123', '2019-11-11 15:58:40', NULL, 0, 'P0123456788X', NULL, NULL),
-	(2, 'Wilcom Systems', 5, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '1234', '2019-11-12 11:21:59', NULL, 0, 'P0123456788X', NULL, NULL),
-	(3, 'WilCom Systems Ltd', 6, 'WILSON K', 'wkerebei@gmail.com', '0722719412', '0722719412', 'P.O BOX 102678', '00101', 'Nairobi', '12', '2019-11-12 15:48:28', NULL, 0, 'P0123456788X', NULL, NULL),
-	(4, 'WilCom Systems Ltd', 7, 'JAMES MOSH', 'wkerebei@gmail.com', '07227194121', '0722719412', 'P.O BOX 102678', '00101', 'Nairobi', '123', '2019-11-12 16:47:51', NULL, 0, 'P0123456788X', NULL, NULL),
-	(5, 'WilCom Systems Ltd', 7, 'JAMES MOSH', 'wkerebei@gmail.com', '0722719412', '0722719412', 'P.O BOX 102678', '00101', 'Nairobi', '1233', '2019-11-12 17:21:56', NULL, 0, 'A123456789X', NULL, NULL),
-	(6, 'Wilcom Systems', 10, 'Elvis Kimutai', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '0701102928', 'Nairobi', '123', '2019-11-13 11:55:33', NULL, 0, 'A123456789U', NULL, NULL),
-	(7, 'Wilcom Syustems', 15, 'Elvis', 'ekimutai810@gmail.com', '0705555285', '0705555285', 'Nairobi', '30106', 'Nairobi', '123', '2019-11-13 18:30:00', NULL, 0, 'A123456789X', NULL, NULL),
-	(8, 'ECTA KENYA LIMITED', 17, '224687', 'pjokumu@hotmail.com', '2389347457', '0734470491', 'Landmawe', '00100', 'Nairobi', '3456', '2019-11-15 12:05:39', NULL, 0, 'P65498745R', NULL, NULL),
-	(9, 'Wilcom Syustems', 23, 'Elvis', 'ekimutai810@gmail.com', '0705555285', '0705555285', 'Nairobi', '30106', 'Nairobi', '123', '2019-11-20 14:41:21', NULL, 0, 'P09875345W', NULL, NULL),
-	(10, 'Techsource Point Ltd', 25, 'Fred Ojurex', 'INFO@1234.COM', '010000000000', '01000000250', 'Muranga Road', '00101', 'Nairobi', '10101', '2019-11-21 14:31:41', NULL, 0, 'P0123456788X', NULL, 'DIRECTOR'),
-	(11, 'KELVIN AND ASSOCIATES', 26, 'KELVIN C', 'kserem20@gmail.com', '0700392599', '0700392599', 'NAIROBI', '00101', 'NAIROBI', '3254', '2019-11-21 16:35:27', NULL, 0, 'P0123456788X', NULL, 'DIRECTOR'),
-	(12, 'Home', 27, 'Interestd Partyu', 'cmkikungu@gmail.com', '0701102928', '0701102928', 'Nairobi', '1001', 'Nairobi', '123', '2019-11-21 21:19:13', NULL, 0, 'P0123456788X', NULL, 'Dr'),
-	(13, 'Home', 28, 'Interested party', 'elviskimcheruiyot@gmail.com', '0705555285', '0705555285', 'Nairobi', '1001', 'Nairobi', '123', '2019-11-21 21:40:53', NULL, 0, 'P0123456788X', NULL, 'Dr'),
-	(14, 'PPRA', 29, 'Sam Sam', 'x2press@gmail.com', '0721382630', '0721382630', 'Nairobi', '1001', 'Nairobi', '1234', '2019-11-22 11:20:27', NULL, 0, 'P123456879Q', NULL, 'Eng');
 /*!40000 ALTER TABLE `interestedparties` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.issuesfordetermination
@@ -5840,42 +5328,67 @@ CREATE TABLE IF NOT EXISTS `issuesfordetermination` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NO` int(11) DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.issuesfordetermination: ~22 rows (approximately)
+-- Dumping data for table arcm.issuesfordetermination: ~0 rows (approximately)
 DELETE FROM `issuesfordetermination`;
 /*!40000 ALTER TABLE `issuesfordetermination` DISABLE KEYS */;
-INSERT INTO `issuesfordetermination` (`ID`, `NO`, `ApplicationNo`, `Description`, `Created_At`, `Deleted`, `Created_By`, `Deleted_By`, `Deleted_At`) VALUES
-	(6, 1, '7 OF 2019', '<p>Issues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rows</p>\n', '2019-11-05 16:52:26', 1, 'Admin', NULL, NULL),
-	(7, 1, '7 OF 2019', '<p>Issues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rows</p>\n', '2019-11-05 17:03:04', 1, 'Admin', NULL, NULL),
-	(8, 2, '7 OF 2019', '<p>Lorem ipsum dolor sit amet,&nbsp;</p>\n', '2019-11-05 17:03:49', 1, 'Admin', NULL, NULL),
-	(9, 1, '7 OF 2019', '<p>Issues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rowsIssues:&nbsp;rows</p>\n', '2019-11-05 17:05:47', 1, 'Admin', NULL, NULL),
-	(10, 1, '7 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n', '2019-11-06 15:10:12', 0, 'Admin', NULL, NULL),
-	(11, 2, '7 OF 2019', '<p>Lorem ipsum dolor sit amet,&nbsp;</p>\n', '2019-11-06 15:10:20', 0, 'Admin', NULL, NULL),
-	(12, 1, '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', '2019-11-11 11:57:44', 0, 'Admin', NULL, NULL),
-	(13, 2, '11 OF 2019', '<p>Whereas Wilcom Systems the applicant herein has instituted a complaint against MINISTRY OF<br />\nEDUCATION (Procuring Entity or Director General) on 2019-11-11 (Date) particulars of which<br />\nwere set out in a Request for Review served upon you on 2019-11-11 .<br />\nYou are hereby required to appear on the 2019-11-11 at 8.00AM . when the complaint against you<br />\nwill be heard by this Board sitting at Mombasa,Room 1 .<br />\nIf you fail to appear,the Applicant may proceed with the complaint and determination by order of the<br />\nBoard may be made in your absence.</p>\n', '2019-11-11 11:57:50', 0, 'Admin', NULL, NULL),
-	(14, 1, '18 OF 2019', '<p>Usue One</p>\n', '2019-11-15 13:51:54', 0, 'Admin', NULL, NULL),
-	(15, 1, '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', '2019-11-15 14:00:14', 0, 'Admin', NULL, NULL),
-	(16, 2, '18 OF 2019', '<p>dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nib</p>\n', '2019-11-15 14:00:23', 0, 'Admin', NULL, NULL),
-	(17, 1, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:13:30', 0, 'Admin', NULL, NULL),
-	(18, 2, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:20:35', 0, 'Admin', NULL, NULL),
-	(19, 3, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:22:13', 0, 'Admin', NULL, NULL),
-	(20, 4, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:29:43', 0, 'Admin', NULL, NULL),
-	(21, 1, '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 12:15:40', 0, 'Admin', NULL, NULL),
-	(22, 1, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:36:32', 0, 'Admin', NULL, NULL),
-	(23, 2, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:36:39', 0, 'Admin', NULL, NULL),
-	(24, 1, '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:42:06', 0, 'Admin', NULL, NULL),
-	(25, 2, '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:42:12', 0, 'Admin', NULL, NULL),
-	(26, 1, '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:11:29', 0, 'Admin', NULL, NULL),
-	(27, 2, '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:11:34', 0, 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `issuesfordetermination` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.jrcontactusers
+DROP TABLE IF EXISTS `jrcontactusers`;
+CREATE TABLE IF NOT EXISTS `jrcontactusers` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `UserName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Role` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Create_at` datetime NOT NULL,
+  `Update_at` datetime DEFAULT NULL,
+  `Deleted` tinyint(1) NOT NULL,
+  `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+
+-- Dumping data for table arcm.jrcontactusers: ~0 rows (approximately)
+DELETE FROM `jrcontactusers`;
+/*!40000 ALTER TABLE `jrcontactusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jrcontactusers` ENABLE KEYS */;
+
+-- Dumping structure for table arcm.jrinterestedparties
+DROP TABLE IF EXISTS `jrinterestedparties`;
+CREATE TABLE IF NOT EXISTS `jrinterestedparties` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ContactName` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Email` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `TelePhone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Mobile` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PhysicalAddress` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PostalCode` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Town` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `POBox` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Create_at` datetime NOT NULL,
+  `Update_at` datetime DEFAULT NULL,
+  `Deleted` tinyint(1) NOT NULL,
+  `CreatedBy` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `UpdatedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Designation` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+
+-- Dumping data for table arcm.jrinterestedparties: ~0 rows (approximately)
+DELETE FROM `jrinterestedparties`;
+/*!40000 ALTER TABLE `jrinterestedparties` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jrinterestedparties` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.judicialreview
 DROP TABLE IF EXISTS `judicialreview`;
@@ -5891,7 +5404,7 @@ CREATE TABLE IF NOT EXISTS `judicialreview` (
   `DateRecieved` datetime DEFAULT NULL,
   `DateofReplyingAffidavit` date DEFAULT NULL,
   `DateofCourtRulling` date DEFAULT NULL,
-  `Ruling` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Ruling` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
@@ -5899,17 +5412,11 @@ CREATE TABLE IF NOT EXISTS `judicialreview` (
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'In Progress',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.judicialreview: ~5 rows (approximately)
+-- Dumping data for table arcm.judicialreview: ~0 rows (approximately)
 DELETE FROM `judicialreview`;
 /*!40000 ALTER TABLE `judicialreview` DISABLE KEYS */;
-INSERT INTO `judicialreview` (`ID`, `ApplicationNo`, `DateFilled`, `CaseNO`, `Description`, `Applicant`, `Court`, `Town`, `DateRecieved`, `DateofReplyingAffidavit`, `DateofCourtRulling`, `Ruling`, `Created_At`, `Created_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `Status`) VALUES
-	(1, '19 OF 2019', '2019-11-19', '308', 'Case No 308', 'Wilcom Systems', 'HIGH COURT', 'NAIROBI', '2019-11-19 15:11:17', '2019-11-20', '2019-11-20', 'Done', '2019-11-19 15:11:17', 'Admin', 0, NULL, NULL, 'Successful'),
-	(2, '19 OF 2019', '2019-11-19', '333', 'CAse 2', 'ddf', 'HIGH COURT', 'MOMBASA', '2019-11-19 15:15:22', '2019-11-20', '2019-11-20', 'Done', '2019-11-19 15:15:22', 'Admin', 0, NULL, NULL, 'Successful'),
-	(3, '23 OF 2019', '2019-11-20', '110 OF 2019', 'SUPPLIER VS MINISTRY OF EDUCATION', 'SUPPLIER LTD', 'HIGH COURT', 'MOMBASA', '2019-11-21 18:56:34', '2019-11-21', '2019-11-20', 'N/A', '2019-11-21 18:56:34', 'Admin', 0, NULL, NULL, 'Successful'),
-	(4, '29 OF 2019', '2019-11-22', '1234 of 2019', 'dolor sit amet, consectetuer', 'Lorem ipsum', 'HIGH COURT', 'NAIROBI', '2019-11-22 14:48:50', NULL, NULL, NULL, '2019-11-22 14:48:50', 'Admin', 0, NULL, NULL, 'In Progress'),
-	(5, '29 OF 2019', '2019-11-22', '345', 'WELCOME TO PPRA', 'WELCOME TO PPRA', 'HIGH COURT', 'MOMBASA', '2019-11-22 15:01:27', NULL, NULL, NULL, '2019-11-22 15:01:27', 'Admin', 0, NULL, NULL, 'In Progress');
 /*!40000 ALTER TABLE `judicialreview` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.judicialreviewdocuments
@@ -5922,35 +5429,29 @@ CREATE TABLE IF NOT EXISTS `judicialreviewdocuments` (
   `Path` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
+  `DocumentDate` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ActionDate` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ActionDescription` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ActionSent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'No',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2048;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=2048;
 
--- Dumping data for table arcm.judicialreviewdocuments: ~11 rows (approximately)
+-- Dumping data for table arcm.judicialreviewdocuments: ~0 rows (approximately)
 DELETE FROM `judicialreviewdocuments`;
 /*!40000 ALTER TABLE `judicialreviewdocuments` DISABLE KEYS */;
-INSERT INTO `judicialreviewdocuments` (`ID`, `ApplicationNo`, `Name`, `Description`, `Path`, `Created_At`, `Deleted`) VALUES
-	(10, '19 OF 2019', '1574168768805-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:09', 1),
-	(11, '19 OF 2019', '1574168775654-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:15', 0),
-	(12, '19 OF 2019', '1574168778360-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:18', 1),
-	(13, '19 OF 2019', '1574168783358-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:06:23', 1),
-	(14, '19 OF 2019', '1574168884809-6 OF 2019.pdf', 'Document 1', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:08:05', 1),
-	(15, '19 OF 2019', '1574169466675-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:17:46', 0),
-	(16, '19 OF 2019', '1574169469823-6 OF 2019.pdf', 'Document', 'http://74.208.157.60:3001/Documents', '2019-11-19 16:17:50', 0),
-	(17, '19 OF 2019', '1574248713777-6 OF 2019.pdf', 'Court Rulling', 'http://74.208.157.60:3001/Documents', '2019-11-20 14:18:34', 1),
-	(18, '23 OF 2019', '1574362587422-Request_for_review.pdf', 'NOTICE OF MOTION', 'http://74.208.157.60:3001/Documents', '2019-11-21 18:56:27', 0),
-	(19, '29 OF 2019', '1574434108206-6 OF 2019.pdf', 'Lorem ipsum dolor ', 'http://74.208.157.60:3001/Documents', '2019-11-22 14:48:28', 0),
-	(20, '29 OF 2019', '1574434121272-29 OF 2019.pdf', 'Desc 4', 'http://74.208.157.60:3001/Documents', '2019-11-22 14:48:41', 0);
 /*!40000 ALTER TABLE `judicialreviewdocuments` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.MarkcaseWithdrawalasfrivolous
 DROP PROCEDURE IF EXISTS `MarkcaseWithdrawalasfrivolous`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `MarkcaseWithdrawalasfrivolous`(IN _ApplicationNo varchar(50), IN _userID varchar(50))
+CREATE  PROCEDURE `MarkcaseWithdrawalasfrivolous`(IN _ApplicationNo varchar(50), IN _userID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
 Update casewithdrawal set  DecisionDate= now(), Status='Declined',Frivolous =1 where ApplicationNo=_ApplicationNo;
 call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
+  update notifications set Status='Resolved' where Category='Case withdrawal Approval' and  ApplicationNo=_ApplicationNo; 
+          
 END//
 DELIMITER ;
 
@@ -5967,14 +5468,11 @@ CREATE TABLE IF NOT EXISTS `membertypes` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.membertypes: ~2 rows (approximately)
+-- Dumping data for table arcm.membertypes: ~0 rows (approximately)
 DELETE FROM `membertypes`;
 /*!40000 ALTER TABLE `membertypes` DISABLE KEYS */;
-INSERT INTO `membertypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(1, 'COMT-1', 'Default Member', '2019-08-05 16:11:21', 'Admin', '2019-08-05 16:11:21', 'Admin', 1, 'Admin'),
-	(2, 'COMT-2', 'Default members', '2019-08-09 17:48:49', 'Admin', '2019-08-27 17:19:25', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `membertypes` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.mpesatransactions
@@ -6011,104 +5509,13 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `Created_At` datetime NOT NULL,
   `DueDate` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=520 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.notifications: ~91 rows (approximately)
+-- Dumping data for table arcm.notifications: ~0 rows (approximately)
 DELETE FROM `notifications`;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` (`ID`, `Username`, `Category`, `Description`, `Created_At`, `DueDate`, `Status`) VALUES
-	(401, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(402, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(403, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(404, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(405, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(406, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:46:17', '2019-11-24 16:46:17', 'Resolved'),
-	(408, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(409, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(410, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(411, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(412, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(413, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 16:49:18', '2019-11-24 16:49:18', 'Resolved'),
-	(415, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(416, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(417, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(418, 'SOdhiambo', 'Applications Approval', 'Applications pending approval', '2019-11-21 16:55:24', '2019-11-24 16:55:24', 'Resolved'),
-	(422, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(423, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Resolved'),
-	(424, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(425, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 17:36:16', '2019-11-24 17:36:16', 'Not Resolved'),
-	(429, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(430, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Resolved'),
-	(431, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(432, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:24:40', '2019-11-24 18:24:40', 'Not Resolved'),
-	(436, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 18:26:19', '2019-11-24 18:26:19', 'Resolved'),
-	(437, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(438, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Resolved'),
-	(439, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(440, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 18:33:32', '2019-11-24 18:33:32', 'Not Resolved'),
-	(444, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 18:33:50', '2019-11-24 18:33:50', 'Resolved'),
-	(445, 'Admin', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-21 18:52:19', '2019-11-24 18:52:19', 'Resolved'),
-	(446, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(447, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(448, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(449, 'pkiprop', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(450, 'Pokumu', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(451, 'SOdhiambo', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:21:42', '2019-11-24 21:21:42', 'Resolved'),
-	(453, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(454, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(455, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:25:10', '2019-11-24 21:25:10', 'Resolved'),
-	(456, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(457, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(458, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-21 21:41:49', '2019-11-24 21:41:49', 'Resolved'),
-	(459, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(460, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(461, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-21 21:43:39', '2019-11-24 21:43:39', 'Resolved'),
-	(462, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(463, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Resolved'),
-	(464, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(465, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-21 21:53:41', '2019-11-24 21:53:41', 'Not Resolved'),
-	(469, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(470, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Resolved'),
-	(471, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(472, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-21 21:59:09', '2019-11-24 21:59:09', 'Not Resolved'),
-	(476, 'Pokumu', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-21 21:59:27', '2019-11-24 21:59:27', 'Not Resolved'),
-	(477, 'Admin', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(478, 'PPRA01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(479, 'CASEOFFICER01', 'Applications Fees Approval', 'Applications pending fees confirmaion', '2019-11-22 11:35:32', '2019-11-25 11:35:32', 'Resolved'),
-	(480, 'Admin', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(481, 'PPRA01', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(482, 'CASEOFFICER01', 'Applications Approval', 'Applications pending approval', '2019-11-22 11:40:44', '2019-11-25 11:40:44', 'Resolved'),
-	(483, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(484, 'Admin', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Resolved'),
-	(485, 'CASEOFFICER01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(486, 'PPRA01', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(487, 'Pokumu', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Resolved'),
-	(488, 'SOdhiambo', 'Panel Formation', 'Applications Awating Panel Formation', '2019-11-22 12:27:02', '2019-11-25 12:27:02', 'Not Resolved'),
-	(490, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(491, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Resolved'),
-	(492, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(493, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(494, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(495, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 12:59:03', '2019-11-25 12:59:03', 'Not Resolved'),
-	(497, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-22 13:01:49', '2019-11-25 13:01:49', 'Resolved'),
-	(498, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(499, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Resolved'),
-	(500, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(501, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(502, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(503, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:05:44', '2019-11-25 13:05:44', 'Not Resolved'),
-	(505, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(506, 'Admin', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(507, 'CASEOFFICER01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(508, 'PPRA01', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(509, 'Pokumu', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(510, 'SOdhiambo', 'Panel Approval', 'Panel Lists Awiting Approval', '2019-11-22 13:29:06', '2019-11-25 13:29:06', 'Not Resolved'),
-	(512, 'Admin', 'Case Scheduling', 'Applications Hearing date scheduling', '2019-11-22 13:29:34', '2019-11-25 13:29:34', 'Not Resolved'),
-	(513, 'Admin', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Not Resolved'),
-	(514, 'Pokumu', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Not Resolved'),
-	(515, 'smiheso', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Not Resolved'),
-	(516, 'SOdhiambo', 'Decision Approval', 'Decision Report Awaiting Approval', '2019-11-22 14:31:58', '2019-11-25 14:31:58', 'Not Resolved');
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelapprovalcontacts
@@ -6121,15 +5528,9 @@ CREATE TABLE IF NOT EXISTS `panelapprovalcontacts` (
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.panelapprovalcontacts: ~5 rows (approximately)
+-- Dumping data for table arcm.panelapprovalcontacts: ~0 rows (approximately)
 DELETE FROM `panelapprovalcontacts`;
 /*!40000 ALTER TABLE `panelapprovalcontacts` DISABLE KEYS */;
-INSERT INTO `panelapprovalcontacts` (`Name`, `Email`, `Mobile`, `Msg`, `ApplicationNo`) VALUES
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Case Officer', '29 OF 2019'),
-	('Samson Odhiambo', 'x2press@gmail.com', '0721382630', 'Panel', '29 OF 2019'),
-	('Stanley Miheso', 'mihesosc@yahoo.com', '0722607127', 'Panel', '29 OF 2019'),
-	('WILSON B. KEREBEI', 'wkerebei@gmail.com', '07227194121', 'Panel', '29 OF 2019'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Panel', '29 OF 2019');
 /*!40000 ALTER TABLE `panelapprovalcontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panellist
@@ -6142,14 +5543,11 @@ CREATE TABLE IF NOT EXISTS `panellist` (
   `GeneratedOn` datetime DEFAULT NULL,
   `GeneratedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.panellist: ~1 rows (approximately)
+-- Dumping data for table arcm.panellist: ~0 rows (approximately)
 DELETE FROM `panellist`;
 /*!40000 ALTER TABLE `panellist` DISABLE KEYS */;
-INSERT INTO `panellist` (`ID`, `ApplicationNo`, `Path`, `FileName`, `GeneratedOn`, `GeneratedBy`) VALUES
-	(1, '17 OF 2019', 'PanelLists/', '17 OF 2019.pdf', '2019-11-20 12:48:05', 'Admin'),
-	(2, '29 OF 2019', 'PanelLists/', '29 OF 2019.pdf', '2019-11-22 15:34:01', 'Admin');
 /*!40000 ALTER TABLE `panellist` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panels
@@ -6166,29 +5564,11 @@ CREATE TABLE IF NOT EXISTS `panels` (
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.panels: ~17 rows (approximately)
+-- Dumping data for table arcm.panels: ~0 rows (approximately)
 DELETE FROM `panels`;
 /*!40000 ALTER TABLE `panels` DISABLE KEYS */;
-INSERT INTO `panels` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Deleted`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`) VALUES
-	(23, '20 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-20 16:05:35', 'Admin', NULL, NULL),
-	(24, '20 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-20 16:05:38', 'Admin', NULL, NULL),
-	(25, '20 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-20 16:05:40', 'Admin', NULL, NULL),
-	(26, '23 OF 2019', 'Admin', 'Approved', 'Member', 1, '2019-11-21 18:18:02', 'Admin', NULL, NULL),
-	(27, '23 OF 2019', 'Admin', 'Approved', 'Member', 1, '2019-11-21 18:21:34', 'Admin', NULL, NULL),
-	(28, '23 OF 2019', 'CASEOFFICER01', 'Approved', 'Chairperson', 1, '2019-11-21 18:21:42', 'Admin', NULL, NULL),
-	(29, '23 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-21 18:22:37', 'Admin', NULL, NULL),
-	(30, '23 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-21 18:23:39', 'Admin', NULL, NULL),
-	(31, '23 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-21 18:23:50', 'Admin', NULL, NULL),
-	(32, '23 OF 2019', 'smiheso', 'Approved', 'Member', 0, '2019-11-21 18:33:24', 'Admin', NULL, NULL),
-	(33, '28 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-21 21:59:00', 'Admin', NULL, NULL),
-	(34, '28 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-21 21:59:03', 'Admin', NULL, NULL),
-	(35, '28 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-21 21:59:07', 'Admin', NULL, NULL),
-	(36, '29 OF 2019', 'SOdhiambo', 'Approved', 'Chairperson', 0, '2019-11-22 12:56:48', 'Admin', NULL, NULL),
-	(37, '29 OF 2019', 'smiheso', 'Approved', 'Vice Chairperson', 0, '2019-11-22 12:56:55', 'Admin', NULL, NULL),
-	(38, '29 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-22 12:57:40', 'Admin', NULL, NULL),
-	(39, '29 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-22 13:29:02', 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `panels` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.panelsapprovalworkflow
@@ -6207,41 +5587,11 @@ CREATE TABLE IF NOT EXISTS `panelsapprovalworkflow` (
   `Approver` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Approved_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=1638;
 
--- Dumping data for table arcm.panelsapprovalworkflow: ~29 rows (approximately)
+-- Dumping data for table arcm.panelsapprovalworkflow: ~0 rows (approximately)
 DELETE FROM `panelsapprovalworkflow`;
 /*!40000 ALTER TABLE `panelsapprovalworkflow` DISABLE KEYS */;
-INSERT INTO `panelsapprovalworkflow` (`ID`, `ApplicationNo`, `UserName`, `Status`, `Role`, `Deleted`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Approver`, `Approved_At`) VALUES
-	(32, '20 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-20 16:05:35', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:07:30'),
-	(33, '20 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-20 16:05:38', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:07:32'),
-	(34, '20 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-20 16:05:40', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:07:34'),
-	(35, '20 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-20 16:05:35', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:13:16'),
-	(36, '20 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-20 16:05:38', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:13:16'),
-	(37, '20 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-20 16:05:40', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:13:16'),
-	(38, '20 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-20 16:05:35', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:17:19'),
-	(39, '20 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-20 16:05:38', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:17:19'),
-	(40, '20 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-20 16:05:40', 'Admin', NULL, NULL, 'Admin', '2019-11-20 16:17:19'),
-	(41, '23 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-21 18:22:37', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:25:51'),
-	(42, '23 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-21 18:23:39', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:25:54'),
-	(43, '23 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-21 18:23:50', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:25:57'),
-	(44, '23 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-21 18:22:37', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:33:50'),
-	(45, '23 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-21 18:23:39', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:33:50'),
-	(46, '23 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-21 18:23:50', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:33:50'),
-	(47, '23 OF 2019', 'smiheso', 'Approved', 'Member', 0, '2019-11-21 18:33:24', 'Admin', NULL, NULL, 'Admin', '2019-11-21 18:33:46'),
-	(51, '28 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-21 21:59:00', 'Admin', NULL, NULL, 'Admin', '2019-11-21 21:59:20'),
-	(52, '28 OF 2019', 'CASEOFFICER01', 'Approved', 'Member', 0, '2019-11-21 21:59:03', 'Admin', NULL, NULL, 'Admin', '2019-11-21 21:59:22'),
-	(53, '28 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-21 21:59:07', 'Admin', NULL, NULL, 'Admin', '2019-11-21 21:59:25'),
-	(54, '29 OF 2019', 'SOdhiambo', 'Approved', 'Chairperson', 0, '2019-11-22 12:56:48', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:00:34'),
-	(55, '29 OF 2019', 'smiheso', 'Approved', 'Vice Chairperson', 0, '2019-11-22 12:56:55', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:00:40'),
-	(56, '29 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-22 12:57:40', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:00:42'),
-	(57, '29 OF 2019', 'SOdhiambo', 'Approved', 'Chairperson', 0, '2019-11-22 12:56:48', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(58, '29 OF 2019', 'smiheso', 'Approved', 'Vice Chairperson', 0, '2019-11-22 12:56:55', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(59, '29 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-22 12:57:40', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(60, '29 OF 2019', 'SOdhiambo', 'Approved', 'Chairperson', 0, '2019-11-22 12:56:48', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(61, '29 OF 2019', 'smiheso', 'Approved', 'Vice Chairperson', 0, '2019-11-22 12:56:55', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(62, '29 OF 2019', 'PPRA01', 'Approved', 'Member', 0, '2019-11-22 12:57:40', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:34'),
-	(63, '29 OF 2019', 'Admin', 'Approved', 'Member', 0, '2019-11-22 13:29:02', 'Admin', NULL, NULL, 'Admin', '2019-11-22 13:29:32');
 /*!40000 ALTER TABLE `panelsapprovalworkflow` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.partysubmision
@@ -6250,34 +5600,18 @@ CREATE TABLE IF NOT EXISTS `partysubmision` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Party` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Description` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Deleted` tinyint(1) DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Deleted_At` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=4096;
 
--- Dumping data for table arcm.partysubmision: ~15 rows (approximately)
+-- Dumping data for table arcm.partysubmision: ~0 rows (approximately)
 DELETE FROM `partysubmision`;
 /*!40000 ALTER TABLE `partysubmision` DISABLE KEYS */;
-INSERT INTO `partysubmision` (`ID`, `Party`, `ApplicationNo`, `Description`, `Created_At`, `Deleted`, `Created_By`, `Deleted_By`, `Deleted_At`) VALUES
-	(8, 'PE', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:59:12', 1, 'Admin', NULL, NULL),
-	(9, 'Applicant', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:59:24', 1, 'Admin', NULL, NULL),
-	(10, 'PE', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:29:56', 0, 'Admin', NULL, NULL),
-	(11, 'Applicant', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:30:00', 1, 'Admin', NULL, NULL),
-	(12, 'Interested Party', '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 15:30:05', 0, 'Admin', NULL, NULL),
-	(13, 'PE', '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 12:15:33', 0, 'Admin', NULL, NULL),
-	(14, 'PE', '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:36:16', 0, 'Admin', NULL, NULL),
-	(15, 'Applicant', '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum f</p>\n', '2019-11-20 16:36:21', 0, 'Admin', NULL, NULL),
-	(16, 'PE', '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:41:27', 0, 'Admin', NULL, NULL),
-	(17, 'Applicant', '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:41:36', 0, 'Admin', NULL, NULL),
-	(18, 'Interested Party', '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:41:43', 0, 'Admin', NULL, NULL),
-	(19, 'Applicant Rejoinder', '23 OF 2019', '<ol>\n	<li><strong>Add ACCOUNTING OFFICER &ndash; to the PE in all reports and Notices</strong></li>\n</ol>\n\n<ol>\n	<li><strong>Panel Approval &ndash; Add a Check Box for approval of all panelists at once</strong></li>\n</ol>\n', '2019-11-21 18:41:54', 0, 'Admin', NULL, NULL),
-	(20, 'Applicant', '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:09:14', 0, 'Admin', NULL, NULL),
-	(21, 'Interested Party', '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:09:21', 0, 'Admin', NULL, NULL),
-	(22, 'Applicant Rejoinder', '29 OF 2019', '<p>orem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-22 14:09:29', 0, 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `partysubmision` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.paymentdetails
@@ -6296,38 +5630,11 @@ CREATE TABLE IF NOT EXISTS `paymentdetails` (
   `ChequeDate` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CHQNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AVG_ROW_LENGTH=5461;
 
--- Dumping data for table arcm.paymentdetails: ~26 rows (approximately)
+-- Dumping data for table arcm.paymentdetails: ~0 rows (approximately)
 DELETE FROM `paymentdetails`;
 /*!40000 ALTER TABLE `paymentdetails` DISABLE KEYS */;
-INSERT INTO `paymentdetails` (`ID`, `ApplicationID`, `Paidby`, `Refference`, `DateOfpayment`, `AmountPaid`, `Created_By`, `Created_At`, `Category`, `PaymentType`, `ChequeDate`, `CHQNO`) VALUES
-	(1, 1, 'wk', 'PYMREF00001', '2019-11-11', 28800, 'P0123456788X', '2019-11-11 16:10:58', 'Applicationfees', NULL, NULL, NULL),
-	(2, 5, 'Elvis kimutai', '0987656544322', '2019-11-12', 15000, 'P0123456788X', '2019-11-12 11:24:36', 'Applicationfees', NULL, NULL, NULL),
-	(3, 6, 'ALVIN', 'REFD00002', '2019-11-11', 26000, 'P0123456788X', '2019-11-12 15:51:39', 'Applicationfees', NULL, NULL, NULL),
-	(4, 7, 'ALVIN', 'REFD00003', '2019-11-12', 45000, 'P0123456788X', '2019-11-12 16:52:41', 'Applicationfees', NULL, NULL, NULL),
-	(5, 7, 'wk', 'REFD00004', '2019-11-12', 5000, 'A123456789X', '2019-11-12 17:25:08', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(6, 10, 'Elvis kimutai', '0987656544322', '2019-11-13', 25000, 'P0123456788X', '2019-11-13 11:20:13', 'Applicationfees', NULL, NULL, NULL),
-	(7, 10, 'Elvis kimutai', '0987656544322', '2019-11-13', 25000, 'P0123456788X', '2019-11-13 11:21:59', 'Applicationfees', NULL, NULL, NULL),
-	(8, 10, 'Elvis kimutai', '0987656544322', '2019-11-13', 25000, 'P0123456788X', '2019-11-13 11:24:41', 'Applicationfees', NULL, NULL, NULL),
-	(9, 10, 'Elvis kimutai', '0987656544322', '2019-11-13', 5000, 'A123456789U', '2019-11-13 11:56:03', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(10, 15, 'Elvis', 'REF124', '2019-11-20', 5000, 'P09875345W', '2019-11-13 17:19:00', 'Applicationfees', NULL, NULL, NULL),
-	(11, 14, 'Kim', '123', '2019-11-13', 5000, 'P09875345W', '2019-11-13 17:49:22', 'Applicationfees', NULL, NULL, NULL),
-	(12, 15, 'KIM', 'REF123', '2019-11-13', 5000, 'A123456789X', '2019-11-13 18:30:45', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(13, 15, 'KIM', 'REF123', '2019-11-13', 5000, 'A123456789X', '2019-11-13 18:34:00', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(14, 16, 'Kimutai Elvis', '123344', '2019-11-14', 25000, 'P0123456788X', '2019-11-14 14:46:35', 'Applicationfees', NULL, NULL, NULL),
-	(15, 17, 'Judy J', 'REF0000015', '2019-11-15', 310500, 'P123456879Q', '2019-11-15 11:10:01', 'Applicationfees', NULL, NULL, NULL),
-	(16, 18, 'Kim', '12344', '2019-11-15', 15000, 'P0123456788X', '2019-11-15 11:50:57', 'Applicationfees', NULL, NULL, NULL),
-	(17, 23, 'Kimutai', 'REF!234', '2019-11-20', 73000, 'P09875345W', '2019-11-20 14:42:09', 'Applicationfees', NULL, NULL, NULL),
-	(18, 23, 'Kimutai', 'REF!234', '2019-11-20', 5000, 'A123456789X', '2019-11-20 15:19:25', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(19, 23, 'Kimutai', 'REF!234', '2019-11-20', 1000, 'A123456789X', '2019-11-20 15:23:48', 'PreliminaryObjectionsFees', NULL, NULL, NULL),
-	(20, 24, 'ALVIN', 'REFD00002', '2019-11-20', 15000, 'P0123456788X', '2019-11-21 14:16:39', 'Applicationfees', NULL, NULL, NULL),
-	(21, 25, 'ALVIN', 'REF0000045', '2019-11-20', 15000, 'P0123456788X', '2019-11-21 14:33:52', 'Applicationfees', NULL, NULL, NULL),
-	(22, 26, 'WK', 'REFD00004', '2019-11-21', 200000, 'P0123456788X', '2019-11-21 16:46:17', 'Applicationfees', 2, '', ''),
-	(23, 26, 'WK', 'REF1254784', '2019-11-20', 5000, 'P0123456788X', '2019-11-21 16:49:18', 'Applicationfees', 4, '2019-11-20', '00001'),
-	(24, 27, 'Kim', '1234', '2019-11-21', 25000, 'P0123456788X', '2019-11-21 21:21:42', 'Applicationfees', 4, '2019-11-21', '035'),
-	(25, 28, 'Kim', '1234', '2019-11-21', 15000, 'P0123456788X', '2019-11-21 21:41:49', 'Applicationfees', 1, '', ''),
-	(26, 30, 'kimutai', 'REf10002', '2019-11-22', 205000, 'P123456879Q', '2019-11-22 11:35:32', 'Applicationfees', 2, '', '');
 /*!40000 ALTER TABLE `paymentdetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.paymenttypes
@@ -6361,20 +5668,17 @@ CREATE TABLE IF NOT EXISTS `pedeadlineextensionsrequests` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `PEID` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Reason` text COLLATE utf8mb4_unicode_ci,
   `RequestedDate` datetime DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.pedeadlineextensionsrequests: ~2 rows (approximately)
+-- Dumping data for table arcm.pedeadlineextensionsrequests: ~0 rows (approximately)
 DELETE FROM `pedeadlineextensionsrequests`;
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` DISABLE KEYS */;
-INSERT INTO `pedeadlineextensionsrequests` (`ID`, `PEID`, `ApplicationNo`, `Reason`, `RequestedDate`, `Created_At`, `Created_By`, `Status`) VALUES
-	(1, 'PE-2', '12 OF 2019', '<p>New Request 2</p>\n', '2019-11-15 00:00:00', '2019-11-11 17:31:46', 'A123456789X', 'Pending Approval'),
-	(2, 'PE-2', '15 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 00:00:00', '2019-11-12 17:15:50', 'A123456789X', 'DECLINED');
 /*!40000 ALTER TABLE `pedeadlineextensionsrequests` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponse
@@ -6390,21 +5694,11 @@ CREATE TABLE IF NOT EXISTS `peresponse` (
   `Status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `PanelStatus` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`ApplicationNo`,`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponse: ~9 rows (approximately)
+-- Dumping data for table arcm.peresponse: ~0 rows (approximately)
 DELETE FROM `peresponse`;
 /*!40000 ALTER TABLE `peresponse` DISABLE KEYS */;
-INSERT INTO `peresponse` (`ID`, `ApplicationNo`, `PEID`, `ResponseType`, `ResponseDate`, `Created_By`, `Created_At`, `Status`, `PanelStatus`) VALUES
-	(1, '12 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-11 17:39:01', 'A123456789X', '2019-11-11 17:39:01', 'Submited', 'Submited'),
-	(2, '13 OF 2019', 'PE-3', 'Memorandum of Response', '2019-11-12 14:40:06', 'A123456789U', '2019-11-12 14:40:06', 'Submited', 'Undefined'),
-	(3, '15 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-12 17:19:56', 'A123456789X', '2019-11-12 17:19:56', 'Submited', 'Undefined'),
-	(4, '16 OF 2019', 'PE-3', 'Preliminary Objection', '2019-11-13 11:53:34', 'A123456789U', '2019-11-13 11:53:34', 'Submited', 'Submited'),
-	(5, '17 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-13 18:28:46', 'A123456789X', '2019-11-13 18:28:46', 'Fees Pending Confirmation', 'Submited'),
-	(6, '18 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-15 12:01:35', 'P65498745R', '2019-11-15 12:01:35', 'Submited', 'Submited'),
-	(7, '20 OF 2019', 'PE-2', 'Preliminary Objection', '2019-11-20 15:16:48', 'A123456789X', '2019-11-20 15:16:48', 'Submited', 'Submited'),
-	(8, '23 OF 2019', 'PE-2', 'Memorandum of Response', '2019-11-21 17:34:10', 'A123456789X', '2019-11-21 17:34:10', 'Submited', 'Submited'),
-	(9, '29 OF 2019', 'PE-4', 'Memorandum of Response', '2019-11-22 12:18:20', 'P65498745R', '2019-11-22 12:18:20', 'Submited', 'Submited');
 /*!40000 ALTER TABLE `peresponse` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsebackgroundinformation
@@ -6412,29 +5706,18 @@ DROP TABLE IF EXISTS `peresponsebackgroundinformation`;
 CREATE TABLE IF NOT EXISTS `peresponsebackgroundinformation` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ApplicationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `BackgroundInformation` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `BackgroundInformation` text COLLATE utf8mb4_unicode_ci,
   `ResponseType` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_At` datetime DEFAULT NULL,
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsebackgroundinformation: ~10 rows (approximately)
+-- Dumping data for table arcm.peresponsebackgroundinformation: ~0 rows (approximately)
 DELETE FROM `peresponsebackgroundinformation`;
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` DISABLE KEYS */;
-INSERT INTO `peresponsebackgroundinformation` (`ID`, `ApplicationNo`, `BackgroundInformation`, `ResponseType`, `Created_At`, `Updated_At`, `Updated_By`, `Created_By`) VALUES
-	(1, '13 OF 2019', '<p><strong>Note:</strong>&nbsp;The INNER JOIN keyword selects all rows from both tables as long as there is a match between the columns. If there are records in the &quot;Orders&quot; table that do not have matches in &quot;Customers&quot;, these orders will not be shown!</p>\n', 'Memorandum of Response', '2019-11-12 14:20:43', '2019-11-12 14:43:37', 'A123456789U', NULL),
-	(2, '15 OF 2019', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', 'Preliminary Objection', '2019-11-12 17:19:23', NULL, NULL, 'A123456789X'),
-	(3, '16 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p>\n', 'Preliminary Objection', '2019-11-13 11:46:28', NULL, NULL, 'A123456789U'),
-	(4, '17 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', 'Preliminary Objection', '2019-11-13 18:28:40', NULL, NULL, 'A123456789X'),
-	(5, '18 OF 2019', '<p>We procured for motor vehicle for government agencies and ministries</p>\n', 'Memorandum of Response', '2019-11-15 12:00:02', NULL, NULL, 'P65498745R'),
-	(6, '12 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,</p>\n', 'Preliminary Objection', '2019-11-16 11:51:46', '2019-11-16 13:37:15', 'A123456789X', 'A123456789X'),
-	(7, '20 OF 2019', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', 'Preliminary Objection', '2019-11-20 15:04:19', '2019-11-20 15:12:30', 'A123456789X', 'A123456789X'),
-	(8, '23 OF 2019', '<p>On behalf of the Procuring Entity, Mr. Rapando fully relied on its Response to Request for Review No. 78/2019 and Response to Request for Review No. 79 of 2019, both dated and filed on 1st August 2019.<br />\nMr Rapando submitted that the Procuring Entity opposed the joining of the 2nd Respondent as a party to both review applications, contrary to section 170 of the Act and the same should be struck off forthwith.</p>\n', 'Memorandum of Response', '2019-11-21 17:33:51', NULL, NULL, 'A123456789X'),
-	(9, '27 OF 2019', '<p>The source is corresponding to &#39;PBS NewsHour, PBS NewsHour, Rivet&#39; I Think inverted comma is missing which leads to 12 values instead of 14&nbsp;&ndash;&nbsp;<a href="https://stackoverflow.com/users/2614719/prateek-mishra">Prateek Mishra</a>&nbsp;<a href="https://stackoverflow.com/questions/24773064/error-er-wrong-value-count-on-row-column-count-doesnt-match-value-count-at-ro#comment38443009_24773161">Jul 16 &#39;14 at 6:35</a></p>\n', 'Memorandum of Response', '2019-11-21 21:53:09', NULL, NULL, 'A123456789X'),
-	(10, '29 OF 2019', '<p>abcd</p>\n', 'Memorandum of Response', '2019-11-22 12:18:00', NULL, NULL, 'P65498745R');
 /*!40000 ALTER TABLE `peresponsebackgroundinformation` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsecontacts
@@ -6446,13 +5729,9 @@ CREATE TABLE IF NOT EXISTS `peresponsecontacts` (
   `Role` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsecontacts: ~3 rows (approximately)
+-- Dumping data for table arcm.peresponsecontacts: ~0 rows (approximately)
 DELETE FROM `peresponsecontacts`;
 /*!40000 ALTER TABLE `peresponsecontacts` DISABLE KEYS */;
-INSERT INTO `peresponsecontacts` (`Name`, `Email`, `Mobile`, `Role`) VALUES
-	('STATE DEPARTMENT OF INTERIOR ', 'judyjay879@gmail.com', '0718403086', 'PE'),
-	('Elvis kimutai', 'elviskcheruiyot@gmail.com', '0705555285', 'Case officer'),
-	('CMC MOTORS CORPORATION', 'judiejuma@gmail.com', '0705128595', 'Applicant');
 /*!40000 ALTER TABLE `peresponsecontacts` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsedetails
@@ -6462,51 +5741,19 @@ CREATE TABLE IF NOT EXISTS `peresponsedetails` (
   `PEResponseID` int(11) DEFAULT NULL,
   `GroundNO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `GroundType` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Response` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Response` text COLLATE utf8mb4_unicode_ci,
   `Created_At` datetime DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `BackgrounInformation` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `BackgrounInformation` text COLLATE utf8mb4_unicode_ci,
+  `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsedetails: ~31 rows (approximately)
+-- Dumping data for table arcm.peresponsedetails: ~0 rows (approximately)
 DELETE FROM `peresponsedetails`;
 /*!40000 ALTER TABLE `peresponsedetails` DISABLE KEYS */;
-INSERT INTO `peresponsedetails` (`ID`, `PEResponseID`, `GroundNO`, `GroundType`, `Response`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `BackgrounInformation`, `Deleted`) VALUES
-	(11, 2, '1', 'Grounds', '<p>That the Procuring Entity declined to furnish the Applicant with a summary of the due diligence report as the same was part of confidential documents which remain in the custody of the Procuring Entity pursuant to section 67 of the Act</p>\n', '2019-11-12 14:55:01', 'A123456789U', NULL, NULL, NULL, 0),
-	(12, 2, '2', 'Grounds', '<p>That the Procuring Entity declined to furnish the Applicant with a summary of the due diligence report as the same was part of confidential documents which remain in the custody of the Procuring Entity pursuant to section 67 of the Act</p>\n', '2019-11-12 14:55:07', 'A123456789U', NULL, NULL, NULL, 0),
-	(13, 2, '1', 'Prayers', '<p>An order cancelling the award of tender and/or contract made to Kenya Airports Parking Services;</p>\n', '2019-11-12 14:56:55', 'A123456789U', NULL, NULL, NULL, 0),
-	(14, 2, '2', 'Prayers', '<p>An order cancelling the award of tender and/or contract made to Kenya Airports Parking Services;</p>\n', '2019-11-12 14:57:01', 'A123456789U', NULL, NULL, NULL, 0),
-	(15, 3, '1', 'Grounds', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:19:56', 'A123456789X', NULL, NULL, NULL, 0),
-	(16, 3, '2', 'Grounds', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:20:06', 'A123456789X', NULL, NULL, NULL, 0),
-	(17, 3, '3', 'Grounds', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:20:14', 'A123456789X', NULL, NULL, NULL, 0),
-	(18, 3, '1', 'Prayers', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:20:49', 'A123456789X', NULL, NULL, NULL, 0),
-	(19, 3, '2', 'Prayers', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:21:03', 'A123456789X', NULL, NULL, NULL, 0),
-	(20, 3, '3', 'Prayers', '<p>Review against the decision of the Principal Secretary, State Department of Irrigation and the award of Tender No: MALF &amp; I/SDI/OT/04/2018-2019 for Procurement of Construction of Kaigunji Irrigation Project Phase II Section One.</p>\n', '2019-11-12 17:21:10', 'A123456789X', NULL, NULL, NULL, 0),
-	(21, 4, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo,</p>\n', '2019-11-13 11:53:34', 'A123456789U', NULL, NULL, NULL, 0),
-	(22, 4, '1', 'Prayers', '<p>ackground Information</p>\n', '2019-11-13 11:55:17', 'A123456789U', NULL, NULL, NULL, 0),
-	(23, 5, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 18:28:47', 'A123456789X', NULL, NULL, NULL, 0),
-	(24, 5, '2', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,</p>\n', '2019-11-13 18:28:54', 'A123456789X', NULL, NULL, NULL, 0),
-	(25, 6, '1', 'Grounds', '<p>The Tender Document was in accordance with standard tender documents issued by PPRA</p>\n', '2019-11-15 12:01:35', 'P65498745R', NULL, NULL, NULL, 0),
-	(26, 6, '2', 'Grounds', '<p>The termination of the tendering process was done in accordance with section 63 of the Act</p>\n', '2019-11-15 12:02:04', 'P65498745R', NULL, NULL, NULL, 0),
-	(27, 6, '1', 'Prayers', '<p>The award to the successful bidder was lawful</p>\n', '2019-11-15 12:02:57', 'P65498745R', NULL, NULL, NULL, 0),
-	(28, 6, '2', 'Prayers', '<p>The Applicant is not entitled to the costs of this application</p>\n', '2019-11-15 12:03:17', 'P65498745R', NULL, NULL, NULL, 0),
-	(29, 1, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:02:33', 'A123456789X', NULL, NULL, NULL, 0),
-	(30, 1, '2', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:02:39', 'A123456789X', NULL, NULL, NULL, 0),
-	(31, 1, '3', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:02:49', 'A123456789X', NULL, NULL, NULL, 0),
-	(32, 1, '4', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede</p>\n', '2019-11-16 14:02:54', 'A123456789X', NULL, NULL, NULL, 0),
-	(33, 7, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:16:48', 'A123456789X', NULL, NULL, NULL, 0),
-	(34, 7, '2', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:16:53', 'A123456789X', NULL, NULL, NULL, 0),
-	(35, 7, '3', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:16:58', 'A123456789X', NULL, NULL, NULL, 0),
-	(36, 7, '4', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:17:03', 'A123456789X', NULL, NULL, NULL, 0),
-	(37, 7, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:18:32', 'A123456789X', NULL, NULL, NULL, 0),
-	(38, 7, '2', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:18:37', 'A123456789X', NULL, NULL, NULL, 0),
-	(39, 7, '3', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo lig</p>\n', '2019-11-20 15:18:44', 'A123456789X', NULL, NULL, NULL, 0),
-	(47, 9, '1', 'Grounds', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pelle</p>\n', '2019-11-22 12:18:21', 'P65498745R', NULL, NULL, NULL, 0),
-	(48, 9, '1', 'Prayers', '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pelle</p>\n', '2019-11-22 12:18:52', 'P65498745R', NULL, NULL, NULL, 0);
 /*!40000 ALTER TABLE `peresponsedetails` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsedocuments
@@ -6521,23 +5768,11 @@ CREATE TABLE IF NOT EXISTS `peresponsedocuments` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Confidential` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsedocuments: ~11 rows (approximately)
+-- Dumping data for table arcm.peresponsedocuments: ~0 rows (approximately)
 DELETE FROM `peresponsedocuments`;
 /*!40000 ALTER TABLE `peresponsedocuments` DISABLE KEYS */;
-INSERT INTO `peresponsedocuments` (`ID`, `PEResponseID`, `Name`, `Description`, `Path`, `Created_At`, `Deleted`, `Confidential`) VALUES
-	(1, 1, '1573494093285-2020190002762066.pdf', 'Evaluation Criteria', 'Documents', '2019-11-11 17:41:33', 0, 0),
-	(2, 1, '1573494100741-2020190002762066.pdf', 'Evaluation Criteria', 'Documents', '2019-11-11 17:41:41', 1, 0),
-	(3, 1, '1573494111039-2020190002762066.pdf', 'Evaluation Criteria', 'Documents', '2019-11-11 17:41:51', 1, 0),
-	(4, 1, '1573494179819-2020190002762066.pdf', 'Evaluation Criteria- Confidential', 'Documents', '2019-11-11 17:43:00', 0, 1),
-	(5, 1, '1573495250165-2020190002762066.pdf', 'Document', 'Documents', '2019-11-11 18:00:50', 0, 0),
-	(6, 2, '1573559846237-6 OF 2019.pdf', 'Tender Document', 'Documents', '2019-11-12 14:57:26', 0, 0),
-	(7, 3, '1573579434053-CD Label.jpg', 'Evidence', 'Documents', '2019-11-12 17:23:54', 0, 0),
-	(8, 5, '1573669819245-6 OF 2019.pdf', 'Document 1', 'Documents', '2019-11-13 18:30:19', 0, 1),
-	(9, 1, '1573902198171-6 OF 2019.pdf', 'Document', 'Documents', '2019-11-16 14:03:18', 0, 0),
-	(10, 8, '1574357772071-Tender Security.pdf', 'Response Document One', 'Documents', '2019-11-21 17:36:12', 0, 0),
-	(11, 9, '1574425450609-FINAL ORDERS.pdf', 'Evaluation Report', 'Documents', '2019-11-22 12:24:10', 0, 1);
 /*!40000 ALTER TABLE `peresponsedocuments` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peresponsetimer
@@ -6550,30 +5785,11 @@ CREATE TABLE IF NOT EXISTS `peresponsetimer` (
   `DueOn` datetime NOT NULL,
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`,`PEID`,`ApplicationNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peresponsetimer: ~18 rows (approximately)
+-- Dumping data for table arcm.peresponsetimer: ~0 rows (approximately)
 DELETE FROM `peresponsetimer`;
 /*!40000 ALTER TABLE `peresponsetimer` DISABLE KEYS */;
-INSERT INTO `peresponsetimer` (`ID`, `PEID`, `ApplicationNo`, `RegisteredOn`, `DueOn`, `Status`) VALUES
-	(1, 'PE-2', '12 OF 2019', '2019-11-11 16:20:11', '2019-11-16 16:20:11', 'Submited'),
-	(2, 'PE-3', '13 OF 2019', '2019-11-12 11:51:53', '2019-11-17 11:51:53', 'Awaiting Response'),
-	(3, 'PE-3', '14 OF 2019', '2019-11-12 15:56:41', '2019-11-17 15:56:41', 'Pending Acknowledgement'),
-	(4, 'PE-2', '15 OF 2019', '2019-11-12 17:02:35', '2019-11-17 17:02:35', 'Submited'),
-	(5, 'PE-3', '16 OF 2019', '2019-11-13 11:42:41', '2019-11-18 11:42:41', 'Awaiting Response'),
-	(6, 'PE-2', '17 OF 2019', '2019-11-13 17:40:43', '2019-11-18 17:40:43', 'Submited'),
-	(7, 'PE-4', '18 OF 2019', '2019-11-15 11:36:02', '2019-11-20 11:36:02', 'Submited'),
-	(8, 'PE-2', '19 OF 2019', '2019-11-17 12:17:53', '2019-11-22 12:17:53', 'Pending Acknowledgement'),
-	(9, 'PE-2', '20 OF 2019', '2019-11-20 14:59:58', '2019-11-25 14:59:58', 'Submited'),
-	(10, 'PE-3', '21 OF 2019', '2019-11-21 14:19:16', '2019-11-26 14:19:16', 'Pending Acknowledgement'),
-	(11, 'PE-2', '22 OF 2019', '2019-11-21 14:36:22', '2019-11-26 14:36:22', 'Awaiting Response'),
-	(12, 'PE-2', '23 OF 2019', '2019-11-21 17:00:59', '2019-11-26 17:00:59', 'Submited'),
-	(13, 'PE-2', '24 OF 2019', '2019-11-21 21:26:16', '2019-11-26 21:26:16', 'Pending Acknowledgement'),
-	(14, 'PE-2', '25 OF 2019', '2019-11-21 21:31:33', '2019-11-26 21:31:33', 'Pending Acknowledgement'),
-	(15, 'PE-2', '26 OF 2019', '2019-11-21 21:34:40', '2019-11-26 21:34:40', 'Pending Acknowledgement'),
-	(16, 'PE-2', '27 OF 2019', '2019-11-21 21:37:14', '2019-11-26 21:37:14', 'Submited'),
-	(17, 'PE-2', '28 OF 2019', '2019-11-21 21:44:12', '2019-11-26 21:44:12', 'Awaiting Response'),
-	(18, 'PE-4', '29 OF 2019', '2019-11-22 11:47:04', '2019-11-27 11:47:04', 'Submited');
 /*!40000 ALTER TABLE `peresponsetimer` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.petypes
@@ -6589,9 +5805,9 @@ CREATE TABLE IF NOT EXISTS `petypes` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.petypes: ~11 rows (approximately)
+-- Dumping data for table arcm.petypes: ~16 rows (approximately)
 DELETE FROM `petypes`;
 /*!40000 ALTER TABLE `petypes` DISABLE KEYS */;
 INSERT INTO `petypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
@@ -6605,7 +5821,12 @@ INSERT INTO `petypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, 
 	(10, 'PET-10', 'Commissions and Independent Offices', '2019-11-21 11:11:38', 'Admin', '2019-11-21 11:11:38', 'Admin', 0, NULL),
 	(11, 'PET-11', 'Public Water Companies', '2019-11-21 11:12:00', 'Admin', '2019-11-21 11:12:00', 'Admin', 0, NULL),
 	(12, 'PET-12', 'Semi-Autonomous Government Agencies', '2019-11-21 11:12:19', 'Admin', '2019-11-21 11:12:19', 'Admin', 0, NULL),
-	(13, 'PET-13', 'Public Colleges', '2019-11-21 11:12:50', 'Admin', '2019-11-21 11:12:50', 'Admin', 0, NULL);
+	(13, 'PET-13', 'Public Colleges', '2019-11-21 11:12:50', 'Admin', '2019-11-21 11:12:50', 'Admin', 0, NULL),
+	(14, 'PET-14', 'The Presidency', '2019-12-05 11:05:21', 'Admin', '2019-12-05 11:05:21', 'Admin', 0, NULL),
+	(15, 'PET-15', 'Other Entities owned by County Governments', '2019-12-05 11:05:39', 'Admin', '2019-12-05 11:05:39', 'Admin', 0, NULL),
+	(16, 'PET-16', 'Pension Schemes', '2019-12-05 11:05:56', 'Admin', '2019-12-05 11:05:56', 'Admin', 0, NULL),
+	(17, 'PET-17', 'NGCDF Committees', '2019-12-05 11:06:50', 'Admin', '2019-12-05 11:06:50', 'Admin', 0, NULL),
+	(18, 'PET-18', 'NGAAF', '2019-12-05 11:10:48', 'Admin', '2019-12-05 11:10:48', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `petypes` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.peusers
@@ -6617,16 +5838,11 @@ CREATE TABLE IF NOT EXISTS `peusers` (
   `Created_At` datetime DEFAULT NULL,
   `Created_by` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.peusers: ~4 rows (approximately)
+-- Dumping data for table arcm.peusers: ~0 rows (approximately)
 DELETE FROM `peusers`;
 /*!40000 ALTER TABLE `peusers` DISABLE KEYS */;
-INSERT INTO `peusers` (`ID`, `UserName`, `PEID`, `Created_At`, `Created_by`) VALUES
-	(5, 'A123456789X', 'PE-2', '2019-11-11 16:26:50', 'A123456789X'),
-	(6, 'A123456789U', 'PE-3', '2019-11-12 13:41:59', 'A123456789U'),
-	(7, 'P65498745R', 'PE-4', '2019-11-15 11:46:49', 'P65498745R'),
-	(8, 'P0000000001', 'PE-5', '2019-11-21 11:31:04', 'P0000000001');
 /*!40000 ALTER TABLE `peusers` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.procuremententity
@@ -6634,8 +5850,8 @@ DROP TABLE IF EXISTS `procuremententity`;
 CREATE TABLE IF NOT EXISTS `procuremententity` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `PEID` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PEType` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Name` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PEType` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `County` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Location` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `POBox` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -6643,7 +5859,7 @@ CREATE TABLE IF NOT EXISTS `procuremententity` (
   `Town` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Mobile` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Telephone` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Logo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Website` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Created_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -6657,21 +5873,425 @@ CREATE TABLE IF NOT EXISTS `procuremententity` (
   `PIN` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `RegistrationNo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`PEID`) USING BTREE,
-  UNIQUE KEY `UK_procuremententity_PEID` (`PEID`),
-  KEY `financialyear_ibfk_1` (`Created_By`),
-  KEY `financialyear_ibfk_2` (`Updated_By`),
-  KEY `PEID` (`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `UK_procuremententity_PEID` (`PEID`)
+) ENGINE=InnoDB AUTO_INCREMENT=925 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.procuremententity: ~5 rows (approximately)
+-- Dumping data for table arcm.procuremententity: ~412 rows (approximately)
 DELETE FROM `procuremententity`;
 /*!40000 ALTER TABLE `procuremententity` DISABLE KEYS */;
 INSERT INTO `procuremententity` (`ID`, `PEID`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`, `RegistrationDate`, `PIN`, `RegistrationNo`) VALUES
-	(1, 'PE-1', 'MASINDE MULIRO UNIVERSITY OF SCIENCE AND TECHNOLOGY', 'PET-10', '037', 'Kakamega', '190', '50100', 'KAKAMEGA', '0705555285', '07055555287', 'elviskimcheruiyot@gmail.com', '1574335219150-MMUST Logo.jpg', 'https://www.google.com', 'Admin', '2019-08-09 11:55:00', '2019-11-21 11:20:22', 'admin', 0, 'Admin', '2019-08-09 12:58:17', '2019-09-04 00:00:00', 'A123456789X', 'TS2345678KS'),
-	(2, 'PE-2', 'MINISTRY OF EDUCATION', 'PET-2', '047', 'Kakamega', '190', '00200', 'NAIROBI', '0705555285', '07055555287', 'elviskimcheruiyot@gmail.com', '1574333430553-Kenya_Court_of_Arms.png', 'https://www.google.com', 'Admin', '2019-08-09 12:11:23', '2019-11-21 11:15:07', 'admin', 0, NULL, NULL, '1970-01-01 00:00:00', 'A123456789X', 'TS2345678KS'),
-	(3, 'PE-3', 'UNIVERSITY OF NAIROBI', 'PET-6', '047', 'University of Nairobi', '190', '00200', 'NAIROBI', '0705555285', '1234567890', 'elviskimcheruiyot@gmail.com', '1574333534598-UON Logo.jpg', 'https://www.google.com', 'Admin', '2019-09-03 12:22:41', '2019-11-21 11:16:35', 'admin', 0, NULL, NULL, '2019-09-01 00:00:00', 'A123456789X', 'TS2345678KS'),
-	(4, 'PE-4', 'STATE DEPARTMENT OF INTERIOR ', 'PET-4', '047', 'HARAMBEE HOUSE', '45654', '00200', 'NAIROBI', '0718403086', '0733299665', 'judyjay879@gmail.com', '1574333463169-Kenya_Court_of_Arms.png', 'www.interior.go.ke', 'admin', '2019-11-15 10:51:14', '2019-11-21 10:52:56', 'admin', 0, NULL, NULL, '1963-12-12 00:00:00', 'P65498745R', 'c1234565'),
-	(5, 'PE-5', 'KENYA POLICE SERVICE', 'PET-4', '047', 'NAIROBI', '30083 ', '00200', 'NAIROBI', '0100000000', '02034141168', 'info@kenyapolice.go.ke', '1574335469868-Kenya_Court_of_Arms.png', 'www.kenyapolice.go.ke', 'admin', '2019-11-21 11:26:10', '2019-11-21 11:27:35', 'admin', 0, NULL, NULL, '1963-12-12 00:00:00', 'P0000000001', 'N/A');
+	(413, 'PE-1', 'Public Procurement Regulatory Authority', 'PET-5', '047', 'National Bank Building', '58535', '200', 'nairobi', '', '', 'bgitonga@ppra.go.ke', NULL, 'ppra.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(414, 'PE-2', 'ICT Authority', 'PET-5', '047', ' Telposta Towers 12th Floor', '27150', '100', '', '', '', 'stephen.mwaura@ict.go.ke', NULL, 'www.icta.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(415, 'PE-3', 'Kenya National Qualification Authority', 'PET-5', '047', 'Nairobi', '123', '', '', '', '', 'sammuel.angulu@yauu.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(416, 'PE-4', 'Ewaso Ng\'iro North Development Authority ', 'PET-5', '047', 'Isiolo', '203', '60300', '', '', '', 'benard.omwoyo@yahoo.com', NULL, 'www.ennda.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(417, 'PE-5', 'Ministry of Interior and Coordination of National Governments', 'PET-2', '047', '720911263', '720911263', '', '', '', '', 'muirurikarii@yahoo.com', NULL, 'www.interior.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(418, 'PE-6', 'Kirinyaga University', 'PET-6', '047', ' Kutus', 'P.O Box 143-10300 ', '', 'Kerugoya', '', '', 'athiong\'o@kyu.ac.ke', NULL, 'www.kyu.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(419, 'PE-7', 'Kenya Copyright Board ', 'PET-5', '047', '5th Floor NHIF Building - Community Ragati Road/Ngong Road', '34670 - 00100 ', '', '', '', '', 'mokwaro@copyright.go.ke', NULL, 'www.copyright.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(420, 'PE-8', 'School Equipment Production Unit', 'PET-5', '047', 'Inside University of Nairobi,Kenya Science Campus,Ngong Road', 'P.O Box 25140-00603', '', '', '', '', 'info@sepu.co.ke', NULL, 'www.schoolequipment.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(421, 'PE-9', 'National Oil Corporation Of Kenya', 'PET-5', '047', 'Kawi House, South C.', '58576 -00200', '', '', '', '', 'modiwa@noilkenya.co.ke', NULL, 'www.nationaloil.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(422, 'PE-10', 'Kenya School Of Government', 'PET-5', '047', 'Lower Kabete', '23030', '604', '', '', '', 'director@ksg.ac.ke', NULL, 'www.ksg.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(423, 'PE-11', 'Kenya Industrial Property Institute', 'PET-5', '047', 'Weights and measures Premises, Popo Road-South c', '516648', '200', '', '', '', 'Info@kipi.go.ke', NULL, 'www.kipi.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(424, 'PE-12', 'Kenya School Of Law', 'PET-5', '047', 'Karen -Langata South Road', '30369', '100', '', '', '', 'eowuor@ksl.ac.ke', NULL, 'www.ksl.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(425, 'PE-13', 'The East African Portland Cement Company', 'PET-5', '047', 'Off Namanga Road', 'PO BOX 20 ', '204', 'Athi River', '', '', 'duncan.odhiambo@eapcc.co.ke', NULL, 'www.eastafricanportland.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(426, 'PE-14', 'Kenya Marine and fisheries Research Institute', 'PET-5', '047', '721743373', '721743373', '', '', '', '', 'jarnya6@gmail.com', NULL, 'www.kmfri.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(427, 'PE-15', 'Kenya Deposit Insurance Corporation', 'PET-5', '047', '1st floor-CBK Pension house', '45983-00100', '', '', '', '', 'sukantetr@depositinsurance.go.ke', NULL, 'www.depositinsurance.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(428, 'PE-16', 'Competition Authority of Kenya', 'PET-5', '047', ' Kenya Railways HQs Block ', '+254 20277900', '', '', '', '', 'lchesaina@cak.go.ke', NULL, 'www.cak.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(429, 'PE-17', 'Kenya Railways ', 'PET-5', '047', 'Workshop Road, Off Haile Selassie Avenue, Nairobi', 'P.O. Box 30121 - 00100, NAIROBI', '', '', '', '', 'jkairianja@krc.co.ke', NULL, 'www.krc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(430, 'PE-18', 'National Museums of Kenya', 'PET-5', '047', '0', '40658-00100, Nairobi.', '', '', '', '', 'dkariuki@museums.or.ke', NULL, 'www.museums.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(431, 'PE-19', 'Rivatex East Africa limited ', 'PET-5', '047', ' ELDORET-OFF KISUMU ROAD-KIPKAREN ROAD', '4744-300 Eldoret', '', '', '', '', 'info@rivatex.co.ke', NULL, 'www.rivatex.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(432, 'PE-20', 'Kenya Roads Board', 'PET-5', '047', 'Kenya Re Building,Upperhill, 3rd Flr', 'PO Box 73718 00100 Nairobi', '', '', '', '', 'info@krb.go.ke', NULL, 'Www.krb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(433, 'PE-21', 'Kenya Agricultural & Livestock Research Organization', 'PET-5', '047', 'KAPTAGAT ROAD', '57811-00200', '', '', '', '', 'george.ayogo@kalro.org', NULL, 'www.kalro.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(434, 'PE-22', 'Export Processing Zones Authority', 'PET-5', '047', 'Viwanda Road  off Nairobi-Namanga Highway', '50563-00200 Nairobi ', '', '', '', '', 'edgar.abayo@epzakenya.com', NULL, 'www.epzakenya.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(435, 'PE-23', 'Water Resources Authority', 'PET-5', '047', ' NHIF BUILDING RAGATI ROAD OFF NGONG ROAD, 9TH FLOOR WING B', '45250-00100', '', '', '', '', 'procurement.wrma@gmail.com', NULL, 'www.wra.go.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(436, 'PE-24', 'Kenya literature Bureau ', 'PET-5', '047', 'South C', '30022 - 00100', '', '', '', '', 'esawe@klb.co.ke', NULL, 'www.klb.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(437, 'PE-25', 'Moi Teaching and Referral Hostipal', 'PET-5', '047', '30100', '3', '', '', '', '', 'samsonkoiyet@mtrh.go.ke', NULL, 'www.mtrh.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(438, 'PE-26', 'Ewaso Ngiro South Development Authority', 'PET-5', '047', 'Off Narok Bomet Road', '213 Narok', '', '', '', '', 'md.ensda@gmail.com', NULL, 'www.ensda.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(439, 'PE-27', 'Public Service Commission', 'PET-10', '047', ' commission house-harambee avenue', '30095-00100 NAIROBI', '', '', '', '', 'psck@publicservice.go.ke', NULL, 'https://www.publicservice.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(440, 'PE-28', 'Kenya Rural Roads Authority ', 'PET-5', '047', ' Blue Shield Towers, Hospital Road, Upper Hill ', '48151-00100 NAIROBI', '', '', '', '', 'roy.makau@kerra.go.ke', NULL, 'www.kerra.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(441, 'PE-29', 'National Irrigation Board', 'PET-5', '047', 'purchasing@nib.or.ke', 'P.O Box 30372-00100,Nairobi,Kenya', '', '', '', '', 'enquries@nib.or.ke\\', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(442, 'PE-30', 'Kenya National Highway Authority', 'PET-5', '047', 'Blue Shield Towers, Hospital Road, Upper Hill', '49712-00100, NAIROBI', '', '', '', '', 'r.kilel@kenha.co.ke', NULL, 'www.kenha.co.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(443, 'PE-31', 'Insurance Regulatory Authority', 'PET-5', '047', 'Zep-Re Place Longonot Road, Upperhill Nairobi', '43505-00100', '', '', '', '', 'dcherono@ira.go.ke', NULL, 'www.ira.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(444, 'PE-32', 'Kenya Universities and Colleges central placement service ', 'PET-5', '047', 'ACK Garden House, 1st Ngong Avenue, community-Nairobi', '105166- 00101, Nairobi', '', '', '', '', 'bnyambura@kuccps.ac.ke', NULL, 'https://www.kuccps.net/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(445, 'PE-33', 'Kenya Medical Laboratory Technician & Technologist Board', 'PET-5', '047', '  1st ngong avenue ', '20889-00202', '', '', '', '', 'procurement@kmlttb.org', NULL, 'www.kmlttb.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(446, 'PE-34', 'National Drought Management Authority', 'PET-5', '047', 'LONRHO HOUSE', '53547-00200-NAIROBI', '', '', '', '', 'rahma.ahmed@ndma.go.ke', NULL, 'www.ndma.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(447, 'PE-35', 'Uwezo Fund Oversight Board', 'PET-4', '047', 'Lonhro House', '42009 - 00100', '', '', '', '', 'enjagi@uwezo.go.ke', NULL, 'www.uwezo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(448, 'PE-36', 'Communications Authority of Kenya ', 'PET-5', '047', '703042001', '14448-00800', '', '', '', '', 'waweru@ca.go.ke', NULL, 'WWW.CA.GO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(449, 'PE-37', 'Tana Water Service Board', 'PET-5', '047', 'MAJI HOUSE, ALONG BADEN POWELL ROAD P.O. BOX, 1292 ??? 10100. Nyeri, Kenya', '1292', '', '', '', '', 'jgithinji@tanawsb.or.ke', NULL, 'www.tanawsb.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(450, 'PE-38', 'Kenya Post Office Saving Bank', 'PET-5', '047', 'POSTBANK HOUSE , BANDA STREET NAIROBI', 'Box 30313-00100 Nairobi', '', '', '', '', 'kimosopjj@postbank.co.ke', NULL, 'www.postbank.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(451, 'PE-39', 'Kenya Airport Authority', 'PET-5', '047', 'JKIA NAIROBI', '19001 - 00501', '', '', '', '', 'alfred.baliach@kaa.go.ke', NULL, 'www.kaa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(452, 'PE-40', 'Kenya Ordnance factories corporation ', 'PET-5', '047', '725525803', '725525803', '', '', '', '', 'dnyakamoro@ymail.com', NULL, 'info@kofc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(453, 'PE-41', 'National Construction Authority', 'PET-5', '047', '9TH FLOOR KCB Towers upper Hill, Kenya Road', '21046-00100 Nairobi', '', '', '', '', 'j.kolani@nca.go.ke', NULL, 'www.nca.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(454, 'PE-42', 'National Council for Persons with Disabilities', 'PET-5', '047', 'Kabete Orthopedic Compound,Waiyaki Way, Opposite ABC Place.', '66577-00800', '', '', '', '', 'daniel.njuguna@ncpwd.go.ke', NULL, 'www.ncpwd.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(455, 'PE-43', 'NATIONAL AIDS CONTROL COUNCIL', 'PET-5', '047', 'Landmark Plaza, 8th and 9th Floor Argwings Kodhek Road', '61307 00200 ', '', '', '', '', 'nchoge@nacc.or.ke', NULL, 'www.nacc.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(456, 'PE-44', 'National Employment Authority', 'PET-5', '047', 'KASARANI', '25780- 00100 NAIROBI', '', '', '', '', 'jandungu1001@gmail.com', NULL, 'www.nea.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(457, 'PE-45', 'The Kenya National Examination Council ', 'PET-5', '047', 'NHC HSE-AGA KHAN WALK', '721839290', '', '', '', '', 'cmurage@knec.ac.ke', NULL, 'https://www.knec.ac.ke/home/index.php', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(458, 'PE-46', 'Numerical Machining Complex Limited', 'PET-5', '047', 'Kenya railways Central workshop, Workshop road, Nairobi', '70660- 00400', '', '', '', '', 'joylenemwelu@mail.com', NULL, 'www.nmc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(459, 'PE-47', 'National Sports Fund ', 'PET-5', '047', 'Flamingo Towers, Mara Road, 7th floor, Upper Hill', '4644-00200', '', '', '', '', 'info@nationalsportsfund.org', NULL, 'www.nationalsportsfund.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(460, 'PE-48', 'Kenya Water Towers Agency', 'PET-5', '047', 'NHIF Building, Nairobi', 'P O Box 42903-00100 Nairobi', '', '', '', '', 'peterkabiru@gmail.com', NULL, 'http://www.kwta.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(461, 'PE-49', 'Kenya Trade Network Agency ', 'PET-5', '047', 'Head Office 1st Flr Embankment Plaza, Longonot Road, Upper Hill,', 'P.O. Box 36943 - 00200, Nairobi.', '', '', '', '', 'dkihia@kentrade.go.ke', NULL, 'https://www.kentrade.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(462, 'PE-50', 'Anti-counterfeit Agency', 'PET-5', '047', 'NATIONAL WATER CONSERVATION & PIPELINE CORPORATION BUILDING , 3RD FLOOR, NDUNGA ROAD', '47771 00100', '', '', '', '', 'jmuraguri@aca.go.ke', NULL, 'WWW.ACA.GO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(463, 'PE-51', 'Kenya Industrial Research & Development Institute', 'PET-5', '047', 'SOUTH C', 'P.O. Box 30650 ??? 00100, Nairobi, Kenya', '', '', '', '', 'trizanjuguna12@gmail.com', NULL, 'https://www.kirdi.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(464, 'PE-52', 'Kenya National Trading Corporation Ltd.', 'PET-5', '047', 'Yarrow road off Nanyuki Rd ,Industrial Area', '30587-00100', '', '', '', '', 'kntcl@kntcl.com', NULL, 'www.kntcl.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(465, 'PE-53', 'Kenya National Commission for UNESCO', 'PET-5', '047', '0', '0', '', '', '', '', 'droduogi75@gmail.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(466, 'PE-54', 'Salaries & Remuneration Commission', 'PET-5', '047', 'Williamson House 6th Floor, 4th Ngong Avenue', 'Box 43126 - 00100', '', '', '', '', 'tlumati@src.go.ke', NULL, 'http://www.src.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(467, 'PE-55', 'National Council for Population and Development', 'PET-5', '047', 'CHANCERY BUILDING, 4th FLOOR, VALLEY ROAD', 'P.O.BOX 48994-00100, NAIROBI', '', '', '', '', 'pnzoi@ncpd.go.ke', NULL, 'www.ncpd-ke.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(468, 'PE-56', 'National Government Affirmative Action Fund', 'PET-18', '047', '723822165', '723822165', '', '', '', '', 'jmunguti74@gmail.com', NULL, 'WWW.NGAAF.GO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(469, 'PE-57', 'Kenya Tourism Board', 'PET-5', '047', 'Kenya Re Towers, Off Ragati Road, Upper Hill', '30630 - 00100 Nairobi', '', '', '', '', 'mowino@ktb.go.ke', NULL, 'www.ktb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(470, 'PE-58', 'Postal Corporation of Kenya', 'PET-5', '047', ' POSTA HOUSE AT POSTA ROAD  NEXT TO NYAYO HOUSE ', '34567-00100', '', '', '', '', 'info@posta.co.ke', NULL, 'WWW.POSTA.CO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(471, 'PE-59', 'Agricultural Development Corporation', 'PET-5', '047', 'Moi Avenue, Development House, 9th and 10th Floor', '47101 - 00100', '', '', '', '', 'wambuikibue@gmail.com', NULL, 'www.adc.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(472, 'PE-60', 'Kenya Ferry Services', 'PET-5', '047', 'Likoni Peleza', '96242 -80110 Mombasa', '', '', '', '', 'procurement@kenyaferry.co.ke/ md@kenyaferry.co.ke', NULL, 'www.kenyaferry.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(473, 'PE-61', 'National Biosafety Authority', 'PET-5', '047', 'PEST CONTROL PRODUCTS BOARD (PCPB) BULIDING, LORESHO,OFF WAIYAKI WAY', '28251-00100 ', '', '', '', '', 'wamukota@biosafetykenya.go.ke', NULL, 'www.biosafetykenya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(474, 'PE-62', 'Technical and Vocational Education and Training Authority', 'PET-5', '047', 'Telposta Towers,Kenyatta Avenue', 'P.O.BOX 35625-00100', '', '', '', '', 'henryobatsa@yahoo.com', NULL, 'www.tvetauthority.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(475, 'PE-63', 'National Hospital Insurance Fund', 'PET-5', '047', 'NHIF Building', '30443-00100', '', '', '', '', 'dchelagat@nhif.or.ke', NULL, 'www.nhif.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(476, 'PE-64', 'Kenya  Water Institute ', 'PET-5', '047', '722316304', '722316304', '', '', '', '', 'musya@kewi.or.ke', NULL, 'www.kewi.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(477, 'PE-65', 'The President\'s Award - Kenya', 'PET-4', '047', '15 Elgon Road Upperhill', '62185-00200', '', '', '', '', 'mprisca@presidentsaward.or.ke', NULL, 'www.presidentsaward.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(478, 'PE-66', 'Ministry of Agriculture, Livestock and Fisheries', 'PET-2', '047', '0', '0', '', '', '', '', 'baomondi@gmail.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(479, 'PE-67', 'Kenya Institute of Curriculum Development', 'PET-5', '047', '0', '0', '', '', '', '', 'brotich@kicd.ac.ke', NULL, 'www.kicd.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(480, 'PE-68', 'Agricultural Finance Corporation', 'PET-5', '047', '720921754', '720921754', '', '', '', '', 'jwachira@agrifinance.org', NULL, 'http://www.agrifinance.org/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(481, 'PE-69', 'Kenya Plant Health Inspectorate Service', 'PET-5', '047', ' Oloolua Ridge, Karen', 'P. O. Box 49592-00100', '', '', '', '', 'sesharanda@kephis.org', NULL, 'www.kephis.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(482, 'PE-70', 'Ministry of Sports, Culture and the Arts', 'PET-2', '047', 'KENCOM building', '49489-00100', '', '', '', '', 'gatere.jane@yahoo.com', NULL, 'www.sportsheritage.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(483, 'PE-71', 'Kenyatta National Hospital', 'PET-5', '047', '  Hospital Road', 'P. O. Box 20723-00202', '', '', '', '', 'simon.wagura@gmail.com', NULL, 'www.knh.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(484, 'PE-72', 'Water Sector Trust Fund', 'PET-5', '047', 'CIC Plaza, Upper Hill, Mara Road', 'P.O. Box 49699 - 00100', '', '', '', '', 'kennedy.lukhando@waterfund.go.ke', NULL, 'www.waterfund.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(485, 'PE-73', 'Pest Control Products Board', 'PET-5', '047', '  loresho,waiyaki way', '13794-00800 nairobi', '', '', '', '', 'ndirangurobert@pcpb.or.ke', NULL, 'www.pcpb.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(486, 'PE-74', 'Kenya Institute Of Mass Communication', 'PET-5', '047', ' SOUTH B MUHORO RD', '42422-0100 nairobi', '', '', '', '', 'mmarindich@kimc.ac.ke', NULL, 'PPIP', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(487, 'PE-75', 'Ministry of Public Service, Youth & Gender Affairs ', 'PET-2', '047', 'TELEPOSTA TOWERS', 'P.O BOX 29966-00100', '', '', '', '', 'andrewkimulu@yahoo.com', NULL, 'http://www.psyg.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(488, 'PE-76', 'The Sacco Societies Regulatory Authority', 'PET-5', '047', 'UAP/Old Mutual Tower, Hospital Road, Upperhill', '25089-00100', '', '', '', '', 'pahomo@sasra.go.ke', NULL, 'http://www.sasra.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(489, 'PE-77', 'Kenya Film Commission', 'PET-5', '047', ' JUMUIA PLACE 2ND FLOOR LENANA ROAD KILIMANI', '76417-00508 NAIROBI', '', '', '', '', 'kamanda@filmingkenya.com', NULL, 'www.kenyafilmcommission.com ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(490, 'PE-78', 'Kenya Institute for Public Policy and Research and Analysis', 'PET-5', '047', ' Bishops Road, Nairobi ', '056445-00200, nbi', '', '', '', '', 'vodongo@kippra.or.ke', NULL, 'www.kippra.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(491, 'PE-79', 'Ministry of Transport and Infrastructure', 'PET-4', '047', 'transcom house, ngong road', '52692-00200', '', '', '', '', 'psmaritimeshipping@gmail.com', NULL, 'www.transport.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(492, 'PE-80', 'Youth Enterprise Development Fund', 'PET-5', '047', 'Rennaissance Coporate Park, 4th Floor, Elgon Road, Upper-Hill, Nairobi', '48610-00100', '', '', '', '', 'aouma@youthfund.go.ke', NULL, 'www.youthfund.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(493, 'PE-81', 'Tourism Regulatory Authority', 'PET-5', '047', '100', '30027', '', '', '', '', 'sswaleh@tourismauthority.go.ke', NULL, 'https://www.tourismauthority.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(494, 'PE-82', 'Water Service Regulatory Board', 'PET-5', '047', '5th Floor NHIF Building Ngong Road', 'P. Box 41621-00100 Nairobi', '', '', '', '', 'jkimotho@wasreb.go.ke', NULL, 'www.wasreb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(495, 'PE-83', 'KENYA ACCREDITATION SERVICE', 'PET-5', '047', 'Embankment Plaza, 2nd Floor, Longonot Road off Kenya Road, Upper Hill', 'P. O. Box 47400 - 00100 Nairobi', '', '', '', '', 'procurement@kenyaaccreditation.org', NULL, 'http://kenas.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(496, 'PE-84', 'National Housing Corporation', 'PET-5', '047', 'NHC House, Aga Khan Walk, Harambee Avenue', 'P.O BOX 30257-00100', '', '', '', '', 'info@nhckenya.co.ke, kmochire@nhckenya.co.ke', NULL, 'www.nhckenya.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(497, 'PE-85', 'Konza Technopolis Development Authority', 'PET-5', '047', 'NAIROBI', 'P.O BOX 30519-00200', '', '', '', '', 'vkiprop@konzacity.go.ke', NULL, 'www.konzacity.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(498, 'PE-86', 'ICDC', 'PET-5', '047', 'Uchumi House, Agakhan Walk, 17th Floor', '45519 00100', '', '', '', '', 'abarmao@icdc.co.ke', NULL, 'www.icdc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(499, 'PE-87', 'Consolidated Bank', 'PET-5', '047', 'Consolidated Bank House, 23 koinange street', '51133-00200 Nairobi', '', '', '', '', 'jkikayaya@consolidated-bank.com', NULL, 'www.consolidated-bank.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(500, 'PE-88', 'Kenya Petroleum Refineries Limited', 'PET-5', '047', 'OLD REFINERY RD, CHANGAMWE', 'PO BOX 90401, 80100 MOMBASA', '', '', '', '', 'janette.mutimbia@kprl.co.ke', NULL, 'www.kprl.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(501, 'PE-89', 'Tana And Athi Rivers Development Authority', 'PET-5', '047', 'Queensway House, 7th floor Kaunda Street', '47309-00100', '', '', '', '', 'procurement@tarda.co.ke ', NULL, 'www.tarda.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(502, 'PE-90', 'Lake Victoria South Water Services Board', 'PET-5', '047', 'Lavictor\'s Hse, Off Ring Road, Milimani', '3325-40100, Kisumu, KENYA', '', '', '', '', 'joteng@lvswaterboard.go.ke', NULL, 'http://www.lvswaterboard.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(503, 'PE-91', 'Council Of Governors', 'PET-4', '047', 'Delta Corner, westlands', '40401-00100', '', '', '', '', 'hilda.were@cog.go.ke', NULL, 'www.cog.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(504, 'PE-92', 'Tourism Fund', 'PET-5', '047', 'NHIF BUILDING, CAR PARK TOWER 5TH FLOOR', '046987-00100', '', '', '', '', 'nmukuna@tourismfund.co.ke', NULL, 'www.tourismfund.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(505, 'PE-93', 'Kenya Post Office Savings Bank', 'PET-5', '047', '722435875', '722435875', '', '', '', '', 'osorogn@postbank.co.ke', NULL, 'www.postbank.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(506, 'PE-94', 'Kenya Ordance Factories Corporation', 'PET-5', '047', '0', '0', '', '', '', '', 'fwerus@gmail.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(507, 'PE-95', 'National Commission For Science,Technology Andinnovation', 'PET-5', '047', '727236113', '727236113', '', '', '', '', 'denisyegonn@gmail.com', NULL, 'www.nacosti.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(508, 'PE-96', 'Ministry of Defence', 'PET-2', '047', 'Ulinzi house, Lenana road', '40668-00100', '', '', '', '', 'mbuguajane12@gmail.com', NULL, 'www.mod.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(509, 'PE-97', 'Engineers Board of Kenya', 'PET-5', '047', 'Transcom House Annex, 1st Floor, Ngong Rd.', 'P.O. Box 30324-00100 Nairobi, Kenya', '', '', '', '', 'sabuya@ebk.or.ke', NULL, 'www.ebk.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(510, 'PE-98', 'University of Nairobi Enterprises and Services', 'PET-5', '047', '    ARBORETUM DRIVE OFF STATE HOUSE ROAD', 'P.O BOX 68241', '', '', '', '', 'fredrick.kanyangi@uonbi.ac.ke', NULL, 'WWW.UNES.CO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(511, 'PE-99', 'Narok', 'PET-8', '047', 'NAROK-MAU ROAD', '898-20500', '', '', '', '', 'procurement@narok.go.ke', NULL, 'WWW.NAROK.GO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(512, 'PE-100', 'The Co-operative University of Kenya', 'PET-6', '047', 'NAIROBI - KAREN', '24814-00502', '', '', '', '', 'bmahiga@cuk.ac.ke', NULL, 'www.cuk.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(513, 'PE-101', 'Kenyatta University (KU)', 'PET-6', '047', 'Along Thika super Highway', '43844', '', '', '', '', 'alati.benson@ku.ac.ke', NULL, 'http://www.ku.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(514, 'PE-102', 'University of Embu', 'PET-6', '047', 'Meru-Nairobi Highway/B6,Embu', '6-60100', '', '', '', '', 'kaaria.lindajoan@embuuni.ac.ke', NULL, 'www.embuni.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(515, 'PE-103', 'Garissa University', 'PET-6', '047', 'Gairissa Town', '1801-70100', '', '', '', '', 'kautharfaraj@gmail.com', NULL, 'www.gau.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(516, 'PE-104', 'Capital Markets Authority', 'PET-5', '047', '  Embankment Plaza, 3rd floor, Longonot Road, Upper Hill', 'P.O. Box 74800 - 00200, Nairobi', '', '', '', '', 'sorina@cma.or.ke', NULL, 'www.cma.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(517, 'PE-105', 'Athi Water Service Board', 'PET-5', '047', 'Africa Re Centre, Hospital Road. Nairobi', 'P. O. Box 45283-00100, Nairobi', '', '', '', '', 'cochieng@awsboard.go.ke', NULL, 'www.awsboard.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(518, 'PE-106', 'ICT and innovation', 'PET-4', '047', ' Teleposta  Towers', '30025-00100', '', '', '', '', 'munganiamukami@gmail.com', NULL, 'tenders.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(519, 'PE-107', 'Kenya Medical Supplies Authority', 'PET-5', '047', ' Commercial street, Industral Area', 'P.O Box 47715, 00100 GPO, Nairobi', '', '', '', '', 'john.kabuchi@kemsa.co.ke', NULL, 'www.kemsa.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(520, 'PE-108', 'University of Nairobi', 'PET-6', '047', '      Harry Thuku Road', '30197-00100', '', '', '', '', 'kanjejo@uonbi.ac.ke', NULL, 'www.uonbi.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(521, 'PE-109', 'Industrialization', 'PET-4', '047', 'Social Security House, Block A, 17th, Flr', 'P.O. Box 30418-00100', '', '', '', '', 'edith.wangari@gmail.com', NULL, 'www.industrialization.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(522, 'PE-110', 'Office of the Attorney General & Department of Justice ', 'PET-2', '047', ' SHERIA HOUSE, HARAMBEE AVENUE', 'P.O BOX 40112-00100, NAIROBI', '', '', '', '', 'jkirugumi@gmail.com', NULL, 'www.statelaw.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(523, 'PE-111', 'Ministry of Lands and Physical Planning', 'PET-2', '047', 'ARDHI HOUSE, 1ST NGONG AVENUE, NGONG ROAD  ', 'P.O BOX 30450 - 00100 NAIROBI', '', '', '', '', 'kennedyomari@gmail.com', NULL, 'www.lands.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(524, 'PE-112', 'Ministry of Tourism  and Wildlife', 'PET-4', '047', ' NSSF Building Block A', 'P. O. Box 30430 -00100', '', '', '', '', 'nyagamunene@yahoo.com', NULL, 'www.tourism.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(525, 'PE-113', 'petroleum and mining', 'PET-2', '047', '   nyayo house', 'p.o box 30582-00100', '', '', '', '', 'ingavojohn80@gmail.com', NULL, 'http://www.petroleumandmining.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(526, 'PE-114', 'State Department of Devolution', 'PET-4', '047', 'Kenyatta Avenue,Teleposta towers 1st & 6th Floors', '30004-00100', '', '', '', '', 'camonichep@yahoo.com', NULL, 'www.devolutionasals.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(527, 'PE-115', 'State Department of Planning', 'PET-4', '047', 'Treasury Building', 'P.O Box 30005-00100 Nairobi', '', '', '', '', 'ps@planning.statistics@gmail.com', NULL, 'www.planning.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(528, 'PE-116', 'National Youth Service', 'PET-4', '047', 'RUARAKA - THIKA Rd', 'P.O. BOX 30397-00100 NAIROBI', '', '', '', '', 'dg@nys.go.ke', NULL, 'supplier.treasury.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(529, 'PE-117', 'State Department of University Education & Research', 'PET-4', '047', ' JOGOO HOUSE "B"', 'P O Box 9583-00200 Nairobi', '', '', '', '', 'paulrono@yahoo.com', NULL, 'www..education.ge.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(530, 'PE-118', 'State Department of Irrigation', 'PET-4', '047', '   MAJI HOUSE', '49720-00100', '', '', '', '', 'matamagodfrey@yahoo.com', NULL, 'www.kilimo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(531, 'PE-119', 'State Department of Trade', 'PET-4', '047', ' Teleposta Towers, GPO, Kenyatta Avenue', '30430 -00100', '', '', '', '', 'abagga.abner@gmail.com', NULL, 'www.trade.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(532, 'PE-120', 'State Department of Livestock', 'PET-4', '047', ' Kilimo House,  Cathedral Road', 'P. O. Box 34188-00100 Nairobi', '', '', '', '', 'kkbabz@gmail.com', NULL, 'http://www.kilimo.go.ke/management/state-department-of-livestock/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(533, 'PE-121', 'State Department of Mining', 'PET-4', '047', ' WORKS BUILDING  NGONG ROAD', 'P.O.BOX 30009-00100 NAIROBI', '', '', '', '', 'kiilu06@gmail.com', NULL, 'www,mining.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(534, 'PE-122', 'State Department of Housing, Urban Development and Public Works', 'PET-4', '047', ' ARDHI HOUSE', '30119-00100', '', '', '', '', 'sonkuta@gmail.com', NULL, 'www.housing and urban.go.ke   ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(535, 'PE-123', 'Unclaimed Financial Assests Authority', 'PET-5', '047', 'Westlands, Nairobi', '28235 - 00200, Nairobi', '', '', '', '', 'wilson.macharia@ufaa.go.ke', NULL, 'www.ufaa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(536, 'PE-124', 'Commission on Revenue Allocation', 'PET-10', '047', '2nd Floor, Grosvenor Suite???14 Riverside Drive  Riverside', 'P.O. Box 1310 ??? 00200, City Square  NAIROBI', '', '', '', '', 'geoffrey.ntooki@crakenya.org', NULL, 'www.crakenya.org ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(537, 'PE-125', 'KERIO VALLEY DEVELOPMENT AUTHORITY (KVDA)', 'PET-5', '047', 'ELDORET', '2660-30100', '', '', '', '', 'info@kvda.go.ke', NULL, 'www.kvda.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(538, 'PE-126', 'Kenya Veterinary Vaccines Production Institute', 'PET-5', '047', 'INDUSTRIAL AREA,OFF ENTERPRISE ROAD,ROAD A', '00200 53260', '', '', '', '', 'vaccines@kevevapi.org', NULL, 'www.kevevapi.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(539, 'PE-127', 'Kisii University', 'PET-6', '047', 'Along Kisii-Kilgoris Road', '408-40200', '', '', '', '', 'dbasweti@kisiiuniversity.ac.ke', NULL, 'www.kisiiuniversity.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(540, 'PE-128', 'Kenya Pipeline Company', 'PET-5', '047', '88', '9', '', '', '', '', 'Cathrine.Kituri@kpc.co.ke', NULL, 'WWW.KPC.CO.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(541, 'PE-129', 'Anti-Female Genital Mutilation Board', 'PET-5', '047', 'kenya Railways staff Retirement Benefit Scheme Building,Sourth Wing, Block "D" 2nd floor,Workshop Ro', 'P.O. BOX 54760-00200 -NAIROBI', '', '', '', '', 'fredowiti99@gmail.com', NULL, 'www.antifgmboard.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(542, 'PE-130', 'The Jomo Kenyatta Foundation', 'PET-5', '047', '51, Enterprise Road, Industrial Area, Nairobi.', 'P.O. Box 30533 - 00100 Nairobi.', '', '', '', '', 'fokubasu@jkf.co.ke', NULL, 'www.jkf.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(543, 'PE-131', 'State Department for ASALs', 'PET-4', '047', 'EXTELCOM HOUSE', '40213', '', '', '', '', 'nemac2006@yahoo.com', NULL, 'www.devolutionasals.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(544, 'PE-132', 'Retirement Benefits Authority', 'PET-5', '047', 'Rahimtulla Tower,13th Flr, Upper Hill Road', 'P.O.Box 57733 - 00200, Nairobi, Kenya', '', '', '', '', 'vmulwa@rba.go.ke', NULL, 'www.rba.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(545, 'PE-133', 'State department for Telecommunications and Broadcating', 'PET-4', '047', 'Kenyatta Avenue Teleposta Towers', '30025-00100', '', '', '', '', 'kanyara2010@yahoo.com', NULL, 'www.ict.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(546, 'PE-134', 'Ministry of Foreign Affairs', 'PET-2', '047', 'harambee avenue', '30551-00100', '', '', '', '', 'barasaruth1@gmail.com', NULL, 'www.mfa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(547, 'PE-135', 'Kenya Roadway', 'PET-4', '047', '556', '667', '', '', '', '', 'lkr@ppra.go.ke', NULL, 'rrt.lot', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(548, 'PE-136', 'Geothermal Development Company', 'PET-5', '047', 'bowuor@gdc.co.ke', 'Head Office: Kawi House, South C Bellevue |Off Mom', '', '', '', '', ' 020 2427516', NULL, '170_logo_image.png', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(549, 'PE-137', 'Commission for University Education', 'PET-5', '047', 'nokodo@cue.or.ke', 'Red-hill Road off Limuru Road ', '', '', '', '', '780656575', NULL, '171_logo_image.jpg', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(550, 'PE-138', 'State Department for Agricultural Research', 'PET-4', '047', 'Cathedral Road-Kilimo House', '30028-00100', '', '', '', '', 'jnyams.2014@gmail.com', NULL, 'https://www.kilimo.ko.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(551, 'PE-139', 'Egerton University', 'PET-6', '047', 'Egerton', '536-20115, Egerton', '', '', '', '', 'samson.chira@egerton.ac.ke', NULL, 'http://www.egerton.ac.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(552, 'PE-140', 'Machakos University', 'PET-6', '047', 'Machakos Town', '136-90100', '', '', '', '', 'petermaina2007@yahoo.com', NULL, 'www.mksu.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(553, 'PE-141', 'Kenya Medical Research Institute', 'PET-5', '047', 'Mbagathi way ', '54840-00200', '', '', '', '', 'fotieno@kemri.org', NULL, 'www.kemri.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(554, 'PE-142', 'Marsabit', 'PET-8', '047', 'Marsabit County', 'P.o. Box 384 - 60500', '', '', '', '', 'fkamendi@gmail.com', NULL, 'www.marsabit.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(555, 'PE-143', 'Energy Regulatory Commission', 'PET-5', '047', 'Upperhill, Nairobi', 'P.O.Box 42681-00100 Nairobi', '', '', '', '', 'info@erc.go.ke', NULL, 'https://www.erc.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(556, 'PE-144', 'Higher Education Loan Board', 'PET-5', '047', 'UNIVERSITY WAY ANNIVERSARY TOWERS', '69489-00400', '', '', '', '', 'psapiri@helb.co.ke', NULL, 'www.helb.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(557, 'PE-145', 'Kenya Power & Lighting Company', 'PET-5', '047', 'Stima Plaza Kolobot Road, Parklands', '30099-00100', '', '', '', '', 'jkorir@kplc.co.ke', NULL, 'www.kplc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(558, 'PE-146', 'County Assembly Of Samburu', 'PET-7', '047', 'Assembly Building', 'P.0.Box 3 20600 Maralal Kenya', '', '', '', '', 'elempushuna@samburuassembly.go.ke', NULL, 'http://www.samburuassembly.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(559, 'PE-147', 'Kenya film Classification Board', 'PET-5', '047', 'Agha-Khan Walk Uchumi House 15th Floor', 'P.O BOX 44226 - 00100 NAIROBI', '', '', '', '', 'ondiekimaonga@gmail.com', NULL, 'www.kfcb.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(560, 'PE-148', 'Kirinyaga', 'PET-8', '047', '889', '990', '', '', '', '', 'otundomarrion12@gmail.com', NULL, 'www.kirinyaga.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(561, 'PE-149', 'Kenya Meat Commission', 'PET-5', '047', 'ATHI RIVER', '2-00204', '', '', '', '', 'charonyingambwa@gmail.com', NULL, 'www.kenyameat.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(562, 'PE-150', ' Infrastructure', 'PET-4', '047', 'community', '30260-00100', '', '', '', '', 'jobongo81@gmail.com', NULL, 'www.transport.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(563, 'PE-151', 'Kenya Wildlife Service', 'PET-5', '047', 'hps@kws.go.ke\\', 'kws@kws.go.ke', '', '', '', '', 'naisoi@kws.go.ke\\', NULL, 'kws@kws.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(564, 'PE-152', 'Kenya Ports Authority', 'PET-5', '047', 'KPA -Hqs', 'P. O. Box 95009 - 80104 Mombasa Kenya', '', '', '', '', 'SChepkangor@kpa.co.ke', NULL, 'www.kpa.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(565, 'PE-153', 'Nyayo Tea Zones Develop Corporation', 'PET-5', '047', '454', 'P. O. Box 48522-00100', '', '', '', '', 'CJepchumba@teazones.co.ke', NULL, 'www.teazones.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(566, 'PE-154', 'Kenya Seed Company', 'PET-5', '047', 'Mbegu Plaza, Kitale-Kenya.', 'P.O. Box 553-30200, ', '', '', '', '', 'sthinguri@kenyaseed.co.ke', NULL, 'www.kenyaseed.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(567, 'PE-155', 'National Transport and Safety Authority', 'PET-5', '047', 'Hillpark Building, Upper Hill Road', 'P. 0. Box 3602 - 00506', '', '', '', '', 'winnie.kibuchi@ntsa.go.ke', NULL, 'www.ntsa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(568, 'PE-156', 'COMMODITIES FUND', 'PET-5', '047', 'Kenya Railways |Block D| 2ND Floor | Workshop Rd ??? Off Haile Selassie Avenue', 'P.O Box 52714 ??? 00200 Nairobi, Kenya', '', '', '', '', 'james.singa@codf.co.ke', NULL, 'www.comfund.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(569, 'PE-157', 'Kenya Forest Service', 'PET-5', '047', 'Karura off Kiambu Road', 'Po box 30513-00100 Nairobi', '', '', '', '', 'mburujm@kenyaforestservice.org', NULL, 'www.kenyaforestservice.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(570, 'PE-158', 'Privatization Commission', 'PET-5', '047', 'Extelcoms House 11th Floor', 'P.O. Box 34542 00200 Nairobi', '', '', '', '', 'dmutua@pc.go.ke', NULL, 'www.pc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(571, 'PE-159', 'Ministry of Interior and Co-ordination of National Government', 'PET-4', '047', '254', '722902359', '', '', '', '', 'ngarigithu@yahoo.com', NULL, 'www.interior.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(572, 'PE-160', 'Ministry of Environment and Forestry', 'PET-2', '047', 'NHIF Building', '721498119', '', '', '', '', 'ndongupk@yahoo.com', NULL, 'www.environment.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(573, 'PE-161', 'Kenya Meteorological Department', 'PET-4', '047', 'Dagoretti Corner, Ngong Road', 'P. O. Box 30259 - 00100 Nairobi Kenya', '', '', '', '', 'director@meteo.go.ke', NULL, 'www.environment.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(574, 'PE-162', 'The National Treasury and Planning', 'PET-2', '047', 'Harambee Avenue Treasury Building ', 'P.O. Box 30007 00100 Nairobi', '', '', '', '', 'benoloo2002@gmail.com', NULL, 'http://www.treasury.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(575, 'PE-163', 'Kenya National Bureau of Statistics', 'PET-5', '047', '333', '3345', '', '', '', '', 'procurement@knbs.or.ke', NULL, 'www.knbs.or.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(576, 'PE-164', 'State Department of East Africa Community', 'PET-2', '047', ' Co-op Bank House Building', '8846-00200', '', '', '', '', 'albertgawo@gmail.com', NULL, 'www.meac.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(577, 'PE-165', 'Samburu', 'PET-8', '047', 'Maralal', 'P. O. Box 3 - 20600 Maralal', '', '', '', '', 'info@samburu.go.ke', NULL, 'www.samburu.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(578, 'PE-166', 'County Assembly of Nyandarua', 'PET-7', '047', 'OL KALOU NYAHURURU ROAD', '720-20303 OL KALOU', '', '', '', '', 'jlektari@yahoo.com', NULL, 'http://assembly.nyandarua.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(579, 'PE-167', 'Kakamega', 'PET-8', '047', 'kenyatt avenue', '36-50100', '', '', '', '', 'makubahossen@yahoo.com', NULL, 'www.kakamega.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(580, 'PE-168', 'Technical University of Kenya', 'PET-6', '047', '254', '254', '', '', '', '', 'gwarofm@gmail.com', NULL, 'www.tukenya.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(581, 'PE-169', 'South Nyanza Sugar Company Limited', 'PET-5', '047', 'Awendo,Migori', '107-40405', '', '', '', '', 'james.oluoch@sonysugar.co.ke', NULL, 'Www.sonysugar.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(582, 'PE-170', 'Jaramogi oginga Odinga University of Science and Technology', 'PET-6', '047', 'Bondo', 'P.O BOX 210-40601', '', '', '', '', 'wanguikinyanjui@gmail.com', NULL, 'https://www.jooust.ac.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(583, 'PE-171', 'New Kenya Co-operative Creameries Ltd', 'PET-5', '047', 'Creamery House, Dakar Rd', 'P.O. Box 30131-00100', '', '', '', '', 'daniel.mukunga@newkcc.co.ke', NULL, 'www.newkcc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(584, 'PE-172', 'National Industrial Training Authority', 'PET-5', '047', 'Commercial street, Industral Area', 'P.O. Box 74494 - 00200', '', '', '', '', 'mmbithe@nita.go.ke', NULL, 'www.nita.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(585, 'PE-173', 'County Assembly of Embu', 'PET-7', '047', 'EMBU', '140-60100 EMBU', '', '', '', '', 'petwaithaka2016@gmail.com', NULL, 'www.embuassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(586, 'PE-174', 'Kenya Industrial Estates ', 'PET-5', '047', 'Likoni', 'P.O. Box 78029 - 00507', '', '', '', '', 'mwalandijijo@gmail.com', NULL, 'www.kie.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(587, 'PE-175', 'Kenya Revenue Authority', 'PET-5', '047', 'Times Tower, Haile Selasie Avenue , Nairobi, Kenya', 'Box 48240-00100', '', '', '', '', 'Nicholas.Njeru@kra.go.ke', NULL, 'www.kra.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(588, 'PE-176', 'Office of the Director of Public Prosecutions', 'PET-10', '047', 'NSSF Building, Block ???A??? 19th Floor', '30701-00100', '', '', '', '', 'eunicembithe87@gmail.com', NULL, 'www.odpp.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(589, 'PE-177', 'Isiolo', 'PET-8', '047', '  Isiolo', 'P.O. Box 36 - 60300', '', '', '', '', 'saritesalad114@gmail.com', NULL, 'www.isiolo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(590, 'PE-178', 'Kenya Tsetse and Trypanosomiasis Eradication Council', 'PET-5', '047', 'Crescent Business Centre, Off Parklands Road', '66290-00800 Westlands', '', '', '', '', 'cyrusmuiru@yahoo.com', NULL, 'www.kenttec.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(591, 'PE-179', 'Coast Development Authority', 'PET-5', '047', 'Mombasa', 'P.O BOX 1322', '', '', '', '', 'cda@cda.go.ke', NULL, 'www.cda.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(592, 'PE-180', 'Kenya Yearbook Editorial Board', 'PET-5', '047', 'NHIF Buiding, 4th Floor. Upperhill, Nairobi', '34035-00100', '', '', '', '', 'johnouko22@gmail.com', NULL, 'http://kenyayearbook.co.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(593, 'PE-181', 'Dedan Kimathi University of Technology', 'PET-6', '047', '724838361', '254', '', '', '', '', 'procurement@dkut.ac.ke', NULL, 'www.dkut.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(594, 'PE-182', 'Brand Kenya Board', 'PET-5', '047', ' 4th floor, NHIF Building, Ragati road, Upper Hill', 'P.O Box 40500-00100,Nairobi.', '', '', '', '', 'g.gatwiri@brandkenya.go.ke', NULL, 'www.brandkenya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(595, 'PE-183', 'Northern Water Services Board', 'PET-5', '047', ' Maji House, Garissa', '495 Garissa', '', '', '', '', 'info@nwsb.go.ke', NULL, 'www.nwsb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(596, 'PE-184', 'Agriculture and Food Authority', 'PET-5', '047', '0', '0', '', '', '', '', 'mmkamburi@afa.go.ke', NULL, 'www.afa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(597, 'PE-185', 'Kenya Maritime Authority', 'PET-5', '047', 'WHITE HOUSE, MOI AVENUE, MOMBASA', 'P. O. Box 95076 - 80104, MOMBASA', '', '', '', '', 'soluoch@kma.go.ke', NULL, 'www.kma.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(598, 'PE-186', 'The Judiciary', 'PET-10', '047', 'City Hall Way-Supreme Court Building', '30041-00100', '', '', '', '', 'doreen.mwirigi@court.go.ke', NULL, 'www.judiciary.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(599, 'PE-187', 'Kenya Electricity  Generating Company', 'PET-5', '047', '  Stirna Plaza, Kolobot Road, Parklands, ', 'P.O. Box 47936, 00100 Nairobi, ', '', '', '', '', 'lgitau@kengen.co.ke', NULL, 'www.kengen.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(600, 'PE-188', 'New Partnership for Africa\'s Development', 'PET-5', '047', 'STATE HOUSE AVENUE LIASION HOUSE', '46270-00100', '', '', '', '', 'carolinendwiga@nepadkenya.org', NULL, 'www.nepadkenya.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(601, 'PE-189', 'Bomas of Kenya', 'PET-5', '047', ' Langata, Forest Edge Road', 'P.O. Box 40689 -00100 Nairobi', '', '', '', '', 'kipronimaritim1@gmail.com', NULL, 'www.bomasofkenya.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(602, 'PE-190', 'University of Eldoret', 'PET-6', '047', 'Eldoret-Ziwa road', 'P.O. Box 1125 - 30100, Eldoret', '', '', '', '', 'w.ngetich@physics.org', NULL, 'http://www.uoeld.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(603, 'PE-191', 'County Assembly of Machakos', 'PET-7', '047', 'Country Hall, Machakos', 'P.  O. Box 1168 - 90100', '', '', '', '', 'mulonziharrison@gmail.com', NULL, 'machakoscountyassembly.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(604, 'PE-192', 'KASNEB', 'PET-5', '047', 'KASNEB Towers, Upperhill Nairobi', 'P. o. Box 41362-00100', '', 'Nairobi', '', '', 'mark.mwangi@kasneb.or.ke', NULL, 'www.kasneb.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(605, 'PE-193', 'County Assembly of Narok', 'PET-7', '047', 'Narok county headquarters-Mau Narok Road', '19-20500', '', '', '', '', 'yiapanoilepore@gmail.com', NULL, 'www.narokassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(606, 'PE-194', 'Export Promotion Council', 'PET-5', '047', 'Anniversary Towers, Univesity way ', 'P.O. Box 40247 - 00100', '', 'Nairobi', '', '', 'RKipturgo@epc.or.ke', NULL, 'www.epckenya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(607, 'PE-195', 'National Water Conservation & Pipeline Corporation', 'PET-5', '047', 'Dunga Road, Industrial Area', 'P. O. Box 30173, 00100', '', 'Nairobi', '', '', 'mwelelubrian@gmail.com', NULL, 'www.nwcpc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(608, 'PE-196', 'Kenya Forestry Research Institute', 'PET-5', '047', 'Muguga, Limuru', 'P.  O. Box 20412 - 00200', '', '', '', '', 'iodhiambo@kefri.org', NULL, 'www.kefri.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(609, 'PE-197', 'Moi University', 'PET-6', '047', '  Eldoret', 'P. O. Box 3900', '', '', '', '', 'veronibelio@gmail.com', NULL, 'https://www.mu.ac.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(610, 'PE-198', 'Kenya Animal Genetic Resources Centre', 'PET-5', '047', '      lower kabete', '23070-0604', '', '', '', '', 'njeptoo@kagrc.co.ke', NULL, 'www.kagrc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(611, 'PE-199', 'Muhoroni Sugar Company', 'PET-5', '047', 'MUHORONI SUGAR CO.', '2 MUHORONI', '', '', '', '', 'john.odhiambo@musco.co.ke', NULL, 'www.musco.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(612, 'PE-200', 'Kenya Utalii College', 'PET-5', '047', 'THIKA ROAD', '31052-00600 NAIROBI', '', 'Nairobi', '', '', 'msndungu@utalii.ac.ke', NULL, 'www.utalii.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(613, 'PE-201', 'State Department of Immigration, Border Control and citizen Services', 'PET-4', '047', '  Nyayo House Nairobi', '30395-00100', '', '', '', '', 'kiptuic@gmail.com', NULL, 'www.immigration.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(614, 'PE-202', 'University of Kabianga', 'PET-6', '047', ' Kericho', '2030-20200', '', '', '', '', 'ckisato@kabianga.ac.ke', NULL, 'www.kabianga.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(615, 'PE-203', 'County Assembly of Laikipia', 'PET-7', '047', 'KENYATTA HIGHWAY', '487-10400', '', '', '', '', 'jngethe@laikipiaassembly.go.ke', NULL, 'http://laikipiaassembly.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(616, 'PE-204', 'Coast Water Services Board', 'PET-5', '047', 'Mikindani Street, Off Nkurumah Road, Mombasa', '090417-80100, Mombasa', '', '', '', '', 'salim@cwsb.go.ke', NULL, 'www.cwsb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(617, 'PE-205', 'The Meru National Polytechnic', 'PET-13', '047', 'Meru', '111 - 60200', '', '', '', '', 'imutwiri54@gmail.com', NULL, 'WWW.MERUNATIONALPOLYTECHNIC.AC.KE', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(618, 'PE-206', 'Kenya Law Reform Commission', 'PET-5', '047', 'Reinsurance Plaza Nairobi', '34999 - 00100', '', '', '', '', 'jamesruteere@klrc.go.ke', NULL, 'www.klrc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(619, 'PE-207', 'Kenya Bureau of Standards', 'PET-5', '047', ' Popo Road, off Belle Vue South C', '54974 - 00200 Nairobi', '', 'Nairobi', '', '', 'mwakithij@kebs.org', NULL, 'www.kebs.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(620, 'PE-208', 'Office of the Auditor General', 'PET-10', '047', '334', '30084', '', '', '', '', 'isaac.ayoyi@oagkenya.go.ke', NULL, 'www.oagkenya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(621, 'PE-209', 'Kenya Urban Roads Authority', 'PET-5', '047', 'IKM Place, 5th Ngong Avenue', '41727 - 00100 Nairobi', '', 'Nairobi', '', '', 'lmwiti@kura.go.ke', NULL, 'www.kura.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(622, 'PE-210', 'Kitui', 'PET-8', '047', 'Tanathi Water Service Board Building', 'P. 0. Box 33 - 90200, Kitui', '', '', '', '', 'smususya@yahoo.com', NULL, 'www.kitui.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(623, 'PE-211', 'Ministry of Water and Sanitation', 'PET-2', '047', '49720', '100', '', '', '', '', 'mutinvero@gmail.com', NULL, 'www.water.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(624, 'PE-212', 'Kibabii University', 'PET-6', '047', 'Bungoma', '1699-50200', '', '', '', '', 'jamesoo@kibu.ac.ke', NULL, 'www.kibu.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(625, 'PE-213', 'Kenya Dairy Board', 'PET-5', '047', 'Nairobi', '30406 - 00100', '', '', '', '', 'kebuka.joshua@kdb.co.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(626, 'PE-214', 'Alupe University', 'PET-6', '047', ' Busia Malaba Road', '845-50400', '', '', '', '', 'kogola222@gmail.com', NULL, 'www.auc.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(627, 'PE-215', 'Nandi', 'PET-8', '047', ' Nandi County Government Building-Kapsabet', '802', '', '', '', '', 'isidore.koech@nandi.go.ke', NULL, 'www.nandi.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(628, 'PE-216', 'Independent Policing Oversight Authority', 'PET-5', '047', 'ACK Garden Annex 3rd Floor, 1st Ngong Avenue.', '23035 - 00100 Nairobi', '', 'Nairobi', '', '', 'info@ipoa.go.ke', NULL, 'www.ipoa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(629, 'PE-217', 'Nyandarua', 'PET-8', '047', 'Olkalou', '701 - 20303', '', '', '', '', 'info@nyandaruacounty.or.ke', NULL, 'www.nyandarua.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(630, 'PE-218', 'Commission of Administrative Justice - Office of the Ombudsman', 'PET-10', '047', 'WEST END TOWERS 2ND FLOOR ON WAIYAKI WAY ', '20414', '', '', '', '', 'info@ombudsman.go.ke', NULL, 'www.ombudsman.go.ke  ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(631, 'PE-219', 'Anti - Doping Agency of Kenya', 'PET-5', '047', '    6th Floor Parklands Plaza ,Muthithi/Chiromo Lane Junction', '2276', '', '', '', '', 'nemwelarama@gmail.com', NULL, 'www.adak.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(632, 'PE-220', 'Public Service', 'PET-4', '047', 'Nairobi-Teleposta Towers', 'P.O Box 30050-00100', '', 'Nairobi', '', '', 'info@psyg.go.ke', NULL, 'www.psyg.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(633, 'PE-221', 'County Assembly Of Muranga', 'PET-7', '047', 'opposite ihura stadium', '731-10200', '', '', '', '', 'murangacountyassembly@gmail.com', NULL, 'www.assembly.muranga.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(634, 'PE-222', 'Embu', 'PET-8', '047', 'EMBU TOWN', '36 - 60100', '', '', '', '', 'info@embu.go.ke, procurement@embu.go.ke', NULL, 'www.embu.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(635, 'PE-223', 'Huduma Kenya Secretariat', 'PET-4', '047', 'Lonrho House Standard ', '47716 - 00100', '', '', '', '', 'info@hudumakenya.go.ke', NULL, 'www.hudumakenya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(636, 'PE-224', 'Masinde Muliro University of Science and Technology (MMUST)', 'PET-6', '047', 'KAKAMEGA WEBUYE ROAD', 'P.O Box 190 - 50100, KAKAMEGA', '', '', '', '', 'vc@mmust.ac.ke', NULL, 'www.mmust.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(637, 'PE-225', 'Energy', 'PET-4', '047', '0', '0', '', '', '', '', 'ps@energymin.go.ke', NULL, 'ps@energymin.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(638, 'PE-226', 'Health', 'PET-4', '047', 'AFYA HOUSE, CATHEDRAL ROAD', '30016-00100 Nairobi', '', '', '', '', 'pshealthke@gmail.com', NULL, 'www.health.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(639, 'PE-227', 'Nyamira', 'PET-8', '047', 'NYAMIRA COUNTY HEADQUARTERS', 'P.O BOX 434 - 40500, NYAMIRA', '', '', '', '', 'info@nyamira.go.ke', NULL, 'www.nyamira.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(640, 'PE-228', 'Meru University of Science and Technology', 'PET-6', '047', 'Meru', '972 - 60200 Meru', '', '', '', '', 'jkanake@must.ac.ke', NULL, 'www.must.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(641, 'PE-229', 'Labour', 'PET-4', '047', ' P.O Box', '40326 - 00100', '', '', '', '', 'engugi2002@gmail.com', NULL, 'www.laboursp.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(642, 'PE-230', 'Transport', 'PET-4', '047', '   TRANSCOM HOUSE', '52592 00100', '', '', '', '', 'crisauko@gmail.com', NULL, 'www.transport.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(643, 'PE-231', 'Kenya Broadcasting Corporation', 'PET-5', '047', 'BROADCASTING HOUSE,HARRY THUKU ROAD', '30456-00100', '', '', '', '', 'md@kbc.co.ke', NULL, 'www.website.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(644, 'PE-232', 'Turkana', 'PET-8', '047', ' Lodwar,Kenya', 'P O Box 11-30500 Lodwar ', '', '', '', '', 'supplychainoffice@turkana.go.ke', NULL, 'www.turkana.go.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(645, 'PE-233', 'Kenya Civil Aviation Authority', 'PET-5', '047', 'Jomo Kenyatta International Airport', '30163 - 00100 Nairobi', '', '', '', '', 'procurement@kcaa.or.ke, info@kcaa.or.ke', NULL, 'www.kcaa.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(646, 'PE-234', 'Bungoma', 'PET-8', '047', 'Former Municipal Building ', 'P.o Box 437-50200 Bungoma', '', '', '', '', 'info@bungoma.go.ke', NULL, 'www.bungoma.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(647, 'PE-235', 'Nyeri', 'PET-8', '047', 'Governor\'s Office, Kimathi Way, Nyeri', '1112', '', '', '', '', 'procurement@nyeri.go.ke', NULL, 'www.nyeri.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(648, 'PE-236', 'Uasin Gishu', 'PET-8', '047', 'Uasin Gishu County Hall', 'P. O. Box  40 - 30100 Eldoret', '', '', '', '', 'cecfinance@uasingishu.go.ke', NULL, 'www.uasingishu.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(649, 'PE-237', 'Machakos', 'PET-8', '047', 'Ngei Road', '1996 - 90100', '', '', '', '', 'jnzambu@gmail.com', NULL, 'www.machakosgovernment.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(650, 'PE-238', 'National Social Security Fund', 'PET-5', '047', ' Social Security Hse, Block C, Bishops Rd, Ground Flr ', 'P.O. Box 45969 ??? 00100, Nairobi', '', 'Nairobi', '', '', 'shair.u@nssfkenya.co.ke', NULL, 'www.nssf.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(651, 'PE-239', 'Early Learning & Basic Education', 'PET-4', '047', '   P.O Box 40530 - 00100 Nairobi ', 'P.O Box 40530 - 00100 Nairobi ', '', 'Nairobi', '', '', 'nyamburafrancesca@gmail.com', NULL, 'x', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(652, 'PE-240', 'National Assembly ', 'PET-10', '047', '  clerks Chambers', 'P.O Box 41842 -00100 Nairobi', '', 'Nairobi', '', '', 'Josephantonynjagi@gmail.com', NULL, 'www.parliament.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(653, 'PE-241', 'IDB Capital', 'PET-5', '047', '18th Floor, National Bank Building, Harambee Avenue', 'P. O. Box 44036, 00100', '', '', '', '', 'bizcare@idbkenya.com', NULL, 'www.idbkenya.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(654, 'PE-242', 'Kenya Law', 'PET-5', '047', '1ST NGONG, AVENUE.', 'P.O BOX 10443-00100, NAIROBI.', '', 'Nairobi', '', '', 'info@kenyalaw.org', NULL, 'www.kenyalaw.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(655, 'PE-243', 'County Assembly Of Kitui', 'PET-7', '047', 'Kitui County Assembly', 'P. O. Box 694 - 90200, Kitui', '', '', '', '', 'kutuiassembly@gmail.com', NULL, 'http://www.kituicountyassembly.org/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(656, 'PE-244', 'Kenya Institute of Special Education', 'PET-5', '047', 'Kasarani', 'P.O BOX 48413-00100', '', 'Nairobi', '', '', 'info@kise.ac.ke', NULL, 'www.kise.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(657, 'PE-245', 'State Department for Fisheries, Aquaculture and the Blue Economy', 'PET-4', '047', 'KILIMO HOUSE', '58187-00200 NAIROBI', '', 'Nairobi', '', '', 'psfisheries@kilimo.go.ke', NULL, 'www.kilimo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(658, 'PE-246', 'Social Protection, Pensions & Senior Citizens Affairs', 'PET-4', '047', ' UPPER HILL, NSSF BUILDING, BLOCK A, EASTERN WING, 1ST, 2ND, 4TH, 5TH, 6TH,7TH,8TH,13TH, 14TH, AND W', '46205-00100, NAIROBI', '', 'Nairobi', '', '', 'James.Ngogu@socialprotection.go.ke/pssocialsecurity@labour.go.ke', NULL, 'www.laboursp.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(659, 'PE-247', 'Kilifi', 'PET-8', '047', 'Kilifi- Town', '519-80108', '', '', '', '', 'info@kilifi.go.ke', NULL, 'www.kilifi.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(660, 'PE-248', 'Mandera', 'PET-8', '047', 'Mandera Town', '13-70300', '', '', '', '', 'supplychain@mandera.go.ke', NULL, 'www.mandera.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(661, 'PE-249', 'County Assembly Of Isiolo', 'PET-7', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(662, 'PE-250', 'County Assembly Of Mandera', 'PET-7', '047', 'Mandera East', '0', '', '', '', '', 'info@manderaassembly.go.ke', NULL, 'www.manderaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(663, 'PE-251', 'County Assembly Of Garissa', 'PET-7', '047', 'Garissa Township', '57-70100, Garissa', '', '', '', '', 'iyussuf@garissaassembly.go.ke', NULL, 'www.garisaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(664, 'PE-252', 'Nairobi', 'PET-8', '047', 'City Hall', 'P.O Box 30075 - 00100', '', 'Nairobi', '', '', 'wambugubety7@gmail.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(665, 'PE-253', 'The Kenyatta International Convention Centre', 'PET-5', '047', 'Harambee Avenue Nairobi', '30746 - 00100 Nairobi', '', 'Nairobi', '', '', 'judith.nyaberi@kicc.co.ke', NULL, 'www.kicc.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(666, 'PE-254', 'Michuki Technical Training Institute', 'PET-13', '047', 'Kangema', 'P.O Box 4 - 10202', '', '', '', '', 'michukitech@yahoo.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(667, 'PE-255', 'Tharaka-Nithi', 'PET-8', '047', 'Kathwana', '10', '', '', '', '', 'info@tharakanithi.go.ke', NULL, 'https://tharakanithi.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(668, 'PE-256', 'Trans Nzoia', 'PET-8', '047', 'KITALE', 'P.O BOX 4211 - 30200 KITALE', '', '', '', '', 'info@transnzoia.go.ke', NULL, 'https://www.transnzoia.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(669, 'PE-257', 'West Pokot', 'PET-8', '047', 'Kapenguria.', '220-30600', '', '', '', '', 'info@westpokot.go.ke', NULL, 'www.westpokot.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(670, 'PE-258', 'National Environment Management Authority', 'PET-5', '047', 'Popo Road Nairobi', 'P. O. Box 67839 -00200', '', '', '', '', 'dgnema@nema.go.ke', NULL, 'www.nema.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(671, 'PE-259', 'State Department for Culture & Heritage', 'PET-4', '047', 'kencom house', '49849-90100', '', '', '', '', 'psoffice@minspoca.go.ke', NULL, 'www.minspoca.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(672, 'PE-260', 'Council of Legal Education', 'PET-5', '047', 'Karen office Park, Acacia Block 2 Floor', '829-00502, Karen', '', '', '', '', 'jkirande@cle.or.ke', NULL, 'cle.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(673, 'PE-261', 'Rongo University', 'PET-6', '047', 'Rongo-Migori road, Kitere hills off Kanga junction', '103-40404 RONGO', '', '', '', '', 'procurement@rongovarsity.ac.ke', NULL, 'www.rongovarsity.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(674, 'PE-262', 'County Assembly Of Lamu', 'PET-7', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(675, 'PE-263', 'Kitui East Constituency Development Fund', 'PET-17', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(676, 'PE-264', 'State Department for University Education', 'PET-4', '047', 'Jogoo House `B` , Harambee Avenue in Nairobi. ', ' P.O. Box 30040-00100, Nairobi ', '', 'Nairobi', '', '', 'petupazuri@yahoo.com', NULL, 'http://www.education.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(677, 'PE-265', 'Office of the Registrar of Political Parties', 'PET-10', '047', 'Lion Place 1st Floor, Sarit Centre Nairobi', '1131-00606', '', '', '', '', 'registrar@orpp.or.ke', NULL, 'orpp.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(678, 'PE-266', 'County Assembly Of Kakamega', 'PET-7', '047', 'Off Fitina Road behind Kakamega Law Courts', '1470 - 50100 KAKAMEGA', '', '', '', '', 'kakamegacountyassembly@gmail.com', NULL, 'www.kakamega-assembly.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(679, 'PE-267', 'Central Bank of Kenya', 'PET-5', '047', 'Haile Selassie Avenue', '6000-00200', '', '', '', '', 'Comms@centralbank.go.ke', NULL, 'www.centralbank.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(680, 'PE-268', 'Karatina University', 'PET-6', '047', 'Karatina', 'P. O Box 1957 -10101', '', '', '', '', 'awanjiru@karu.ac.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(681, 'PE-269', 'Kenya Electricity Transmission Company LTD', 'PET-5', '047', 'KAWI HOUSE, BLOCK B', '34942 - 00100', '', '', '', '', 'info@ketraco.co.ke', NULL, 'https://www.ketraco.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(682, 'PE-270', 'Kiambu', 'PET-8', '047', 'KIAMBU', '2344,KIAMBU', '', '', '', '', 'info@kiambu.go.ke', NULL, 'http://kiambu.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(683, 'PE-271', 'Kaimosi Friends University College (MMUST)', 'PET-6', '047', 'KAIMOSI', 'P.o Box 385 - 50309', '', '', '', '', 'jrapando@kafuco.ac.ke', NULL, 'www.kafuco.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(684, 'PE-272', 'Kericho', 'PET-8', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(685, 'PE-273', 'Indepedent Electoral and Boundaries Commission', 'PET-10', '047', 'Anniversary Towers', '45371-00100', '', '', '', '', 'info@iebc.or.ke', NULL, 'www.iebc.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(686, 'PE-274', 'National Authority for the Campaign Against Alcohol and Drug Abuse', 'PET-5', '047', 'NSSFBuiding  Block "A",Eastern Wing  18th  Floor ', '10774-00100', '', '', '', '', 'info@nacada.go.ke ', NULL, 'www.nacada.go.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(687, 'PE-275', 'Vocational & Technical Training', 'PET-4', '047', 'Jogoo B, Harambee Avenue', 'P.O. Box 9583 - 00200', '', '', '', '', 'psvtt@education.go.ke', NULL, 'www.education.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(688, 'PE-276', 'Crop Development', 'PET-4', '047', 'cathedral road', 'P.O Box 34188-00100 Nairobi', '', 'Nairobi', '', '', 'psagriculture@kilimo.go.ke', NULL, 'www.kilimo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(689, 'PE-277', 'Kenya Medical training College', 'PET-13', '047', 'Off Mbagathi Road', '30195-00100 NAIROBI', '', 'Nairobi', '', '', 'info@kmtc.ac.ke', NULL, 'www.kmtc.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(690, 'PE-278', 'Agro-Chemical and Food Company Limited', 'PET-5', '047', '   Muhoroni', 'P.O Box 18 - 40107', '', '', '', '', 'wkarani@acfc.co.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(691, 'PE-279', 'Garissa', 'PET-8', '047', 'sherrif Apartment', '563-70100', '', '', '', '', 'enquiries@garissa.go.ke', NULL, 'www.garissa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(692, 'PE-280', 'State Department for Housing, Urban Development & Public Works', 'PET-4', '047', 'Works building ', '30743-00100 Nairobi', '', '', '', '', 'info@publicworks.go.ke', NULL, 'www.transport.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(693, 'PE-281', 'Kenya Nuclear Electricity Board', 'PET-5', '047', 'Kawi complex ', '26374', '', '', '', '', 'mmwangi@nuclear.co.ke', NULL, 'www.nuclear.co.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(694, 'PE-282', 'Tourism Research Institute', 'PET-5', '047', 'UTALII HOUSE 7TH FLOOR ROOM 732', 'P.O.BOX 42131-00100 NAIROBI', '', '', '', '', 'ceo@tri.go.ke', NULL, 'N/A', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(695, 'PE-283', 'Kitui NGAAF', 'PET-18', '047', 'Nzambaani Park Building, Kitui', 'P. O. Box 1-90200, Kitui, ', '', '', '', '', 'denniskitheka@gmail.com', NULL, 'http://www.ngaaf.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(696, 'PE-284', 'Chemelil Sugar Company Limited', 'PET-5', '047', 'csc@chemsugar.co.ke', 'Along Awasi/Nandi Hills Road, Kisumu County', '', '', '', '', '  GSM Lines: 0722 209798, 0710 766383, 0735 234733', NULL, '359_logo_image.jpg', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(697, 'PE-285', 'Lake Victoria North Water services Board', 'PET-5', '047', 'Kefinco Hse, off Kakamega-Kisumu Road', 'P.O Box 673 - 50100 Kakamega', '', '', '', '', 'info@lvnwsb.go.ke', NULL, 'http://www.lvnwsb.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(698, 'PE-286', 'Kajiado', 'PET-8', '047', 'Off Nairobi - Namanga Road', 'P O Box 11-001100 Kajiado', '', '', '', '', 'info@kajiado.go.ke', NULL, 'www.kajiado.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(699, 'PE-287', 'Netfund', 'PET-5', '047', 'National Water Plaza, 1st Floor, Dunga road, Industrial Area', '19324-00202', '', '', '', '', 'info@netfund.go.ke', NULL, 'www.netfund.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(700, 'PE-288', 'Kwale', 'PET-8', '047', 'KWALE', '4-80403', '', '', '', '', 'madonna@procurement.kwale.go.ke', NULL, 'http://www.kwalecountygov.com/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(701, 'PE-289', 'National Police Service Commission', 'PET-10', '047', 'westlands,Nairobi', '47363', '', '', '', '', 'info@npsc.go.ke', NULL, 'www.npsc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(702, 'PE-290', 'County Assembly Of Siaya', 'PET-7', '047', 'Siaya County Headquarters', 'P.O.BOX 7-40600 SIAYA', '', '', '', '', 'clerk@siayaassembly.go.ke', NULL, 'www.siayaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(703, 'PE-291', 'Kwale Water and Sewerage Company Ltd', 'PET-11', '047', '  Likoni Kwale road off-SIDA road,Kwale', 'Box 18-80403', '', '', '', '', 'info@kwalewater.co.ke', NULL, 'www.kwalewater.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(704, 'PE-292', 'Kengen Staff Retirement Benefits Scheme', 'PET-16', '047', 'KenGen Pension Plaza 2, 11th Floor, Kolobot Road, Nairobi', '47936 - 00100', '', '', '', '', 'info@kengensrbs.co.ke ', NULL, 'www.kengensrbs.co.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(705, 'PE-293', 'Kenya Leather Development Council', 'PET-5', '047', ' CPA Centre, 5th Floor, Thika Road, Nairobi', '14480-00800 NRB', '', '', '', '', 'info@leathercouncil.go.ke', NULL, 'www.leathercouncil.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(706, 'PE-294', 'Jomo Kenyatta University of Agriculture and Technology (JKUAT)', 'PET-6', '047', 'Juja Kiambu County', 'Box 62000-00200', '', '', '', '', 'rkiprop@jkuat.ac.ke', NULL, 'http://www.jkuat.ac.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(707, 'PE-295', 'Maasai Mara University', 'PET-6', '047', 'Narok - Bomet Road', 'Box 861, Narok', '', '', '', '', 'procurement@mmarau.ac.ke', NULL, 'www.mmarau.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(708, 'PE-296', 'Kenya National Library Service', 'PET-5', '047', 'Mumias Road/Ol Donyo Sabuk Road Junction, Buruburu', '30573-00100', '', '', '', '', 'edel.ratemo@knls.ac.ke', NULL, 'www.knls.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(709, 'PE-297', 'Ethics and Anti-Corruption Commission', 'PET-10', '047', '2100312/3 Mobile: 0729888881/2/3\\', ' 0736996600/33', '', '', '', '', '2720722\\', NULL, '+254 729888881', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(710, 'PE-298', 'Tom Mboya University College (Maseno)', 'PET-6', '047', 'HOMABAY COUNTY-NEXT TO THE GOVERNOR OFFICE ', '199-40300 HOMABAY', '', '', '', '', 'principal@tmuc.ac.ke', NULL, 'https://www.tmuc.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(711, 'PE-299', 'Taita-Taveta', 'PET-8', '047', 'wundanyi', '1066-80304', '', '', '', '', 'governortaitatavet@yahoo.com', NULL, 'www.taitataveta.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(712, 'PE-300', 'South Eastern Kenya University ', 'PET-6', '047', 'Machakos, Kitui rd, off Kwa Vonza', 'P.O. Box 170 - 90200, Kitui', '', '', '', '', 'vc@seku.ac.ke', NULL, 'www.seku.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(713, 'PE-301', 'Lake Basin Development Authority', 'PET-5', '047', 'Off Kisumu Kakamega Road', 'PO Box 1516 - 40100 Kisumu', '', '', '', '', 'info@lbda.co.ke', NULL, 'www.lbda.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(714, 'PE-302', 'Busia', 'PET-8', '047', '0', 'PRIVATE BAG', '', '', '', '', '', NULL, 'busiacounty.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(715, 'PE-303', 'Wajir', 'PET-8', '047', 'wajir', 'po.box 9-70200', '', '', '', '', 'info@wajir.go.ke', NULL, 'www.wajir.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(716, 'PE-304', 'Technical University of Mombasa', 'PET-6', '047', 'Mombasa', '90420-80100', '', '', '', '', 'supplies@tum.ac.ke', NULL, 'Web: www.tum.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(717, 'PE-305', 'Centre for Mathematics, Science and Technology Education in Africa', 'PET-5', '047', 'Karen Road - Bogani Road Junction', 'P. O. Box 24214, 00502', '', '', '', '', 'director@cemastea.ac.ke', NULL, 'www.cemastea.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(718, 'PE-306', 'Kenya Reinsurance Corporation Ltd', 'PET-5', '047', 'Reinsurance Plaza', 'P. O. Box 30271, 00100', '', '', '', '', 'kenyare@kenyare.co.ke', NULL, 'https://www.kenyare.co.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(719, 'PE-307', 'Tourism', 'PET-4', '047', 'Utalii House', 'P. O. Box 30027, 00100 Nairobi', '', 'Nairobi', '', '', 'ps@tourism.go.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(720, 'PE-308', 'Thogoto Teachers Training College', 'PET-13', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(721, 'PE-309', 'Malindi Water & Sewerage Co. LTD', 'PET-15', '047', 'Malindi opposite Kilifi County Assembly', '410-80200 MALINDI', '', '', '', '', 'info@malindiwater.co.ke', NULL, 'www.malindiwater.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(722, 'PE-310', 'Kenya Investment Authority ', 'PET-5', '047', '0', '0', '', '', '', '', '', NULL, 'www.invest.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(723, 'PE-311', 'OFFICE OF THE CONTROLLER OF BUDGET', 'PET-10', '047', ' Bima House', '35616 -00100', '', '', '', '', 'lusulial@cob.go.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(724, 'PE-312', 'Kenya Veterinary Board', 'PET-5', '047', 'Veterinary Research Laboratories, Upper Kabete', '513-00605 Uthiru', '', '', '', '', 'info@kenyavetboard.or.ke', NULL, 'http://kenyavetboard.or.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(725, 'PE-313', 'Makueni', 'PET-8', '047', 'Makueni', '78- 90300', '', '', '', '', 'mail@makueni.go.ke', NULL, 'www.makueni.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(726, 'PE-314', 'County Assembly of Kirinyaga', 'PET-7', '047', 'kerugoya', '55-10300', '', '', '', '', 'kirinyagacountyassembly@gmail.com', NULL, 'kirinyagaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(727, 'PE-315', 'Women Enterprise Fund', 'PET-5', '047', 'NSSF BUILDING, EASTERN WING , BLOCK A', '017126-00100', '', '', '', '', 'info@wef.co.ke', NULL, 'www.wef.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(728, 'PE-316', 'Ayora Mixed Secondary School', 'PET-9', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(729, 'PE-317', 'Nairobi City Water & Sewerage Company LTD', 'PET-11', '047', 'Nairobi', '30656-00100', '', '', '', '', 'tenders@nairobiwater.co.ke', NULL, 'www.nairobiwater.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(730, 'PE-318', 'Rift Valley Water Services Board', 'PET-5', '047', 'Maji Plaza, Prisons Road, Off Eldama Ravine Nakuru Road', '2451 Nakuru', '', '', '', '', 'wsakuda@rvwsb.go.ke', NULL, 'www.rvwsb.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(731, 'PE-319', 'Teachers Service Commission', 'PET-10', '047', 'TSC House, Upper Hill', 'TSC Private Bag, Nairobi, 00100', '', 'Nairobi', '', '', 'kabubii2030@gmail.com', NULL, 'www.tsc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(732, 'PE-320', 'National Gender and Equality Comission', 'PET-10', '047', 'SOLUTION TECH BUILDING', '27512-00506', '', '', '', '', 'info@ngeckenya.org', NULL, 'www.ngeckenya.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(733, 'PE-321', 'Rural Electrification Authority', 'PET-5', '047', 'kawi House South C', '34585-00100', '', '', '', '', 'info@rea.co.ke', NULL, 'www.rea.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(734, 'PE-322', 'Murang???a University of Technology', 'PET-6', '047', '10200', '75', '', '', '', '', 'procurement@mut.ac.ke', NULL, 'www.mut.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(735, 'PE-323', 'Kenya National Shipping Line Ltd.', 'PET-5', '047', 'New Cannon tower 1st floor, Moi Avenue  ', '88206 - 80100, Mombasa', '', '', '', '', 'admin@knsl.co.ke', NULL, 'www.knsl.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(736, 'PE-324', 'County Assembly Of Nyeri', 'PET-7', '047', 'RURINGU-NYERI', 'P.O BOX 162 -10100 NYERI', '', '', '', '', 'nyeriassembly.go.ke', NULL, 'www.nyeriassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(737, 'PE-325', 'Local Authorities Provident Fund (LAPFUND)', 'PET-5', '047', 'JKUAT Towers, Kenyatta Avenue', '79592-00200 Nairobi', '', 'Nairobi', '', '', 'ymutinda@lapfund.or.ke', NULL, 'www.lapfund.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(738, 'PE-326', 'Tanathi Water Services Board', 'PET-5', '047', '0', '0', '', '', '', '', '', NULL, 'www.tanathi.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(739, 'PE-327', 'Kilifi Mariakani Water and Sewerage Company Limited', 'PET-11', '047', 'Off Malindi Road at former KDDP Office - Kilifi town', '275-80108 Kilifi', '', '', '', '', 'info@kilifiwater.co.ke', NULL, 'www.kilifiwater.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(740, 'PE-328', 'NGOs Co-ordination Board', 'PET-5', '047', 'Co-operative Bank House 15th floor', '44617', '', '', '', '', 'info@ngobureau.or.ke', NULL, 'www.ngobureau.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(741, 'PE-329', 'National Land Commission', 'PET-10', '047', 'ARDHI HOUSE-1ST AVENUE,NGONG AVENUE', 'P.O BOX 44417-00100,NAIROBI', '', 'Nairobi', '', '', 'info@landcommission.go.ke', NULL, 'www.landcommission.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(742, 'PE-330', ' National Crime Research Centre', 'PET-5', '047', ' ACK Garden Annex- Ground Floor  1st Ngong Avenue, Off Bishop\'s Road  ', 'P .0. BOX 21180-00100 ', '', '', '', '', 'director@crimeresearch.qo.ke', NULL, 'www.crimeresearch.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(743, 'PE-331', 'County Assembly Of Homa Bay', 'PET-7', '047', 'Homabay Town', '20-40300', '', '', '', '', 'tokore@homabayassembly.go.ke', NULL, 'www.homabayassembly.go.ke  ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(744, 'PE-332', 'Kenya Institute of Supplies Mangement', 'PET-5', '047', 'Nation Centre', '30400-00100', '', '', '', '', 'admin@kism.or.ke ', NULL, 'www.kism.or.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(745, 'PE-333', 'Kenya National Commission on Human Rights', 'PET-10', '047', 'CVS PLAZA - LENANA RD/KASUKU LANE', '74359-00200', '', '', '', '', 'haki@knchr.org ', NULL, 'www.knchr.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(746, 'PE-334', 'Nyeri Water & Sewerage Company Limited', 'PET-15', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(747, 'PE-335', 'Nairobi Centre for International Arbitration', 'PET-5', '047', 'Haile Selassie Avenue', '548 - 00200', '', '', '', '', 'info@ncia.or.ke', NULL, 'www.ncia.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(748, 'PE-336', 'County Assembly Of Migori', 'PET-7', '047', 'Migori', 'Box 985-40400 Migori', '', '', '', '', 'stevedawns@gmail.com', NULL, 'www.migoriassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(749, 'PE-337', 'Taita Taveta University ', 'PET-6', '047', 'VOI', '635-80300', '', '', '', '', 'info@ttu.ac.ke', NULL, 'www.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(750, 'PE-338', 'County Assembly Of Uasin Gishu', 'PET-7', '047', 'Uasin Gishu County Assembly, Uganda Road', 'Box 100 - 30100', '', '', '', '', 'schangwony@gmail.com', NULL, 'www.ugcountyassembly.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(751, 'PE-339', 'County Assembly Of Kisii', 'PET-7', '047', 'Kisii Town Hall Building', 'Box 4552-40200 Kisii', '', '', '', '', 'info@kisiiassembly.go.ke', NULL, 'www.kisiiassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(752, 'PE-340', 'Business Registration Service', 'PET-5', '047', 'Sheria House, Harambee Avenue', 'P. O. Box 40112 - 00100', '', '', '', '', 'info.statelawoofice@kenya.go.ke', NULL, 'brs.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(753, 'PE-341', 'County Assembly Of Busia', 'PET-7', '047', 'County Assembly Headquaters Busia town-off Busia Kisumu Road', 'Box 1018-50400 Busia', '', '', '', '', 'yvonnelily89@gmail.com', NULL, 'www.busiaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(754, 'PE-342', 'Cabinet Affairs Office', 'PET-14', '047', 'Harambee House', '62345-00200 Nairobi', '', 'Nairobi', '', '', 'pas@cabinetoffice.go.ke', NULL, 'www.cabinetoffice.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(755, 'PE-343', 'State House', 'PET-14', '047', 'state house road', '40530-00100', '', '', '', '', 'supplychain@president.go.ke', NULL, 'www.president.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(756, 'PE-344', 'Nursing Council of Kenya', 'PET-5', '047', 'Kabarnet Lane, Off Ngong Road', 'Box 20056-00200 Nairobi', '', 'Nairobi', '', '', 'ewanjiku@nckenya.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(757, 'PE-345', 'Nzoia Sugar Company', 'PET-5', '047', 'Bungoma', 'Box 285-50200 BUNGOMA', '', 'Nairobi', '', '', 'amusonye@nzoiasugar.com', NULL, 'www.nzoiasugar.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(758, 'PE-346', 'Post Training & Skills Development', 'PET-4', '047', 'Jogoo House B', 'Box 30040-00200 Nairobi', '', 'Nairobi', '', '', 'bluyera@yahoo.com', NULL, 'www.education.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(759, 'PE-347', 'Office of the Deputy President', 'PET-14', '047', 'Harambee House Annexe', 'Box 74434-00200 Nairobi', '', 'Nairobi', '', '', 'dp@deputypresident.go.ke', NULL, 'www.dp@deputypresident.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(760, 'PE-348', 'County Assembly Of Nairobi', 'PET-7', '047', 'City Hall Buildings', 'Box 45844-00100 Nairobi', '', 'Nairobi', '', '', 'daisymuema@nairobiassembly.go.ke', NULL, 'www.nairobiassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(761, 'PE-349', 'Pwani University', 'PET-6', '047', 'Kilifi , Kenya', 'Box 195-80108 Kilifi, Kenya', '', '', '', '', 'l.mwacharo@pu.ac.ke', NULL, 'www.pu.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(762, 'PE-350', 'Bomet University College', 'PET-6', '047', 'Bomet', 'Box 701-20400', '', '', '', '', 'kipsaiya@buc.ac.ke', NULL, 'www.buc.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(763, 'PE-351', 'Chuka University', 'PET-6', '047', 'CHUKA', '109', '', '', '', '', '', NULL, 'www.chuka.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(764, 'PE-352', 'Pyrethrum Processing Company of Kenya Limited', 'PET-5', '047', 'General Mathenge Road,Industrial area Nakuru', '420-20100,Nakuru', '', '', '', '', 'md@pyrethrum.co.ke ', NULL, 'www.kenyapyrethrum.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(765, 'PE-353', 'Pharmacy and Poisons Board', 'PET-5', '047', 'Lenana Road, Nairobi', 'P.O. Box 27663-00506, Nairobi', '', 'Nairobi', '', '', 'procurement@pharmacyboardkenya.org', NULL, 'www.pharmacyboardkenya.org', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(766, 'PE-354', 'Kenya Medical Practitioners and Dentists Board', 'PET-5', '047', 'Woodlands Avenue of Lenana Road', 'P.O. BOX 44839 00100 NAIROBI', '', 'Nairobi', '', '', 'info@kenyamedicalboard.or.ge', NULL, 'www.medicalboard.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(767, 'PE-355', 'Financial Reporting Centre', 'PET-5', '047', 'CBK Pension Fund Building', 'Box Private Bag 00200, Nairobi', '', 'Nairobi', '', '', 'georgenjane65@gmail.com', NULL, 'www.frc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(768, 'PE-356', 'Maseno University', 'PET-6', '047', 'Kisumu-Busia Road', 'Private Bag Maseno', '', '', '', '', 'po@maseno.ac.ke /vc@maseno.ac.ke', NULL, 'www.maseno.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(769, 'PE-357', 'Judicial Service Commission', 'PET-10', '047', 'Reinsurance Plaza', 'Box 40048-00100 Nairobi', '', 'Nairobi', '', '', 'mirriam.musyimi@jsc.go.ke', NULL, 'www.jsc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(770, 'PE-358', 'Lamu', 'PET-8', '047', 'MOKOWE', '74-80500', '', '', '', '', 'info@lamu.go.ke', NULL, 'www.lamu.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(771, 'PE-359', 'National Cereals and Produce Board', 'PET-5', '047', 'Machakos/Enterprise Road', 'Box 30586-00100 Nairobi', '', '', '', '', 'nwaswa@ncpb.co.ke', NULL, 'www.ncpb.co.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(772, 'PE-360', 'Media Council of Kenya', 'PET-5', '047', 'Ground Floor, Britam Centre, Mara/Ragati Road Junction, Upperhill', '43132-00100', '', '', '', '', 'info@mediacouncil.or.ke', NULL, 'www.mediacouncil.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(773, 'PE-361', 'County Assembly Of Tharaka-Nithi', 'PET-7', '047', 'Chuka', 'Box 694 Chuka', '', '', '', '', 'enirichu@gmail.com', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(774, 'PE-362', 'Kisii', 'PET-8', '047', 'Treasury Building', 'P.O. Box 4550 - 40200 Kisii', '', '', '', '', 'procurement@kisii.go.ke', NULL, 'www.kisii.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(775, 'PE-363', 'Bukura Agricultural College', 'PET-13', '047', 'Sigalagala - Butere Road', 'Box 23-50105 Bukura', '', '', '', '', 'bcheptiony@bukuracollege.ac.ke', NULL, 'www.bukuracollege.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(776, 'PE-364', 'Laikipia', 'PET-8', '047', 'Nanyuki', '1271/10400', '', '', '', '', 'laikipia county government', NULL, 'www.laikipia.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(777, 'PE-365', 'Kenya Safari Lodges & Hotels LTD', 'PET-5', '047', 'Mombasa', '90414-80100', '', '', '', '', 'mombasabeachhotel@kenya-safari.co.ke', NULL, 'www.safari-hotels.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(778, 'PE-366', 'Kenya Coast National Polytechnic', 'PET-13', '047', 'KISAUNI ROAD,MOMBASA', '81220-80100', '', '', '', '', 'info@kenyacoastpoly.ac.ke', NULL, 'www.kenyacoastpoly.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(779, 'PE-367', 'Wote Technical Training Institute', 'PET-13', '047', 'Makueni', 'P. o. Box 377, 90300 Makueni', '', '', '', '', 'wotettimakueni@gmail.com', NULL, 'www.wotetti.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(780, 'PE-368', 'Rift Valley Technical Training Institute', 'PET-13', '047', 'Eldoret', 'P.O.Box 244 - 30100, Eldoret', '', '', '', '', 'info@rvti.ac.ke', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(781, 'PE-369', 'County Assembly Of Turkana', 'PET-7', '047', 'Lodwar Town', '25 - 30500 LODWAR', '', '', '', '', 'info@turkanaassembly.go.ke', NULL, 'www.turkanaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(782, 'PE-370', 'County Assembly Of Trans Nzoia', 'PET-7', '047', 'KITALE', 'P.O Box 4221', '', '', '', '', 'transnzoiacountyassembly@gmail.com', NULL, 'www.transnzoiaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(783, 'PE-371', 'Vihiga', 'PET-8', '047', 'The Treasury, Maragoli', 'P. O. Box 344 - 50300', '', '', '', '', 'vihigatreasury@yahoo.com', NULL, 'www.vihiga.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(784, 'PE-372', 'County Assembly Of Vihiga', 'PET-7', '047', 'Clerks Chambers, Assembly Headquarters, Maragoli', 'P.O. Box 90 - 50300, Maragoli', '', '', '', '', 'vihigaassembly@gmail.com', NULL, 'www.vihigacountyassembly.or.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(785, 'PE-373', 'Tourism Finance Corporation', 'PET-5', '047', 'nairobi', '42013-00100', '', '', '', '', 'md@tourismfinance.go.ke', NULL, 'www.tourismfinance.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(786, 'PE-374', 'County Assembly Of Bungoma', 'PET-7', '047', 'Bungoma Town opposite Shariffs Centre', '1886-50200', '', '', '', '', 'info@bungomaassembly.go.ke', NULL, 'www.bungomaassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(787, 'PE-375', 'County Assembly Of Makueni', 'PET-7', '047', 'wote makindu road', '0572-90300', '', '', '', '', 'info@makueniassembly.go.ke', NULL, 'www.makueniassebly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(788, 'PE-376', 'Nyandarua Institute of Science and Technology', 'PET-13', '047', 'Nyahururu', '2033-20300 Nyahururu', '', '', '', '', 'nyandaruainstitute2006@gmail.com', NULL, 'www.nyandaruainstitute.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(789, 'PE-377', 'Correctional Services', 'PET-4', '047', 'Telposta Towers', 'Box 30478-00100 NAIROBI', '', 'Nairobi', '', '', 'ps@coordination.go.ke', NULL, 'www.coordination.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(790, 'PE-378', 'National Communication Secretariat', 'PET-5', '047', 'Community Aresa', '10756', '', '', '', '', 'info@ncs.go.ke', NULL, 'ncs.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(791, 'PE-379', 'Nakuru', 'PET-8', '047', 'Nakuru', '2780-20100 Nakuru', '', '', '', '', 'supplychainnakuru@gmail.com', NULL, 'www.nakuru.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(792, 'PE-380', 'Lapsset Corridor Development Authority', 'PET-5', '047', 'Chester House, 2nd Floor', '45008-00100 Nairobi', '', 'Nairobi', '', '', 'dg@lapsset.go.ke', NULL, 'www.lapsset.go.ke ', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(793, 'PE-381', 'Thika Technical Training Institute', 'PET-13', '047', 'Thika, Geberal Kago Road', 'P.O. Box 91 - 0100', '', '', '', '', 'thikatech@gmail.com', NULL, 'www.thikatechnical.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(794, 'PE-382', 'Keroka Technical Training Institute', 'PET-13', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(795, 'PE-383', 'Youth', 'PET-4', '047', 'Kencom House, 3rd Floor', '30500-00100 Nairobi', '', '', '', '', '', NULL, 'www.psyg.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(796, 'PE-384', 'County Assembly Of Nakuru', 'PET-7', '047', 'George Morara road', '0', '', '', '', '', 'p.o box 907', NULL, 'www.assembly.nakuru.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(797, 'PE-385', 'Baringo', 'PET-8', '047', 'KABARNET', '53-30400 KABARNET', '', '', '', '', 'info@baringo.go.ke', NULL, 'WWW.baringo.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(798, 'PE-386', 'Siaya', 'PET-8', '047', 'Siaya', 'Box 803-40600 Siaya', '', '', '', '', 'cs@siaya.go.ke', NULL, 'www.siaya.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(799, 'PE-387', 'Migori', 'PET-8', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(800, 'PE-388', 'County Assembly Of Nyamira', 'PET-7', '047', 'Nyamira', '590-40500 Kisumu', '', '', '', '', 'info@nyamiraassembly.go.ke', NULL, 'www.nyamiraassembly.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(801, 'PE-389', 'Meru', 'PET-8', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(802, 'PE-390', 'Administration Police Service', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, 'www.interior.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(803, 'PE-391', 'General Service Unit', 'PET-4', '047', 'Ruaraka', '49506-00100', '', '', '', '', 'gsuheadquarters17@gmail.com', NULL, '', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(804, 'PE-392', 'Government Chemist', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(805, 'PE-393', 'National Registration Bureau', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(806, 'PE-394', 'Integrated Population Registration Services', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(807, 'PE-395', 'NAtional Disaster Operation Centre', 'PET-4', '047', 'NYAYO HOUSE 3RD FLOOR', '37300-00100 ', '', '', '', '', 'nationaldisaterops@yahoo.co.uk', NULL, 'http://www.interior.go.ke/', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(808, 'PE-396', 'Civil Registration Service', 'PET-4', '047', 'Hass Plaza , Lower hill Road', '49179 - 00100', '', '', '', '', 'procurementcrs@gmail.com', NULL, 'www.interior.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(809, 'PE-397', 'Directorate of Criminal Investigation', 'PET-4', '047', 'Mazingira House, Kiambu Road', 'P.O Box 30036-00100  Nairobi', '', 'Nairobi', '', '', '', NULL, 'http://www.cid.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(810, 'PE-398', 'Government Press', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(811, 'PE-399', 'National Police Service', 'PET-4', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(812, 'PE-400', 'Kenya Pipeline Company retirement Benefits Scheme', 'PET-16', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(813, 'PE-401', 'Intergovernmental Relations Technical Committee', 'PET-12', '047', 'Parklands Plaza ,4th Floor Chiromo Lane', '44880-00100', '', '', '', '', 'info@igrtc.go.ke', NULL, 'www.igrtc.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(814, 'PE-402', 'Tana River', 'PET-8', '047', 'Hola', 'P.O. BOX 29-70101', '', '', '', '', 'info@tanariver.go.ke', NULL, 'www.tanariver.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(815, 'PE-403', 'Kakamega County Water and Sanitation Company', 'PET-11', '047', 'Kenfico House, Off Kakamega - Kisumu Road', 'Box 1189-50100 ', '', 'Kakamega', '', '', 'kacwasco@gmail.com', NULL, 'www.w.com', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(816, 'PE-404', 'County Assembly Of Kajiado', 'PET-7', '047', 'Kajiado Town-County Headquarter', '94-01100', '', '', '', '', 'info@kajiadoassembly.go.ke', NULL, 'N/A', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(817, 'PE-405', 'Egerton University Investment Company', 'PET-5', '047', 'Njoro,Nakuru', '536-20115 ', '', 'EGERTON', '', '', 'euic@egerton.ac.ke', NULL, 'N/A', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(818, 'PE-406', 'County Assembly Of Nandi', 'PET-7', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(819, 'PE-407', 'National Government Constituencies Development Fund Board', 'PET-5', '047', 'Harambee Plaza, 5th Floor', '46682-', '100', '', '', '', 'info@ngcdf.go.ke', NULL, 'www.ngcdf.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(820, 'PE-408', 'Mombasa', 'PET-8', '047', 'County Treasury, Treasury square. Assembly building.', '90440', '80100', 'Nairobi', '', '', 'countyfinance@mombasa.go.ke', NULL, 'www.mombasa.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(821, 'PE-409', 'Kenya Police Service', 'PET-4', '047', 'Vigilance House', '30083', '', 'Nairobi', '', '', 'info@kenyapolice.go.ke', NULL, 'www.kenyapolice.go.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(822, 'PE-410', 'The Nyeri National Polytechnic', 'PET-13', '047', 'Mumbi Road, Nyeri', 'Box 456', '10100', 'Nyeri', '', '', 'info@thenyeripoly.ac.ke', NULL, 'www.thenyeripoly.ac.ke', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(823, 'PE-411', 'County Assembly Of Kilifi', 'PET-7', '047', '0', '0', '', '', '', '', '', NULL, '\\N', 'Admin', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL),
+	(924, 'PE-412', 'test test', 'PET-4', '005', 'Nairobi', '123', '01000', 'THIKA  ', '0722719412', '0722719412', 'arcmdevelopment@gmail.com ', '', '', 'Admin', '2019-12-05 13:01:28', '2019-12-05 13:12:30', '12345611', 0, NULL, NULL, '2019-12-05 00:00:00', '12345611', '12345611');
 /*!40000 ALTER TABLE `procuremententity` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.procurementmethods
@@ -6687,17 +6307,11 @@ CREATE TABLE IF NOT EXISTS `procurementmethods` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.procurementmethods: ~5 rows (approximately)
+-- Dumping data for table arcm.procurementmethods: ~0 rows (approximately)
 DELETE FROM `procurementmethods`;
 /*!40000 ALTER TABLE `procurementmethods` DISABLE KEYS */;
-INSERT INTO `procurementmethods` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(6, 'PROGM-1', 'Direct Procurement Updated', '2019-08-01 10:26:17', 'Admin', '2019-08-01 10:26:55', 'Admin', 1, 'Admin'),
-	(7, 'PROGM-2', 'Single-Source ', '2019-08-01 10:41:25', 'Admin', '2019-08-01 10:45:24', 'Admin', 1, 'Admin'),
-	(8, 'PROGM-3', 'Request for Quotations', '2019-08-01 10:55:31', 'Admin', '2019-08-27 17:40:07', 'Admin', 0, NULL),
-	(9, 'PROGM-4', 'Restricted Tendering', '2019-08-01 10:55:45', 'Admin', '2019-10-04 09:47:39', 'Admin', 0, NULL),
-	(10, 'PROGM-5', 'Open Tendering', '2019-08-01 10:55:53', 'Admin', '2019-08-27 17:19:41', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `procurementmethods` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.rb1forms
@@ -6710,33 +6324,17 @@ CREATE TABLE IF NOT EXISTS `rb1forms` (
   `GeneratedOn` datetime DEFAULT NULL,
   `GeneratedBy` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.rb1forms: ~15 rows (approximately)
+-- Dumping data for table arcm.rb1forms: ~0 rows (approximately)
 DELETE FROM `rb1forms`;
 /*!40000 ALTER TABLE `rb1forms` DISABLE KEYS */;
-INSERT INTO `rb1forms` (`ID`, `ApplicationNo`, `Path`, `FileName`, `GeneratedOn`, `GeneratedBy`) VALUES
-	(1, '12 OF 2019', 'RB1FORMS/', '12 OF 2019.pdf', '2019-11-11 16:20:15', 'Admin'),
-	(2, '13 OF 2019', 'RB1FORMS/', '13 OF 2019.pdf', '2019-11-12 11:52:00', 'PPRA01'),
-	(3, '14 OF 2019', 'RB1FORMS/', '14 OF 2019.pdf', '2019-11-12 15:56:44', 'PPRA01'),
-	(4, '15 OF 2019', 'RB1FORMS/', '15 OF 2019.pdf', '2019-11-12 17:02:38', 'Admin'),
-	(5, '16 OF 2019', 'RB1FORMS/', '16 OF 2019.pdf', '2019-11-13 11:42:48', 'Admin'),
-	(6, '17 OF 2019', 'RB1FORMS/', '17 OF 2019.pdf', '2019-11-13 17:40:46', 'Admin'),
-	(7, '19 OF 2019', 'RB1FORMS/', '19 OF 2019.pdf', '2019-11-17 12:17:59', 'Admin'),
-	(8, '20 OF 2019', 'RB1FORMS/', '20 OF 2019.pdf', '2019-11-20 15:00:04', 'Admin'),
-	(9, '21 OF 2019', 'RB1FORMS/', '21 OF 2019.pdf', '2019-11-21 14:19:19', 'Admin'),
-	(10, '22 OF 2019', 'RB1FORMS/', '22 OF 2019.pdf', '2019-11-21 14:36:25', 'Admin'),
-	(11, '23 OF 2019', 'RB1FORMS/', '23 OF 2019.pdf', '2019-11-21 17:01:02', 'Admin'),
-	(12, '26 OF 2019', 'RB1FORMS/', '26 OF 2019.pdf', '2019-11-21 21:34:43', 'Admin'),
-	(13, '27 OF 2019', 'RB1FORMS/', '27 OF 2019.pdf', '2019-11-21 21:37:17', 'Admin'),
-	(14, '28 OF 2019', 'RB1FORMS/', '28 OF 2019.pdf', '2019-11-21 21:44:14', 'Admin'),
-	(15, '29 OF 2019', 'RB1FORMS/', '29 OF 2019.pdf', '2019-11-22 11:47:08', 'Admin');
 /*!40000 ALTER TABLE `rb1forms` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.ReasignCaseOfficer
 DROP PROCEDURE IF EXISTS `ReasignCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ReasignCaseOfficer`(IN _UserID VARCHAR(50), IN _Applicationno VARCHAR(50), IN _UserName VARCHAR(50), IN _Reason VARCHAR(255))
+CREATE  PROCEDURE `ReasignCaseOfficer`(IN _UserID VARCHAR(50), IN _Applicationno VARCHAR(50), IN _UserName VARCHAR(50), IN _Reason VARCHAR(255))
 BEGIN
 select UserName from casedetails where ApplicationNo=_Applicationno AND Status='Open' LIMIT 1 into @CurrentUser;
 update casedetails set Status='Re-Assigned',PrimaryOfficer=0,ReassignedTo=_UserName,DateReasigned=now(),Reason=_Reason where ApplicationNo=_Applicationno and UserName=@CurrentUser;
@@ -6753,7 +6351,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.registercasesittings
 DROP PROCEDURE IF EXISTS `registercasesittings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `registercasesittings`(IN _ApplicationNo VARCHAR(50),IN _VenueID INT,IN _Date Date,IN _UserID varchar(50))
+CREATE  PROCEDURE `registercasesittings`(IN _ApplicationNo VARCHAR(50),IN _VenueID INT,IN _Date Date,IN _UserID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Registered hearing for Application:',_ApplicationNo); 
@@ -6781,7 +6379,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.RemoveAllUserroles
 DROP PROCEDURE IF EXISTS `RemoveAllUserroles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RemoveAllUserroles`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `RemoveAllUserroles`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 
@@ -6800,7 +6398,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.RemovePanelMember
 DROP PROCEDURE IF EXISTS `RemovePanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RemovePanelMember`(IN _ApplicationNo VARCHAR(50), IN _UserName VARCHAR(50), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `RemovePanelMember`(IN _ApplicationNo VARCHAR(50), IN _UserName VARCHAR(50), IN _userID VARCHAR(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Removed  PanelMember:' +_UserName+ ' for Application: ', _ApplicationNo); 
@@ -6818,35 +6416,9 @@ CREATE TABLE IF NOT EXISTS `requesthandledbuffer` (
   `Status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.requesthandledbuffer: ~25 rows (approximately)
+-- Dumping data for table arcm.requesthandledbuffer: ~0 rows (approximately)
 DELETE FROM `requesthandledbuffer`;
 /*!40000 ALTER TABLE `requesthandledbuffer` DISABLE KEYS */;
-INSERT INTO `requesthandledbuffer` (`Applicationno`, `ApplicationDate`, `Status`) VALUES
-	('23 OF 2019', '2019-11-21', 'Successful'),
-	('29 OF 2019', '2019-11-22', 'Successful'),
-	('16 OF 2019', '2019-11-13', 'Unsuccessful'),
-	('17 OF 2019', '2019-11-13', 'Unsuccessful'),
-	('18 OF 2019', '2019-11-15', 'Unsuccessful'),
-	('20 OF 2019', '2019-11-20', 'Unsuccessful'),
-	('14 OF 2019', '2019-11-12', 'Withdrawn'),
-	('12 OF 2019', '2019-11-11', 'Pending Determination'),
-	('13 OF 2019', '2019-11-12', 'Pending Determination'),
-	('15 OF 2019', '2019-11-12', 'Pending Determination'),
-	('11', '2019-11-13', 'Pending Determination'),
-	('12', '2019-11-13', 'Pending Determination'),
-	('13', '2019-11-13', 'Pending Determination'),
-	('14', '2019-11-13', 'Pending Determination'),
-	('21 OF 2019', '2019-11-14', 'Pending Determination'),
-	('19', '2019-11-20', 'Pending Determination'),
-	('20', '2019-11-20', 'Pending Determination'),
-	('21', '2019-11-20', 'Pending Determination'),
-	('22', '2019-11-20', 'Pending Determination'),
-	('24', '2019-11-21', 'Pending Determination'),
-	('22 OF 2019', '2019-11-21', 'Pending Determination'),
-	('27 OF 2019', '2019-11-21', 'Pending Determination'),
-	('28 OF 2019', '2019-11-21', 'Pending Determination'),
-	('29', '2019-11-22', 'Pending Determination'),
-	('29 OF 2019', '2019-11-22', 'Pending Determination');
 /*!40000 ALTER TABLE `requesthandledbuffer` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.Resetpassword
@@ -6874,7 +6446,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Resolveapplicationsequence
 DROP PROCEDURE IF EXISTS `Resolveapplicationsequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Resolveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255))
+CREATE  PROCEDURE `Resolveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255))
 BEGIN
   Update applicationsequence set Status='Done' where ApplicationNo=_ApplicationNo and  Action=_Action ;
 END//
@@ -6883,17 +6455,17 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ResolveMyNotification
 DROP PROCEDURE IF EXISTS `ResolveMyNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50))
+CREATE  PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50),IN _ApplicationNo VARCHAR(50))
 BEGIN
-select ID from notifications where Username=_UserName and Category=_Category and Status='Not Resolved' LIMIT 1 into @UnresolvedID;
-update notifications set Status='Resolved' where Username=_UserName and Category=_Category and ID=@UnresolvedID;
+-- select ID from notifications where Username=_UserName and Category=_Category and Status='Not Resolved' LIMIT 1 into @UnresolvedID;
+update notifications set Status='Resolved' where Username=_UserName and Category=_Category and ApplicationNo=_ApplicationNo;
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.ResubmitApplication
 DROP PROCEDURE IF EXISTS `ResubmitApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ResubmitApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
+CREATE  PROCEDURE `ResubmitApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
 BEGIN
 Update applications set Status='Pending Approval' where ID=_ApplicationID;
  select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @App; 
@@ -6911,8 +6483,8 @@ call Saveapplicationsequence(@App,'Resubmited Application','Awaiting fees confir
               where approvers.ModuleCode='APFRE' and approvers.Deleted=0 and Active=1;  
    if(select count(*) from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0)>0 THEN
               Begin
-                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                  INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                  select Username,'Applications Approval','Applications pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
                   from approvers where ModuleCode ='APFRE' and Active=1 and Deleted=0;
               End;
               End if;    
@@ -6934,9 +6506,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `Deleted` tinyint(1) NOT NULL,
   `Category` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`RoleID`,`RoleName`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.roles: ~64 rows (approximately)
+-- Dumping data for table arcm.roles: ~66 rows (approximately)
 DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`, `Category`) VALUES
@@ -7001,15 +6573,19 @@ INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `Creat
 	(75, 'Case Proceedings', 'Case Proceedings', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
 	(76, 'Hearing In progress', 'Hearing In progress', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
 	(77, 'Case Analysis', 'Case Analysis', 'Admin', 'Admin', '2019-07-26 12:04:10', '2019-07-26 12:04:10', 0, 'CaseManagement'),
-	(78, 'Judicial Review', 'Judicial Review', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'CaseManagement'),
+	(78, 'Judicial Review', 'Judicial Review', 'Admin', 'Admin', '2019-07-26 12:04:23', '2019-07-26 12:04:23', 0, 'Menus'),
 	(79, 'Banks', 'Banks', NULL, 'Admin', NULL, NULL, 0, 'Systemparameteres'),
-	(80, 'Payment Types', 'Payment Types', NULL, 'Admin', NULL, NULL, 0, 'Systemparameteres');
+	(80, 'Payment Types', 'Payment Types', NULL, 'Admin', NULL, NULL, 0, 'Systemparameteres'),
+	(81, 'Fees Report', 'Fees Report', 'user', 'user', '2019-06-27 17:31:29', '2019-06-27 17:31:29', 0, 'Reports'),
+	(82, 'Applications Custom Report', 'Applications Custom Report', 'user', 'user', '2019-06-27 17:31:29', '2019-06-27 17:31:29', 0, 'Reports'),
+	(83, 'SMS Details', 'SMS Details', 'Admin', 'Admin', '2019-08-01 13:32:48', '2019-08-01 13:32:48', 0, 'Systemparameteres'),
+	(84, 'SMTP Details', 'SMTP Details', 'Admin', 'Admin', '2019-07-31 16:59:11', '2019-07-31 16:59:11', 0, 'Systemparameteres');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.Saveadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Saveadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveadditionalsubmissions`(IN _ApplicationID INT, IN _Description TEXT,  IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `Saveadditionalsubmissions`(IN _ApplicationID INT, IN _Description TEXT,  IN `_userID` VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new additionalsubmissions for ApplicationNo:',_ApplicationID); 
@@ -7056,7 +6632,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveadditionalsubmissionsDocuments
 DROP PROCEDURE IF EXISTS `SaveadditionalsubmissionsDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveadditionalsubmissionsDocuments`(IN _ApplicationID INT, IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50), IN _Confidential BOOLEAN)
+CREATE  PROCEDURE `SaveadditionalsubmissionsDocuments`(IN _ApplicationID INT, IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50), IN _Confidential BOOLEAN)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new additionalsubmissions doument for ApplicationNo:',_ApplicationID); 
@@ -7102,7 +6678,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Saveadjournment
 DROP PROCEDURE IF EXISTS `Saveadjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveadjournment`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason text,IN _UserID varchar(50))
+CREATE  PROCEDURE `Saveadjournment`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason text,IN _UserID varchar(50))
 BEGIN
 if(SELECT count(*)  from adjournment where ApplicationNo=_ApplicationNo)>0 THEN
 BEGIN
@@ -7115,13 +6691,16 @@ set lSaleDesc= CONCAT('Submited request for case withdrawal for application:',_A
 select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 LIMIT 1 into @Approver;
 insert into adjournment(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
   VALUES(now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,@Approver);
- call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-call SaveNotification(@Approver,'Case Adjournment Approval','Case Adjournment pending approval',DATE_ADD(NOW(), INTERVAL 3 DAY));
+insert into adjournmentApprovalWorkFlow(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
+select now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 ;
 
-  call Saveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment','Awaiting Approval');
+call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
  
+select Username,'Case Adjournment Approval','Case Adjournment pending approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 ;
+call Saveapplicationsequence(_ApplicationNo,'Submited Request for Adjournment','Awaiting Approval',_UserID);
 
-Select 'Success' as msg,Email,Name,Phone from users where Username=@Approver;
+Select 'Success' as msg,Email,Name,Phone from users where Username in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) ;
   End;
   End if;
 END//
@@ -7130,7 +6709,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveadjournmentDocuments
 DROP PROCEDURE IF EXISTS `SaveadjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveadjournmentDocuments`(IN _ApplicationNo VARCHAR(50),IN _Description VARCHAR(155)
+CREATE  PROCEDURE `SaveadjournmentDocuments`(IN _ApplicationNo VARCHAR(50),IN _Description VARCHAR(155)
   ,IN _Path varchar(105),IN _name varchar(105),IN _UserID varchar(50))
 BEGIN
 
@@ -7219,7 +6798,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Saveapplicationsequence
 DROP PROCEDURE IF EXISTS `Saveapplicationsequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255),IN _ExpectedAction VARCHAR(150),IN _UserID varchar(50))
+CREATE  PROCEDURE `Saveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255),IN _ExpectedAction VARCHAR(150),IN _UserID varchar(50))
 BEGIN
 if(select count(*) from applicationsequence where Action=_Action and ApplicationNo=_ApplicationNo)>0 THEN
 Begin
@@ -7269,7 +6848,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveAuditTrail
 DROP PROCEDURE IF EXISTS `SaveAuditTrail`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveAuditTrail`(IN `_Username` VARCHAR(50), IN `_Description` VARCHAR(128), IN `_Category` VARCHAR(50), IN `_IpAddress` VARCHAR(50))
+CREATE  PROCEDURE `SaveAuditTrail`(IN `_Username` VARCHAR(50), IN `_Description` VARCHAR(128), IN `_Category` VARCHAR(50), IN `_IpAddress` VARCHAR(50))
     NO SQL
 BEGIN
 INSERT INTO `audittrails`(`Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES (now(),_Username,_Description,_Category,_IpAddress);
@@ -7347,7 +6926,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savecaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `Savecaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savecaseanalysisdocuments`(IN _ApplicationNo varchar(50), IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `Savecaseanalysisdocuments`(IN _ApplicationNo varchar(50), IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new caseanalysis  doument for ApplicationNo:',_ApplicationNo); 
@@ -7365,7 +6944,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveCaseOfficers
 DROP PROCEDURE IF EXISTS `SaveCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new Case Officer: ',_Username); 
@@ -7379,9 +6958,9 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveCaseWithdrawal
 DROP PROCEDURE IF EXISTS `SaveCaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveCaseWithdrawal`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason VARCHAR(255),IN _UserID varchar(50))
+CREATE  PROCEDURE `SaveCaseWithdrawal`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason VARCHAR(255),IN _UserID varchar(50))
 BEGIN
-if(SELECT count(*)  from casewithdrawal where ApplicationNo=_ApplicationNo)>0 THEN
+if(SELECT count(*)  from casewithdrawal where ApplicationNo=_ApplicationNo and Status='Approved')>0 THEN
 BEGIN
 Select 'Already submited' as msg;
 END;
@@ -7392,10 +6971,10 @@ set lSaleDesc= CONCAT('Submited request for case withdrawal for application:',_A
 insert into casewithdrawal(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By ) 
   VALUES(now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID);
  call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-select Username,'Case withdrawal Approval','Case withdrawal pending approval',NOW(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved' 
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+select Username,'Case withdrawal Approval','Case withdrawal pending approval',NOW(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo 
 from approvers where Deleted=0 and Active=1 and ModuleCode='WIOAP';
-call Saveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal','Awaiting Approval'); 
+call Saveapplicationsequence(_ApplicationNo,'Submited request for case withdrawal','Awaiting Approval',_UserID); 
 Select 'Success' as msg,Email,Name,Phone from users where Username in (select Username from approvers where Deleted=0 and Active=1 and ModuleCode='WIOAP');
   End;
   End if;
@@ -7426,7 +7005,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveConfigurations
 DROP PROCEDURE IF EXISTS `SaveConfigurations`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveConfigurations`(IN _Name varchar(255),IN  _PhysicalAdress varchar(255),IN  _Street varchar(255),IN  _PoBox varchar(255),IN _PostalCode varchar(50),IN _Town varchar(100),IN _Telephone1 varchar(100),IN _Telephone2 varchar(100),IN _Mobile varchar(100),IN _Fax varchar(100),IN _Email varchar(100),IN _Website varchar(100),IN _PIN varchar(50),IN _Logo varchar(100),IN _UserID varchar(50),IN _Code varchar(50))
+CREATE  PROCEDURE `SaveConfigurations`(IN _Name varchar(255),IN  _PhysicalAdress varchar(255),IN  _Street varchar(255),IN  _PoBox varchar(255),IN _PostalCode varchar(50),IN _Town varchar(100),IN _Telephone1 varchar(100),IN _Telephone2 varchar(100),IN _Mobile varchar(100),IN _Fax varchar(100),IN _Email varchar(100),IN _Website varchar(100),IN _PIN varchar(50),IN _Logo varchar(100),IN _UserID varchar(50),IN _Code varchar(50))
 BEGIN
 if(SELECT count(*)  from configurations)>0 THEN
 
@@ -7676,7 +7255,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveHearingAttachments
 DROP PROCEDURE IF EXISTS `SaveHearingAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveHearingAttachments`(IN _ApplicationNo VARCHAR(50),IN _Name LongText,IN _Description VARCHAR(255),IN _Path VARCHAR(255),IN _Category VARCHAR(50),IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveHearingAttachments`(IN _ApplicationNo VARCHAR(50),IN _Name LongText,IN _Description VARCHAR(255),IN _Path VARCHAR(255),IN _Category VARCHAR(50),IN _UserID VARCHAR(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Uploaded hearing attachment for application:',_ApplicationNo); 
@@ -7689,7 +7268,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveHearingNotice
 DROP PROCEDURE IF EXISTS `SaveHearingNotice`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveHearingNotice`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(100),IN _Attachementname VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveHearingNotice`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(100),IN _Attachementname VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Generated hearing Notice for Application: ', _ApplicationNo); 
@@ -7704,7 +7283,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveInterestedParty
 DROP PROCEDURE IF EXISTS `SaveInterestedParty`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveInterestedParty`(IN _Name VARCHAR(120), IN _ApplicationID INT(11), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
+CREATE  PROCEDURE `SaveInterestedParty`(IN _Name VARCHAR(120), IN _ApplicationID INT(11), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
   IN _PhysicalAddress VARCHAR(150), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _POBox VARCHAR(255), IN _UserID VARCHAR(50), IN _Designation VARCHAR(50))
     NO SQL
 BEGIN
@@ -7743,11 +7322,47 @@ call SaveAuditTrail(_userID,lSaleDesc,'Add','0' );
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.Savejrcontactusers
+DROP PROCEDURE IF EXISTS `Savejrcontactusers`;
+DELIMITER //
+CREATE  PROCEDURE `Savejrcontactusers`(IN _UserName VARCHAR(50),_ApplicationNO VARCHAR(50),IN _Role VARCHAR(100),IN _UserID VARCHAR(50))
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Added new jruser for application:',_ApplicationNO); 
+Insert Into jrcontactusers (
+  
+  UserName ,
+  ApplicationNO ,
+  Role ,
+  Create_at ,
+  CreatedBy,
+  Deleted )VALUES(_UserName,_ApplicationNO,_Role,now(),_UserID,0);
+  call SaveAuditTrail(_UserID,lSaleDesc,'Add','0');
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Savejrinterestedparties
+DROP PROCEDURE IF EXISTS `Savejrinterestedparties`;
+DELIMITER //
+CREATE  PROCEDURE `Savejrinterestedparties`(IN _Name VARCHAR(120), IN _ApplicationNO varchar(50), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
+  IN _PhysicalAddress VARCHAR(150), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _POBox VARCHAR(255), IN _UserID VARCHAR(50), IN _Designation VARCHAR(50))
+    NO SQL
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Added new jrinterested  party for application:',_ApplicationNO); 
+insert into jrinterestedparties (Name,ApplicationNO,ContactName ,Email,TelePhone,Mobile,PhysicalAddress,PostalCode,Town,POBox,Create_at,Deleted ,CreatedBy,Designation)
+  Values (_Name,_ApplicationNO,_ContactName ,_Email,_TelePhone,_Mobile,_PhysicalAddress,_PostalCode,_Town,_POBox,now(),0 ,_UserID,_Designation );
+call SaveAuditTrail(_UserID,lSaleDesc,'Add','0');
+
+
+End//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.Savejudicialreview
 DROP PROCEDURE IF EXISTS `Savejudicialreview`;
 DELIMITER //
-CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Savejudicialreview`(IN _ApplicationNo VARCHAR(50), IN _DateFilled DATE, _CaseNO VARCHAR(100),IN _Description VARCHAR(255),IN _Applicant VARCHAR(150),
-  IN _Court VARCHAR(100),IN _Town VARCHAR(50), IN `_userID` VARCHAR(50))
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Savejudicialreview`(IN _ApplicationNo VARCHAR(50), IN _DateFilled DATE, IN _CaseNO VARCHAR(100), IN _Description VARCHAR(255), IN _Applicant VARCHAR(150), IN _Court VARCHAR(100), IN _Town VARCHAR(50), IN _userID VARCHAR(50), IN _DateRecieved DATE)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -7755,22 +7370,31 @@ set lSaleDesc= CONCAT('Added New Judicial Review  ApplicationNo:',_ApplicationNo
 Insert Into judicialreview (
  
   ApplicationNo,DateFilled,CaseNO,Description,Applicant,Court,Town,DateRecieved,Created_At,Created_By,Deleted)
-  VALUES(_ApplicationNo,_DateFilled,_CaseNO,_Description,_Applicant,_Court,_Town,now(),now(),_userID,0);
+  VALUES(_ApplicationNo,_DateFilled,_CaseNO,_Description,_Applicant,_Court,_Town,_DateRecieved,now(),_userID,0);
+Insert Into jrcontactusers (
+  
+  UserName ,
+  ApplicationNO ,
+  Role ,
+  Create_at ,
+  CreatedBy,
+  Deleted )SELECT UserName,_ApplicationNo,'Case Officer',NOW(),_userID,0 from casedetails where ApplicationNo=_ApplicationNo and PrimaryOfficer=1 and Deleted=0;
+
 call Saveapplicationsequence(_ApplicationNo,'Judicial Review','Judicial Review',_userID); 
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
   if(_Court='HIGH COURT')THEN
     Begin
-  update applications set Status='JR–HIGH COURT' where ApplicationNo=_ApplicationNo;
+  update applications set Status='JR-HIGH COURT' where ApplicationNo=_ApplicationNo;
 END;
   ENd if;
 
   if(_Court='COURT OF APPEAL')THEN
     Begin
-  update applications set Status='JR–COURT OF APPEAL' where ApplicationNo=_ApplicationNo;
+  update applications set Status='JR-COURT OF APPEAL' where ApplicationNo=_ApplicationNo;
 END;
   ENd if;  if(_Court='SUPREME COURT')THEN
     Begin
-  update applications set Status='JR–SUPREME COURT' where ApplicationNo=_ApplicationNo;
+  update applications set Status='JR-SUPREME COURT' where ApplicationNo=_ApplicationNo;
 END;
   ENd if;
 End//
@@ -7779,13 +7403,13 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savejudicialreviewdocuments
 DROP PROCEDURE IF EXISTS `Savejudicialreviewdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savejudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50), IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `Savejudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50), IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), 
+  IN _UserID VARCHAR(50),IN _DocumentDate varchar(50),IN _ActionDate varchar(50),IN _ActionDescription VARCHAR(255))
 BEGIN
 DECLARE lSaleDesc varchar(200);
-
 set lSaleDesc= CONCAT('Submited Judicial Review Document for Application: ',_ApplicationNo);
-insert into judicialreviewdocuments (ApplicationNo ,Name ,Description ,Path , Created_At,Deleted )
-  VALUES(_ApplicationNo,_Name,_Description,_Path,now(),0);
+insert into judicialreviewdocuments (ApplicationNo ,Name ,Description ,Path , Created_At,Deleted,DocumentDate ,ActionDate,ActionDescription)
+  VALUES(_ApplicationNo,_Name,_Description,_Path,now(),0,_DocumentDate,_ActionDate,_ActionDescription);
    call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
 END//
 DELIMITER ;
@@ -7814,7 +7438,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveMpesaTransactions
 DROP PROCEDURE IF EXISTS `SaveMpesaTransactions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveMpesaTransactions`(IN `_TransactionType` VARCHAR(100), IN `_TransID` VARCHAR(100), IN `_TransTime` VARCHAR(100), 
+CREATE  PROCEDURE `SaveMpesaTransactions`(IN `_TransactionType` VARCHAR(100), IN `_TransID` VARCHAR(100), IN `_TransTime` VARCHAR(100), 
   IN `_TransAmount` FLOAT, IN `_BusinessShortCode` VARCHAR(100), IN `_BillRefNumber` VARCHAR(100), IN `_InvoiceNumber` VARCHAR(100),
   IN `_OrgAccountBalance` VARCHAR(100), IN `_ThirdPartyTransID` VARCHAR(100), IN `_MSISDN` VARCHAR(100), IN `_FirstName` VARCHAR(100),
   IN `_MiddleName` VARCHAR(100), IN `_LastName` VARCHAR(100))
@@ -7854,11 +7478,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveNotification
 DROP PROCEDURE IF EXISTS `SaveNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME)
+CREATE  PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME,IN _ApplicationNo VARCHAR(50))
     NO SQL
 BEGIN
-INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-  VALUES (_Username,_Category,_Description,NOW(),_DueDate,'Not Resolved');
+INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+  VALUES (_Username,_Category,_Description,NOW(),_DueDate,'Not Resolved',_ApplicationNo);
 
 END//
 DELIMITER ;
@@ -7866,7 +7490,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePanel
 DROP PROCEDURE IF EXISTS `SavePanel`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePanel`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `SavePanel`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Added new PanelMember for Application ',_ApplicationNo); 
@@ -7888,7 +7512,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savepanellist
 DROP PROCEDURE IF EXISTS `Savepanellist`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savepanellist`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `Savepanellist`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 if(select count(*) from panellist where ApplicationNo=_ApplicationNo) <1 THEN
 Begin
@@ -7929,15 +7553,16 @@ set lSaleDesc= CONCAT('Added new payment details for application: ', _Applicatio
 
   if(_Category='PreliminaryObjectionsFees')THEN
     Begin
-      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status)
-     select Username,'Preliminary Objecions Fees Approval','Preliminary objection fees pending confirmation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+      select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @AppNo;
+      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+     select Username,'Preliminary Objecions Fees Approval','Preliminary objection fees pending confirmation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',@AppNo
      from approvers where ModuleCode ='PAYMT' and Active=1 and Deleted=0;
   End;
     Else
       update applications set PaymentStatus='Submited' where ID=_ApplicationID;
-      call CompleteApplication(_ApplicationID,_userID);
-      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status)
-      select Username,'Applications Fees Approval','Applications pending fees confirmaion',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+     -- call CompleteApplication(_ApplicationID,_userID);
+      INSERT INTO notifications(Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+      select Username,'Applications Fees Approval','Applications pending fees confirmaion',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationID
       from approvers where ModuleCode ='PAYMT' and Active=1 and Deleted=0;
   Begin
     End;
@@ -7986,12 +7611,12 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEResponse
 DROP PROCEDURE IF EXISTS `SavePEResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEResponse`(IN _ApplicationNo VARCHAR(50), IN _ResponseType VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SavePEResponse`(IN _ApplicationNo VARCHAR(50), IN _ResponseType VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
 select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
-set lSaleDesc= CONCAT(@PEID,' Responded to application:'+_ApplicationNo); 
+set lSaleDesc= CONCAT(' Responded to application:' ,_ApplicationNo); 
 
 if(SELECT count(*)  from peresponse where ApplicationNo=_ApplicationNo)>0 THEN
 BEGIN
@@ -8041,7 +7666,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEResponseDetails
 DROP PROCEDURE IF EXISTS `SavePEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEResponseDetails`(IN _PERsponseID INT, IN _GrounNo VARCHAR(50), IN _Groundtype VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SavePEResponseDetails`(IN _PERsponseID INT, IN _GrounNo VARCHAR(50), IN _Groundtype VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -8055,7 +7680,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEresponseDocuments
 DROP PROCEDURE IF EXISTS `SavePEresponseDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEresponseDocuments`(IN _PEResponseID INT, IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _Confidential Boolean)
+CREATE  PROCEDURE `SavePEresponseDocuments`(IN _PEResponseID INT, IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _Confidential Boolean)
 BEGIN
 insert into peresponsedocuments (PEResponseID ,Name ,Description ,Path , Created_At,Deleted,Confidential )
   VALUES(_PEResponseID,_Name,_Description,_Path,now(),0,_Confidential);
@@ -8065,7 +7690,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePETimerResponse
 DROP PROCEDURE IF EXISTS `SavePETimerResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePETimerResponse`(IN _PEID VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _DueOn DATETIME)
+CREATE  PROCEDURE `SavePETimerResponse`(IN _PEID VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _DueOn DATETIME)
 BEGIN
   insert into peresponsetimer( PEID ,  ApplicationNo,  RegisteredOn ,  DueOn, Status)
     VALUES(_PEID,_ApplicationNo,now(),_DueOn,'Pending Acknowledgement');
@@ -8096,10 +7721,33 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePeUsers
 DROP PROCEDURE IF EXISTS `SavePeUsers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePeUsers`(IN _Username VARCHAR(50), IN _PE VARCHAR(50))
+CREATE  PROCEDURE `SavePeUsers`(IN _Username VARCHAR(50), IN _PE VARCHAR(50),IN _Name VARCHAR(128), IN _Location VARCHAR(50),
+  IN _POBox VARCHAR(50), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _Mobile VARCHAR(50), IN _Telephone VARCHAR(50), 
+  IN _Email VARCHAR(100),
+  IN _Logo VARCHAR(100), IN _Website VARCHAR(100), IN _County VARCHAR(50), 
+  IN _RegistrationDate DATETIME, IN _PIN VARCHAR(50), IN _RegistrationNo VARCHAR(50))
 BEGIN
-  insert into PEUsers (UserName,PEID,Created_At, Created_by)
-    VALUES(_Username,_PE,now(),_Username);
+  insert into peusers (UserName,PEID,Created_At, Created_by)
+  VALUES(_Username,_PE,now(),_Username);
+update procuremententity set
+  County=_County,
+  POBox=_POBox,
+  PostalCode=_PostalCode,
+  Town=_Town,
+  Mobile=_Mobile,
+  Telephone=_Telephone,
+  Email=_Email,
+  Logo=_Logo,
+  Website=_Website,
+  PIN=_PIN,
+  RegistrationNo=_RegistrationNo,
+  RegistrationDate=_RegistrationDate,
+  Updated_By=_Username,
+  Updated_At=now()
+  where PEID=_PE;
+
+
+
 
 END//
 DELIMITER ;
@@ -8127,7 +7775,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveRB1Form
 DROP PROCEDURE IF EXISTS `SaveRB1Form`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRB1Form`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveRB1Form`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 if(select count(*) from rb1forms where ApplicationNo=_ApplicationNo) <1 THEN
 Begin
@@ -8141,26 +7789,39 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveRequestforDeadlineExtension
 DROP PROCEDURE IF EXISTS `SaveRequestforDeadlineExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRequestforDeadlineExtension`(IN _ApplicationNo VARCHAR(50), IN _Reason TEXT, IN _Newdate DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveRequestforDeadlineExtension`(IN _ApplicationNo VARCHAR(50), IN _Reason TEXT, IN _Newdate DATETIME, IN _UserID VARCHAR(50))
 BEGIN
   if(SELECT count(*)  from pedeadlineextensionsrequests where ApplicationNo=_ApplicationNo)<1 THEN
 BEGIN
   select PEID from applications where ApplicationNo=_ApplicationNo limit 1 into @PEID;
   insert into pedeadlineextensionsrequests(PEID ,ApplicationNo ,Reason ,RequestedDate,Created_At,Created_By ,Status)
   VALUES(@PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval');
+
   select Username from approvers where ModuleCode='REXED' and Deleted=0 and Active=1 LIMIT 1 into @Approver;
   insert into deadlineapprovalworkflow(PEID ,ApplicationNo ,Reason ,RequestedDate,Created_At,Created_By ,Status,Approver)
-  VALUES(@PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval',@Approver);
-  select Name,Email,Phone from users where Username=@Approver;
-  CALL SaveNotification(@Approver ,'Deadline Approval','Deadline Approval Request', NOW() + INTERVAL 3 DAY);
+  Select @PEID,_ApplicationNo,_Reason,_Newdate,now(),_UserID,'Pending Approval',Username 
+  from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0;
+ 
+  
+
+    if(select count(*) from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0)>0 THEN
+    Begin
+      INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+      select Username,'Deadline Approval','Deadline Approval Request',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
+      from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0;
+    End;
+    End if; 
+     select Name,Email,Phone from users where Username in (Select Username from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0);
+
+
 END;
 ELSE
 
 Begin
 Update pedeadlineextensionsrequests set Reason=_Reason,RequestedDate=_Newdate where ApplicationNo=_ApplicationNo; 
 Update deadlineapprovalworkflow set Reason=_Reason,RequestedDate=_Newdate,Status='Pending Approval' where ApplicationNo=_ApplicationNo; 
-  select Username from approvers where ModuleCode='REXED' and Deleted=0 and Active=1 LIMIT 1 into @Approver;
-  select Name,Email,Phone from users where Username=@Approver;
+   select Name,Email,Phone from users where Username in (Select Username from approvers where ModuleCode ='REXED' and Active=1 and Deleted=0);
+
 END;
 
  END IF;
@@ -8168,10 +7829,38 @@ END;
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure arcm.SaveRequestforReview
+DROP PROCEDURE IF EXISTS `SaveRequestforReview`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `SaveRequestforReview`(IN _ApplicationNo VARCHAR(50),IN _Description TEXT, IN _userID VARCHAR(50))
+    NO SQL
+BEGIN
+DECLARE lSaleDesc varchar(200);
+set lSaleDesc= CONCAT('Added new Background Information for decision for Application: ', _ApplicationNo);
+if(select count(*) from decisions where ApplicationNo=_ApplicationNo) >0 THEN
+BEGIN
+  update decisions set RequestforReview=_Description,Updated_At=now(),Updated_By=_userID WHERE ApplicationNo=_ApplicationNo;
+  call SaveAuditTrail(_userID,lSaleDesc,'Update','0' );
+END;
+Else
+Begin
+insert into decisions ( Status , ApplicationNo , RequestforReview, Created_At , Created_By )
+  VALUES('Draft',_ApplicationNo,_Description,now(),_userID);
+call Saveapplicationsequence(_ApplicationNo,'Decision preparation','Closed',_userID); 
+call SaveAuditTrail(_userID,lSaleDesc,'Add','0' );
+End;
+end if;
+ 
+
+
+  
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure arcm.SaveRole
 DROP PROCEDURE IF EXISTS `SaveRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRole`(IN `_RoleName` VARCHAR(50), IN `_RoleDescription` VARCHAR(128), IN `_UserID` VARCHAR(50))
+CREATE  PROCEDURE `SaveRole`(IN `_RoleName` VARCHAR(50), IN `_RoleDescription` VARCHAR(128), IN `_UserID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8184,7 +7873,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveSchedule
 DROP PROCEDURE IF EXISTS `SaveSchedule`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveSchedule`(IN _Username VARCHAR(50), IN _start DATETIME, IN _end DATETIME, IN _title VARCHAR(255))
+CREATE  PROCEDURE `SaveSchedule`(IN _Username VARCHAR(50), IN _start DATETIME, IN _end DATETIME, IN _title VARCHAR(255))
 BEGIN
 insert into schedules(UserName,start,end,title) VALUES (_Username,_start,_end,_title);
 
@@ -8283,7 +7972,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveUser
 DROP PROCEDURE IF EXISTS `SaveUser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveUser`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _Password VARCHAR(128), IN _UserGroupID BIGINT, IN _Username VARCHAR(50), IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IsActive BOOLEAN, IN _IDnumber INT, IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _ActivationCode VARCHAR(50), IN _Board BOOLEAN)
+CREATE  PROCEDURE `SaveUser`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _Password VARCHAR(128), IN _UserGroupID BIGINT, IN _Username VARCHAR(50), IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IsActive BOOLEAN, IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _ActivationCode VARCHAR(50), IN _Board BOOLEAN)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8303,7 +7992,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveuserAcces
 DROP PROCEDURE IF EXISTS `SaveuserAcces`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveuserAcces`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Edit` BOOLEAN, IN `_Remove` BOOLEAN, IN `_AddNew` BOOLEAN, IN `_View` BOOLEAN, IN `_Export` BOOLEAN, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `SaveuserAcces`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Edit` BOOLEAN, IN `_Remove` BOOLEAN, IN `_AddNew` BOOLEAN, IN `_View` BOOLEAN, IN `_Export` BOOLEAN, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8328,7 +8017,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveUserGroup
 DROP PROCEDURE IF EXISTS `SaveUserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `SaveUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8346,7 +8035,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savevenues
 DROP PROCEDURE IF EXISTS `Savevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savevenues`(in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
+CREATE  PROCEDURE `Savevenues`(in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Added new Venue with Name: ', _Name); 
@@ -8375,7 +8064,7 @@ DELETE FROM `schedules`;
 -- Dumping structure for procedure arcm.selfAttendanceregistration
 DROP PROCEDURE IF EXISTS `selfAttendanceregistration`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selfAttendanceregistration`(IN _RegisterID INT(11), IN _Name VARCHAR(100), IN _IDNO VARCHAR(50), IN _MobileNo VARCHAR(50), IN _Category VARCHAR(55)
+CREATE  PROCEDURE `selfAttendanceregistration`(IN _RegisterID INT(11), IN _Name VARCHAR(100), IN _IDNO VARCHAR(50), IN _MobileNo VARCHAR(50), IN _Category VARCHAR(55)
   , IN _UserID VARCHAR(50), IN _Email VARCHAR(100),IN _Designation VARCHAR(100),IN _FirmFrom VARCHAR(100))
 BEGIN
 if(SELECT count(*)  from attendanceregister where IDNO=_IDNO and RegisterID=_RegisterID)=0 THEN
@@ -8408,289 +8097,11 @@ CREATE TABLE IF NOT EXISTS `sentsms` (
   `Message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SentTime` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.sentsms: ~277 rows (approximately)
+-- Dumping data for table arcm.sentsms: ~0 rows (approximately)
 DELETE FROM `sentsms`;
 /*!40000 ALTER TABLE `sentsms` DISABLE KEYS */;
-INSERT INTO `sentsms` (`ID`, `Recepient`, `SenderID`, `Message`, `SentTime`) VALUES
-	(1, '0705555285', 'WILCOM-TVET', '838700', '2019-10-17 09:54:15'),
-	(2, '07087654322456', 'WILCOM-TVET', '296872', '2019-10-17 17:26:42'),
-	(3, '0705555285', 'WILCOM-TVET', '949523', '2019-10-17 17:27:42'),
-	(4, '07055552851', 'WILCOM-TVET', '287515', '2019-10-17 17:42:41'),
-	(5, '0705555285', 'WILCOM-TVET', '757241', '2019-10-17 17:45:46'),
-	(6, '070555528512', 'WILCOM-TVET', '461574', '2019-10-17 18:12:28'),
-	(7, '070555528512', 'WILCOM-TVET', '438717', '2019-10-17 18:14:35'),
-	(8, '0705555285', 'WILCOM-TVET', '946583', '2019-10-17 18:15:25'),
-	(9, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO: has been Received', '2019-10-23 11:39:25'),
-	(10, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-24 14:40:01'),
-	(11, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-24 14:40:01'),
-	(12, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-24 14:40:01'),
-	(13, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:23:53'),
-	(14, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:23:53'),
-	(15, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:23:54'),
-	(16, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:24:29'),
-	(17, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:24:30'),
-	(18, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:24:30'),
-	(19, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:25:45'),
-	(20, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:25:46'),
-	(21, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:25:46'),
-	(22, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:27:43'),
-	(23, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:27:44'),
-	(24, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:27:44'),
-	(25, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:28:30'),
-	(26, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:28:30'),
-	(27, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:28:30'),
-	(28, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:32:59'),
-	(29, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:32:59'),
-	(30, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:32:59'),
-	(31, '0722114567', 'WILCOM-TVET', 'Your Application with ApplicationNO:15 has been Received', '2019-10-25 09:37:36'),
-	(32, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:37:36'),
-	(33, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 09:37:36'),
-	(34, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:15 has been Received', '2019-10-25 10:22:14'),
-	(35, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 10:22:14'),
-	(36, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-10-25 10:22:14'),
-	(37, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:12 has been Received', '2019-10-25 11:28:47'),
-	(38, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:12 has been submited and is awaiting your review', '2019-10-25 11:28:47'),
-	(39, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:12 has been submited and is awaiting your review', '2019-10-25 11:28:47'),
-	(40, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:6 has been Received', '2019-10-25 11:33:31'),
-	(41, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-10-25 11:33:31'),
-	(42, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-10-25 11:33:31'),
-	(43, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:10 has been Received', '2019-10-25 11:35:26'),
-	(44, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:10 has been submited and is awaiting your review', '2019-10-25 11:35:26'),
-	(45, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:10 has been submited and is awaiting your review', '2019-10-25 11:35:26'),
-	(46, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:16 has been Received', '2019-10-25 11:36:43'),
-	(47, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:16 has been submited and is awaiting your review', '2019-10-25 11:36:43'),
-	(48, '07221145671', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:16 has been submited and is awaiting your review', '2019-10-25 11:36:43'),
-	(49, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:1 OF 2019.You are required confirm the payment.', '2019-10-30 15:39:50'),
-	(50, '07221145671', 'WILCOM-TVET', 'Dear Admin2.PE has submited payment details for Filling Preliminary Objection for application:1 OF 2019.You are required confirm the payment.', '2019-10-30 15:39:50'),
-	(51, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:1 has been Received', '2019-11-11 16:07:49'),
-	(52, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:1 has been Received', '2019-11-11 16:10:59'),
-	(53, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:1 has been submited and is awaiting your review', '2019-11-11 16:10:59'),
-	(54, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:1 has been submited and is awaiting your review', '2019-11-11 16:11:00'),
-	(55, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:1 has been submited and is awaiting your review', '2019-11-11 16:11:00'),
-	(56, '0701102928', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-11 16:12:40'),
-	(57, '0722719412', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-11 16:12:40'),
-	(58, '0122719412', 'WILCOM-TVET', 'Fees amount of: 28800 paid for application with Reference 12334444 has been confirmed.Application is now marked as paid.', '2019-11-11 16:15:44'),
-	(59, '0122719412', 'WILCOM-TVET', 'Fees amount of: 28800 paid for application with Reference 12334444 has been confirmed.Application is now marked as paid.', '2019-11-11 16:15:44'),
-	(60, '0705555285', 'WILCOM-TVET', 'New application with Reference 12334444 has been submited and it\'s awaiting your review.', '2019-11-11 16:15:44'),
-	(61, '0722719412', 'WILCOM-TVET', 'New application with Reference 12334444 has been submited and it\'s awaiting your review.', '2019-11-11 16:15:45'),
-	(62, '0701102928', 'WILCOM-TVET', 'New application with Reference 12334444 has been submited and it\'s awaiting your review.', '2019-11-11 16:15:45'),
-	(63, '0705555285', 'WILCOM-TVET', 'New Application 12 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-16T16:20:11.000Z', '2019-11-11 16:20:12'),
-	(64, '0705555285', 'WILCOM-TVET', 'You have been selected as case officer for  Application:12 OF 2019.', '2019-11-11 16:20:13'),
-	(65, '0705555285', 'WILCOM-TVET', 'New deadline extension request has been submited and it\'s awaiting your review.', '2019-11-11 17:31:46'),
-	(66, '0705555285', 'WILCOM-TVET', 'Your request for deadline extension has been DECLINED.You are expected to submit your response before 2019-11-16 16:20:11.', '2019-11-11 17:35:16'),
-	(67, '0105555285', 'WILCOM-TVET', 'Dear MINISTRY OF EDUCATION.Your response for Application12 OF 2019has been received.You will be notified when hearing date will be set.', '2019-11-11 17:43:27'),
-	(68, '0122718412', 'WILCOM-TVET', 'Dear INTERESTED PARTY LTD.A response for Application12 OF 2019has been sent by the Procuring Entity.', '2019-11-11 17:43:27'),
-	(69, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited a response for Application12 OF 2019.You are required to form a panel and submit it for review.', '2019-11-11 17:43:27'),
-	(70, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD.A response for Application12 OF 2019has been sent by the Procuring Entity.', '2019-11-11 17:43:27'),
-	(71, '0105555285', 'WILCOM-TVET', 'Dear MINISTRY OF EDUCATION.Your response for Application12 OF 2019has been received.You will be notified when hearing date will be set.', '2019-11-11 18:01:22'),
-	(72, '0122718412', 'WILCOM-TVET', 'Dear INTERESTED PARTY LTD.A response for Application12 OF 2019has been sent by the Procuring Entity.', '2019-11-11 18:01:22'),
-	(73, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited a response for Application12 OF 2019.You are required to form a panel and submit it for review.', '2019-11-11 18:01:22'),
-	(74, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD.A response for Application12 OF 2019has been sent by the Procuring Entity.', '2019-11-11 18:01:23'),
-	(75, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:5 has been Received', '2019-11-12 11:22:11'),
-	(76, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:5 has been submited and is awaiting your review', '2019-11-12 11:24:37'),
-	(77, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:5 has been submited and is awaiting your review', '2019-11-12 11:24:37'),
-	(78, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:5 has been submited and is awaiting your review', '2019-11-12 11:24:38'),
-	(79, '0701102928', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-12 11:39:41'),
-	(80, '0722719412', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-12 11:39:41'),
-	(81, '0705555285', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 11:42:39'),
-	(82, '0122719412', 'WILCOM-TVET', 'Fees amount of: 15000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 11:42:39'),
-	(83, '0122719412', 'WILCOM-TVET', 'Fees amount of: 15000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 11:42:39'),
-	(84, '0701102928', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 11:42:39'),
-	(85, '0722719412', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 11:42:39'),
-	(86, '0705555285', 'WILCOM-TVET', 'New Application 13 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-17T08:51:54.000Z', '2019-11-12 11:51:54'),
-	(87, '0700392599', 'WILCOM-TVET', 'Dear University of Nairobi.Your response for Application13 OF 2019has been received.You will be notified when hearing date will be set.', '2019-11-12 14:57:30'),
-	(88, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited a response for Application13 OF 2019.You are required to form a panel and submit it for review.', '2019-11-12 14:57:30'),
-	(89, '0701102928', 'WILCOM-TVET', 'Dear Wilcom Systems.A response for Application13 OF 2019has been sent by the Procuring Entity.', '2019-11-12 14:57:30'),
-	(90, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD.A response for Application13 OF 2019has been sent by the Procuring Entity.', '2019-11-12 14:57:31'),
-	(91, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:6 has been Received', '2019-11-12 15:50:06'),
-	(92, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:6 has been Received', '2019-11-12 15:51:40'),
-	(93, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-11-12 15:51:40'),
-	(94, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-11-12 15:51:40'),
-	(95, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:6 has been submited and is awaiting your review', '2019-11-12 15:51:41'),
-	(96, '0722719412', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-12 15:54:12'),
-	(97, '0701102928', 'WILCOM-TVET', 'New request to approve application fees with Reference No:12344545 has been submited and is awaiting your review', '2019-11-12 15:54:12'),
-	(98, '0122719412', 'WILCOM-TVET', 'Fees amount of: 26000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 15:55:26'),
-	(99, '0122719412', 'WILCOM-TVET', 'Fees amount of: 26000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 15:55:26'),
-	(100, '0705555285', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 15:55:26'),
-	(101, '0722719412', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 15:55:26'),
-	(102, '0701102928', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 15:55:26'),
-	(103, '0705555285', 'WILCOM-TVET', 'New Application 14 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-17T15:56:41.000Z', '2019-11-12 15:56:42'),
-	(104, '0705555285', 'WILCOM-TVET', 'You have been selected as case officer for  Application:14 OF 2019.', '2019-11-12 15:56:42'),
-	(105, '0122719412', 'WILCOM-TVET', 'Your request to withdrawal appeal :14 OF 2019 has been received and is awaiting approval.', '2019-11-12 15:58:30'),
-	(106, '0705555285', 'WILCOM-TVET', 'New request to withdrawal appeal:14 OF 2019 has been submited and is awaiting your review.', '2019-11-12 15:58:31'),
-	(107, '0122719412', 'WILCOM-TVET', 'Your request to withdrawal appeal :14 OF 2019 has been received and is awaiting approval.', '2019-11-12 15:58:31'),
-	(108, '0701102928', 'WILCOM-TVET', 'New request to withdrawal appeal:14 OF 2019 has been submited and is awaiting your review.', '2019-11-12 15:58:31'),
-	(109, '0122719412', 'WILCOM-TVET', 'Your request to withdrawal appeal :14 OF 2019 has been received and is awaiting approval.', '2019-11-12 15:58:31'),
-	(110, '0722719412', 'WILCOM-TVET', 'New request to withdrawal appeal:14 OF 2019 has been submited and is awaiting your review.', '2019-11-12 15:58:31'),
-	(111, '0701102928', 'WILCOM-TVET', 'New request to withdrawal appeal:14 OF 2019 has been submited and is awaiting your review.', '2019-11-12 16:00:13'),
-	(112, '0705555285', 'WILCOM-TVET', 'New request to withdrawal appeal:14 OF 2019 has been submited and is awaiting your review.', '2019-11-12 16:00:13'),
-	(113, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:21'),
-	(114, '0700392599', 'WILCOM-TVET', 'Dear University of Nairobi. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:21'),
-	(115, '0705555285', 'WILCOM-TVET', 'Dear University of Nairobi. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:22'),
-	(116, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:22'),
-	(117, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:22'),
-	(118, '0722719412', 'WILCOM-TVET', 'Dear WilCom Systems Ltd. A request to withdraw application 14 OF 2019 has been Accepted. The Appeal is now marked withdrawn.', '2019-11-12 16:04:23'),
-	(119, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:7 has been Received', '2019-11-12 16:48:05'),
-	(120, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:7 has been Received', '2019-11-12 16:52:42'),
-	(121, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:7 has been submited and is awaiting your review', '2019-11-12 16:52:42'),
-	(122, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:7 has been submited and is awaiting your review', '2019-11-12 16:52:42'),
-	(123, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:7 has been submited and is awaiting your review', '2019-11-12 16:52:43'),
-	(124, '0122719412', 'WILCOM-TVET', 'Fees amount of: 45000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 17:00:56'),
-	(125, '0705555285', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 17:00:56'),
-	(126, '0122719412', 'WILCOM-TVET', 'Fees amount of: 45000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-12 17:00:56'),
-	(127, '0722719412', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 17:00:57'),
-	(128, '0701102928', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-12 17:00:57'),
-	(129, '0705555285', 'WILCOM-TVET', 'New Application 15 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-17T17:02:36.000Z', '2019-11-12 17:02:36'),
-	(130, '0701102928', 'WILCOM-TVET', 'You have been selected as case officer for  Application:15 OF 2019.', '2019-11-12 17:02:36'),
-	(131, '0705555285', 'WILCOM-TVET', 'New deadline extension request has been submited and it\'s awaiting your review.', '2019-11-12 17:15:50'),
-	(132, '0705555285', 'WILCOM-TVET', 'Your request for deadline extension has been DECLINED.You are expected to submit your response before 2019-11-17 17:02:35.', '2019-11-12 17:17:51'),
-	(133, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:15 OF 2019.You are required confirm the payment.', '2019-11-12 17:25:24'),
-	(134, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited payment details for Filling Preliminary Objection for application:15 OF 2019.You are required confirm the payment.', '2019-11-12 17:25:24'),
-	(135, '0722719412', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited payment details for Filling Preliminary Objection for application:15 OF 2019.You are required confirm the payment.', '2019-11-12 17:25:24'),
-	(136, '0105555285', 'WILCOM-TVET', 'Fees amount of: 5000 paid for filing Preliminary Objection  has been confirmed.Your response is now marked as paid and submited.', '2019-11-12 17:32:57'),
-	(137, '0122719412', 'WILCOM-TVET', 'Your Application with Reference:8 has been Received', '2019-11-13 11:24:43'),
-	(138, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:8 has been submited and is awaiting your review', '2019-11-13 11:24:43'),
-	(139, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:8 has been submited and is awaiting your review', '2019-11-13 11:24:43'),
-	(140, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:8 has been submited and is awaiting your review', '2019-11-13 11:24:43'),
-	(141, '0122719412', 'WILCOM-TVET', 'Fees amount of: 75000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-13 11:32:12'),
-	(142, '0122719412', 'WILCOM-TVET', 'Fees amount of: 75000 paid for application with Reference 12344545 has been confirmed.Application is now marked as paid.', '2019-11-13 11:32:13'),
-	(143, '0705555285', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-13 11:32:13'),
-	(144, '0722719412', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-13 11:32:13'),
-	(145, '0701102928', 'WILCOM-TVET', 'New application with Reference 12344545 has been submited and it\'s awaiting your review.', '2019-11-13 11:32:13'),
-	(146, '0705555285', 'WILCOM-TVET', 'New Application 16 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-18T08:42:42.000Z', '2019-11-13 11:42:42'),
-	(147, '0705555285', 'WILCOM-TVET', 'You have been selected as case officer for  Application:16 OF 2019.', '2019-11-13 11:42:43'),
-	(148, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:16 OF 2019.You are required confirm the payment.', '2019-11-13 11:56:15'),
-	(149, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited payment details for Filling Preliminary Objection for application:16 OF 2019.You are required confirm the payment.', '2019-11-13 11:56:15'),
-	(150, '0722719412', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited payment details for Filling Preliminary Objection for application:16 OF 2019.You are required confirm the payment.', '2019-11-13 11:56:15'),
-	(151, '0700392599', 'WILCOM-TVET', 'Fees amount of: 5000 paid for filing Preliminary Objection  has been confirmed.Your response is now marked as paid and submited.', '2019-11-13 12:26:38'),
-	(152, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 438956 Use this to activate your account.', '2019-11-13 14:08:20'),
-	(153, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 402248 Use this to activate your account.', '2019-11-13 14:36:03'),
-	(154, '0722114567', 'WILCOM-TVET', 'Your Activation Code is: 821525 Use this to activate your account.', '2019-11-13 15:01:29'),
-	(155, '0722114567', 'WILCOM-TVET', 'Your Activation Code is: 121630 Use this to activate your account.', '2019-11-13 15:14:40'),
-	(156, '0722114567', 'WILCOM-TVET', 'Your Activation Code is: 242481 Use this to activate your account.', '2019-11-13 15:24:33'),
-	(157, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:15 has been Received', '2019-11-13 17:19:01'),
-	(158, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-11-13 17:19:01'),
-	(159, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-11-13 17:19:01'),
-	(160, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:15 has been submited and is awaiting your review', '2019-11-13 17:19:02'),
-	(161, '0722114567', 'WILCOM-TVET', 'Fees amount of: 5000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-13 17:31:37'),
-	(162, '0722114567', 'WILCOM-TVET', 'Fees amount of: 5000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-13 17:31:37'),
-	(163, '0705555285', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:31:37'),
-	(164, '0722719412', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:31:38'),
-	(165, '0701102928', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:31:38'),
-	(166, '0705555285', 'WILCOM-TVET', 'New Application 17 OF 2019 has been submited. You are required to Login to ARCMS and respond to it before: 2019-11-18T17:40:43.000Z', '2019-11-13 17:40:44'),
-	(167, '0705555285', 'WILCOM-TVET', 'You have been selected as case officer for  Application:17 OF 2019.', '2019-11-13 17:40:44'),
-	(168, '0722114567', 'WILCOM-TVET', 'Your Application with Reference:14 has been Received', '2019-11-13 17:49:23'),
-	(169, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:14 has been submited and is awaiting your review', '2019-11-13 17:49:23'),
-	(170, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:14 has been submited and is awaiting your review', '2019-11-13 17:49:23'),
-	(171, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:14 has been submited and is awaiting your review', '2019-11-13 17:49:24'),
-	(172, '0722114567', 'WILCOM-TVET', 'Fees amount of: 5000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-13 17:49:51'),
-	(173, '0722114567', 'WILCOM-TVET', 'Fees amount of: 5000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-13 17:49:51'),
-	(174, '0705555285', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:49:51'),
-	(175, '0701102928', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:49:52'),
-	(176, '0722719412', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-13 17:49:52'),
-	(177, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-13 18:34:07'),
-	(178, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-13 18:34:07'),
-	(179, '0722719412', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-13 18:34:07'),
-	(180, '0105555285', 'WILCOM-TVET', 'Fees amount of: 10000 paid for filing Preliminary Objection  has been confirmed.Your response is now marked as paid and submited.', '2019-11-13 18:38:25'),
-	(181, '0705555285', 'WILCOM-TVET', 'New deadline extension request has been submited and it\'s awaiting your review.', '2019-11-13 18:50:06'),
-	(182, '0705555285', 'WILCOM-TVET', 'New deadline extension request has been submited and it\'s awaiting your review.', '2019-11-14 07:29:45'),
-	(183, '0705555285', 'WILCOM-TVET', 'New deadline extension request has been submited and it\'s awaiting your review.', '2019-11-14 07:31:37'),
-	(184, '0722719412', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:33:32'),
-	(185, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:33:32'),
-	(186, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:33:32'),
-	(187, '0722719412', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:37:33'),
-	(188, '0705555285', 'WILCOM-TVET', 'Dear Elvis kimutai.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:37:33'),
-	(189, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited payment details for Filling Preliminary Objection for application:17 OF 2019.You are required confirm the payment.', '2019-11-14 07:37:33'),
-	(190, '0105555285', 'WILCOM-TVET', 'Dear MINISTRY OF EDUCATION.Your response for Application15 OF 2019has been received.You will be notified when hearing date will be set.', '2019-11-14 07:37:50'),
-	(191, '0722719412', 'WILCOM-TVET', 'Dear WilCom Systems Ltd.A response for Application15 OF 2019has been sent by the Procuring Entity.', '2019-11-14 07:37:50'),
-	(192, '0722719412', 'WILCOM-TVET', 'Dear WilCom Systems Ltd.A response for Application15 OF 2019has been sent by the Procuring Entity.', '2019-11-14 07:37:50'),
-	(193, '0701102928', 'WILCOM-TVET', 'Dear CASE OFFICER.PE has submited a response for Application15 OF 2019.You are required to form a panel and submit it for review.', '2019-11-14 07:37:51'),
-	(194, '0122719412', 'WILCOM-TVET', 'Dear JAMES SUPPLIERS LTD.A response for Application15 OF 2019has been sent by the Procuring Entity.', '2019-11-14 07:37:51'),
-	(195, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 394387 Use this to activate your account.', '2019-11-14 15:31:53'),
-	(196, '0122719412', 'WILCOM-TVET', 'Application 16 that you had submited to ACRB has been declined.', '2019-11-14 15:35:51'),
-	(197, '0122719412', 'WILCOM-TVET', 'Application 16 that you had submited to ACRB has been declined.', '2019-11-14 15:35:51'),
-	(198, '0122719412', 'WILCOM-TVET', 'Application 16 that you had submited to ACRB has been declined.', '2019-11-14 15:40:08'),
-	(199, '0122719412', 'WILCOM-TVET', 'Application 16 that you had submited to ACRB has been declined.', '2019-11-14 15:40:09'),
-	(200, '0705555285', 'WILCOM-TVET', 'New Panel List for ApplicationNo:17 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 15:52:12'),
-	(201, '0701102928', 'WILCOM-TVET', 'New Panel List for ApplicationNo:17 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 15:52:12'),
-	(202, '0722719412', 'WILCOM-TVET', 'New Panel List for ApplicationNo:17 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 15:52:12'),
-	(203, '0705555285', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:14:13'),
-	(204, '0701102928', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:14:13'),
-	(205, '0722719412', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:14:14'),
-	(206, '0701102928', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:16:44'),
-	(207, '0705555285', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:16:44'),
-	(208, '0722719412', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-14 16:16:44'),
-	(209, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 848331 Use this to activate your account.', '2019-11-14 20:23:37'),
-	(210, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 566835 Use this to activate your account.', '2019-11-15 09:47:21'),
-	(211, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 780799 Use this to activate your account.', '2019-11-15 10:28:19'),
-	(212, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 918251 Use this to activate your account.', '2019-11-15 10:30:35'),
-	(213, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 479438 Use this to activate your account.', '2019-11-15 10:31:47'),
-	(214, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 662849 Use this to activate your account.', '2019-11-15 10:32:30'),
-	(215, '0705128595', 'WILCOM-TVET', 'Your Activation Code is: 587989 Use this to activate your account.', '2019-11-15 10:40:29'),
-	(216, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 565124 Use this to activate your account.', '2019-11-15 10:43:35'),
-	(217, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 308586 Use this to activate your account.', '2019-11-15 10:51:47'),
-	(218, '0705128595', 'WILCOM-TVET', 'Your Activation Code is: 365271 Use this to activate your account.', '2019-11-15 10:52:42'),
-	(219, '0705128595', 'WILCOM-TVET', 'Your Application with Reference:17 has been Received', '2019-11-15 11:10:02'),
-	(220, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:17 has been submited and is awaiting your review', '2019-11-15 11:10:03'),
-	(221, '0722719412', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:17 has been submited and is awaiting your review', '2019-11-15 11:10:03'),
-	(222, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:17 has been submited and is awaiting your review', '2019-11-15 11:10:03'),
-	(223, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 823383 Use this to activate your account.', '2019-11-15 11:11:08'),
-	(224, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 332303 Use this to activate your account.', '2019-11-15 11:19:00'),
-	(225, '0722719412', 'WILCOM-TVET', 'Your Activation Code is: 267527 Use this to activate your account.', '2019-11-15 11:27:08'),
-	(226, '0701102928', 'WILCOM-TVET', 'Your Activation Code is: 915051 Use this to activate your account.', '2019-11-15 11:28:33'),
-	(227, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 401882 Use this to activate your account.', '2019-11-15 11:29:27'),
-	(228, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 187952 Use this to activate your account.', '2019-11-15 11:33:15'),
-	(229, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 428004 Use this to activate your account.', '2019-11-15 11:33:20'),
-	(230, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 542677 Use this to activate your account.', '2019-11-15 11:36:19'),
-	(231, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 382076 Use this to activate your account.', '2019-11-15 11:38:12'),
-	(232, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 652471 Use this to activate your account.', '2019-11-15 11:39:37'),
-	(233, '0122719412', 'WILCOM-TVET', 'Your Activation Code is: 881353 Use this to activate your account.', '2019-11-15 11:41:48'),
-	(234, '0122719412', 'WILCOM-TVET', 'Your Activation Code is: 743431 Use this to activate your account.', '2019-11-15 11:42:25'),
-	(235, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 886421 Use this to activate your account.', '2019-11-15 11:43:34'),
-	(236, '0733299665', 'WILCOM-TVET', 'Your Activation Code is: 140454 Use this to activate your account.', '2019-11-15 11:47:49'),
-	(237, '0722719412', 'WILCOM-TVET', 'Your Activation Code is: 732771 Use this to activate your account.', '2019-11-15 11:48:46'),
-	(238, '0722719412', 'WILCOM-TVET', 'Your Application with Reference:18 has been Received', '2019-11-15 11:50:58'),
-	(239, '0705555285', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:18 has been submited and is awaiting your review', '2019-11-15 11:50:59'),
-	(240, '0701102928', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:18 has been submited and is awaiting your review', '2019-11-15 11:50:59'),
-	(241, '0722955458', 'WILCOM-TVET', 'New request to approve application fees for Application with Reference No:18 has been submited and is awaiting your review', '2019-11-15 11:50:59'),
-	(242, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 894771 Use this to activate your account.', '2019-11-15 11:51:15'),
-	(243, '0722719412', 'WILCOM-TVET', 'Fees amount of: 15000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-15 11:51:57'),
-	(244, '0122719412', 'WILCOM-TVET', 'Fees amount of: 15000 paid for application with Reference Reff123 has been confirmed.Application is now marked as paid.', '2019-11-15 11:51:57'),
-	(245, '0705555285', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-15 11:51:57'),
-	(246, '07227194121', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-15 11:51:57'),
-	(247, '0701102928', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-15 11:51:57'),
-	(248, '0721382630', 'WILCOM-TVET', 'New application with Reference Reff123 has been submited and it\'s awaiting your review.', '2019-11-15 11:51:58'),
-	(249, '0734470491', 'WILCOM-TVET', 'Dear ECTA KENYA LIMITED.A response for Application18 OF 2019has been sent by the Procuring Entity.', '2019-11-15 12:06:44'),
-	(250, '0733299665', 'WILCOM-TVET', 'Dear STATE DEPARTMENT OF INTERIOR .Your response for Application18 OF 2019has been received.You will be notified when hearing date will be set.', '2019-11-15 12:06:44'),
-	(251, '07227194121', 'WILCOM-TVET', 'Dear WILSON B. KEREBEI.PE has submited a response for Application18 OF 2019.You are required to form a panel and submit it for review.', '2019-11-15 12:06:44'),
-	(252, '0705128595', 'WILCOM-TVET', 'Dear CMC MOTORS CORPORATION.A response for Application18 OF 2019has been sent by the Procuring Entity.', '2019-11-15 12:06:44'),
-	(253, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 568004 Use this to activate your account.', '2019-11-15 12:12:04'),
-	(254, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 166787 Use this to activate your account.', '2019-11-15 12:20:29'),
-	(255, '07227194121', 'WILCOM-TVET', 'New Panel List for ApplicationNo:18 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-15 12:22:42'),
-	(256, '0705555285', 'WILCOM-TVET', 'New Panel List for ApplicationNo:18 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-15 12:22:43'),
-	(257, '0701102928', 'WILCOM-TVET', 'New Panel List for ApplicationNo:18 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-15 12:22:43'),
-	(258, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 833798 Use this to activate your account.', '2019-11-15 12:37:36'),
-	(259, '0722607128', 'WILCOM-TVET', 'Your Activation Code is: 211789 Use this to activate your account.', '2019-11-15 12:44:23'),
-	(260, '0721382630', 'WILCOM-TVET', 'Your Activation Code is: 489501 Use this to activate your account.', '2019-11-15 12:45:52'),
-	(261, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 290806 Use this to activate your account.', '2019-11-15 12:50:21'),
-	(262, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 283751 Use this to activate your account.', '2019-11-15 12:59:07'),
-	(263, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 524430 Use this to activate your account.', '2019-11-15 12:59:07'),
-	(264, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 500759 Use this to activate your account.', '2019-11-15 12:59:07'),
-	(265, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 703165 Use this to activate your account.', '2019-11-15 12:59:09'),
-	(266, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 236302 Use this to activate your account.', '2019-11-15 12:59:10'),
-	(267, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 605152 Use this to activate your account.', '2019-11-15 12:59:10'),
-	(268, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 306684 Use this to activate your account.', '2019-11-15 12:59:11'),
-	(269, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 785490 Use this to activate your account.', '2019-11-15 12:59:11'),
-	(270, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 665796 Use this to activate your account.', '2019-11-15 12:59:31'),
-	(271, '0722607127', 'WILCOM-TVET', 'Your Activation Code is: 853895 Use this to activate your account.', '2019-11-15 13:00:47'),
-	(272, '0720768894', 'WILCOM-TVET', 'Your Activation Code is: 812360 Use this to activate your account.', '2019-11-15 13:00:57'),
-	(273, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 666523 Use this to activate your account.', '2019-11-15 13:12:54'),
-	(274, '0705555285', 'WILCOM-TVET', 'Your Activation Code is: 742549 Use this to activate your account.', '2019-11-15 14:13:25'),
-	(275, '07227194121', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-16 10:33:31'),
-	(276, '0705555285', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-16 10:33:31'),
-	(277, '0701102928', 'WILCOM-TVET', 'New Panel List for ApplicationNo:16 OF 2019 has been submited and it\'s awaiting your review.', '2019-11-16 10:33:31');
 /*!40000 ALTER TABLE `sentsms` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.SetMaxApproval
@@ -8715,7 +8126,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SetSentHearingNotice
 DROP PROCEDURE IF EXISTS `SetSentHearingNotice`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SetSentHearingNotice`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `SetSentHearingNotice`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 
 Update hearingnotices set DateSent=now() where ApplicationNo=_ApplicationNo;
@@ -8726,7 +8137,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Signup
 DROP PROCEDURE IF EXISTS `Signup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Signup`(IN _Name VARCHAR(120), IN _Username VARCHAR(50), IN _Email VARCHAR(128), IN _Phone VARCHAR(20), IN _Password VARCHAR(128), IN _Category VARCHAR(50), IN _ActivationCode VARCHAR(100), IN _IDnumber VARCHAR(50), IN _DOB DATETIME)
+CREATE  PROCEDURE `Signup`(IN _Name VARCHAR(120), IN _Username VARCHAR(50), IN _Email VARCHAR(128), IN _Phone VARCHAR(20), IN _Password VARCHAR(128), IN _Category VARCHAR(50), IN _ActivationCode VARCHAR(100), IN _IDnumber VARCHAR(50), IN _DOB DATETIME)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8778,11 +8189,11 @@ INSERT INTO `smtpdetails` (`ID`, `Host`, `Port`, `Sender`, `Password`) VALUES
 -- Dumping structure for procedure arcm.sp_ValidatePrivilege
 DROP PROCEDURE IF EXISTS `sp_ValidatePrivilege`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ValidatePrivilege`(IN `_Username` VARCHAR(50), IN `_RoleName` VARCHAR(128))
+CREATE  PROCEDURE `sp_ValidatePrivilege`(IN `_Username` VARCHAR(50), IN `_RoleName` VARCHAR(128))
     NO SQL
 BEGIN
 SELECT `Username`, useraccess.RoleID, `Edit`, `Remove`, `AddNew`, `View`, `Export` FROM `useraccess` 
-inner join roles on useraccess.RoleID=roles.RoleID  where Username=_Username and Roles.RoleName=_RoleName;
+inner join roles on useraccess.RoleID=roles.RoleID  where Username=_Username and roles.RoleName=_RoleName;
 
 END//
 DELIMITER ;
@@ -8800,21 +8211,17 @@ CREATE TABLE IF NOT EXISTS `stdtenderdocs` (
   `Deleted` tinyint(1) DEFAULT NULL,
   `Deleted_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Code`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.stdtenderdocs: ~3 rows (approximately)
+-- Dumping data for table arcm.stdtenderdocs: ~0 rows (approximately)
 DELETE FROM `stdtenderdocs`;
 /*!40000 ALTER TABLE `stdtenderdocs` DISABLE KEYS */;
-INSERT INTO `stdtenderdocs` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(10, 'STDOC-1', 'Civil Engineering Works', '2019-08-01 11:42:28', 'Admin', '2019-10-04 09:49:43', 'Admin', 0, NULL),
-	(11, 'STDOC-2', 'Works(Building and associated)', '2019-08-01 11:43:04', 'Admin', '2019-08-01 11:45:21', 'Admin', 0, NULL),
-	(12, 'STDOC-3', 'Tender Register', '2019-08-01 11:43:32', 'Admin', '2019-08-01 11:44:02', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `stdtenderdocs` ENABLE KEYS */;
 
 -- Dumping structure for procedure arcm.SubmitApplicationdecision
 DROP PROCEDURE IF EXISTS `SubmitApplicationdecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitApplicationdecision`(IN _ApplicationNo varchar(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `SubmitApplicationdecision`(IN _ApplicationNo varchar(50),IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Submited Decision for Application: ',_ApplicationNo); 
@@ -8835,11 +8242,11 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitApprovedPanelList
 DROP PROCEDURE IF EXISTS `SubmitApprovedPanelList`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitApprovedPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `SubmitApprovedPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
 
-call ResolveMyNotification(_UserID,'Panel Approval');
+call ResolveMyNotification(_UserID,'Panel Approval',_ApplicationNo);
  DROP TABLE IF EXISTS PanelApprovalContacts;
  create table PanelApprovalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50),Msg varchar(50),ApplicationNo varchar(50));
 
@@ -8860,8 +8267,9 @@ Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and 
           if @CountApproved >= @MaxApprovals  THEN
             update panelsapprovalworkflow  set Status='Approved',Approver=_UserID, Approved_At=now() where ApplicationNo=_ApplicationNo  and Status='Pending Approval'; 
            BEGIN
+            update notifications set Status='Resolved' where Category='Panel Approval' and  ApplicationNo=_ApplicationNo;  
               select ifnull(UserName,_UserID) from casedetails where ApplicationNo=_ApplicationNo and PrimaryOfficer=1 and Status='Open' LIMIT 1 into @Approver;
-              call SaveNotification(@Approver,'Case Scheduling','Applications Hearing date scheduling',DATE_ADD(NOW(), INTERVAL 3 DAY));                
+              call SaveNotification(@Approver,'Case Scheduling','Applications Hearing date scheduling',DATE_ADD(NOW(), INTERVAL 3 DAY),_ApplicationNo);                
               call Saveapplicationsequence(_ApplicationNo,'Approved PanelList','Awaiting Hearing Date scheduling',_UserID);           
               insert into PanelApprovalContacts select Name,Email,Phone,'Case Officer',_ApplicationNo from users where Username=@Approver;              
               insert into PanelApprovalContacts select Name,Email,Phone,'Panel',_ApplicationNo from users inner join panels on panels.UserName=users.Username 
@@ -8899,7 +8307,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitCaseDecision
 DROP PROCEDURE IF EXISTS `SubmitCaseDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitCaseDecision`(IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50), IN _DecisionDate DATE, IN _Followup BOOLEAN, IN _Referral BOOLEAN, IN _Closed BOOLEAN, IN _ApplicationSuccessful BOOLEAN, IN _Annulled BOOLEAN, IN _GiveDirection BOOLEAN, IN _Terminated BOOLEAN, IN _ReTender BOOLEAN, IN _CostsPE BOOLEAN, IN _CostsApplicant BOOLEAN, IN _CostsEachParty BOOLEAN, IN _Substitution BOOLEAN)
+CREATE  PROCEDURE `SubmitCaseDecision`(IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50), IN _DecisionDate DATE, IN _Followup BOOLEAN, IN _Referral BOOLEAN, IN _Closed BOOLEAN, IN _ApplicationSuccessful BOOLEAN, IN _Annulled BOOLEAN, IN _GiveDirection BOOLEAN, IN _Terminated BOOLEAN, IN _ReTender BOOLEAN, IN _CostsPE BOOLEAN, IN _CostsApplicant BOOLEAN, IN _CostsEachParty BOOLEAN, IN _Substitution BOOLEAN)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Submited Decision for Application: ',_ApplicationNo); 
@@ -8917,15 +8325,17 @@ UPDATE applications set  DecisionDate =_DecisionDate,
   CostsApplicant=_CostsApplicant,
   Substitution=_Substitution,
   ApplicationSuccessful=_ApplicationSuccessful where ApplicationNo=_ApplicationNo;
-  update decisions set Status='Submited' where ApplicationNo=_ApplicationNo;
+  update decisions set Status='Pending Approval' where ApplicationNo=_ApplicationNo;
   call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
+    select Name,Email,Phone, _ApplicationNo as ApplicationNo from users where Username in 
+  (select Username from approvers where ModuleCode ='DCAPR' and Active=1 and Deleted=0);
 END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.SubmitPanelList
 DROP PROCEDURE IF EXISTS `SubmitPanelList`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `SubmitPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Submited PanelList  for Application: ',_ApplicationNo); 
@@ -8937,13 +8347,13 @@ BEGIN
 
   -- call SaveNotification(@Approver,'Panel Approval','Panel Lists Awiting Approval',DATE_ADD(NOW(), INTERVAL 3 DAY));  
 
-    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-    select Username,'Panel Approval','Panel Lists Awiting Approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+    select Username,'Panel Approval','Panel Lists Awiting Approval',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
     from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
 
    call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
-   call ResolveMyNotification(_UserID,'Panel Formation');
-
+  -- call ResolveMyNotification(_UserID,'Panel Formation',_ApplicationNo);
+update notifications set Status='Resolved' where Category='Panel Formation' and  ApplicationNo=_ApplicationNo; 
    call Saveapplicationsequence(_ApplicationNo,'Submited Hearing Panel','Awaiting Panel Approval',_UserID);
   select Name,Email,Phone, _ApplicationNo as ApplicationNo from users where Username in 
   (select Username from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0);
@@ -8954,7 +8364,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitPePreliminaryObjection
 DROP PROCEDURE IF EXISTS `SubmitPePreliminaryObjection`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPePreliminaryObjection`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SubmitPePreliminaryObjection`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   
   update peresponse set status='Fees Pending Confirmation' where ID=_RespID and ApplicationNo=_ApplicationNo;
@@ -8983,7 +8393,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitPeResponse
 DROP PROCEDURE IF EXISTS `SubmitPeResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPeResponse`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SubmitPeResponse`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   
   update peresponse set status='Submited' where ID=_RespID and ApplicationNo=_ApplicationNo;
@@ -8993,8 +8403,8 @@ BEGIN
 
    if(select count(*) from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0)>0 THEN
               Begin
-                    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status)
-                 select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved'
+                    INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
+                 select Username,'Panel Formation','Applications Awating Panel Formation',now(),DATE_ADD(NOW(), INTERVAL 3 DAY),'Not Resolved',_ApplicationNo
                  from approvers where ModuleCode ='PAREQ' and Active=1 and Deleted=0;
    End;
    End if;
@@ -9018,6 +8428,452 @@ BEGIN
 
 END//
 DELIMITER ;
+
+-- Dumping structure for table arcm.table 94
+DROP TABLE IF EXISTS `table 94`;
+CREATE TABLE IF NOT EXISTS `table 94` (
+  `PEID` varchar(6) DEFAULT NULL,
+  `Name` varchar(68) DEFAULT NULL,
+  `PEType` varchar(42) DEFAULT NULL,
+  `County` varchar(10) DEFAULT NULL,
+  `Location` varchar(128) DEFAULT NULL,
+  `POBox` varchar(76) DEFAULT NULL,
+  `PostalCode` varchar(5) DEFAULT NULL,
+  `Town` varchar(10) DEFAULT NULL,
+  `Mobile` varchar(41) DEFAULT NULL,
+  `Telephone` varchar(65) DEFAULT NULL,
+  `Email` varchar(64) DEFAULT NULL,
+  `Logo` varchar(10) DEFAULT NULL,
+  `Physical Address` varchar(128) DEFAULT NULL,
+  `Website` varchar(65) DEFAULT NULL,
+  `Created_By` varchar(5) DEFAULT NULL,
+  `Created_At` varchar(10) DEFAULT NULL,
+  `Updated_At` varchar(10) DEFAULT NULL,
+  `Updated_By` varchar(10) DEFAULT NULL,
+  `Deleted` int(1) DEFAULT NULL,
+  `Deleted_By` varchar(10) DEFAULT NULL,
+  `Deleted_At` varchar(10) DEFAULT NULL,
+  `RegistrationDate` varchar(10) DEFAULT NULL,
+  `PIN` varchar(10) DEFAULT NULL,
+  `RegistrationNo` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table arcm.table 94: ~411 rows (approximately)
+DELETE FROM `table 94`;
+/*!40000 ALTER TABLE `table 94` DISABLE KEYS */;
+INSERT INTO `table 94` (`PEID`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Physical Address`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`, `RegistrationDate`, `PIN`, `RegistrationNo`) VALUES
+	('PE-1', 'Public Procurement Regulatory Authority', 'State Corporation', '', 'National Bank Building', '58535', '200', 'nairobi', '2.55E+11', '232.5341868', 'bgitonga@ppra.go.ke', '', 'National Bank Building', 'ppra.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-2', 'ICT Authority', 'State Corporation', '', ' Telposta Towers 12th Floor', '27150', '100', '', '2.55E+11', '2.54E+11', 'stephen.mwaura@ict.go.ke', '', ' Telposta Towers 12th Floor', 'www.icta.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-3', 'Kenya National Qualification Authority', 'State Corporation', '', 'Nairobi', '123', '', '', '2.55E+11', '2.55E+11', 'sammuel.angulu@yauu.com', '', 'Nairobi', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-4', 'Ewaso Ng\'iro North Development Authority ', 'State Corporation', '', 'Isiolo', '203', '60300', '', '2.55E+11', '2.55E+11', 'benard.omwoyo@yahoo.com', '', 'Isiolo', 'www.ennda.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-5', 'Ministry of Interior and Coordination of National Governments', 'Ministry', '', '720911263', '720911263', '', '', '2.55E+11', '2.55E+11', 'muirurikarii@yahoo.com', '', '720911263', 'www.interior.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-6', 'Kirinyaga University', 'Public Universities', '', ' Kutus', 'P.O Box 143-10300 ', '', 'Kerugoya', '2.55E+11', '-487291', 'athiong\'o@kyu.ac.ke', '', ' Kutus', 'www.kyu.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-7', 'Kenya Copyright Board ', 'State Corporation', '', '5th Floor NHIF Building - Community Ragati Road/Ngong Road', '34670 - 00100 ', '', '', '2.55E+11', '2.55E+11', 'mokwaro@copyright.go.ke', '', '5th Floor NHIF Building - Community Ragati Road/Ngong Road', 'www.copyright.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-8', 'School Equipment Production Unit', 'State Corporation', '', 'Inside University of Nairobi,Kenya Science Campus,Ngong Road', 'P.O Box 25140-00603', '', '', '725291217', '724256046', 'info@sepu.co.ke', '', 'Inside University of Nairobi,Kenya Science Campus,Ngong Road', 'www.schoolequipment.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-9', 'National Oil Corporation Of Kenya', 'State Corporation', '', 'Kawi House, South C.', '58576 -00200', '', '', '+254 20 6952000', '+254 20 6952000', 'modiwa@noilkenya.co.ke', '', 'Kawi House, South C.', 'www.nationaloil.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-10', 'Kenya School Of Government', 'State Corporation', '', 'Lower Kabete', '23030', '604', '', '020 401 5000/1-30', '727496698', 'director@ksg.ac.ke', '', 'Lower Kabete', 'www.ksg.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-11', 'Kenya Industrial Property Institute', 'State Corporation', '', 'Weights and measures Premises, Popo Road-South c', '516648', '200', '', '2.55E+11', '020-602210/0702002020', 'Info@kipi.go.ke', '', 'Weights and measures Premises, Popo Road-South c', 'www.kipi.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-12', 'Kenya School Of Law', 'State Corporation', '', 'Karen -Langata South Road', '30369', '100', '', '2.55E+11', '2.55E+11', 'eowuor@ksl.ac.ke', '', 'Karen -Langata South Road', 'www.ksl.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-13', 'The East African Portland Cement Company', 'State Corporation', '', 'Off Namanga Road', 'PO BOX 20 ', '204', 'Athi River', '2.55E+11', '2.55E+11', 'duncan.odhiambo@eapcc.co.ke', '', 'Off Namanga Road', 'www.eastafricanportland.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-14', 'Kenya Marine and fisheries Research Institute', 'State Corporation', '', '721743373', '721743373', '', '', '2.55E+11', '2.55E+11', 'jarnya6@gmail.com', '', '721743373', 'www.kmfri.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-15', 'Kenya Deposit Insurance Corporation', 'State Corporation', '', '1st floor-CBK Pension house', '45983-00100', '', '', '2.55E+11', '2.55E+11', 'sukantetr@depositinsurance.go.ke', '', '1st floor-CBK Pension house', 'www.depositinsurance.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-16', 'Competition Authority of Kenya', 'State Corporation', '', ' Kenya Railways HQs Block ', '+254 20277900', '', '', '+254 20277900', '2.55E+11', 'lchesaina@cak.go.ke', '', ' Kenya Railways HQs Block ', 'www.cak.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-17', 'Kenya Railways ', 'State Corporation', '', 'Workshop Road, Off Haile Selassie Avenue, Nairobi', 'P.O. Box 30121 - 00100, NAIROBI', '', '', '2.55E+11', '2.55E+11', 'jkairianja@krc.co.ke', '', 'Workshop Road, Off Haile Selassie Avenue, Nairobi', 'www.krc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-18', 'National Museums of Kenya', 'State Corporation', '', '0', '40658-00100, Nairobi.', '', '', '2.55E+11', '2.55E+11', 'dkariuki@museums.or.ke', '', '0', 'www.museums.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-19', 'Rivatex East Africa limited ', 'State Corporation', '', ' ELDORET-OFF KISUMU ROAD-KIPKAREN ROAD', '4744-300 Eldoret', '', '', '053 2030903', '+053 2030903', 'info@rivatex.co.ke', '', ' ELDORET-OFF KISUMU ROAD-KIPKAREN ROAD', 'www.rivatex.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-20', 'Kenya Roads Board', 'State Corporation', '', 'Kenya Re Building,Upperhill, 3rd Flr', 'PO Box 73718 00100 Nairobi', '', '', '2.55E+11', '+254(020) 2722865', 'info@krb.go.ke', '', 'Kenya Re Building,Upperhill, 3rd Flr', 'Www.krb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-21', 'Kenya Agricultural & Livestock Research Organization', 'State Corporation', '', 'KAPTAGAT ROAD', '57811-00200', '', '', '2.55E+11', '2.55E+11', 'george.ayogo@kalro.org', '', 'KAPTAGAT ROAD', 'www.kalro.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-22', 'Export Processing Zones Authority', 'State Corporation', '', 'Viwanda Road  off Nairobi-Namanga Highway', '50563-00200 Nairobi ', '', '', '2.55E+11', '2.55E+11', 'edgar.abayo@epzakenya.com', '', 'Viwanda Road  off Nairobi-Namanga Highway', 'www.epzakenya.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-23', 'Water Resources Authority', 'State Corporation', '', ' NHIF BUILDING RAGATI ROAD OFF NGONG ROAD, 9TH FLOOR WING B', '45250-00100', '', '', '2.55E+11', '2.55E+11', 'procurement.wrma@gmail.com', '', ' NHIF BUILDING RAGATI ROAD OFF NGONG ROAD, 9TH FLOOR WING B', 'www.wra.go.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-24', 'Kenya literature Bureau ', 'State Corporation', '', 'South C', '30022 - 00100', '', '', '2.55E+11', '0203541196/7', 'esawe@klb.co.ke', '', 'South C', 'www.klb.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-25', 'Moi Teaching and Referral Hostipal', 'State Corporation', '', '30100', '3', '', '', '2.55E+11', '2.55E+11', 'samsonkoiyet@mtrh.go.ke', '', '30100', 'www.mtrh.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-26', 'Ewaso Ngiro South Development Authority', 'State Corporation', '', 'Off Narok Bomet Road', '213 Narok', '', '', '2.55E+11', '020 4409775 (4)', 'md.ensda@gmail.com', '', 'Off Narok Bomet Road', 'www.ensda.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-27', 'Public Service Commission', 'Commissions and Independent Offices', '', ' commission house-harambee avenue', '30095-00100 NAIROBI', '', '', '2.55E+11', '020227471/5', 'psck@publicservice.go.ke', '', ' commission house-harambee avenue', 'https://www.publicservice.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-28', 'Kenya Rural Roads Authority ', 'State Corporation', '', ' Blue Shield Towers, Hospital Road, Upper Hill ', '48151-00100 NAIROBI', '', '', '020-8013846, 2710451, 2710464', '2.55E+11', 'roy.makau@kerra.go.ke', '', ' Blue Shield Towers, Hospital Road, Upper Hill ', 'www.kerra.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-29', 'National Irrigation Board', 'State Corporation', '', 'purchasing@nib.or.ke', 'P.O Box 30372-00100,Nairobi,Kenya', '', '', '\\N', '+254 (0) 711060000/722321653', 'enquries@nib.or.ke\\', '', 'purchasing@nib.or.ke', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-30', 'Kenya National Highway Authority', 'State Corporation', '', 'Blue Shield Towers, Hospital Road, Upper Hill', '49712-00100, NAIROBI', '', '', '+254722842781 / 020 4954003/2', '+254700423606 / 020 4954000', 'r.kilel@kenha.co.ke', '', 'Blue Shield Towers, Hospital Road, Upper Hill', 'www.kenha.co.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-31', 'Insurance Regulatory Authority', 'State Corporation', '', 'Zep-Re Place Longonot Road, Upperhill Nairobi', '43505-00100', '', '', '2.55E+11', '2.55E+11', 'dcherono@ira.go.ke', '', 'Zep-Re Place Longonot Road, Upperhill Nairobi', 'www.ira.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-32', 'Kenya Universities and Colleges central placement service ', 'State Corporation', '', 'ACK Garden House, 1st Ngong Avenue, community-Nairobi', '105166- 00101, Nairobi', '', '', '2.55E+11', '2.55E+11', 'bnyambura@kuccps.ac.ke', '', 'ACK Garden House, 1st Ngong Avenue, community-Nairobi', 'https://www.kuccps.net/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-33', 'Kenya Medical Laboratory Technician & Technologist Board', 'State Corporation', '', '  1st ngong avenue ', '20889-00202', '', '', '2.55E+11', '2.55E+11', 'procurement@kmlttb.org', '', '  1st ngong avenue ', 'www.kmlttb.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-34', 'National Drought Management Authority', 'State Corporation', '', 'LONRHO HOUSE', '53547-00200-NAIROBI', '', '', '2.55E+11', '2.55E+11', 'rahma.ahmed@ndma.go.ke', '', 'LONRHO HOUSE', 'www.ndma.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-35', 'Uwezo Fund Oversight Board', 'State Department', '', 'Lonhro House', '42009 - 00100', '', '', '2.55E+11', '2.55E+11', 'enjagi@uwezo.go.ke', '', 'Lonhro House', 'www.uwezo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-36', 'Communications Authority of Kenya ', 'State Corporation', '', '703042001', '14448-00800', '', '', '2.55E+11', '2.55E+11', 'waweru@ca.go.ke', '', '703042001', 'WWW.CA.GO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-37', 'Tana Water Service Board', 'State Corporation', '', 'MAJI HOUSE, ALONG BADEN POWELL ROAD P.O. BOX, 1292 ??? 10100. Nyeri, Kenya', '1292', '', '', '2.55E+11', '2.55E+11', 'jgithinji@tanawsb.or.ke', '', 'MAJI HOUSE, ALONG BADEN POWELL ROAD P.O. BOX, 1292 ??? 10100. Nyeri, Kenya', 'www.tanawsb.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-38', 'Kenya Post Office Saving Bank', 'State Corporation', '', 'POSTBANK HOUSE , BANDA STREET NAIROBI', 'Box 30313-00100 Nairobi', '', '', '2.55E+11', '2.55E+11', 'kimosopjj@postbank.co.ke', '', 'POSTBANK HOUSE , BANDA STREET NAIROBI', 'www.postbank.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-39', 'Kenya Airport Authority', 'State Corporation', '', 'JKIA NAIROBI', '19001 - 00501', '', '', '2.55E+11', '2.55E+11', 'alfred.baliach@kaa.go.ke', '', 'JKIA NAIROBI', 'www.kaa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-40', 'Kenya Ordnance factories corporation ', 'State Corporation', '', '725525803', '725525803', '', '', '725525803', '725525803', 'dnyakamoro@ymail.com', '', '725525803', 'info@kofc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-41', 'National Construction Authority', 'State Corporation', '', '9TH FLOOR KCB Towers upper Hill, Kenya Road', '21046-00100 Nairobi', '', '', '2.55E+11', '2.55E+11', 'j.kolani@nca.go.ke', '', '9TH FLOOR KCB Towers upper Hill, Kenya Road', 'www.nca.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-42', 'National Council for Persons with Disabilities', 'State Corporation', '', 'Kabete Orthopedic Compound,Waiyaki Way, Opposite ABC Place.', '66577-00800', '', '', '2.55E+11', '2.54E+11', 'daniel.njuguna@ncpwd.go.ke', '', 'Kabete Orthopedic Compound,Waiyaki Way, Opposite ABC Place.', 'www.ncpwd.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-43', 'NATIONAL AIDS CONTROL COUNCIL', 'State Corporation', '', 'Landmark Plaza, 8th and 9th Floor Argwings Kodhek Road', '61307 00200 ', '', '', '2.55E+11', '020 2892000/ 2715144/ 2711261', 'nchoge@nacc.or.ke', '', 'Landmark Plaza, 8th and 9th Floor Argwings Kodhek Road', 'www.nacc.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-44', 'National Employment Authority', 'State Corporation', '', 'KASARANI', '25780- 00100 NAIROBI', '', '', '2.55E+11', '207855747', 'jandungu1001@gmail.com', '', 'KASARANI', 'www.nea.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-45', 'The Kenya National Examination Council ', 'State Corporation', '', 'NHC HSE-AGA KHAN WALK', '721839290', '', '', '2.55E+11', '2.55E+11', 'cmurage@knec.ac.ke', '', 'NHC HSE-AGA KHAN WALK', 'https://www.knec.ac.ke/home/index.php', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-46', 'Numerical Machining Complex Limited', 'State Corporation', '', 'Kenya railways Central workshop, Workshop road, Nairobi', '70660- 00400', '', '', '2.55E+11', '2.55E+11', 'joylenemwelu@mail.com', '', 'Kenya railways Central workshop, Workshop road, Nairobi', 'www.nmc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-47', 'National Sports Fund ', 'State Corporation', '', 'Flamingo Towers, Mara Road, 7th floor, Upper Hill', '4644-00200', '', '', '2.55E+11', '0791801225/0780801225', 'info@nationalsportsfund.org', '', 'Flamingo Towers, Mara Road, 7th floor, Upper Hill', 'www.nationalsportsfund.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-48', 'Kenya Water Towers Agency', 'State Corporation', '', 'NHIF Building, Nairobi', 'P O Box 42903-00100 Nairobi', '', '', '2.55E+11', '2.55E+11', 'peterkabiru@gmail.com', '', 'NHIF Building, Nairobi', 'http://www.kwta.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-49', 'Kenya Trade Network Agency ', 'State Corporation', '', 'Head Office 1st Flr Embankment Plaza, Longonot Road, Upper Hill,', 'P.O. Box 36943 - 00200, Nairobi.', '', '', '2.55E+11', '+254 (20) 4965000', 'dkihia@kentrade.go.ke', '', 'Head Office 1st Flr Embankment Plaza, Longonot Road, Upper Hill,', 'https://www.kentrade.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-50', 'Anti-counterfeit Agency', 'State Corporation', '', 'NATIONAL WATER CONSERVATION & PIPELINE CORPORATION BUILDING , 3RD FLOOR, NDUNGA ROAD', '47771 00100', '', '', '2.55E+11', '2.55E+11', 'jmuraguri@aca.go.ke', '', 'NATIONAL WATER CONSERVATION & PIPELINE CORPORATION BUILDING , 3RD FLOOR, NDUNGA ROAD', 'WWW.ACA.GO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-51', 'Kenya Industrial Research & Development Institute', 'State Corporation', '', 'SOUTH C', 'P.O. Box 30650 ??? 00100, Nairobi, Kenya', '', '', '2.55E+11', ' +254-20-2388216/2393466 ', 'trizanjuguna12@gmail.com', '', 'SOUTH C', 'https://www.kirdi.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-52', 'Kenya National Trading Corporation Ltd.', 'State Corporation', '', 'Yarrow road off Nanyuki Rd ,Industrial Area', '30587-00100', '', '', '725045451', '020-2430861/824', 'kntcl@kntcl.com', '', 'Yarrow road off Nanyuki Rd ,Industrial Area', 'www.kntcl.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-53', 'Kenya National Commission for UNESCO', 'State Corporation', '', '0', '0', '', '', '2.55E+11', '2.55E+11', 'droduogi75@gmail.com', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-54', 'Salaries & Remuneration Commission', 'State Corporation', '', 'Williamson House 6th Floor, 4th Ngong Avenue', 'Box 43126 - 00100', '', '', '25472741237', '0(20) 2710065/81', 'tlumati@src.go.ke', '', 'Williamson House 6th Floor, 4th Ngong Avenue', 'http://www.src.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-55', 'National Council for Population and Development', 'State Corporation', '', 'CHANCERY BUILDING, 4th FLOOR, VALLEY ROAD', 'P.O.BOX 48994-00100, NAIROBI', '', '', '2.55E+11', '2.55E+11', 'pnzoi@ncpd.go.ke', '', 'CHANCERY BUILDING, 4th FLOOR, VALLEY ROAD', 'www.ncpd-ke.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-56', 'National Government Affirmative Action Fund', 'NGAAF', '', '723822165', '723822165', '', '', '2.55E+11', '2.55E+11', 'jmunguti74@gmail.com', '', '723822165', 'WWW.NGAAF.GO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-57', 'Kenya Tourism Board', 'State Corporation', '', 'Kenya Re Towers, Off Ragati Road, Upper Hill', '30630 - 00100 Nairobi', '', '', '2.54E+11', '2.54E+11', 'mowino@ktb.go.ke', '', 'Kenya Re Towers, Off Ragati Road, Upper Hill', 'www.ktb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-58', 'Postal Corporation of Kenya', 'State Corporation', '', ' POSTA HOUSE AT POSTA ROAD  NEXT TO NYAYO HOUSE ', '34567-00100', '', '', '0.999975997', '+254 20 324 2600/0719072600 / 0734108120 ', 'info@posta.co.ke', '', ' POSTA HOUSE AT POSTA ROAD  NEXT TO NYAYO HOUSE ', 'WWW.POSTA.CO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-59', 'Agricultural Development Corporation', 'State Corporation', '', 'Moi Avenue, Development House, 9th and 10th Floor', '47101 - 00100', '', '', '2.55E+11', '2.54E+11', 'wambuikibue@gmail.com', '', 'Moi Avenue, Development House, 9th and 10th Floor', 'www.adc.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-60', 'Kenya Ferry Services', 'State Corporation', '', 'Likoni Peleza', '96242 -80110 Mombasa', '', '', '2.55E+11', '0.485438767', 'procurement@kenyaferry.co.ke/ md@kenyaferry.co.ke', '', 'Likoni Peleza', 'www.kenyaferry.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-61', 'National Biosafety Authority', 'State Corporation', '', 'PEST CONTROL PRODUCTS BOARD (PCPB) BULIDING, LORESHO,OFF WAIYAKI WAY', '28251-00100 ', '', '', '020 2642920', ' (1) 020 2642920     (2 )020 2678667', 'wamukota@biosafetykenya.go.ke', '', 'PEST CONTROL PRODUCTS BOARD (PCPB) BULIDING, LORESHO,OFF WAIYAKI WAY', 'www.biosafetykenya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-62', 'Technical and Vocational Education and Training Authority', 'State Corporation', '', 'Telposta Towers,Kenyatta Avenue', 'P.O.BOX 35625-00100', '', '', '2.55E+11', '2.55E+11', 'henryobatsa@yahoo.com', '', 'Telposta Towers,Kenyatta Avenue', 'www.tvetauthority.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-63', 'National Hospital Insurance Fund', 'State Corporation', '', 'NHIF Building', '30443-00100', '', '', '2.55E+11', '2.55E+11', 'dchelagat@nhif.or.ke', '', 'NHIF Building', 'www.nhif.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-64', 'Kenya  Water Institute ', 'State Corporation', '', '722316304', '722316304', '', '', '2.55E+11', '2.55E+11', 'musya@kewi.or.ke', '', '722316304', 'www.kewi.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-65', 'The President\'s Award - Kenya', 'State Department', '', '15 Elgon Road Upperhill', '62185-00200', '', '', '2.55E+11', '2.55E+11', 'mprisca@presidentsaward.or.ke', '', '15 Elgon Road Upperhill', 'www.presidentsaward.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-66', 'Ministry of Agriculture, Livestock and Fisheries', 'Ministry', '', '0', '0', '', '', '2.55E+11', '2.55E+11', 'baomondi@gmail.com', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-67', 'Kenya Institute of Curriculum Development', 'State Corporation', '', '0', '0', '', '', '2.55E+11', '2.55E+11', 'brotich@kicd.ac.ke', '', '0', 'www.kicd.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-68', 'Agricultural Finance Corporation', 'State Corporation', '', '720921754', '720921754', '', '', '2.55E+11', '2.55E+11', 'jwachira@agrifinance.org', '', '720921754', 'http://www.agrifinance.org/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-69', 'Kenya Plant Health Inspectorate Service', 'State Corporation', '', ' Oloolua Ridge, Karen', 'P. O. Box 49592-00100', '', '', '2.55E+11', '020-6618000/0709-891000', 'sesharanda@kephis.org', '', ' Oloolua Ridge, Karen', 'www.kephis.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-70', 'Ministry of Sports, Culture and the Arts', 'Ministry', '', 'KENCOM building', '49489-00100', '', '', '2.55E+11', '2.55E+11', 'gatere.jane@yahoo.com', '', 'KENCOM building', 'www.sportsheritage.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-71', 'Kenyatta National Hospital', 'State Corporation', '', '  Hospital Road', 'P. O. Box 20723-00202', '', '', '2.55E+11', '2.55E+11', 'simon.wagura@gmail.com', '', '  Hospital Road', 'www.knh.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-72', 'Water Sector Trust Fund', 'State Corporation', '', 'CIC Plaza, Upper Hill, Mara Road', 'P.O. Box 49699 - 00100', '', '', '2.55E+11', '2.55E+11', 'kennedy.lukhando@waterfund.go.ke', '', 'CIC Plaza, Upper Hill, Mara Road', 'www.waterfund.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-73', 'Pest Control Products Board', 'State Corporation', '', '  loresho,waiyaki way', '13794-00800 nairobi', '', '', '2.55E+11', '2.55E+11', 'ndirangurobert@pcpb.or.ke', '', '  loresho,waiyaki way', 'www.pcpb.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-74', 'Kenya Institute Of Mass Communication', 'State Corporation', '', ' SOUTH B MUHORO RD', '42422-0100 nairobi', '', '', '725958973', '725958973', 'mmarindich@kimc.ac.ke', '', ' SOUTH B MUHORO RD', 'PPIP', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-75', 'Ministry of Public Service, Youth & Gender Affairs ', 'Ministry', '', 'TELEPOSTA TOWERS', 'P.O BOX 29966-00100', '', '', '2.55E+11', '2.55E+11', 'andrewkimulu@yahoo.com', '', 'TELEPOSTA TOWERS', 'http://www.psyg.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-76', 'The Sacco Societies Regulatory Authority', 'State Corporation', '', 'UAP/Old Mutual Tower, Hospital Road, Upperhill', '25089-00100', '', '', '2.55E+11', '2.55E+11', 'pahomo@sasra.go.ke', '', 'UAP/Old Mutual Tower, Hospital Road, Upperhill', 'http://www.sasra.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-77', 'Kenya Film Commission', 'State Corporation', '', ' JUMUIA PLACE 2ND FLOOR LENANA ROAD KILIMANI', '76417-00508 NAIROBI', '', '', '2.55E+11', '2.55E+11', 'kamanda@filmingkenya.com', '', ' JUMUIA PLACE 2ND FLOOR LENANA ROAD KILIMANI', 'www.kenyafilmcommission.com ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-78', 'Kenya Institute for Public Policy and Research and Analysis', 'State Corporation', '', ' Bishops Road, Nairobi ', '056445-00200, nbi', '', '', '+254 726 065 767', '2.55E+11', 'vodongo@kippra.or.ke', '', ' Bishops Road, Nairobi ', 'www.kippra.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-79', 'Ministry of Transport and Infrastructure', 'State Department', '', 'transcom house, ngong road', '52692-00200', '', '', '2.55E+11', '2.54E+11', 'psmaritimeshipping@gmail.com', '', 'transcom house, ngong road', 'www.transport.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-80', 'Youth Enterprise Development Fund', 'State Corporation', '', 'Rennaissance Coporate Park, 4th Floor, Elgon Road, Upper-Hill, Nairobi', '48610-00100', '', '', '2.55E+11', '202211672', 'aouma@youthfund.go.ke', '', 'Rennaissance Coporate Park, 4th Floor, Elgon Road, Upper-Hill, Nairobi', 'www.youthfund.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-81', 'Tourism Regulatory Authority', 'State Corporation', '', '100', '30027', '', '', '2.55E+11', '2.55E+11', 'sswaleh@tourismauthority.go.ke', '', '100', 'https://www.tourismauthority.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-82', 'Water Service Regulatory Board', 'State Corporation', '', '5th Floor NHIF Building Ngong Road', 'P. Box 41621-00100 Nairobi', '', '', '2.55E+11', '+254 (0) 202733561/+254 709 482000', 'jkimotho@wasreb.go.ke', '', '5th Floor NHIF Building Ngong Road', 'www.wasreb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-83', 'KENYA ACCREDITATION SERVICE', 'State Corporation', '', 'Embankment Plaza, 2nd Floor, Longonot Road off Kenya Road, Upper Hill', 'P. O. Box 47400 - 00100 Nairobi', '', '', '+254 787 395 679', '+254 725 227 640 / +254 787 395 679', 'procurement@kenyaaccreditation.org', '', 'Embankment Plaza, 2nd Floor, Longonot Road off Kenya Road, Upper Hill', 'http://kenas.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-84', 'National Housing Corporation', 'State Corporation', '', 'NHC House, Aga Khan Walk, Harambee Avenue', 'P.O BOX 30257-00100', '', '', '+254721990868, 0722583925', '+254203312147/9, +254730749000, +254724256403', 'info@nhckenya.co.ke, kmochire@nhckenya.co.ke', '', 'NHC House, Aga Khan Walk, Harambee Avenue', 'www.nhckenya.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-85', 'Konza Technopolis Development Authority', 'State Corporation', '', 'NAIROBI', 'P.O BOX 30519-00200', '', '', '2.55E+11', '+254 20 4343014', 'vkiprop@konzacity.go.ke', '', 'NAIROBI', 'www.konzacity.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-86', 'ICDC', 'State Corporation', '', 'Uchumi House, Agakhan Walk, 17th Floor', '45519 00100', '', '', '2.55E+11', '+254 20 2229213', 'abarmao@icdc.co.ke', '', 'Uchumi House, Agakhan Walk, 17th Floor', 'www.icdc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-87', 'Consolidated Bank', 'State Corporation', '', 'Consolidated Bank House, 23 koinange street', '51133-00200 Nairobi', '', '', '2.55E+11', '2.55E+11', 'jkikayaya@consolidated-bank.com', '', 'Consolidated Bank House, 23 koinange street', 'www.consolidated-bank.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-88', 'Kenya Petroleum Refineries Limited', 'State Corporation', '', 'OLD REFINERY RD, CHANGAMWE', 'PO BOX 90401, 80100 MOMBASA', '', '', '2.55E+11', '2.55E+11', 'janette.mutimbia@kprl.co.ke', '', 'OLD REFINERY RD, CHANGAMWE', 'www.kprl.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-89', 'Tana And Athi Rivers Development Authority', 'State Corporation', '', 'Queensway House, 7th floor Kaunda Street', '47309-00100', '', '', '2.55E+11', '2540203341782/4/7/8', 'procurement@tarda.co.ke ', '', 'Queensway House, 7th floor Kaunda Street', 'www.tarda.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-90', 'Lake Victoria South Water Services Board', 'State Corporation', '', 'Lavictor\'s Hse, Off Ring Road, Milimani', '3325-40100, Kisumu, KENYA', '', '', '2.55E+11', '2.55E+11', 'joteng@lvswaterboard.go.ke', '', 'Lavictor\'s Hse, Off Ring Road, Milimani', 'http://www.lvswaterboard.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-91', 'Council Of Governors', 'State Department', '', 'Delta Corner, westlands', '40401-00100', '', '', '2.55E+11', '2.55E+11', 'hilda.were@cog.go.ke', '', 'Delta Corner, westlands', 'www.cog.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-92', 'Tourism Fund', 'State Corporation', '', 'NHIF BUILDING, CAR PARK TOWER 5TH FLOOR', '046987-00100', '', '', '2.55E+11', '2.55E+11', 'nmukuna@tourismfund.co.ke', '', 'NHIF BUILDING, CAR PARK TOWER 5TH FLOOR', 'www.tourismfund.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-93', 'Kenya Post Office Savings Bank', 'State Corporation', '', '722435875', '722435875', '', '', '2.55E+11', '2.55E+11', 'osorogn@postbank.co.ke', '', '722435875', 'www.postbank.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-94', 'Kenya Ordance Factories Corporation', 'State Corporation', '', '0', '0', '', '', '2.55E+11', '2.55E+11', 'fwerus@gmail.com', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-95', 'National Commission For Science,Technology Andinnovation', 'State Corporation', '', '727236113', '727236113', '', '', '2.55E+11', '2.55E+11', 'denisyegonn@gmail.com', '', '727236113', 'www.nacosti.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-96', 'Ministry of Defence', 'Ministry', '', 'Ulinzi house, Lenana road', '40668-00100', '', '', '2.55E+11', '2.55E+11', 'mbuguajane12@gmail.com', '', 'Ulinzi house, Lenana road', 'www.mod.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-97', 'Engineers Board of Kenya', 'State Corporation', '', 'Transcom House Annex, 1st Floor, Ngong Rd.', 'P.O. Box 30324-00100 Nairobi, Kenya', '', '', '2.55E+11', '0', 'sabuya@ebk.or.ke', '', 'Transcom House Annex, 1st Floor, Ngong Rd.', 'www.ebk.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-98', 'University of Nairobi Enterprises and Services', 'State Corporation', '', '    ARBORETUM DRIVE OFF STATE HOUSE ROAD', 'P.O BOX 68241', '', '', '2.55E+11', '204913916', 'fredrick.kanyangi@uonbi.ac.ke', '', '    ARBORETUM DRIVE OFF STATE HOUSE ROAD', 'WWW.UNES.CO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-99', 'Narok', 'County', '', 'NAROK-MAU ROAD', '898-20500', '', '', '2.55E+11', '724777457', 'procurement@narok.go.ke', '', 'NAROK-MAU ROAD', 'WWW.NAROK.GO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-100', 'The Co-operative University of Kenya', 'Public Universities', '', 'NAIROBI - KAREN', '24814-00502', '', '', '725651516', '0724311606,+254 (0)20 2430127,020 2679456', 'bmahiga@cuk.ac.ke', '', 'NAIROBI - KAREN', 'www.cuk.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-101', 'Kenyatta University (KU)', 'Public Universities', '', 'Along Thika super Highway', '43844', '', '', '2.55E+11', '20 8703000', 'alati.benson@ku.ac.ke', '', 'Along Thika super Highway', 'http://www.ku.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-102', 'University of Embu', 'Public Universities', '', 'Meru-Nairobi Highway/B6,Embu', '6-60100', '', '', '2.55E+11', '714243682', 'kaaria.lindajoan@embuuni.ac.ke', '', 'Meru-Nairobi Highway/B6,Embu', 'www.embuni.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-103', 'Garissa University', 'Public Universities', '', 'Gairissa Town', '1801-70100', '', '', '2.55E+11', '2.55E+11', 'kautharfaraj@gmail.com', '', 'Gairissa Town', 'www.gau.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-104', 'Capital Markets Authority', 'State Corporation', '', '  Embankment Plaza, 3rd floor, Longonot Road, Upper Hill', 'P.O. Box 74800 - 00200, Nairobi', '', '', '2.55E+11', '0202264900 / 0202264308', 'sorina@cma.or.ke', '', '  Embankment Plaza, 3rd floor, Longonot Road, Upper Hill', 'www.cma.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-105', 'Athi Water Service Board', 'State Corporation', '', 'Africa Re Centre, Hospital Road. Nairobi', 'P. O. Box 45283-00100, Nairobi', '', '', '2.55E+11', '+254 715 688 272', 'cochieng@awsboard.go.ke', '', 'Africa Re Centre, Hospital Road. Nairobi', 'www.awsboard.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-106', 'ICT and innovation', 'State Department', '', ' Teleposta  Towers', '30025-00100', '', '', '2.55E+11', '4920000', 'munganiamukami@gmail.com', '', ' Teleposta  Towers', 'tenders.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-107', 'Kenya Medical Supplies Authority', 'State Corporation', '', ' Commercial street, Industral Area', 'P.O Box 47715, 00100 GPO, Nairobi', '', '', '2.55E+11', '2.55E+11', 'john.kabuchi@kemsa.co.ke', '', ' Commercial street, Industral Area', 'www.kemsa.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-108', 'University of Nairobi', 'Public Universities', '', '      Harry Thuku Road', '30197-00100', '', '', '2.55E+11', '020-3318262', 'kanjejo@uonbi.ac.ke', '', '      Harry Thuku Road', 'www.uonbi.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-109', 'Industrialization', 'State Department', '', 'Social Security House, Block A, 17th, Flr', 'P.O. Box 30418-00100', '', '', '2.55E+11', '+254 20-2731531', 'edith.wangari@gmail.com', '', 'Social Security House, Block A, 17th, Flr', 'www.industrialization.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-110', 'Office of the Attorney General & Department of Justice ', 'Ministry', '', ' SHERIA HOUSE, HARAMBEE AVENUE', 'P.O BOX 40112-00100, NAIROBI', '', '', '2.55E+11', '+254 20 2227461/2251355/0711944555/0732529995', 'jkirugumi@gmail.com', '', ' SHERIA HOUSE, HARAMBEE AVENUE', 'www.statelaw.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-111', 'Ministry of Lands and Physical Planning', 'Ministry', '', 'ARDHI HOUSE, 1ST NGONG AVENUE, NGONG ROAD  ', 'P.O BOX 30450 - 00100 NAIROBI', '', '', '2.55E+11', '2718050', 'kennedyomari@gmail.com', '', 'ARDHI HOUSE, 1ST NGONG AVENUE, NGONG ROAD  ', 'www.lands.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-112', 'Ministry of Tourism  and Wildlife', 'State Department', '', ' NSSF Building Block A', 'P. O. Box 30430 -00100', '', '', '2.55E+11', '0202724646/2724725', 'nyagamunene@yahoo.com', '', ' NSSF Building Block A', 'www.tourism.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-113', 'petroleum and mining', 'Ministry', '', '   nyayo house', 'p.o box 30582-00100', '', '', '2.55E+11', '2.55E+11', 'ingavojohn80@gmail.com', '', '   nyayo house', 'http://www.petroleumandmining.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-114', 'State Department of Devolution', 'State Department', '', 'Kenyatta Avenue,Teleposta towers 1st & 6th Floors', '30004-00100', '', '', '2.55E+11', '+254 20 2250645', 'camonichep@yahoo.com', '', 'Kenyatta Avenue,Teleposta towers 1st & 6th Floors', 'www.devolutionasals.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-115', 'State Department of Planning', 'State Department', '', 'Treasury Building', 'P.O Box 30005-00100 Nairobi', '', '', '2.55E+11', '2252299', 'ps@planning.statistics@gmail.com', '', 'Treasury Building', 'www.planning.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-116', 'National Youth Service', 'State Department', '', 'RUARAKA - THIKA Rd', 'P.O. BOX 30397-00100 NAIROBI', '', '', '2.55E+11', '-208563267', 'dg@nys.go.ke', '', 'RUARAKA - THIKA Rd', 'supplier.treasury.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-117', 'State Department of University Education & Research', 'State Department', '', ' JOGOO HOUSE "B"', 'P O Box 9583-00200 Nairobi', '', '', '2.55E+11', '020-3318581', 'paulrono@yahoo.com', '', ' JOGOO HOUSE "B"', 'www..education.ge.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-118', 'State Department of Irrigation', 'State Department', '', '   MAJI HOUSE', '49720-00100', '', '', '2.55E+11', '27,161,034,900,000', 'matamagodfrey@yahoo.com', '', '   MAJI HOUSE', 'www.kilimo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-119', 'State Department of Trade', 'State Department', '', ' Teleposta Towers, GPO, Kenyatta Avenue', '30430 -00100', '', '', '2.55E+11', '3315001/4', 'abagga.abner@gmail.com', '', ' Teleposta Towers, GPO, Kenyatta Avenue', 'www.trade.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-120', 'State Department of Livestock', 'State Department', '', ' Kilimo House,  Cathedral Road', 'P. O. Box 34188-00100 Nairobi', '', '', '2.55E+11', '2718870/9', 'kkbabz@gmail.com', '', ' Kilimo House,  Cathedral Road', 'http://www.kilimo.go.ke/management/state-department-of-livestock/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-121', 'State Department of Mining', 'State Department', '', ' WORKS BUILDING  NGONG ROAD', 'P.O.BOX 30009-00100 NAIROBI', '', '', '2.55E+11', '254-20-2723101', 'kiilu06@gmail.com', '', ' WORKS BUILDING  NGONG ROAD', 'www,mining.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-122', 'State Department of Housing, Urban Development and Public Works', 'State Department', '', ' ARDHI HOUSE', '30119-00100', '', '', '2.55E+11', '-2713599', 'sonkuta@gmail.com', '', ' ARDHI HOUSE', 'www.housing and urban.go.ke   ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-123', 'Unclaimed Financial Assests Authority', 'State Corporation', '', 'Westlands, Nairobi', '28235 - 00200, Nairobi', '', '', '723546931', '723546931', 'wilson.macharia@ufaa.go.ke', '', 'Westlands, Nairobi', 'www.ufaa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-124', 'Commission on Revenue Allocation', 'Commissions and Independent Offices', '', '2nd Floor, Grosvenor Suite???14 Riverside Drive  Riverside', 'P.O. Box 1310 ??? 00200, City Square  NAIROBI', '', '', '2.55E+11', '2.55E+11', 'geoffrey.ntooki@crakenya.org', '', '2nd Floor, Grosvenor Suite???14 Riverside Drive  Riverside', 'www.crakenya.org ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-125', 'KERIO VALLEY DEVELOPMENT AUTHORITY (KVDA)', 'State Corporation', '', 'ELDORET', '2660-30100', '', '', '2.55E+11', '053-20-63361/4', 'info@kvda.go.ke', '', 'ELDORET', 'www.kvda.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-126', 'Kenya Veterinary Vaccines Production Institute', 'State Corporation', '', 'INDUSTRIAL AREA,OFF ENTERPRISE ROAD,ROAD A', '00200 53260', '', '', '722363588', '0203540071/0724651895', 'vaccines@kevevapi.org', '', 'INDUSTRIAL AREA,OFF ENTERPRISE ROAD,ROAD A', 'www.kevevapi.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-127', 'Kisii University', 'Public Universities', '', 'Along Kisii-Kilgoris Road', '408-40200', '', '', '2.55E+11', '2.55E+11', 'dbasweti@kisiiuniversity.ac.ke', '', 'Along Kisii-Kilgoris Road', 'www.kisiiuniversity.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-128', 'Kenya Pipeline Company', 'State Corporation', '', '88', '9', '', '', '2.55E+11', '2.55E+11', 'Cathrine.Kituri@kpc.co.ke', '', '88', 'WWW.KPC.CO.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-129', 'Anti-Female Genital Mutilation Board', 'State Corporation', '', 'kenya Railways staff Retirement Benefit Scheme Building,Sourth Wing, Block "D" 2nd floor,Workshop Road,off Haile selassie Avenue', 'P.O. BOX 54760-00200 -NAIROBI', '', '', '2.55E+11', '(+254) 020-2220106', 'fredowiti99@gmail.com', '', 'kenya Railways staff Retirement Benefit Scheme Building,Sourth Wing, Block "D" 2nd floor,Workshop Road,off Haile selassie Avenue', 'www.antifgmboard.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-130', 'The Jomo Kenyatta Foundation', 'State Corporation', '', '51, Enterprise Road, Industrial Area, Nairobi.', 'P.O. Box 30533 - 00100 Nairobi.', '', '', '2.55E+11', '+254 0203583925, 0202330002/3, 0723969793', 'fokubasu@jkf.co.ke', '', '51, Enterprise Road, Industrial Area, Nairobi.', 'www.jkf.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-131', 'State Department for ASALs', 'State Department', '', 'EXTELCOM HOUSE', '40213', '', '', '2.55E+11', '203317641', 'nemac2006@yahoo.com', '', 'EXTELCOM HOUSE', 'www.devolutionasals.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-132', 'Retirement Benefits Authority', 'State Corporation', '', 'Rahimtulla Tower,13th Flr, Upper Hill Road', 'P.O.Box 57733 - 00200, Nairobi, Kenya', '', '', '2.55E+11', '+254 20 2809000', 'vmulwa@rba.go.ke', '', 'Rahimtulla Tower,13th Flr, Upper Hill Road', 'www.rba.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-133', 'State department for Telecommunications and Broadcating', 'State Department', '', 'Kenyatta Avenue Teleposta Towers', '30025-00100', '', '', '2.55E+11', '020-4920000', 'kanyara2010@yahoo.com', '', 'Kenyatta Avenue Teleposta Towers', 'www.ict.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-134', 'Ministry of Foreign Affairs', 'Ministry', '', 'harambee avenue', '30551-00100', '', '', '2.55E+11', '-318654', 'barasaruth1@gmail.com', '', 'harambee avenue', 'www.mfa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-135', 'Kenya Roadway', 'State Department', '', '556', '667', '', '', '2.55E+11', '566', 'lkr@ppra.go.ke', '', '556', 'rrt.lot', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-136', 'Geothermal Development Company', 'State Corporation', '', 'bowuor@gdc.co.ke', 'Head Office: Kawi House, South C Bellevue |Off Mombasa Road| Red Cross Road.', '', '', '\\N', '+254 719 037000\\', ' 020 2427516', '', 'bowuor@gdc.co.ke', '170_logo_image.png', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-137', 'Commission for University Education', 'State Corporation', '', 'nokodo@cue.or.ke', 'Red-hill Road off Limuru Road ', '', '', '\\N', '0717445566\\', '780656575', '', 'nokodo@cue.or.ke', '171_logo_image.jpg', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-138', 'State Department for Agricultural Research', 'State Department', '', 'Cathedral Road-Kilimo House', '30028-00100', '', '', '2.55E+11', '2718870', 'jnyams.2014@gmail.com', '', 'Cathedral Road-Kilimo House', 'https://www.kilimo.ko.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-139', 'Egerton University', 'Public Universities', '', 'Egerton', '536-20115, Egerton', '', '', '2.55E+11', '0512217891/892', 'samson.chira@egerton.ac.ke', '', 'Egerton', 'http://www.egerton.ac.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-140', 'Machakos University', 'Public Universities', '', 'Machakos Town', '136-90100', '', '', '725287641', '735247939', 'petermaina2007@yahoo.com', '', 'Machakos Town', 'www.mksu.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-141', 'Kenya Medical Research Institute', 'State Corporation', '', 'Mbagathi way ', '54840-00200', '', '', '2.55E+11', '2.55E+11', 'fotieno@kemri.org', '', 'Mbagathi way ', 'www.kemri.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-142', 'Marsabit', 'County', '', 'Marsabit County', 'P.o. Box 384 - 60500', '', '', '2.55E+11', '0', 'fkamendi@gmail.com', '', 'Marsabit County', 'www.marsabit.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-143', 'Energy Regulatory Commission', 'State Corporation', '', 'Upperhill, Nairobi', 'P.O.Box 42681-00100 Nairobi', '', '', '2.55E+11', '722200947', 'info@erc.go.ke', '', 'Upperhill, Nairobi', 'https://www.erc.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-144', 'Higher Education Loan Board', 'State Corporation', '', 'UNIVERSITY WAY ANNIVERSARY TOWERS', '69489-00400', '', '', '2.55E+11', '2.55E+11', 'psapiri@helb.co.ke', '', 'UNIVERSITY WAY ANNIVERSARY TOWERS', 'www.helb.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-145', 'Kenya Power & Lighting Company', 'State Corporation', '', 'Stima Plaza Kolobot Road, Parklands', '30099-00100', '', '', '2.55E+11', '3201000', 'jkorir@kplc.co.ke', '', 'Stima Plaza Kolobot Road, Parklands', 'www.kplc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-146', 'County Assembly Of Samburu', 'County Assemblies', '', 'Assembly Building', 'P.0.Box 3 20600 Maralal Kenya', '', '', '2.55E+12', '3', 'elempushuna@samburuassembly.go.ke', '', 'Assembly Building', 'http://www.samburuassembly.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-147', 'Kenya film Classification Board', 'State Corporation', '', 'Agha-Khan Walk Uchumi House 15th Floor', 'P.O BOX 44226 - 00100 NAIROBI', '', '', '2.55E+11', '020 225060/2251258/0202241804/0711222204/0777753355', 'ondiekimaonga@gmail.com', '', 'Agha-Khan Walk Uchumi House 15th Floor', 'www.kfcb.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-148', 'Kirinyaga', 'County', '', '889', '990', '', '', '2.55E+11', '2.55E+11', 'otundomarrion12@gmail.com', '', '889', 'www.kirinyaga.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-149', 'Kenya Meat Commission', 'State Corporation', '', 'ATHI RIVER', '2-00204', '', '', '2.55E+11', '020-2424051', 'charonyingambwa@gmail.com', '', 'ATHI RIVER', 'www.kenyameat.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-150', ' Infrastructure', 'State Department', '', 'community', '30260-00100', '', '', '2.55E+11', '2.55E+11', 'jobongo81@gmail.com', '', 'community', 'www.transport.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-151', 'Kenya Wildlife Service', '194444', '', 'hps@kws.go.ke\\', 'kws@kws.go.ke', '', '', '   Lanagata Road KWS Headquarter complex ', '2.55E+11', 'naisoi@kws.go.ke\\', '', 'hps@kws.go.ke\\', 'Leah Naisoi Lepore', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-152', 'Kenya Ports Authority', 'State Corporation', '', 'KPA -Hqs', 'P. O. Box 95009 - 80104 Mombasa Kenya', '', '', '2.55E+11', '2.55E+11', 'SChepkangor@kpa.co.ke', '', 'KPA -Hqs', 'www.kpa.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-153', 'Nyayo Tea Zones Develop Corporation', 'State Corporation', '', '454', 'P. O. Box 48522-00100', '', '', '2.55E+11', '2.55E+11', 'CJepchumba@teazones.co.ke', '', '454', 'www.teazones.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-154', 'Kenya Seed Company', 'State Corporation', '', 'Mbegu Plaza, Kitale-Kenya.', 'P.O. Box 553-30200, ', '', '', '+254 722 205 144 ', '+254 726 141 856', 'sthinguri@kenyaseed.co.ke', '', 'Mbegu Plaza, Kitale-Kenya.', 'www.kenyaseed.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-155', 'National Transport and Safety Authority', 'State Corporation', '', 'Hillpark Building, Upper Hill Road', 'P. 0. Box 3602 - 00506', '', '', '2.55E+11', '206632300', 'winnie.kibuchi@ntsa.go.ke', '', 'Hillpark Building, Upper Hill Road', 'www.ntsa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-156', 'COMMODITIES FUND', 'State Corporation', '', 'Kenya Railways |Block D| 2ND Floor | Workshop Rd ??? Off Haile Selassie Avenue', 'P.O Box 52714 ??? 00200 Nairobi, Kenya', '', '', '2.55E+11', '2.55E+11', 'james.singa@codf.co.ke', '', 'Kenya Railways |Block D| 2ND Floor | Workshop Rd ??? Off Haile Selassie Avenue', 'www.comfund.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-157', 'Kenya Forest Service', 'State Corporation', '', 'Karura off Kiambu Road', 'Po box 30513-00100 Nairobi', '', '', '2.55E+11', '202020285', 'mburujm@kenyaforestservice.org', '', 'Karura off Kiambu Road', 'www.kenyaforestservice.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-158', 'Privatization Commission', 'State Corporation', '', 'Extelcoms House 11th Floor', 'P.O. Box 34542 00200 Nairobi', '', '', '2.55E+11', '254-0700 033349', 'dmutua@pc.go.ke', '', 'Extelcoms House 11th Floor', 'www.pc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-159', 'Ministry of Interior and Co-ordination of National Government', 'State Department', '', '254', '722902359', '', '', '2.55E+11', '2.55E+11', 'ngarigithu@yahoo.com', '', '254', 'www.interior.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-160', 'Ministry of Environment and Forestry', 'Ministry', '', 'NHIF Building', '721498119', '', '', '2.55E+11', '2.55E+11', 'ndongupk@yahoo.com', '', 'NHIF Building', 'www.environment.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-161', 'Kenya Meteorological Department', 'State Department', '', 'Dagoretti Corner, Ngong Road', 'P. O. Box 30259 - 00100 Nairobi Kenya', '', '', '020 3867880/1/2/3/4/5', '020 3867880/1/2/3/4/5', 'director@meteo.go.ke', '', 'Dagoretti Corner, Ngong Road', 'www.environment.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-162', 'The National Treasury and Planning', 'Ministry', '', 'Harambee Avenue Treasury Building ', 'P.O. Box 30007 00100 Nairobi', '', '', '+254 020 2252299', '+254 020 2252299', 'benoloo2002@gmail.com', '', 'Harambee Avenue Treasury Building ', 'http://www.treasury.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-163', 'Kenya National Bureau of Statistics', 'State Corporation', '', '333', '3345', '', '', '2.55E+11', '2.55E+11', 'procurement@knbs.or.ke', '', '333', 'www.knbs.or.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-164', 'State Department of East Africa Community', 'Ministry', '', ' Co-op Bank House Building', '8846-00200', '', '', '2.55E+11', '233.9999995', 'albertgawo@gmail.com', '', ' Co-op Bank House Building', 'www.meac.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-165', 'Samburu', 'County', '', 'Maralal', 'P. O. Box 3 - 20600 Maralal', '', '', '2.55E+11', '2.55E+11', 'info@samburu.go.ke', '', 'Maralal', 'www.samburu.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-166', 'County Assembly of Nyandarua', 'County Assemblies', '', 'OL KALOU NYAHURURU ROAD', '720-20303 OL KALOU', '', '', '2.55E+11', '0743-079333', 'jlektari@yahoo.com', '', 'OL KALOU NYAHURURU ROAD', 'http://assembly.nyandarua.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-167', 'Kakamega', 'County', '', 'kenyatt avenue', '36-50100', '', '', '2.55E+11', '715022738', 'makubahossen@yahoo.com', '', 'kenyatt avenue', 'www.kakamega.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-168', 'Technical University of Kenya', 'Public Universities', '', '254', '254', '', '', '2.55E+11', '2.55E+11', 'gwarofm@gmail.com', '', '254', 'www.tukenya.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-169', 'South Nyanza Sugar Company Limited', 'State Corporation', '', 'Awendo,Migori', '107-40405', '', '', '2.55E+11', '722205345', 'james.oluoch@sonysugar.co.ke', '', 'Awendo,Migori', 'Www.sonysugar.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-170', 'Jaramogi oginga Odinga University of Science and Technology', 'Public Universities', '', 'Bondo', 'P.O BOX 210-40601', '', '', '2.55E+11', '572501804', 'wanguikinyanjui@gmail.com', '', 'Bondo', 'https://www.jooust.ac.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-171', 'New Kenya Co-operative Creameries Ltd', 'State Corporation', '', 'Creamery House, Dakar Rd', 'P.O. Box 30131-00100', '', '', '2.55E+11', '2.55E+11', 'daniel.mukunga@newkcc.co.ke', '', 'Creamery House, Dakar Rd', 'www.newkcc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-172', 'National Industrial Training Authority', 'State Corporation', '', 'Commercial street, Industral Area', 'P.O. Box 74494 - 00200', '', '', '2.55E+11', '0202695586, 0202695589,072017897, 0736290676', 'mmbithe@nita.go.ke', '', 'Commercial street, Industral Area', 'www.nita.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-173', 'County Assembly of Embu', 'County Assemblies', '', 'EMBU', '140-60100 EMBU', '', '', '2.55E+11', '682231208', 'petwaithaka2016@gmail.com', '', 'EMBU', 'www.embuassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-174', 'Kenya Industrial Estates ', 'State Corporation', '', 'Likoni', 'P.O. Box 78029 - 00507', '', '', '2.55E+11', '2.55E+11', 'mwalandijijo@gmail.com', '', 'Likoni', 'www.kie.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-175', 'Kenya Revenue Authority', 'State Corporation', '', 'Times Tower, Haile Selasie Avenue , Nairobi, Kenya', 'Box 48240-00100', '', '', '2.55E+11', '2.55E+11', 'Nicholas.Njeru@kra.go.ke', '', 'Times Tower, Haile Selasie Avenue , Nairobi, Kenya', 'www.kra.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-176', 'Office of the Director of Public Prosecutions', 'Commissions and Independent Offices', '', 'NSSF Building, Block ???A??? 19th Floor', '30701-00100', '', '', '725577611', '+254 2732090/2732240', 'eunicembithe87@gmail.com', '', 'NSSF Building, Block ???A??? 19th Floor', 'www.odpp.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-177', 'Isiolo', 'County', '', '  Isiolo', 'P.O. Box 36 - 60300', '', '', '2.55E+11', '2.55E+11', 'saritesalad114@gmail.com', '', '  Isiolo', 'www.isiolo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-178', 'Kenya Tsetse and Trypanosomiasis Eradication Council', 'State Corporation', '', 'Crescent Business Centre, Off Parklands Road', '66290-00800 Westlands', '', '', '2.55E+11', '2.54E+12', 'cyrusmuiru@yahoo.com', '', 'Crescent Business Centre, Off Parklands Road', 'www.kenttec.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-179', 'Coast Development Authority', 'State Corporation', '', 'Mombasa', 'P.O BOX 1322', '', '', '2.55E+11', '208009196', 'cda@cda.go.ke', '', 'Mombasa', 'www.cda.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-180', 'Kenya Yearbook Editorial Board', 'State Corporation', '', 'NHIF Buiding, 4th Floor. Upperhill, Nairobi', '34035-00100', '', '', '2.55E+11', '020 2715390', 'johnouko22@gmail.com', '', 'NHIF Buiding, 4th Floor. Upperhill, Nairobi', 'http://kenyayearbook.co.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-181', 'Dedan Kimathi University of Technology', 'Public Universities', '', '724838361', '254', '', '', '2.55E+11', '2.55E+11', 'procurement@dkut.ac.ke', '', '724838361', 'www.dkut.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-182', 'Brand Kenya Board', 'State Corporation', '', ' 4th floor, NHIF Building, Ragati road, Upper Hill', 'P.O Box 40500-00100,Nairobi.', '', '', '714870451', '+254 (0) 20 271 5236/7', 'g.gatwiri@brandkenya.go.ke', '', ' 4th floor, NHIF Building, Ragati road, Upper Hill', 'www.brandkenya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-183', 'Northern Water Services Board', 'State Corporation', '', ' Maji House, Garissa', '495 Garissa', '', '', '2.55E+11', '2.54E+11', 'info@nwsb.go.ke', '', ' Maji House, Garissa', 'www.nwsb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-184', 'Agriculture and Food Authority', 'State Corporation', '', '0', '0', '', '', '2.55E+11', '722894308', 'mmkamburi@afa.go.ke', '', '0', 'www.afa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-185', 'Kenya Maritime Authority', 'State Corporation', '', 'WHITE HOUSE, MOI AVENUE, MOMBASA', 'P. O. Box 95076 - 80104, MOMBASA', '', '', '2.55E+11', '724319344', 'soluoch@kma.go.ke', '', 'WHITE HOUSE, MOI AVENUE, MOMBASA', 'www.kma.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-186', 'The Judiciary', 'Commissions and Independent Offices', '', 'City Hall Way-Supreme Court Building', '30041-00100', '', '', '2.55E+11', '2221221', 'doreen.mwirigi@court.go.ke', '', 'City Hall Way-Supreme Court Building', 'www.judiciary.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-187', 'Kenya Electricity  Generating Company', 'State Corporation', '', '  Stirna Plaza, Kolobot Road, Parklands, ', 'P.O. Box 47936, 00100 Nairobi, ', '', '', '2.55E+11', '254-020-3666000', 'lgitau@kengen.co.ke', '', '  Stirna Plaza, Kolobot Road, Parklands, ', 'www.kengen.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-188', 'New Partnership for Africa\'s Development', 'State Corporation', '', 'STATE HOUSE AVENUE LIASION HOUSE', '46270-00100', '', '', '2.55E+11', '0202733735/38/42', 'carolinendwiga@nepadkenya.org', '', 'STATE HOUSE AVENUE LIASION HOUSE', 'www.nepadkenya.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-189', 'Bomas of Kenya', 'State Corporation', '', ' Langata, Forest Edge Road', 'P.O. Box 40689 -00100 Nairobi', '', '', '2.55E+11', '725978298', 'kipronimaritim1@gmail.com', '', ' Langata, Forest Edge Road', 'www.bomasofkenya.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-190', 'University of Eldoret', 'Public Universities', '', 'Eldoret-Ziwa road', 'P.O. Box 1125 - 30100, Eldoret', '', '', '2.55E+11', '2.55E+11', 'w.ngetich@physics.org', '', 'Eldoret-Ziwa road', 'http://www.uoeld.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-191', 'County Assembly of Machakos', 'County Assemblies', '', 'Country Hall, Machakos', 'P.  O. Box 1168 - 90100', '', '', '2.55E+11', '2.55E+11', 'mulonziharrison@gmail.com', '', 'Country Hall, Machakos', 'machakoscountyassembly.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-192', 'KASNEB', 'State Corporation', '', 'KASNEB Towers, Upperhill Nairobi', 'P. o. Box 41362-00100', '', 'Nairobi', '2.55E+11', '254(020)4923000', 'mark.mwangi@kasneb.or.ke', '', 'KASNEB Towers, Upperhill Nairobi', 'www.kasneb.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-193', 'County Assembly of Narok', 'County Assemblies', '', 'Narok county headquarters-Mau Narok Road', '19-20500', '', '', '2.55E+11', '2068889', 'yiapanoilepore@gmail.com', '', 'Narok county headquarters-Mau Narok Road', 'www.narokassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-194', 'Export Promotion Council', 'State Corporation', '', 'Anniversary Towers, Univesity way ', 'P.O. Box 40247 - 00100', '', 'Nairobi', '2.55E+11', '2.55E+11', 'RKipturgo@epc.or.ke', '', 'Anniversary Towers, Univesity way ', 'www.epckenya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-195', 'National Water Conservation & Pipeline Corporation', 'State Corporation', '', 'Dunga Road, Industrial Area', 'P. O. Box 30173, 00100', '', 'Nairobi', '2.55E+11', '2.55E+11', 'mwelelubrian@gmail.com', '', 'Dunga Road, Industrial Area', 'www.nwcpc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-196', 'Kenya Forestry Research Institute', 'State Corporation', '', 'Muguga, Limuru', 'P.  O. Box 20412 - 00200', '', '', '2.55E+11', '2.55E+11', 'iodhiambo@kefri.org', '', 'Muguga, Limuru', 'www.kefri.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-197', 'Moi University', 'Public Universities', '', '  Eldoret', 'P. O. Box 3900', '', '', '2.55E+11', '2.55E+11', 'veronibelio@gmail.com', '', '  Eldoret', 'https://www.mu.ac.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-198', 'Kenya Animal Genetic Resources Centre', 'State Corporation', '', '      lower kabete', '23070-0604', '', '', '725017934', '725017934', 'njeptoo@kagrc.co.ke', '', '      lower kabete', 'www.kagrc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-199', 'Muhoroni Sugar Company', 'State Corporation', '', 'MUHORONI SUGAR CO.', '2 MUHORONI', '', '', '2.55E+11', '202333575', 'john.odhiambo@musco.co.ke', '', 'MUHORONI SUGAR CO.', 'www.musco.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-200', 'Kenya Utalii College', 'State Corporation', '', 'THIKA ROAD', '31052-00600 NAIROBI', '', 'Nairobi', '2.55E+11', '722205891', 'msndungu@utalii.ac.ke', '', 'THIKA ROAD', 'www.utalii.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-201', 'State Department of Immigration, Border Control and citizen Services', 'State Department', '', '  Nyayo House Nairobi', '30395-00100', '', '', '2.55E+11', '20222202', 'kiptuic@gmail.com', '', '  Nyayo House Nairobi', 'www.immigration.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-202', 'University of Kabianga', 'Public Universities', '', ' Kericho', '2030-20200', '', '', '2.55E+11', '722986749', 'ckisato@kabianga.ac.ke', '', ' Kericho', 'www.kabianga.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-203', 'County Assembly of Laikipia', 'County Assemblies', '', 'KENYATTA HIGHWAY', '487-10400', '', '', '2.55E+11', '721397429', 'jngethe@laikipiaassembly.go.ke', '', 'KENYATTA HIGHWAY', 'http://laikipiaassembly.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-204', 'Coast Water Services Board', 'State Corporation', '', 'Mikindani Street, Off Nkurumah Road, Mombasa', '090417-80100, Mombasa', '', '', '2.55E+11', '041-2315230', 'salim@cwsb.go.ke', '', 'Mikindani Street, Off Nkurumah Road, Mombasa', 'www.cwsb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-205', 'The Meru National Polytechnic', 'Public Colleges', '', 'Meru', '111 - 60200', '', '', '719347059', '719347059', 'imutwiri54@gmail.com', '', 'Meru', 'WWW.MERUNATIONALPOLYTECHNIC.AC.KE', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-206', 'Kenya Law Reform Commission', 'State Corporation', '', 'Reinsurance Plaza Nairobi', '34999 - 00100', '', '', '2.55E+11', '799030716', 'jamesruteere@klrc.go.ke', '', 'Reinsurance Plaza Nairobi', 'www.klrc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-207', 'Kenya Bureau of Standards', 'State Corporation', '', ' Popo Road, off Belle Vue South C', '54974 - 00200 Nairobi', '', 'Nairobi', '2.55E+11', '2.55E+11', 'mwakithij@kebs.org', '', ' Popo Road, off Belle Vue South C', 'www.kebs.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-208', 'Office of the Auditor General', 'Commissions and Independent Offices', '', '334', '30084', '', '', '2.55E+11', '726274255', 'isaac.ayoyi@oagkenya.go.ke', '', '334', 'www.oagkenya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-209', 'Kenya Urban Roads Authority', 'State Corporation', '', 'IKM Place, 5th Ngong Avenue', '41727 - 00100 Nairobi', '', 'Nairobi', '2.55E+11', '2.55E+11', 'lmwiti@kura.go.ke', '', 'IKM Place, 5th Ngong Avenue', 'www.kura.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-210', 'Kitui', 'County', '', 'Tanathi Water Service Board Building', 'P. 0. Box 33 - 90200, Kitui', '', '', '2.55E+11', '2.55E+11', 'smususya@yahoo.com', '', 'Tanathi Water Service Board Building', 'www.kitui.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-211', 'Ministry of Water and Sanitation', 'Ministry', '', '49720', '100', '', '', '2.55E+11', '2.55E+11', 'mutinvero@gmail.com', '', '49720', 'www.water.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-212', 'Kibabii University', 'Public Universities', '', 'Bungoma', '1699-50200', '', '', '2.55E+11', '743761716', 'jamesoo@kibu.ac.ke', '', 'Bungoma', 'www.kibu.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-213', 'Kenya Dairy Board', 'State Corporation', '', 'Nairobi', '30406 - 00100', '', '', '2.55E+11', '2.55E+11', 'kebuka.joshua@kdb.co.ke', '', 'Nairobi', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-214', 'Alupe University', 'Public Universities', '', ' Busia Malaba Road', '845-50400', '', '', '2.55E+11', '741217185', 'kogola222@gmail.com', '', ' Busia Malaba Road', 'www.auc.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-215', 'Nandi', 'County', '', ' Nandi County Government Building-Kapsabet', '802', '', '', '2.55E+11', '535252355', 'isidore.koech@nandi.go.ke', '', ' Nandi County Government Building-Kapsabet', 'www.nandi.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-216', 'Independent Policing Oversight Authority', 'State Corporation', '', 'ACK Garden Annex 3rd Floor, 1st Ngong Avenue.', '23035 - 00100 Nairobi', '', 'Nairobi', '706317737', '-4905766', 'info@ipoa.go.ke', '', 'ACK Garden Annex 3rd Floor, 1st Ngong Avenue.', 'www.ipoa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-217', 'Nyandarua', 'County', '', 'Olkalou', '701 - 20303', '', '', '722334192', '2026660859', 'info@nyandaruacounty.or.ke', '', 'Olkalou', 'www.nyandarua.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-218', 'Commission of Administrative Justice - Office of the Ombudsman', 'Commissions and Independent Offices', '', 'WEST END TOWERS 2ND FLOOR ON WAIYAKI WAY ', '20414', '', '', '+254 722873801', '202270000', 'info@ombudsman.go.ke', '', 'WEST END TOWERS 2ND FLOOR ON WAIYAKI WAY ', 'www.ombudsman.go.ke  ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-219', 'Anti - Doping Agency of Kenya', 'State Corporation', '', '    6th Floor Parklands Plaza ,Muthithi/Chiromo Lane Junction', '2276', '', '', '2.55E+11', '0.999954589', 'nemwelarama@gmail.com', '', '    6th Floor Parklands Plaza ,Muthithi/Chiromo Lane Junction', 'www.adak.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-220', 'Public Service', 'State Department', '', 'Nairobi-Teleposta Towers', 'P.O Box 30050-00100', '', 'Nairobi', '+254 721 422320', '020-227411', 'info@psyg.go.ke', '', 'Nairobi-Teleposta Towers', 'www.psyg.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-221', 'County Assembly Of Muranga', 'County Assemblies', '', 'opposite ihura stadium', '731-10200', '', '', '+254 723200485', '2.55E+11', 'murangacountyassembly@gmail.com', '', 'opposite ihura stadium', 'www.assembly.muranga.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-222', 'Embu', 'County', '', 'EMBU TOWN', '36 - 60100', '', '', '+254 721723435', '+254 771 204 003 +254 703 192 924 +254 68 30686 +254 68 30656', 'info@embu.go.ke, procurement@embu.go.ke', '', 'EMBU TOWN', 'www.embu.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-223', 'Huduma Kenya Secretariat', 'State Department', '', 'Lonrho House Standard ', '47716 - 00100', '', '', '+254 731878393', '206900020', 'info@hudumakenya.go.ke', '', 'Lonrho House Standard ', 'www.hudumakenya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-224', 'Masinde Muliro University of Science and Technology (MMUST)', 'Public Universities', '', 'KAKAMEGA WEBUYE ROAD', 'P.O Box 190 - 50100, KAKAMEGA', '', '', '+254 710247230', '0702-597360', 'vc@mmust.ac.ke', '', 'KAKAMEGA WEBUYE ROAD', 'www.mmust.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-225', 'Energy', 'State Department', '', '0', '0', '', '', '+254 722328256', '0', 'ps@energymin.go.ke', '', '0', 'ps@energymin.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-226', 'Health', 'State Department', '', 'AFYA HOUSE, CATHEDRAL ROAD', '30016-00100 Nairobi', '', '', '+254 721202182', '254-(020)-2717077', 'pshealthke@gmail.com', '', 'AFYA HOUSE, CATHEDRAL ROAD', 'www.health.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-227', 'Nyamira', 'County', '', 'NYAMIRA COUNTY HEADQUARTERS', 'P.O BOX 434 - 40500, NYAMIRA', '', '', '+254 726400203', '0738727272/ 0735232323', 'info@nyamira.go.ke', '', 'NYAMIRA COUNTY HEADQUARTERS', 'www.nyamira.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-228', 'Meru University of Science and Technology', 'Public Universities', '', 'Meru', '972 - 60200 Meru', '', '', '+254 723831305', '721524293', 'jkanake@must.ac.ke', '', 'Meru', 'www.must.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-229', 'Labour', 'State Department', '', ' P.O Box', '40326 - 00100', '', '', '+254 722438767', '+254 722438767', 'engugi2002@gmail.com', '', ' P.O Box', 'www.laboursp.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-230', 'Transport', 'State Department', '', '   TRANSCOM HOUSE', '52592 00100', '', '', '+254 721498664', '202726362', 'crisauko@gmail.com', '', '   TRANSCOM HOUSE', 'www.transport.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-231', 'Kenya Broadcasting Corporation', 'State Corporation', '', 'BROADCASTING HOUSE,HARRY THUKU ROAD', '30456-00100', '', '', '+254 770122883', '2223757', 'md@kbc.co.ke', '', 'BROADCASTING HOUSE,HARRY THUKU ROAD', 'www.website.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-232', 'Turkana', 'County', '', ' Lodwar,Kenya', 'P O Box 11-30500 Lodwar ', '', '', '+254 722499274', 'N/A', 'supplychainoffice@turkana.go.ke', '', ' Lodwar,Kenya', 'www.turkana.go.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-233', 'Kenya Civil Aviation Authority', 'State Corporation', '', 'Jomo Kenyatta International Airport', '30163 - 00100 Nairobi', '', '', '+254 721710169', '0709725000, ', 'procurement@kcaa.or.ke, info@kcaa.or.ke', '', 'Jomo Kenyatta International Airport', 'www.kcaa.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-234', 'Bungoma', 'County', '', 'Former Municipal Building ', 'P.o Box 437-50200 Bungoma', '', '', '+254 723528821', '055-2030144', 'info@bungoma.go.ke', '', 'Former Municipal Building ', 'www.bungoma.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-235', 'Nyeri', 'County', '', 'Governor\'s Office, Kimathi Way, Nyeri', '1112', '', '', '+254 720115468', '612030700', 'procurement@nyeri.go.ke', '', 'Governor\'s Office, Kimathi Way, Nyeri', 'www.nyeri.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-236', 'Uasin Gishu', 'County', '', 'Uasin Gishu County Hall', 'P. O. Box  40 - 30100 Eldoret', '', '', '721109025', '53203375', 'cecfinance@uasingishu.go.ke', '', 'Uasin Gishu County Hall', 'www.uasingishu.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-237', 'Machakos', 'County', '', 'Ngei Road', '1996 - 90100', '', '', '+254 724849990', '2.55E+11', 'jnzambu@gmail.com', '', 'Ngei Road', 'www.machakosgovernment.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-238', 'National Social Security Fund', 'State Corporation', '', ' Social Security Hse, Block C, Bishops Rd, Ground Flr ', 'P.O. Box 45969 ??? 00100, Nairobi', '', 'Nairobi', '2.55E+11', '2.55E+11', 'shair.u@nssfkenya.co.ke', '', ' Social Security Hse, Block C, Bishops Rd, Ground Flr ', 'www.nssf.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-239', 'Early Learning & Basic Education', 'State Department', '', '   P.O Box 40530 - 00100 Nairobi ', 'P.O Box 40530 - 00100 Nairobi ', '', 'Nairobi', '2.55E+11', '3318581', 'nyamburafrancesca@gmail.com', '', '   P.O Box 40530 - 00100 Nairobi ', 'x', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-240', 'National Assembly ', 'Commissions and Independent Offices', '', '  clerks Chambers', 'P.O Box 41842 -00100 Nairobi', '', 'Nairobi', '2.55E+11', '2221291', 'Josephantonynjagi@gmail.com', '', '  clerks Chambers', 'www.parliament.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-241', 'IDB Capital', 'State Corporation', '', '18th Floor, National Bank Building, Harambee Avenue', 'P. O. Box 44036, 00100', '', '', '+254 723494855', '202247142', 'bizcare@idbkenya.com', '', '18th Floor, National Bank Building, Harambee Avenue', 'www.idbkenya.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-242', 'Kenya Law', 'State Corporation', '', '1ST NGONG, AVENUE.', 'P.O BOX 10443-00100, NAIROBI.', '', 'Nairobi', '+254 722793990', '020-2712767', 'info@kenyalaw.org', '', '1ST NGONG, AVENUE.', 'www.kenyalaw.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-243', 'County Assembly Of Kitui', 'County Assemblies', '', 'Kitui County Assembly', 'P. O. Box 694 - 90200, Kitui', '', '', '722568459', '444422914', 'kutuiassembly@gmail.com', '', 'Kitui County Assembly', 'http://www.kituicountyassembly.org/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-244', 'Kenya Institute of Special Education', 'State Corporation', '', 'Kasarani', 'P.O BOX 48413-00100', '', 'Nairobi', '+254 722819784', '020-8007977/ 0724-269-505', 'info@kise.ac.ke', '', 'Kasarani', 'www.kise.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-245', 'State Department for Fisheries, Aquaculture and the Blue Economy', 'State Department', '', 'KILIMO HOUSE', '58187-00200 NAIROBI', '', 'Nairobi', '+254 725870484', '020 2718870', 'psfisheries@kilimo.go.ke', '', 'KILIMO HOUSE', 'www.kilimo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-246', 'Social Protection, Pensions & Senior Citizens Affairs', 'State Department', '', ' UPPER HILL, NSSF BUILDING, BLOCK A, EASTERN WING, 1ST, 2ND, 4TH, 5TH, 6TH,7TH,8TH,13TH, 14TH, AND WESTERN WING 22ND FLOORS', '46205-00100, NAIROBI', '', 'Nairobi', '+254 721491487', '+254 (0) 2729800/2727980-4', 'James.Ngogu@socialprotection.go.ke/pssocialsecurity@labour.go.ke', '', ' UPPER HILL, NSSF BUILDING, BLOCK A, EASTERN WING, 1ST, 2ND, 4TH, 5TH, 6TH,7TH,8TH,13TH, 14TH, AND WESTERN WING 22ND FLOORS', 'www.laboursp.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-247', 'Kilifi', 'County', '', 'Kilifi- Town', '519-80108', '', '', '+254 739931871', '736001003', 'info@kilifi.go.ke', '', 'Kilifi- Town', 'www.kilifi.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-248', 'Mandera', 'County', '', 'Mandera Town', '13-70300', '', '', '+254 723970414', '2.55E+11', 'supplychain@mandera.go.ke', '', 'Mandera Town', 'www.mandera.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-249', 'County Assembly Of Isiolo', 'County Assemblies', '', '0', '0', '', '', '+254 724 950768', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-250', 'County Assembly Of Mandera', 'County Assemblies', '', 'Mandera East', '0', '', '', '+254 722410140', '0', 'info@manderaassembly.go.ke', '', 'Mandera East', 'www.manderaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-251', 'County Assembly Of Garissa', 'County Assemblies', '', 'Garissa Township', '57-70100, Garissa', '', '', '+254 722296647', '2.55E+11', 'iyussuf@garissaassembly.go.ke', '', 'Garissa Township', 'www.garisaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-252', 'Nairobi', 'County', '', 'City Hall', 'P.O Box 30075 - 00100', '', 'Nairobi', '722312515', '722312515', 'wambugubety7@gmail.com', '', 'City Hall', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-253', 'The Kenyatta International Convention Centre', 'State Corporation', '', 'Harambee Avenue Nairobi', '30746 - 00100 Nairobi', '', 'Nairobi', '726532612', '726532612', 'judith.nyaberi@kicc.co.ke', '', 'Harambee Avenue Nairobi', 'www.kicc.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-254', 'Michuki Technical Training Institute', 'Public Colleges', '', 'Kangema', 'P.O Box 4 - 10202', '', '', '726347973', '725912313', 'michukitech@yahoo.com', '', 'Kangema', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-255', 'Tharaka-Nithi', 'County', '', 'Kathwana', '10', '', '', '+254 714273724', '2.55E+11', 'info@tharakanithi.go.ke', '', 'Kathwana', 'https://tharakanithi.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-256', 'Trans Nzoia', 'County', '', 'KITALE', 'P.O BOX 4211 - 30200 KITALE', '', '', '+254 720865083', '(054)30301/2', 'info@transnzoia.go.ke', '', 'KITALE', 'https://www.transnzoia.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-257', 'West Pokot', 'County', '', 'Kapenguria.', '220-30600', '', '', '+254 708913337', '+254 053-201-4000', 'info@westpokot.go.ke', '', 'Kapenguria.', 'www.westpokot.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-258', 'National Environment Management Authority', 'State Corporation', '', 'Popo Road Nairobi', 'P. O. Box 67839 -00200', '', '', '2.55E+11', '724253398', 'dgnema@nema.go.ke', '', 'Popo Road Nairobi', 'www.nema.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-259', 'State Department for Culture & Heritage', 'State Department', '', 'kencom house', '49849-90100', '', '', '+254 727725650', 'Tel:+254-020-2251164,2251005,2250576    ', 'psoffice@minspoca.go.ke', '', 'kencom house', 'www.minspoca.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-260', 'Council of Legal Education', 'State Corporation', '', 'Karen office Park, Acacia Block 2 Floor', '829-00502, Karen', '', '', '+254 722498354', '2.55E+11', 'jkirande@cle.or.ke', '', 'Karen office Park, Acacia Block 2 Floor', 'cle.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-261', 'Rongo University', 'Public Universities', '', 'Rongo-Migori road, Kitere hills off Kanga junction', '103-40404 RONGO', '', '', '+254 722242008', '770308267', 'procurement@rongovarsity.ac.ke', '', 'Rongo-Migori road, Kitere hills off Kanga junction', 'www.rongovarsity.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-262', 'County Assembly Of Lamu', 'County Assemblies', '', '0', '0', '', '', '+254 705784395', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-263', 'Kitui East Constituency Development Fund', 'NGCDF Committees', '', '0', '0', '', '', '+254 723556349', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-264', 'State Department for University Education', 'State Department', '', 'Jogoo House `B` , Harambee Avenue in Nairobi. ', ' P.O. Box 30040-00100, Nairobi ', '', 'Nairobi', '+254 721281562', '208024828', 'petupazuri@yahoo.com', '', 'Jogoo House `B` , Harambee Avenue in Nairobi. ', 'http://www.education.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-265', 'Office of the Registrar of Political Parties', 'Commissions and Independent Offices', '', 'Lion Place 1st Floor, Sarit Centre Nairobi', '1131-00606', '', '', '+254 706171407', '020 4022000', 'registrar@orpp.or.ke', '', 'Lion Place 1st Floor, Sarit Centre Nairobi', 'orpp.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-266', 'County Assembly Of Kakamega', 'County Assemblies', '', 'Off Fitina Road behind Kakamega Law Courts', '1470 - 50100 KAKAMEGA', '', '', '+254 722387212', '715521221', 'kakamegacountyassembly@gmail.com', '', 'Off Fitina Road behind Kakamega Law Courts', 'www.kakamega-assembly.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-267', 'Central Bank of Kenya', 'State Corporation', '', 'Haile Selassie Avenue', '6000-00200', '', '', '+254 720348838', '202860000', 'Comms@centralbank.go.ke', '', 'Haile Selassie Avenue', 'www.centralbank.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-268', 'Karatina University', 'Public Universities', '', 'Karatina', 'P. O Box 1957 -10101', '', '', '723671698', '723671698', 'awanjiru@karu.ac.ke', '', 'Karatina', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-269', 'Kenya Electricity Transmission Company LTD', 'State Corporation', '', 'KAWI HOUSE, BLOCK B', '34942 - 00100', '', '', '719018801', '719018000', 'info@ketraco.co.ke', '', 'KAWI HOUSE, BLOCK B', 'https://www.ketraco.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-270', 'Kiambu', 'County', '', 'KIAMBU', '2344,KIAMBU', '', '', '+254 722867477', '+254 709 877 000', 'info@kiambu.go.ke', '', 'KIAMBU', 'http://kiambu.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-271', 'Kaimosi Friends University College (MMUST)', 'Public Universities', '', 'KAIMOSI', 'P.o Box 385 - 50309', '', '', '+254 723707242', '0', 'jrapando@kafuco.ac.ke', '', 'KAIMOSI', 'www.kafuco.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-272', 'Kericho', 'County', '', '0', '0', '', '', '+254 726364541', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-273', 'Indepedent Electoral and Boundaries Commission', 'Commissions and Independent Offices', '', 'Anniversary Towers', '45371-00100', '', '', '+254 722431428', '2.54E+12', 'info@iebc.or.ke', '', 'Anniversary Towers', 'www.iebc.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-274', 'National Authority for the Campaign Against Alcohol and Drug Abuse', 'State Corporation', '', 'NSSFBuiding  Block "A",Eastern Wing  18th  Floor ', '10774-00100', '', '', '+254 725311198', '2721997/2721993', 'info@nacada.go.ke ', '', 'NSSFBuiding  Block "A",Eastern Wing  18th  Floor ', 'www.nacada.go.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-275', 'Vocational & Technical Training', 'State Department', '', 'Jogoo B, Harambee Avenue', 'P.O. Box 9583 - 00200', '', '', '+254 722807057', '203318581', 'psvtt@education.go.ke', '', 'Jogoo B, Harambee Avenue', 'www.education.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-276', 'Crop Development', 'State Department', '', 'cathedral road', 'P.O Box 34188-00100 Nairobi', '', 'Nairobi', '+254 726038358', '2718870', 'psagriculture@kilimo.go.ke', '', 'cathedral road', 'www.kilimo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-277', 'Kenya Medical training College', 'Public Colleges', '', 'Off Mbagathi Road', '30195-00100 NAIROBI', '', 'Nairobi', '+254 721352315', '0202725711/14', 'info@kmtc.ac.ke', '', 'Off Mbagathi Road', 'www.kmtc.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-278', 'Agro-Chemical and Food Company Limited', 'State Corporation', '', '   Muhoroni', 'P.O Box 18 - 40107', '', '', '2.55E+11', '2.55E+11', 'wkarani@acfc.co.ke', '', '   Muhoroni', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-279', 'Garissa', 'County', '', 'sherrif Apartment', '563-70100', '', '', '+254 728507373', '728507373', 'enquiries@garissa.go.ke', '', 'sherrif Apartment', 'www.garissa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-280', 'State Department for Housing, Urban Development & Public Works', 'State Department', '', 'Works building ', '30743-00100 Nairobi', '', '', '+254 726285210', '202723101', 'info@publicworks.go.ke', '', 'Works building ', 'www.transport.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-281', 'Kenya Nuclear Electricity Board', 'State Corporation', '', 'Kawi complex ', '26374', '', '', '+254 711392706', '254-20-5138300', 'mmwangi@nuclear.co.ke', '', 'Kawi complex ', 'www.nuclear.co.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-282', 'Tourism Research Institute', 'State Corporation', '', 'UTALII HOUSE 7TH FLOOR ROOM 732', 'P.O.BOX 42131-00100 NAIROBI', '', '', '+254 720656807', '020-3317850', 'ceo@tri.go.ke', '', 'UTALII HOUSE 7TH FLOOR ROOM 732', 'N/A', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-283', 'Kitui NGAAF', 'NGAAF', '', 'Nzambaani Park Building, Kitui', 'P. O. Box 1-90200, Kitui, ', '', '', '726216009', '726216009', 'denniskitheka@gmail.com', '', 'Nzambaani Park Building, Kitui', 'http://www.ngaaf.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-284', 'Chemelil Sugar Company Limited', '6138', '', 'csc@chemsugar.co.ke', 'Along Awasi/Nandi Hills Road, Kisumu County', '', '', '\\N', '020 2031883/4/5/7\\', '  GSM Lines: 0722 209798, 0710 766383, 0735 234733', '', 'csc@chemsugar.co.ke', '359_logo_image.jpg', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-285', 'Lake Victoria North Water services Board', 'State Corporation', '', 'Kefinco Hse, off Kakamega-Kisumu Road', 'P.O Box 673 - 50100 Kakamega', '', '', '+254 710510276', ' 020 7608130', 'info@lvnwsb.go.ke', '', 'Kefinco Hse, off Kakamega-Kisumu Road', 'http://www.lvnwsb.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-286', 'Kajiado', 'County', '', 'Off Nairobi - Namanga Road', 'P O Box 11-001100 Kajiado', '', '', '+254 723567814', '2.54E+11', 'info@kajiado.go.ke', '', 'Off Nairobi - Namanga Road', 'www.kajiado.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-287', 'Netfund', 'State Corporation', '', 'National Water Plaza, 1st Floor, Dunga road, Industrial Area', '19324-00202', '', '', '+254 714545498', '202369563', 'info@netfund.go.ke', '', 'National Water Plaza, 1st Floor, Dunga road, Industrial Area', 'www.netfund.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-288', 'Kwale', 'County', '', 'KWALE', '4-80403', '', '', '+254 725226916', '728348911', 'madonna@procurement.kwale.go.ke', '', 'KWALE', 'http://www.kwalecountygov.com/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-289', 'National Police Service Commission', 'Commissions and Independent Offices', '', 'westlands,Nairobi', '47363', '', '', '+254 793011404', '709099000', 'info@npsc.go.ke', '', 'westlands,Nairobi', 'www.npsc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-290', 'County Assembly Of Siaya', 'County Assemblies', '', 'Siaya County Headquarters', 'P.O.BOX 7-40600 SIAYA', '', '', '+254 722712225', '-708744894', 'clerk@siayaassembly.go.ke', '', 'Siaya County Headquarters', 'www.siayaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-291', 'Kwale Water and Sewerage Company Ltd', 'Public Water Companies', '', '  Likoni Kwale road off-SIDA road,Kwale', 'Box 18-80403', '', '', '2.55E+11', '412014155', 'info@kwalewater.co.ke', '', '  Likoni Kwale road off-SIDA road,Kwale', 'www.kwalewater.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-292', 'Kengen Staff Retirement Benefits Scheme', 'Pension Schemes', '', 'KenGen Pension Plaza 2, 11th Floor, Kolobot Road, Nairobi', '47936 - 00100', '', '', '+254 739251000', '+254 071 103 6000', 'info@kengensrbs.co.ke ', '', 'KenGen Pension Plaza 2, 11th Floor, Kolobot Road, Nairobi', 'www.kengensrbs.co.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-293', 'Kenya Leather Development Council', 'State Corporation', '', ' CPA Centre, 5th Floor, Thika Road, Nairobi', '14480-00800 NRB', '', '', '2.55E+11', '2.55E+11', 'info@leathercouncil.go.ke', '', ' CPA Centre, 5th Floor, Thika Road, Nairobi', 'www.leathercouncil.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-294', 'Jomo Kenyatta University of Agriculture and Technology (JKUAT)', 'Public Universities', '', 'Juja Kiambu County', 'Box 62000-00200', '', '', '724934928', '724934928', 'rkiprop@jkuat.ac.ke', '', 'Juja Kiambu County', 'http://www.jkuat.ac.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-295', 'Maasai Mara University', 'Public Universities', '', 'Narok - Bomet Road', 'Box 861, Narok', '', '', '722886440', '205131400', 'procurement@mmarau.ac.ke', '', 'Narok - Bomet Road', 'www.mmarau.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-296', 'Kenya National Library Service', 'State Corporation', '', 'Mumias Road/Ol Donyo Sabuk Road Junction, Buruburu', '30573-00100', '', '', '2.55E+11', '0207786710/2158352', 'edel.ratemo@knls.ac.ke', '', 'Mumias Road/Ol Donyo Sabuk Road Junction, Buruburu', 'www.knls.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-297', 'Ethics and Anti-Corruption Commission', 'http://www.eacc.go.ke', '', '2100312/3 Mobile: 0729888881/2/3\\', ' 0736996600/33', '', '', '\\N', 'Tel: (020) 2717318\\', '2720722\\', '', '2100312/3 Mobile: 0729888881/2/3\\', '+254 729888881', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-298', 'Tom Mboya University College (Maseno)', 'Public Universities', '', 'HOMABAY COUNTY-NEXT TO THE GOVERNOR OFFICE ', '199-40300 HOMABAY', '', '', '+254 724364181', '059-20090', 'principal@tmuc.ac.ke', '', 'HOMABAY COUNTY-NEXT TO THE GOVERNOR OFFICE ', 'https://www.tmuc.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-299', 'Taita-Taveta', 'County', '', 'wundanyi', '1066-80304', '', '', '+254 714748657', '788186436', 'governortaitatavet@yahoo.com', '', 'wundanyi', 'www.taitataveta.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-300', 'South Eastern Kenya University ', 'Public Universities', '', 'Machakos, Kitui rd, off Kwa Vonza', 'P.O. Box 170 - 90200, Kitui', '', '', '2.55E+11', '2.55E+11', 'vc@seku.ac.ke', '', 'Machakos, Kitui rd, off Kwa Vonza', 'www.seku.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-301', 'Lake Basin Development Authority', 'State Corporation', '', 'Off Kisumu Kakamega Road', 'PO Box 1516 - 40100 Kisumu', '', '', '+254 735606843', '202110593', 'info@lbda.co.ke', '', 'Off Kisumu Kakamega Road', 'www.lbda.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-302', 'Busia', 'County', '', '0', 'PRIVATE BAG', '', '', '+254 726147052', '0', '', '', '0', 'busiacounty.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-303', 'Wajir', 'County', '', 'wajir', 'po.box 9-70200', '', '', '+254 725887868', '0', 'info@wajir.go.ke', '', 'wajir', 'www.wajir.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-304', 'Technical University of Mombasa', 'Public Universities', '', 'Mombasa', '90420-80100', '', '', '+254 728654489', '+254 724 955377,733 955377', 'supplies@tum.ac.ke', '', 'Mombasa', 'Web: www.tum.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-305', 'Centre for Mathematics, Science and Technology Education in Africa', 'State Corporation', '', 'Karen Road - Bogani Road Junction', 'P. O. Box 24214, 00502', '', '', '2.55E+12', '020 2044406, 0706722697', 'director@cemastea.ac.ke', '', 'Karen Road - Bogani Road Junction', 'www.cemastea.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-306', 'Kenya Reinsurance Corporation Ltd', 'State Corporation', '', 'Reinsurance Plaza', 'P. O. Box 30271, 00100', '', '', '2.55E+12', '020220200, 0703083000', 'kenyare@kenyare.co.ke', '', 'Reinsurance Plaza', 'https://www.kenyare.co.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-307', 'Tourism', 'State Department', '', 'Utalii House', 'P. O. Box 30027, 00100 Nairobi', '', 'Nairobi', '2.55E+11', '020 315001', 'ps@tourism.go.ke', '', 'Utalii House', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-308', 'Thogoto Teachers Training College', 'Public Colleges', '', '0', '0', '', '', '+254 728280354', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-309', 'Malindi Water & Sewerage Co. LTD', 'Other Entities owned by County Governments', '', 'Malindi opposite Kilifi County Assembly', '410-80200 MALINDI', '', '', '+254 729897472', '422131037', 'info@malindiwater.co.ke', '', 'Malindi opposite Kilifi County Assembly', 'www.malindiwater.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-310', 'Kenya Investment Authority ', 'State Corporation', '', '0', '0', '', '', '+254 722328709', '0', '', '', '0', 'www.invest.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-311', 'OFFICE OF THE CONTROLLER OF BUDGET', 'Commissions and Independent Offices', '', ' Bima House', '35616 -00100', '', '', '2.55E+11', '202211068', 'lusulial@cob.go.ke', '', ' Bima House', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-312', 'Kenya Veterinary Board', 'State Corporation', '', 'Veterinary Research Laboratories, Upper Kabete', '513-00605 Uthiru', '', '', '722928429', '722305253', 'info@kenyavetboard.or.ke', '', 'Veterinary Research Laboratories, Upper Kabete', 'http://kenyavetboard.or.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-313', 'Makueni', 'County', '', 'Makueni', '78- 90300', '', '', '+254 724 773 931', '020-2034944', 'mail@makueni.go.ke', '', 'Makueni', 'www.makueni.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-314', 'County Assembly of Kirinyaga', 'County Assemblies', '', 'kerugoya', '55-10300', '', '', '+254 722497050', '790523397', 'kirinyagacountyassembly@gmail.com', '', 'kerugoya', 'kirinyagaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-315', 'Women Enterprise Fund', 'State Corporation', '', 'NSSF BUILDING, EASTERN WING , BLOCK A', '017126-00100', '', '', '+254 724501667', '714606845', 'info@wef.co.ke', '', 'NSSF BUILDING, EASTERN WING , BLOCK A', 'www.wef.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-316', 'Ayora Mixed Secondary School', 'Public Schools', '', '0', '0', '', '', '+254 729312786', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-317', 'Nairobi City Water & Sewerage Company LTD', 'Public Water Companies', '', 'Nairobi', '30656-00100', '', '', '+254 720621342', '703080000', 'tenders@nairobiwater.co.ke', '', 'Nairobi', 'www.nairobiwater.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-318', 'Rift Valley Water Services Board', 'State Corporation', '', 'Maji Plaza, Prisons Road, Off Eldama Ravine Nakuru Road', '2451 Nakuru', '', '', '723095945', '723095945', 'wsakuda@rvwsb.go.ke', '', 'Maji Plaza, Prisons Road, Off Eldama Ravine Nakuru Road', 'www.rvwsb.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-319', 'Teachers Service Commission', 'Commissions and Independent Offices', '', 'TSC House, Upper Hill', 'TSC Private Bag, Nairobi, 00100', '', 'Nairobi', '721445985', '721445985', 'kabubii2030@gmail.com', '', 'TSC House, Upper Hill', 'www.tsc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-320', 'National Gender and Equality Comission', 'Commissions and Independent Offices', '', 'SOLUTION TECH BUILDING', '27512-00506', '', '', '+254 728618850', '020321310/0709375100', 'info@ngeckenya.org', '', 'SOLUTION TECH BUILDING', 'www.ngeckenya.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-321', 'Rural Electrification Authority', 'State Corporation', '', 'kawi House South C', '34585-00100', '', '', '+254 726 595604', '709193645', 'info@rea.co.ke', '', 'kawi House South C', 'www.rea.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-322', 'Murang???a University of Technology', 'Public Universities', '', '10200', '75', '', '', '+254 706249039', '0706 249 039', 'procurement@mut.ac.ke', '', '10200', 'www.mut.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-323', 'Kenya National Shipping Line Ltd.', 'State Corporation', '', 'New Cannon tower 1st floor, Moi Avenue  ', '88206 - 80100, Mombasa', '', '', '+254 726249560', '0700510592 / 0412224506', 'admin@knsl.co.ke', '', 'New Cannon tower 1st floor, Moi Avenue  ', 'www.knsl.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-324', 'County Assembly Of Nyeri', 'County Assemblies', '', 'RURINGU-NYERI', 'P.O BOX 162 -10100 NYERI', '', '', '+254 726214205', '721397205', 'nyeriassembly.go.ke', '', 'RURINGU-NYERI', 'www.nyeriassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-325', 'Local Authorities Provident Fund (LAPFUND)', 'State Corporation', '', 'JKUAT Towers, Kenyatta Avenue', '79592-00200 Nairobi', '', 'Nairobi', '713768609', '709805000', 'ymutinda@lapfund.or.ke', '', 'JKUAT Towers, Kenyatta Avenue', 'www.lapfund.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-326', 'Tanathi Water Services Board', 'State Corporation', '', '0', '0', '', '', '+254 722150397', '0', '', '', '0', 'www.tanathi.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-327', 'Kilifi Mariakani Water and Sewerage Company Limited', 'Public Water Companies', '', 'Off Malindi Road at former KDDP Office - Kilifi town', '275-80108 Kilifi', '', '', '+254 726944943', '041-522278/522506/522507', 'info@kilifiwater.co.ke', '', 'Off Malindi Road at former KDDP Office - Kilifi town', 'www.kilifiwater.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-328', 'NGOs Co-ordination Board', 'State Corporation', '', 'Co-operative Bank House 15th floor', '44617', '', '', '+254 722387990', '2214044/2212938', 'info@ngobureau.or.ke', '', 'Co-operative Bank House 15th floor', 'www.ngobureau.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-329', 'National Land Commission', 'Commissions and Independent Offices', '', 'ARDHI HOUSE-1ST AVENUE,NGONG AVENUE', 'P.O BOX 44417-00100,NAIROBI', '', 'Nairobi', '+254 720846453', '+254 271 8050', 'info@landcommission.go.ke', '', 'ARDHI HOUSE-1ST AVENUE,NGONG AVENUE', 'www.landcommission.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-330', ' National Crime Research Centre', 'State Corporation', '', ' ACK Garden Annex- Ground Floor  1st Ngong Avenue, Off Bishop\'s Road  ', 'P .0. BOX 21180-00100 ', '', '', '2.55E+11', '202714735', 'director@crimeresearch.qo.ke', '', ' ACK Garden Annex- Ground Floor  1st Ngong Avenue, Off Bishop\'s Road  ', 'www.crimeresearch.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-331', 'County Assembly Of Homa Bay', 'County Assemblies', '', 'Homabay Town', '20-40300', '', '', '725101444', '725101444', 'tokore@homabayassembly.go.ke', '', 'Homabay Town', 'www.homabayassembly.go.ke  ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-332', 'Kenya Institute of Supplies Mangement', 'State Corporation', '', 'Nation Centre', '30400-00100', '', '', '+254 24088778', '2.55E+11', 'admin@kism.or.ke ', '', 'Nation Centre', 'www.kism.or.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-333', 'Kenya National Commission on Human Rights', 'Commissions and Independent Offices', '', 'CVS PLAZA - LENANA RD/KASUKU LANE', '74359-00200', '', '', '+254 724566702', '020-3969000', 'haki@knchr.org ', '', 'CVS PLAZA - LENANA RD/KASUKU LANE', 'www.knchr.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-334', 'Nyeri Water & Sewerage Company Limited', 'Other Entities owned by County Governments', '', '0', '0', '', '', '+254 721223455', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-335', 'Nairobi Centre for International Arbitration', 'State Corporation', '', 'Haile Selassie Avenue', '548 - 00200', '', '', '+254 722475631', '+254 771293055', 'info@ncia.or.ke', '', 'Haile Selassie Avenue', 'www.ncia.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-336', 'County Assembly Of Migori', 'County Assemblies', '', 'Migori', 'Box 985-40400 Migori', '', '', '711751329', '711751329', 'stevedawns@gmail.com', '', 'Migori', 'www.migoriassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-337', 'Taita Taveta University ', 'Public Universities', '', 'VOI', '635-80300', '', '', '+254 723678488', '020-2437266', 'info@ttu.ac.ke', '', 'VOI', 'www.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-338', 'County Assembly Of Uasin Gishu', 'County Assemblies', '', 'Uasin Gishu County Assembly, Uganda Road', 'Box 100 - 30100', '', '', '722896920', '722896920', 'schangwony@gmail.com', '', 'Uasin Gishu County Assembly, Uganda Road', 'www.ugcountyassembly.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-339', 'County Assembly Of Kisii', 'County Assemblies', '', 'Kisii Town Hall Building', 'Box 4552-40200 Kisii', '', '', '725272418', '725272418', 'info@kisiiassembly.go.ke', '', 'Kisii Town Hall Building', 'www.kisiiassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-340', 'Business Registration Service', 'State Corporation', '', 'Sheria House, Harambee Avenue', 'P. O. Box 40112 - 00100', '', '', '25471528854', '202227461', 'info.statelawoofice@kenya.go.ke', '', 'Sheria House, Harambee Avenue', 'brs.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-341', 'County Assembly Of Busia', 'County Assemblies', '', 'County Assembly Headquaters Busia town-off Busia Kisumu Road', 'Box 1018-50400 Busia', '', '', '720451673', '720451673', 'yvonnelily89@gmail.com', '', 'County Assembly Headquaters Busia town-off Busia Kisumu Road', 'www.busiaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-342', 'Cabinet Affairs Office', 'The Presidency', '', 'Harambee House', '62345-00200 Nairobi', '', 'Nairobi', '+254 720261512', '+254 20 2227436', 'pas@cabinetoffice.go.ke', '', 'Harambee House', 'www.cabinetoffice.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-343', 'State House', 'The Presidency', '', 'state house road', '40530-00100', '', '', '+254 720591527', '020 337460', 'supplychain@president.go.ke', '', 'state house road', 'www.president.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-344', 'Nursing Council of Kenya', 'State Corporation', '', 'Kabarnet Lane, Off Ngong Road', 'Box 20056-00200 Nairobi', '', 'Nairobi', '717649241', '717649241', 'ewanjiku@nckenya.com', '', 'Kabarnet Lane, Off Ngong Road', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-345', 'Nzoia Sugar Company', 'State Corporation', '', 'Bungoma', 'Box 285-50200 BUNGOMA', '', 'Nairobi', '721468867', '721468867', 'amusonye@nzoiasugar.com', '', 'Bungoma', 'www.nzoiasugar.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-346', 'Post Training & Skills Development', 'State Department', '', 'Jogoo House B', 'Box 30040-00200 Nairobi', '', 'Nairobi', '722838728', '722838728', 'bluyera@yahoo.com', '', 'Jogoo House B', 'www.education.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-347', 'Office of the Deputy President', 'The Presidency', '', 'Harambee House Annexe', 'Box 74434-00200 Nairobi', '', 'Nairobi', '711795200', '203247000', 'dp@deputypresident.go.ke', '', 'Harambee House Annexe', 'www.dp@deputypresident.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-348', 'County Assembly Of Nairobi', 'County Assemblies', '', 'City Hall Buildings', 'Box 45844-00100 Nairobi', '', 'Nairobi', '727307956', '020 2216151', 'daisymuema@nairobiassembly.go.ke', '', 'City Hall Buildings', 'www.nairobiassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-349', 'Pwani University', 'Public Universities', '', 'Kilifi , Kenya', 'Box 195-80108 Kilifi, Kenya', '', '', '041 7525106', '041 7525106', 'l.mwacharo@pu.ac.ke', '', 'Kilifi , Kenya', 'www.pu.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-350', 'Bomet University College', 'Public Universities', '', 'Bomet', 'Box 701-20400', '', '', '722272087', '722272087', 'kipsaiya@buc.ac.ke', '', 'Bomet', 'www.buc.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-351', 'Chuka University', 'Public Universities', '', 'CHUKA', '109', '', '', '+254 728655047', '20', '', '', 'CHUKA', 'www.chuka.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-352', 'Pyrethrum Processing Company of Kenya Limited', 'State Corporation', '', 'General Mathenge Road,Industrial area Nakuru', '420-20100,Nakuru', '', '', '+254 726015933', '2211567 or 2211568', 'md@pyrethrum.co.ke ', '', 'General Mathenge Road,Industrial area Nakuru', 'www.kenyapyrethrum.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-353', 'Pharmacy and Poisons Board', 'State Corporation', '', 'Lenana Road, Nairobi', 'P.O. Box 27663-00506, Nairobi', '', 'Nairobi', '+254 722711424', '+254 020 3562107, +254 720 608811, +254 733 884411', 'procurement@pharmacyboardkenya.org', '', 'Lenana Road, Nairobi', 'www.pharmacyboardkenya.org', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-354', 'Kenya Medical Practitioners and Dentists Board', 'State Corporation', '', 'Woodlands Avenue of Lenana Road', 'P.O. BOX 44839 00100 NAIROBI', '', 'Nairobi', '+254 723697180', '020 2728752, 0720771478, 020 272 4994, 0738 504 112, 020 271 1478', 'info@kenyamedicalboard.or.ge', '', 'Woodlands Avenue of Lenana Road', 'www.medicalboard.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-355', 'Financial Reporting Centre', 'State Corporation', '', 'CBK Pension Fund Building', 'Box Private Bag 00200, Nairobi', '', 'Nairobi', '723161376', '723161376', 'georgenjane65@gmail.com', '', 'CBK Pension Fund Building', 'www.frc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-356', 'Maseno University', 'Public Universities', '', 'Kisumu-Busia Road', 'Private Bag Maseno', '', '', '+254 734752679/ +254728338356', '2.55E+11', 'po@maseno.ac.ke /vc@maseno.ac.ke', '', 'Kisumu-Busia Road', 'www.maseno.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-357', 'Judicial Service Commission', 'Commissions and Independent Offices', '', 'Reinsurance Plaza', 'Box 40048-00100 Nairobi', '', 'Nairobi', '723376684', '202739180', 'mirriam.musyimi@jsc.go.ke', '', 'Reinsurance Plaza', 'www.jsc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-358', 'Lamu', 'County', '', 'MOKOWE', '74-80500', '', '', '+254 716034547', '715000555', 'info@lamu.go.ke', '', 'MOKOWE', 'www.lamu.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-359', 'National Cereals and Produce Board', 'State Corporation', '', 'Machakos/Enterprise Road', 'Box 30586-00100 Nairobi', '', '', '722579099', '722579099', 'nwaswa@ncpb.co.ke', '', 'Machakos/Enterprise Road', 'www.ncpb.co.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-360', 'Media Council of Kenya', 'State Corporation', '', 'Ground Floor, Britam Centre, Mara/Ragati Road Junction, Upperhill', '43132-00100', '', '', '+254 731354481', '0727735252/2737058/2716265', 'info@mediacouncil.or.ke', '', 'Ground Floor, Britam Centre, Mara/Ragati Road Junction, Upperhill', 'www.mediacouncil.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-361', 'County Assembly Of Tharaka-Nithi', 'County Assemblies', '', 'Chuka', 'Box 694 Chuka', '', '', '721168156', '721168156', 'enirichu@gmail.com', '', 'Chuka', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-362', 'Kisii', 'County', '', 'Treasury Building', 'P.O. Box 4550 - 40200 Kisii', '', '', '2.55E+11', '2.55E+11', 'procurement@kisii.go.ke', '', 'Treasury Building', 'www.kisii.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-363', 'Bukura Agricultural College', 'Public Colleges', '', 'Sigalagala - Butere Road', 'Box 23-50105 Bukura', '', '', '724889187', '724889187', 'bcheptiony@bukuracollege.ac.ke', '', 'Sigalagala - Butere Road', 'www.bukuracollege.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-364', 'Laikipia', 'County', '', 'Nanyuki', '1271/10400', '', '', '+254 723 871712', '740031031', 'laikipia county government', '', 'Nanyuki', 'www.laikipia.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-365', 'Kenya Safari Lodges & Hotels LTD', 'State Corporation', '', 'Mombasa', '90414-80100', '', '', '+254 715365306', '+254 41 471861-5,+254 722 203143/4', 'mombasabeachhotel@kenya-safari.co.ke', '', 'Mombasa', 'www.safari-hotels.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-366', 'Kenya Coast National Polytechnic', 'Public Colleges', '', 'KISAUNI ROAD,MOMBASA', '81220-80100', '', '', '+254 725307919', '712725554', 'info@kenyacoastpoly.ac.ke', '', 'KISAUNI ROAD,MOMBASA', 'www.kenyacoastpoly.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-367', 'Wote Technical Training Institute', 'Public Colleges', '', 'Makueni', 'P. o. Box 377, 90300 Makueni', '', '', '2.55E+11', '2.55E+11', 'wotettimakueni@gmail.com', '', 'Makueni', 'www.wotetti.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-368', 'Rift Valley Technical Training Institute', 'Public Colleges', '', 'Eldoret', 'P.O.Box 244 - 30100, Eldoret', '', '', '2.55E+11', '2.55E+11', 'info@rvti.ac.ke', '', 'Eldoret', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-369', 'County Assembly Of Turkana', 'County Assemblies', '', 'Lodwar Town', '25 - 30500 LODWAR', '', '', '+254 720442817', 'N/A', 'info@turkanaassembly.go.ke', '', 'Lodwar Town', 'www.turkanaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-370', 'County Assembly Of Trans Nzoia', 'County Assemblies', '', 'KITALE', 'P.O Box 4221', '', '', '+254 726223373', '0', 'transnzoiacountyassembly@gmail.com', '', 'KITALE', 'www.transnzoiaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-371', 'Vihiga', 'County', '', 'The Treasury, Maragoli', 'P. O. Box 344 - 50300', '', '', '2.55E+11', '0', 'vihigatreasury@yahoo.com', '', 'The Treasury, Maragoli', 'www.vihiga.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-372', 'County Assembly Of Vihiga', 'County Assemblies', '', 'Clerks Chambers, Assembly Headquarters, Maragoli', 'P.O. Box 90 - 50300, Maragoli', '', '', '723241613', '202094140', 'vihigaassembly@gmail.com', '', 'Clerks Chambers, Assembly Headquarters, Maragoli', 'www.vihigacountyassembly.or.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-373', 'Tourism Finance Corporation', 'State Corporation', '', 'nairobi', '42013-00100', '', '', '729688935', '203224107', 'md@tourismfinance.go.ke', '', 'nairobi', 'www.tourismfinance.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-374', 'County Assembly Of Bungoma', 'County Assemblies', '', 'Bungoma Town opposite Shariffs Centre', '1886-50200', '', '', '+254 725238974', '725238974', 'info@bungomaassembly.go.ke', '', 'Bungoma Town opposite Shariffs Centre', 'www.bungomaassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-375', 'County Assembly Of Makueni', 'County Assemblies', '', 'wote makindu road', '0572-90300', '', '', '+254 714299286', '714392799', 'info@makueniassembly.go.ke', '', 'wote makindu road', 'www.makueniassebly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-376', 'Nyandarua Institute of Science and Technology', 'Public Colleges', '', 'Nyahururu', '2033-20300 Nyahururu', '', '', '724390784', '727256001', 'nyandaruainstitute2006@gmail.com', '', 'Nyahururu', 'www.nyandaruainstitute.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-377', 'Correctional Services', 'State Department', '', 'Telposta Towers', 'Box 30478-00100 NAIROBI', '', 'Nairobi', '727833865', '202228411', 'ps@coordination.go.ke', '', 'Telposta Towers', 'www.coordination.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-378', 'National Communication Secretariat', 'State Corporation', '', 'Community Aresa', '10756', '', '', '+254 710485751', '-2719719', 'info@ncs.go.ke', '', 'Community Aresa', 'ncs.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-379', 'Nakuru', 'County', '', 'Nakuru', '2780-20100 Nakuru', '', '', '722458086', '512214142', 'supplychainnakuru@gmail.com', '', 'Nakuru', 'www.nakuru.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-380', 'Lapsset Corridor Development Authority', 'State Corporation', '', 'Chester House, 2nd Floor', '45008-00100 Nairobi', '', 'Nairobi', '723836389', '202219098', 'dg@lapsset.go.ke', '', 'Chester House, 2nd Floor', 'www.lapsset.go.ke ', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-381', 'Thika Technical Training Institute', 'Public Colleges', '', 'Thika, Geberal Kago Road', 'P.O. Box 91 - 0100', '', '', '2.55E+11', '020-2044965', 'thikatech@gmail.com', '', 'Thika, Geberal Kago Road', 'www.thikatechnical.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-382', 'Keroka Technical Training Institute', 'Public Colleges', '', '0', '0', '', '', '+254 726985175', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-383', 'Youth', 'State Department', '', 'Kencom House, 3rd Floor', '30500-00100 Nairobi', '', '', '+254 722647341', '2227411', '', '', 'Kencom House, 3rd Floor', 'www.psyg.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-384', 'County Assembly Of Nakuru', 'County Assemblies', '', 'George Morara road', '0', '', '', '+254 702039155', '0', 'p.o box 907', '', 'George Morara road', 'www.assembly.nakuru.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-385', 'Baringo', 'County', '', 'KABARNET', '53-30400 KABARNET', '', '', '+254 724683470', '5321077', 'info@baringo.go.ke', '', 'KABARNET', 'WWW.baringo.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-386', 'Siaya', 'County', '', 'Siaya', 'Box 803-40600 Siaya', '', '', '722810037', '0', 'cs@siaya.go.ke', '', 'Siaya', 'www.siaya.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-387', 'Migori', 'County', '', '0', '0', '', '', '+254 711760725', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-388', 'County Assembly Of Nyamira', 'County Assemblies', '', 'Nyamira', '590-40500 Kisumu', '', '', '724668693', '0', 'info@nyamiraassembly.go.ke', '', 'Nyamira', 'www.nyamiraassembly.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-389', 'Meru', 'County', '', '0', '0', '', '', '+254 722 874546', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-390', 'Administration Police Service', 'State Department', '', '0', '0', '', '', '+254 723535975', '0', '', '', '0', 'www.interior.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-391', 'General Service Unit', 'State Department', '', 'Ruaraka', '49506-00100', '', '', '+254 723845895', '208563733', 'gsuheadquarters17@gmail.com', '', 'Ruaraka', '', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-392', 'Government Chemist', 'State Department', '', '0', '0', '', '', '+254 720470132', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-393', 'National Registration Bureau', 'State Department', '', '0', '0', '', '', '+254 700616325', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-394', 'Integrated Population Registration Services', 'State Department', '', '0', '0', '', '', '+254 721264817', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-395', 'NAtional Disaster Operation Centre', 'State Department', '', 'NYAYO HOUSE 3RD FLOOR', '37300-00100 ', '', '', '+254 722632940', '202151053', 'nationaldisaterops@yahoo.co.uk', '', 'NYAYO HOUSE 3RD FLOOR', 'http://www.interior.go.ke/', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-396', 'Civil Registration Service', 'State Department', '', 'Hass Plaza , Lower hill Road', '49179 - 00100', '', '', '+254 725759009', '2691109', 'procurementcrs@gmail.com', '', 'Hass Plaza , Lower hill Road', 'www.interior.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-397', 'Directorate of Criminal Investigation', 'State Department', '', 'Mazingira House, Kiambu Road', 'P.O Box 30036-00100  Nairobi', '', 'Nairobi', '+254 723951082', '20343312', '', '', 'Mazingira House, Kiambu Road', 'http://www.cid.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-398', 'Government Press', 'State Department', '', '0', '0', '', '', '+254 721585873', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-399', 'National Police Service', 'State Department', '', '0', '0', '', '', '+254 722530386', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-400', 'Kenya Pipeline Company retirement Benefits Scheme', 'Pension Schemes', '', '0', '0', '', '', '+254 706221242', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-401', 'Intergovernmental Relations Technical Committee', 'Semi-Autonomous Government Agencies', '', 'Parklands Plaza ,4th Floor Chiromo Lane', '44880-00100', '', '', '+254 720230888', '+2547(0)202101489', 'info@igrtc.go.ke', '', 'Parklands Plaza ,4th Floor Chiromo Lane', 'www.igrtc.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-402', 'Tana River', 'County', '', 'Hola', 'P.O. BOX 29-70101', '', '', '+254 721113377', '2.55E+11', 'info@tanariver.go.ke', '', 'Hola', 'www.tanariver.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-403', 'Kakamega County Water and Sanitation Company', 'Public Water Companies', '', 'Kenfico House, Off Kakamega - Kisumu Road', 'Box 1189-50100 ', '', 'Kakamega', '718626725', '056-2030355', 'kacwasco@gmail.com', '', 'Kenfico House, Off Kakamega - Kisumu Road', 'www.w.com', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-404', 'County Assembly Of Kajiado', 'County Assemblies', '', 'Kajiado Town-County Headquarter', '94-01100', '', '', '+254 711118826', '711429746', 'info@kajiadoassembly.go.ke', '', 'Kajiado Town-County Headquarter', 'N/A', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-405', 'Egerton University Investment Company', 'State Corporation', '', 'Njoro,Nakuru', '536-20115 ', '', 'EGERTON', '+254 727370288', '+254 700870648', 'euic@egerton.ac.ke', '', 'Njoro,Nakuru', 'N/A', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-406', 'County Assembly Of Nandi', 'County Assemblies', '', '0', '0', '', '', '+254 723813282', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-407', 'National Government Constituencies Development Fund Board', 'State Corporation', '', 'Harambee Plaza, 5th Floor', '46682-', '100', '', '2.55E+11', '709894000', 'info@ngcdf.go.ke', '', 'Harambee Plaza, 5th Floor', 'www.ngcdf.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-408', 'Mombasa', 'County', '', 'County Treasury, Treasury square. Assembly building.', '90440', '80100', 'Nairobi', '+254 716000030', '719000000', 'countyfinance@mombasa.go.ke', '', 'County Treasury, Treasury square. Assembly building.', 'www.mombasa.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-409', 'Kenya Police Service', 'State Department', '', 'Vigilance House', '30083', '', 'Nairobi', '+254 720398710', '020341411/6/8', 'info@kenyapolice.go.ke', '', 'Vigilance House', 'www.kenyapolice.go.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-410', 'The Nyeri National Polytechnic', 'Public Colleges', '', 'Mumbi Road, Nyeri', 'Box 456', '10100', 'Nyeri', '728221831', '612032330', 'info@thenyeripoly.ac.ke', '', 'Mumbi Road, Nyeri', 'www.thenyeripoly.ac.ke', 'Admin', '', '', '', 0, '', '', '', '', ''),
+	('PE-411', 'County Assembly Of Kilifi', 'County Assemblies', '', '0', '0', '', '', '+254 711 163 422', '0', '', '', '0', '\\N', 'Admin', '', '', '', 0, '', '', '', '', '');
+/*!40000 ALTER TABLE `table 94` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tempusers
 DROP TABLE IF EXISTS `tempusers`;
@@ -9052,18 +8908,11 @@ CREATE TABLE IF NOT EXISTS `tenderaddendums` (
   PRIMARY KEY (`ID`) USING BTREE,
   KEY `FK_TenderID` (`TenderID`),
   CONSTRAINT `FK_TenderID` FOREIGN KEY (`TenderID`) REFERENCES `tenders` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.tenderaddendums: ~6 rows (approximately)
+-- Dumping data for table arcm.tenderaddendums: ~0 rows (approximately)
 DELETE FROM `tenderaddendums`;
 /*!40000 ALTER TABLE `tenderaddendums` DISABLE KEYS */;
-INSERT INTO `tenderaddendums` (`ID`, `TenderID`, `ApplicantID`, `Description`, `StartDate`, `ClosingDate`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `AdendumNo`) VALUES
-	(1, 12, 0, 'CLARIFICATION FOLLOWING PRE-BID CONFERENCE', '2019-04-22 00:00:00', '2019-10-21 00:00:00', 'P0123456788X', '2019-11-11 15:48:54', NULL, NULL, 0, NULL, NULL, '1'),
-	(2, 18, 0, 'CLARIFICATION 02', '2019-11-06 00:00:00', '2019-11-12 00:00:00', 'P0123456788X', '2019-11-12 16:43:21', NULL, NULL, 0, NULL, NULL, '1'),
-	(3, 35, 0, 'PRE-BID CONFERENCE NOTES', '2019-10-17 00:00:00', '2019-10-01 00:00:00', 'P0123456788X', '2019-11-21 14:10:54', NULL, NULL, 0, NULL, NULL, '1'),
-	(4, 36, 0, 'ADDENDUM 01', '2019-09-18 00:00:00', '2019-12-01 00:00:00', 'P0123456788X', '2019-11-21 14:28:07', NULL, NULL, 0, NULL, NULL, '1'),
-	(5, 37, 0, 'ADDENDUM 01', '2019-09-18 00:00:00', '2019-11-14 00:00:00', 'P0123456788X', '2019-11-21 16:28:11', NULL, NULL, 0, NULL, NULL, '01'),
-	(6, 40, 0, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa', '2019-11-13 00:00:00', '2019-11-22 00:00:00', 'P123456879Q', '2019-11-22 11:17:11', NULL, NULL, 0, NULL, NULL, '1');
 /*!40000 ALTER TABLE `tenderaddendums` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tenders
@@ -9073,7 +8922,7 @@ CREATE TABLE IF NOT EXISTS `tenders` (
   `TenderNo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `PEID` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `TenderValue` float(255,0) DEFAULT 0,
+  `TenderValue` float(255,0) DEFAULT '0',
   `StartDate` datetime DEFAULT NULL,
   `ClosingDate` datetime DEFAULT NULL,
   `AwardDate` datetime DEFAULT NULL,
@@ -9093,37 +8942,11 @@ CREATE TABLE IF NOT EXISTS `tenders` (
   KEY `ID` (`ID`),
   KEY `FK_PEID` (`PEID`),
   CONSTRAINT `FK_PEID` FOREIGN KEY (`PEID`) REFERENCES `procuremententity` (`PEID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.tenders: ~25 rows (approximately)
+-- Dumping data for table arcm.tenders: ~0 rows (approximately)
 DELETE FROM `tenders`;
 /*!40000 ALTER TABLE `tenders` DISABLE KEYS */;
-INSERT INTO `tenders` (`ID`, `TenderNo`, `Name`, `PEID`, `TenderValue`, `StartDate`, `ClosingDate`, `AwardDate`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_At`, `Deleted_By`, `TenderType`, `TenderSubCategory`, `TenderCategory`, `Timer`) VALUES
-	(12, 'MOEST/ICT/02/2018-2019', 'DESIGN, DEVELOPMENT, TRAINING AND COMMISSIONING OF ONLINE EVENT TRACKING SYSTEM', 'PE-2', 5800000, '2019-04-12 00:00:00', '2019-04-12 00:00:00', '2019-11-11 00:00:00', 'P0123456788X', '2019-11-11 15:47:45', '2019-11-11 15:47:45', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(16, 'CGS/SCM/WENR/OT/18-19/081', 'TENDER FOR PROVISION OF COMPREHENSIVE MAINTENANCE SERVICE OF VARIABLE REFRIGERANT FLOW (VRF) AIR CONDITIONING SYSTEMS AT CENTRAL BANK OF KENYA, MOMBAS', 'PE-3', 0, '2019-10-29 00:00:00', '2019-10-29 00:00:00', '2019-11-12 00:00:00', 'P0123456788X', '2019-11-12 10:58:39', '2019-11-12 10:58:39', NULL, 0, NULL, NULL, 'B', 'Simple', 'Pre-qualification', 'Submited within 14 days'),
-	(17, 'UON/ICT/2019-2020', 'POS HARDWARE FOR UNES BOKKSHOP', 'PE-3', 2500000, '2019-11-12 00:00:00', '2019-11-12 00:00:00', '2019-11-05 00:00:00', 'P0123456788X', '2019-11-12 15:45:25', '2019-11-12 15:45:25', NULL, 0, NULL, NULL, 'A', 'Complex', 'Pre-qualification', 'Submited within 14 days'),
-	(18, 'MOE/VTT/ICT/2018-2019', 'TVET MIS SUPPORT', 'PE-2', 0, '2019-11-15 00:00:00', '2019-11-15 00:00:00', '2019-11-11 00:00:00', 'P0123456788X', '2019-11-12 16:42:14', '2019-11-12 16:42:14', NULL, 0, NULL, NULL, 'B', 'Complex', 'Pre-qualification', 'Submited within 14 days'),
-	(21, 'CGS/SCM/WENR/OT/18-19/081', 'PROPOSED ESTABLISHMENT OF TREE NURSERIES AND TREE SEEDLINGS IN UGUNJA', 'PE-3', 0, '2019-11-21 00:00:00', '2019-11-21 00:00:00', '2019-11-05 00:00:00', 'P0123456788X', '2019-11-13 11:14:12', '2019-11-13 11:14:12', NULL, 0, NULL, NULL, 'B', 'Medium', 'Unquantified Tenders', 'Submited within 14 days'),
-	(22, 'TNDE/0001/2019', 'and in addition to this if fou', 'PE-2', 1200000, '2019-11-13 00:00:00', '2019-11-13 00:00:00', '2019-11-13 00:00:00', 'P09875345W', '2019-11-13 17:04:41', '2019-11-13 17:04:41', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(23, 'TNDE/0001/2019', 'and in addition to this if fou', 'PE-2', 42000000, '2019-11-13 00:00:00', '2019-11-13 00:00:00', '2019-11-13 00:00:00', 'P09875345W', '2019-11-13 17:05:22', '2019-11-13 17:05:22', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(24, 'TNDE/0001/2019', 'and in addition to this if fou', 'PE-2', 102000000, '2019-11-13 00:00:00', '2019-11-13 00:00:00', '2019-11-13 00:00:00', 'P09875345W', '2019-11-13 17:05:54', '2019-11-13 17:05:54', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(25, 'TNDE/0001/2019', 'and in addition to this if fou', 'PE-2', 0, '2019-11-13 00:00:00', '2019-11-13 00:00:00', '2019-11-13 00:00:00', 'P09875345W', '2019-11-13 17:07:39', '2019-11-13 17:07:39', NULL, 0, NULL, NULL, 'B', 'Simple', 'Other Tenders', 'Submited within 14 days'),
-	(26, 'TNDE/0001/2019', 'and in addition to this if fou', 'PE-2', 0, '2019-11-13 00:00:00', '2019-11-13 00:00:00', '2019-11-13 00:00:00', 'P09875345W', '2019-11-13 17:08:00', '2019-11-13 17:08:00', NULL, 0, NULL, NULL, 'B', 'Simple', 'Other Tenders', 'Submited within 14 days'),
-	(27, 'TNDE/0001/2019', 'PROVISION OF SECURITY GUARDING SERVICES', 'PE-3', 0, '2019-11-01 00:00:00', '2019-11-01 00:00:00', '2019-11-20 00:00:00', 'P0123456788X', '2019-11-14 14:45:01', '2019-11-21 11:55:52', 'P0123456788X', 0, NULL, NULL, 'B', 'Simple', 'Unquantified Tenders', 'Submited within 14 days'),
-	(28, 'SDI/MISNG/004/2019-2020', 'LEASE OF MOTOR VEHICLES', 'PE-4', 1000000000, '2019-10-10 00:00:00', '2019-10-10 00:00:00', '2019-11-01 00:00:00', 'P123456879Q', '2019-11-15 10:55:16', '2019-11-15 10:55:16', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(29, 'TNDE/0001/2019', 'Tender test', 'PE-2', 120000, '2019-11-15 00:00:00', '2019-11-15 00:00:00', '2019-11-15 00:00:00', 'P0123456788X', '2019-11-15 11:49:58', '2019-11-15 11:49:58', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(30, 'TNDE/0001/2019', 'Tender of value more than 50M', 'PE-2', 2000000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P09875345W', '2019-11-20 10:47:42', '2019-11-20 10:47:42', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(31, 'TNDE/0001/2019', 'Tender of value more than 50M', 'PE-2', 2000000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P09875345W', '2019-11-20 10:51:53', '2019-11-20 10:51:53', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(32, 'TNDE/0001/2019', 'Tender of value more than 50M', 'PE-2', 2000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P09875345W', '2019-11-20 10:52:29', '2019-11-20 10:52:29', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(33, 'TNDE/0001/2019', 'Tender of value more than 50M', 'PE-2', 500000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P09875345W', '2019-11-20 10:52:50', '2019-11-20 10:52:50', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(34, 'TNDE/0001/2019', 'Tender of value more than 50M', 'PE-2', 50000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P09875345W', '2019-11-20 10:53:16', '2019-11-20 10:53:16', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(35, 'UON/ICT/2019-2020', 'DESIGN AND DEVELOPMENT OF STUDENT PORTAL\n', 'PE-1', 575000, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-11-18 00:00:00', 'P0123456788X', '2019-11-21 14:09:33', '2019-11-21 14:09:33', NULL, 0, NULL, NULL, 'A', '', '', 'Submited within 14 days'),
-	(36, 'MOE/PPRA/UAT/2019-2020', 'CONSULTANCY TO CARRYOUT PPRA UAT', 'PE-2', 785000, '2019-10-01 00:00:00', '2019-10-01 00:00:00', '2019-11-14 00:00:00', 'P0123456788X', '2019-11-21 14:27:18', '2019-11-21 14:27:18', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(37, 'MOE/PRA/UAT/01/2019-2020', 'PPRA ARCMS UAT 01', 'PE-2', 1000000000, '2019-10-03 00:00:00', '2019-10-03 00:00:00', '2019-11-14 00:00:00', 'P0123456788X', '2019-11-21 16:27:25', '2019-11-21 16:27:25', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(38, 'KAA/OT/JKIA/1343/2017-2018', 'Installation, Operation and Maintenance of an Automated Car Parking Management System at Jomo Kenyatta International Airport, Nairobi', 'PE-2', 0, '2019-11-21 00:00:00', '2019-11-21 00:00:00', '2019-11-21 00:00:00', 'P0123456788X', '2019-11-21 21:14:46', '2019-11-21 21:14:46', NULL, 0, NULL, NULL, 'B', NULL, 'Other Tenders', 'Submited within 14 days'),
-	(39, 'Tender 1', 'Tender 2', 'PE-2', 1000000, '2019-11-21 00:00:00', '2019-11-21 00:00:00', '2019-11-21 00:00:00', 'P0123456788X', '2019-11-21 21:39:44', '2019-11-21 21:39:44', NULL, 0, NULL, NULL, 'A', NULL, '', 'Submited within 14 days'),
-	(40, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa', 'PE-4', 500000000, '2019-11-21 00:00:00', '2019-11-21 00:00:00', '2019-11-22 00:00:00', 'P123456879Q', '2019-11-22 11:16:49', '2019-11-22 11:16:49', NULL, 0, NULL, NULL, 'A', NULL, 'Pre-qualification', 'Submited within 14 days'),
-	(41, 'TENDER/0001/2019/2020', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean', 'PE-4', 500000000, '2019-11-20 00:00:00', '2019-11-20 00:00:00', '2019-11-20 00:00:00', 'P123456879Q', '2019-11-22 11:26:40', '2019-11-22 11:32:55', 'P123456879Q', 0, NULL, NULL, 'A', NULL, 'Pre-qualification', 'Submited within 14 days');
 /*!40000 ALTER TABLE `tenders` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.tendertypes
@@ -9145,8 +8968,8 @@ CREATE TABLE IF NOT EXISTS `tendertypes` (
 DELETE FROM `tendertypes`;
 /*!40000 ALTER TABLE `tendertypes` DISABLE KEYS */;
 INSERT INTO `tendertypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
-	(1, 'A', 'Tenders of Ascertainable Value', '2019-10-22 15:25:51', 'Admin', '2019-10-22 15:25:51', 'Admin', 0, NULL),
-	(2, 'B', 'Tenders of Unascertainable Value', '2019-10-22 15:26:33', 'Admin', '2019-10-22 15:26:33', 'Admin', 0, NULL);
+	(1, 'A', 'Tenders of Ascertainable Value', '2019-12-05 13:45:55', 'Admin', '2019-12-05 13:45:55', 'Admin', 0, NULL),
+	(2, 'B', 'Tenders of Unascertainable Value', '2019-12-05 13:46:08', 'Admin', '2019-12-05 13:46:08', 'Admin', 0, NULL);
 /*!40000 ALTER TABLE `tendertypes` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.towns
@@ -10053,7 +9876,7 @@ INSERT INTO `towns` (`PostCode`, `Postoffice`, `Town`) VALUES
 -- Dumping structure for procedure arcm.TrackApplicationSequence
 DROP PROCEDURE IF EXISTS `TrackApplicationSequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `TrackApplicationSequence`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `TrackApplicationSequence`(IN _ApplicationNo varchar(50))
 BEGIN
 select * from applicationsequence where ApplicationNo=_ApplicationNo order by ID ASC;
 END//
@@ -10062,7 +9885,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UnBookVenue
 DROP PROCEDURE IF EXISTS `UnBookVenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UnBookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
+CREATE  PROCEDURE `UnBookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Unbooked Booked Venue:',_VenueID); 
@@ -10127,7 +9950,7 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `UpdateApprover`(IN _ID INT,IN `_Use
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
-set lSaleDesc= CONCAT('Updated Approver: '+ _Username +' for module: '+ _ModuleCode); 
+set lSaleDesc= CONCAT('Updated Approver for module: '+ _ModuleCode); 
 Update approvers set Username=_Username,ModuleCode=_ModuleCode ,Level=_Level, Update_at=now(),UpdatedBy=_UserID,Active=_Active
 where ID=_ID;
 call SaveAuditTrail(_userID,lSaleDesc,'UPDATE','0' );
@@ -10165,7 +9988,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateCaseOfficers
 DROP PROCEDURE IF EXISTS `UpdateCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `UpdateCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Updated Case Officer: ',_Username); 
@@ -10309,12 +10132,12 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateGroupRoles
 DROP PROCEDURE IF EXISTS `UpdateGroupRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateGroupRoles`(IN `_UserGroupID` BIGINT, IN `_RoleID` BIGINT, IN `_Status` BOOLEAN, IN `_Desc` VARCHAR(50), IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateGroupRoles`(IN `_UserGroupID` BIGINT, IN `_RoleID` BIGINT, IN `_Status` BOOLEAN, IN `_Desc` VARCHAR(50), IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
 if(SELECT count(*)  from groupaccess where UserGroupID=_UserGroupID and  RoleID=_RoleID)>0 THEN
-set lSaleDesc= CONCAT('Updated groupaccess  role'+_RoleID+' for userGroup: ', _UserGroupID ); 
+set lSaleDesc= CONCAT('Updated groupaccess  role for userGroup: ', _UserGroupID ); 
 
 BEGIN
 if(_Desc ='Create')THEN
@@ -10439,13 +10262,13 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Updatejudicialreview
 DROP PROCEDURE IF EXISTS `Updatejudicialreview`;
 DELIMITER //
-CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Updatejudicialreview`(IN _ApplicationNo VARCHAR(50), IN _DateofCourtRulling DATE, IN _CaseNO VARCHAR(100), IN _DateofReplyingAffidavit DATE, IN _Ruling VARCHAR(150), IN _userID VARCHAR(50), IN _Status VARCHAR(50))
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Updatejudicialreview`(IN _ApplicationNo VARCHAR(50), IN _DateofCourtRulling DATE, IN _CaseNO VARCHAR(100), IN _userID VARCHAR(50), IN _Status VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Updated Judicial Review  ApplicationNo:',_ApplicationNo); 
 Update judicialreview set
-  DateofReplyingAffidavit=_DateofReplyingAffidavit,DateofCourtRulling=_DateofCourtRulling,Ruling=_Ruling,Status=_Status
+ DateofCourtRulling=_DateofCourtRulling,Status=_Status
   Where ApplicationNo=_ApplicationNo and CaseNO=_CaseNO;
 call Saveapplicationsequence(_ApplicationNo,'Judicial Review Closed','Judicial Review Closed',_userID); 
 call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
@@ -10473,7 +10296,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Updatepassword
 DROP PROCEDURE IF EXISTS `Updatepassword`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Updatepassword`(IN _Password VARCHAR(128), IN _Username VARCHAR(50))
+CREATE  PROCEDURE `Updatepassword`(IN _Password VARCHAR(128), IN _Username VARCHAR(50))
 BEGIN
 Update users set `Password`=_Password Where Username=_Username;
 END//
@@ -10514,7 +10337,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdatePEResponseDetails
 DROP PROCEDURE IF EXISTS `UpdatePEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePEResponseDetails`(IN _GroundNo VARCHAR(50), IN _GroundType VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50), IN _PEResponseID INT)
+CREATE  PROCEDURE `UpdatePEResponseDetails`(IN _GroundNo VARCHAR(50), IN _GroundType VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50), IN _PEResponseID INT)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -10538,7 +10361,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdatePEResponseStatus
 DROP PROCEDURE IF EXISTS `UpdatePEResponseStatus`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePEResponseStatus`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `UpdatePEResponseStatus`(IN _ApplicationNo VARCHAR(50))
 BEGIN
   
 Update peresponsetimer set Status='Awaiting Response' where ApplicationNo=_ApplicationNo;
@@ -10596,7 +10419,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateProfile
 DROP PROCEDURE IF EXISTS `UpdateProfile`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateProfile`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _phone VARCHAR(20), IN _Photo VARCHAR(100), IN _username VARCHAR(50))
+CREATE  PROCEDURE `UpdateProfile`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _phone VARCHAR(20), IN _Photo VARCHAR(100), IN _username VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10628,15 +10451,50 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateRoles
 DROP PROCEDURE IF EXISTS `UpdateRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRoles`(IN `_RoleName` VARCHAR(128), IN `__RoleDescription` VARCHAR(128), IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateRoles`(IN `_RoleName` VARCHAR(128), IN `__RoleDescription` VARCHAR(128), IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
-set lSaleDesc= CONCAT('Updated Role with iD: ', _RoleID ,'and name:' ,_RoleName); 
+set lSaleDesc= CONCAT('Updated Role  name:' ,_RoleName); 
 UPDATE roles set RoleName=_RoleName, RoleDescription=__RoleDescription, UpdatedAt=now() ,UpdateBy=_userID
 Where RoleID=_RoleID;
 call SaveAuditTrail(_userID,lSaleDesc,'Update','0' );
 End//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.UpdateSentjudicialreviewUpdate
+DROP PROCEDURE IF EXISTS `UpdateSentjudicialreviewUpdate`;
+DELIMITER //
+CREATE  PROCEDURE `UpdateSentjudicialreviewUpdate`()
+BEGIN
+update judicialreviewdocuments set ActionSent='Yes';
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.UpdateSMSDetails
+DROP PROCEDURE IF EXISTS `UpdateSMSDetails`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `UpdateSMSDetails`(IN _SenderID VARCHAR(100), IN _UserName VARCHAR(50), IN _URL VARCHAR(200), IN _Key VARCHAR(50),IN _userID VARCHAR(50))
+    NO SQL
+BEGIN
+
+Update  smsdetails  set 
+  SenderID=_SenderID , UserName=_UserName,URL=_URL,`Key`=_Key;
+call SaveAuditTrail(_userID,'Updated sms details','Update','0' );
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure arcm.Updatesmtpdetails
+DROP PROCEDURE IF EXISTS `Updatesmtpdetails`;
+DELIMITER //
+CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `Updatesmtpdetails`(IN _Host VARCHAR(100), IN _Port VARCHAR(50), IN _Sender VARCHAR(200),IN _Password VARCHAR(200),IN _userID VARCHAR(50))
+    NO SQL
+BEGIN
+
+Update  smtpdetails  set 
+  Host=_Host , Port=_Port,Sender=_Sender,Password=_Password;
+call SaveAuditTrail(_userID,'Updated smtp details','Update','0' );
+END//
 DELIMITER ;
 
 -- Dumping structure for procedure arcm.Updatestdtenderdocs
@@ -10708,7 +10566,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUser
 DROP PROCEDURE IF EXISTS `UpdateUser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUser`(IN _Name VARCHAR(128), IN _Email VARCHAR(128), IN _UserGroup BIGINT, IN _username VARCHAR(50), IN _IsActive BOOLEAN, IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IDnumber INT, IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _Board Boolean)
+CREATE  PROCEDURE `UpdateUser`(IN _Name VARCHAR(128), IN _Email VARCHAR(128), IN _UserGroup BIGINT, IN _username VARCHAR(50), IN _IsActive BOOLEAN, IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _Board BOOLEAN)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10724,7 +10582,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUserAccess
 DROP PROCEDURE IF EXISTS `UpdateUserAccess`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUserAccess`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Desc` VARCHAR(50), IN `_Status` BOOLEAN, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateUserAccess`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Desc` VARCHAR(50), IN `_Status` BOOLEAN, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 		DECLARE lSaleDesc varchar(200);
@@ -10849,7 +10707,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUserGroup
 DROP PROCEDURE IF EXISTS `UpdateUserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10864,7 +10722,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Updatevenues
 DROP PROCEDURE IF EXISTS `Updatevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Updatevenues`(IN _ID int,in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
+CREATE  PROCEDURE `Updatevenues`(IN _ID int,in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Updated  Venue with ID: ', _ID); 
@@ -10896,50 +10754,10 @@ CREATE TABLE IF NOT EXISTS `useraccess` (
   CONSTRAINT `useraccess_ibfk_3` FOREIGN KEY (`UpdateBy`) REFERENCES `users` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.useraccess: ~463 rows (approximately)
+-- Dumping data for table arcm.useraccess: ~229 rows (approximately)
 DELETE FROM `useraccess`;
 /*!40000 ALTER TABLE `useraccess` DISABLE KEYS */;
 INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`) VALUES
-	('A123456789U', 26, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 32, 1, 1, 0, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 33, 0, 0, 0, 0, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 36, 1, 1, 0, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 38, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 40, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 41, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 42, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 43, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 44, 1, 1, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 45, 1, 1, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 47, 1, 0, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 50, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 51, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 55, 0, 0, 0, 1, 0, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 56, 1, 0, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 57, 1, 1, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 58, 1, 1, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789U', 62, 1, 1, 1, 1, 1, NULL, 'A123456789U', '2019-11-12 13:41:58', NULL),
-	('A123456789X', 26, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 32, 1, 1, 0, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 33, 0, 0, 0, 0, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 36, 1, 1, 0, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 38, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 40, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 41, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 42, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 43, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 44, 1, 1, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 45, 1, 1, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 47, 1, 0, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 50, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 51, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 55, 0, 0, 0, 1, 0, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 56, 1, 0, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 57, 1, 1, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 58, 1, 1, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 62, 1, 1, 1, 1, 1, NULL, 'A123456789X', '2019-11-11 16:26:50', NULL),
-	('A123456789X', 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:11:44', '2019-11-21 16:11:44'),
-	('A123456789X', 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:11:45', '2019-11-21 16:11:45'),
 	('Admin', 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 15:18:25', '2019-08-09 16:01:32'),
 	('Admin', 18, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 15:18:24', '2019-08-09 15:38:47'),
 	('Admin', 19, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-07-26 15:18:23', '2019-08-09 18:09:49'),
@@ -11004,158 +10822,10 @@ INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `Vie
 	('Admin', 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-19 15:09:59', '2019-11-19 15:10:03'),
 	('Admin', 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:57', '2019-11-21 16:08:02'),
 	('Admin', 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-21 16:07:57', '2019-11-21 16:08:03'),
-	('CASEOFFICER01', 24, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 25, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 26, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 27, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 33, 0, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 35, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 36, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 37, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 38, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 39, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 40, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 42, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 43, 0, 0, 0, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 44, 0, 1, 0, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 45, 0, 1, 0, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 46, 1, 1, 0, 0, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 47, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 48, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 49, 0, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 50, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 51, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 52, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 53, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 54, 1, 1, 1, 1, 1, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 55, 0, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 56, 0, 1, 0, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 57, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 58, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 59, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 60, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 61, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 62, 0, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 63, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('CASEOFFICER01', 64, 1, 1, 1, 1, 0, 'PPRA01', 'PPRA01', '2019-11-11 15:34:20', '2019-11-11 15:34:20'),
-	('P0000000001', 26, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 32, 1, 1, 0, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 33, 0, 0, 0, 0, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 36, 1, 1, 0, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 38, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 40, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 41, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 42, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 43, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 44, 1, 1, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 45, 1, 1, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 47, 1, 0, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 50, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 51, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 55, 0, 0, 0, 1, 0, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 56, 1, 0, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 57, 1, 1, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 58, 1, 1, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0000000001', 62, 1, 1, 1, 1, 1, NULL, 'P0000000001', '2019-11-21 11:31:03', NULL),
-	('P0123456788X', 26, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 32, 1, 1, 0, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 33, 0, 0, 0, 0, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 36, 1, 1, 0, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 38, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 40, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 41, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 42, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 43, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 44, 1, 1, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 45, 1, 1, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 47, 1, 0, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 50, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 51, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 55, 0, 0, 0, 1, 0, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 56, 1, 0, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 57, 1, 1, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 58, 1, 1, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 62, 1, 1, 1, 1, 1, NULL, 'P0123456788X', '2019-11-11 15:41:19', NULL),
-	('P0123456788X', 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:11:01', '2019-11-21 16:11:01'),
-	('P0123456788X', 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-21 16:11:02', '2019-11-21 16:11:02'),
-	('P09875345W', 26, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 32, 1, 1, 0, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 33, 0, 0, 0, 0, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 36, 1, 1, 0, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 38, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 40, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 41, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 42, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 43, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 44, 1, 1, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 45, 1, 1, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 47, 1, 0, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 50, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 51, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 55, 0, 0, 0, 1, 0, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 56, 1, 0, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 57, 1, 1, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 58, 1, 1, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P09875345W', 62, 1, 1, 1, 1, 1, NULL, 'P09875345W', '2019-11-13 14:56:01', NULL),
-	('P121212121L', 26, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 32, 1, 1, 0, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 33, 0, 0, 0, 0, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 36, 1, 1, 0, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 38, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 40, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 41, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 42, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 43, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 44, 1, 1, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 45, 1, 1, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 47, 1, 0, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 50, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 51, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 55, 0, 0, 0, 1, 0, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 56, 1, 0, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 57, 1, 1, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 58, 1, 1, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P121212121L', 62, 1, 1, 1, 1, 1, NULL, 'P121212121L', '2019-11-15 12:12:49', NULL),
-	('P123456879Q', 26, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 32, 1, 1, 0, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 33, 0, 0, 0, 0, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 36, 1, 1, 0, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 38, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 40, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 41, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 42, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 43, 0, 0, 0, 1, 0, 'Admin', 'P123456879Q', '2019-11-15 10:39:06', '2019-11-22 10:57:25'),
-	('P123456879Q', 44, 1, 1, 1, 1, 0, 'Admin', 'P123456879Q', '2019-11-15 10:39:06', '2019-11-22 10:54:28'),
-	('P123456879Q', 45, 1, 1, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 47, 1, 0, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 50, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 51, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 55, 0, 0, 0, 1, 0, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 56, 1, 0, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 57, 1, 1, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 58, 1, 1, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 62, 1, 1, 1, 1, 1, NULL, 'P123456879Q', '2019-11-15 10:39:06', NULL),
-	('P123456879Q', 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-22 10:54:21', '2019-11-22 10:54:21'),
-	('P123456879Q', 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-22 10:54:22', '2019-11-22 10:54:22'),
-	('P65498745R', 26, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 32, 1, 1, 0, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 33, 0, 0, 0, 0, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 36, 1, 1, 0, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 38, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 40, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 41, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 42, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 43, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 44, 1, 1, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 45, 1, 1, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 47, 1, 0, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 50, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 51, 0, 0, 1, 1, 0, 'Admin', 'P65498745R', '2019-11-15 11:46:48', '2019-11-22 11:03:34'),
-	('P65498745R', 55, 0, 0, 0, 1, 0, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 56, 1, 0, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 57, 1, 1, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 58, 1, 1, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
-	('P65498745R', 62, 1, 1, 1, 1, 1, NULL, 'P65498745R', '2019-11-15 11:46:48', NULL),
+	('Admin', 81, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-26 14:53:00', '2019-11-26 14:53:03'),
+	('Admin', 82, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-27 16:57:20', '2019-11-27 16:57:22'),
+	('Admin', 83, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:10:13', '2019-12-05 12:10:15'),
+	('Admin', 84, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:23:41', '2019-12-05 12:23:43'),
 	('pkiprop', 24, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 10:38:19', '2019-11-15 10:38:19'),
 	('pkiprop', 25, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 10:38:19', '2019-11-15 10:38:19'),
 	('pkiprop', 26, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 10:38:19', '2019-11-15 10:38:19'),
@@ -11228,54 +10898,6 @@ INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `Vie
 	('Pokumu', 62, 0, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-15 10:28:49', '2019-11-15 10:28:49'),
 	('Pokumu', 63, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-15 10:28:49', '2019-11-15 10:28:49'),
 	('Pokumu', 64, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-15 10:28:49', '2019-11-15 10:28:49'),
-	('PPRA01', 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 18, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 19, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 20, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 21, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 22, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 23, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 24, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 25, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 26, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 27, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 28, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 29, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 30, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 31, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 32, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 33, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 34, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 35, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 36, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 37, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 38, 1, 1, 1, 1, 0, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 39, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 40, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 41, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 42, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 43, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 46, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 47, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 48, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 49, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 50, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 51, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 52, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 53, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 54, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 55, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 56, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 59, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 60, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 61, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 63, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
-	('PPRA01', 64, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-11-11 15:19:43', '2019-11-11 15:19:43'),
 	('smiheso', 24, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 12:41:09', '2019-11-15 12:41:09'),
 	('smiheso', 25, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 12:41:09', '2019-11-15 12:41:09'),
 	('smiheso', 26, 1, 1, 1, 1, 1, 'SOdhiambo', 'SOdhiambo', '2019-11-15 12:41:09', '2019-11-15 12:41:09'),
@@ -11419,7 +11041,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Gender` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DOB` datetime DEFAULT NULL,
   `ChangePassword` tinyint(1) DEFAULT NULL,
-  `Board` tinyint(1) NOT NULL DEFAULT 0,
+  `Board` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Username`),
   UNIQUE KEY `Username` (`Username`),
   UNIQUE KEY `Email` (`Email`),
@@ -11428,23 +11050,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `users_ibfk_1` (`UserGroupID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.users: ~15 rows (approximately)
+-- Dumping data for table arcm.users: ~5 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`Name`, `Username`, `Email`, `Password`, `Phone`, `Create_at`, `Update_at`, `Login_at`, `Deleted`, `IsActive`, `IsEmailverified`, `ActivationCode`, `ResetPassword`, `UserGroupID`, `CreatedBy`, `UpdatedBy`, `Photo`, `Category`, `Signature`, `IDnumber`, `Gender`, `DOB`, `ChangePassword`, `Board`) VALUES
-	('University of Nairobi', 'A123456789U', 'kserem20@gmail.com', '$2b$10$/xdWc9xaT227CFc8yXK3XuLCPat.kpSL63We0nrSQOxsKhhB/HY4G', '0700392599', '2019-11-12 13:41:58', NULL, NULL, 0, 1, 1, 'lXkDW', NULL, 8, 'A123456789U', NULL, 'default.png', 'PE', NULL, 'A123456789U', NULL, '2019-09-01 00:00:00', 0, 0),
-	('MINISTRY OF EDUCATION', 'A123456789X', 'elviskimcheruiyot@gmail.com', '$2b$10$wnGcZGX.rgUqB1lEVU2kleMogBMyQkHwc7cesgoGFIHa3mccBSs0e', '0701102928', '2019-11-11 16:26:50', NULL, NULL, 0, 1, 1, 'Xz1rd', NULL, 8, 'A123456789X', NULL, 'default.png', 'PE', NULL, 'A123456789X', NULL, '1963-12-12 00:00:00', 0, 0),
-	('Elvis kimutai', 'Admin', 'elviskcheruiyot@gmail.com', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '0705555285', '2019-07-12 15:50:56', '2019-11-11 15:11:28', '2019-07-12 15:50:56', 0, 1, 1, 'QDrts', '', 1, 'kim', 'Admin', '1573655832969-download.jpg', 'System_User', '1565251011001-signature.jpg', '31547833', 'Male', '1994-12-31 00:00:00', NULL, 1),
-	('CASE OFFICER', 'CASEOFFICER01', 'cmkikungu@gmail.com', '$2b$10$MegCaKC18v.FC4MQTkZA0uqQzQJni2lcnXAUOm4wLXGigzOn47hs6', '070110292812', '2019-11-11 15:34:20', NULL, NULL, 0, 1, 1, '0c3R5', NULL, 9, 'PPRA01', NULL, 'default.png', 'System_User', '', '23456789', 'Male', '2019-10-28 00:00:00', 1, 1),
-	('KENYA POLICE SERVICE', 'P0000000001', 'sales@Wilcom.co.ke', '$2b$10$K6bemATl6bhF8aIzhrt7AOMxyjN1OOZiboWaaAXlbTt.vdNOIfgnG', '0766944664', '2019-11-21 11:31:03', NULL, NULL, 0, 0, 0, 'AXwwC', NULL, 8, 'P0000000001', NULL, 'default.png', 'PE', NULL, 'P0000000001', NULL, '1963-12-12 00:00:00', 0, 0),
-	('JAMES SUPPLIERS LTD', 'P0123456788X', 'KEREBEI@HOTMAIL.COM', '$2b$10$xlt0b6DmhvHrO1XrmLjp9O78NkSjzo40Dcs1vc07BANYUpXdtaBbe', '07184030861', '2019-11-11 15:41:19', '2019-11-21 11:52:42', NULL, 0, 1, 1, 'AymPi', NULL, 8, 'P0123456788X', 'P0123456788X', '1574337159446-Kerebei PP Photo.jpg', 'Applicant', NULL, 'P0123456788X', NULL, '2000-12-08 00:00:00', 0, 0),
-	('APPLICANT LTD', 'P09875345W', 'info@wilcom.co.ke', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '0722114567', '2019-11-13 14:56:01', NULL, NULL, 0, 1, 1, 'l7XVZ', NULL, 8, 'P09875345W', NULL, 'default.png', 'Applicant', NULL, 'P09875345W', NULL, '2019-10-01 00:00:00', 1, 0),
-	('ECTA KENYA LIMITED', 'P121212121L', 'pjokumu@hotmail.com', '$2b$10$SdLj45h5bK7eqsLEz3LpTu95mIaGygUjTODe.ATYDFMeh89b0dyxK', '0734479491', '2019-11-15 12:12:49', NULL, NULL, 0, 0, 0, 'wfLdf', NULL, 8, 'P121212121L', NULL, 'default.png', 'Applicant', NULL, 'P121212121L', NULL, '2014-10-10 00:00:00', 1, 0),
-	('CMC MOTORS CORPORATION', 'P123456879Q', 'judiejuma@gmail.com', '$2b$10$W1Z/ojsrv9vvHjZ7.WB5UOlRxhIUrsFrpISvjV3Nb0sPXjfKymDQO', '0705128595', '2019-11-15 10:39:06', NULL, NULL, 0, 1, 1, 'x1RNQ', NULL, 8, 'P123456879Q', NULL, 'default.png', 'Applicant', NULL, 'P123456879Q', NULL, '1980-08-12 00:00:00', 0, 0),
-	('STATE DEPARTMENT OF INTERIOR ', 'P65498745R', 'judyjay879@gmail.com', '$2b$10$gO.U6rOmx94CG.xF8dZJcea0P8BBAdvFtLUg31Y4h8VQjLr2LR3JS', '0718403086', '2019-11-15 11:46:48', NULL, NULL, 0, 1, 1, '8cj9S', NULL, 8, 'P65498745R', NULL, 'default.png', 'PE', NULL, 'P65498745R', NULL, '1963-12-12 00:00:00', 1, 0),
+	('Elvis kimutai', 'Admin', 'elviskcheruiyot@gmail.com', '$2b$10$W5YQ2FfNM3pc7poT7Blpz.Rws/nb6zHPo88EU0C1O0BEIWbrssWH6', '0705555285', '2019-07-12 15:50:56', '2019-11-26 14:56:57', '2019-07-12 15:50:56', 0, 1, 1, 'QDrts', '', 1, 'kim', 'Admin', '1573655832969-download.jpg', 'System_User', '1565251011001-signature.jpg', '31547833', 'Male', '1994-12-31 00:00:00', NULL, 1),
 	('Philemon Kiprop', 'pkiprop', 'philchem2009@gmail.com', '$2b$10$2vVCH1AbRn3gRUaNcsFzIeEO2bmSw9aGRDBwRiqC91a/JEDeb6sQu', '0722955458', '2019-11-15 10:38:19', NULL, NULL, 0, 1, 0, 'Zhvpe', NULL, 9, 'SOdhiambo', NULL, 'default.png', 'System_User', '', '123456', 'Male', '2019-11-15 00:00:00', 1, 0),
 	('Philip Okumu', 'Pokumu', 'okumupj@yahoo.com', '$2b$10$zy83GCav50YXdXDIGr1uq.q3eNTGdRQWFc0CJfqY1VI63xbDMfDnq', '0720768894', '2019-11-15 10:28:49', '2019-11-15 10:29:46', NULL, 0, 1, 1, 'MwEe2', NULL, 9, 'Admin', 'Admin', 'default.png', 'System_User', '', '10811856', 'Male', '1970-01-01 00:00:00', 1, 0),
-	('WILSON B. KEREBEI', 'PPRA01', 'wkerebei@gmail.com', '$2b$10$ICLCDuzBJpmhS5msvd1KwOTbg8NmbaZlEg62iHOhwLzhPWQg9P.pC', '07227194121', '2019-11-11 15:19:43', '2019-11-11 15:22:14', NULL, 0, 1, 1, 'tyCON', NULL, 1, 'Admin', 'PPRA01', '1573485732625-IMG_20190705_162423_7.jpg', 'System_User', '', '123456789', 'Male', '1980-12-12 00:00:00', 1, 1),
 	('Stanley Miheso', 'smiheso', 'mihesosc@yahoo.com', '$2b$10$.2VIwiMBs4xGuPrwdp7IOupE0YK1FExuQ3fFuxQOT8Weh7zYLtCHK', '0722607127', '2019-11-15 12:41:09', '2019-11-15 12:49:31', NULL, 0, 1, 1, 'SQFjZ', NULL, 9, 'SOdhiambo', 'SOdhiambo', 'default.png', 'System_User', '', '9136339', 'Male', '2004-09-07 00:00:00', 1, 1),
 	('Samson Odhiambo', 'SOdhiambo', 'x2press@gmail.com', '$2b$10$IVW/TndrqUkbsuh3AhxCqeRrbetmP.TZyXRTZylbMsZjNDLfJScjK', '0721382630', '2019-11-15 10:24:58', '2019-11-15 10:30:18', NULL, 0, 1, 1, 'GbO8J', NULL, 1, 'Admin', 'SOdhiambo', 'default.png', 'System_User', '', '20566933', 'Male', '1983-01-01 00:00:00', 1, 1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
@@ -11459,50 +11071,13 @@ CREATE TABLE IF NOT EXISTS `venuebookings` (
   `Booked_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Content` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Booked_On` datetime DEFAULT NULL,
-  `Deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.venuebookings: ~36 rows (approximately)
+-- Dumping data for table arcm.venuebookings: ~0 rows (approximately)
 DELETE FROM `venuebookings`;
 /*!40000 ALTER TABLE `venuebookings` DISABLE KEYS */;
-INSERT INTO `venuebookings` (`ID`, `VenueID`, `Date`, `Slot`, `Booked_By`, `Content`, `Booked_On`, `Deleted`) VALUES
-	(1, 6, '2019-11-14', '8.00AM', 'Admin', '17 OF 2019', '2019-11-14 16:30:51', 0),
-	(2, 6, '2019-11-14', '8.00AM', 'Admin', '17 OF 2019', '2019-11-14 16:33:49', 0),
-	(3, 6, '2019-11-18', '2.00PM', 'Admin', '18 OF 2019', '2019-11-15 12:34:32', 0),
-	(4, 6, '2019-11-18', '3.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:34:32', 0),
-	(5, 6, '2019-11-18', '5.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:34:32', 0),
-	(6, 6, '2019-11-18', '4.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:34:32', 0),
-	(7, 6, '2019-11-15', '1.00PM', 'Admin', '18 OF 2019', '2019-11-15 12:46:03', 1),
-	(8, 6, '2019-11-15', '2.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:46:03', 0),
-	(9, 6, '2019-11-15', '3.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:58:22', 0),
-	(10, 6, '2019-11-15', '2.00PM', 'Admin', '18 OF 2019', '2019-11-15 12:58:22', 0),
-	(11, 6, '2019-11-15', '4.00AM', 'Admin', '18 OF 2019', '2019-11-15 12:58:23', 0),
-	(12, 5, '2019-11-16', '10.00AM', 'Admin', '17 OF 2019', '2019-11-16 10:10:57', 0),
-	(13, 5, '2019-11-17', '8.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:11:41', 1),
-	(14, 5, '2019-11-17', '9.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:09', 1),
-	(15, 5, '2019-11-17', '9.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:17', 0),
-	(16, 5, '2019-11-17', '8.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:25', 0),
-	(17, 5, '2019-11-17', '10.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:41', 0),
-	(18, 5, '2019-11-17', '11.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:41', 1),
-	(19, 5, '2019-11-17', '11.00AM', 'Admin', '16 OF 2019', '2019-11-17 12:13:48', 0),
-	(20, 5, '2019-11-20', '8.00AM', 'Admin', '16 OF 2019', '2019-11-20 11:05:28', 1),
-	(21, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:24:53', 1),
-	(22, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:25:50', 1),
-	(23, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:28:18', 1),
-	(24, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:35:54', 1),
-	(25, 5, '2019-11-20', '8.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:36:01', 0),
-	(26, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:53:30', 1),
-	(27, 5, '2019-11-20', '9.00AM', 'Admin', '12 OF 2019', '2019-11-20 12:57:14', 0),
-	(28, 5, '2019-11-20', '10.00AM', 'Admin', '12 OF 2019', '2019-11-20 13:42:23', 1),
-	(29, 5, '2019-11-20', '10.00AM', 'Admin', '12 OF 2019', '2019-11-20 13:44:24', 1),
-	(30, 5, '2019-11-20', '10.00AM', 'Admin', '12 OF 2019', '2019-11-20 13:45:47', 0),
-	(31, 5, '2019-11-20', '11.00AM', 'Admin', '20 OF 2019', '2019-11-20 15:50:16', 0),
-	(32, 6, '2019-11-25', '9.00AM', 'Admin', '23 OF 2019', '2019-11-21 18:28:52', 0),
-	(33, 6, '2019-11-21', '9.00AM', 'Admin', '23 OF 2019', '2019-11-21 18:30:33', 0),
-	(34, 8, '2019-11-22', '2.00PM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0),
-	(35, 8, '2019-11-22', '4.00AM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0),
-	(36, 8, '2019-11-22', '3.00AM', 'Admin', '29 OF 2019', '2019-11-22 13:17:19', 0);
 /*!40000 ALTER TABLE `venuebookings` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.venues
@@ -11518,20 +11093,11 @@ CREATE TABLE IF NOT EXISTS `venues` (
   `Updated_At` datetime DEFAULT NULL,
   `Updated_By` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`,`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.venues: ~8 rows (approximately)
+-- Dumping data for table arcm.venues: ~0 rows (approximately)
 DELETE FROM `venues`;
 /*!40000 ALTER TABLE `venues` DISABLE KEYS */;
-INSERT INTO `venues` (`ID`, `Name`, `Branch`, `Description`, `Deleted`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`) VALUES
-	(1, 'Board room 1', 0, 'Board room 1 Updated', 1, '2019-09-11 10:49:34', 'Admin', '2019-09-11 10:58:15', 'Admin'),
-	(2, 'Board Room1', 0, '10th Floor', 0, '2019-09-11 14:47:48', 'Admin', NULL, NULL),
-	(3, 'Board Room 1', 15, 'Room 1', 1, '2019-09-18 10:51:37', 'Admin', NULL, NULL),
-	(4, 'Room 1', 14, 'Main Board room', 0, '2019-09-18 10:52:47', 'Admin', '2019-10-04 10:13:26', 'Admin'),
-	(5, 'Room 1', 12, 'Room 1', 0, '2019-09-18 14:34:26', 'Admin', NULL, NULL),
-	(6, 'Room 1', 15, 'Room 1', 0, '2019-09-18 14:34:33', 'Admin', NULL, NULL),
-	(7, 'Room2', 14, 'Room2', 0, '2019-09-18 16:53:06', 'Admin', NULL, NULL),
-	(8, 'DC\'s Office', 16, 'Kitale', 0, '2019-11-22 13:11:44', 'Admin', NULL, NULL);
 /*!40000 ALTER TABLE `venues` ENABLE KEYS */;
 
 -- Dumping structure for trigger arcm.OnSave
