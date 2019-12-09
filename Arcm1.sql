@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `applicants` (
   KEY `financialyear_ibfk_2` (`Updated_By`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.applicants: ~1 rows (approximately)
+-- Dumping data for table arcm.applicants: ~0 rows (approximately)
 DELETE FROM `applicants`;
 /*!40000 ALTER TABLE `applicants` DISABLE KEYS */;
 INSERT INTO `applicants` (`ID`, `ApplicantCode`, `Name`, `PEType`, `County`, `Location`, `POBox`, `PostalCode`, `Town`, `Mobile`, `Telephone`, `Email`, `Logo`, `Website`, `Created_By`, `Created_At`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`, `Deleted_At`, `RegistrationDate`, `PIN`, `RegistrationNo`) VALUES
@@ -961,8 +961,9 @@ CREATE  PROCEDURE `ApprovePanelMember`(IN _ApplicationNo VARCHAR(50),  IN _UserN
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Approved  PanelMember:', _UserName); 
-  update Panels set Status='Approved' where ApplicationNo=_ApplicationNo and UserName=_UserName; 
-  update panelsapprovalworkflow  set Status='Approved',Approver=_UserID, Approved_At=now() where ApplicationNo=_ApplicationNo and UserName=_UserName and Status='Pending Approval';
+  update panels set Status='Approved' where ApplicationNo=_ApplicationNo and UserName=_UserName; 
+  update panelsapprovalworkflow  set Status='Approved',Approver=_UserID, Approved_At=now() 
+  where ApplicationNo=_ApplicationNo and UserName=_UserName and Status='Pending Approval';
   call SaveAuditTrail(_userID,lSaleDesc,'Approval','0' );
 END//
 DELIMITER ;
@@ -2799,7 +2800,7 @@ Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, Creat
   Confidential ,
   SubmitedBy 
   from
-  additionalsubmissionDocuments where Deleted=0 and ApplicationID=_ApplicationID ;
+  additionalsubmissiondocuments where Deleted=0 and ApplicationID=_ApplicationID ;
 
 END//
 DELIMITER ;
@@ -2833,7 +2834,7 @@ CREATE  PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
 select * from adjournment where _UserID 
   in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) and 
-  ApplicationNo not in (Select ApplicationNo from adjournmentApprovalWorkFlow where Status='Approved'  and Approver=_UserID)  
+  ApplicationNo not in (Select ApplicationNo from  adjournmentapprovalworkflow where Status='Approved'  and Approver=_UserID)  
   and Status='Pending Approval';
 END//
 DELIMITER ;
@@ -3525,8 +3526,8 @@ DROP PROCEDURE IF EXISTS `getCaseWithdrawalPendingApproval`;
 DELIMITER //
 CREATE  PROCEDURE `getCaseWithdrawalPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
-select * from caseWithdrawal where _UserID in (select Username from approvers WHERE ModuleCode='WIOAP' and Deleted=0 and Active=1)
-  and caseWithdrawal.ApplicationNo not in (select ApplicationNo from casewithdrawalapprovalworkflow where Approver=_UserID )
+select * from casewithdrawal where _UserID in (select Username from approvers WHERE ModuleCode='WIOAP' and Deleted=0 and Active=1)
+  and casewithdrawal.ApplicationNo not in (select ApplicationNo from casewithdrawal where Approver=_UserID )
   and status='Pending Approval';
 END//
 DELIMITER ;
@@ -5059,7 +5060,7 @@ CREATE  PROCEDURE `GetvenuesPerBranch`(IN _Branch int)
 BEGIN
  
   Select venues.ID,  venues.ID,branches.Description as branch,  venues.Name,venues.Description 
-  from venues inner join branches on branches.ID=venues.Branch where Venues.deleted=0 and venues.Branch=_Branch;
+  from venues inner join branches on branches.ID=venues.Branch where venues.deleted=0 and venues.Branch=_Branch;
 
 END//
 DELIMITER ;
@@ -5150,7 +5151,7 @@ CREATE TABLE IF NOT EXISTS `groupaccess` (
   CONSTRAINT `groupaccess_ibfk_3` FOREIGN KEY (`RoleID`) REFERENCES `roles` (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.groupaccess: ~99 rows (approximately)
+-- Dumping data for table arcm.groupaccess: ~166 rows (approximately)
 DELETE FROM `groupaccess`;
 /*!40000 ALTER TABLE `groupaccess` DISABLE KEYS */;
 INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`) VALUES
@@ -5252,7 +5253,74 @@ INSERT INTO `groupaccess` (`UserGroupID`, `RoleID`, `Edit`, `Remove`, `AddNew`, 
 	(8, 79, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:47', '2019-12-05 13:21:47', 0),
 	(8, 80, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:49', '2019-12-05 13:21:49', 0),
 	(8, 83, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:50', '2019-12-05 13:21:50', 0),
-	(8, 84, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:51', '2019-12-05 13:21:51', 0);
+	(8, 84, 0, 0, 0, 1, 0, 'Admin', 'Admin', '2019-12-05 13:21:51', '2019-12-05 13:21:51', 0),
+	(9, 17, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:50', '2019-12-05 11:30:53', 0),
+	(9, 18, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:54', '2019-12-05 11:30:56', 0),
+	(9, 19, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:57', '2019-12-05 11:31:00', 0),
+	(9, 20, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:01', '2019-12-05 11:31:04', 0),
+	(9, 21, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:05', '2019-12-05 11:31:08', 0),
+	(9, 22, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:19', '2019-12-05 11:30:22', 0),
+	(9, 24, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:23', '2019-12-05 11:30:28', 0),
+	(9, 25, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:28', '2019-12-05 11:30:32', 0),
+	(9, 26, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:21', '2019-12-05 11:34:38', 0),
+	(9, 27, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:22', '2019-12-05 11:34:38', 0),
+	(9, 28, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:33', '2019-12-05 11:30:36', 0),
+	(9, 29, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:37', '2019-12-05 11:30:40', 0),
+	(9, 30, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:10', '2019-12-05 11:31:13', 0),
+	(9, 31, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:13', '2019-12-05 11:31:15', 0),
+	(9, 32, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:32', '2019-12-05 11:31:35', 0),
+	(9, 33, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:35', '2019-12-05 11:31:37', 0),
+	(9, 34, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:38', '2019-12-05 11:31:42', 0),
+	(9, 35, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:41', '2019-12-05 11:30:44', 0),
+	(9, 36, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:43', '2019-12-05 11:31:47', 0),
+	(9, 37, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:50', '2019-12-05 11:31:58', 0),
+	(9, 38, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:51', '2019-12-05 11:31:59', 0),
+	(9, 39, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:53', '2019-12-05 11:32:00', 0),
+	(9, 40, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:50', '2019-12-05 11:34:14', 0),
+	(9, 41, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:50', '2019-12-05 11:34:15', 0),
+	(9, 42, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:51', '2019-12-05 11:34:11', 0),
+	(9, 43, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:52', '2019-12-05 11:34:08', 0),
+	(9, 44, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:53', '2019-12-05 11:34:06', 0),
+	(9, 45, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:52', '2019-12-05 11:34:03', 0),
+	(9, 46, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:16', '2019-12-05 11:31:18', 0),
+	(9, 47, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:22', '2019-12-05 11:34:39', 0),
+	(9, 48, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:25', '2019-12-05 11:34:39', 0),
+	(9, 49, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:19', '2019-12-05 11:31:23', 0),
+	(9, 50, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:55', '2019-12-05 11:33:58', 0),
+	(9, 51, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:24', '2019-12-05 11:34:40', 0),
+	(9, 52, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:26', '2019-12-05 11:34:41', 0),
+	(9, 53, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:24', '2019-12-05 11:31:27', 0),
+	(9, 54, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:43', '2019-12-05 11:33:46', 0),
+	(9, 55, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:54', '2019-12-05 11:34:01', 0),
+	(9, 56, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:39', '2019-12-05 11:33:43', 0),
+	(9, 57, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:34', '2019-12-05 11:33:37', 0),
+	(9, 58, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:52', '2019-12-05 11:32:56', 0),
+	(9, 59, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:31', '2019-12-05 11:33:33', 0),
+	(9, 60, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:31:28', '2019-12-05 11:31:30', 0),
+	(9, 61, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:27', '2019-12-05 11:33:31', 0),
+	(9, 62, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:19', '2019-12-05 11:33:25', 0),
+	(9, 63, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:18', '2019-12-05 11:33:26', 0),
+	(9, 64, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:14', '2019-12-05 11:33:17', 0),
+	(9, 65, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:47', '2019-12-05 11:32:50', 0),
+	(9, 66, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:42', '2019-12-05 11:32:46', 0),
+	(9, 67, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:15', '2019-12-05 11:32:40', 0),
+	(9, 68, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:15', '2019-12-05 11:32:39', 0),
+	(9, 69, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:13', '2019-12-05 11:32:39', 0),
+	(9, 70, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:12', '2019-12-05 11:32:38', 0),
+	(9, 71, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:12', '2019-12-05 11:32:38', 0),
+	(9, 72, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:09', '2019-12-05 11:32:37', 0),
+	(9, 73, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:09', '2019-12-05 11:32:36', 0),
+	(9, 74, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:10', '2019-12-05 11:33:14', 0),
+	(9, 75, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:06', '2019-12-05 11:33:09', 0),
+	(9, 76, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:33:02', '2019-12-05 11:33:05', 0),
+	(9, 77, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:57', '2019-12-05 11:33:01', 0),
+	(9, 78, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:30:44', '2019-12-05 11:30:47', 0),
+	(9, 79, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:20', '2019-12-05 11:34:52', 0),
+	(9, 80, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:34:21', '2019-12-05 11:34:53', 0),
+	(9, 81, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:06', '2019-12-05 11:32:35', 0),
+	(9, 82, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 11:32:06', '2019-12-05 11:32:35', 0),
+	(9, 83, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:10:01', '2019-12-05 12:10:04', 0),
+	(9, 84, 1, 1, 1, 1, 1, 'Admin', 'Admin', '2019-12-05 12:23:26', '2019-12-05 12:23:28', 0);
 /*!40000 ALTER TABLE `groupaccess` ENABLE KEYS */;
 
 -- Dumping structure for table arcm.hearingattachments
@@ -5807,7 +5875,7 @@ CREATE TABLE IF NOT EXISTS `petypes` (
   PRIMARY KEY (`ID`,`Code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.petypes: ~16 rows (approximately)
+-- Dumping data for table arcm.petypes: ~14 rows (approximately)
 DELETE FROM `petypes`;
 /*!40000 ALTER TABLE `petypes` DISABLE KEYS */;
 INSERT INTO `petypes` (`ID`, `Code`, `Description`, `Created_At`, `Created_By`, `Updated_At`, `Updated_By`, `Deleted`, `Deleted_By`) VALUES
@@ -5838,7 +5906,7 @@ CREATE TABLE IF NOT EXISTS `peusers` (
   `Created_At` datetime DEFAULT NULL,
   `Created_by` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table arcm.peusers: ~0 rows (approximately)
 DELETE FROM `peusers`;
@@ -6402,7 +6470,7 @@ CREATE  PROCEDURE `RemovePanelMember`(IN _ApplicationNo VARCHAR(50), IN _UserNam
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Removed  PanelMember:' +_UserName+ ' for Application: ', _ApplicationNo); 
-  update Panels set deleted=1 where ApplicationNo=_ApplicationNo and UserName=_UserName;
+  update panels set deleted=1 where ApplicationNo=_ApplicationNo and UserName=_UserName;
   call SaveAuditTrail(_userID,lSaleDesc,'Delete','0');
   update panelsapprovalworkflow  set Status='Declined', Approved_At=now() where ApplicationNo=_ApplicationNo and UserName=_UserName;
 END//
@@ -6508,7 +6576,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`RoleID`,`RoleName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.roles: ~66 rows (approximately)
+-- Dumping data for table arcm.roles: ~64 rows (approximately)
 DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`, `Deleted`, `Category`) VALUES
@@ -6644,7 +6712,7 @@ select Created_By from applications where ID=_ApplicationID limit 1 into @Create
 
 if(@CreatedBy=_userID) Then
 Begin
-  INSERT INTO  additionalsubmissionDocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
+  INSERT INTO  additionalsubmissiondocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
   VALUES(_ApplicationID,_Description,_DocName,_FilePath,now(),_userID,0,'Applicant',_Confidential,@Name);
   call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
 End;
@@ -6653,14 +6721,14 @@ Begin
 
   if(@Category='Applicant') Then
   Begin
-    INSERT INTO  additionalsubmissionDocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
+    INSERT INTO  additionalsubmissiondocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
     VALUES(_ApplicationID,_Description,_DocName,_FilePath,now(),_userID,0,'Interested party',_Confidential,@Name);
     call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
   End;
   End if;
     if(@Category='PE') Then
   Begin
-    INSERT INTO  additionalsubmissionDocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
+    INSERT INTO  additionalsubmissiondocuments(ApplicationID,  Description, FileName, FilePath, Create_at, CreatedBy, Deleted,Category,Confidential,SubmitedBy)
     VALUES(_ApplicationID,_Description,_DocName,_FilePath,now(),_userID,0,'Procuring Entity',_Confidential,@Name);
     call SaveAuditTrail(_userID,lSaleDesc,'Add','0');
   End;
@@ -6691,7 +6759,7 @@ set lSaleDesc= CONCAT('Submited request for case withdrawal for application:',_A
 select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 LIMIT 1 into @Approver;
 insert into adjournment(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
   VALUES(now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,@Approver);
-insert into adjournmentApprovalWorkFlow(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
+insert into adjournmentapprovalworkflow(Date,Applicant,ApplicationNo, Reason,Status ,Created_At, Created_By,Approver ) 
 select now(),_Applicant,_ApplicationNo,_Reason,'Pending Approval',now(),_UserID,Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0 ;
 
 call SaveAuditTrail(_UserID,lSaleDesc,'Add','0' );
@@ -8278,7 +8346,7 @@ Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and 
            End;
            else
            Begin
-            update Panels set Status='Partially Approved' where ApplicationNo=_ApplicationNo and Status='Approved'; 
+            update panels set Status='Partially Approved' where ApplicationNo=_ApplicationNo and Status='Approved'; 
             insert into panelsapprovalworkflow (ApplicationNo , UserName ,Status,Role , Deleted , Created_At,Created_By)
             select ApplicationNo , UserName ,'Pending Approval',Role , Deleted , Created_At,Created_By from panels where panels.ApplicationNo=_ApplicationNo and Deleted=0;
             insert into PanelApprovalContacts
@@ -8290,7 +8358,7 @@ Approver in (select Username from approvers WHERE Mandatory=0 and Deleted=0 and 
      End;
      ELSE
           Begin
-            update Panels set Status='Partially Approved' where ApplicationNo=_ApplicationNo and Status='Approved'; 
+            update panels set Status='Partially Approved' where ApplicationNo=_ApplicationNo and Status='Approved'; 
              insert into panelsapprovalworkflow (ApplicationNo , UserName ,Status,Role , Deleted , Created_At,Created_By)
              select ApplicationNo , UserName ,'Pending Approval',Role , Deleted , Created_At,Created_By from panels where panels.ApplicationNo=_ApplicationNo and Deleted=0;
               insert into PanelApprovalContacts
@@ -9978,7 +10046,7 @@ CREATE DEFINER=`Arcm`@`localhost` PROCEDURE `UpdateBranch`(IN _ID INT,IN _Descri
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Updated  Branch: ',_ID); 
-UPDATE Branches SET
+UPDATE branches SET
 Description =_Description, Updated_At=now(), Updated_By=_UserID
 Where ID=_ID;
 call SaveAuditTrail(_UserID,lSaleDesc,'Update','0' );
@@ -10754,7 +10822,7 @@ CREATE TABLE IF NOT EXISTS `useraccess` (
   CONSTRAINT `useraccess_ibfk_3` FOREIGN KEY (`UpdateBy`) REFERENCES `users` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.useraccess: ~229 rows (approximately)
+-- Dumping data for table arcm.useraccess: ~231 rows (approximately)
 DELETE FROM `useraccess`;
 /*!40000 ALTER TABLE `useraccess` DISABLE KEYS */;
 INSERT INTO `useraccess` (`Username`, `RoleID`, `Edit`, `Remove`, `AddNew`, `View`, `Export`, `UpdateBy`, `CreateBy`, `CreatedAt`, `UpdatedAt`) VALUES
@@ -11011,7 +11079,6 @@ INSERT INTO `usergroups` (`UserGroupID`, `Name`, `Description`, `CreatedAt`, `Up
 	(7, 'others', 'tenders,', '2019-07-11 16:19:24', '2019-07-11 16:19:24', 1, 'admin', 'admin'),
 	(8, 'Portal users', 'Applicants,PE,Interested parties', '2019-08-16 16:47:04', '2019-11-13 14:31:04', 0, 'Admin', 'Admin'),
 	(9, 'Case Officers', 'Case Officers', '2019-08-27 17:47:15', '2019-11-11 15:30:36', 0, 'Admin', 'Admin'),
-	(10, 'BOARD ROOM !', 'BOARD ROOM !', '2019-09-11 10:47:44', '2019-09-11 10:47:44', 1, 'Admin', 'Admin'),
 	(11, 'Finance', 'Finance/Accounts', '2019-11-13 14:33:37', '2019-11-13 14:33:37', 0, 'Admin', 'Admin');
 /*!40000 ALTER TABLE `usergroups` ENABLE KEYS */;
 
@@ -11050,7 +11117,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `users_ibfk_1` (`UserGroupID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table arcm.users: ~5 rows (approximately)
+-- Dumping data for table arcm.users: ~6 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`Name`, `Username`, `Email`, `Password`, `Phone`, `Create_at`, `Update_at`, `Login_at`, `Deleted`, `IsActive`, `IsEmailverified`, `ActivationCode`, `ResetPassword`, `UserGroupID`, `CreatedBy`, `UpdatedBy`, `Photo`, `Category`, `Signature`, `IDnumber`, `Gender`, `DOB`, `ChangePassword`, `Board`) VALUES
