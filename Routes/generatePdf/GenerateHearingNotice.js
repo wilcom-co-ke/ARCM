@@ -44,9 +44,9 @@ GenerateHearingNotice.post("/", function(req, res) {
           printBackground: true,
           path: storagepath
         };
-        const browser = await puppeteer.launch({
-          executablePath: "/usr/local/bin/chrome"
-        });
+        const browser = await puppeteer.launch();
+        //for linux that does not install chrome together with puppeteer
+
         // const browser = await puppeteer.launch({
         //   executablePath: "/usr/local/bin/chrome"
         // });

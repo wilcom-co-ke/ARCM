@@ -111,6 +111,9 @@ GenerateAttendanceregister.post("/", function(req, res) {
           path: storagepath
         };
         const browser = await puppeteer.launch();
+        // const browser = await puppeteer.launch({
+        //   executablePath: "/usr/local/bin/chrome"
+        // });
         const page = await browser.newPage();
         await page.setContent(finalHtml);
         //  await page.emulate("screen");

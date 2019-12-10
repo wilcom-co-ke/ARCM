@@ -326,23 +326,23 @@ class DashBoard extends Component {
                           </Link>
                         </a>
                       ) : null}
-                        {r.Category === "Decision Approval" ? (
-                          <a href="/#" className="small-box-footer ">
-                            <Link to="/DecisionsApproval" className="text-white">
-                              More info <i className="fa fa-arrow-circle-right" />
-                            </Link>
-                          </a>
-                        ) : null}
-                        {r.Category === "Case Adjournment Approval" ? (
-                          <a href="/#" className="small-box-footer ">
-                            <Link
-                              to="/AdjournmentApproval"
-                              className="text-white"
-                            >
-                              More info <i className="fa fa-arrow-circle-right" />
-                            </Link>
-                          </a>
-                        ) : null}
+                      {r.Category === "Decision Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link to="/DecisionsApproval" className="text-white">
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
+                      {r.Category === "Case Adjournment Approval" ? (
+                        <a href="/#" className="small-box-footer ">
+                          <Link
+                            to="/AdjournmentApproval"
+                            className="text-white"
+                          >
+                            More info <i className="fa fa-arrow-circle-right" />
+                          </Link>
+                        </a>
+                      ) : null}
                       {r.Category === "Preliminary Objecions Fees Approval" ? (
                         <a href="/#" className="small-box-footer ">
                           <Link
