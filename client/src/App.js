@@ -10,6 +10,7 @@ import configurations from "./Forms/SystemAdmin/configurations";
 import UserGroups from "./Forms/SystemAdmin/UserGroups";
 import Roles from "./Forms/SystemAdmin/Roles";
 import Users from "./Forms/SystemAdmin/Users";
+import EditEmailtemplates from "./Forms/SystemAdmin/EditEmailtemplates";
 // import Approvers from "./Forms/SystemAdmin/Approvers";
 import NewApprovers from "./Forms/SystemAdmin/NewApprovers";
 import caseofficers from "./Forms/SystemAdmin/caseofficers";
@@ -136,6 +137,11 @@ function App() {
                 <Route exact path="/Users" component={Users} />
                 <Route exact path="/Approvers" component={NewApprovers} />
                 <Route exact path="/Roles" component={Roles} />
+                <Route
+                  exact
+                  path="/EditEmailtemplates"
+                  component={EditEmailtemplates}
+                />
                 <Route exct path="/Usergroups" component={UserGroups} />
                 <Route exact path="/Auditrails" component={Auditrails} />
                 <Route exact path="/CaseReferrals" component={CaseReferrals} />

@@ -49,7 +49,7 @@ class Login extends Component {
         response.json().then(data => {
           if (data.success) {
             let Code = Math.floor(100000 + Math.random() * 900000);
-             this.SendSMS(data.userdata.Phone, Code);
+            // this.SendSMS(data.userdata.Phone, Code);
             //timer start
             this.setState({ stopcounter: false });
 
@@ -162,7 +162,7 @@ class Login extends Component {
       });
   }
   VerifySMS = () => {
-  //  alert(this.state.SMSCode);
+    alert(this.state.SMSCode);
     if (this.state.UserSMSCode) {
       if (this.state.SMSCode == this.state.UserSMSCode) {
         this.setState({

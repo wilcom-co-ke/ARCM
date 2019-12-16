@@ -8,9 +8,9 @@ var auth = require("./auth");
 var ValidateTokenExpiry = require("./Routes/SystemAdmin/ValidateTokenExpiry");
 
 var Roles = require("./Routes/SystemAdmin/Roles");
-var SMSdetails=require("./Routes/SetUps/SMSdetails")
+var SMSdetails = require("./Routes/SetUps/SMSdetails");
 var Auditrails = require("./Routes/SystemAdmin/Auditrails");
-
+var EditEmailtemplates = require("./Routes/SystemAdmin/EditEmailtemplates");
 var bodyParser = require("body-parser");
 var Uploadfiles = require("./Routes/SystemAdmin/Uploadfiles");
 var updateprofile = require("./Routes/SystemAdmin/updateprofile");
@@ -119,6 +119,7 @@ app.use("/api/Signup", Signup);
 app.use("/api/login", auth.router);
 app.use("/api/upload", Uploadfiles);
 app.use("/api/sendmail", Mailer.Mailer);
+
 app.use("/api/EmailVerification", EmailVerification);
 app.use("/api/Towns", Towns);
 app.use("/api/counties", counties);
@@ -135,6 +136,7 @@ app.use("/api/validation_url", validation_url);
 app.use("/api/PE", PE);
 app.use(auth.validateToken);
 
+app.use("/api/EditEmailtemplates", EditEmailtemplates);
 app.use("/api/CaseFollowUp", CaseFollowUp);
 app.use("/api/CaseReferrals", CaseReferrals);
 app.use("/api/Banks", Banks);

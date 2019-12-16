@@ -281,6 +281,7 @@ class ApplicationsApprovals extends Component {
             Name: Name,
             ApplicationNo: ApplicationNo,
             ResponseTimeout: ResponseTimeout,
+            Approvalremarks: ResponseTimeout,
             tendername: this.state.TenderName,
                 tenderNo: this.state.TenderNo,
             PE: this.state.PEName ,

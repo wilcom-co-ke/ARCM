@@ -20,7 +20,7 @@ USE `arcm`;
 -- Dumping structure for procedure arcm.Activation
 DROP PROCEDURE IF EXISTS `Activation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Activation`(IN `_IsEmailverified` BOOLEAN, IN `_Email` VARCHAR(100), IN `_ActivationCode` VARCHAR(100))
+CREATE  PROCEDURE `Activation`(IN `_IsEmailverified` BOOLEAN, IN `_Email` VARCHAR(100), IN `_ActivationCode` VARCHAR(100))
     NO SQL
 BEGIN
 
@@ -79,7 +79,7 @@ DELETE FROM `additionalsubmissions`;
 -- Dumping structure for procedure arcm.AddPanelMember
 DROP PROCEDURE IF EXISTS `AddPanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddPanelMember`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `AddPanelMember`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Added new PanelMember for Application: ', _UserName); 
@@ -618,7 +618,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApproveApplicationFees
 DROP PROCEDURE IF EXISTS `ApproveApplicationFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _Amount FLOAT, IN _Reff VARCHAR(100), IN _Category VARCHAR(50))
+CREATE  PROCEDURE `ApproveApplicationFees`(IN _Approver VARCHAR(50), IN _ApplicationID INT, IN _Amount FLOAT, IN _Reff VARCHAR(100), IN _Category VARCHAR(50))
 BEGIN
 -- new
  DROP TABLE IF EXISTS caseWithdrawalContacts;
@@ -726,7 +726,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApprovecaseAdjournment
 DROP PROCEDURE IF EXISTS `ApprovecaseAdjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `ApprovecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Approved Case Adjournment for Application : ', _ApplicationNo); 
@@ -796,7 +796,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApprovecaseWithdrawal
 DROP PROCEDURE IF EXISTS `ApprovecaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255), IN _userID varchar(50))
+CREATE  PROCEDURE `ApprovecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255), IN _userID varchar(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -867,7 +867,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApproveDeadlineRequestExtension
 DROP PROCEDURE IF EXISTS `ApproveDeadlineRequestExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApproveDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255), IN _Newdate DATETIME)
+CREATE  PROCEDURE `ApproveDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255), IN _Newdate DATETIME)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Approved Deadline Extension Request for Application:',_ApplicationNo); 
@@ -957,7 +957,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ApprovePanelMember
 DROP PROCEDURE IF EXISTS `ApprovePanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ApprovePanelMember`(IN _ApplicationNo VARCHAR(50),  IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `ApprovePanelMember`(IN _ApplicationNo VARCHAR(50),  IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Approved  PanelMember:', _UserName); 
@@ -996,7 +996,7 @@ DELETE FROM `approvers`;
 -- Dumping structure for procedure arcm.AssignCaseOfficer
 DROP PROCEDURE IF EXISTS `AssignCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AssignCaseOfficer`(IN _Applicationno VARCHAR(50), IN _PEID VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `AssignCaseOfficer`(IN _Applicationno VARCHAR(50), IN _PEID VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 
 select TenderID from applications WHERE ApplicationNo=_Applicationno  LIMIT  1 into @TenderID ;
@@ -1112,7 +1112,7 @@ DELETE FROM `bankslips`;
 -- Dumping structure for procedure arcm.BookVenue
 DROP PROCEDURE IF EXISTS `BookVenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `BookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
+CREATE  PROCEDURE `BookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Booked Venue:',_VenueID); 
@@ -1332,7 +1332,7 @@ DELETE FROM `casewithdrawalcontacts`;
 -- Dumping structure for procedure arcm.CheckifregistrationIsOpen
 DROP PROCEDURE IF EXISTS `CheckifregistrationIsOpen`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckifregistrationIsOpen`(IN _Applicationno VARCHAR(50))
+CREATE  PROCEDURE `CheckifregistrationIsOpen`(IN _Applicationno VARCHAR(50))
 BEGIN
 if(select count(*) from  casesittingsregister    where ApplicationNo=_Applicationno)>0 THEN
 BEGIN
@@ -1349,7 +1349,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.CloseRegistrations
 DROP PROCEDURE IF EXISTS `CloseRegistrations`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CloseRegistrations`(IN _Applicationno VARCHAR(50))
+CREATE  PROCEDURE `CloseRegistrations`(IN _Applicationno VARCHAR(50))
 BEGIN
 update casesittingsregister set  Open=0 where ApplicationNo=_Applicationno;
 END//
@@ -1378,7 +1378,7 @@ DELETE FROM `committeetypes`;
 -- Dumping structure for procedure arcm.CompleteApplication
 DROP PROCEDURE IF EXISTS `CompleteApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CompleteApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
+CREATE  PROCEDURE `CompleteApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
 BEGIN
 Update applications set Status='Submited' where ID=_ApplicationID;
  select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @App; 
@@ -1389,7 +1389,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ComprehensiveAttendanceRegister
 DROP PROCEDURE IF EXISTS `ComprehensiveAttendanceRegister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ComprehensiveAttendanceRegister`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `ComprehensiveAttendanceRegister`(IN _ApplicationNo varchar(50))
 BEGIN
  
 select CONCAT(branches.Description,' ' ,venues.Name , ' - ', venues.Description)as venue, DATE_FORMAT(casesittingsregister.Date, '%d-%m-%Y') as Date, casesittingsregister.VenueID,
@@ -1405,7 +1405,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Computefeestest
 DROP PROCEDURE IF EXISTS `Computefeestest`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Computefeestest`(IN _ApplicationID Int, IN _UserID varchar(50))
+CREATE  PROCEDURE `Computefeestest`(IN _ApplicationID Int, IN _UserID varchar(50))
 BEGIN
    select TenderID from applications where ID=_ApplicationID LIMIT 1 INTO @TenderID;
     select TenderType from tenders where ID=@TenderID limit 1 into @TenderType;
@@ -1806,7 +1806,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclinecaseAdjournment
 DROP PROCEDURE IF EXISTS `DeclinecaseAdjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclinecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `DeclinecaseAdjournment`(IN _ApplicationNo VARCHAR(50), IN _ApprovalRemarks VARCHAR(255), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Adjournment for Application : ', _ApplicationNo); 
@@ -1838,7 +1838,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclinecaseWithdrawal
 DROP PROCEDURE IF EXISTS `DeclinecaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclinecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255),IN _userID varchar(50))
+CREATE  PROCEDURE `DeclinecaseWithdrawal`(IN _ApplicationNo varchar(50), IN _RejectionReason VARCHAR(255),IN _userID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
@@ -1867,7 +1867,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeclineDeadlineRequestExtension
 DROP PROCEDURE IF EXISTS `DeclineDeadlineRequestExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeclineDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255))
+CREATE  PROCEDURE `DeclineDeadlineRequestExtension`(IN _Approver VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _Remarks VARCHAR(255))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -1934,7 +1934,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deleteadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Deleteadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deleteadditionalsubmissions`(IN `_ApplicationID` INT,IN _userID varchar(50) )
+CREATE  PROCEDURE `Deleteadditionalsubmissions`(IN `_ApplicationID` INT,IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -1947,7 +1947,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteadditionalsubmissionsDocument
 DROP PROCEDURE IF EXISTS `DeleteadditionalsubmissionsDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteadditionalsubmissionsDocument`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
+CREATE  PROCEDURE `DeleteadditionalsubmissionsDocument`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -1960,7 +1960,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteadjournmentDocuments
 DROP PROCEDURE IF EXISTS `DeleteadjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteadjournmentDocuments`(IN _File VARCHAR(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `DeleteadjournmentDocuments`(IN _File VARCHAR(50),IN _UserID varchar(50))
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2019,7 +2019,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteAttachments
 DROP PROCEDURE IF EXISTS `DeleteAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteAttachments`(IN _Name VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteAttachments`(IN _Name VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted hearing attachment:',_Name); 
@@ -2058,7 +2058,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deletecaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `Deletecaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletecaseanalysisdocuments`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
+CREATE  PROCEDURE `Deletecaseanalysisdocuments`(IN _DocName VARCHAR(100),IN _userID varchar(50) )
 BEGIN
 
 DECLARE lSaleDesc varchar(200);
@@ -2087,7 +2087,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteCaseOfficers
 DROP PROCEDURE IF EXISTS `DeleteCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteCaseOfficers`(IN _Username VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteCaseOfficers`(IN _Username VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted Case Officer: ',_Username); 
@@ -2211,7 +2211,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteInterestedParty
 DROP PROCEDURE IF EXISTS `DeleteInterestedParty`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteInterestedParty`(IN _ID INT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteInterestedParty`(IN _ID INT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -2237,7 +2237,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deletejrcontactusers
 DROP PROCEDURE IF EXISTS `Deletejrcontactusers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletejrcontactusers`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `Deletejrcontactusers`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted jruser:',_UserName); 
@@ -2249,7 +2249,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeletejrInterestedparty
 DROP PROCEDURE IF EXISTS `DeletejrInterestedparty`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeletejrInterestedparty`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `DeletejrInterestedparty`(IN _UserName varchar(50),_ApplicationNO VARCHAR(50),IN _UserID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Deleted jrInterested Party:',_UserName); 
@@ -2261,7 +2261,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteJudicialDocument
 DROP PROCEDURE IF EXISTS `DeleteJudicialDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteJudicialDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeleteJudicialDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -2330,7 +2330,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeletePEResponseDocument
 DROP PROCEDURE IF EXISTS `DeletePEResponseDocument`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeletePEResponseDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `DeletePEResponseDocument`(IN _name VARCHAR(150), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -2343,7 +2343,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteRole
 DROP PROCEDURE IF EXISTS `DeleteRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteRole`(IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteRole`(IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -2387,7 +2387,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deleteuser
 DROP PROCEDURE IF EXISTS `Deleteuser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deleteuser`(IN `_UserName` VARCHAR(50), IN `_UserID` VARCHAR(20))
+CREATE  PROCEDURE `Deleteuser`(IN `_UserName` VARCHAR(50), IN `_UserID` VARCHAR(20))
     NO SQL
 BEGIN
 
@@ -2402,7 +2402,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.DeleteuserGroup
 DROP PROCEDURE IF EXISTS `DeleteuserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteuserGroup`(IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `DeleteuserGroup`(IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -2415,7 +2415,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Deletevenues
 DROP PROCEDURE IF EXISTS `Deletevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Deletevenues`(IN _ID int,IN _UserID varchar(50))
+CREATE  PROCEDURE `Deletevenues`(IN _ID int,IN _UserID varchar(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Deleted  Venue with ID: ', _ID); 
@@ -2630,7 +2630,7 @@ DELETE FROM `financialyear`;
 -- Dumping structure for function arcm.FindCaseOfficer
 DROP FUNCTION IF EXISTS `FindCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` FUNCTION `FindCaseOfficer`(_ApplicationNo Varchar(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
+CREATE  FUNCTION `FindCaseOfficer`(_ApplicationNo Varchar(50)) RETURNS varchar(50) CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci
     DETERMINISTIC
 BEGIN
 DECLARE TenderID int;
@@ -2670,7 +2670,7 @@ DELETE FROM `findingsonissues`;
 -- Dumping structure for procedure arcm.GenerateApplicationFeesReport
 DROP PROCEDURE IF EXISTS `GenerateApplicationFeesReport`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GenerateApplicationFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
+CREATE  PROCEDURE `GenerateApplicationFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
 BEGIN
 if(_All=1) THEn
 Begin
@@ -2707,7 +2707,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GeneratePreliminaryFeesReport
 DROP PROCEDURE IF EXISTS `GeneratePreliminaryFeesReport`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GeneratePreliminaryFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
+CREATE  PROCEDURE `GeneratePreliminaryFeesReport`(IN _FromDate Date,IN _ToDate date,IN _All Boolean)
 BEGIN
 if(_All=1) THEn
 Begin
@@ -2747,7 +2747,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Generaterequesthandled
 DROP PROCEDURE IF EXISTS `Generaterequesthandled`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Generaterequesthandled`(IN _FromDate DATE, IN _ToDate DATE, IN _All BOOLEAN)
+CREATE  PROCEDURE `Generaterequesthandled`(IN _FromDate DATE, IN _ToDate DATE, IN _All BOOLEAN)
 BEGIN
   if(_All=1) Then
     Begin
@@ -2777,7 +2777,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Getadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getadditionalsubmissions`(IN _ApplicationID INT)
+CREATE  PROCEDURE `Getadditionalsubmissions`(IN _ApplicationID INT)
 BEGIN
 
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,
@@ -2792,7 +2792,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadditionalsubmissionsDocuments
 DROP PROCEDURE IF EXISTS `GetadditionalsubmissionsDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadditionalsubmissionsDocuments`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetadditionalsubmissionsDocuments`(IN _ApplicationID INT)
 BEGIN
 
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,
@@ -2808,7 +2808,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadditionalsubmissionsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetadditionalsubmissionsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadditionalsubmissionsPerApplicationNo`(IN `_ApplicationID` varchar(50))
+CREATE  PROCEDURE `GetadditionalsubmissionsPerApplicationNo`(IN `_ApplicationID` varchar(50))
 BEGIN
 select ID from applications where ApplicationNo=_ApplicationID LIMIT 1 into @Application;
 Select ApplicationID,  Description, FileName, FilePath as Path, Create_at, CreatedBy, Deleted,  Category,
@@ -2821,7 +2821,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAdjournmentDocuments
 DROP PROCEDURE IF EXISTS `GetAdjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAdjournmentDocuments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetAdjournmentDocuments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select  ApplicationNo, Description,Path ,Filename from adjournmentdocuments where Deleted=0 and ApplicationNo=_ApplicationNo;
 END//
@@ -2830,7 +2830,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetadjournmentPendingApproval
 DROP PROCEDURE IF EXISTS `GetadjournmentPendingApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `GetadjournmentPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
 select * from adjournment where _UserID 
   in (Select Username from approvers where ModuleCode='ADJRE' and Active=1 and Deleted=0) and 
@@ -2842,7 +2842,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllCaseDetails
 DROP PROCEDURE IF EXISTS `GetAllCaseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCaseDetails`()
+CREATE  PROCEDURE `GetAllCaseDetails`()
 BEGIN
 SELECT DISTINCT casedetails.UserName,users.Name, casedetails.ApplicationNo, casedetails.DateAsigned, casedetails.Status, casedetails.PrimaryOfficer, casedetails.ReassignedTo,
   casedetails.DateReasigned, casedetails.Reason
@@ -2853,7 +2853,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllCaseOfficers
 DROP PROCEDURE IF EXISTS `GetAllCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllCaseOfficers`()
+CREATE  PROCEDURE `GetAllCaseOfficers`()
 BEGIN
 SELECT caseofficers.ID, caseofficers.Username,users.Name, `MinValue`, MaximumValue , caseofficers.Active, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, caseofficers.Create_at FROM `caseofficers`
   inner join users on users.Username=caseofficers.Username WHERE  caseofficers.Deleted=0 order by caseofficers.OngoingCases ASC;
@@ -2863,7 +2863,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllcasesittingsregister
 DROP PROCEDURE IF EXISTS `getAllcasesittingsregister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllcasesittingsregister`()
+CREATE  PROCEDURE `getAllcasesittingsregister`()
 BEGIN
 select * from attendanceregister;
 END//
@@ -2898,7 +2898,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllHearingInProgressApplications
 DROP PROCEDURE IF EXISTS `GetAllHearingInProgressApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllHearingInProgressApplications`()
+CREATE  PROCEDURE `GetAllHearingInProgressApplications`()
 BEGIN
 SELECT applications.ID,ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
@@ -2929,7 +2929,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllinterestedparties
 DROP PROCEDURE IF EXISTS `getAllinterestedparties`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllinterestedparties`()
+CREATE  PROCEDURE `getAllinterestedparties`()
 BEGIN
  Select  ID,Name,ApplicationID,ContactName ,Email,TelePhone,Mobile,PhysicalAddress,PostalCode,Town,POBox,Designation
   from interestedparties where Deleted=0;
@@ -2939,7 +2939,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAllPEResponse
 DROP PROCEDURE IF EXISTS `getAllPEResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllPEResponse`()
+CREATE  PROCEDURE `getAllPEResponse`()
 BEGIN
 
 select applications.ID, peresponse.ID as ResponseID, peresponse.ApplicationNo,peresponse.ResponseType,peresponse.ResponseDate,tenders.TenderNo,tenders.Name ,tenders.TenderValue as TenderValue
@@ -2954,7 +2954,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllSubmitedDecisions
 DROP PROCEDURE IF EXISTS `GetAllSubmitedDecisions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllSubmitedDecisions`()
+CREATE  PROCEDURE `GetAllSubmitedDecisions`()
 BEGIN
 
   SELECT applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
@@ -3022,7 +3022,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllVenueBookings
 DROP PROCEDURE IF EXISTS `GetAllVenueBookings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllVenueBookings`()
+CREATE  PROCEDURE `GetAllVenueBookings`()
 BEGIN
 select ID,VenueID,DATE_FORMAT(Date, "%Y-%m-%d") as Date ,Slot,Booked_By,Content,Booked_On from venuebookings where Deleted=0;
 END//
@@ -3031,7 +3031,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAllvenues
 DROP PROCEDURE IF EXISTS `GetAllvenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllvenues`()
+CREATE  PROCEDURE `GetAllvenues`()
 BEGIN
  
   Select venues.ID,branches.Description as Branch,  venues.Name,venues.Description from venues  inner join branches on branches.ID=venues.Branch where venues.deleted=0;
@@ -3042,7 +3042,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicantPerApplicationno
 DROP PROCEDURE IF EXISTS `GetApplicantPerApplicationno`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicantPerApplicationno`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicantPerApplicationno`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select ApplicantID from applications where ApplicationNo=_ApplicationNo limit 1 into @ApplicantID;
   
@@ -3065,7 +3065,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationDecisionsBackgroundinformation
 DROP PROCEDURE IF EXISTS `GetApplicationDecisionsBackgroundinformation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationDecisionsBackgroundinformation`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationDecisionsBackgroundinformation`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select * from decisions where ApplicationNo=_ApplicationNo;
 END//
@@ -3098,7 +3098,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationForHearing
 DROP PROCEDURE IF EXISTS `GetApplicationForHearing`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationForHearing`()
+CREATE  PROCEDURE `GetApplicationForHearing`()
 BEGIN
 select DISTINCT venues.Name as VenueName,venues.Description as venuesDescription,branches.Description as BranchName ,venuebookings.VenueID, 
   date(venuebookings.Date),applications.ApplicationNo 
@@ -3125,7 +3125,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationGroundsOnly
 DROP PROCEDURE IF EXISTS `GetApplicationGroundsOnly`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationGroundsOnly`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationGroundsOnly`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select * FROM groundsandrequestedorders
 WHERE Deleted=0 and ApplicationID in (select ID from applications where ApplicationNo=_ApplicationNo) and EntryType='Grounds for Appeal';
@@ -3135,7 +3135,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationPaymentDetails
 DROP PROCEDURE IF EXISTS `GetApplicationPaymentDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationPaymentDetails`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetApplicationPaymentDetails`(IN _ApplicationID INT)
 BEGIN
 select sum(AmountPaid) from paymentdetails WHERE ApplicationID=_ApplicationID and Category='Applicationfees' into @Total;
   select  @Total  as TotalPaid,paymentdetails.ApplicationID,paymentdetails.Paidby,paymentdetails.Refference,paymentdetails.DateOfpayment,paymentdetails.AmountPaid,
@@ -3150,7 +3150,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationRequestsOnly
 DROP PROCEDURE IF EXISTS `GetApplicationRequestsOnly`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationRequestsOnly`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationRequestsOnly`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select * FROM groundsandrequestedorders
 WHERE Deleted=0 and ApplicationID in (select ID from applications where ApplicationNo=_ApplicationNo) and EntryType='Requested Orders';
@@ -3184,7 +3184,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationsforDecision
 DROP PROCEDURE IF EXISTS `GetApplicationsforDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsforDecision`(IN _userName varchar(50))
+CREATE  PROCEDURE `GetApplicationsforDecision`(IN _userName varchar(50))
 BEGIN
 
   
@@ -3282,7 +3282,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationsForEachPE
 DROP PROCEDURE IF EXISTS `GetApplicationsForEachPE`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsForEachPE`(IN _LoggedInuser VARCHAR(50))
+CREATE  PROCEDURE `GetApplicationsForEachPE`(IN _LoggedInuser VARCHAR(50))
 BEGIN
 Select PEID from peusers where UserName=_LoggedInuser LIMIT 1 into @PEID;
 SELECT applications.ID,applications.ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
@@ -3346,7 +3346,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApplicationsHeard
 DROP PROCEDURE IF EXISTS `GetApplicationsHeard`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApplicationsHeard`()
+CREATE  PROCEDURE `GetApplicationsHeard`()
 BEGIN
 Select DISTINCT casesittingsregister.ApplicationNo,applications.PEID,procuremententity.Name from casesittingsregister inner JOIN applications on applications.ApplicationNo=casesittingsregister.ApplicationNo
   inner JOIN procuremententity on applications.PEID=procuremententity.PEID;
@@ -3381,7 +3381,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApprovalModules
 DROP PROCEDURE IF EXISTS `GetApprovalModules`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApprovalModules`()
+CREATE  PROCEDURE `GetApprovalModules`()
     NO SQL
 BEGIN
 SELECT * from approvalmodules;
@@ -3392,7 +3392,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetApproverDetails
 DROP PROCEDURE IF EXISTS `GetApproverDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetApproverDetails`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetApproverDetails`(IN _ApplicationNo VARCHAR(50))
 BEGIN
  -- SELECT Username from approvers where ModuleCode='PAYMT' and Deleted=0 and Active=1 and level=1 LIMIT 1 into @Approver;
   select Phone as ApproversPhone,Email as ApproversMail from users where Username in 
@@ -3417,7 +3417,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetAttendanceRegister
 DROP PROCEDURE IF EXISTS `GetAttendanceRegister`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAttendanceRegister`(IN _RegisterID int)
+CREATE  PROCEDURE `GetAttendanceRegister`(IN _RegisterID int)
 BEGIN
 SET @row_number = 0; 
 select (@row_number:=@row_number + 1) AS ID,RegisterID,IDNO,MobileNo,Name,Email,Category,FirmFrom,Designation from attendanceregister where RegisterID=_RegisterID order BY ID ASC;
@@ -3427,7 +3427,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getAuditrails
 DROP PROCEDURE IF EXISTS `getAuditrails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAuditrails`()
+CREATE  PROCEDURE `getAuditrails`()
     NO SQL
 SELECT `AuditID`, `Date`, `Username`, `Description`, `Category`, `IpAddress` FROM `audittrails`//
 DELIMITER ;
@@ -3435,7 +3435,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getbanks
 DROP PROCEDURE IF EXISTS `Getbanks`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getbanks`()
+CREATE  PROCEDURE `Getbanks`()
 BEGIN
 Select  
   ID,
@@ -3492,7 +3492,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getcaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `getcaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getcaseanalysisdocuments`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `getcaseanalysisdocuments`(IN _ApplicationNo varchar(50))
 BEGIN
 
 
@@ -3507,7 +3507,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetCaseProceedings
 DROP PROCEDURE IF EXISTS `GetCaseProceedings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetCaseProceedings`()
+CREATE  PROCEDURE `GetCaseProceedings`()
 BEGIN
 SELECT applications.ID,ApplicationNo ,TenderNo,`TenderID`,tenders.Name as TenderName,TenderValue,tenders.StartDate,tenders.ClosingDate,
   `ApplicantID`, applications.PEID,procuremententity.Name as PEName,applications.Created_By as Applicantusername,
@@ -3524,7 +3524,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getCaseWithdrawalPendingApproval
 DROP PROCEDURE IF EXISTS `getCaseWithdrawalPendingApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getCaseWithdrawalPendingApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `getCaseWithdrawalPendingApproval`(IN _UserID VARCHAR(50))
 BEGIN
 select * from casewithdrawal where _UserID in (select Username from approvers WHERE ModuleCode='WIOAP' and Deleted=0 and Active=1)
   and casewithdrawal.ApplicationNo not in (select ApplicationNo from casewithdrawal where Approver=_UserID )
@@ -3535,7 +3535,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetClosedApplicationsForDecisionUploads
 DROP PROCEDURE IF EXISTS `GetClosedApplicationsForDecisionUploads`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetClosedApplicationsForDecisionUploads`()
+CREATE  PROCEDURE `GetClosedApplicationsForDecisionUploads`()
 BEGIN
 select * from applications where Closed=1 and applications.ApplicationNo Not in (select DISTINCT ApplicationNo from decisiondocuments where Status='Approved' and Deleted=0 );
 END//
@@ -3759,7 +3759,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getdeadLineRequestApprovals
 DROP PROCEDURE IF EXISTS `getdeadLineRequestApprovals`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getdeadLineRequestApprovals`(IN _Approver VARCHAR(50))
+CREATE  PROCEDURE `getdeadLineRequestApprovals`(IN _Approver VARCHAR(50))
 BEGIN
 select deadlineapprovalworkflow.PEID,deadlineapprovalworkflow.ApplicationNo,deadlineapprovalworkflow.Reason,deadlineapprovalworkflow.RequestedDate,
   procuremententity.Name,Status,deadlineapprovalworkflow.Created_At as FilingDate,procuremententity.Mobile,
@@ -3830,7 +3830,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetGenereatedPanels
 DROP PROCEDURE IF EXISTS `GetGenereatedPanels`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGenereatedPanels`()
+CREATE  PROCEDURE `GetGenereatedPanels`()
 BEGIN
 select DISTINCT panels.ApplicationNo,applicants.Name as ApplicantName,procuremententity.Name as PEName from panels inner join applications on applications.ApplicationNo=panels.ApplicationNo
   inner join procuremententity on applications.PEID=procuremententity.PEID inner join applicants on applicants.ID=applications.ApplicantID;
@@ -3840,7 +3840,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetGenereatedRB1Forms
 DROP PROCEDURE IF EXISTS `GetGenereatedRB1Forms`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGenereatedRB1Forms`()
+CREATE  PROCEDURE `GetGenereatedRB1Forms`()
 BEGIN
 select   ApplicationNo,Path , FileName, GeneratedOn,GeneratedBy from rb1forms order by ApplicationNo DESC;
 END//
@@ -3849,7 +3849,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetGroupRoles
 DROP PROCEDURE IF EXISTS `GetGroupRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetGroupRoles`(IN `_UserGroupID` BIGINT)
+CREATE  PROCEDURE `GetGroupRoles`(IN `_UserGroupID` BIGINT)
     NO SQL
 SELECT roles.RoleID, RoleName,`Edit`, `Remove`, `AddNew`, `View`, `Export`,Category FROM roles LEFT JOIN groupaccess 
     ON groupaccess.RoleID = roles.RoleID AND groupaccess.UserGroupID=_UserGroupID//
@@ -3858,7 +3858,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingAttachments
 DROP PROCEDURE IF EXISTS `GetHearingAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingAttachments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetHearingAttachments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
  
 Select  ApplicationNo,Name ,Description ,Path ,Category from hearingattachments
@@ -3870,7 +3870,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingNotices
 DROP PROCEDURE IF EXISTS `GetHearingNotices`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingNotices`()
+CREATE  PROCEDURE `GetHearingNotices`()
 BEGIN
 select DISTINCT ApplicationNo,Path,Filename  from hearingnotices order by DateGenerated desc;
 END//
@@ -3879,7 +3879,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetHearingNotificationContacts
 DROP PROCEDURE IF EXISTS `GetHearingNotificationContacts`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetHearingNotificationContacts`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetHearingNotificationContacts`(IN _ApplicationNo VARCHAR(50))
 BEGIN
   DROP TABLE IF EXISTS caseWithdrawalContacts;
   create table caseWithdrawalContacts(Name varchar(100),Email varchar(150),Mobile varchar(50));
@@ -3900,7 +3900,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getinterestedpartiesPerApplication
 DROP PROCEDURE IF EXISTS `getinterestedpartiesPerApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getinterestedpartiesPerApplication`(IN _ApplicationID VARCHAR(50))
+CREATE  PROCEDURE `getinterestedpartiesPerApplication`(IN _ApplicationID VARCHAR(50))
 BEGIN
   select ID from applications where ApplicationNo=_ApplicationID limit 1 into @Application;
 SET @row_number = 0; 
@@ -3923,7 +3923,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getjrcontactusers
 DROP PROCEDURE IF EXISTS `Getjrcontactusers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getjrcontactusers`(_ApplicationNO VARCHAR(50))
+CREATE  PROCEDURE `Getjrcontactusers`(_ApplicationNO VARCHAR(50))
 BEGIN
 Select 
   
@@ -3941,7 +3941,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getJRinterestedpartiesPerApplication
 DROP PROCEDURE IF EXISTS `getJRinterestedpartiesPerApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getJRinterestedpartiesPerApplication`(IN _ApplicationNO VARCHAR(50))
+CREATE  PROCEDURE `getJRinterestedpartiesPerApplication`(IN _ApplicationNO VARCHAR(50))
 BEGIN
 SET @row_number = 0; 
 select (@row_number:=@row_number + 1) AS ID,Name,ApplicationNO,ContactName ,Email,TelePhone,Mobile,PhysicalAddress,PostalCode,Town,POBox,Designation
@@ -3952,7 +3952,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetJudicialreviewApplications
 DROP PROCEDURE IF EXISTS `GetJudicialreviewApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetJudicialreviewApplications`()
+CREATE  PROCEDURE `GetJudicialreviewApplications`()
 BEGIN
 select DISTINCT applications.FilingDate, applications.ApplicationNo,applications.PEID,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,
@@ -3968,7 +3968,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getJudicialReviewDetails
 DROP PROCEDURE IF EXISTS `getJudicialReviewDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getJudicialReviewDetails`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `getJudicialReviewDetails`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 Select  
   ApplicationNo ,
@@ -3993,7 +3993,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Getjudicialreviewdocuments
 DROP PROCEDURE IF EXISTS `Getjudicialreviewdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Getjudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `Getjudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 
 Select  ApplicationNo ,Name as FileName,Description ,Path , Created_At,Deleted ,DocumentDate ,ActionDate,ActionDescription,ActionSent
@@ -4004,7 +4004,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetLoogedinCompany
 DROP PROCEDURE IF EXISTS `GetLoogedinCompany`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetLoogedinCompany`(IN _Username VARCHAR(50), IN _Category VARCHAR(50))
+CREATE  PROCEDURE `GetLoogedinCompany`(IN _Username VARCHAR(50), IN _Category VARCHAR(50))
 BEGIN
   if(_Category='Applicant') THEn
     Begin
@@ -4034,7 +4034,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMonthlyCasesDistributions
 DROP PROCEDURE IF EXISTS `GetMonthlyCasesDistributions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMonthlyCasesDistributions`(IN _Year Date)
+CREATE  PROCEDURE `GetMonthlyCasesDistributions`(IN _Year Date)
 BEGIN
 select count(*) as Count,FilingDate,ApplicationREf,Status,MONTHNAME(FilingDate) as Month from applications where YEAR(FilingDate)=YEAR(_Year)  GROUP by MONTH(FilingDate);
 END//
@@ -4086,7 +4086,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMyDecision
 DROP PROCEDURE IF EXISTS `GetMyDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyDecision`(IN _userName varchar(50))
+CREATE  PROCEDURE `GetMyDecision`(IN _userName varchar(50))
 BEGIN
 
   select Category from users where Username=_userName Limit 1 INTO @Category;
@@ -4183,7 +4183,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMyPendingNotification
 DROP PROCEDURE IF EXISTS `GetMyPendingNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyPendingNotification`(IN `_UserName` VARCHAR(50))
+CREATE  PROCEDURE `GetMyPendingNotification`(IN `_UserName` VARCHAR(50))
     NO SQL
 BEGIN
 SELECT  Username,COUNT(*) As Total, Category, Description, Created_At, DueDate, Status  from  notifications where Username=_Username
@@ -4194,7 +4194,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetMyresolveedNotifications
 DROP PROCEDURE IF EXISTS `GetMyresolveedNotifications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetMyresolveedNotifications`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GetMyresolveedNotifications`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 Select * from  notifications where Username=_Username and status='Resolved';
@@ -4205,7 +4205,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getMyResponse
 DROP PROCEDURE IF EXISTS `getMyResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMyResponse`(IN _PEID VARCHAR(50))
+CREATE  PROCEDURE `getMyResponse`(IN _PEID VARCHAR(50))
 BEGIN
 select PEID from peusers where UserName=_PEID limit 1 into @PEID;
 select applications.ID as ApplicationID, peresponse.ID as ResponseID,peresponse.Status, peresponse.ApplicationNo,peresponse.ResponseType,peresponse.ResponseDate,tenders.TenderNo,tenders.Name ,
@@ -4221,7 +4221,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getMySchedules
 DROP PROCEDURE IF EXISTS `getMySchedules`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMySchedules`(IN _Username VARCHAR(50))
+CREATE  PROCEDURE `getMySchedules`(IN _Username VARCHAR(50))
 BEGIN
 select start,end,title from schedules where UserName = _Username;
 END//
@@ -4270,7 +4270,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getOneCaseOfficer
 DROP PROCEDURE IF EXISTS `getOneCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneCaseOfficer`(IN _Username VARCHAR(50))
+CREATE  PROCEDURE `getOneCaseOfficer`(IN _Username VARCHAR(50))
 BEGIN
 SELECT `ID`, `Username`, `MinValue`, MaximumValue, `Active`, `NotAvailableFrom`, `NotAvailableTo`, `OngoingCases`, `CumulativeCases`, `Create_at`, 
   `Update_at`, `CreatedBy`, `UpdatedBy`, `Deleted`, `DeletedBY`, `Deleted_At` FROM `caseofficers` 
@@ -4427,7 +4427,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetOnevenue
 DROP PROCEDURE IF EXISTS `GetOnevenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOnevenue`(IN _ID int)
+CREATE  PROCEDURE `GetOnevenue`(IN _ID int)
 BEGIN
  
   Select venues.ID,  venues.ID,branches.Description as Branch,  venues.Name,venues.Description 
@@ -4439,7 +4439,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPanelMembers
 DROP PROCEDURE IF EXISTS `GetPanelMembers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPanelMembers`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetPanelMembers`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 SET @row_number = 0; 
 select (@row_number:=@row_number + 1) AS ID, panels.ApplicationNo,panels.UserName,users.Name,users.Email,users.Phone ,panels.Status,Role from panels
@@ -4450,7 +4450,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetpanelsApproval
 DROP PROCEDURE IF EXISTS `GetpanelsApproval`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetpanelsApproval`(IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `GetpanelsApproval`(IN _UserID VARCHAR(50))
 BEGIN
 select DISTINCT applications.HearingNoticeGenerated, applications.ApplicationNo,applications.PEID,'' as ResponseType,'' as ResponseDate,
   procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,
@@ -4510,7 +4510,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEAppearanceFrequency
 DROP PROCEDURE IF EXISTS `GetPEAppearanceFrequency`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEAppearanceFrequency`(IN _FromDate Date,IN _ToDate Date ,IN _ALl Boolean)
+CREATE  PROCEDURE `GetPEAppearanceFrequency`(IN _FromDate Date,IN _ToDate Date ,IN _ALl Boolean)
 BEGIN
 if(_ALl=1) THEn
 Begin
@@ -4534,7 +4534,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEAppearanceFrequencyPercategory
 DROP PROCEDURE IF EXISTS `GetPEAppearanceFrequencyPercategory`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEAppearanceFrequencyPercategory`(IN _Category varchar(50))
+CREATE  PROCEDURE `GetPEAppearanceFrequencyPercategory`(IN _Category varchar(50))
 BEGIN
 select Code from petypes WHERE Description=_Category LIMIT 1 into @PEType;
 select count(applications.ID) as Count,procuremententity.Name,applications.PEID from applications 
@@ -4548,7 +4548,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEApplications
 DROP PROCEDURE IF EXISTS `GetPEApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEApplications`(IN _PEID varchar(50))
+CREATE  PROCEDURE `GetPEApplications`(IN _PEID varchar(50))
 BEGIN
 
 select ApplicationNo,Status,tenders.TenderNo,tenders.Name,FilingDate,applicants.Name from applications 
@@ -4565,7 +4565,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingApplicationFees
 DROP PROCEDURE IF EXISTS `GetPendingApplicationFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingApplicationFees`(IN _UserName VARCHAR(50))
+CREATE  PROCEDURE `GetPendingApplicationFees`(IN _UserName VARCHAR(50))
 BEGIN
 select DISTINCT applications.ID ,applications.ApplicantID,    
   procuremententity.Name,applications.PaymentStatus as FeesStatus,applications.Created_At  as FilingDate,procuremententity.Mobile,
@@ -4585,7 +4585,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingFeesApprovals
 DROP PROCEDURE IF EXISTS `GetPendingFeesApprovals`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingFeesApprovals`(IN _ApplicationID int)
+CREATE  PROCEDURE `GetPendingFeesApprovals`(IN _ApplicationID int)
 BEGIN
 select sum(AmountDue)  from applicationfees where ApplicationID=_ApplicationID and applicationfees.Deleted=0 INTO @Totall;
   select @Totall as Total, applicationfees.ID, applicationfees.ApplicationID,feesstructure.Description as EntryType, applicationfees.AmountDue, applicationfees.RefNo, applicationfees.BillDate, applicationfees.AmountPaid
@@ -4600,7 +4600,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPendingPreliminaryObjectionFees
 DROP PROCEDURE IF EXISTS `GetPendingPreliminaryObjectionFees`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPendingPreliminaryObjectionFees`(IN _UserName VARCHAR(50))
+CREATE  PROCEDURE `GetPendingPreliminaryObjectionFees`(IN _UserName VARCHAR(50))
 BEGIN
 select DISTINCT applications.ID ,applications.ApplicantID,    
   procuremententity.Name,peresponse.Status as FeesStatus,applications.Created_At  as FilingDate,procuremententity.Mobile,
@@ -4620,7 +4620,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPEPerApplicationNo
 DROP PROCEDURE IF EXISTS `getPEPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPEPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `getPEPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select PEID FROM  applications where ApplicationNo=_ApplicationNo into @PEID;
   select PEID,Name,PEType,County,Location,POBox,PostalCode,Town,Mobile,Telephone,Email,Website from procuremententity where PEID=@PEID;
@@ -4631,7 +4631,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseBackgrounInformation
 DROP PROCEDURE IF EXISTS `GetPEResponseBackgrounInformation`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseBackgrounInformation`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `GetPEResponseBackgrounInformation`(IN _ApplicationNo varchar(50))
 BEGIN
 select BackgroundInformation from peresponsebackgroundinformation where ApplicationNo=_ApplicationNo;
 END//
@@ -4640,7 +4640,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDetails
 DROP PROCEDURE IF EXISTS `GetPEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDetails`(IN _ResponseID INT)
+CREATE  PROCEDURE `GetPEResponseDetails`(IN _ResponseID INT)
 BEGIN
 Select * from peresponsedetails where PEResponseID=_ResponseID and Deleted=0;
 END//
@@ -4649,7 +4649,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDetailsPerApplication
 DROP PROCEDURE IF EXISTS `GetPEResponseDetailsPerApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDetailsPerApplication`(IN _Application varchar(50))
+CREATE  PROCEDURE `GetPEResponseDetailsPerApplication`(IN _Application varchar(50))
 BEGIN
 select ID from peresponse where ApplicationNo=_Application LIMIT 1 into @ResponseID; 
 Select peresponsedetails.ID,peresponsedetails.PEResponseID,peresponsedetails.GroundNO,peresponsedetails.GroundType,peresponsedetails.Response,peresponsedetails.Created_At,
@@ -4662,7 +4662,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEResponseDocuments
 DROP PROCEDURE IF EXISTS `GetPEResponseDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEResponseDocuments`(IN _ResponseID VARCHAR(50))
+CREATE  PROCEDURE `GetPEResponseDocuments`(IN _ResponseID VARCHAR(50))
 BEGIN
 select ID from peresponse where ApplicationNo=_ResponseID LIMIT 1 into @ResponseID; 
 Select ID,PEResponseID,Name as FileName,Description,Path,Created_At,Deleted,Confidential from peresponsedocuments where (PEResponseID=_ResponseID or PEResponseID=@ResponseID ) and Deleted=0;
@@ -4682,7 +4682,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPEUserdetails
 DROP PROCEDURE IF EXISTS `GetPEUserdetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPEUserdetails`(IN _User VARCHAR(50))
+CREATE  PROCEDURE `GetPEUserdetails`(IN _User VARCHAR(50))
 BEGIN
 select PEID from peusers where UserName=_User limit 1 into @PEID ;
 SELECT procuremententity.ID ,procuremententity.PEID as ApplicantCode, procuremententity.Name, procuremententity.Location, procuremententity.POBox,
@@ -4697,7 +4697,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPreliminaryObjections
 DROP PROCEDURE IF EXISTS `getPreliminaryObjections`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPreliminaryObjections`()
+CREATE  PROCEDURE `getPreliminaryObjections`()
 BEGIN
 select ID,Name,Description,MaxFee,SUM(MaxFee) as Total from feesstructure where Name='Filling Preliminary Objections' and Deleted=0;
  
@@ -4707,7 +4707,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetPreliminaryObjectionsFeesPaymentDetails
 DROP PROCEDURE IF EXISTS `GetPreliminaryObjectionsFeesPaymentDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetPreliminaryObjectionsFeesPaymentDetails`(IN _ApplicationID INT)
+CREATE  PROCEDURE `GetPreliminaryObjectionsFeesPaymentDetails`(IN _ApplicationID INT)
 BEGIN
  select sum(AmountPaid) from paymentdetails WHERE ApplicationID=_ApplicationID and Category='PreliminaryObjectionsFees' into @Total;
   select  @Total  as TotalPaid,paymentdetails.ApplicationID,paymentdetails.Paidby,paymentdetails.Refference,paymentdetails.DateOfpayment,paymentdetails.AmountPaid,
@@ -4722,7 +4722,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getPrimaryCaseOfficer
 DROP PROCEDURE IF EXISTS `getPrimaryCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getPrimaryCaseOfficer`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `getPrimaryCaseOfficer`(IN _ApplicationNo varchar(50))
 BEGIN
 select casedetails.UserName,ApplicationNo,Email,Phone,Name from casedetails inner join users on users.Username=casedetails.UserName 
   where casedetails.ApplicationNo=_ApplicationNo and casedetails.Status='Open' LIMIT 1;
@@ -4742,7 +4742,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRespondedApplications
 DROP PROCEDURE IF EXISTS `GetRespondedApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRespondedApplications`()
+CREATE  PROCEDURE `GetRespondedApplications`()
 BEGIN
 select DISTINCT applications.ApplicationNo,applications.PEID,'' as ResponseType,'' as ResponseDate,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,procuremententity.Town as PETown,
@@ -4760,7 +4760,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRespondedApplicationsToBeScheduled
 DROP PROCEDURE IF EXISTS `GetRespondedApplicationsToBeScheduled`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRespondedApplicationsToBeScheduled`()
+CREATE  PROCEDURE `GetRespondedApplicationsToBeScheduled`()
 BEGIN
 select applications.FilingDate,peresponsetimer.RegisteredOn as PEServedOn, applications.ApplicationNo,applications.PEID,
 procuremententity.Name as PEName,procuremententity.POBox as PEPOBOX,procuremententity.PostalCode as PEPostalCode,
@@ -4776,7 +4776,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRole
 DROP PROCEDURE IF EXISTS `GetRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRole`(IN `_RoleId` BIGINT)
+CREATE  PROCEDURE `GetRole`(IN `_RoleId` BIGINT)
     NO SQL
 BEGIN
 Select * from roles where RoleID=_RoleID ;
@@ -4786,7 +4786,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetRoles
 DROP PROCEDURE IF EXISTS `GetRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetRoles`()
+CREATE  PROCEDURE `GetRoles`()
     NO SQL
 BEGIN
 Select RoleID,RoleName,RoleDescription from roles where Deleted=0;
@@ -4796,7 +4796,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetSittingsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetSittingsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetSittingsPerApplicationNo`(IN _Applicationno varchar(50))
+CREATE  PROCEDURE `GetSittingsPerApplicationNo`(IN _Applicationno varchar(50))
 BEGIN
 select casesittingsregister.ID as SittingID,casesittingsregister.VenueID,casesittingsregister.Date,casesittingsregister.SittingNo,venues.Name as VenueName,branches.Description as Branch from casesittingsregister
 INNER JOIN venues on casesittingsregister.VenueID=venues.ID INNER JOIN branches on branches.ID=venues.Branch
@@ -4837,7 +4837,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetsuccessfullApplications
 DROP PROCEDURE IF EXISTS `GetsuccessfullApplications`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetsuccessfullApplications`(IN _FromDate DATE, IN _ToDate DATE, IN _Category VARCHAR(50), IN _All BOOLEAN)
+CREATE  PROCEDURE `GetsuccessfullApplications`(IN _FromDate DATE, IN _ToDate DATE, IN _Category VARCHAR(50), IN _All BOOLEAN)
 BEGIN
 -- Successful Applications
 if(_Category='Successful')then
@@ -4936,7 +4936,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetTenderDetailsPerApplicationNo
 DROP PROCEDURE IF EXISTS `GetTenderDetailsPerApplicationNo`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTenderDetailsPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `GetTenderDetailsPerApplicationNo`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 select TenderID from applications where ApplicationNo=_ApplicationNo or ID=_ApplicationNo limit 1 into @Tender;
 select TenderNo,Name,TenderValue,tendertypes.Description as TenderTypeDesc,StartDate,tenders.Created_At as FilingDate,  TenderType,
@@ -4970,7 +4970,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getuser
 DROP PROCEDURE IF EXISTS `getuser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getuser`(IN `_Username` VARCHAR(128))
+CREATE  PROCEDURE `getuser`(IN `_Username` VARCHAR(128))
     NO SQL
 BEGIN
 select COUNT(*) from casedetails where UserName=_Username  into @caseOfficer;
@@ -4985,7 +4985,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetuserAccess
 DROP PROCEDURE IF EXISTS `GetuserAccess`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetuserAccess`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GetuserAccess`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 
@@ -5012,7 +5012,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.getusergroup
 DROP PROCEDURE IF EXISTS `getusergroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getusergroup`(IN `_UserGroupID` INT(128))
+CREATE  PROCEDURE `getusergroup`(IN `_UserGroupID` INT(128))
     NO SQL
 BEGIN
 Select * from usergroups where Deleted=0 and UserGroupID=_UserGroupID;
@@ -5022,7 +5022,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUsergroups
 DROP PROCEDURE IF EXISTS `GetUsergroups`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUsergroups`()
+CREATE  PROCEDURE `GetUsergroups`()
     NO SQL
 BEGIN
 Select * from usergroups where Deleted=0;
@@ -5032,7 +5032,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUserRoles
 DROP PROCEDURE IF EXISTS `GetUserRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUserRoles`(IN `_Username` VARCHAR(100))
+CREATE  PROCEDURE `GetUserRoles`(IN `_Username` VARCHAR(100))
     NO SQL
 BEGIN
 SELECT `Username`, useraccess.RoleID,RoleName, useraccess.Edit, useraccess.Remove, useraccess.AddNew, useraccess.View, useraccess.Export FROM `useraccess`
@@ -5044,7 +5044,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetUsers
 DROP PROCEDURE IF EXISTS `GetUsers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetUsers`()
+CREATE  PROCEDURE `GetUsers`()
     NO SQL
 BEGIN
 SELECT users.Name, Username,users.Board, Email,Phone,IsActive,usergroups.Name as UserGroup,users.UserGroupID,Photo,Signature,IDnumber,DOB,Gender,Category from users
@@ -5056,7 +5056,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GetvenuesPerBranch
 DROP PROCEDURE IF EXISTS `GetvenuesPerBranch`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetvenuesPerBranch`(IN _Branch int)
+CREATE  PROCEDURE `GetvenuesPerBranch`(IN _Branch int)
 BEGIN
  
   Select venues.ID,  venues.ID,branches.Description as branch,  venues.Name,venues.Description 
@@ -5068,7 +5068,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.GiveUserAllRoles
 DROP PROCEDURE IF EXISTS `GiveUserAllRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GiveUserAllRoles`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `GiveUserAllRoles`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 UPDATE useraccess SET
@@ -5512,7 +5512,7 @@ DELETE FROM `judicialreviewdocuments`;
 -- Dumping structure for procedure arcm.MarkcaseWithdrawalasfrivolous
 DROP PROCEDURE IF EXISTS `MarkcaseWithdrawalasfrivolous`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `MarkcaseWithdrawalasfrivolous`(IN _ApplicationNo varchar(50), IN _userID varchar(50))
+CREATE  PROCEDURE `MarkcaseWithdrawalasfrivolous`(IN _ApplicationNo varchar(50), IN _userID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Declined Case Withdrawal for Application : ', _ApplicationNo); 
@@ -6402,7 +6402,7 @@ DELETE FROM `rb1forms`;
 -- Dumping structure for procedure arcm.ReasignCaseOfficer
 DROP PROCEDURE IF EXISTS `ReasignCaseOfficer`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ReasignCaseOfficer`(IN _UserID VARCHAR(50), IN _Applicationno VARCHAR(50), IN _UserName VARCHAR(50), IN _Reason VARCHAR(255))
+CREATE  PROCEDURE `ReasignCaseOfficer`(IN _UserID VARCHAR(50), IN _Applicationno VARCHAR(50), IN _UserName VARCHAR(50), IN _Reason VARCHAR(255))
 BEGIN
 select UserName from casedetails where ApplicationNo=_Applicationno AND Status='Open' LIMIT 1 into @CurrentUser;
 update casedetails set Status='Re-Assigned',PrimaryOfficer=0,ReassignedTo=_UserName,DateReasigned=now(),Reason=_Reason where ApplicationNo=_Applicationno and UserName=@CurrentUser;
@@ -6419,7 +6419,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.registercasesittings
 DROP PROCEDURE IF EXISTS `registercasesittings`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `registercasesittings`(IN _ApplicationNo VARCHAR(50),IN _VenueID INT,IN _Date Date,IN _UserID varchar(50))
+CREATE  PROCEDURE `registercasesittings`(IN _ApplicationNo VARCHAR(50),IN _VenueID INT,IN _Date Date,IN _UserID varchar(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Registered hearing for Application:',_ApplicationNo); 
@@ -6447,7 +6447,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.RemoveAllUserroles
 DROP PROCEDURE IF EXISTS `RemoveAllUserroles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RemoveAllUserroles`(IN `_Username` VARCHAR(50))
+CREATE  PROCEDURE `RemoveAllUserroles`(IN `_Username` VARCHAR(50))
     NO SQL
 BEGIN
 
@@ -6466,7 +6466,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.RemovePanelMember
 DROP PROCEDURE IF EXISTS `RemovePanelMember`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RemovePanelMember`(IN _ApplicationNo VARCHAR(50), IN _UserName VARCHAR(50), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `RemovePanelMember`(IN _ApplicationNo VARCHAR(50), IN _UserName VARCHAR(50), IN _userID VARCHAR(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Removed  PanelMember:' +_UserName+ ' for Application: ', _ApplicationNo); 
@@ -6514,7 +6514,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Resolveapplicationsequence
 DROP PROCEDURE IF EXISTS `Resolveapplicationsequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Resolveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255))
+CREATE  PROCEDURE `Resolveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255))
 BEGIN
   Update applicationsequence set Status='Done' where ApplicationNo=_ApplicationNo and  Action=_Action ;
 END//
@@ -6523,7 +6523,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ResolveMyNotification
 DROP PROCEDURE IF EXISTS `ResolveMyNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50),IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `ResolveMyNotification`(IN _UserName VARCHAR(50), IN _Category VARCHAR(50),IN _ApplicationNo VARCHAR(50))
 BEGIN
 -- select ID from notifications where Username=_UserName and Category=_Category and Status='Not Resolved' LIMIT 1 into @UnresolvedID;
 update notifications set Status='Resolved' where Username=_UserName and Category=_Category and ApplicationNo=_ApplicationNo;
@@ -6533,7 +6533,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.ResubmitApplication
 DROP PROCEDURE IF EXISTS `ResubmitApplication`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ResubmitApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
+CREATE  PROCEDURE `ResubmitApplication`(IN _ApplicationID INT, IN _userID VARCHAR(50))
 BEGIN
 Update applications set Status='Pending Approval' where ID=_ApplicationID;
  select ApplicationNo from applications where ID=_ApplicationID LIMIT 1 into @App; 
@@ -6653,7 +6653,7 @@ INSERT INTO `roles` (`RoleID`, `RoleName`, `RoleDescription`, `UpdateBy`, `Creat
 -- Dumping structure for procedure arcm.Saveadditionalsubmissions
 DROP PROCEDURE IF EXISTS `Saveadditionalsubmissions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveadditionalsubmissions`(IN _ApplicationID INT, IN _Description TEXT,  IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `Saveadditionalsubmissions`(IN _ApplicationID INT, IN _Description TEXT,  IN `_userID` VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new additionalsubmissions for ApplicationNo:',_ApplicationID); 
@@ -6700,7 +6700,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveadditionalsubmissionsDocuments
 DROP PROCEDURE IF EXISTS `SaveadditionalsubmissionsDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveadditionalsubmissionsDocuments`(IN _ApplicationID INT, IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50), IN _Confidential BOOLEAN)
+CREATE  PROCEDURE `SaveadditionalsubmissionsDocuments`(IN _ApplicationID INT, IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50), IN _Confidential BOOLEAN)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new additionalsubmissions doument for ApplicationNo:',_ApplicationID); 
@@ -6746,7 +6746,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Saveadjournment
 DROP PROCEDURE IF EXISTS `Saveadjournment`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveadjournment`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason text,IN _UserID varchar(50))
+CREATE  PROCEDURE `Saveadjournment`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason text,IN _UserID varchar(50))
 BEGIN
 if(SELECT count(*)  from adjournment where ApplicationNo=_ApplicationNo)>0 THEN
 BEGIN
@@ -6777,7 +6777,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveadjournmentDocuments
 DROP PROCEDURE IF EXISTS `SaveadjournmentDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveadjournmentDocuments`(IN _ApplicationNo VARCHAR(50),IN _Description VARCHAR(155)
+CREATE  PROCEDURE `SaveadjournmentDocuments`(IN _ApplicationNo VARCHAR(50),IN _Description VARCHAR(155)
   ,IN _Path varchar(105),IN _name varchar(105),IN _UserID varchar(50))
 BEGIN
 
@@ -6866,7 +6866,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Saveapplicationsequence
 DROP PROCEDURE IF EXISTS `Saveapplicationsequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Saveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255),IN _ExpectedAction VARCHAR(150),IN _UserID varchar(50))
+CREATE  PROCEDURE `Saveapplicationsequence`(IN _ApplicationNo VARCHAR(50),IN _Action VARCHAR(255),IN _ExpectedAction VARCHAR(150),IN _UserID varchar(50))
 BEGIN
 if(select count(*) from applicationsequence where Action=_Action and ApplicationNo=_ApplicationNo)>0 THEN
 Begin
@@ -6916,7 +6916,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveAuditTrail
 DROP PROCEDURE IF EXISTS `SaveAuditTrail`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveAuditTrail`(IN `_Username` VARCHAR(50), IN `_Description` VARCHAR(128), IN `_Category` VARCHAR(50), IN `_IpAddress` VARCHAR(50))
+CREATE  PROCEDURE `SaveAuditTrail`(IN `_Username` VARCHAR(50), IN `_Description` VARCHAR(128), IN `_Category` VARCHAR(50), IN `_IpAddress` VARCHAR(50))
     NO SQL
 BEGIN
 INSERT INTO `audittrails`(`Date`, `Username`, `Description`, `Category`, `IpAddress`) VALUES (now(),_Username,_Description,_Category,_IpAddress);
@@ -6994,7 +6994,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savecaseanalysisdocuments
 DROP PROCEDURE IF EXISTS `Savecaseanalysisdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savecaseanalysisdocuments`(IN _ApplicationNo varchar(50), IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50))
+CREATE  PROCEDURE `Savecaseanalysisdocuments`(IN _ApplicationNo varchar(50), IN _Description TEXT, IN _DocName VARCHAR(100), IN _FilePath VARCHAR(50), IN _userID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new caseanalysis  doument for ApplicationNo:',_ApplicationNo); 
@@ -7012,7 +7012,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveCaseOfficers
 DROP PROCEDURE IF EXISTS `SaveCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new Case Officer: ',_Username); 
@@ -7026,7 +7026,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveCaseWithdrawal
 DROP PROCEDURE IF EXISTS `SaveCaseWithdrawal`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveCaseWithdrawal`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason VARCHAR(255),IN _UserID varchar(50))
+CREATE  PROCEDURE `SaveCaseWithdrawal`(IN _Applicant VARCHAR(50),IN _ApplicationNo VARCHAR(50),IN _Reason VARCHAR(255),IN _UserID varchar(50))
 BEGIN
 if(SELECT count(*)  from casewithdrawal where ApplicationNo=_ApplicationNo and Status='Approved')>0 THEN
 BEGIN
@@ -7073,7 +7073,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveConfigurations
 DROP PROCEDURE IF EXISTS `SaveConfigurations`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveConfigurations`(IN _Name varchar(255),IN  _PhysicalAdress varchar(255),IN  _Street varchar(255),IN  _PoBox varchar(255),IN _PostalCode varchar(50),IN _Town varchar(100),IN _Telephone1 varchar(100),IN _Telephone2 varchar(100),IN _Mobile varchar(100),IN _Fax varchar(100),IN _Email varchar(100),IN _Website varchar(100),IN _PIN varchar(50),IN _Logo varchar(100),IN _UserID varchar(50),IN _Code varchar(50))
+CREATE  PROCEDURE `SaveConfigurations`(IN _Name varchar(255),IN  _PhysicalAdress varchar(255),IN  _Street varchar(255),IN  _PoBox varchar(255),IN _PostalCode varchar(50),IN _Town varchar(100),IN _Telephone1 varchar(100),IN _Telephone2 varchar(100),IN _Mobile varchar(100),IN _Fax varchar(100),IN _Email varchar(100),IN _Website varchar(100),IN _PIN varchar(50),IN _Logo varchar(100),IN _UserID varchar(50),IN _Code varchar(50))
 BEGIN
 if(SELECT count(*)  from configurations)>0 THEN
 
@@ -7323,7 +7323,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveHearingAttachments
 DROP PROCEDURE IF EXISTS `SaveHearingAttachments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveHearingAttachments`(IN _ApplicationNo VARCHAR(50),IN _Name LongText,IN _Description VARCHAR(255),IN _Path VARCHAR(255),IN _Category VARCHAR(50),IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveHearingAttachments`(IN _ApplicationNo VARCHAR(50),IN _Name LongText,IN _Description VARCHAR(255),IN _Path VARCHAR(255),IN _Category VARCHAR(50),IN _UserID VARCHAR(50))
 BEGIN
   DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Uploaded hearing attachment for application:',_ApplicationNo); 
@@ -7336,7 +7336,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveHearingNotice
 DROP PROCEDURE IF EXISTS `SaveHearingNotice`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveHearingNotice`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(100),IN _Attachementname VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveHearingNotice`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(100),IN _Attachementname VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Generated hearing Notice for Application: ', _ApplicationNo); 
@@ -7351,7 +7351,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveInterestedParty
 DROP PROCEDURE IF EXISTS `SaveInterestedParty`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveInterestedParty`(IN _Name VARCHAR(120), IN _ApplicationID INT(11), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
+CREATE  PROCEDURE `SaveInterestedParty`(IN _Name VARCHAR(120), IN _ApplicationID INT(11), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
   IN _PhysicalAddress VARCHAR(150), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _POBox VARCHAR(255), IN _UserID VARCHAR(50), IN _Designation VARCHAR(50))
     NO SQL
 BEGIN
@@ -7393,7 +7393,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savejrcontactusers
 DROP PROCEDURE IF EXISTS `Savejrcontactusers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savejrcontactusers`(IN _UserName VARCHAR(50),_ApplicationNO VARCHAR(50),IN _Role VARCHAR(100),IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `Savejrcontactusers`(IN _UserName VARCHAR(50),_ApplicationNO VARCHAR(50),IN _Role VARCHAR(100),IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Added new jruser for application:',_ApplicationNO); 
@@ -7413,7 +7413,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savejrinterestedparties
 DROP PROCEDURE IF EXISTS `Savejrinterestedparties`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savejrinterestedparties`(IN _Name VARCHAR(120), IN _ApplicationNO varchar(50), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
+CREATE  PROCEDURE `Savejrinterestedparties`(IN _Name VARCHAR(120), IN _ApplicationNO varchar(50), IN _ContactName VARCHAR(150), IN _Email VARCHAR(128), IN _TelePhone VARCHAR(20), IN _Mobile VARCHAR(20),
   IN _PhysicalAddress VARCHAR(150), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _POBox VARCHAR(255), IN _UserID VARCHAR(50), IN _Designation VARCHAR(50))
     NO SQL
 BEGIN
@@ -7471,7 +7471,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savejudicialreviewdocuments
 DROP PROCEDURE IF EXISTS `Savejudicialreviewdocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savejudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50), IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), 
+CREATE  PROCEDURE `Savejudicialreviewdocuments`(IN _ApplicationNo VARCHAR(50), IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), 
   IN _UserID VARCHAR(50),IN _DocumentDate varchar(50),IN _ActionDate varchar(50),IN _ActionDescription VARCHAR(255))
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -7506,7 +7506,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveMpesaTransactions
 DROP PROCEDURE IF EXISTS `SaveMpesaTransactions`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveMpesaTransactions`(IN `_TransactionType` VARCHAR(100), IN `_TransID` VARCHAR(100), IN `_TransTime` VARCHAR(100), 
+CREATE  PROCEDURE `SaveMpesaTransactions`(IN `_TransactionType` VARCHAR(100), IN `_TransID` VARCHAR(100), IN `_TransTime` VARCHAR(100), 
   IN `_TransAmount` FLOAT, IN `_BusinessShortCode` VARCHAR(100), IN `_BillRefNumber` VARCHAR(100), IN `_InvoiceNumber` VARCHAR(100),
   IN `_OrgAccountBalance` VARCHAR(100), IN `_ThirdPartyTransID` VARCHAR(100), IN `_MSISDN` VARCHAR(100), IN `_FirstName` VARCHAR(100),
   IN `_MiddleName` VARCHAR(100), IN `_LastName` VARCHAR(100))
@@ -7546,7 +7546,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveNotification
 DROP PROCEDURE IF EXISTS `SaveNotification`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME,IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `SaveNotification`(IN `_UserName` VARCHAR(50), IN `_Category` VARCHAR(50), IN `_Description` VARCHAR(255), IN `_DueDate` DATETIME,IN _ApplicationNo VARCHAR(50))
     NO SQL
 BEGIN
 INSERT INTO notifications( Username, Category, Description, Created_At, DueDate, Status,ApplicationNo)
@@ -7558,7 +7558,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePanel
 DROP PROCEDURE IF EXISTS `SavePanel`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePanel`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
+CREATE  PROCEDURE `SavePanel`(IN _ApplicationNo VARCHAR(50), IN _Role VARCHAR(100), IN _UserName VARCHAR(50), IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Added new PanelMember for Application ',_ApplicationNo); 
@@ -7580,7 +7580,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savepanellist
 DROP PROCEDURE IF EXISTS `Savepanellist`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savepanellist`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `Savepanellist`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 if(select count(*) from panellist where ApplicationNo=_ApplicationNo) <1 THEN
 Begin
@@ -7679,7 +7679,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEResponse
 DROP PROCEDURE IF EXISTS `SavePEResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEResponse`(IN _ApplicationNo VARCHAR(50), IN _ResponseType VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SavePEResponse`(IN _ApplicationNo VARCHAR(50), IN _ResponseType VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -7734,7 +7734,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEResponseDetails
 DROP PROCEDURE IF EXISTS `SavePEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEResponseDetails`(IN _PERsponseID INT, IN _GrounNo VARCHAR(50), IN _Groundtype VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SavePEResponseDetails`(IN _PERsponseID INT, IN _GrounNo VARCHAR(50), IN _Groundtype VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -7748,7 +7748,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePEresponseDocuments
 DROP PROCEDURE IF EXISTS `SavePEresponseDocuments`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePEresponseDocuments`(IN _PEResponseID INT, IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _Confidential Boolean)
+CREATE  PROCEDURE `SavePEresponseDocuments`(IN _PEResponseID INT, IN _Name VARCHAR(100), IN _Description VARCHAR(255), IN _Path VARCHAR(155), IN _Confidential Boolean)
 BEGIN
 insert into peresponsedocuments (PEResponseID ,Name ,Description ,Path , Created_At,Deleted,Confidential )
   VALUES(_PEResponseID,_Name,_Description,_Path,now(),0,_Confidential);
@@ -7758,7 +7758,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePETimerResponse
 DROP PROCEDURE IF EXISTS `SavePETimerResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePETimerResponse`(IN _PEID VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _DueOn DATETIME)
+CREATE  PROCEDURE `SavePETimerResponse`(IN _PEID VARCHAR(50), IN _ApplicationNo VARCHAR(50), IN _DueOn DATETIME)
 BEGIN
   insert into peresponsetimer( PEID ,  ApplicationNo,  RegisteredOn ,  DueOn, Status)
     VALUES(_PEID,_ApplicationNo,now(),_DueOn,'Pending Acknowledgement');
@@ -7789,7 +7789,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SavePeUsers
 DROP PROCEDURE IF EXISTS `SavePeUsers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SavePeUsers`(IN _Username VARCHAR(50), IN _PE VARCHAR(50),IN _Name VARCHAR(128), IN _Location VARCHAR(50),
+CREATE  PROCEDURE `SavePeUsers`(IN _Username VARCHAR(50), IN _PE VARCHAR(50),IN _Name VARCHAR(128), IN _Location VARCHAR(50),
   IN _POBox VARCHAR(50), IN _PostalCode VARCHAR(50), IN _Town VARCHAR(100), IN _Mobile VARCHAR(50), IN _Telephone VARCHAR(50), 
   IN _Email VARCHAR(100),
   IN _Logo VARCHAR(100), IN _Website VARCHAR(100), IN _County VARCHAR(50), 
@@ -7843,7 +7843,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveRB1Form
 DROP PROCEDURE IF EXISTS `SaveRB1Form`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRB1Form`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveRB1Form`(IN _ApplicationNo VARCHAR(50), IN _Path VARCHAR(255), IN _Name VARCHAR(105), IN _UserID VARCHAR(50))
 BEGIN
 if(select count(*) from rb1forms where ApplicationNo=_ApplicationNo) <1 THEN
 Begin
@@ -7857,7 +7857,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveRequestforDeadlineExtension
 DROP PROCEDURE IF EXISTS `SaveRequestforDeadlineExtension`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRequestforDeadlineExtension`(IN _ApplicationNo VARCHAR(50), IN _Reason TEXT, IN _Newdate DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SaveRequestforDeadlineExtension`(IN _ApplicationNo VARCHAR(50), IN _Reason TEXT, IN _Newdate DATETIME, IN _UserID VARCHAR(50))
 BEGIN
   if(SELECT count(*)  from pedeadlineextensionsrequests where ApplicationNo=_ApplicationNo)<1 THEN
 BEGIN
@@ -7928,7 +7928,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveRole
 DROP PROCEDURE IF EXISTS `SaveRole`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveRole`(IN `_RoleName` VARCHAR(50), IN `_RoleDescription` VARCHAR(128), IN `_UserID` VARCHAR(50))
+CREATE  PROCEDURE `SaveRole`(IN `_RoleName` VARCHAR(50), IN `_RoleDescription` VARCHAR(128), IN `_UserID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -7941,7 +7941,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveSchedule
 DROP PROCEDURE IF EXISTS `SaveSchedule`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveSchedule`(IN _Username VARCHAR(50), IN _start DATETIME, IN _end DATETIME, IN _title VARCHAR(255))
+CREATE  PROCEDURE `SaveSchedule`(IN _Username VARCHAR(50), IN _start DATETIME, IN _end DATETIME, IN _title VARCHAR(255))
 BEGIN
 insert into schedules(UserName,start,end,title) VALUES (_Username,_start,_end,_title);
 
@@ -8040,7 +8040,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveUser
 DROP PROCEDURE IF EXISTS `SaveUser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveUser`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _Password VARCHAR(128), IN _UserGroupID BIGINT, IN _Username VARCHAR(50), IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IsActive BOOLEAN, IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _ActivationCode VARCHAR(50), IN _Board BOOLEAN)
+CREATE  PROCEDURE `SaveUser`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _Password VARCHAR(128), IN _UserGroupID BIGINT, IN _Username VARCHAR(50), IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IsActive BOOLEAN, IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _ActivationCode VARCHAR(50), IN _Board BOOLEAN)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8060,7 +8060,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveuserAcces
 DROP PROCEDURE IF EXISTS `SaveuserAcces`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveuserAcces`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Edit` BOOLEAN, IN `_Remove` BOOLEAN, IN `_AddNew` BOOLEAN, IN `_View` BOOLEAN, IN `_Export` BOOLEAN, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `SaveuserAcces`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Edit` BOOLEAN, IN `_Remove` BOOLEAN, IN `_AddNew` BOOLEAN, IN `_View` BOOLEAN, IN `_Export` BOOLEAN, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8085,7 +8085,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SaveUserGroup
 DROP PROCEDURE IF EXISTS `SaveUserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SaveUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `SaveUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8103,7 +8103,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Savevenues
 DROP PROCEDURE IF EXISTS `Savevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Savevenues`(in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
+CREATE  PROCEDURE `Savevenues`(in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Added new Venue with Name: ', _Name); 
@@ -8132,7 +8132,7 @@ DELETE FROM `schedules`;
 -- Dumping structure for procedure arcm.selfAttendanceregistration
 DROP PROCEDURE IF EXISTS `selfAttendanceregistration`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `selfAttendanceregistration`(IN _RegisterID INT(11), IN _Name VARCHAR(100), IN _IDNO VARCHAR(50), IN _MobileNo VARCHAR(50), IN _Category VARCHAR(55)
+CREATE  PROCEDURE `selfAttendanceregistration`(IN _RegisterID INT(11), IN _Name VARCHAR(100), IN _IDNO VARCHAR(50), IN _MobileNo VARCHAR(50), IN _Category VARCHAR(55)
   , IN _UserID VARCHAR(50), IN _Email VARCHAR(100),IN _Designation VARCHAR(100),IN _FirmFrom VARCHAR(100))
 BEGIN
 if(SELECT count(*)  from attendanceregister where IDNO=_IDNO and RegisterID=_RegisterID)=0 THEN
@@ -8194,7 +8194,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SetSentHearingNotice
 DROP PROCEDURE IF EXISTS `SetSentHearingNotice`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SetSentHearingNotice`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `SetSentHearingNotice`(IN _ApplicationNo VARCHAR(50))
 BEGIN
 
 Update hearingnotices set DateSent=now() where ApplicationNo=_ApplicationNo;
@@ -8205,7 +8205,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Signup
 DROP PROCEDURE IF EXISTS `Signup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Signup`(IN _Name VARCHAR(120), IN _Username VARCHAR(50), IN _Email VARCHAR(128), IN _Phone VARCHAR(20), IN _Password VARCHAR(128), IN _Category VARCHAR(50), IN _ActivationCode VARCHAR(100), IN _IDnumber VARCHAR(50), IN _DOB DATETIME)
+CREATE  PROCEDURE `Signup`(IN _Name VARCHAR(120), IN _Username VARCHAR(50), IN _Email VARCHAR(128), IN _Phone VARCHAR(20), IN _Password VARCHAR(128), IN _Category VARCHAR(50), IN _ActivationCode VARCHAR(100), IN _IDnumber VARCHAR(50), IN _DOB DATETIME)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -8257,7 +8257,7 @@ INSERT INTO `smtpdetails` (`ID`, `Host`, `Port`, `Sender`, `Password`) VALUES
 -- Dumping structure for procedure arcm.sp_ValidatePrivilege
 DROP PROCEDURE IF EXISTS `sp_ValidatePrivilege`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ValidatePrivilege`(IN `_Username` VARCHAR(50), IN `_RoleName` VARCHAR(128))
+CREATE  PROCEDURE `sp_ValidatePrivilege`(IN `_Username` VARCHAR(50), IN `_RoleName` VARCHAR(128))
     NO SQL
 BEGIN
 SELECT `Username`, useraccess.RoleID, `Edit`, `Remove`, `AddNew`, `View`, `Export` FROM `useraccess` 
@@ -8289,7 +8289,7 @@ DELETE FROM `stdtenderdocs`;
 -- Dumping structure for procedure arcm.SubmitApplicationdecision
 DROP PROCEDURE IF EXISTS `SubmitApplicationdecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitApplicationdecision`(IN _ApplicationNo varchar(50),IN _UserID varchar(50))
+CREATE  PROCEDURE `SubmitApplicationdecision`(IN _ApplicationNo varchar(50),IN _UserID varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Submited Decision for Application: ',_ApplicationNo); 
@@ -8310,7 +8310,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitApprovedPanelList
 DROP PROCEDURE IF EXISTS `SubmitApprovedPanelList`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitApprovedPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `SubmitApprovedPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
 
@@ -8375,7 +8375,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitCaseDecision
 DROP PROCEDURE IF EXISTS `SubmitCaseDecision`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitCaseDecision`(IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50), IN _DecisionDate DATE, IN _Followup BOOLEAN, IN _Referral BOOLEAN, IN _Closed BOOLEAN, IN _ApplicationSuccessful BOOLEAN, IN _Annulled BOOLEAN, IN _GiveDirection BOOLEAN, IN _Terminated BOOLEAN, IN _ReTender BOOLEAN, IN _CostsPE BOOLEAN, IN _CostsApplicant BOOLEAN, IN _CostsEachParty BOOLEAN, IN _Substitution BOOLEAN)
+CREATE  PROCEDURE `SubmitCaseDecision`(IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50), IN _DecisionDate DATE, IN _Followup BOOLEAN, IN _Referral BOOLEAN, IN _Closed BOOLEAN, IN _ApplicationSuccessful BOOLEAN, IN _Annulled BOOLEAN, IN _GiveDirection BOOLEAN, IN _Terminated BOOLEAN, IN _ReTender BOOLEAN, IN _CostsPE BOOLEAN, IN _CostsApplicant BOOLEAN, IN _CostsEachParty BOOLEAN, IN _Substitution BOOLEAN)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Submited Decision for Application: ',_ApplicationNo); 
@@ -8403,7 +8403,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitPanelList
 DROP PROCEDURE IF EXISTS `SubmitPanelList`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `SubmitPanelList`(IN _UserID varchar(50),IN _ApplicationNo varchar(50))
 BEGIN
  DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Submited PanelList  for Application: ',_ApplicationNo); 
@@ -8432,7 +8432,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitPePreliminaryObjection
 DROP PROCEDURE IF EXISTS `SubmitPePreliminaryObjection`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPePreliminaryObjection`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SubmitPePreliminaryObjection`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   
   update peresponse set status='Fees Pending Confirmation' where ID=_RespID and ApplicationNo=_ApplicationNo;
@@ -8461,7 +8461,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.SubmitPeResponse
 DROP PROCEDURE IF EXISTS `SubmitPeResponse`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SubmitPeResponse`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `SubmitPeResponse`(IN _RespID INT, IN _ApplicationNo VARCHAR(50), IN _UserID VARCHAR(50))
 BEGIN
   
   update peresponse set status='Submited' where ID=_RespID and ApplicationNo=_ApplicationNo;
@@ -9944,7 +9944,7 @@ INSERT INTO `towns` (`PostCode`, `Postoffice`, `Town`) VALUES
 -- Dumping structure for procedure arcm.TrackApplicationSequence
 DROP PROCEDURE IF EXISTS `TrackApplicationSequence`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `TrackApplicationSequence`(IN _ApplicationNo varchar(50))
+CREATE  PROCEDURE `TrackApplicationSequence`(IN _ApplicationNo varchar(50))
 BEGIN
 select * from applicationsequence where ApplicationNo=_ApplicationNo order by ID ASC;
 END//
@@ -9953,7 +9953,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UnBookVenue
 DROP PROCEDURE IF EXISTS `UnBookVenue`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UnBookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
+CREATE  PROCEDURE `UnBookVenue`(IN _VenueID INT(11),IN _Date DATETIME,IN _Slot VARCHAR(50),IN _UserID varchar(50),IN _Content VARCHAR(255))
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Unbooked Booked Venue:',_VenueID); 
@@ -10056,7 +10056,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateCaseOfficers
 DROP PROCEDURE IF EXISTS `UpdateCaseOfficers`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
+CREATE  PROCEDURE `UpdateCaseOfficers`(IN _Username VARCHAR(50), IN _Active BOOLEAN, IN _NotAvailableFrom DATETIME, IN _NotAvailableTo DATETIME, IN _UserID VARCHAR(50))
 BEGIN
 DECLARE lSaleDesc varchar(200);
 set lSaleDesc= CONCAT('Updated Case Officer: ',_Username); 
@@ -10200,7 +10200,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateGroupRoles
 DROP PROCEDURE IF EXISTS `UpdateGroupRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateGroupRoles`(IN `_UserGroupID` BIGINT, IN `_RoleID` BIGINT, IN `_Status` BOOLEAN, IN `_Desc` VARCHAR(50), IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateGroupRoles`(IN `_UserGroupID` BIGINT, IN `_RoleID` BIGINT, IN `_Status` BOOLEAN, IN `_Desc` VARCHAR(50), IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10364,7 +10364,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Updatepassword
 DROP PROCEDURE IF EXISTS `Updatepassword`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Updatepassword`(IN _Password VARCHAR(128), IN _Username VARCHAR(50))
+CREATE  PROCEDURE `Updatepassword`(IN _Password VARCHAR(128), IN _Username VARCHAR(50))
 BEGIN
 Update users set `Password`=_Password Where Username=_Username;
 END//
@@ -10405,7 +10405,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdatePEResponseDetails
 DROP PROCEDURE IF EXISTS `UpdatePEResponseDetails`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePEResponseDetails`(IN _GroundNo VARCHAR(50), IN _GroundType VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50), IN _PEResponseID INT)
+CREATE  PROCEDURE `UpdatePEResponseDetails`(IN _GroundNo VARCHAR(50), IN _GroundType VARCHAR(50), IN _Response TEXT, IN _UserID VARCHAR(50), IN _PEResponseID INT)
 BEGIN
 DECLARE lSaleDesc varchar(200);
 
@@ -10429,7 +10429,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdatePEResponseStatus
 DROP PROCEDURE IF EXISTS `UpdatePEResponseStatus`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePEResponseStatus`(IN _ApplicationNo VARCHAR(50))
+CREATE  PROCEDURE `UpdatePEResponseStatus`(IN _ApplicationNo VARCHAR(50))
 BEGIN
   
 Update peresponsetimer set Status='Awaiting Response' where ApplicationNo=_ApplicationNo;
@@ -10487,7 +10487,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateProfile
 DROP PROCEDURE IF EXISTS `UpdateProfile`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateProfile`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _phone VARCHAR(20), IN _Photo VARCHAR(100), IN _username VARCHAR(50))
+CREATE  PROCEDURE `UpdateProfile`(IN _Name VARCHAR(120), IN _Email VARCHAR(128), IN _phone VARCHAR(20), IN _Photo VARCHAR(100), IN _username VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10519,7 +10519,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateRoles
 DROP PROCEDURE IF EXISTS `UpdateRoles`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRoles`(IN `_RoleName` VARCHAR(128), IN `__RoleDescription` VARCHAR(128), IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateRoles`(IN `_RoleName` VARCHAR(128), IN `__RoleDescription` VARCHAR(128), IN `_RoleID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10533,7 +10533,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateSentjudicialreviewUpdate
 DROP PROCEDURE IF EXISTS `UpdateSentjudicialreviewUpdate`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateSentjudicialreviewUpdate`()
+CREATE  PROCEDURE `UpdateSentjudicialreviewUpdate`()
 BEGIN
 update judicialreviewdocuments set ActionSent='Yes';
 END//
@@ -10634,7 +10634,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUser
 DROP PROCEDURE IF EXISTS `UpdateUser`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUser`(IN _Name VARCHAR(128), IN _Email VARCHAR(128), IN _UserGroup BIGINT, IN _username VARCHAR(50), IN _IsActive BOOLEAN, IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _Board BOOLEAN)
+CREATE  PROCEDURE `UpdateUser`(IN _Name VARCHAR(128), IN _Email VARCHAR(128), IN _UserGroup BIGINT, IN _username VARCHAR(50), IN _IsActive BOOLEAN, IN _userID VARCHAR(50), IN _Phone VARCHAR(20), IN _Signature VARCHAR(128), IN _IDnumber VARCHAR(50), IN _DOB DATETIME, IN _Gender VARCHAR(50), IN _Board BOOLEAN)
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10650,7 +10650,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUserAccess
 DROP PROCEDURE IF EXISTS `UpdateUserAccess`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUserAccess`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Desc` VARCHAR(50), IN `_Status` BOOLEAN, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateUserAccess`(IN `_Username` VARCHAR(50), IN `_RoleID` BIGINT, IN `_Desc` VARCHAR(50), IN `_Status` BOOLEAN, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 		DECLARE lSaleDesc varchar(200);
@@ -10775,7 +10775,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.UpdateUserGroup
 DROP PROCEDURE IF EXISTS `UpdateUserGroup`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
+CREATE  PROCEDURE `UpdateUserGroup`(IN `_Name` VARCHAR(128), IN `_Description` VARCHAR(128), IN `_UserGroupID` BIGINT, IN `_userID` VARCHAR(50))
     NO SQL
 BEGIN
 DECLARE lSaleDesc varchar(200);
@@ -10790,7 +10790,7 @@ DELIMITER ;
 -- Dumping structure for procedure arcm.Updatevenues
 DROP PROCEDURE IF EXISTS `Updatevenues`;
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Updatevenues`(IN _ID int,in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
+CREATE  PROCEDURE `Updatevenues`(IN _ID int,in _Name VARCHAR(100),IN _Description VARCHAR(150),IN _UserID varchar(50),IN _Branch INT)
 BEGIN
   DECLARE lSaleDesc varchar(200);
   set lSaleDesc= CONCAT('Updated  Venue with ID: ', _ID); 
