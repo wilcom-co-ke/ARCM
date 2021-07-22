@@ -52,7 +52,7 @@
     "reactstrap": "^8.1.1",
     "sweetalert": "^2.1.2",
     "tempa-xlsx": "0.0.1",
-    "xlsx": "^0.14.5"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
